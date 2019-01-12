@@ -45,4 +45,4 @@ end
 (** {2 Producing Functors} *)
 
 (** Build a new Functor's module using [REQUIREMENT]. *)
-module Make (F : REQUIREMENT) : API
+module Make (F : REQUIREMENT) : API with type 'a t = 'a F.t

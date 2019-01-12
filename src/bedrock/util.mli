@@ -1,7 +1,3 @@
-(* This file is free software, part of Planet.  See file "LICENSE" for
-   more details. 
-*)
-
 (** {2 Tools to work with functions} *)
 
 (** Identity function, [id x] returns [x]. *)

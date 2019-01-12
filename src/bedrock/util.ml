@@ -1,7 +1,3 @@
-(* This file is free software, part of Planet.  See file "LICENSE" for
-   more details. 
-*)
-
 let id x = x
 let flip f x y = f y x
 let const x _ = x

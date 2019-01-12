@@ -1,0 +1,3 @@
+(library
+  (name bedrock)
+  (public_name planet.bedrock))

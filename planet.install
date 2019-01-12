@@ -1,0 +1,23 @@
+lib: [
+  "_build/install/default/lib/planet/META" {"META"}
+  "_build/install/default/lib/planet/bedrock/bedrock.a" {"bedrock/bedrock.a"}
+  "_build/install/default/lib/planet/bedrock/bedrock.cma" {"bedrock/bedrock.cma"}
+  "_build/install/default/lib/planet/bedrock/bedrock.cmi" {"bedrock/bedrock.cmi"}
+  "_build/install/default/lib/planet/bedrock/bedrock.cmt" {"bedrock/bedrock.cmt"}
+  "_build/install/default/lib/planet/bedrock/bedrock.cmx" {"bedrock/bedrock.cmx"}
+  "_build/install/default/lib/planet/bedrock/bedrock.cmxa" {"bedrock/bedrock.cmxa"}
+  "_build/install/default/lib/planet/bedrock/bedrock.cmxs" {"bedrock/bedrock.cmxs"}
+  "_build/install/default/lib/planet/bedrock/bedrock.ml" {"bedrock/bedrock.ml"}
+  "_build/install/default/lib/planet/bedrock/bedrock__Util.cmi" {"bedrock/bedrock__Util.cmi"}
+  "_build/install/default/lib/planet/bedrock/bedrock__Util.cmt" {"bedrock/bedrock__Util.cmt"}
+  "_build/install/default/lib/planet/bedrock/bedrock__Util.cmti" {"bedrock/bedrock__Util.cmti"}
+  "_build/install/default/lib/planet/bedrock/bedrock__Util.cmx" {"bedrock/bedrock__Util.cmx"}
+  "_build/install/default/lib/planet/bedrock/planet.bedrock.dune" {"bedrock/planet.bedrock.dune"}
+  "_build/install/default/lib/planet/bedrock/util.ml" {"bedrock/util.ml"}
+  "_build/install/default/lib/planet/bedrock/util.mli" {"bedrock/util.mli"}
+  "_build/install/default/lib/planet/opam" {"opam"}
+]
+doc: [
+  "_build/install/default/doc/planet/LICENSE"
+  "_build/install/default/doc/planet/README.md"
+]

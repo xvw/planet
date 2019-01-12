@@ -1,0 +1,5 @@
+profile = janestreet
+break-cases = nested
+type-decl = sparse
+margin = 75
+version = 0.8

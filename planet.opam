@@ -1,0 +1,28 @@
+opam-version: "2.0"
+synopsis: "Personal web's corner"
+version: "dev"
+maintainer: "xvw"
+authors: ["xvw"]
+homepage: "https://github.com/xvw/planet"
+bug-reports: "https://github.com/xvw/planet/issues"
+dev-repo: "git+https://github.com/xvw/planet.git"
+license: "MIT"
+
+build: [
+  ["dune" "build" "-p" name "-j" jobs]
+  ["dune" "build" "@doc" "-p" name ] {with-doc}
+  ["dune" "runtest" "-p" name] {with-test}
+]
+
+depopts: [
+  "base-unix"
+  "base-threads"
+]
+ 
+
+depends: [
+  "dune" {build}
+  "odoc" {with-doc}
+  "ocaml" { >= "4.07.0" }
+  "alcotest" {with-test}
+]

@@ -38,6 +38,7 @@ dev-deps:
 	opam install -y ocp-indent
 	opam install -y ocamlformat
 	opam install -y utop
+	opam install -y odoc
 	opam install user-setup
 	opam user-setup install
 

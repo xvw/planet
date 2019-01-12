@@ -1,0 +1,25 @@
+{1:index Planet}
+
+[Planet] is a collection of tools to build an interactive playground
+deployable on the web. All libraries form an ecosystem for describing
+binaries and JavaScript bundles.
+
+All source code is distributed under the [MIT] license.
+
+The purpose of these tools is to cover these different issues / use cases:
+
+- [Time-tracking]
+- [Reporting]
+- [Blogging]
+
+The goal has not been to produce a generic generator, but to agree
+with "my" needs.
+
+The idea behind [Planet] is strongly inspired by the work of
+{{: https://wiki.xxiivv.com/#home} Devine Lu Linvega}.
+
+{2 Libraries}
+
+- {{: Bedrock/index.html} Bedrock} : The library common to all others.
+  It contains a collection of generic tools, compatible in the OS and
+  in the web.

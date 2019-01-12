@@ -15,9 +15,36 @@ lib: [
   "_build/install/default/lib/planet/bedrock/planet.bedrock.dune" {"bedrock/planet.bedrock.dune"}
   "_build/install/default/lib/planet/bedrock/util.ml" {"bedrock/util.ml"}
   "_build/install/default/lib/planet/bedrock/util.mli" {"bedrock/util.mli"}
+  "_build/install/default/lib/planet/bedrock_test/bedrock_test.a" {"bedrock_test/bedrock_test.a"}
+  "_build/install/default/lib/planet/bedrock_test/bedrock_test.cma" {"bedrock_test/bedrock_test.cma"}
+  "_build/install/default/lib/planet/bedrock_test/bedrock_test.cmi" {"bedrock_test/bedrock_test.cmi"}
+  "_build/install/default/lib/planet/bedrock_test/bedrock_test.cmt" {"bedrock_test/bedrock_test.cmt"}
+  "_build/install/default/lib/planet/bedrock_test/bedrock_test.cmx" {"bedrock_test/bedrock_test.cmx"}
+  "_build/install/default/lib/planet/bedrock_test/bedrock_test.cmxa" {"bedrock_test/bedrock_test.cmxa"}
+  "_build/install/default/lib/planet/bedrock_test/bedrock_test.cmxs" {"bedrock_test/bedrock_test.cmxs"}
+  "_build/install/default/lib/planet/bedrock_test/bedrock_test.ml" {"bedrock_test/bedrock_test.ml"}
+  "_build/install/default/lib/planet/bedrock_test/bedrock_test__.cmi" {"bedrock_test/bedrock_test__.cmi"}
+  "_build/install/default/lib/planet/bedrock_test/bedrock_test__.cmt" {"bedrock_test/bedrock_test__.cmt"}
+  "_build/install/default/lib/planet/bedrock_test/bedrock_test__.cmx" {"bedrock_test/bedrock_test__.cmx"}
+  "_build/install/default/lib/planet/bedrock_test/bedrock_test__.ml" {"bedrock_test/bedrock_test__.ml"}
+  "_build/install/default/lib/planet/bedrock_test/bedrock_test__Util_test.cmi" {"bedrock_test/bedrock_test__Util_test.cmi"}
+  "_build/install/default/lib/planet/bedrock_test/bedrock_test__Util_test.cmt" {"bedrock_test/bedrock_test__Util_test.cmt"}
+  "_build/install/default/lib/planet/bedrock_test/bedrock_test__Util_test.cmx" {"bedrock_test/bedrock_test__Util_test.cmx"}
+  "_build/install/default/lib/planet/bedrock_test/planet.bedrock_test.dune" {"bedrock_test/planet.bedrock_test.dune"}
+  "_build/install/default/lib/planet/bedrock_test/util_test.ml" {"bedrock_test/util_test.ml"}
   "_build/install/default/lib/planet/opam" {"opam"}
+  "_build/install/default/lib/planet/test_tools/planet.test_tools.dune" {"test_tools/planet.test_tools.dune"}
+  "_build/install/default/lib/planet/test_tools/test_tools.a" {"test_tools/test_tools.a"}
+  "_build/install/default/lib/planet/test_tools/test_tools.cma" {"test_tools/test_tools.cma"}
+  "_build/install/default/lib/planet/test_tools/test_tools.cmi" {"test_tools/test_tools.cmi"}
+  "_build/install/default/lib/planet/test_tools/test_tools.cmt" {"test_tools/test_tools.cmt"}
+  "_build/install/default/lib/planet/test_tools/test_tools.cmx" {"test_tools/test_tools.cmx"}
+  "_build/install/default/lib/planet/test_tools/test_tools.cmxa" {"test_tools/test_tools.cmxa"}
+  "_build/install/default/lib/planet/test_tools/test_tools.cmxs" {"test_tools/test_tools.cmxs"}
+  "_build/install/default/lib/planet/test_tools/test_tools.ml" {"test_tools/test_tools.ml"}
 ]
 doc: [
   "_build/install/default/doc/planet/LICENSE"
   "_build/install/default/doc/planet/README.md"
+  "_build/install/default/doc/planet/odoc-pages/index.mld" {"odoc-pages/index.mld"}
 ]

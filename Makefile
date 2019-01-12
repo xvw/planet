@@ -1,3 +1,5 @@
+.PHONY: all build clean repl doc fmt install test
+
 # Developement's workflow
 
 all: build
@@ -17,6 +19,9 @@ doc:
 
 fmt:
 	dune build @fmt --auto-promote
+
+test:
+	dune runtest -f
 
 # Build binaries
 %.exe : build

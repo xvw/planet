@@ -1,0 +1,11 @@
+(executable
+ (name test)   
+ (libraries
+   planet.bedrock_test
+   alcotest))
+
+(alias
+ (name  runtest)
+  (package planet)
+  (deps test.exe)
+  (action (run ./test.exe --color=always))) 

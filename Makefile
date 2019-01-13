@@ -38,7 +38,8 @@ install:
 
 # Initialize developement environement
 
-dev-deps: 
+dev-deps:
+	opam install -y alcotest
 	opam install -y merlin
 	opam install -y ocp-indent
 	opam install -y ocamlformat

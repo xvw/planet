@@ -18,3 +18,10 @@ module Array = Functor.Make (struct
   let pure x = [|x|]
   let map f x = Stdlib.Array.map f x
 end)
+
+module Result = Functor.Make (struct
+  type 'a t = 'a Result.t
+
+  let pure x = Ok x
+  let map f = function Error x -> Error x | Ok x -> Ok (f x)
+end)

@@ -16,3 +16,16 @@ let all_are_uniq li =
   in
   aux li
 ;;
+
+module Testable = struct
+  let check_result ty message a b =
+    let r okt =
+      match okt with
+      | Ok x ->
+        Ok x
+      | Error y ->
+        Error (Bedrock.Error.to_string y)
+    in
+    Alcotest.(check (result ty string) message (r a) (r b))
+  ;;
+end

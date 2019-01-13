@@ -10,7 +10,7 @@ module type DRIVER = sig
 
   val name : string
   val sample : h F.t list
-  val test_driver : h F.t testable
+  val check : string -> h F.t -> h F.t -> unit
   val f : h -> h
   val g : h -> h
 end
@@ -19,7 +19,7 @@ module Driver (D : DRIVER) : sig
   val suite : (string * [> `Quick] * (unit -> unit)) list
 end = struct
   let str = D.name ^ " functor"
-  let same = check D.test_driver ("same " ^ str)
+  let same = D.check ("same " ^ str)
 
   let law_1 left =
     let right = D.F.map id left in
@@ -37,7 +37,7 @@ end = struct
   let suite =
     [ test ("[Law 1: " ^ str ^ "]: (map id x) = x") (sampling law_1)
     ; test
-        ("[Law 2: " ^ str ^ "]: (map (f . g)) =  ((map f) . (map g))")
+        ("[Law 2: " ^ str ^ "]: (map (f . g)) = ((map f) . (map g))")
         (sampling law_2) ]
   ;;
 end
@@ -48,7 +48,7 @@ module IntList = Driver (struct
   type h = int
 
   let name = "int list"
-  let test_driver = list int
+  let check = check (list int)
   let f x = x + 2
   let g x = x - 12
 
@@ -68,7 +68,7 @@ module StringList = Driver (struct
   type h = string
 
   let name = "string list"
-  let test_driver = list string
+  let check = check (list string)
   let f = String.uppercase_ascii
   let g = String.lowercase_ascii
 
@@ -87,7 +87,7 @@ module IntArray = Driver (struct
   type h = int
 
   let name = "int array"
-  let test_driver = array int
+  let check = check (array int)
   let f x = x + 2
   let g x = x - 12
 
@@ -107,7 +107,7 @@ module StringArray = Driver (struct
   type h = string
 
   let name = "string array"
-  let test_driver = array string
+  let check = check (array string)
   let f = String.uppercase_ascii
   let g = String.lowercase_ascii
 
@@ -126,7 +126,7 @@ module StringOption = Driver (struct
   type h = string
 
   let name = "string option"
-  let test_driver = option string
+  let check = check (option string)
   let f = String.uppercase_ascii
   let g = String.lowercase_ascii
   let sample = [Some "foo"; None; Some "Bar"; Some ""]
@@ -138,10 +138,34 @@ module IntOption = Driver (struct
   type h = int
 
   let name = "int option"
-  let test_driver = option int
+  let check = check (option int)
   let f = pred
   let g = succ
   let sample = [Some 1; None; Some 1200; Some 0]
+end)
+
+module StringResult = Driver (struct
+  module F = Functors.Result
+
+  type h = string
+
+  let name = "string Result.t"
+  let check = Testable.check_result string
+  let f = String.uppercase_ascii
+  let g = String.lowercase_ascii
+  let sample = [Ok "foo"; Error Error.(Unknown ""); Ok "Bar"; Ok ""]
+end)
+
+module IntResult = Driver (struct
+  module F = Functors.Result
+
+  type h = int
+
+  let name = "int Result.t"
+  let check = Testable.check_result int
+  let f = pred
+  let g = succ
+  let sample = [Ok 1; Error Error.(Unknown ""); Ok 1200; Ok 0]
 end)
 
 let suite =
@@ -151,4 +175,6 @@ let suite =
   @ IntOption.suite
   @ IntArray.suite
   @ StringArray.suite
+  @ StringResult.suite
+  @ IntResult.suite
 ;;

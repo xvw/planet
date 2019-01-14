@@ -143,3 +143,9 @@ let from_stream input =
       else Error Unmatched_parenthesis )
   $ parse None [] 0
 ;;
+
+let from_string str_value =
+  str_value |> Stream.of_string |> from_stream
+;;
+
+let from_bytes bytes = bytes |> Stream.of_bytes |> from_stream

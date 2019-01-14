@@ -47,3 +47,9 @@ val back_tick : quote
 
 (** From [char Stream.t] to [Qexp.t].  *)
 val from_stream : char Stream.t -> t Result.t
+
+(** From [string] to [Qexp.t].  *)
+val from_string : string -> t Result.t
+
+(** From [bytes] to [Qexp.t].  *)
+val from_bytes : bytes -> t Result.t

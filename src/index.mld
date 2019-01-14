@@ -20,6 +20,10 @@ The idea behind [Planet] is strongly inspired by the work of
 
 {2 Libraries}
 
-- {{: Bedrock/index.html} Bedrock} : The library common to all others.
+- {{: Bedrock/index.html} Bedrock}: The library common to all others.
   It contains a collection of generic tools, compatible in the OS and
   in the web.
+
+- {{: Paperwork/index.html} Paperwork}: Set of deserialization and
+  serialization libraries for the formats used in [Planet].
+  [Paperwork] is also agnostic of the execution context (OS or Web)

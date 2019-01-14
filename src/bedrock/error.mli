@@ -6,13 +6,20 @@
 (** {2 Types and exception} *)
 
 (** Describe the list of all errors *)
-type t = Unknown of string
+type t =
+  | Unknown of string
+  | Unmatched_parenthesis
+  | Illegal_character of char
+  | Unclosed_string of string
 
 (** Each errors has a corresponding exception *)
 module Exn : sig
   type t = exn
 
   exception Unknown of string
+  exception Unmatched_parenthesis
+  exception Illegal_character of char
+  exception Unclosed_string of string
 end
 
 (** {2 Tools to deal with errors} *)

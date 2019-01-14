@@ -1,0 +1,4 @@
+(library
+  (name paperwork)
+  (public_name planet.paperwork)
+  (libraries planet.bedrock))

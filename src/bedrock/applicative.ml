@@ -28,3 +28,16 @@ module Make (A : Sigs.Applicative.REQUIREMENT) :
 
   include Infix
 end
+
+module From_monad (M : Sigs.Monad.REQUIREMENT_BIND) :
+  Sigs.Applicative.REQUIREMENT with type 'a t = 'a M.t = struct
+  type 'a t = 'a M.t
+
+  let pure = M.return
+  let ap fs xs = M.bind (fun f -> M.bind (fun x -> pure (f x)) xs) fs
+end
+
+module Make_from_monad (M : Sigs.Monad.REQUIREMENT_BIND) :
+  Sigs.Applicative.API with type 'a t = 'a M.t = struct
+  include Make (From_monad (M))
+end

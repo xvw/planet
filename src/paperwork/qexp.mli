@@ -53,3 +53,14 @@ val from_string : string -> t Result.t
 
 (** From [bytes] to [Qexp.t].  *)
 val from_bytes : bytes -> t Result.t
+
+(** {2 Serialization} *)
+
+(** From [Qexp.t] to [string] *)
+val to_string : t -> string
+
+(** From [Qexp.t] to [bytes] *)
+val to_bytes : t -> bytes
+
+(** From [Qexp.t] to [char Stream.t] *)
+val to_stream : t -> char Stream.t

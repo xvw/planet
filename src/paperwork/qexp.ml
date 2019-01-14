@@ -53,12 +53,10 @@ let is_token_char = function
 
 let parse_member f stream =
   let rec parse acc =
-    let () = print_endline acc in
     match fpeek stream with
     | (Some (' ' | '\t' | '\n' | ')' | '(' | ';') | None) as chr ->
       Ok (f acc, chr)
     | Some chr when is_token_char chr ->
-      let () = print_endline "foobar" in
       parse $ Format.sprintf "%s%c" acc chr
     | Some chr ->
       Error (Illegal_character chr)
@@ -92,18 +90,9 @@ let parse_string stream quote delimiter =
 
 let from_stream input =
   let open Monads.Result in
-  let () = print_endline "foo" in
   let rec parse last_char acc counter =
-    let () = print_endline "bar" in
     let current_char =
       match last_char with None -> fpeek input | x -> x
-    in
-    let () =
-      match current_char with
-      | Some x ->
-        Printf.sprintf "Some(%c)" x |> print_endline
-      | None ->
-        print_endline "None"
     in
     match current_char with
     | Some (' ' | '\t' | '\n') ->
@@ -149,3 +138,33 @@ let from_string str_value =
 ;;
 
 let from_bytes bytes = bytes |> Stream.of_bytes |> from_stream
+
+let to_string qexp =
+  let open Format in
+  let rec fold acc = function
+    | String (Double, str) ->
+      sprintf "%s\"%s\" " acc str
+    | String (Backtick, str) ->
+      sprintf "%s`%s` " acc str
+    | Atom atom ->
+      sprintf "%s%s " acc atom
+    | Tag tag ->
+      sprintf "%s:%s " acc tag
+    | Keyword kwd ->
+      sprintf "%s#%s " acc kwd
+    | Node children ->
+      let res = List.fold_left fold "" children in
+      let len = String.length res in
+      let sub = String.sub res 0 (len - 1) in
+      sprintf "%s(%s) " acc sub
+  in
+  (match qexp with
+  | Node children ->
+    List.fold_left fold "" children
+  | exp ->
+    fold "" exp)
+  |> String.trim
+;;
+
+let to_bytes qexp = qexp |> to_string |> Bytes.of_string
+let to_stream qexp = qexp |> to_string |> Stream.of_string

@@ -20,7 +20,8 @@ module Bind (M : Sigs.Monad.REQUIREMENT_BIND) :
   let map f m = bind (return % f) m
 end
 
-module WithReq (M : REQ) : Sigs.Monad.API with type 'a t = 'a M.t = struct
+module WithReq (M : REQ) : Sigs.Monad.API with type 'a t = 'a M.t =
+struct
   include M
 
   module Infix = struct

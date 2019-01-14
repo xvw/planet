@@ -1,3 +1,4 @@
 (library
   (name bedrock)
-  (public_name planet.bedrock))
+  (public_name planet.bedrock)
+  (modules_without_implementation sigs))

@@ -4,7 +4,7 @@ open Test_tools
 open Util
 
 module type DRIVER = sig
-  module F : Functor.API
+  module F : Sigs.Functor.API
 
   type h
 

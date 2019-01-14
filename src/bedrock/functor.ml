@@ -1,27 +1,10 @@
 open Util
 
-module type REQUIREMENT = sig
-  type 'a t
-
-  val pure : 'a -> 'a t
-  val map : ('a -> 'b) -> 'a t -> 'b t
-end
-
-module type API = sig
-  include REQUIREMENT
-
-  module Infix : sig
-    val ( <$ ) : 'a -> 'b t -> 'a t
-    val ( $> ) : 'a t -> 'b -> 'b t
-    val ( <$> ) : ('a -> 'b) -> 'a t -> 'b t
-    val ( <&> ) : 'a t -> ('a -> 'b) -> 'b t
-  end
-
-  include module type of Infix
-end
-
-module Make (F : REQUIREMENT) : API with type 'a t = 'a F.t = struct
+module Make (F : Sigs.Functor.REQUIREMENT) :
+  Sigs.Functor.API with type 'a t = 'a F.t = struct
   include F
+
+  let lift = map
 
   module Infix = struct
     let ( <$> ) = map

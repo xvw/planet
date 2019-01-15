@@ -8,7 +8,7 @@
 (** Describe the list of all errors *)
 type t =
   | Unknown of string
-  | Unmatched_parenthesis
+  | Unmatched_character of char
   | Illegal_character of char
   | Unclosed_string of string
 
@@ -17,7 +17,7 @@ module Exn : sig
   type t = exn
 
   exception Unknown of string
-  exception Unmatched_parenthesis
+  exception Unmatched_character of char
   exception Illegal_character of char
   exception Unclosed_string of string
 end

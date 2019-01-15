@@ -19,6 +19,7 @@ type t =
   | String of (quote * string)
       (** A String, like ["foo"], [`bar`].*)
   | Node of t list  (** A list of [Qexp], like [(foo "bar")].*)
+  | Block of t list  (** A list of [Qexp], like [{foo bar}] *)
 
 (** {2 Build Qexp fragments} *)
 
@@ -36,6 +37,9 @@ val string : ?quote:quote -> string -> t
 
 (** Build a [node]. *)
 val node : t list -> t
+
+(** Build a [block]. *)
+val block : t list -> t
 
 (** A double-quote. *)
 val double_quote : quote

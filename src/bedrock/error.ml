@@ -1,6 +1,6 @@
 type t =
   | Unknown of string
-  | Unmatched_parenthesis
+  | Unmatched_character of char
   | Illegal_character of char
   | Unclosed_string of string
 
@@ -8,7 +8,7 @@ module Exn = struct
   type t = exn
 
   exception Unknown of string
-  exception Unmatched_parenthesis
+  exception Unmatched_character of char
   exception Illegal_character of char
   exception Unclosed_string of string
 end
@@ -16,8 +16,8 @@ end
 let to_exception = function
   | Unknown message ->
     Exn.Unknown message
-  | Unmatched_parenthesis ->
-    Exn.Unmatched_parenthesis
+  | Unmatched_character char ->
+    Exn.Unmatched_character char
   | Illegal_character char ->
     Exn.Illegal_character char
   | Unclosed_string string ->
@@ -27,8 +27,8 @@ let to_exception = function
 let from_exception = function
   | Exn.Unknown message ->
     Unknown message
-  | Exn.Unmatched_parenthesis ->
-    Unmatched_parenthesis
+  | Exn.Unmatched_character char ->
+    Unmatched_character char
   | Exn.Illegal_character char ->
     Illegal_character char
   | Exn.Unclosed_string string ->
@@ -40,8 +40,8 @@ let from_exception = function
 let to_string = function
   | Unknown message ->
     Format.sprintf "[Unknown] %s" message
-  | Unmatched_parenthesis ->
-    "[Unmatched_parenthesis] for [parsed expression]"
+  | Unmatched_character char ->
+    Format.sprintf "[Unmatched_character] for \"%c\"" char
   | Illegal_character char ->
     Format.sprintf "[Illegal_character] [%c]" char
   | Unclosed_string string ->

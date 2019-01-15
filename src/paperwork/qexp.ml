@@ -12,12 +12,14 @@ type t =
   | Keyword of string
   | String of (quote * string)
   | Node of t list
+  | Block of t list
 
 let atom value = Atom value
 let tag value = Tag value
 let keyword value = Keyword value
 let string ?(quote = Double) value = String (quote, value)
 let node children = Node children
+let block children = Block children
 let double_quote = Double
 let back_tick = Backtick
 
@@ -51,10 +53,20 @@ let is_token_char = function
     false
 ;;
 
+let check_bracket char = function
+  | `Void ->
+    Error (Unmatched_character char)
+  | `Brace ->
+    Error (Unmatched_character '{')
+  | `Parenthesis ->
+    Error (Unmatched_character '(')
+;;
+
 let parse_member f stream =
   let rec parse acc =
     match fpeek stream with
-    | (Some (' ' | '\t' | '\n' | ')' | '(' | ';') | None) as chr ->
+    | (Some (' ' | '\t' | '\n' | ')' | '(' | ';' | '{' | '}') | None)
+      as chr ->
       Ok (f acc, chr)
     | Some chr when is_token_char chr ->
       parse $ Format.sprintf "%s%c" acc chr
@@ -90,47 +102,59 @@ let parse_string stream quote delimiter =
 
 let from_stream input =
   let open Monads.Result in
-  let rec parse last_char acc counter =
+  let rec parse last_char last_bracket acc =
     let current_char =
       match last_char with None -> fpeek input | x -> x
     in
     match current_char with
     | Some (' ' | '\t' | '\n') ->
-      parse None acc counter
+      parse None last_bracket acc
     | Some ';' ->
       let () = consume_line input in
-      parse None acc counter
+      parse None last_bracket acc
     | Some '(' ->
-      parse None [] (succ counter)
-      >>= fun (node, counter) -> parse None (node :: acc) counter
+      parse None `Parenthesis []
+      >>= fun node -> parse None last_bracket (node :: acc)
     | Some ')' ->
-      return (node $ List.rev acc, pred counter)
+      (match last_bracket with
+      | `Parenthesis ->
+        return (node $ List.rev acc)
+      | placeholder ->
+        check_bracket ')' placeholder)
+    | Some '{' ->
+      parse None `Brace []
+      >>= fun node -> parse None last_bracket (node :: acc)
+    | Some '}' ->
+      (match last_bracket with
+      | `Brace ->
+        return (node $ List.rev acc)
+      | placeholder ->
+        check_bracket '}' placeholder)
     | Some '"' ->
       parse_string input Double '"'
-      >>= fun str -> parse None (str :: acc) counter
+      >>= fun str -> parse None last_bracket (str :: acc)
     | Some '`' ->
       parse_string input Backtick '`'
-      >>= fun str -> parse None (str :: acc) counter
+      >>= fun str -> parse None last_bracket (str :: acc)
     | Some ':' ->
       parse_tag input
-      >>= fun (token, chr) -> parse chr (token :: acc) counter
+      >>= fun (token, chr) -> parse chr last_bracket (token :: acc)
     | Some '#' ->
       parse_keyword input
-      >>= fun (token, chr) -> parse chr (token :: acc) counter
+      >>= fun (token, chr) -> parse chr last_bracket (token :: acc)
     | Some chr when is_token_char chr ->
       parse_atom chr input
-      >>= fun (token, chr) -> parse chr (token :: acc) counter
+      >>= fun (token, chr) -> parse chr last_bracket (token :: acc)
     | Some chr ->
       Error (Illegal_character chr)
     | None ->
-      return (node $ List.rev acc, counter)
+      (match last_bracket with
+      | `Void ->
+        return (node $ List.rev acc)
+      | placeholder ->
+        check_bracket '\n' placeholder)
   in
-  bind
-  $ (fun (result, counter) ->
-      if counter = 0
-      then return result
-      else Error Unmatched_parenthesis )
-  $ parse None [] 0
+  parse None `Void []
 ;;
 
 let from_string str_value =
@@ -152,6 +176,15 @@ let to_string qexp =
       sprintf "%s:%s " acc tag
     | Keyword kwd ->
       sprintf "%s#%s " acc kwd
+    | Node [] ->
+      sprintf "%s() " acc
+    | Block [] ->
+      sprintf "%s{} " acc
+    | Block children ->
+      let res = List.fold_left fold "" children in
+      let len = String.length res in
+      let sub = String.sub res 0 (len - 1) in
+      sprintf "%s{%s} " acc sub
     | Node children ->
       let res = List.fold_left fold "" children in
       let len = String.length res in

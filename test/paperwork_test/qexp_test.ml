@@ -5,7 +5,7 @@ open Bedrock.Error
 let parse_message l r = failwith (Format.sprintf "[%s] => [%s]" l r)
 
 let parse_empty_data_1 () =
-  match Qexp.from_string "" with
+  match Qexp.from_string ";" with
   | Ok Qexp.(Node []) ->
     ()
   | Ok qexp ->

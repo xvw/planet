@@ -43,7 +43,7 @@ end = struct
 end
 
 module IntList = Driver (struct
-  module F = Functors.List
+  module F = List.Functor
 
   type h = int
 
@@ -63,7 +63,7 @@ module IntList = Driver (struct
 end)
 
 module StringList = Driver (struct
-  module F = Functors.List
+  module F = List.Functor
 
   type h = string
 
@@ -82,7 +82,7 @@ module StringList = Driver (struct
 end)
 
 module IntArray = Driver (struct
-  module F = Functors.Array
+  module F = Array.Functor
 
   type h = int
 
@@ -102,7 +102,7 @@ module IntArray = Driver (struct
 end)
 
 module StringArray = Driver (struct
-  module F = Functors.Array
+  module F = Array.Functor
 
   type h = string
 
@@ -121,7 +121,7 @@ module StringArray = Driver (struct
 end)
 
 module StringOption = Driver (struct
-  module F = Functors.Option
+  module F = Option.Functor
 
   type h = string
 
@@ -133,7 +133,7 @@ module StringOption = Driver (struct
 end)
 
 module IntOption = Driver (struct
-  module F = Functors.Option
+  module F = Option.Functor
 
   type h = int
 
@@ -145,7 +145,7 @@ module IntOption = Driver (struct
 end)
 
 module StringResult = Driver (struct
-  module F = Functors.Result
+  module F = Result.Functor
 
   type h = string
 
@@ -157,7 +157,7 @@ module StringResult = Driver (struct
 end)
 
 module IntResult = Driver (struct
-  module F = Functors.Result
+  module F = Result.Functor
 
   type h = int
 
@@ -169,12 +169,7 @@ module IntResult = Driver (struct
 end)
 
 let suite =
-  IntList.suite
-  @ StringList.suite
-  @ StringOption.suite
-  @ IntOption.suite
-  @ IntArray.suite
-  @ StringArray.suite
-  @ StringResult.suite
-  @ IntResult.suite
+  IntList.suite @ StringList.suite @ StringOption.suite
+  @ IntOption.suite @ IntArray.suite @ StringArray.suite
+  @ StringResult.suite @ IntResult.suite
 ;;

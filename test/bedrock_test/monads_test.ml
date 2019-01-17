@@ -57,7 +57,7 @@ end = struct
 end
 
 module IntList = Driver (struct
-  module M = Monads.List
+  module M = List.Monad
 
   type h = int
 
@@ -96,7 +96,7 @@ module IntList = Driver (struct
 end)
 
 module IntArray = Driver (struct
-  module M = Monads.Array
+  module M = Array.Monad
 
   type h = int
 
@@ -135,7 +135,7 @@ module IntArray = Driver (struct
 end)
 
 module StringList = Driver (struct
-  module M = Monads.List
+  module M = List.Monad
 
   type h = string
 
@@ -148,7 +148,7 @@ module StringList = Driver (struct
 end)
 
 module StringArray = Driver (struct
-  module M = Monads.Array
+  module M = Array.Monad
 
   type h = string
 
@@ -164,7 +164,7 @@ module StringArray = Driver (struct
 end)
 
 module IntOption = Driver (struct
-  module M = Monads.Option
+  module M = Option.Monad
 
   type h = int
 
@@ -198,7 +198,7 @@ module IntOption = Driver (struct
 end)
 
 module StringOption = Driver (struct
-  module M = Monads.Option
+  module M = Option.Monad
 
   type h = string
 
@@ -214,7 +214,7 @@ module StringOption = Driver (struct
 end)
 
 module IntResult = Driver (struct
-  module M = Monads.Result
+  module M = Result.Monad
 
   type h = int
 
@@ -246,7 +246,7 @@ module IntResult = Driver (struct
 end)
 
 module StringResult = Driver (struct
-  module M = Monads.Result
+  module M = Result.Monad
 
   type h = string
 

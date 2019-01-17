@@ -80,7 +80,7 @@ let parse_tag = parse_member tag
 let parse_keyword = parse_member keyword
 
 let parse_atom prefix stream =
-  let open Monads.Result in
+  let open Result.Monad in
   parse_member id stream
   >|= fun (acc, c) -> atom (Format.sprintf "%c%s" prefix acc), c
 ;;
@@ -101,7 +101,7 @@ let parse_string stream quote delimiter =
 ;;
 
 let from_stream input =
-  let open Monads.Result in
+  let open Result.Monad in
   let rec parse last_char last_bracket acc =
     let current_char =
       match last_char with None -> fpeek input | x -> x

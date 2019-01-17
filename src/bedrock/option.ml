@@ -1,18 +1,17 @@
-type 'a t = ('a, Error.t) result
-type 'a st = 'a t
+type 'a t = 'a option
 
 module Functor = Functor.Make (struct
-  type 'a t = 'a st
+  type 'a t = 'a option
 
-  let pure x = Ok x
-  let map f = function Error x -> Error x | Ok x -> Ok (f x)
+  let pure x = Some x
+  let map f = function None -> None | Some x -> Some (f x)
 end)
 
 module Monad = Monad.Make_with_bind (struct
-  type 'a t = 'a st
+  type 'a t = 'a option
 
-  let return x = Ok x
-  let bind f = function Error x -> Error x | Ok x -> f x
+  let return x = Some x
+  let bind f = function None -> None | Some x -> f x
 end)
 
 module Applicative = Applicative.Make_from_monad (Monad)

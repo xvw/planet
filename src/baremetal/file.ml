@@ -7,6 +7,14 @@ type line = string
 type chmod = int
 type extension = string
 
+let exists = Sys.file_exists
+
+let is_directory name =
+  if exists name
+  then Ok (Sys.is_directory name)
+  else Error (Unreadable name)
+;;
+
 let bytes_of_in_channel channel =
   let length = in_channel_length channel in
   let buffer = Bytes.create length in

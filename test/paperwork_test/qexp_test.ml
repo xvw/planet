@@ -156,6 +156,38 @@ let parse_complex_expression () =
     parse_message str (to_string err)
 ;;
 
+let parse_failure_1 () =
+  match Qexp.from_string ") foo" with
+  | Error (Unmatched_character ')') ->
+    ()
+  | _ ->
+    failwith "Should fail with unmatched parenthesis"
+;;
+
+let parse_failure_2 () =
+  match Qexp.from_string "foo (bar" with
+  | Error (Unmatched_character '(') ->
+    ()
+  | _ ->
+    failwith "Should fail with unmatched parenthesis"
+;;
+
+let parse_failure_3 () =
+  match Qexp.from_string "foo (bar ()" with
+  | Error (Unmatched_character '(') ->
+    ()
+  | _ ->
+    failwith "Should fail with unmatched parenthesis"
+;;
+
+let parse_failure_4 () =
+  match Qexp.from_string "foo (bar {)}" with
+  | Error (Unmatched_character '{') ->
+    ()
+  | _ ->
+    failwith "Should fail with unmatched brace"
+;;
+
 let suite =
   [ test "[from_string] Parse empty node" parse_empty_data_1
   ; test
@@ -183,5 +215,16 @@ let suite =
       "[from_string] Parse simple keyword with comments"
       parse_simple_kwd_2
   ; test "[from_string] Parse complex Qexp" parse_complex_expression
-  ]
+  ; test
+      "[from_string] Invalid Qexp, closed unopened parenthesis"
+      parse_failure_1
+  ; test
+      "[from_string] Invalid Qexp, unclosed parenthesis 1"
+      parse_failure_2
+  ; test
+      "[from_string] Invalid Qexp, unclosed parenthesis 2"
+      parse_failure_3
+  ; test
+      "[from_string] Invalid Qexp, invalid brace/parenthesis"
+      parse_failure_4 ]
 ;;

@@ -1,5 +1,7 @@
 (** Describe [Html] using [Qexp] *)
 
+open Bedrock
+
 (** {2 Types} *)
 
 (** [Html] attribute *)
@@ -13,7 +15,9 @@ type node =
   | Node of (attr list * node list)
       (** Normal node like [<div ..></div>]*)
 
-(** {2 Functions} *)
+(** {2 Parsing} *)
+
+val process_attributes : Qexp.t -> attr list Result.t
 
 (** Produce [Html] from [Qexp] *)
 (* val from_qexp : Qexp.t -> node list Bedrock.Result.t *)

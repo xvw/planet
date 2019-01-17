@@ -12,6 +12,7 @@ type t =
   | Illegal_character of char
   | Unclosed_string of string
   | NoRootElement of string
+  | InvalidAttribute of string
 
 (** Each errors has a corresponding exception *)
 module Exn : sig

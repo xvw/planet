@@ -4,6 +4,7 @@ type t =
   | Illegal_character of char
   | Unclosed_string of string
   | NoRootElement of string
+  | InvalidAttribute of string
 
 module Exn = struct
   type t = exn
@@ -13,6 +14,7 @@ module Exn = struct
   exception Illegal_character of char
   exception Unclosed_string of string
   exception NoRootElement of string
+  exception InvalidAttribute of string
 end
 
 let to_exception = function
@@ -26,6 +28,8 @@ let to_exception = function
     Exn.Unclosed_string string
   | NoRootElement string ->
     Exn.NoRootElement string
+  | InvalidAttribute string ->
+    Exn.InvalidAttribute string
 ;;
 
 let from_exception = function
@@ -39,6 +43,8 @@ let from_exception = function
     Unclosed_string string
   | Exn.NoRootElement string ->
     NoRootElement string
+  | Exn.InvalidAttribute string ->
+    InvalidAttribute string
   | _ ->
     Unknown "unsupported exception"
 ;;
@@ -54,6 +60,8 @@ let to_string = function
     Format.sprintf "[Unclosed_string] [%s]" string
   | NoRootElement string ->
     Format.sprintf "[NoRootElement] for [%s]" string
+  | InvalidAttribute string ->
+    Format.sprintf "[InvalidAttribute] for [%s]" string
 ;;
 
 let raise_ error =

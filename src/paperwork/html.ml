@@ -27,10 +27,10 @@ let process_attributes = function
                     | String (_, value) ) ]) ->
           return (Pair (key, value) :: xs)
         | qexp ->
-          Error (InvalidAttribute (Qexp.to_string qexp)) )
+          Error (Invalid_attribute (Qexp.to_string qexp)) )
       (return [])
       list
     >|= List.rev
   | qexp ->
-    Error (InvalidAttribute (Qexp.to_string qexp))
+    Error (Invalid_attribute (Qexp.to_string qexp))
 ;;

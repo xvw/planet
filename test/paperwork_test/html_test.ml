@@ -56,7 +56,7 @@ let parse_attributes_with_failure_1 () =
     |> Qexp.from_string >>= Html.process_attributes
   in
   match result with
-  | Error (InvalidAttribute "#leaf") ->
+  | Error (Invalid_attribute "#leaf") ->
     ()
   | Ok _ ->
     failwith "Attributes list is invalid"
@@ -71,7 +71,7 @@ let parse_attributes_with_failure_2 () =
     |> Qexp.from_string >>= Html.process_attributes
   in
   match result with
-  | Error (InvalidAttribute _) ->
+  | Error (Invalid_attribute _) ->
     ()
   | Ok _ ->
     failwith "Attributes list is invalid"

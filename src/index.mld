@@ -29,3 +29,6 @@ The idea behind [Planet] is strongly inspired by the work of
 - {{: Paperwork/index.html} Paperwork}: Set of deserialization and
   serialization libraries for the formats used in [Planet].
   [Paperwork] is also agnostic of the execution context (OS or Web)
+
+- {{: Baremetal/index.html} Baremetal}: Tools to deal with the filesystem.
+  This library is OS-related.

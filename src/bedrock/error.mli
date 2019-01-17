@@ -11,8 +11,10 @@ type t =
   | Unmatched_character of char
   | Illegal_character of char
   | Unclosed_string of string
-  | NoRootElement of string
-  | InvalidAttribute of string
+  | No_root_element of string
+  | Invalid_attribute of string
+  | Already_exists of string
+  | Unreadable of string
 
 (** Each errors has a corresponding exception *)
 module Exn : sig
@@ -22,7 +24,10 @@ module Exn : sig
   exception Unmatched_character of char
   exception Illegal_character of char
   exception Unclosed_string of string
-  exception NoRootElement of string
+  exception No_root_element of string
+  exception Already_exists of string
+  exception Invalid_attribute of string
+  exception Unreadable of string
 end
 
 (** {2 Tools to deal with errors} *)

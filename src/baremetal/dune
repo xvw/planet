@@ -1,0 +1,4 @@
+(library
+  (name baremetal)
+  (public_name planet.baremetal)
+  (libraries planet.bedrock))

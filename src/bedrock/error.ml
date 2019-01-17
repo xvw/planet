@@ -3,8 +3,10 @@ type t =
   | Unmatched_character of char
   | Illegal_character of char
   | Unclosed_string of string
-  | NoRootElement of string
-  | InvalidAttribute of string
+  | No_root_element of string
+  | Invalid_attribute of string
+  | Already_exists of string
+  | Unreadable of string
 
 module Exn = struct
   type t = exn
@@ -13,8 +15,10 @@ module Exn = struct
   exception Unmatched_character of char
   exception Illegal_character of char
   exception Unclosed_string of string
-  exception NoRootElement of string
-  exception InvalidAttribute of string
+  exception No_root_element of string
+  exception Invalid_attribute of string
+  exception Already_exists of string
+  exception Unreadable of string
 end
 
 let to_exception = function
@@ -26,10 +30,14 @@ let to_exception = function
     Exn.Illegal_character char
   | Unclosed_string string ->
     Exn.Unclosed_string string
-  | NoRootElement string ->
-    Exn.NoRootElement string
-  | InvalidAttribute string ->
-    Exn.InvalidAttribute string
+  | No_root_element string ->
+    Exn.No_root_element string
+  | Invalid_attribute string ->
+    Exn.Invalid_attribute string
+  | Already_exists string ->
+    Exn.Already_exists string
+  | Unreadable string ->
+    Exn.Unreadable string
 ;;
 
 let from_exception = function
@@ -41,10 +49,14 @@ let from_exception = function
     Illegal_character char
   | Exn.Unclosed_string string ->
     Unclosed_string string
-  | Exn.NoRootElement string ->
-    NoRootElement string
-  | Exn.InvalidAttribute string ->
-    InvalidAttribute string
+  | Exn.No_root_element string ->
+    No_root_element string
+  | Exn.Invalid_attribute string ->
+    Invalid_attribute string
+  | Exn.Already_exists string ->
+    Already_exists string
+  | Exn.Unreadable string ->
+    Unreadable string
   | _ ->
     Unknown "unsupported exception"
 ;;
@@ -58,10 +70,14 @@ let to_string = function
     Format.sprintf "[Illegal_character] [%c]" char
   | Unclosed_string string ->
     Format.sprintf "[Unclosed_string] [%s]" string
-  | NoRootElement string ->
-    Format.sprintf "[NoRootElement] for [%s]" string
-  | InvalidAttribute string ->
-    Format.sprintf "[InvalidAttribute] for [%s]" string
+  | No_root_element string ->
+    Format.sprintf "[No_root_element] for [%s]" string
+  | Invalid_attribute string ->
+    Format.sprintf "[Invalid_attribute] for [%s]" string
+  | Already_exists string ->
+    Format.sprintf "[Already_exists] [%s]" string
+  | Unreadable string ->
+    Format.sprintf "[Unreadable] [%s]" string
 ;;
 
 let raise_ error =

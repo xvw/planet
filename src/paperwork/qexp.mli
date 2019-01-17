@@ -1,5 +1,14 @@
 (** [Qexp] is a kind of [Sexp] with more semantics. 
-    It is used as a principal "serializable" format of [Planet]
+    It is used as a principal "serializable" format of [Planet].
+
+    For example : 
+
+    {[
+      (foo {:bar #baz (
+           ; Comment
+           (text "Hello World")
+           (text `Hello World 2`))})
+     ]}
 *)
 
 open Bedrock

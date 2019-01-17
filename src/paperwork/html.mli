@@ -1,4 +1,12 @@
-(** Describe [Html] using [Qexp] *)
+(** Describe [Html] using [Qexp] : 
+
+{[
+(head ((title ("Document example"))))
+(body
+  ((div {(:id "app") (:class "--main-content")}
+     ((h1 ("Hello World")) (p {(:main-paragraph)} ("Lorem ipsum..."))))))
+]}
+ *)
 
 open Bedrock
 

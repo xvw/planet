@@ -9,13 +9,17 @@ module Make (A : Sigs.Applicative.REQUIREMENT) :
     let map f x = A.ap (pure f) x
   end)
 
-  include A
+  module Api = struct
+    include A
 
-  let map = F.map
-  let lift = F.lift
-  let lift2 f a = ap (lift f a)
-  let lift3 f a b c = ap (lift2 f a b) c
-  let lift4 f a b c d = ap (lift3 f a b c) d
+    let map = F.map
+    let lift = F.lift
+    let lift2 f a = ap (lift f a)
+    let lift3 f a b c = ap (lift2 f a b) c
+    let lift4 f a b c d = ap (lift3 f a b c) d
+  end
+
+  include Api
 
   module Infix = struct
     include F.Infix

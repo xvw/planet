@@ -23,4 +23,10 @@ module Infix : sig
   include module type of Applicative.Infix
 end
 
+(** Instance inclusion *)
+
+include module type of Functor.Api
+include module type of Monad.Api
+include module type of Applicative.Api
+include module type of Infix
 include module type of Infix

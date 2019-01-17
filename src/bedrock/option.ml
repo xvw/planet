@@ -22,4 +22,7 @@ module Infix = struct
   include Applicative.Infix
 end
 
+include Functor.Api
+include Monad.Api
+include Applicative.Api
 include Infix

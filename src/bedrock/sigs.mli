@@ -32,7 +32,12 @@ module Base_Lift : sig
 
   (** Lift a quadratic function to actions. *)
   val lift4 :
-    ('a -> 'b -> 'c -> 'd -> 'e) -> 'a t -> 'b t -> 'c t -> 'd t -> 'e t
+       ('a -> 'b -> 'c -> 'd -> 'e)
+    -> 'a t
+    -> 'b t
+    -> 'c t
+    -> 'd t
+    -> 'e t
 end
 
 module Functor : sig
@@ -50,11 +55,16 @@ module Functor : sig
 
   (** Describes a complete interface for functor. *)
   module type API = sig
-    include REQUIREMENT
+    type 'a t
 
-    (** Alias of [map]. *)
-    val lift : ('a -> 'b) -> 'a t -> 'b t
+    module Api : sig
+      include REQUIREMENT with type 'a t := 'a t
 
+      (** Alias of [map]. *)
+      val lift : ('a -> 'b) -> 'a t -> 'b t
+    end
+
+    include module type of Api
     module Infix : module type of Base_Infix with type 'a t := 'a t
     include module type of Infix
   end
@@ -77,12 +87,18 @@ module Applicative : sig
 
   (** Describes a complete interface for applicative functor. *)
   module type API = sig
-    include REQUIREMENT
+    type 'a t
 
-    (** Mapping over ['a t]. *)
-    val map : ('a -> 'b) -> 'a t -> 'b t
+    module Api : sig
+      include REQUIREMENT with type 'a t := 'a t
 
-    include module type of Base_Lift with type 'a t := 'a t
+      (** Mapping over ['a t]. *)
+      val map : ('a -> 'b) -> 'a t -> 'b t
+
+      include module type of Base_Lift with type 'a t := 'a t
+    end
+
+    include module type of Api
 
     module Infix : sig
       include module type of Base_Infix with type 'a t := 'a t
@@ -136,14 +152,20 @@ module Monad : sig
   end
 
   module type API = sig
-    include REQUIREMENT_JOIN
-    include REQUIREMENT_BIND with type 'a t := 'a t
-    include module type of Base_Lift with type 'a t := 'a t
+    type 'a t
 
-    (** void value discards or ignores the result of evaluation, such as the
+    module Api : sig
+      include REQUIREMENT_JOIN with type 'a t := 'a t
+      include REQUIREMENT_BIND with type 'a t := 'a t
+      include module type of Base_Lift with type 'a t := 'a t
+
+      (** void value discards or ignores the result of evaluation, such as the
         return value of an IO action. 
     *)
-    val void : 'a t -> unit t
+      val void : 'a t -> unit t
+    end
+
+    include module type of Api
 
     module Infix : sig
       (** Flipped infix version of [bind]. *)

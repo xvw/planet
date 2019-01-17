@@ -2,9 +2,13 @@ open Util
 
 module Make (F : Sigs.Functor.REQUIREMENT) :
   Sigs.Functor.API with type 'a t = 'a F.t = struct
-  include F
+  module Api = struct
+    include F
 
-  let lift = map
+    let lift = map
+  end
+
+  include Api
 
   module Infix = struct
     let ( <$> ) = map

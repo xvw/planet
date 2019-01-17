@@ -127,7 +127,7 @@ let from_stream input =
     | Some '}' ->
       (match last_bracket with
       | `Brace ->
-        return (node $ List.rev acc)
+        return (block $ List.rev acc)
       | placeholder ->
         check_bracket '}' placeholder)
     | Some '"' ->

@@ -163,40 +163,38 @@ let from_string str_value =
 
 let from_bytes bytes = bytes |> Stream.of_bytes |> from_stream
 
-let to_string qexp =
-  let open Format in
-  let rec fold acc = function
-    | String (Double, str) ->
-      sprintf "%s\"%s\" " acc str
-    | String (Backtick, str) ->
-      sprintf "%s`%s` " acc str
-    | Atom atom ->
-      sprintf "%s%s " acc atom
-    | Tag tag ->
-      sprintf "%s:%s " acc tag
-    | Keyword kwd ->
-      sprintf "%s#%s " acc kwd
-    | Node [] ->
-      sprintf "%s() " acc
-    | Block [] ->
-      sprintf "%s{} " acc
-    | Block children ->
-      let res = List.fold_left fold "" children in
-      let len = String.length res in
-      let sub = String.sub res 0 (len - 1) in
-      sprintf "%s{%s} " acc sub
-    | Node children ->
-      let res = List.fold_left fold "" children in
-      let len = String.length res in
-      let sub = String.sub res 0 (len - 1) in
-      sprintf "%s(%s) " acc sub
-  in
-  (match qexp with
-  | Node children ->
-    List.fold_left fold "" children
-  | exp ->
-    fold "" exp)
-  |> String.trim
+let rec pp ppf = function
+  | String (Double, value) ->
+    Format.fprintf ppf "\"%s\"" value
+  | String (Backtick, value) ->
+    Format.fprintf ppf "`%s`" value
+  | Atom value ->
+    Format.fprintf ppf "%s" value
+  | Tag value ->
+    Format.fprintf ppf ":%s" value
+  | Keyword value ->
+    Format.fprintf ppf "#%s" value
+  | Node elements ->
+    Format.fprintf ppf "(@[<hov 1>%a@])" ppl elements
+  | Block elements ->
+    Format.fprintf ppf "{@[<hov 1>%a@]}" ppl elements
+
+and ppl ppf = function
+  | x :: (_ :: _ as xs) ->
+    let () = Format.fprintf ppf "%a@ " pp x in
+    ppl ppf xs
+  | x :: xs ->
+    let () = Format.fprintf ppf "%a" pp x in
+    ppl ppf xs
+  | [] ->
+    ()
+;;
+
+let to_string = function
+  | Node xs ->
+    Format.asprintf "%a" ppl xs
+  | expr ->
+    Format.asprintf "%a" pp expr
 ;;
 
 let to_bytes qexp = qexp |> to_string |> Bytes.of_string

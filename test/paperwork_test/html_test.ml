@@ -49,6 +49,36 @@ let parse_attributes_3 () =
     failwith (Error.to_string err)
 ;;
 
+let parse_attributes_with_failure_1 () =
+  let open Result.Monad in
+  let result =
+    "(#leaf) (:foo \"bar\") baz (foo bar-baz) (x `yze`)"
+    |> Qexp.from_string >>= Html.process_attributes
+  in
+  match result with
+  | Error (InvalidAttribute "#leaf") ->
+    ()
+  | Ok _ ->
+    failwith "Attributes list is invalid"
+  | Error err ->
+    failwith (Error.to_string err)
+;;
+
+let parse_attributes_with_failure_2 () =
+  let open Result.Monad in
+  let result =
+    "(#leaf leaf :leaf) (:foo \"bar\") baz (foo bar-baz) (x `yze`)"
+    |> Qexp.from_string >>= Html.process_attributes
+  in
+  match result with
+  | Error (InvalidAttribute _) ->
+    ()
+  | Ok _ ->
+    failwith "Attributes list is invalid"
+  | Error err ->
+    failwith (Error.to_string err)
+;;
+
 let suite =
   [ test
       "[proccess_attributes] Test for empty node"
@@ -58,5 +88,11 @@ let suite =
       parse_attributes_2
   ; test
       "[proccess_attributes] Test for with various values 2"
-      parse_attributes_3 ]
+      parse_attributes_3
+  ; test
+      "[proccess_attributes] Test with invalid attributes 1"
+      parse_attributes_with_failure_1
+  ; test
+      "[proccess_attributes] Test with invalid attributes 2"
+      parse_attributes_with_failure_2 ]
 ;;

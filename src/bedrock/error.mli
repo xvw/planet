@@ -11,6 +11,7 @@ type t =
   | Unmatched_character of char
   | Illegal_character of char
   | Unclosed_string of string
+  | NoRootElement of string
 
 (** Each errors has a corresponding exception *)
 module Exn : sig
@@ -20,6 +21,7 @@ module Exn : sig
   exception Unmatched_character of char
   exception Illegal_character of char
   exception Unclosed_string of string
+  exception NoRootElement of string
 end
 
 (** {2 Tools to deal with errors} *)

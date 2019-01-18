@@ -23,3 +23,6 @@ val current : unit -> name
 
 (** Create new directory. *)
 val make : ?chmod:File.chmod -> name -> unit Result.t
+
+(** Remove a directory. *)
+val delete : name -> unit Result.t

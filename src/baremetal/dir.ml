@@ -19,11 +19,9 @@ let children ?(filter = const true) dirname =
 let current = Sys.getcwd
 
 let make ?(chmod = 0o777) dirname =
-  try Ok (Unix.mkdir dirname chmod) with
-  | Unix.(Unix_error (EEXIST, _, _)) ->
-    Error (Already_exists dirname)
-  | _ ->
-    Error (Unreadable dirname)
+  try Ok (Unix.mkdir dirname chmod)
+  with Unix.(Unix_error (error, _, _)) ->
+    Error (Unix (Unix.error_message error))
 ;;
 
 let delete dirname =

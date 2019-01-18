@@ -7,6 +7,7 @@ type t =
   | Invalid_attribute of string
   | Already_exists of string
   | Unreadable of string
+  | Unix of string
 
 module Exn = struct
   type t = exn
@@ -19,6 +20,7 @@ module Exn = struct
   exception Invalid_attribute of string
   exception Already_exists of string
   exception Unreadable of string
+  exception Unix of string
 end
 
 let to_exception = function
@@ -38,6 +40,8 @@ let to_exception = function
     Exn.Already_exists string
   | Unreadable string ->
     Exn.Unreadable string
+  | Unix string ->
+    Exn.Unix string
 ;;
 
 let from_exception = function
@@ -57,6 +61,8 @@ let from_exception = function
     Already_exists string
   | Exn.Unreadable string ->
     Unreadable string
+  | Exn.Unix string ->
+    Unix string
   | _ ->
     Unknown "unsupported exception"
 ;;
@@ -78,6 +84,8 @@ let to_string = function
     Format.sprintf "[Already_exists] [%s]" string
   | Unreadable string ->
     Format.sprintf "[Unreadable] [%s]" string
+  | Unix string ->
+    Format.sprintf "[Unix error] %s" string
 ;;
 
 let raise_ error =

@@ -15,6 +15,7 @@ type t =
   | Invalid_attribute of string
   | Already_exists of string
   | Unreadable of string
+  | Unix of string
 
 (** Each errors has a corresponding exception *)
 module Exn : sig
@@ -28,6 +29,7 @@ module Exn : sig
   exception Already_exists of string
   exception Invalid_attribute of string
   exception Unreadable of string
+  exception Unix of string
 end
 
 (** {2 Tools to deal with errors} *)

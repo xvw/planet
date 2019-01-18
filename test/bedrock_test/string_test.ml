@@ -1,0 +1,43 @@
+open Bedrock
+open Alcotest
+open Test_tools
+
+module Start_with = struct
+  let suite =
+    [ "with two empty strings", true, "", ""
+    ; "with empty suffix", true, "foo", ""
+    ; "with valid suffix 1", true, "foobar", "fo"
+    ; "with valid suffix 2", true, "foobar", "foo"
+    ; "with two equals strings", true, "foobar", "foobar"
+    ; "with base as an empty string", false, "", "foobar"
+    ; "with invalid suffix", false, "foobar", "bar" ]
+    |> List.map (fun (message, result, left, right) ->
+           test (Format.sprintf "[start_with] %s" message) (fun () ->
+               check
+                 bool
+                 ("Should be " ^ string_of_bool result)
+                 result
+                 (String.start_with left right) ) )
+  ;;
+end
+
+module End_with = struct
+  let suite =
+    [ "with two empty strings", true, "", ""
+    ; "with empty suffix", true, "foo", ""
+    ; "with valid suffix 1", true, "foobar", "r"
+    ; "with valid suffix 2", true, "foobar", "bar"
+    ; "with two equals strings", true, "foobar", "foobar"
+    ; "with base as an empty string", false, "", "foobar"
+    ; "with invalid suffix", false, "foobar", "foo" ]
+    |> List.map (fun (message, result, left, right) ->
+           test (Format.sprintf "[end_with] %s" message) (fun () ->
+               check
+                 bool
+                 ("Should be " ^ string_of_bool result)
+                 result
+                 (String.end_with left right) ) )
+  ;;
+end
+
+let suite = Start_with.suite @ End_with.suite

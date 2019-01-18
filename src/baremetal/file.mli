@@ -8,6 +8,8 @@ type name = string
 type line = string
 type chmod = int
 type extension = string
+type old_name = string
+type new_name = string
 
 (** {2 Information} *)
 
@@ -20,6 +22,15 @@ val exists : name -> bool
 val is_directory : name -> bool Result.t
 
 (** {2 Read} *)
+
+(** Open reading. *)
+val in_channel : name -> in_channel Result.t
+
+(** Close read channel. *)
+val close_in : in_channel -> unit
+
+(** Read file *)
+val read : (in_channel -> 'a Result.t) -> name -> 'a Result.t
 
 (** Read file into a stream. *)
 val to_stream : name -> char Stream.t Result.t
@@ -38,24 +49,54 @@ val lines : name -> string list Result.t
 
 (** {2 Write} *)
 
+(** Open file for writting. *)
+val out_channel :
+     ?flags:open_flag list
+  -> ?binary:bool
+  -> ?append:bool
+  -> ?chmod:chmod
+  -> ?overwrite:bool
+  -> name
+  -> out_channel Result.t
+
+(** Close writting channel. *)
+val close_out : out_channel -> unit
+
 (** Write file. *)
 val write :
      ?flags:open_flag list
   -> ?binary:bool
   -> ?append:bool
   -> ?chmod:chmod
+  -> ?overwrite:bool
+  -> (out_channel -> 'a Result.t)
+  -> name
+  -> 'a Result.t
+
+(** Create a file. *)
+val create :
+  ?binary:bool -> ?chmod:chmod -> name -> string -> unit Result.t
+
+(** Append [content] to a file. *)
+val append :
+     ?binary:bool
+  -> ?create:bool
+  -> ?chmod:chmod
   -> name
   -> string
   -> unit Result.t
 
-(** Create a file. *)
-val create : ?chmod:chmod -> name -> string -> unit Result.t
-
-(** Append [content] to a file. *)
-val append : ?chmod:chmod -> name -> string -> unit Result.t
-
 (** Overwrite a file. *)
-val overwrite : ?chmod:chmod -> name -> string -> unit Result.t
+val overwrite :
+     ?binary:bool
+  -> ?create:bool
+  -> ?chmod:chmod
+  -> name
+  -> string
+  -> unit Result.t
 
 (** Delete a file. *)
 val delete : name -> unit Result.t
+
+(** Rename a file *)
+val rename : old_name -> new_name -> unit Result.t

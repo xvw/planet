@@ -62,3 +62,8 @@ setup-dev:
 
 remove-switch:
 	opam switch -y remove .
+
+up:
+	opam update
+	opam upgrade
+	eval $(opam env)

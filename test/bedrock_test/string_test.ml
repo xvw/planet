@@ -40,4 +40,23 @@ module End_with = struct
   ;;
 end
 
-let suite = Start_with.suite @ End_with.suite
+module Has_extension = struct
+  let suite =
+    [ "with valid suffix 1", true, "foobar.exe", "exe"
+    ; "with valid suffix 2", true, "foobar.tar.gz", "tar.gz"
+    ; "with two equals strings", true, ".foobar", "foobar"
+    ; "with base as an empty string", false, "", ".exe"
+    ; "with invalid suffix", false, "foobar.zip", "rar" ]
+    |> List.map (fun (message, result, left, right) ->
+           test
+             (Format.sprintf "[has_extension] %s" message)
+             (fun () ->
+               check
+                 bool
+                 ("Should be " ^ string_of_bool result)
+                 result
+                 (String.has_extension left right) ) )
+  ;;
+end
+
+let suite = Start_with.suite @ End_with.suite @ Has_extension.suite

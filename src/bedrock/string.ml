@@ -39,4 +39,6 @@ let end_with base suffix =
     loop 0
 ;;
 
+let has_extension base extension = end_with base ("." ^ extension)
+
 include S

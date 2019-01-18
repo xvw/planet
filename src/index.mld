@@ -31,4 +31,5 @@ The idea behind [Planet] is strongly inspired by the work of
   [Paperwork] is also agnostic of the execution context (OS or Web)
 
 - {{: Baremetal/index.html} Baremetal}: Tools to deal with the filesystem.
-  This library is OS-related.
+  (This library includes [Unix] module, and exposes tools to work with
+  [File] and [Dir]. {b This library is OS-related}.

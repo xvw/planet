@@ -94,6 +94,67 @@ let test_year_builder5 () =
     failwith (Error.to_string err)
 ;;
 
+let test_month_builder1 () =
+  let open Result.Infix in
+  year 18
+  >>= (fun y -> month y Jan)
+  >|= month_to_string
+  |> function
+  | Ok "018A" ->
+    ()
+  | Ok x ->
+    failwith (x ^ " is not equals to 018A")
+  | Error err ->
+    failwith (Error.to_string err)
+;;
+
+let test_month_builder2 () =
+  let open Result.Infix in
+  year 216
+  >>= (fun y -> month y Nov)
+  >|= month_to_string
+  |> function
+  | Ok "216K" ->
+    ()
+  | Ok x ->
+    failwith (x ^ " is not equals to 216K")
+  | Error err ->
+    failwith (Error.to_string err)
+;;
+
+let test_month_builder3 () =
+  let open Result.Infix in
+  year 1000
+  >>= (fun y -> month y Nov)
+  >|= month_to_string
+  |> function
+  | Error (Invalid_year 1000) ->
+    ()
+  | Ok x ->
+    failwith (x ^ " should not be valid")
+  | Error err ->
+    failwith (Error.to_string err)
+;;
+
+let test_is_leap () =
+  let open Result.Infix in
+  match
+    List.filter
+      (fun x ->
+        match year x >|= is_leap with
+        | Ok bool ->
+          bool
+        | Error err ->
+          failwith
+            ("Invalid year generation : " ^ Error.to_string err) )
+      [1; 2; 4; 72; 96; 952; 997; 24]
+  with
+  | [4; 72; 96; 952; 24] ->
+    ()
+  | _ ->
+    failwith "Invalid result"
+;;
+
 let suite =
   [ test "[Month.from_int] Test in trivial case" test_from_int1
   ; test "[Month.from_int] Test in failure case" test_from_int2
@@ -101,5 +162,9 @@ let suite =
   ; test "[year] Build a valid year 2" test_year_builder2
   ; test "[year] Build a valid year 3" test_year_builder3
   ; test "[year] Build an invalid year 1" test_year_builder4
-  ; test "[year] Build an invalid year 2" test_year_builder5 ]
+  ; test "[year] Build an invalid year 2" test_year_builder5
+  ; test "[month] Build a valid month 1" test_month_builder1
+  ; test "[month] Build a valid month 2" test_month_builder2
+  ; test "[month] Build an invalid month 1" test_month_builder3
+  ; test "[is_leap] check is_leap with some values" test_is_leap ]
 ;;

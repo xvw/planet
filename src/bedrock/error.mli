@@ -15,6 +15,13 @@ type t =
   | Invalid_attribute of string
   | Already_exists of string
   | Unreadable of string
+  | Invalid_year of int
+  | Invalid_month of int
+  | Invalid_day of int
+  | Invalid_char of char
+  | Invalid_int of int
+  | Must_be_positive of int
+  | Must_be_negative of int
   | Unix of string
 
 (** Each errors has a corresponding exception *)
@@ -29,6 +36,13 @@ module Exn : sig
   exception Already_exists of string
   exception Invalid_attribute of string
   exception Unreadable of string
+  exception Invalid_year of int
+  exception Invalid_month of int
+  exception Invalid_day of int
+  exception Invalid_char of char
+  exception Invalid_int of int
+  exception Must_be_positive of int
+  exception Must_be_negative of int
   exception Unix of string
 end
 

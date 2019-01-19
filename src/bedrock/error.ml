@@ -7,6 +7,13 @@ type t =
   | Invalid_attribute of string
   | Already_exists of string
   | Unreadable of string
+  | Invalid_year of int
+  | Invalid_month of int
+  | Invalid_day of int
+  | Invalid_char of char
+  | Invalid_int of int
+  | Must_be_positive of int
+  | Must_be_negative of int
   | Unix of string
 
 module Exn = struct
@@ -20,6 +27,13 @@ module Exn = struct
   exception Invalid_attribute of string
   exception Already_exists of string
   exception Unreadable of string
+  exception Invalid_year of int
+  exception Invalid_month of int
+  exception Invalid_day of int
+  exception Invalid_char of char
+  exception Invalid_int of int
+  exception Must_be_positive of int
+  exception Must_be_negative of int
   exception Unix of string
 end
 
@@ -40,6 +54,20 @@ let to_exception = function
     Exn.Already_exists string
   | Unreadable string ->
     Exn.Unreadable string
+  | Invalid_year int ->
+    Exn.Invalid_year int
+  | Invalid_month int ->
+    Exn.Invalid_month int
+  | Invalid_day int ->
+    Exn.Invalid_day int
+  | Invalid_char char ->
+    Exn.Invalid_char char
+  | Invalid_int int ->
+    Exn.Invalid_int int
+  | Must_be_positive int ->
+    Exn.Must_be_positive int
+  | Must_be_negative int ->
+    Exn.Must_be_negative int
   | Unix string ->
     Exn.Unix string
 ;;
@@ -63,6 +91,20 @@ let from_exception = function
     Unreadable string
   | Exn.Unix string ->
     Unix string
+  | Exn.Invalid_year int ->
+    Invalid_year int
+  | Exn.Invalid_month int ->
+    Invalid_month int
+  | Exn.Invalid_day int ->
+    Invalid_day int
+  | Exn.Invalid_char char ->
+    Invalid_char char
+  | Exn.Invalid_int int ->
+    Invalid_int int
+  | Exn.Must_be_positive int ->
+    Must_be_positive int
+  | Exn.Must_be_negative int ->
+    Must_be_negative int
   | _ ->
     Unknown "unsupported exception"
 ;;
@@ -84,6 +126,20 @@ let to_string = function
     Format.sprintf "[Already_exists] [%s]" string
   | Unreadable string ->
     Format.sprintf "[Unreadable] [%s]" string
+  | Invalid_year int ->
+    Format.sprintf "[Invalid_year] [%d]" int
+  | Invalid_month int ->
+    Format.sprintf "[Invalid_month] [%d]" int
+  | Invalid_day int ->
+    Format.sprintf "[Invalid_day] [%d]" int
+  | Invalid_char char ->
+    Format.sprintf "[Invalid_char] [%c]" char
+  | Invalid_int int ->
+    Format.sprintf "[Invalid_int] [%d]" int
+  | Must_be_positive int ->
+    Format.sprintf "[Must_be_positive] [%d]" int
+  | Must_be_negative int ->
+    Format.sprintf "[Must_be_negative] [%d]" int
   | Unix string ->
     Format.sprintf "[Unix error] %s" string
 ;;

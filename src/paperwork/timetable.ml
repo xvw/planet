@@ -154,7 +154,7 @@ let hour h m =
   if h < 0 || h > 23
   then Error (Invalid_hour h)
   else if m < 0 || m > 59
-  then Error (Invalid_hour m)
+  then Error (Invalid_min m)
   else Ok (Hour (h, m))
 ;;
 

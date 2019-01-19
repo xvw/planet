@@ -259,7 +259,7 @@ let test_day_with4 () =
     failwith "should be invalid"
 ;;
 
-let test_hour_1 () =
+let test_hour1 () =
   let open Result.Infix in
   match hour 22 59 >|= hour_to_string with
   | Ok "10PM59" ->
@@ -270,7 +270,7 @@ let test_hour_1 () =
     failwith "should be valid"
 ;;
 
-let test_hour_2 () =
+let test_hour2 () =
   let open Result.Infix in
   match hour 7 35 >|= hour_to_string with
   | Ok "07AM35" ->
@@ -281,7 +281,7 @@ let test_hour_2 () =
     failwith "should be valid"
 ;;
 
-let test_hour_3 () =
+let test_hour3 () =
   let open Result.Infix in
   match hour 12 12 >|= hour_to_string with
   | Ok "12PM12" ->
@@ -290,6 +290,83 @@ let test_hour_3 () =
     failwith x
   | _ ->
     failwith "should be valid"
+;;
+
+let test_hour4 () =
+  let open Result.Infix in
+  match hour 0 5 >|= hour_to_string with
+  | Ok "12AM05" ->
+    ()
+  | Ok x ->
+    failwith x
+  | _ ->
+    failwith "should be valid"
+;;
+
+let test_moment_with1 () =
+  let open Result.Infix in
+  match moment_with 4 Feb 29 0 45 >|= moment_to_string with
+  | Ok "004B29:12AM45" ->
+    ()
+  | Ok x ->
+    failwith ("ok: " ^ x)
+  | Error err ->
+    failwith ("error: " ^ Error.to_string err)
+;;
+
+let test_moment_with2 () =
+  let open Result.Infix in
+  match moment_with 19 Nov 3 21 58 >|= moment_to_string with
+  | Ok "019K03:09PM58" ->
+    ()
+  | Ok x ->
+    failwith ("ok: " ^ x)
+  | Error err ->
+    failwith ("error: " ^ Error.to_string err)
+;;
+
+let test_moment_with3 () =
+  let open Result.Infix in
+  match moment_with (-6) Nov 3 21 58 >|= moment_to_string with
+  | Error (Invalid_year -6) ->
+    ()
+  | Ok x ->
+    failwith ("ok: " ^ x)
+  | Error err ->
+    failwith ("error: " ^ Error.to_string err)
+;;
+
+let test_moment_with4 () =
+  let open Result.Infix in
+  match moment_with 6 Feb 29 21 58 >|= moment_to_string with
+  | Error (Invalid_day 29) ->
+    ()
+  | Ok x ->
+    failwith ("ok: " ^ x)
+  | Error err ->
+    failwith ("error: " ^ Error.to_string err)
+;;
+
+let test_moment_with5 () =
+  let open Result.Infix in
+  match moment_with 4 Feb 29 (-12) 58 >|= moment_to_string with
+  | Error (Invalid_hour -12) ->
+    ()
+  | Ok x ->
+    failwith ("ok: " ^ x)
+  | Error err ->
+    failwith ("error: " ^ Error.to_string err)
+;;
+
+let test_moment_with6 () =
+  let open Result.Infix in
+  match moment_with 4 Feb 29 5 61 >|= moment_to_string with
+  | Error (Invalid_min 61) ->
+    ()
+  | Ok x ->
+    failwith ("ok: " ^ x)
+  | Error err ->
+    failwith ("error: " ^ Error.to_string err)
 ;;
 
 let suite =
@@ -313,7 +390,15 @@ let suite =
   ; test "[day_with] Build a valid day 2" test_day_with2
   ; test "[day_with] Build an invalid day 1" test_day_with3
   ; test "[day_with] Build a valid day 4" test_day_with4
-  ; test "[hour] Build a valid hour 1" test_hour_1
-  ; test "[hour] Build a valid hour 2" test_hour_2
-  ; test "[hour] Build a valid hour 3" test_hour_3 ]
+  ; test "[hour] Build a valid hour 1" test_hour1
+  ; test "[hour] Build a valid hour 2" test_hour2
+  ; test "[hour] Build a valid hour 3" test_hour3
+  ; test "[hour] Build a valid hour 4" test_hour4
+  ; test "[moment_with] Build a valid moment 1" test_moment_with1
+  ; test "[moment_with] Build a valid moment 2" test_moment_with2
+  ; test "[moment_with] Build an invalid moment 1" test_moment_with3
+  ; test "[moment_with] Build an invalid moment 2" test_moment_with4
+  ; test "[moment_with] Build an invalid moment 3" test_moment_with5
+  ; test "[moment_with] Build an invalid moment 4" test_moment_with6
+  ]
 ;;

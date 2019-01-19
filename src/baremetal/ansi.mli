@@ -105,3 +105,8 @@ val pp : Format.formatter -> fragments -> unit
 
 (** [Pretty printer] to deal with [Fromat] module with scoped fragments. *)
 val pps : Format.formatter -> fragments -> unit
+
+(** {2 Manage fragments} *)
+
+(** Keep only style into a fragment *)
+val only_style : fragments -> fragments

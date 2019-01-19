@@ -158,3 +158,5 @@ let pp ppf fragment =
 let pps ppf fragment =
   Format.fprintf ppf "%s" (to_string ~scoped:true fragment)
 ;;
+
+let only_style = List.filter (function Text _ -> false | _ -> true)

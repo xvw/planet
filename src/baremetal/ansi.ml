@@ -35,7 +35,7 @@ let bright_magenta = Bright_magenta
 let bright_cyan = Bright_cyan
 let bright_white = Bright_white
 
-type fragment_ =
+type fragment =
   | Reset
   | Bold
   | Underline
@@ -46,7 +46,7 @@ type fragment_ =
   | Background of color
   | Text of string
 
-type fragment = fragment_ list
+type fragments = fragment list
 
 let foreground c = [Foreground c]
 let fg = foreground

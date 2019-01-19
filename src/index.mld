@@ -30,6 +30,6 @@ The idea behind [Planet] is strongly inspired by the work of
   serialization libraries for the formats used in [Planet].
   [Paperwork] is also agnostic of the execution context (OS or Web)
 
-- {{: Baremetal/index.html} Baremetal}: Tools to deal with the filesystem.
-  (This library includes [Unix] module, and exposes tools to work with
-  [File] and [Dir]. {b This library is OS-related}.
+- {{: Baremetal/index.html} Baremetal}: Tools to deal with the filesystem
+  and Terminal. (This library includes [Unix] module.
+  {b This library is OS-related}.

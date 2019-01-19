@@ -1,4 +1,25 @@
-(** Formatting and printing for ANSI term. *)
+(** Formatting and printing for ANSI term. 
+
+    This module expose too write "formatted text" in a terminal, using 
+    ANSI and ASCII. For example : 
+
+    {[
+      let open Baremetal.Ansi in 
+      let fragment = 
+        background red 
+        & foreground black 
+        & text "Hello" 
+        & reset 
+        & text ", "
+        & background black 
+        & foreground red 
+        & text "World"
+      in
+      fragment 
+      |> to_string 
+      |> print_endline
+    ]}
+*)
 
 (** {2 Types} *)
 
@@ -8,8 +29,11 @@ type color
 (** Describe an ANSI style *)
 type fragment
 
+(** Describe a Sequence of [fragment] *)
+type fragments = fragment list
+
 (** {2 Colors} 
-    [Color] is defined to be used with fragment.
+    [Color] is defined to be used with fragments.
 *)
 
 val default : color
@@ -35,44 +59,44 @@ val bright_white : color
     combined.
 *)
 
-val reset : fragment
-val bold : fragment
-val underline : fragment
-val blink : fragment
-val inverse : fragment
-val hidden : fragment
+val reset : fragments
+val bold : fragments
+val underline : fragments
+val blink : fragments
+val inverse : fragments
+val hidden : fragments
 
-(** Convert a [string] to a [fragment]. *)
-val text : string -> fragment
+(** Convert a [string] to a [fragments]. *)
+val text : string -> fragments
 
 (** Same of [text]. *)
-val ( ! ) : string -> fragment
+val ( ! ) : string -> fragments
 
-(** Convert a [color] into a [foreground fragment].*)
-val foreground : color -> fragment
+(** Convert a [color] into a [foreground fragments].*)
+val foreground : color -> fragments
 
 (** Same of [foreground]. *)
-val fg : color -> fragment
+val fg : color -> fragments
 
-(** Convert a [color] into a [background fragment].*)
-val background : color -> fragment
+(** Convert a [color] into a [background fragments].*)
+val background : color -> fragments
 
 (** Same of [background]. *)
-val bg : color -> fragment
+val bg : color -> fragments
 
-(** Fragment composition. *)
-val merge : fragment -> fragment -> fragment
+(** Fragments composition. *)
+val merge : fragments -> fragments -> fragments
 
 (** Same of [merge]. *)
-val ( & ) : fragment -> fragment -> fragment
+val ( & ) : fragments -> fragments -> fragments
 
 (** {2 String generation and Printing} *)
 
-(** Convert [fragment] to [string]. *)
-val to_string : ?scoped:bool -> fragment -> string
+(** Convert [fragments] to [string]. *)
+val to_string : ?scoped:bool -> fragments -> string
 
 (** [Pretty printer] to deal with [Fromat] module. *)
-val pp : Format.formatter -> fragment -> unit
+val pp : Format.formatter -> fragments -> unit
 
-(** [Pretty printer] to deal with [Fromat] module with scoped fragment. *)
-val pps : Format.formatter -> fragment -> unit
+(** [Pretty printer] to deal with [Fromat] module with scoped fragments. *)
+val pps : Format.formatter -> fragments -> unit

@@ -1,4 +1,5 @@
 open Bedrock
+open Util
 open Error
 
 module Month = struct
@@ -191,4 +192,54 @@ let moment_to_string (d, h) =
   let a = day_to_string d in
   let b = hour_to_string h in
   a ^ ":" ^ b
+;;
+
+let year_from_string str =
+  try Scanf.sscanf str "%03d" year with _ -> Error (Unparsable str)
+;;
+
+let month_from_string str =
+  try
+    let open Result.Infix in
+    Scanf.sscanf str "%03d%c" (fun year_value char ->
+        year year_value >>= fun y -> Month.from_char char >>= month y
+    )
+  with _ -> Error (Unparsable str)
+;;
+
+let day_from_string str =
+  try
+    let open Result.Infix in
+    Scanf.sscanf str "%03d%c%02d" (fun yv mc dv ->
+        year yv
+        >>= fun y -> Month.from_char mc >>= month y >>= flip day dv
+    )
+  with _ -> Error (Unparsable str)
+;;
+
+let hour_from_string str =
+  try
+    let open Result.Infix in
+    Scanf.sscanf str "%2d%2s%2d" (fun h flag m ->
+        let hr =
+          match String.lowercase_ascii flag with
+          | "am" ->
+            Ok (if h = 12 then 0 else h)
+          | "pm" ->
+            Ok ((h + 12) mod 24)
+          | _ ->
+            Error (Unparsable (str ^ ": unknown " ^ flag))
+        in
+        hr >>= fun h -> hour h m )
+  with _ -> Error (Unparsable str)
+;;
+
+let moment_from_string str =
+  try
+    let open Result.Infix in
+    Scanf.sscanf str "%6s:%6s" (fun d h ->
+        day_from_string d
+        >>= fun left ->
+        hour_from_string h >|= fun right -> moment left right )
+  with _ -> Error (Unparsable str)
 ;;

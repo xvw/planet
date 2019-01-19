@@ -129,10 +129,18 @@ val days_in : month -> int
 (** Returns [true] if a year is leap; [false] otherwise. *)
 val is_leap : year -> bool
 
-(** {2 Serialization / Deserialization} *)
+(** {2 Serialization} *)
 
 val year_to_string : year -> string
 val month_to_string : month -> string
 val day_to_string : day -> string
 val hour_to_string : hour -> string
 val moment_to_string : moment -> string
+
+(** {2 Serialization} *)
+
+val year_from_string : string -> year Result.t
+val month_from_string : string -> month Result.t
+val day_from_string : string -> day Result.t
+val hour_from_string : string -> hour Result.t
+val moment_from_string : string -> moment Result.t

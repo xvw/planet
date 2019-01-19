@@ -16,6 +16,7 @@ type t =
   | Invalid_int of int
   | Must_be_positive of int
   | Must_be_negative of int
+  | Unparsable of string
   | Unix of string
 
 module Exn = struct
@@ -38,6 +39,7 @@ module Exn = struct
   exception Invalid_int of int
   exception Must_be_positive of int
   exception Must_be_negative of int
+  exception Unparsable of string
   exception Unix of string
 end
 
@@ -76,6 +78,8 @@ let to_exception = function
     Exn.Must_be_positive int
   | Must_be_negative int ->
     Exn.Must_be_negative int
+  | Unparsable string ->
+    Exn.Unparsable string
   | Unix string ->
     Exn.Unix string
 ;;
@@ -117,6 +121,8 @@ let from_exception = function
     Must_be_positive int
   | Exn.Must_be_negative int ->
     Must_be_negative int
+  | Exn.Unparsable string ->
+    Unparsable string
   | _ ->
     Unknown "unsupported exception"
 ;;
@@ -156,6 +162,8 @@ let to_string = function
     Format.sprintf "[Must_be_positive] [%d]" int
   | Must_be_negative int ->
     Format.sprintf "[Must_be_negative] [%d]" int
+  | Unparsable string ->
+    Format.sprintf "[Unparsable] [%s]" string
   | Unix string ->
     Format.sprintf "[Unix error] %s" string
 ;;

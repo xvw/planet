@@ -24,6 +24,7 @@ type t =
   | Invalid_int of int
   | Must_be_positive of int
   | Must_be_negative of int
+  | Unparsable of string
   | Unix of string
 
 (** Each errors has a corresponding exception *)
@@ -47,6 +48,7 @@ module Exn : sig
   exception Invalid_int of int
   exception Must_be_positive of int
   exception Must_be_negative of int
+  exception Unparsable of string
   exception Unix of string
 end
 

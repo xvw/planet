@@ -1,1 +1,105 @@
-let suite = []
+open Paperwork
+open Timetable
+open Test_tools
+open Bedrock
+open! Error
+
+let test_from_int1 () =
+  match
+    List.map Month.from_int [1; 2; 3; 4; 5; 6; 7; 8; 9; 10; 11; 12]
+  with
+  | Month.([ Ok Jan
+           ; Ok Feb
+           ; Ok Mar
+           ; Ok Apr
+           ; Ok May
+           ; Ok Jun
+           ; Ok Jul
+           ; Ok Aug
+           ; Ok Sep
+           ; Ok Oct
+           ; Ok Nov
+           ; Ok Dec ]) ->
+    ()
+  | xs ->
+    List.iter
+      (function Error x -> failwith (Error.to_string x) | _ -> ())
+      xs
+;;
+
+let test_from_int2 () =
+  match List.map Month.from_int [-3; 0; 13; 14; -789] with
+  | [ Error (Invalid_month -3)
+    ; Error (Invalid_month 0)
+    ; Error (Invalid_month 13)
+    ; Error (Invalid_month 14)
+    ; Error (Invalid_month -789) ] ->
+    ()
+  | _ ->
+    failwith "It should fail"
+;;
+
+let test_year_builder1 () =
+  let open Result.Infix in
+  match year 18 >|= year_to_string with
+  | Ok "018" ->
+    ()
+  | Ok x ->
+    failwith (x ^ " is not equals to 018")
+  | Error err ->
+    failwith (Error.to_string err)
+;;
+
+let test_year_builder2 () =
+  let open Result.Infix in
+  match year 0 >|= year_to_string with
+  | Ok "000" ->
+    ()
+  | Ok x ->
+    failwith (x ^ " is not equals to 000")
+  | Error err ->
+    failwith (Error.to_string err)
+;;
+
+let test_year_builder3 () =
+  let open Result.Infix in
+  match year 999 >|= year_to_string with
+  | Ok "999" ->
+    ()
+  | Ok x ->
+    failwith (x ^ " is not equals to 999")
+  | Error err ->
+    failwith (Error.to_string err)
+;;
+
+let test_year_builder4 () =
+  let open Result.Infix in
+  match year (-87) >|= year_to_string with
+  | Error (Invalid_year -87) ->
+    ()
+  | Ok x ->
+    failwith (x ^ " shoud fail")
+  | Error err ->
+    failwith (Error.to_string err)
+;;
+
+let test_year_builder5 () =
+  let open Result.Infix in
+  match year 1000 >|= year_to_string with
+  | Error (Invalid_year 1000) ->
+    ()
+  | Ok x ->
+    failwith (x ^ " shoud fail")
+  | Error err ->
+    failwith (Error.to_string err)
+;;
+
+let suite =
+  [ test "[Month.from_int] Test in trivial case" test_from_int1
+  ; test "[Month.from_int] Test in failure case" test_from_int2
+  ; test "[year] Build a valid year 1" test_year_builder1
+  ; test "[year] Build a valid year 2" test_year_builder2
+  ; test "[year] Build a valid year 3" test_year_builder3
+  ; test "[year] Build an invalid year 1" test_year_builder4
+  ; test "[year] Build an invalid year 2" test_year_builder5 ]
+;;

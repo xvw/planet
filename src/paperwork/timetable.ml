@@ -167,3 +167,27 @@ let moment_with year_value month_value day_value hour_value min_value
   |> day_with year_value month_value
   >>= fun d -> hour hour_value min_value >|= fun h -> d, h
 ;;
+
+let year_to_string (Year n) = Format.sprintf "%03d" n
+
+let month_to_string (Month (y, m)) =
+  let ystr = year_to_string y in
+  Format.sprintf "%s%c" ystr (Month.to_char m |> Char.uppercase_ascii)
+;;
+
+let day_to_string (Day (m, d)) =
+  let mstr = month_to_string m in
+  Format.sprintf "%s%02d" mstr d
+;;
+
+let hour_to_string (Hour (h, m)) =
+  let hm = h mod 12 in
+  let fl = if h > 11 then "PM" else "AM" in
+  Format.sprintf "%02d%s%02d" hm fl m
+;;
+
+let moment_to_string (d, h) =
+  let a = day_to_string d in
+  let b = hour_to_string h in
+  a ^ b
+;;

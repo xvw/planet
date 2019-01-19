@@ -8,7 +8,7 @@ type year
 type month
 type day
 type hour
-type min
+type moment
 
 (** {2 Month} 
     Enumerate months
@@ -37,14 +37,32 @@ end
 
 (** {2 Constructors} *)
 
-(** Build a [year] *)
+(** Build a [year]. *)
 val year : int -> year Result.t
 
-(** Build a [month] *)
+(** Build a [month]. *)
 val month : year -> Month.t -> month Result.t
 
-(** Build a [day] *)
+(** Build a [day]. *)
 val day : month -> int -> day Result.t
 
-(** Build a [day] all-in *)
+(** Build a [day] all-in. *)
 val day_with : int -> Month.t -> int -> day Result.t
+
+(** Build an [hour]. *)
+val hour : int -> int -> hour Result.t
+
+(** Build a [moment] with [day] and [hour]. *)
+val moment : day -> hour -> moment
+
+(** [moment_with year month day hour min] *)
+val moment_with :
+  int -> Month.t -> int -> int -> int -> moment Result.t
+
+(** {2 Helpers} *)
+
+(** Returns the numer of days in a month.*)
+val days_in : month -> int
+
+(** Returns [true] if a year is leap; [false] otherwise. *)
+val is_leap : year -> bool

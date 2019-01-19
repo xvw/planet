@@ -18,6 +18,8 @@ type t =
   | Invalid_year of int
   | Invalid_month of int
   | Invalid_day of int
+  | Invalid_hour of int
+  | Invalid_min of int
   | Invalid_char of char
   | Invalid_int of int
   | Must_be_positive of int
@@ -39,6 +41,8 @@ module Exn : sig
   exception Invalid_year of int
   exception Invalid_month of int
   exception Invalid_day of int
+  exception Invalid_hour of int
+  exception Invalid_min of int
   exception Invalid_char of char
   exception Invalid_int of int
   exception Must_be_positive of int

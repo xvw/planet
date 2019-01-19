@@ -1,12 +1,6 @@
 open Bedrock
 open Error
 
-type year = Year of int
-type month = Month of (year * int)
-type day = Day of (month * int)
-type hour = Hour of int
-type min = Min of int
-
 module Month = struct
   type t =
     | Jan
@@ -111,3 +105,65 @@ module Month = struct
     from_int (c - a + 1)
   ;;
 end
+
+type year = Year of int
+type month = Month of (year * Month.t)
+type day = Day of (month * int)
+type hour = Hour of (int * int)
+type moment = day * hour
+
+let year value =
+  if value < 0 || value > 999
+  then Error (Invalid_year value)
+  else Ok (Year value)
+;;
+
+let month year_value month_value =
+  Ok (Month (year_value, month_value))
+;;
+
+let is_leap (Year value) =
+  let y = 2000 + value in
+  if y mod 100 = 0 then y mod 400 = 0 else y mod 4 = 0
+;;
+
+let days_in (Month (y, m)) =
+  match m with
+  | Jan | Mar | May | Jul | Aug | Oct | Dec ->
+    31
+  | Feb ->
+    if is_leap y then 29 else 28
+  | _ ->
+    30
+;;
+
+let day month_value day_value =
+  let d = days_in month_value in
+  if day_value < 1 || day_value > d
+  then Error (Invalid_day day_value)
+  else Ok (Day (month_value, day_value))
+;;
+
+let day_with year_value month_value day_value =
+  let open Result.Infix in
+  year_value |> year
+  >>= fun y -> month y month_value >>= fun m -> day m day_value
+;;
+
+let hour h m =
+  if h < 0 || h > 23
+  then Error (Invalid_hour h)
+  else if m < 0 || m > 59
+  then Error (Invalid_hour m)
+  else Ok (Hour (h, m))
+;;
+
+let moment d h = d, h
+
+let moment_with year_value month_value day_value hour_value min_value
+    =
+  let open Result.Infix in
+  day_value
+  |> day_with year_value month_value
+  >>= fun d -> hour hour_value min_value >|= fun h -> d, h
+;;

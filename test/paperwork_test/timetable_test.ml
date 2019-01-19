@@ -155,6 +155,74 @@ let test_is_leap () =
     failwith "Invalid result"
 ;;
 
+let test_day_builder1 () =
+  let open Result.Infix in
+  year 19
+  >>= (fun x -> month x Mar)
+  >>= (fun m -> day m 12)
+  >|= day_to_string
+  |> function
+  | Ok "019C12" ->
+    ()
+  | Ok x ->
+    failwith (x ^ " is not equals to 019C12")
+  | Error err ->
+    failwith (Error.to_string err)
+;;
+
+let test_day_builder2 () =
+  let open Result.Infix in
+  year 222
+  >>= (fun x -> month x Oct)
+  >>= (fun m -> day m 31)
+  >|= day_to_string
+  |> function
+  | Ok "222J31" ->
+    ()
+  | Ok x ->
+    failwith (x ^ " is not equals to 222J31")
+  | Error err ->
+    failwith (Error.to_string err)
+;;
+
+let test_day_builder3 () =
+  let open Result.Infix in
+  year 4
+  >>= (fun x -> month x Feb)
+  >>= (fun m -> day m 29)
+  >|= day_to_string
+  |> function
+  | Ok "004B29" ->
+    ()
+  | Ok x ->
+    failwith (x ^ " is not equals to 004B29")
+  | Error err ->
+    failwith (Error.to_string err)
+;;
+
+let test_day_builder4 () =
+  let open Result.Infix in
+  year 19
+  >>= (fun x -> month x Apr)
+  >>= (fun m -> day m 31)
+  >|= day_to_string
+  |> function
+  | Error (Invalid_day 31) -> () | _ -> failwith "Sould not be valid"
+;;
+
+let test_day_builder5 () =
+  let open Result.Infix in
+  year 19
+  >>= (fun x -> month x Apr)
+  >>= (fun m -> day m (-31))
+  >|= day_to_string
+  |> function
+  | Error (Invalid_day -31) ->
+    ()
+  | _ ->
+    failwith "Sould not be valid"
+;;
+
 let suite =
   [ test "[Month.from_int] Test in trivial case" test_from_int1
   ; test "[Month.from_int] Test in failure case" test_from_int2
@@ -166,5 +234,10 @@ let suite =
   ; test "[month] Build a valid month 1" test_month_builder1
   ; test "[month] Build a valid month 2" test_month_builder2
   ; test "[month] Build an invalid month 1" test_month_builder3
-  ; test "[is_leap] check is_leap with some values" test_is_leap ]
+  ; test "[is_leap] check is_leap with some values" test_is_leap
+  ; test "[day] Build a valid day 1" test_day_builder1
+  ; test "[day] Build a valid day 2" test_day_builder2
+  ; test "[day] Build a valid day 3 (in leap year)" test_day_builder3
+  ; test "[day] Build an invalid 1" test_day_builder4
+  ; test "[day] Build an invalid 2" test_day_builder5 ]
 ;;

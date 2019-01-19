@@ -8,9 +8,18 @@ All source code is distributed under the [MIT] license.
 
 The purpose of these tools is to cover these different issues / use cases:
 
+{3 As an user}
+
 - [Time-tracking]
 - [Reporting]
 - [Blogging]
+- [Interactive playground] and [sandboxing]
+
+{3 As a developper}
+
+- [Writting databases]
+- [Writting small CLI]
+- [Writting document-workflows]
 
 The goal of the generator is not to be customizable, but to fit my own needs.
 

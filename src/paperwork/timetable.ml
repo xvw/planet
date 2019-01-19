@@ -181,7 +181,8 @@ let day_to_string (Day (m, d)) =
 ;;
 
 let hour_to_string (Hour (h, m)) =
-  let hm = 1 + (h mod 12) in
+  let hr = h mod 12 in
+  let hm = if hr = 0 then 12 else hr in
   let fl = if h > 11 then "PM" else "AM" in
   Format.sprintf "%02d%s%02d" hm fl m
 ;;

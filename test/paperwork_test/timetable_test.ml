@@ -223,6 +223,75 @@ let test_day_builder5 () =
     failwith "Sould not be valid"
 ;;
 
+let test_day_with1 () =
+  let open Result.Infix in
+  match day_with 18 May 31 >|= day_to_string with
+  | Ok "018E31" ->
+    ()
+  | _ ->
+    failwith "should be valid"
+;;
+
+let test_day_with2 () =
+  let open Result.Infix in
+  match day_with 4 Feb 29 >|= day_to_string with
+  | Ok "004B29" ->
+    ()
+  | _ ->
+    failwith "should be valid"
+;;
+
+let test_day_with3 () =
+  let open Result.Infix in
+  match day_with 3 Feb 29 >|= day_to_string with
+  | Error (Invalid_day 29) ->
+    ()
+  | _ ->
+    failwith "should be invalid"
+;;
+
+let test_day_with4 () =
+  let open Result.Infix in
+  match day_with 1929 Feb 1 >|= day_to_string with
+  | Error (Invalid_year 1929) ->
+    ()
+  | _ ->
+    failwith "should be invalid"
+;;
+
+let test_hour_1 () =
+  let open Result.Infix in
+  match hour 22 59 >|= hour_to_string with
+  | Ok "10PM59" ->
+    ()
+  | Ok x ->
+    failwith x
+  | _ ->
+    failwith "should be valid"
+;;
+
+let test_hour_2 () =
+  let open Result.Infix in
+  match hour 7 35 >|= hour_to_string with
+  | Ok "07AM35" ->
+    ()
+  | Ok x ->
+    failwith x
+  | _ ->
+    failwith "should be valid"
+;;
+
+let test_hour_3 () =
+  let open Result.Infix in
+  match hour 12 12 >|= hour_to_string with
+  | Ok "12PM12" ->
+    ()
+  | Ok x ->
+    failwith x
+  | _ ->
+    failwith "should be valid"
+;;
+
 let suite =
   [ test "[Month.from_int] Test in trivial case" test_from_int1
   ; test "[Month.from_int] Test in failure case" test_from_int2
@@ -238,6 +307,13 @@ let suite =
   ; test "[day] Build a valid day 1" test_day_builder1
   ; test "[day] Build a valid day 2" test_day_builder2
   ; test "[day] Build a valid day 3 (in leap year)" test_day_builder3
-  ; test "[day] Build an invalid 1" test_day_builder4
-  ; test "[day] Build an invalid 2" test_day_builder5 ]
+  ; test "[day] Build an invalid day 1" test_day_builder4
+  ; test "[day] Build an invalid day 2" test_day_builder5
+  ; test "[day_with] Build a valid day 1" test_day_with1
+  ; test "[day_with] Build a valid day 2" test_day_with2
+  ; test "[day_with] Build an invalid day 1" test_day_with3
+  ; test "[day_with] Build a valid day 4" test_day_with4
+  ; test "[hour] Build a valid hour 1" test_hour_1
+  ; test "[hour] Build a valid hour 2" test_hour_2
+  ; test "[hour] Build a valid hour 3" test_hour_3 ]
 ;;

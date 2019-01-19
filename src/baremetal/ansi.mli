@@ -5,15 +5,15 @@
 
     {[
       let open Baremetal.Ansi in 
-      let fragment = 
+      let fragment = [
         background red 
-        & foreground black 
-        & text "Hello" 
-        & reset 
-        & text ", "
-        & background black 
-        & foreground red 
-        & text "World"
+        ; foreground black 
+        ; text "Hello" 
+        ; reset 
+        ; text ", "
+        ; background black 
+        ; foreground red 
+        ; text "World" ]
       in
       fragment 
       |> to_string 
@@ -59,41 +59,46 @@ val bright_white : color
     combined.
 *)
 
-val reset : fragments
-val bold : fragments
-val underline : fragments
-val blink : fragments
-val inverse : fragments
-val hidden : fragments
+val reset : fragment
+val bold : fragment
+val underline : fragment
+val blink : fragment
+val inverse : fragment
+val hidden : fragment
 
 (** Convert a [string] to a [fragments]. *)
-val text : string -> fragments
+val text : string -> fragment
 
 (** Same of [text]. *)
-val ( ! ) : string -> fragments
+val ( ! ) : string -> fragment
 
 (** Convert a [color] into a [foreground fragments].*)
-val foreground : color -> fragments
+val foreground : color -> fragment
 
 (** Same of [foreground]. *)
-val fg : color -> fragments
+val fg : color -> fragment
 
 (** Convert a [color] into a [background fragments].*)
-val background : color -> fragments
+val background : color -> fragment
 
 (** Same of [background]. *)
-val bg : color -> fragments
-
-(** Fragments composition. *)
-val merge : fragments -> fragments -> fragments
-
-(** Same of [merge]. *)
-val ( & ) : fragments -> fragments -> fragments
+val bg : color -> fragment
 
 (** {2 String generation and Printing} *)
 
 (** Convert [fragments] to [string]. *)
 val to_string : ?scoped:bool -> fragments -> string
+
+(** [Formatter] allow you to use "ANSI formatting" with [Format/Printf] 
+    module. For example : 
+
+    {[
+      let open Baremetal.Ansi in
+      Format.printf 
+        "Formatted text [%a]" 
+        pps [fg magenta; text "Hello world"]
+    ]}
+*)
 
 (** [Pretty printer] to deal with [Fromat] module. *)
 val pp : Format.formatter -> fragments -> unit

@@ -48,17 +48,17 @@ type fragment =
 
 type fragments = fragment list
 
-let foreground c = [Foreground c]
+let foreground c = Foreground c
 let fg = foreground
-let background c = [Background c]
+let background c = Background c
 let bg = background
-let reset = [Reset]
-let bold = [Bold]
-let underline = [Underline]
-let blink = [Blink]
-let inverse = [Inverse]
-let hidden = [Hidden]
-let text x = [Text x]
+let reset = Reset
+let bold = Bold
+let underline = Underline
+let blink = Blink
+let inverse = Inverse
+let hidden = Hidden
+let text x = Text x
 
 let to_int_fg = function
   | Default ->
@@ -123,8 +123,6 @@ let to_string_aux s =
   match aux s with `I i -> string_of_int i | `S i -> i
 ;;
 
-let merge a b = a @ b
-let ( & ) = merge
 let ( ! ) = text
 
 let seq_to_string = function
@@ -142,7 +140,7 @@ let to_string ?(scoped = true) =
     match sequence, fragment with
     | x, [] ->
       acc ^ seq_to_string x
-      ^ if scoped then seq_to_string (Some reset) else ""
+      ^ if scoped then seq_to_string (Some [reset]) else ""
     | x, Text str :: xs ->
       aux None (acc ^ seq_to_string x ^ str) xs
     | None, frg :: xs ->

@@ -417,6 +417,43 @@ let test_month_from_string2 () =
     output
 ;;
 
+let test_day_from_string1 () =
+  let open Result.Infix in
+  let subject =
+    ["000A12"; "001D30"; "123C31"; "156E28"; "999F17"; "004B29"]
+  in
+  let output =
+    List.bind
+      (fun x ->
+        Day.from_string x >|= Day.to_string
+        |> function Ok x -> [x] | _ -> [] )
+      subject
+  in
+  check (list string) "same list" subject output
+;;
+
+let test_day_from_string2 () =
+  let open Result.Infix in
+  let subject = [""; "foo"; "-123"; "001B29"; "1"; "210L33"] in
+  let output =
+    List.bind
+      (fun x ->
+        Day.from_string x >|= Day.to_string
+        |> function Error x -> [Error.to_string x] | _ -> [] )
+      subject
+  in
+  check
+    (list string)
+    "same list"
+    [ Error.to_string $ Unparsable ""
+    ; Error.to_string $ Unparsable "foo"
+    ; Error.to_string $ Unparsable "-123"
+    ; Error.to_string $ Invalid_day 29
+    ; Error.to_string $ Unparsable "1"
+    ; Error.to_string $ Invalid_day 33 ]
+    output
+;;
+
 let suite =
   [ test "[year] Build a valid year 1" test_year_builder1
   ; test "[year] Build a valid year 2" test_year_builder2
@@ -455,5 +492,8 @@ let suite =
       test_month_from_string1
   ; test
       "[Month.from_string] Invalid strings 2"
-      test_month_from_string2 ]
+      test_month_from_string2
+  ; test "[Day.from_string] Valid strings 1" test_day_from_string1
+  ; test "[Day.from_string] Invalid strings 2" test_day_from_string2
+  ]
 ;;

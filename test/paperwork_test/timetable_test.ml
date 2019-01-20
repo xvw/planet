@@ -2,7 +2,9 @@ open Paperwork
 open Timetable
 open Test_tools
 open Bedrock
+open Bedrock.Util
 open! Error
+open Alcotest
 
 let test_year_builder1 () =
   let open Result.Infix in
@@ -346,6 +348,75 @@ let test_moment_with6 () =
     failwith ("error: " ^ Error.to_string err)
 ;;
 
+let test_year_from_string1 () =
+  let open Result.Infix in
+  let subject = ["000"; "001"; "123"; "156"; "999"] in
+  let output =
+    List.bind
+      (fun x ->
+        Year.from_string x >|= Year.to_string
+        |> function Ok x -> [x] | _ -> [] )
+      subject
+  in
+  check (list string) "same list" subject output
+;;
+
+let test_year_from_string2 () =
+  let open Result.Infix in
+  let subject = [""; "foo"; "-123"; "190"; "1560"; "bar"] in
+  let output =
+    List.bind
+      (fun x ->
+        Year.from_string x >|= Year.to_string
+        |> function Error x -> [Error.to_string x] | _ -> [] )
+      subject
+  in
+  check
+    (list string)
+    "same list"
+    [ Error.to_string $ Unparsable ""
+    ; Error.to_string $ Unparsable "foo"
+    ; Error.to_string $ Unparsable "-123"
+    ; Error.to_string $ Unparsable "1560"
+    ; Error.to_string $ Unparsable "bar" ]
+    output
+;;
+
+let test_month_from_string1 () =
+  let open Result.Infix in
+  let subject = ["000A"; "001D"; "123C"; "156E"; "999F"] in
+  let output =
+    List.bind
+      (fun x ->
+        Month.from_string x >|= Month.to_string
+        |> function Ok x -> [x] | _ -> [] )
+      subject
+  in
+  check (list string) "same list" subject output
+;;
+
+let test_month_from_string2 () =
+  let open Result.Infix in
+  let subject = [""; "foo"; "-123"; "190R"; "1"; "210Z"] in
+  let output =
+    List.bind
+      (fun x ->
+        Month.from_string x >|= Month.to_string
+        |> function Error x -> [Error.to_string x] | _ -> [] )
+      subject
+  in
+  check
+    (list string)
+    "same list"
+    [ Error.to_string $ Unparsable ""
+    ; Error.to_string $ Unparsable "foo"
+    ; Error.to_string $ Invalid_year (-12)
+    ; Error.to_string $ Invalid_month 18
+    ; Error.to_string $ Unparsable "1"
+    ; Error.to_string $ Invalid_month 26 ]
+    output
+;;
+
 let suite =
   [ test "[year] Build a valid year 1" test_year_builder1
   ; test "[year] Build a valid year 2" test_year_builder2
@@ -375,5 +446,14 @@ let suite =
   ; test "[moment_with] Build an invalid moment 2" test_moment_with4
   ; test "[moment_with] Build an invalid moment 3" test_moment_with5
   ; test "[moment_with] Build an invalid moment 4" test_moment_with6
-  ]
+  ; test "[Year.from_string] Valid strings 1" test_year_from_string1
+  ; test
+      "[Year.from_string] Invalid strings 1"
+      test_year_from_string2
+  ; test
+      "[Month.from_string] Valid strings 1"
+      test_month_from_string1
+  ; test
+      "[Month.from_string] Invalid strings 2"
+      test_month_from_string2 ]
 ;;

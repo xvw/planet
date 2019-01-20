@@ -14,7 +14,8 @@ module Year = struct
   let to_string (Year n) = Format.sprintf "%03d" n
 
   let from_string str =
-    try Scanf.sscanf str "%03d" make with _ -> Error (Unparsable str)
+    try Scanf.sscanf str "%03d%!" make with _ ->
+      Error (Unparsable str)
   ;;
 
   let is_leap (Year value) =
@@ -124,7 +125,7 @@ module Month = struct
   let from_string str =
     try
       let open Result.Infix in
-      Scanf.sscanf str "%03d%c" (fun year_value char ->
+      Scanf.sscanf str "%03d%c%!" (fun year_value char ->
           Year.make year_value >>= fun y -> from_char char >>= make y
       )
     with _ -> Error (Unparsable str)
@@ -156,7 +157,7 @@ module Day = struct
   let from_string str =
     try
       let open Result.Infix in
-      Scanf.sscanf str "%03d%c%02d" (fun yv mc dv ->
+      Scanf.sscanf str "%03d%c%02d%!" (fun yv mc dv ->
           Year.make yv
           >>= fun y ->
           Month.from_char mc >>= Month.make y >>= flip make dv )
@@ -185,7 +186,7 @@ module Hour = struct
   let from_string str =
     try
       let open Result.Infix in
-      Scanf.sscanf str "%2d%2s%2d" (fun h flag m ->
+      Scanf.sscanf str "%2d%2s%2d%!" (fun h flag m ->
           let hr =
             match String.lowercase_ascii flag with
             | "am" ->
@@ -222,7 +223,7 @@ module Moment = struct
   let from_string str =
     try
       let open Result.Infix in
-      Scanf.sscanf str "%6s:%6s" (fun d h ->
+      Scanf.sscanf str "%6s:%6s%!" (fun d h ->
           Day.from_string d
           >>= fun left ->
           Hour.from_string h >|= fun right -> make left right )

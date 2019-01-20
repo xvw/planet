@@ -4,44 +4,9 @@ open Test_tools
 open Bedrock
 open! Error
 
-let test_from_int1 () =
-  match
-    List.map Month.from_int [1; 2; 3; 4; 5; 6; 7; 8; 9; 10; 11; 12]
-  with
-  | Month.([ Ok Jan
-           ; Ok Feb
-           ; Ok Mar
-           ; Ok Apr
-           ; Ok May
-           ; Ok Jun
-           ; Ok Jul
-           ; Ok Aug
-           ; Ok Sep
-           ; Ok Oct
-           ; Ok Nov
-           ; Ok Dec ]) ->
-    ()
-  | xs ->
-    List.iter
-      (function Error x -> failwith (Error.to_string x) | _ -> ())
-      xs
-;;
-
-let test_from_int2 () =
-  match List.map Month.from_int [-3; 0; 13; 14; -789] with
-  | [ Error (Invalid_month -3)
-    ; Error (Invalid_month 0)
-    ; Error (Invalid_month 13)
-    ; Error (Invalid_month 14)
-    ; Error (Invalid_month -789) ] ->
-    ()
-  | _ ->
-    failwith "It should fail"
-;;
-
 let test_year_builder1 () =
   let open Result.Infix in
-  match year 18 >|= year_to_string with
+  match Year.make 18 >|= Year.to_string with
   | Ok "018" ->
     ()
   | Ok x ->
@@ -52,7 +17,7 @@ let test_year_builder1 () =
 
 let test_year_builder2 () =
   let open Result.Infix in
-  match year 0 >|= year_to_string with
+  match Year.make 0 >|= Year.to_string with
   | Ok "000" ->
     ()
   | Ok x ->
@@ -63,7 +28,7 @@ let test_year_builder2 () =
 
 let test_year_builder3 () =
   let open Result.Infix in
-  match year 999 >|= year_to_string with
+  match Year.make 999 >|= Year.to_string with
   | Ok "999" ->
     ()
   | Ok x ->
@@ -74,7 +39,7 @@ let test_year_builder3 () =
 
 let test_year_builder4 () =
   let open Result.Infix in
-  match year (-87) >|= year_to_string with
+  match Year.make (-87) >|= Year.to_string with
   | Error (Invalid_year -87) ->
     ()
   | Ok x ->
@@ -85,7 +50,7 @@ let test_year_builder4 () =
 
 let test_year_builder5 () =
   let open Result.Infix in
-  match year 1000 >|= year_to_string with
+  match Year.make 1000 >|= Year.to_string with
   | Error (Invalid_year 1000) ->
     ()
   | Ok x ->
@@ -96,9 +61,9 @@ let test_year_builder5 () =
 
 let test_month_builder1 () =
   let open Result.Infix in
-  year 18
-  >>= (fun y -> month y Jan)
-  >|= month_to_string
+  Year.make 18
+  >>= (fun y -> Month.(make y Jan))
+  >|= Month.to_string
   |> function
   | Ok "018A" ->
     ()
@@ -110,9 +75,9 @@ let test_month_builder1 () =
 
 let test_month_builder2 () =
   let open Result.Infix in
-  year 216
-  >>= (fun y -> month y Nov)
-  >|= month_to_string
+  Year.make 216
+  >>= (fun y -> Month.(make y Nov))
+  >|= Month.to_string
   |> function
   | Ok "216K" ->
     ()
@@ -124,9 +89,9 @@ let test_month_builder2 () =
 
 let test_month_builder3 () =
   let open Result.Infix in
-  year 1000
-  >>= (fun y -> month y Nov)
-  >|= month_to_string
+  Year.make 1000
+  >>= (fun y -> Month.(make y Nov))
+  >|= Month.to_string
   |> function
   | Error (Invalid_year 1000) ->
     ()
@@ -141,7 +106,7 @@ let test_is_leap () =
   match
     List.filter
       (fun x ->
-        match year x >|= is_leap with
+        match Year.make x >|= Year.is_leap with
         | Ok bool ->
           bool
         | Error err ->
@@ -157,10 +122,10 @@ let test_is_leap () =
 
 let test_day_builder1 () =
   let open Result.Infix in
-  year 19
-  >>= (fun x -> month x Mar)
-  >>= (fun m -> day m 12)
-  >|= day_to_string
+  Year.make 19
+  >>= (fun x -> Month.(make x Mar))
+  >>= (fun m -> Day.make m 12)
+  >|= Day.to_string
   |> function
   | Ok "019C12" ->
     ()
@@ -172,10 +137,10 @@ let test_day_builder1 () =
 
 let test_day_builder2 () =
   let open Result.Infix in
-  year 222
-  >>= (fun x -> month x Oct)
-  >>= (fun m -> day m 31)
-  >|= day_to_string
+  Year.make 222
+  >>= (fun x -> Month.(make x Oct))
+  >>= (fun m -> Day.make m 31)
+  >|= Day.to_string
   |> function
   | Ok "222J31" ->
     ()
@@ -187,10 +152,10 @@ let test_day_builder2 () =
 
 let test_day_builder3 () =
   let open Result.Infix in
-  year 4
-  >>= (fun x -> month x Feb)
-  >>= (fun m -> day m 29)
-  >|= day_to_string
+  Year.make 4
+  >>= (fun x -> Month.(make x Feb))
+  >>= (fun m -> Day.make m 29)
+  >|= Day.to_string
   |> function
   | Ok "004B29" ->
     ()
@@ -202,20 +167,20 @@ let test_day_builder3 () =
 
 let test_day_builder4 () =
   let open Result.Infix in
-  year 19
-  >>= (fun x -> month x Apr)
-  >>= (fun m -> day m 31)
-  >|= day_to_string
+  Year.make 19
+  >>= (fun x -> Month.(make x Apr))
+  >>= (fun m -> Day.make m 31)
+  >|= Day.to_string
   |> function
   | Error (Invalid_day 31) -> () | _ -> failwith "Sould not be valid"
 ;;
 
 let test_day_builder5 () =
   let open Result.Infix in
-  year 19
-  >>= (fun x -> month x Apr)
-  >>= (fun m -> day m (-31))
-  >|= day_to_string
+  Year.make 19
+  >>= (fun x -> Month.(make x Apr))
+  >>= (fun m -> Day.make m (-31))
+  >|= Day.to_string
   |> function
   | Error (Invalid_day -31) ->
     ()
@@ -225,7 +190,7 @@ let test_day_builder5 () =
 
 let test_day_with1 () =
   let open Result.Infix in
-  match day_with 18 May 31 >|= day_to_string with
+  match Day.make_with 18 Month.May 31 >|= Day.to_string with
   | Ok "018E31" ->
     ()
   | _ ->
@@ -234,7 +199,7 @@ let test_day_with1 () =
 
 let test_day_with2 () =
   let open Result.Infix in
-  match day_with 4 Feb 29 >|= day_to_string with
+  match Day.make_with 4 Month.Feb 29 >|= Day.to_string with
   | Ok "004B29" ->
     ()
   | _ ->
@@ -243,7 +208,7 @@ let test_day_with2 () =
 
 let test_day_with3 () =
   let open Result.Infix in
-  match day_with 3 Feb 29 >|= day_to_string with
+  match Day.make_with 3 Month.Feb 29 >|= Day.to_string with
   | Error (Invalid_day 29) ->
     ()
   | _ ->
@@ -252,7 +217,7 @@ let test_day_with3 () =
 
 let test_day_with4 () =
   let open Result.Infix in
-  match day_with 1929 Feb 1 >|= day_to_string with
+  match Day.make_with 1929 Month.Feb 1 >|= Day.to_string with
   | Error (Invalid_year 1929) ->
     ()
   | _ ->
@@ -261,7 +226,7 @@ let test_day_with4 () =
 
 let test_hour1 () =
   let open Result.Infix in
-  match hour 22 59 >|= hour_to_string with
+  match Hour.make 22 59 >|= Hour.to_string with
   | Ok "10PM59" ->
     ()
   | Ok x ->
@@ -272,7 +237,7 @@ let test_hour1 () =
 
 let test_hour2 () =
   let open Result.Infix in
-  match hour 7 35 >|= hour_to_string with
+  match Hour.make 7 35 >|= Hour.to_string with
   | Ok "07AM35" ->
     ()
   | Ok x ->
@@ -283,7 +248,7 @@ let test_hour2 () =
 
 let test_hour3 () =
   let open Result.Infix in
-  match hour 12 12 >|= hour_to_string with
+  match Hour.make 12 12 >|= Hour.to_string with
   | Ok "12PM12" ->
     ()
   | Ok x ->
@@ -294,7 +259,7 @@ let test_hour3 () =
 
 let test_hour4 () =
   let open Result.Infix in
-  match hour 0 5 >|= hour_to_string with
+  match Hour.make 0 5 >|= Hour.to_string with
   | Ok "12AM05" ->
     ()
   | Ok x ->
@@ -305,7 +270,9 @@ let test_hour4 () =
 
 let test_moment_with1 () =
   let open Result.Infix in
-  match moment_with 4 Feb 29 0 45 >|= moment_to_string with
+  match
+    Moment.make_with 4 Month.Feb 29 0 45 >|= Moment.to_string
+  with
   | Ok "004B29:12AM45" ->
     ()
   | Ok x ->
@@ -316,7 +283,9 @@ let test_moment_with1 () =
 
 let test_moment_with2 () =
   let open Result.Infix in
-  match moment_with 19 Nov 3 21 58 >|= moment_to_string with
+  match
+    Moment.make_with 19 Month.Nov 3 21 58 >|= Moment.to_string
+  with
   | Ok "019K03:09PM58" ->
     ()
   | Ok x ->
@@ -327,7 +296,9 @@ let test_moment_with2 () =
 
 let test_moment_with3 () =
   let open Result.Infix in
-  match moment_with (-6) Nov 3 21 58 >|= moment_to_string with
+  match
+    Moment.make_with (-6) Month.Nov 3 21 58 >|= Moment.to_string
+  with
   | Error (Invalid_year -6) ->
     ()
   | Ok x ->
@@ -338,7 +309,9 @@ let test_moment_with3 () =
 
 let test_moment_with4 () =
   let open Result.Infix in
-  match moment_with 6 Feb 29 21 58 >|= moment_to_string with
+  match
+    Moment.make_with 6 Month.Feb 29 21 58 >|= Moment.to_string
+  with
   | Error (Invalid_day 29) ->
     ()
   | Ok x ->
@@ -349,7 +322,9 @@ let test_moment_with4 () =
 
 let test_moment_with5 () =
   let open Result.Infix in
-  match moment_with 4 Feb 29 (-12) 58 >|= moment_to_string with
+  match
+    Moment.make_with 4 Month.Feb 29 (-12) 58 >|= Moment.to_string
+  with
   | Error (Invalid_hour -12) ->
     ()
   | Ok x ->
@@ -360,7 +335,9 @@ let test_moment_with5 () =
 
 let test_moment_with6 () =
   let open Result.Infix in
-  match moment_with 4 Feb 29 5 61 >|= moment_to_string with
+  match
+    Moment.make_with 4 Month.Feb 29 5 61 >|= Moment.to_string
+  with
   | Error (Invalid_min 61) ->
     ()
   | Ok x ->
@@ -370,9 +347,7 @@ let test_moment_with6 () =
 ;;
 
 let suite =
-  [ test "[Month.from_int] Test in trivial case" test_from_int1
-  ; test "[Month.from_int] Test in failure case" test_from_int2
-  ; test "[year] Build a valid year 1" test_year_builder1
+  [ test "[year] Build a valid year 1" test_year_builder1
   ; test "[year] Build a valid year 2" test_year_builder2
   ; test "[year] Build a valid year 3" test_year_builder3
   ; test "[year] Build an invalid year 1" test_year_builder4

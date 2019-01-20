@@ -37,47 +37,37 @@
 
 open Bedrock
 
-(** {2 Types} *)
+module Year : sig
+  (** Refences a year, between [2000] and [2999] and uses 
+      3 digits : [000] for [2000], [999] for [2999]. For example, 
+      [167] references [2167]. 
+  *)
+  type t
 
-(** Refences a year, between [2000] and [2999] and uses 
-    3 digits : [000] for [2000], [999] for [2999]. For example, 
-    [167] references [2167]. 
-*)
-type year
+  (** Try to build a [Year.t]. *)
+  val make : int -> t Result.t
 
-(** Is the conjunction of a [year] and a [month], 
-    referenced in [Month.t]. A month, in [string] is an 
-    Upcase character from [A] to [L], [A] for {b January}, and 
-    [L] for {b December}. For example, [019B] references 
-    [February 2019]. 
-*)
-type month
+  (** Check if a year is Leap or not *)
+  val is_leap : t -> bool
 
-(** Is the conjunction of a [month] and a [day], from [1]
-    to [28], [29], [30] or [31] (depending on the [month] and the 
-    [year]). For example : [019B22] references [2019 February 22th].
-*)
-type day
+  (** Serialize a [Year.t]. *)
+  val to_string : t -> string
 
-(** Is a tuple of the hour (from [0] to [23]) and the minuts
-    (from [0] to [59]). The representation in string encodes the 
-    Hour from [1] to [12] with a suffix : [AM] or [PM]. For example, 
-    [11PM03] references [23:03], and [07AM12] references [7:12].
-*)
-type hour
-
-(** Is a tuple of a [day] and an [hour]. For example, 
-    the [string] [019C07:06PM23] references the point : 
-    [2019 February 07th, at 18:23].
-*)
-type moment
-
-(** {2 Month} 
-    Enumerate months
-*)
+  (** Unserialize a [Year.t]. *)
+  val from_string : string -> t Result.t
+end
 
 module Month : sig
-  type t =
+  (** [month] : is the conjunction of a [year] and a [month], 
+      referenced in [Month.t]. A month, in [string] is an 
+      Upcase character from [A] to [L], [A] for {b January}, and 
+      [L] for {b December}. For example, [019B] references 
+      [February 2019]. 
+  *)
+  type t
+
+  (** Month representation *)
+  type month =
     | Jan
     | Feb
     | Mar
@@ -91,56 +81,74 @@ module Month : sig
     | Nov
     | Dec
 
+  (** Try to build a [Month.t]. *)
+  val make : Year.t -> month -> t Result.t
+
+  (** Get the number of days in a month. *)
+  val days_in : t -> int
+
+  (** Serialize a [Month.t]. *)
   val to_string : t -> string
-  val from_int : int -> t Result.t
-  val to_char : t -> char
-  val from_char : char -> t Result.t
+
+  (** Unserialize a [Month.t]. *)
+  val from_string : string -> t Result.t
 end
 
-(** {2 Constructors} *)
+module Day : sig
+  (** Is the conjunction of a [month] and a [day], from [1]
+      to [28], [29], [30] or [31] (depending on the [month] and the 
+      [year]). For example : [019B22] references [2019 February 22th].
+  *)
+  type t
 
-(** Build a [year]. *)
-val year : int -> year Result.t
+  (** Try to build a [Day.t]. *)
+  val make : Month.t -> int -> t Result.t
 
-(** Build a [month]. *)
-val month : year -> Month.t -> month Result.t
+  (** Try to build a [Day.t] with all values. *)
+  val make_with : int -> Month.month -> int -> t Result.t
 
-(** Build a [day]. *)
-val day : month -> int -> day Result.t
+  (** Serialize a [Day.t]. *)
+  val to_string : t -> string
 
-(** Build a [day] all-in. *)
-val day_with : int -> Month.t -> int -> day Result.t
+  (** Unserialize a [Day.t]. *)
+  val from_string : string -> t Result.t
+end
 
-(** Build an [hour]. *)
-val hour : int -> int -> hour Result.t
+module Hour : sig
+  (** Is a tuple of the hour (from [0] to [23]) and the minuts
+      (from [0] to [59]). The representation in string encodes the 
+      Hour from [1] to [12] with a suffix : [AM] or [PM]. For example, 
+      [11PM03] references [23:03], and [07AM12] references [7:12].
+  *)
+  type t
 
-(** Build a [moment] with [day] and [hour]. *)
-val moment : day -> hour -> moment
+  (** Try to build an [Hour.t] *)
+  val make : int -> int -> t Result.t
 
-(** [moment_with year month day hour min] *)
-val moment_with :
-  int -> Month.t -> int -> int -> int -> moment Result.t
+  (** Serialize an [Hour.t]. *)
+  val to_string : t -> string
 
-(** {2 Helpers} *)
+  (** Unserialize an [Hour.t]. *)
+  val from_string : string -> t Result.t
+end
 
-(** Returns the numer of days in a month.*)
-val days_in : month -> int
+module Moment : sig
+  (** Is a tuple of a [day] and an [hour]. For example, 
+    the [string] [019C07:06PM23] references the point : 
+    [2019 February 07th, at 18:23].
+  *)
+  type t
 
-(** Returns [true] if a year is leap; [false] otherwise. *)
-val is_leap : year -> bool
+  (** Build a [Moment.t]. *)
+  val make : Day.t -> Hour.t -> t
 
-(** {2 Serialization} *)
+  (** Build a [Moment.t] with all values. *)
+  val make_with :
+    int -> Month.month -> int -> int -> int -> t Result.t
 
-val year_to_string : year -> string
-val month_to_string : month -> string
-val day_to_string : day -> string
-val hour_to_string : hour -> string
-val moment_to_string : moment -> string
+  (** Serialize a [Moment.t]. *)
+  val to_string : t -> string
 
-(** {2 Serialization} *)
-
-val year_from_string : string -> year Result.t
-val month_from_string : string -> month Result.t
-val day_from_string : string -> day Result.t
-val hour_from_string : string -> hour Result.t
-val moment_from_string : string -> moment Result.t
+  (** Unserialize a [Moment.t]. *)
+  val from_string : string -> t Result.t
+end

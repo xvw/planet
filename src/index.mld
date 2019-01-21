@@ -42,3 +42,7 @@ The idea behind [Planet] is strongly inspired by the work of
 - {{: Baremetal/index.html} Baremetal}: Tools to deal with the filesystem
   and Terminal. It is used to write binaries.
   (This library includes [Unix] module. {b This library is OS-related}.
+
+- {{: Shapes/index.html} Shapes}: All of [data structures] inhabited of
+  [Planet]. This library exposes some specialization of [Paperwork]'s
+  models. (It is alos agnostic of the execution context, OS or web.)

@@ -192,7 +192,7 @@ module Hour = struct
             | "am" ->
               Ok (if h = 12 then 0 else h)
             | "pm" ->
-              Ok ((h + 12) mod 24)
+              Ok (if h = 12 then h else h + 12)
             | _ ->
               Error (Unparsable (str ^ ": unknown " ^ flag))
           in

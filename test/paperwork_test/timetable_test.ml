@@ -454,6 +454,49 @@ let test_day_from_string2 () =
     output
 ;;
 
+let test_hour_from_string1 () =
+  let open Result.Infix in
+  let subject =
+    [ "10PM59"
+    ; "07AM36"
+    ; "12AM25"
+    ; "12PM52"
+    ; "06AM31"
+    ; "08PM03"
+    ; "11AM12"
+    ; "11PM34" ]
+  in
+  let output =
+    List.bind
+      (fun x ->
+        Hour.from_string x >|= Hour.to_string
+        |> function Ok x -> [x] | _ -> [] )
+      subject
+  in
+  check (list string) "same list" subject output
+;;
+
+let test_hour_from_string2 () =
+  let open Result.Infix in
+  let subject = [""; "22PM54"; "-123"; "18AM29"; "7"; "00AM68"] in
+  let output =
+    List.bind
+      (fun x ->
+        Hour.from_string x >|= Hour.to_string
+        |> function Error x -> [Error.to_string x] | _ -> [] )
+      subject
+  in
+  check
+    (list string)
+    "same list"
+    [ Error.to_string $ Unparsable ""
+    ; Error.to_string $ Invalid_hour 34
+    ; Error.to_string $ Unparsable "-123"
+    ; Error.to_string $ Unparsable "7"
+    ; Error.to_string $ Invalid_min 68 ]
+    output
+;;
+
 let suite =
   [ test "[year] Build a valid year 1" test_year_builder1
   ; test "[year] Build a valid year 2" test_year_builder2
@@ -495,5 +538,8 @@ let suite =
       test_month_from_string2
   ; test "[Day.from_string] Valid strings 1" test_day_from_string1
   ; test "[Day.from_string] Invalid strings 2" test_day_from_string2
-  ]
+  ; test "[Hour.from_string] Valid strings 1" test_hour_from_string1
+  ; test
+      "[Hour.from_string] Invalid strings 2"
+      test_hour_from_string2 ]
 ;;

@@ -25,6 +25,7 @@ type t =
   | Must_be_positive of int
   | Must_be_negative of int
   | Unparsable of string
+  | Not_a_valid_node of string
   | Unix of string
 
 (** Each errors has a corresponding exception *)
@@ -50,6 +51,7 @@ module Exn : sig
   exception Must_be_negative of int
   exception Unparsable of string
   exception Unix of string
+  exception Not_a_valid_node of string
 end
 
 (** {2 Tools to deal with errors} *)

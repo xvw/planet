@@ -17,6 +17,7 @@ type t =
   | Must_be_positive of int
   | Must_be_negative of int
   | Unparsable of string
+  | Not_a_valid_node of string
   | Unix of string
 
 module Exn = struct
@@ -40,6 +41,7 @@ module Exn = struct
   exception Must_be_positive of int
   exception Must_be_negative of int
   exception Unparsable of string
+  exception Not_a_valid_node of string
   exception Unix of string
 end
 
@@ -80,6 +82,8 @@ let to_exception = function
     Exn.Must_be_negative int
   | Unparsable string ->
     Exn.Unparsable string
+  | Not_a_valid_node string ->
+    Exn.Not_a_valid_node string
   | Unix string ->
     Exn.Unix string
 ;;
@@ -164,6 +168,8 @@ let to_string = function
     Format.sprintf "[Must_be_negative] [%d]" int
   | Unparsable string ->
     Format.sprintf "[Unparsable] [%s]" string
+  | Not_a_valid_node string ->
+    Format.sprintf "[Not_a_valid_node] [%s]" string
   | Unix string ->
     Format.sprintf "[Unix error] %s" string
 ;;

@@ -14,15 +14,18 @@ val from_result : 'a Result.t -> 'a t
 val from_option : Error.t -> 'a Option.t -> 'a t
 
 (** {2 Functor instance} *)
+
 module Functor : Sigs.Functor.API with type 'a t = 'a t
 
 (** {2 Monad instance} *)
+
 module Monad : sig
   include Sigs.Monad.API with type 'a t = 'a t
   include Sigs.TRAVERSABLE with type 'a t := 'a t
 end
 
 (** {2 Applicative instance} *)
+
 module Applicative : sig
   include Sigs.Applicative.API with type 'a t = 'a t
   include Sigs.TRAVERSABLE with type 'a t := 'a t

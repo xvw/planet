@@ -19,6 +19,8 @@ type t =
   | Unparsable of string
   | Not_a_valid_node of string
   | Unix of string
+  | Exn of exn
+  | List of t list
 
 module Exn = struct
   type t = exn
@@ -43,9 +45,10 @@ module Exn = struct
   exception Unparsable of string
   exception Not_a_valid_node of string
   exception Unix of string
+  exception List of t list
 end
 
-let to_exception = function
+let rec to_exception = function
   | Unknown message ->
     Exn.Unknown message
   | Unmatched_character char ->
@@ -86,9 +89,13 @@ let to_exception = function
     Exn.Not_a_valid_node string
   | Unix string ->
     Exn.Unix string
+  | Exn exn ->
+    exn
+  | List errors ->
+    Exn.List (List.map to_exception errors)
 ;;
 
-let from_exception = function
+let rec from_exception = function
   | Exn.Unknown message ->
     Unknown message
   | Exn.Unmatched_character char ->
@@ -127,11 +134,13 @@ let from_exception = function
     Must_be_negative int
   | Exn.Unparsable string ->
     Unparsable string
-  | _ ->
-    Unknown "unsupported exception"
+  | Exn.List errors ->
+    List (List.map from_exception errors)
+  | e ->
+    Exn e
 ;;
 
-let to_string = function
+let rec to_string = function
   | Unknown message ->
     Format.sprintf "[Unknown] %s" message
   | Unmatched_character char ->
@@ -172,6 +181,12 @@ let to_string = function
     Format.sprintf "[Not_a_valid_node] [%s]" string
   | Unix string ->
     Format.sprintf "[Unix error] %s" string
+  | Exn e ->
+    Format.sprintf "[Exception: %s]" (Printexc.to_string e)
+  | List errors ->
+    Format.sprintf
+      "[List] %s"
+      (List.map to_string errors |> String.concat "; ")
 ;;
 
 let raise_ error =

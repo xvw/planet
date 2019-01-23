@@ -7,10 +7,22 @@ type 'a t = 'a list
 module Functor : Sigs.Functor.API with type 'a t = 'a list
 
 (** {2 Monad instance} *)
-module Monad : Sigs.Monad.API with type 'a t = 'a list
+module Monad : sig
+  include Sigs.Monad.API with type 'a t = 'a list
+
+  (** Produce a List Traversable from a Monad *)
+  module Traversable (M : Sigs.Monad.API) :
+    Sigs.TRAVERSABLE with type 'a t = 'a M.t
+end
 
 (** {2 Applicative instance} *)
-module Applicative : Sigs.Applicative.API with type 'a t = 'a list
+module Applicative : sig
+  include Sigs.Applicative.API with type 'a t = 'a list
+
+  (** Produce a List Traversable from an Applicative *)
+  module Traversable (A : Sigs.Applicative.API) :
+    Sigs.TRAVERSABLE with type 'a t = 'a A.t
+end
 
 (** {2 Stdlib} *)
 include module type of Stdlib.List

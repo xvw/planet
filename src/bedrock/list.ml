@@ -7,15 +7,56 @@ module Functor = Functor.Make (struct
   let map f x = Stdlib.List.map f x
 end)
 
-module Monad = Monad.Make_with_join (struct
-  type 'a t = 'a list
+module Monad = struct
+  include Monad.Make_with_join (struct
+    type 'a t = 'a list
 
-  let return x = [x]
-  let map = Stdlib.List.map
-  let join = Stdlib.List.concat
-end)
+    let return x = [x]
+    let map = Stdlib.List.map
+    let join = Stdlib.List.concat
+  end)
 
-module Applicative = Applicative.Make_from_monad (Monad)
+  module Traversable (M : Sigs.Monad.API) = struct
+    type 'a t = 'a M.t
+
+    let traverse =
+      let open M.Infix in
+      let rec aux f = function
+        | [] ->
+          M.return []
+        | x :: xs ->
+          f x
+          >>= fun h ->
+          aux f xs >>= fun t -> M.return (Stdlib.List.cons h t)
+      in
+      aux
+    ;;
+
+    let sequence x = traverse Util.id x
+  end
+end
+
+module Applicative = struct
+  include Applicative.Make_from_monad (Monad)
+
+  module Traversable (A : Sigs.Applicative.API) = struct
+    type 'a t = 'a A.t
+
+    let traverse =
+      let open A.Infix in
+      let rec aux f = function
+        | [] ->
+          A.pure []
+        | x :: xs ->
+          Stdlib.List.cons <$> f x <*> aux f xs
+      in
+      aux
+    ;;
+
+    let sequence x = traverse Util.id x
+  end
+end
+
 include Stdlib.List
 
 module Infix = struct

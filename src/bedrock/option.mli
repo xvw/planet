@@ -7,10 +7,16 @@ type 'a t = 'a option
 module Functor : Sigs.Functor.API with type 'a t = 'a option
 
 (** {2 Monad instance} *)
-module Monad : Sigs.Monad.API with type 'a t = 'a option
+module Monad : sig
+  include Sigs.Monad.API with type 'a t = 'a option
+  include Sigs.TRAVERSABLE with type 'a t := 'a t
+end
 
 (** {2 Applicative instance} *)
-module Applicative : Sigs.Applicative.API with type 'a t = 'a option
+module Applicative : sig
+  include Sigs.Applicative.API with type 'a t = 'a option
+  include Sigs.TRAVERSABLE with type 'a t := 'a t
+end
 
 (** {2 Infix operators} *)
 

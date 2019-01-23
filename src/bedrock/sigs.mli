@@ -195,3 +195,11 @@ module Monad : sig
     include module type of Infix
   end
 end
+
+module type TRAVERSABLE = sig
+  (** The parametrized type. *)
+  type 'a t
+
+  val traverse : ('a -> 'b t) -> 'a list -> 'b list t
+  val sequence : 'a t list -> 'a list t
+end

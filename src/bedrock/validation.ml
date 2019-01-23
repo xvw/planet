@@ -1,5 +1,14 @@
-type 'a t = ('a, Error.t) result
+type 'a t = ('a, Error.t list) result
 type 'a st = 'a t
+
+let from_result = function Ok x -> Ok x | Error x -> Error [x]
+
+let from_option error = function
+  | Some x ->
+    Ok x
+  | None ->
+    Error [error]
+;;
 
 module Functor = Functor.Make (struct
   type 'a t = 'a st
@@ -25,7 +34,22 @@ module Monad = struct
 end
 
 module Applicative = struct
-  module A = Applicative.Make_from_monad (Monad)
+  module A = Applicative.Make (struct
+    type 'a t = 'a st
+
+    let pure x = Ok x
+
+    let ap af ax =
+      match af, ax with
+      | Ok f, Ok x ->
+        Ok (f x)
+      | Error a, Error b ->
+        Error (a @ b)
+      | Error a, _ | _, Error a ->
+        Error a
+    ;;
+  end)
+
   include A
 
   include (

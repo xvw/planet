@@ -1,9 +1,17 @@
 (** Specialization over the type [('a, 'b) result] fixed using 
-    [Error.t] as ['b].
+    [Error.t list] as ['b].
  *)
 
-(** type for a result. *)
-type 'a t = ('a, Error.t) result
+(** type for a validation. *)
+type 'a t = ('a, Error.t list) result
+
+(** {2 Promotion's function} *)
+
+(** Promote ['a Result.t] to ['a Validation.t] *)
+val from_result : 'a Result.t -> 'a t
+
+(** Promote ['a Option.t] to ['a Validation.t] *)
+val from_option : Error.t -> 'a Option.t -> 'a t
 
 (** {2 Functor instance} *)
 module Functor : Sigs.Functor.API with type 'a t = 'a t

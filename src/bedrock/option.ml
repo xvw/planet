@@ -7,14 +7,31 @@ module Functor = Functor.Make (struct
   let map f = function None -> None | Some x -> Some (f x)
 end)
 
-module Monad = Monad.Make_with_bind (struct
-  type 'a t = 'a option
+module Monad = struct
+  module M = Monad.Make_with_bind (struct
+    type 'a t = 'a option
 
-  let return x = Some x
-  let bind f = function None -> None | Some x -> f x
-end)
+    let return x = Some x
+    let bind f = function None -> None | Some x -> f x
+  end)
 
-module Applicative = Applicative.Make_from_monad (Monad)
+  include M
+
+  include (
+    List.Monad.Traversable
+      (M) :
+      Sigs.TRAVERSABLE with type 'a t := 'a t )
+end
+
+module Applicative = struct
+  module A = Applicative.Make_from_monad (Monad)
+  include A
+
+  include (
+    List.Applicative.Traversable
+      (A) :
+      Sigs.TRAVERSABLE with type 'a t := 'a t )
+end
 
 module Infix = struct
   include Functor.Infix

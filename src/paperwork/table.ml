@@ -114,3 +114,61 @@ let fetch_bool_opt table field continuation =
   | _ ->
     Error [Invalid_field field]
 ;;
+
+let fetch_list mapper table field continuation =
+  let open Qexp in
+  match Hashtbl.find_opt table field with
+  | None ->
+    Error [Undefined_field field]
+  | Some (Some (Node elts)) ->
+    let open Validation.Infix in
+    List.map mapper elts |> Validation.Applicative.sequence
+    >|= continuation
+  | _ ->
+    Error [Invalid_field field]
+;;
+
+let fetch_list_refutable mapper table field continuation =
+  let open Qexp in
+  match Hashtbl.find_opt table field with
+  | None ->
+    Ok (continuation [])
+  | Some (Some (Node elts)) ->
+    let open Validation.Infix in
+    List.map mapper elts |> Validation.Applicative.sequence
+    >|= continuation
+  | _ ->
+    Error [Invalid_field field]
+;;
+
+let token mapper table field continuation =
+  let open Qexp in
+  match Hashtbl.find_opt table field with
+  | None ->
+    Error [Undefined_field field]
+  | Some (Some x) ->
+    (match x with
+    | Atom str | String (_, str) | Tag str | Keyword str ->
+      let open Validation.Infix in
+      mapper str >|= continuation
+    | _ ->
+      Error [Invalid_field field])
+  | _ ->
+    Error [Invalid_field field]
+;;
+
+let token_opt mapper table field continuation =
+  let open Qexp in
+  match Hashtbl.find_opt table field with
+  | None ->
+    Ok (continuation None)
+  | Some (Some x) ->
+    (match x with
+    | Atom str | String (_, str) | Tag str | Keyword str ->
+      let open Validation.Infix in
+      mapper str >|= fun x -> continuation $ Some x
+    | _ ->
+      Error [Invalid_field field])
+  | _ ->
+    Error [Invalid_field field]
+;;

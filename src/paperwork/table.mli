@@ -36,3 +36,14 @@ val fetch_string : (string, 'a) fetchable
 val fetch_string_opt : (string option, 'a) fetchable
 val fetch_bool : (bool, 'a) fetchable
 val fetch_bool_opt : (bool option, 'a) fetchable
+
+val fetch_list :
+  (Qexp.t -> 'a Validation.t) -> ('a list, 'b) fetchable
+
+val fetch_list_refutable :
+  (Qexp.t -> 'a Validation.t) -> ('a list, 'b) fetchable
+
+val token : (string -> 'a Validation.t) -> ('a, 'b) fetchable
+
+val token_opt :
+  (string -> 'a Validation.t) -> ('a option, 'b) fetchable

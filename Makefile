@@ -2,7 +2,7 @@
 
 # Developement's workflow
 
-all: build
+all: build doc
 
 build:
 	dune build @install

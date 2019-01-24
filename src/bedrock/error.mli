@@ -26,6 +26,7 @@ type t =
   | Must_be_negative of int
   | Unparsable of string
   | Not_a_valid_node of string
+  | Unknown_format of string
   | Unix of string
   | Exn of exn
   | List of t list
@@ -55,6 +56,7 @@ module Exn : sig
   exception Unix of string
   exception Not_a_valid_node of string
   exception List of t list
+  exception Unknown_format of string
 end
 
 (** {2 Tools to deal with errors} *)

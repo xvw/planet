@@ -1,0 +1,4 @@
+(library
+  (name shapes)
+  (public_name planet.shapes)
+  (libraries planet.bedrock planet.paperwork))

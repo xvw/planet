@@ -56,119 +56,156 @@ let configuration =
   from_qexp f
 ;;
 
-type ('a, 'b) fetchable =
-  configuration -> string -> ('a -> 'b) -> 'b Validation.t
+module Fetch = struct
+  type ('a, 'b) t =
+    configuration -> string -> ('a -> 'b) -> 'b Validation.t
 
-let fetch_string table field continuation =
-  match Hashtbl.find_opt table field with
-  | Some (Some (Qexp.String (_, k))) ->
-    Ok (continuation k)
-  | None ->
-    Error [Undefined_field field]
-  | _ ->
-    Error [Invalid_field field]
-;;
-
-let fetch_string_opt table field continuation =
-  match Hashtbl.find_opt table field with
-  | Some (Some (Qexp.String (_, k))) ->
-    Ok (continuation $ Some k)
-  | None ->
-    Ok (continuation None)
-  | _ ->
-    Error [Invalid_field field]
-;;
-
-let fetch_bool table field continuation =
-  let open Qexp in
-  match Hashtbl.find_opt table field with
-  | None ->
-    Error [Undefined_field field]
-  | Some (Some x) ->
-    (match x with
-    | Keyword x | Atom x | Tag x | String (_, x) ->
-      let b = String.lowercase_ascii x in
-      if b = "true" || b = "false"
-      then Ok (continuation (b = "true"))
-      else Error [Invalid_field field]
+  let string table field continuation =
+    match Hashtbl.find_opt table field with
+    | Some (Some (Qexp.String (_, k))) ->
+      Ok (continuation k)
+    | None ->
+      Error [Undefined_field field]
     | _ ->
-      Error [Invalid_field field])
-  | _ ->
-    Error [Invalid_field field]
-;;
+      Error [Invalid_field field]
+  ;;
 
-let fetch_bool_opt table field continuation =
-  let open Qexp in
-  match Hashtbl.find_opt table field with
-  | None ->
-    Ok (continuation None)
-  | Some (Some x) ->
-    (match x with
-    | Keyword x | Atom x | Tag x | String (_, x) ->
-      let b = String.lowercase_ascii x in
-      if b = "true" || b = "false"
-      then Ok (continuation $ Some (b = "true"))
-      else Error [Invalid_field field]
+  let string_opt table field continuation =
+    match Hashtbl.find_opt table field with
+    | Some (Some (Qexp.String (_, k))) ->
+      Ok (continuation $ Some k)
+    | None ->
+      Ok (continuation None)
     | _ ->
-      Error [Invalid_field field])
-  | _ ->
-    Error [Invalid_field field]
-;;
+      Error [Invalid_field field]
+  ;;
 
-let fetch_list mapper table field continuation =
-  let open Qexp in
-  match Hashtbl.find_opt table field with
-  | None ->
-    Error [Undefined_field field]
-  | Some (Some (Node elts)) ->
-    let open Validation.Infix in
-    List.map mapper elts |> Validation.Applicative.sequence
-    >|= continuation
-  | _ ->
-    Error [Invalid_field field]
-;;
+  let bool table field continuation =
+    let open Qexp in
+    match Hashtbl.find_opt table field with
+    | None ->
+      Error [Undefined_field field]
+    | Some (Some x) ->
+      (match x with
+      | Keyword x | Atom x | Tag x | String (_, x) ->
+        let b = String.lowercase_ascii x in
+        if b = "true" || b = "false"
+        then Ok (continuation (b = "true"))
+        else Error [Invalid_field field]
+      | _ ->
+        Error [Invalid_field field])
+    | _ ->
+      Error [Invalid_field field]
+  ;;
 
-let fetch_list_refutable mapper table field continuation =
-  let open Qexp in
-  match Hashtbl.find_opt table field with
-  | None ->
-    Ok (continuation [])
-  | Some (Some (Node elts)) ->
-    let open Validation.Infix in
-    List.map mapper elts |> Validation.Applicative.sequence
-    >|= continuation
-  | _ ->
-    Error [Invalid_field field]
-;;
+  let bool_opt table field continuation =
+    let open Qexp in
+    match Hashtbl.find_opt table field with
+    | None ->
+      Ok (continuation None)
+    | Some (Some x) ->
+      (match x with
+      | Keyword x | Atom x | Tag x | String (_, x) ->
+        let b = String.lowercase_ascii x in
+        if b = "true" || b = "false"
+        then Ok (continuation $ Some (b = "true"))
+        else Error [Invalid_field field]
+      | _ ->
+        Error [Invalid_field field])
+    | _ ->
+      Error [Invalid_field field]
+  ;;
 
-let token mapper table field continuation =
-  let open Qexp in
-  match Hashtbl.find_opt table field with
-  | None ->
-    Error [Undefined_field field]
-  | Some (Some x) ->
-    (match x with
-    | Atom str | String (_, str) | Tag str | Keyword str ->
+  let list mapper table field continuation =
+    let open Qexp in
+    match Hashtbl.find_opt table field with
+    | None ->
+      Error [Undefined_field field]
+    | Some (Some (Node elts)) ->
       let open Validation.Infix in
-      mapper str >|= continuation
+      List.map mapper elts |> Validation.Applicative.sequence
+      >|= continuation
     | _ ->
-      Error [Invalid_field field])
-  | _ ->
-    Error [Invalid_field field]
-;;
+      Error [Invalid_field field]
+  ;;
 
-let token_opt mapper table field continuation =
-  let open Qexp in
-  match Hashtbl.find_opt table field with
-  | None ->
-    Ok (continuation None)
-  | Some (Some x) ->
-    (match x with
-    | Atom str | String (_, str) | Tag str | Keyword str ->
+  let list_refutable mapper table field continuation =
+    let open Qexp in
+    match Hashtbl.find_opt table field with
+    | None ->
+      Ok (continuation [])
+    | Some (Some (Node elts)) ->
       let open Validation.Infix in
-      mapper str >|= fun x -> continuation $ Some x
+      List.map mapper elts |> Validation.Applicative.sequence
+      >|= continuation
     | _ ->
-      Error [Invalid_field field])
-  | _ ->
-    Error [Invalid_field field]
-;;
+      Error [Invalid_field field]
+  ;;
+
+  let token mapper table field continuation =
+    let open Qexp in
+    match Hashtbl.find_opt table field with
+    | None ->
+      Error [Undefined_field field]
+    | Some (Some x) ->
+      (match x with
+      | Atom str | String (_, str) | Tag str | Keyword str ->
+        let open Validation.Infix in
+        mapper str >|= continuation
+      | _ ->
+        Error [Invalid_field field])
+    | _ ->
+      Error [Invalid_field field]
+  ;;
+
+  let token_opt mapper table field continuation =
+    let open Qexp in
+    match Hashtbl.find_opt table field with
+    | None ->
+      Ok (continuation None)
+    | Some (Some x) ->
+      (match x with
+      | Atom str | String (_, str) | Tag str | Keyword str ->
+        let open Validation.Infix in
+        mapper str >|= fun x -> continuation $ Some x
+      | _ ->
+        Error [Invalid_field field])
+    | _ ->
+      Error [Invalid_field field]
+  ;;
+end
+
+module Mapper = struct
+  let string = function
+    | Qexp.String (_, str) ->
+      Ok str
+    | q ->
+      Error [Not_a_valid_node (Qexp.to_string q)]
+  ;;
+
+  let token f = function
+    | Qexp.String (_, str)
+    | Qexp.Atom str
+    | Qexp.Tag str
+    | Qexp.Keyword str ->
+      f str
+    | q ->
+      Error [Not_a_valid_node (Qexp.to_string q)]
+  ;;
+
+  let couple f g = function
+    | Qexp.Node [x; y] ->
+      let open Validation.Applicative in
+      (fun x y -> x, y) <$> f x <*> g y
+    | q ->
+      Error [Not_a_valid_node (Qexp.to_string q)]
+  ;;
+
+  let triple f g h = function
+    | Qexp.Node [x; y; z] ->
+      let open Validation.Applicative in
+      (fun x y z -> x, y, z) <$> f x <*> g y <*> h z
+    | q ->
+      Error [Not_a_valid_node (Qexp.to_string q)]
+  ;;
+end

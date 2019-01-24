@@ -29,21 +29,36 @@ val configuration : Qexp.t -> configuration Result.t
     A [Table.t] is fetchable to extract fields using predicates.
 *)
 
-type ('a, 'b) fetchable =
-  configuration -> string -> ('a -> 'b) -> 'b Validation.t
+module Fetch : sig
+  type ('a, 'b) t =
+    configuration -> string -> ('a -> 'b) -> 'b Validation.t
 
-val fetch_string : (string, 'a) fetchable
-val fetch_string_opt : (string option, 'a) fetchable
-val fetch_bool : (bool, 'a) fetchable
-val fetch_bool_opt : (bool option, 'a) fetchable
+  val string : (string, 'a) t
+  val string_opt : (string option, 'a) t
+  val bool : (bool, 'a) t
+  val bool_opt : (bool option, 'a) t
+  val list : (Qexp.t -> 'a Validation.t) -> ('a list, 'b) t
+  val list_refutable : (Qexp.t -> 'a Validation.t) -> ('a list, 'b) t
+  val token : (string -> 'a Validation.t) -> ('a, 'b) t
+  val token_opt : (string -> 'a Validation.t) -> ('a option, 'b) t
+end
 
-val fetch_list :
-  (Qexp.t -> 'a Validation.t) -> ('a list, 'b) fetchable
+module Mapper : sig
+  val string : Qexp.t -> string Validation.t
 
-val fetch_list_refutable :
-  (Qexp.t -> 'a Validation.t) -> ('a list, 'b) fetchable
+  val token :
+    (string -> 'a Validation.t) -> Qexp.t -> 'a Validation.t
 
-val token : (string -> 'a Validation.t) -> ('a, 'b) fetchable
+  val couple :
+       (Qexp.t -> 'a Validation.t)
+    -> (Qexp.t -> 'b Validation.t)
+    -> Qexp.t
+    -> ('a * 'b) Validation.t
 
-val token_opt :
-  (string -> 'a Validation.t) -> ('a option, 'b) fetchable
+  val triple :
+       (Qexp.t -> 'a Validation.t)
+    -> (Qexp.t -> 'b Validation.t)
+    -> (Qexp.t -> 'c Validation.t)
+    -> Qexp.t
+    -> ('a * 'b * 'c) Validation.t
+end

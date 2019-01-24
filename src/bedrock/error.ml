@@ -19,6 +19,8 @@ type t =
   | Unparsable of string
   | Not_a_valid_node of string
   | Unknown_format of string
+  | Undefined_field of string
+  | Invalid_field of string
   | Unix of string
   | Exn of exn
   | List of t list
@@ -48,6 +50,8 @@ module Exn = struct
   exception Unix of string
   exception List of t list
   exception Unknown_format of string
+  exception Undefined_field of string
+  exception Invalid_field of string
 end
 
 let rec to_exception = function
@@ -91,6 +95,10 @@ let rec to_exception = function
     Exn.Not_a_valid_node string
   | Unknown_format string ->
     Exn.Unknown_format string
+  | Undefined_field string ->
+    Exn.Undefined_field string
+  | Invalid_field string ->
+    Exn.Invalid_field string
   | Unix string ->
     Exn.Unix string
   | Exn exn ->
@@ -140,6 +148,10 @@ let rec from_exception = function
     Unparsable string
   | Exn.Unknown_format string ->
     Unknown_format string
+  | Exn.Invalid_field string ->
+    Invalid_field string
+  | Exn.Undefined_field string ->
+    Undefined_field string
   | Exn.List errors ->
     List (List.map from_exception errors)
   | e ->
@@ -187,6 +199,10 @@ let rec to_string = function
     Format.sprintf "[Not_a_valid_node] [%s]" string
   | Unknown_format string ->
     Format.sprintf "[Unknown_format] [%s]" string
+  | Undefined_field string ->
+    Format.sprintf "[Undefined_field] [%s]" string
+  | Invalid_field string ->
+    Format.sprintf "[Invalid_field] [%s]" string
   | Unix string ->
     Format.sprintf "[Unix error] %s" string
   | Exn e ->

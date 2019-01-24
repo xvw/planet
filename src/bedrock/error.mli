@@ -27,6 +27,8 @@ type t =
   | Unparsable of string
   | Not_a_valid_node of string
   | Unknown_format of string
+  | Undefined_field of string
+  | Invalid_field of string
   | Unix of string
   | Exn of exn
   | List of t list
@@ -57,6 +59,8 @@ module Exn : sig
   exception Not_a_valid_node of string
   exception List of t list
   exception Unknown_format of string
+  exception Undefined_field of string
+  exception Invalid_field of string
 end
 
 (** {2 Tools to deal with errors} *)

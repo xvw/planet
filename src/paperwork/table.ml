@@ -1,4 +1,5 @@
 open Bedrock
+open Util
 open Error
 
 type ('a, 'b) t = ('a, 'b) Hashtbl.t
@@ -53,4 +54,63 @@ let configuration =
       Ok (key, Some (node list))
   in
   from_qexp f
+;;
+
+type ('a, 'b) fetchable =
+  configuration -> string -> ('a -> 'b) -> 'b Validation.t
+
+let fetch_string table field continuation =
+  match Hashtbl.find_opt table field with
+  | Some (Some (Qexp.String (_, k))) ->
+    Ok (continuation k)
+  | None ->
+    Error [Undefined_field field]
+  | _ ->
+    Error [Invalid_field field]
+;;
+
+let fetch_string_opt table field continuation =
+  match Hashtbl.find_opt table field with
+  | Some (Some (Qexp.String (_, k))) ->
+    Ok (continuation $ Some k)
+  | None ->
+    Ok (continuation None)
+  | _ ->
+    Error [Invalid_field field]
+;;
+
+let fetch_bool table field continuation =
+  let open Qexp in
+  match Hashtbl.find_opt table field with
+  | None ->
+    Error [Undefined_field field]
+  | Some (Some x) ->
+    (match x with
+    | Keyword x | Atom x | Tag x | String (_, x) ->
+      let b = String.lowercase_ascii x in
+      if b = "true" || b = "false"
+      then Ok (continuation (b = "true"))
+      else Error [Invalid_field field]
+    | _ ->
+      Error [Invalid_field field])
+  | _ ->
+    Error [Invalid_field field]
+;;
+
+let fetch_bool_opt table field continuation =
+  let open Qexp in
+  match Hashtbl.find_opt table field with
+  | None ->
+    Ok (continuation None)
+  | Some (Some x) ->
+    (match x with
+    | Keyword x | Atom x | Tag x | String (_, x) ->
+      let b = String.lowercase_ascii x in
+      if b = "true" || b = "false"
+      then Ok (continuation $ Some (b = "true"))
+      else Error [Invalid_field field]
+    | _ ->
+      Error [Invalid_field field])
+  | _ ->
+    Error [Invalid_field field]
 ;;

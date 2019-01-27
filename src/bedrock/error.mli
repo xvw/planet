@@ -30,6 +30,7 @@ type t =
   | Undefined_field of string
   | Invalid_field of string
   | Invalid_text_scheme
+  | Unknown_status of string
   | Unix of string
   | Exn of exn
   | List of t list
@@ -63,6 +64,7 @@ module Exn : sig
   exception Undefined_field of string
   exception Invalid_field of string
   exception Invalid_text_scheme
+  exception Unknown_status of string
 end
 
 (** {2 Tools to deal with errors} *)

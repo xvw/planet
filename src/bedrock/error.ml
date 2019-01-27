@@ -22,6 +22,7 @@ type t =
   | Undefined_field of string
   | Invalid_field of string
   | Invalid_text_scheme
+  | Unknown_status of string
   | Unix of string
   | Exn of exn
   | List of t list
@@ -54,6 +55,7 @@ module Exn = struct
   exception Undefined_field of string
   exception Invalid_field of string
   exception Invalid_text_scheme
+  exception Unknown_status of string
 end
 
 let rec to_exception = function
@@ -105,6 +107,8 @@ let rec to_exception = function
     Exn.Unix string
   | Invalid_text_scheme ->
     Exn.Invalid_text_scheme
+  | Unknown_status string ->
+    Exn.Unknown_status string
   | Exn exn ->
     exn
   | List errors ->
@@ -160,6 +164,8 @@ let rec from_exception = function
     List (List.map from_exception errors)
   | Exn.Invalid_text_scheme ->
     Invalid_text_scheme
+  | Exn.Unknown_status string ->
+    Unknown_status string
   | e ->
     Exn e
 ;;
@@ -211,6 +217,8 @@ let rec to_string = function
     Format.sprintf "[Invalid_field] [%s]" string
   | Unix string ->
     Format.sprintf "[Unix error] %s" string
+  | Unknown_status string ->
+    Format.sprintf "[Unknown_status] %s" string
   | Invalid_text_scheme ->
     "[Invalid_text_scheme]"
   | Exn e ->

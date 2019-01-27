@@ -27,5 +27,6 @@ type t =
   ; content : Text.t option }
 
 (** {2 Api} *)
-(* (\** Produce a Project from a Qexp-reprsentation. *\)
- * val from_qexp : Paperwork.Qexp.t -> t Bedrock.Validation.t *)
+
+(** Produce a Project from a Qexp-reprsentation. *)
+val from_qexp : Paperwork.Qexp.t -> t Bedrock.Validation.t

@@ -23,5 +23,4 @@ type t = Format.t * content
 
 (** {2 Helpers} *)
 
-val fetch : (t, 'a) Table.Fetch.t
-val fetch_opt : (t option, 'a) Table.Fetch.t
+val fetch : t Table.Fetch.t

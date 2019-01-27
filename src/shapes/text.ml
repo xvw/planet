@@ -46,7 +46,7 @@ let patch_flag str x f =
 
 type t = Format.t * content
 
-let fetch table field continuation =
+let fetch table field =
   match Hashtbl.find_opt table field with
   | None ->
     Error [Undefined_field field]
@@ -57,26 +57,7 @@ let fetch table field continuation =
             ; String (_, content) ]) ->
       let open Validation.Infix in
       Format.from_string fmt |> Validation.from_result
-      >>= patch_flag flag content >|= continuation
-    | _ ->
-      Error [Invalid_field field])
-  | _ ->
-    Error [Invalid_field field]
-;;
-
-let fetch_opt table field continuation =
-  match Hashtbl.find_opt table field with
-  | None ->
-    Ok (continuation None)
-  | Some (Some Qexp.(Node children)) ->
-    (match children with
-    | Qexp.([ (String (_, flag) | Keyword flag | Tag flag | Atom flag)
-            ; (String (_, fmt) | Keyword fmt | Tag fmt | Atom fmt)
-            ; String (_, content) ]) ->
-      let open Validation.Infix in
-      Format.from_string fmt |> Validation.from_result
       >>= patch_flag flag content
-      >|= fun x -> continuation (Some x)
     | _ ->
       Error [Invalid_field field])
   | _ ->

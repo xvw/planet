@@ -30,17 +30,14 @@ val configuration : Qexp.t -> configuration Result.t
 *)
 
 module Fetch : sig
-  type ('a, 'b) t =
-    configuration -> string -> ('a -> 'b) -> 'b Validation.t
+  type 'a t = configuration -> string -> 'a Validation.t
 
-  val string : (string, 'a) t
-  val string_opt : (string option, 'a) t
-  val bool : (bool, 'a) t
-  val bool_opt : (bool option, 'a) t
-  val list : (Qexp.t -> 'a Validation.t) -> ('a list, 'b) t
-  val list_refutable : (Qexp.t -> 'a Validation.t) -> ('a list, 'b) t
-  val token : (string -> 'a Validation.t) -> ('a, 'b) t
-  val token_opt : (string -> 'a Validation.t) -> ('a option, 'b) t
+  val option : 'a t -> 'a option t
+  val string : string t
+  val bool : bool t
+  val list : (Qexp.t -> 'a Validation.t) -> 'a list t
+  val list_refutable : (Qexp.t -> 'a Validation.t) -> 'a list t
+  val token : (string -> 'a Validation.t) -> 'a t
 end
 
 module Mapper : sig

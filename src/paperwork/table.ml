@@ -1,5 +1,4 @@
 open Bedrock
-open Util
 open Error
 
 type ('a, 'b) t = ('a, 'b) Hashtbl.t
@@ -57,30 +56,29 @@ let configuration =
 ;;
 
 module Fetch = struct
-  type ('a, 'b) t =
-    configuration -> string -> ('a -> 'b) -> 'b Validation.t
+  type 'a t = configuration -> string -> 'a Validation.t
 
-  let string table field continuation =
+  let option f table field =
+    match f table field with
+    | Ok x ->
+      Ok (Some x)
+    | Error [Undefined_field _] ->
+      Ok None
+    | Error xs ->
+      Error xs
+  ;;
+
+  let string table field =
     match Hashtbl.find_opt table field with
     | Some (Some (Qexp.String (_, k))) ->
-      Ok (continuation k)
+      Ok k
     | None ->
       Error [Undefined_field field]
     | _ ->
       Error [Invalid_field field]
   ;;
 
-  let string_opt table field continuation =
-    match Hashtbl.find_opt table field with
-    | Some (Some (Qexp.String (_, k))) ->
-      Ok (continuation $ Some k)
-    | None ->
-      Ok (continuation None)
-    | _ ->
-      Error [Invalid_field field]
-  ;;
-
-  let bool table field continuation =
+  let bool table field =
     let open Qexp in
     match Hashtbl.find_opt table field with
     | None ->
@@ -90,7 +88,7 @@ module Fetch = struct
       | Keyword x | Atom x | Tag x | String (_, x) ->
         let b = String.lowercase_ascii x in
         if b = "true" || b = "false"
-        then Ok (continuation (b = "true"))
+        then Ok (b = "true")
         else Error [Invalid_field field]
       | _ ->
         Error [Invalid_field field])
@@ -98,51 +96,29 @@ module Fetch = struct
       Error [Invalid_field field]
   ;;
 
-  let bool_opt table field continuation =
-    let open Qexp in
-    match Hashtbl.find_opt table field with
-    | None ->
-      Ok (continuation None)
-    | Some (Some x) ->
-      (match x with
-      | Keyword x | Atom x | Tag x | String (_, x) ->
-        let b = String.lowercase_ascii x in
-        if b = "true" || b = "false"
-        then Ok (continuation $ Some (b = "true"))
-        else Error [Invalid_field field]
-      | _ ->
-        Error [Invalid_field field])
-    | _ ->
-      Error [Invalid_field field]
-  ;;
-
-  let list mapper table field continuation =
+  let list mapper table field =
     let open Qexp in
     match Hashtbl.find_opt table field with
     | None ->
       Error [Undefined_field field]
     | Some (Some (Node elts)) ->
-      let open Validation.Infix in
       List.map mapper elts |> Validation.Applicative.sequence
-      >|= continuation
     | _ ->
       Error [Invalid_field field]
   ;;
 
-  let list_refutable mapper table field continuation =
+  let list_refutable mapper table field =
     let open Qexp in
     match Hashtbl.find_opt table field with
     | None ->
-      Ok (continuation [])
+      Ok []
     | Some (Some (Node elts)) ->
-      let open Validation.Infix in
       List.map mapper elts |> Validation.Applicative.sequence
-      >|= continuation
     | _ ->
       Error [Invalid_field field]
   ;;
 
-  let token mapper table field continuation =
+  let token mapper table field =
     let open Qexp in
     match Hashtbl.find_opt table field with
     | None ->
@@ -150,24 +126,7 @@ module Fetch = struct
     | Some (Some x) ->
       (match x with
       | Atom str | String (_, str) | Tag str | Keyword str ->
-        let open Validation.Infix in
-        mapper str >|= continuation
-      | _ ->
-        Error [Invalid_field field])
-    | _ ->
-      Error [Invalid_field field]
-  ;;
-
-  let token_opt mapper table field continuation =
-    let open Qexp in
-    match Hashtbl.find_opt table field with
-    | None ->
-      Ok (continuation None)
-    | Some (Some x) ->
-      (match x with
-      | Atom str | String (_, str) | Tag str | Keyword str ->
-        let open Validation.Infix in
-        mapper str >|= fun x -> continuation $ Some x
+        mapper str
       | _ ->
         Error [Invalid_field field])
     | _ ->

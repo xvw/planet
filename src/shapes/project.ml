@@ -74,10 +74,10 @@ let new_project
 ;;
 
 let from_qexp expr =
-  match Table.configuration expr with
+  let open Table in
+  match configuration expr with
   | Ok config ->
     let open Validation.Infix in
-    let open Table in
     new_project
     <$> Fetch.string config "name"
     <*> Fetch.string config "title"

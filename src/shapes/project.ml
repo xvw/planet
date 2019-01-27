@@ -44,7 +44,7 @@ type t =
   ; indexed : bool
   ; content : Text.t option }
 
-let accumulate
+let new_project
     name
     title
     synopsis
@@ -78,7 +78,7 @@ let from_qexp expr =
   | Ok config ->
     let open Validation.Infix in
     let open Table in
-    accumulate
+    new_project
     <$> Fetch.string config "name"
     <*> Fetch.string config "title"
     <*> Fetch.string config "synopsis"

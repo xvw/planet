@@ -1,4 +1,4 @@
-.PHONY: all build clean repl doc fmt install test
+.PHONY: all build clean repl doc fmt install test dev
 
 # Developement's workflow
 
@@ -33,8 +33,11 @@ test:
 
 install:
 	opam install -y .
+	eval $(opam env)
 	dune install
 	dune build @install
+
+dev: install
 
 # Initialize developement environement
 

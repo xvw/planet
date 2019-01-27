@@ -1,6 +1,7 @@
 (** Describe a text with a potential preprocessor. *)
 
 open Bedrock
+open Paperwork
 
 (** {2 Format} *)
 
@@ -19,3 +20,8 @@ type content =
   | Plain of string
 
 type t = Format.t * content
+
+(** {2 Helpers} *)
+
+val fetch : (t, 'a) Table.Fetch.t
+val fetch_opt : (t option, 'a) Table.Fetch.t

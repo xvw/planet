@@ -29,6 +29,7 @@ type t =
   | Unknown_format of string
   | Undefined_field of string
   | Invalid_field of string
+  | Invalid_text_scheme
   | Unix of string
   | Exn of exn
   | List of t list
@@ -61,6 +62,7 @@ module Exn : sig
   exception Unknown_format of string
   exception Undefined_field of string
   exception Invalid_field of string
+  exception Invalid_text_scheme
 end
 
 (** {2 Tools to deal with errors} *)

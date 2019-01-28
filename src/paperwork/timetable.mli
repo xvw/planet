@@ -55,6 +55,9 @@ module Year : sig
 
   (** Unserialize a [Year.t]. *)
   val from_string : string -> t Result.t
+
+  (** Pretty printer *)
+  val pp : Format.formatter -> t -> unit
 end
 
 module Month : sig
@@ -92,6 +95,9 @@ module Month : sig
 
   (** Unserialize a [Month.t]. *)
   val from_string : string -> t Result.t
+
+  (** Pretty printer *)
+  val pp : Format.formatter -> t -> unit
 end
 
 module Day : sig
@@ -112,6 +118,9 @@ module Day : sig
 
   (** Unserialize a [Day.t]. *)
   val from_string : string -> t Result.t
+
+  (** Pretty printer *)
+  val pp : Format.formatter -> t -> unit
 end
 
 module Hour : sig
@@ -130,6 +139,9 @@ module Hour : sig
 
   (** Unserialize an [Hour.t]. *)
   val from_string : string -> t Result.t
+
+  (** Pretty printer *)
+  val pp : Format.formatter -> t -> unit
 end
 
 module Moment : sig
@@ -151,4 +163,7 @@ module Moment : sig
 
   (** Unserialize a [Moment.t]. *)
   val from_string : string -> t Result.t
+
+  (** Pretty printer *)
+  val pp : Format.formatter -> t -> unit
 end

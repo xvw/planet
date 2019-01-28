@@ -22,6 +22,8 @@ module Year = struct
     let y = 2000 + value in
     if y mod 100 = 0 then y mod 400 = 0 else y mod 4 = 0
   ;;
+
+  let pp ppf x = Format.fprintf ppf "%s" (to_string x)
 end
 
 module Month = struct
@@ -130,6 +132,8 @@ module Month = struct
       )
     with _ -> Error (Unparsable str)
   ;;
+
+  let pp ppf x = Format.fprintf ppf "%s" (to_string x)
 end
 
 module Day = struct
@@ -163,6 +167,8 @@ module Day = struct
           Month.from_char mc >>= Month.make y >>= flip make dv )
     with _ -> Error (Unparsable str)
   ;;
+
+  let pp ppf x = Format.fprintf ppf "%s" (to_string x)
 end
 
 module Hour = struct
@@ -199,6 +205,8 @@ module Hour = struct
           hr >>= fun h -> make h m )
     with _ -> Error (Unparsable str)
   ;;
+
+  let pp ppf x = Format.fprintf ppf "%s" (to_string x)
 end
 
 module Moment = struct
@@ -229,4 +237,6 @@ module Moment = struct
           Hour.from_string h >|= fun right -> make left right )
     with _ -> Error (Unparsable str)
   ;;
+
+  let pp ppf x = Format.fprintf ppf "%s" (to_string x)
 end

@@ -1,0 +1,5 @@
+#install_printer Paperwork.Timetable.Year.pp
+#install_printer Paperwork.Timetable.Month.pp
+#install_printer Paperwork.Timetable.Day.pp
+#install_printer Paperwork.Timetable.Hour.pp
+#install_printer Paperwork.Timetable.Moment.pp

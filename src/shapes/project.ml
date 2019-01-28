@@ -42,7 +42,8 @@ type t =
   ; tags : string list
   ; picto : string option
   ; indexed : bool
-  ; content : Text.t option }
+  ; content : Text.t option
+  ; subprojects : t list }
 
 let new_project
     name
@@ -57,7 +58,8 @@ let new_project
     tags
     picto
     indexed
-    content =
+    content
+    subprojects =
   { name
   ; title
   ; synopsis
@@ -70,12 +72,14 @@ let new_project
   ; tags
   ; picto
   ; indexed = (match indexed with None -> true | Some x -> x)
-  ; content }
+  ; content
+  ; subprojects }
 ;;
 
-let from_qexp expr =
-  let open Table in
-  match configuration expr with
+module Fetch = Table.Fetch
+
+let rec from_qexp expr =
+  match Table.configuration expr with
   | Ok config ->
     let open Validation.Infix in
     new_project
@@ -88,10 +92,11 @@ let from_qexp expr =
     <*> Fetch.list_refutable Link.mapper_simple config "links"
     <*> Fetch.list_refutable Link.mapper_dated config "releases"
     <*> Fetch.token status_from_string config "status"
-    <*> Fetch.list_refutable Mapper.string config "tags"
+    <*> Fetch.list_refutable Table.Mapper.string config "tags"
     <*> Fetch.(option string config "picto")
     <*> Fetch.(option bool config "indexed")
     <*> Fetch.(option Text.fetch config "content")
+    <*> Fetch.list_refutable from_qexp config "subprojects"
   | Error _ as e ->
     Validation.from_result e
 ;;

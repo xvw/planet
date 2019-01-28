@@ -24,7 +24,8 @@ type t =
   ; tags : string list
   ; picto : string option
   ; indexed : bool
-  ; content : Text.t option }
+  ; content : Text.t option
+  ; subprojects : t list }
 
 (** {2 Api} *)
 

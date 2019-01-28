@@ -1,0 +1,9 @@
+(library
+ (name shapes_test)
+ (public_name planet.shapes_test)
+ (libraries
+    alcotest
+    planet.bedrock
+    planet.paperwork
+    planet.shapes
+    planet.test_tools))

@@ -3,6 +3,7 @@
  (libraries
    planet.bedrock_test
    planet.paperwork_test
+   planet.shapes_test
    alcotest))
 
 (alias

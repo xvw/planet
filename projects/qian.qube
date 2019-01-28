@@ -6,6 +6,7 @@
 (:tags "file" "explorer" "mvp" "minimalist")
 (:repo "github.com/xvw/qian.git")
 (:content external #org-mode "project/qian.org")
+(:picto "pictograms/qian.png")
 
 (:tools
  (elm "https://elm-lang.org/")

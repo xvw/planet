@@ -1,0 +1,237 @@
+{
+  "settings": {
+    "size": {
+      "width": 315,
+      "height": 315
+    },
+    "crest": false
+  },
+  "layers": [
+    [
+      {
+        "type": "line",
+        "vertices": [
+          {
+            "x": 75,
+            "y": 45
+          },
+          {
+            "x": 255,
+            "y": 45
+          },
+          {
+            "x": 255,
+            "y": 45
+          },
+          {
+            "x": 255,
+            "y": 75
+          }
+        ]
+      },
+      {
+        "type": "line",
+        "vertices": [
+          {
+            "x": 75,
+            "y": 45
+          },
+          {
+            "x": 75,
+            "y": 75
+          }
+        ]
+      },
+      {
+        "type": "line",
+        "vertices": [
+          {
+            "x": 105,
+            "y": 90
+          },
+          {
+            "x": 105,
+            "y": 150
+          }
+        ]
+      },
+      {
+        "type": "line",
+        "vertices": [
+          {
+            "x": 225,
+            "y": 90
+          },
+          {
+            "x": 225,
+            "y": 150
+          }
+        ]
+      },
+      {
+        "type": "line",
+        "vertices": [
+          {
+            "x": 75,
+            "y": 105
+          },
+          {
+            "x": 255,
+            "y": 105
+          }
+        ]
+      },
+      {
+        "type": "line",
+        "vertices": [
+          {
+            "x": 75,
+            "y": 135
+          },
+          {
+            "x": 255,
+            "y": 135
+          }
+        ]
+      },
+      {
+        "type": "line",
+        "vertices": [
+          {
+            "x": 75,
+            "y": 165
+          },
+          {
+            "x": 255,
+            "y": 165
+          }
+        ]
+      },
+      {
+        "type": "arc_c",
+        "vertices": [
+          {
+            "x": 105,
+            "y": 150
+          },
+          {
+            "x": 60,
+            "y": 210
+          }
+        ]
+      },
+      {
+        "type": "arc_r",
+        "vertices": [
+          {
+            "x": 225,
+            "y": 150
+          },
+          {
+            "x": 270,
+            "y": 210
+          }
+        ]
+      },
+      {
+        "type": "arc_r",
+        "vertices": [
+          {
+            "x": 120,
+            "y": 195
+          },
+          {
+            "x": 120,
+            "y": 225
+          },
+          {
+            "x": 225,
+            "y": 225
+          }
+        ]
+      },
+      {
+        "type": "arc_c",
+        "vertices": [
+          {
+            "x": 225,
+            "y": 225
+          },
+          {
+            "x": 225,
+            "y": 255
+          },
+          {
+            "x": 195,
+            "y": 285
+          },
+          {
+            "x": 120,
+            "y": 285
+          }
+        ]
+      },
+      {
+        "type": "arc_c",
+        "vertices": [
+          {
+            "x": 165,
+            "y": 255
+          },
+          {
+            "x": 75,
+            "y": 255
+          }
+        ]
+      },
+      {
+        "type": "line",
+        "vertices": [
+          {
+            "x": 180,
+            "y": 195
+          },
+          {
+            "x": 120,
+            "y": 195
+          },
+          {
+            "x": 180,
+            "y": 195
+          }
+        ]
+      }
+    ],
+    [],
+    []
+  ],
+  "styles": [
+    {
+      "thickness": 20,
+      "strokeLinecap": "square",
+      "strokeLinejoin": "round",
+      "color": "#fff",
+      "fill": "none",
+      "mirror_style": 0,
+      "transform": "rotate(45)"
+    },
+    {
+      "thickness": 10,
+      "strokeLinecap": "round",
+      "strokeLinejoin": "round",
+      "color": "#ccc",
+      "fill": "none",
+      "mirror_style": 0,
+      "transform": "rotate(45)"
+    },
+    {
+      "thickness": 10,
+      "strokeLinecap": "round",
+      "strokeLinejoin": "round",
+      "color": "#999",
+      "fill": "none",
+      "mirror_style": 0,
+      "transform": "rotate(45)"
+    }
+  ]
+}

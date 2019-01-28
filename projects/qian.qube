@@ -1,0 +1,24 @@
+(:name "qian")
+(:title "Qian")
+(:synopsis "Un petit explorateur de fichiers expérimental")
+(:status "wip")
+(:license "mit")
+(:tags "file" "explorer" "mvp" "minimalist")
+(:repo "github.com/xvw/qian.git")
+(:content external #org-mode "project/qian.org")
+
+(:tools
+ (elm "https://elm-lang.org/")
+ (nodejs "https://nodejs.org/en/")
+ (electron "https://electronjs.org/"))
+
+(:links
+ ((producthunt "https://www.producthunt.com/posts/qian")))
+
+(:releases
+ ("v1.0.0" #017K27 "https://github.com/xvw/qian/releases/tag/v1.0")
+ ("v1.2.0" #017L13 "https://github.com/xvw/qian/releases/tag/v1.2.0")
+ ("v1.2.1" #017L14 "https://github.com/xvw/qian/releases/tag/v1.2.1")
+ ("v1.3.0" #017L15 "https://github.com/xvw/qian/releases/tag/v1.3.0")
+ ("v1.3.1" #017L18 "https://github.com/xvw/qian/releases/tag/v1.3.1")
+ ("v1.3.2" #018A23 "https://github.com/xvw/qian/releases/tag/v1.3.2"))

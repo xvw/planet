@@ -103,6 +103,8 @@ module Fetch = struct
       Error [Undefined_field field]
     | Some (Some (Node elts)) ->
       List.map mapper elts |> Validation.Applicative.sequence
+    | Some (Some elt) ->
+      List.map mapper [elt] |> Validation.Applicative.sequence
     | _ ->
       Error [Invalid_field field]
   ;;
@@ -114,6 +116,8 @@ module Fetch = struct
       Ok []
     | Some (Some (Node elts)) ->
       List.map mapper elts |> Validation.Applicative.sequence
+    | Some (Some elt) ->
+      List.map mapper [elt] |> Validation.Applicative.sequence
     | _ ->
       Error [Invalid_field field]
   ;;
@@ -139,7 +143,7 @@ module Mapper = struct
     | Qexp.String (_, str) ->
       Ok str
     | q ->
-      Error [Not_a_valid_node (Qexp.to_string q)]
+      Error [Mapping_failure ("string", Qexp.to_string q)]
   ;;
 
   let token f = function
@@ -149,7 +153,7 @@ module Mapper = struct
     | Qexp.Keyword str ->
       f str
     | q ->
-      Error [Not_a_valid_node (Qexp.to_string q)]
+      Error [Mapping_failure ("token", Qexp.to_string q)]
   ;;
 
   let couple f g = function
@@ -157,7 +161,7 @@ module Mapper = struct
       let open Validation.Applicative in
       (fun x y -> x, y) <$> f x <*> g y
     | q ->
-      Error [Not_a_valid_node (Qexp.to_string q)]
+      Error [Mapping_failure ("couple", Qexp.to_string q)]
   ;;
 
   let triple f g h = function
@@ -165,6 +169,6 @@ module Mapper = struct
       let open Validation.Applicative in
       (fun x y z -> x, y, z) <$> f x <*> g y <*> h z
     | q ->
-      Error [Not_a_valid_node (Qexp.to_string q)]
+      Error [Mapping_failure ("triple", Qexp.to_string q)]
   ;;
 end

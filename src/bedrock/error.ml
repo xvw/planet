@@ -23,6 +23,7 @@ type t =
   | Invalid_field of string
   | Invalid_text_scheme
   | Unknown_status of string
+  | Mapping_failure of (string * string)
   | Unix of string
   | Exn of exn
   | List of t list
@@ -56,6 +57,7 @@ module Exn = struct
   exception Invalid_field of string
   exception Invalid_text_scheme
   exception Unknown_status of string
+  exception Mapping_failure of (string * string)
 end
 
 let rec to_exception = function
@@ -111,6 +113,8 @@ let rec to_exception = function
     Exn.Unknown_status string
   | Exn exn ->
     exn
+  | Mapping_failure (subject, content) ->
+    Exn.Mapping_failure (subject, content)
   | List errors ->
     Exn.List (List.map to_exception errors)
 ;;
@@ -166,6 +170,8 @@ let rec from_exception = function
     Invalid_text_scheme
   | Exn.Unknown_status string ->
     Unknown_status string
+  | Exn.Mapping_failure (subject, content) ->
+    Mapping_failure (subject, content)
   | e ->
     Exn e
 ;;
@@ -223,6 +229,8 @@ let rec to_string = function
     "[Invalid_text_scheme]"
   | Exn e ->
     Format.sprintf "[Exception: %s]" (Printexc.to_string e)
+  | Mapping_failure (subject, content) ->
+    Format.sprintf "[Mapping_failure] [%s] [%s]" subject content
   | List errors ->
     Format.sprintf
       "[List] %s"

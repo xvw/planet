@@ -5,10 +5,14 @@
 (:license "mit")
 (:tags "planet" "log" "web" "ocaml" "journal" "blog")
 (:repo "github.com/xvw/planet.git")
+(:content external #org-mode "project/planet.org")
+
 (:tools
  (ocaml "https://ocaml.org")
  (js_of_ocaml "https://ocsigen.org/js_of_ocaml")
  (pandoc "https://pandoc.org/")
  (git "https://github.com/git/git")
  (github "https://github.com"))
-(:content external #org-mode "project/planet.org")
+
+(:links
+ ((main "https://xvw.github.io")))

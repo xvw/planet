@@ -1,0 +1,8 @@
+(executable
+ (name project)
+ (libraries
+   planet.bedrock
+   planet.paperwork
+   planet.shapes
+   planet.baremetal
+   cmdliner))

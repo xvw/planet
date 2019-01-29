@@ -1,1 +1,1 @@
-let () = print_endline "foo"
+let () = Cli.invoke ()

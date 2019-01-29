@@ -5,4 +5,5 @@
    planet.paperwork
    planet.shapes
    planet.baremetal
+   planet.glue
    cmdliner))

@@ -1,0 +1,9 @@
+(library
+  (name glue)
+  (public_name planet.glue)
+  (libraries
+    unix
+    planet.bedrock
+    planet.paperwork
+    planet.shapes
+    planet.baremetal))

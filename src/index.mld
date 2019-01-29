@@ -46,3 +46,7 @@ The idea behind [Planet] is strongly inspired by the work of
 - {{: Shapes/index.html} Shapes}: All of [data structures] inhabited of
   [Planet]. This library exposes some specialization of [Paperwork]'s
   models. (It is alos agnostic of the execution context, OS or web.)
+
+- {{: Glue/index.html} Glue}: The library used to build specifics CLI
+  using [planet-ecosystem]. The library exposes, for example, [databases]
+  links and tools to deal with [planet] data-structures.

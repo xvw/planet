@@ -26,7 +26,7 @@ test:
 # Build binaries
 %.exe : build
 	dune build src/bin/$@
-
+	cp _build/default/src/bin/$@ ./
 
 binaries: project/project.exe
 

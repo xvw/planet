@@ -1,8 +1,8 @@
-.PHONY: all build clean repl doc fmt install test dev
+.PHONY: all build clean repl doc fmt install test dev binaries
 
 # Developement's workflow
 
-all: build doc
+all: build doc binaries
 
 build:
 	dune build @install
@@ -25,9 +25,10 @@ test:
 
 # Build binaries
 %.exe : build
-	mkdir -p ./bin
 	dune build src/bin/$@
-	cp _build/default/src/bin/$@ ./bin
+
+
+binaries: project/project.exe
 
 # Package installation
 

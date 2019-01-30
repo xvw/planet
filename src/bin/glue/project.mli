@@ -12,6 +12,3 @@ val read : File.name -> Shapes.Project.t Validation.t * File.name
 (** Get a list of potential projects *)
 val inspect :
   unit -> (Shapes.Project.t Validation.t * File.name) list Result.t
-
-(** Ls the project's list *)
-val ls : unit -> unit

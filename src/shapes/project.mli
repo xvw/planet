@@ -31,3 +31,6 @@ type t =
 
 (** Produce a Project from a Qexp-reprsentation. *)
 val from_qexp : Paperwork.Qexp.t -> t Bedrock.Validation.t
+
+(** Render a status to a string. *)
+val status_to_string : status -> string

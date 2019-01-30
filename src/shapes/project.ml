@@ -100,3 +100,16 @@ let rec from_qexp expr =
   | Error _ as e ->
     Validation.from_result e
 ;;
+
+let status_to_string = function
+  | Unceasing ->
+    "unceasing"
+  | Wip ->
+    "wip"
+  | Done ->
+    "done"
+  | Paused ->
+    "paused"
+  | Interrupted ->
+    "interrupted"
+;;

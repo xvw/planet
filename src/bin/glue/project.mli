@@ -7,7 +7,11 @@ open Baremetal
 val database : Shapes.Project.t Database.t
 
 (** Read a project from a file *)
-val read : File.name -> Shapes.Project.t Validation.t
+val read : File.name -> Shapes.Project.t Validation.t * File.name
 
 (** Get a list of potential projects *)
-val inspect : unit -> Shapes.Project.t Validation.t list Result.t
+val inspect :
+  unit -> (Shapes.Project.t Validation.t * File.name) list Result.t
+
+(** Ls the project's list *)
+val ls : unit -> unit

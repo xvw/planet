@@ -3,6 +3,7 @@
   (public_name planet.glue)
   (libraries
     unix
+    cmdliner
     planet.bedrock
     planet.paperwork
     planet.shapes

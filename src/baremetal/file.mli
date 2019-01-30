@@ -33,7 +33,8 @@ val close_in : in_channel -> unit
 val read : (in_channel -> 'a Result.t) -> name -> 'a Result.t
 
 (** Read file into a stream. *)
-val to_stream : name -> char Stream.t Result.t
+val to_stream :
+  (name -> char Stream.t -> 'a Result.t) -> name -> 'a Result.t
 
 (** Read file into a bytes squences. *)
 val to_bytes : name -> bytes Result.t

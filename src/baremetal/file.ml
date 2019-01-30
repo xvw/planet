@@ -42,12 +42,13 @@ let read f filename =
   result
 ;;
 
-let to_stream filename =
+let to_stream f filename =
   try
     let channel = open_in filename in
     let stream = Stream.of_channel channel in
+    let result = f filename stream in
     let () = close_in channel in
-    Ok stream
+    result
   with _ -> Error (Unreadable filename)
 ;;
 

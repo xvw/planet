@@ -15,6 +15,7 @@ let ls_render_valid_project projects =
         ; foreground green
         ; text " - "
         ; !name
+        ; reset
         ; !" ("
         ; !status
         ; !")" ]

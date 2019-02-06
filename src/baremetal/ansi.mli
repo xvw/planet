@@ -110,3 +110,22 @@ val pps : Format.formatter -> fragments -> unit
 
 (** Keep only style into a fragment *)
 val only_style : fragments -> fragments
+
+(** Boxed fragment *)
+val box :
+     ?prefix:fragments
+  -> ?box_style:fragments
+  -> ?title_style:fragments
+  -> string
+  -> fragments list
+  -> fragments
+
+(** generic box fragment *)
+val generic_box :
+     ?prefix:fragments
+  -> ?box_style:fragments
+  -> ?title_style:fragments
+  -> ('a -> fragments)
+  -> string
+  -> 'a list
+  -> fragments

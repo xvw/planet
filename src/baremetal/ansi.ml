@@ -160,3 +160,32 @@ let pps ppf fragment =
 ;;
 
 let only_style = List.filter (function Text _ -> false | _ -> true)
+
+let box
+    ?(prefix = [!"│"])
+    ?(box_style = [fg cyan])
+    ?(title_style = [bold])
+    title
+    fragments =
+  let a = (reset :: box_style) @ [!"┌─ "; reset] in
+  let t = title_style @ [!title; reset; !"\n"] in
+  let b = (reset :: box_style) @ [!"└─ "; reset] in
+  let l =
+    List.map
+      (fun x ->
+        (reset :: box_style) @ (prefix @ (reset :: x)) @ [!"\n"] )
+      fragments
+  in
+  List.flatten (a :: t :: l) @ b
+;;
+
+let generic_box
+    ?(prefix = [!"│"])
+    ?(box_style = [fg cyan])
+    ?(title_style = [bold])
+    f
+    title
+    fragments =
+  let list = List.map f fragments in
+  box ~prefix ~box_style ~title_style title list
+;;

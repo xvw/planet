@@ -1,4 +1,5 @@
 open Baremetal
+open Bedrock.Util
 
 let ls_render_valid_project projects =
   let () =
@@ -73,9 +74,47 @@ let ls () =
     ()
 ;;
 
+let license = function
+  | None ->
+    []
+  | Some x ->
+    Ansi.
+      [reset; fg cyan; !"-"; bg red; fg yellow; !" "; !x; !" "; reset]
+;;
+
+let render_link_box title list =
+  match list with
+  | [] ->
+    []
+  | li ->
+    Ansi.[reset; !"\n\n"] @ Glue.Ui.link_box title li
+;;
+
+let render_dated_link_box title list =
+  match list with
+  | [] ->
+    []
+  | li ->
+    Ansi.[reset; !"\n\n"] @ Glue.Ui.dated_link_box title li
+;;
+
 let show_project project =
   let open Shapes.Project in
-  print_endline project.name
+  let fragment =
+    Ansi.[!"\n"]
+    @ Ansi.(box project.title [[fg cyan; !(project.synopsis)]])
+    @ Ansi.
+        [ bg red
+        ; fg yellow
+        ; !(Format.sprintf " %s " $ status_to_string project.status)
+        ]
+    @ license project.license
+    @ render_link_box "Tools" project.tools
+    @ render_link_box "Links" project.links
+    @ (render_dated_link_box "Releases" $ List.rev project.releases)
+    @ Ansi.[!"\n"]
+  in
+  fragment |> Ansi.to_string ~scoped:true |> print_endline
 ;;
 
 let show project_name =

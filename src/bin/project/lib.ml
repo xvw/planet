@@ -8,8 +8,9 @@ let ls_render_valid_project projects =
   in
   List.iter
     (fun (_, x) ->
-      let name = Shapes.Project.(x.name) in
-      let status = Shapes.Project.(x.status |> status_to_string) in
+      let name, status =
+        Shapes.Project.(x.name, status_to_string x.status)
+      in
       Ansi.
         [ bold
         ; foreground green
@@ -72,10 +73,15 @@ let ls () =
     ()
 ;;
 
+let show_project project =
+  let open Shapes.Project in
+  print_endline project.name
+;;
+
 let show project_name =
   match Glue.Project.read (project_name ^ ".qube") with
   | Error err, _ ->
     Glue.Ui.prompt_errors err
-  | _ ->
-    ()
+  | Ok project, _ ->
+    show_project project
 ;;

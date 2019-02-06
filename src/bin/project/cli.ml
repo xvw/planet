@@ -6,8 +6,24 @@ open Cmdliner
 let ls =
   let doc = "Show the list of stored projects" in
   let man = Glue.Man.default call in
+  let exits = Term.default_exits in
   ( Term.(const Lib.ls $ const ())
-  , Term.info "ls" ~version ~doc ~exits:Term.default_exits ~man )
+  , Term.info "ls" ~version ~doc ~exits ~man )
+;;
+
+let show =
+  let project =
+    let doc = "Project to be inspected" in
+    Arg.(
+      required
+      & pos 0 (some string) None
+      & info [] ~docv:"PROJECT" ~doc)
+  in
+  let doc = "Show a specific project" in
+  let man = Glue.Man.default call in
+  let exits = Term.default_exits in
+  ( Term.(const Lib.show $ project)
+  , Term.info "show" ~version ~doc ~exits ~man )
 ;;
 
 let index =
@@ -18,4 +34,4 @@ let index =
   , Term.info call ~version ~doc ~exits ~man )
 ;;
 
-let invoke () = Term.(exit @@ eval_choice index [ls])
+let invoke () = Term.(exit @@ eval_choice index [ls; show])

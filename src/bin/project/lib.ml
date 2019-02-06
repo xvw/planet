@@ -71,3 +71,11 @@ let ls () =
     let () = ls_render_invalid_project invalid_project in
     ()
 ;;
+
+let show project_name =
+  match Glue.Project.read (project_name ^ ".qube") with
+  | Error err, _ ->
+    Glue.Ui.prompt_errors err
+  | _ ->
+    ()
+;;

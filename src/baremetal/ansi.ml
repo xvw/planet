@@ -200,7 +200,7 @@ let text_box
     title
     text =
   let l =
-    text |> String.lines
+    text |> String.trim |> String.lines
     |> List.map (fun l -> text_style @ [!l; reset])
   in
   box ~prefix ~box_style ~title_style title l

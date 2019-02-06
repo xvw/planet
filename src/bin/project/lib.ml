@@ -98,10 +98,11 @@ let render_dated_link_box title list =
     Ansi.[reset; !"\n\n"] @ Glue.Ui.dated_link_box title li
 ;;
 
-let render_content = function
-  | None ->
+let render_content expanded content =
+  match expanded, content with
+  | _, None | false, _ ->
     []
-  | Some x ->
+  | _, Some x ->
     let label, text =
       match snd x with
       | Shapes.Text.Plain s ->
@@ -117,7 +118,7 @@ let render_content = function
     @ Ansi.text_box ~text_style:Ansi.[fg bright_blue] label text
 ;;
 
-let show_project project =
+let show_project expanded project =
   let open Shapes.Project in
   let fragment =
     Ansi.[!"\n"]
@@ -131,16 +132,16 @@ let show_project project =
     @ render_link_box "Tools" project.tools
     @ render_link_box "Links" project.links
     @ (render_dated_link_box "Releases" $ List.rev project.releases)
-    @ render_content project.content
+    @ render_content expanded project.content
     @ Ansi.[!"\n"]
   in
   fragment |> Ansi.to_string ~scoped:true |> print_endline
 ;;
 
-let show project_name =
+let show project_name expanded =
   match Glue.Project.read (project_name ^ ".qube") with
   | Error err, _ ->
     Glue.Ui.prompt_errors err
   | Ok project, _ ->
-    show_project project
+    show_project expanded project
 ;;

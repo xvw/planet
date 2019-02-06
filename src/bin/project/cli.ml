@@ -19,10 +19,16 @@ let show =
       & pos 0 (some string) None
       & info [] ~docv:"PROJECT" ~doc)
   in
+  let expand =
+    let doc = "Show the article of the project" in
+    Arg.(
+      value & flag
+      & info ["expand"; "show-content"; "e"] ~docv:"expand" ~doc)
+  in
   let doc = "Show a specific project" in
   let man = Glue.Man.default call in
   let exits = Term.default_exits in
-  ( Term.(const Lib.show $ project)
+  ( Term.(const Lib.show $ project $ expand)
   , Term.info "show" ~version ~doc ~exits ~man )
 ;;
 

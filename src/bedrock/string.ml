@@ -40,5 +40,6 @@ let end_with base suffix =
 ;;
 
 let has_extension base extension = end_with base ("." ^ extension)
+let lines = S.split_on_char '\n'
 
 include S

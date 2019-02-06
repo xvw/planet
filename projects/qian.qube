@@ -5,7 +5,7 @@
 (:license "mit")
 (:tags "file" "explorer" "mvp" "minimalist")
 (:repo "github.com/xvw/qian.git")
-(:content external #org-mode "project/qian.org")
+(:content external #org-mode "projects/qian.org")
 (:picto "pictograms/qian.png")
 
 (:tools

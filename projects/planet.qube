@@ -5,7 +5,7 @@
 (:license "mit")
 (:tags "planet" "log" "web" "ocaml" "journal" "blog")
 (:repo "github.com/xvw/planet.git")
-(:content external #org-mode "project/planet.org")
+(:content external #org-mode "projects/planet.org")
 
 (:tools
  (ocaml "https://ocaml.org")

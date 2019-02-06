@@ -98,6 +98,25 @@ let render_dated_link_box title list =
     Ansi.[reset; !"\n\n"] @ Glue.Ui.dated_link_box title li
 ;;
 
+let render_content = function
+  | None ->
+    []
+  | Some x ->
+    let label, text =
+      match snd x with
+      | Shapes.Text.Plain s ->
+        "local", s
+      | Shapes.Text.File x ->
+        (match File.to_string x with
+        | Error _ ->
+          x, "unreadable"
+        | Ok txt ->
+          x, txt)
+    in
+    Ansi.[reset; !"\n\n"]
+    @ Ansi.text_box ~text_style:Ansi.[fg bright_blue] label text
+;;
+
 let show_project project =
   let open Shapes.Project in
   let fragment =
@@ -112,6 +131,7 @@ let show_project project =
     @ render_link_box "Tools" project.tools
     @ render_link_box "Links" project.links
     @ (render_dated_link_box "Releases" $ List.rev project.releases)
+    @ render_content project.content
     @ Ansi.[!"\n"]
   in
   fragment |> Ansi.to_string ~scoped:true |> print_endline

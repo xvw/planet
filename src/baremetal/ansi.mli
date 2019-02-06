@@ -129,3 +129,12 @@ val generic_box :
   -> string
   -> 'a list
   -> fragments
+
+val text_box :
+     ?prefix:fragments
+  -> ?box_style:fragments
+  -> ?title_style:fragments
+  -> ?text_style:fragments
+  -> string
+  -> string
+  -> fragments

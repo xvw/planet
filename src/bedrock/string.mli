@@ -15,6 +15,9 @@ val end_with : string -> string -> bool
 (** [has_extension x ext] checks if [x] end with [.ext]. *)
 val has_extension : string -> string -> bool
 
+(** Produce each lines of a string *)
+val lines : string -> string list
+
 (** {2 Stdlib} *)
 
 include module type of Stdlib.String with type t := t

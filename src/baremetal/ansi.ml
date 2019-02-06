@@ -1,3 +1,5 @@
+open Bedrock
+
 type color =
   | Default
   | Black
@@ -188,4 +190,18 @@ let generic_box
     fragments =
   let list = List.map f fragments in
   box ~prefix ~box_style ~title_style title list
+;;
+
+let text_box
+    ?(prefix = [!"│"])
+    ?(box_style = [fg cyan])
+    ?(title_style = [bold])
+    ?(text_style = [])
+    title
+    text =
+  let l =
+    text |> String.lines
+    |> List.map (fun l -> text_style @ [!l; reset])
+  in
+  box ~prefix ~box_style ~title_style title l
 ;;

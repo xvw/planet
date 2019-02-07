@@ -1,12 +1,13 @@
 # planet
 
-All source code is distributed under the `MIT` license.
-The idea behind Planet is strongly inspired by the work of 
-[Devine Lu Linvega](https://wiki.xxiivv.com/#home).
-
 > Planet is a collection of tools to build an interactive playground 
 > deployable on the web. All libraries form an ecosystem for describing 
 > binaries and JavaScript bundles.
+
+> All source code is distributed under the `MIT` license.
+> The idea behind Planet is strongly inspired by the work of 
+> [Devine Lu Linvega](https://wiki.xxiivv.com/#home).
+
 
 ## Use-cases
 

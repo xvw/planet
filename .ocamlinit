@@ -3,5 +3,8 @@
 #install_printer Paperwork.Timetable.Day.pp
 #install_printer Paperwork.Timetable.Hour.pp
 #install_printer Paperwork.Timetable.Moment.pp
+#install_printer Shapes.Link.pp_simple
+#install_printer Shapes.Link.pp_dated
+#install_printer Paperwork.Color.pp
 
 open Bedrock

@@ -58,6 +58,9 @@ module Year : sig
 
   (** Pretty printer *)
   val pp : Format.formatter -> t -> unit
+
+  (** Equality *)
+  val eq : t -> t -> bool
 end
 
 module Month : sig
@@ -98,6 +101,9 @@ module Month : sig
 
   (** Pretty printer *)
   val pp : Format.formatter -> t -> unit
+
+  (** Equality *)
+  val eq : t -> t -> bool
 end
 
 module Day : sig
@@ -121,6 +127,9 @@ module Day : sig
 
   (** Pretty printer *)
   val pp : Format.formatter -> t -> unit
+
+  (** Equality *)
+  val eq : t -> t -> bool
 end
 
 module Hour : sig
@@ -142,6 +151,9 @@ module Hour : sig
 
   (** Pretty printer *)
   val pp : Format.formatter -> t -> unit
+
+  (** Equality *)
+  val eq : t -> t -> bool
 end
 
 module Moment : sig
@@ -166,4 +178,7 @@ module Moment : sig
 
   (** Pretty printer *)
   val pp : Format.formatter -> t -> unit
+
+  (** Equality *)
+  val eq : t -> t -> bool
 end

@@ -34,3 +34,8 @@ val from_qexp : Paperwork.Qexp.t -> t Bedrock.Validation.t
 
 (** Render a status to a string. *)
 val status_to_string : status -> string
+
+(** {2 Utils} *)
+
+val pp : Format.formatter -> t -> unit
+val eq : t -> t -> bool

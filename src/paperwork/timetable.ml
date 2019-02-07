@@ -24,6 +24,7 @@ module Year = struct
   ;;
 
   let pp ppf x = Format.fprintf ppf "%s" (to_string x)
+  let eq (Year x) (Year y) = x = y
 end
 
 module Month = struct
@@ -134,6 +135,10 @@ module Month = struct
   ;;
 
   let pp ppf x = Format.fprintf ppf "%s" (to_string x)
+
+  let eq (Month (y, m)) (Month (y2, m2)) =
+    Year.eq y y2 && to_char m = to_char m2
+  ;;
 end
 
 module Day = struct
@@ -169,6 +174,7 @@ module Day = struct
   ;;
 
   let pp ppf x = Format.fprintf ppf "%s" (to_string x)
+  let eq (Day (m, d)) (Day (m2, d2)) = Month.eq m m2 && d = d2
 end
 
 module Hour = struct
@@ -207,6 +213,7 @@ module Hour = struct
   ;;
 
   let pp ppf x = Format.fprintf ppf "%s" (to_string x)
+  let eq (Hour (h, m)) (Hour (h2, m2)) = h = h2 && m = m2
 end
 
 module Moment = struct
@@ -239,4 +246,5 @@ module Moment = struct
   ;;
 
   let pp ppf x = Format.fprintf ppf "%s" (to_string x)
+  let eq (d, h) (d2, h2) = Day.eq d d2 && Hour.eq h h2
 end

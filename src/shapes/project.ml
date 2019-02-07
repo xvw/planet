@@ -113,3 +113,13 @@ let status_to_string = function
   | Interrupted ->
     "interrupted"
 ;;
+
+let pp ppf project =
+  Format.fprintf
+    ppf
+    "Project(%s, ...)<%s>"
+    project.name
+    (status_to_string project.status)
+;;
+
+let eq a b = a = b

@@ -16,3 +16,10 @@ type dated = name * Timetable.Day.t * uri
 
 val mapper_simple : Qexp.t -> simple Validation.t
 val mapper_dated : Qexp.t -> dated Validation.t
+
+(** {2 Utils} *)
+
+val pp_simple : Format.formatter -> simple -> unit
+val pp_dated : Format.formatter -> dated -> unit
+val eq_simple : simple -> simple -> bool
+val eq_dated : dated -> dated -> bool

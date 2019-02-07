@@ -12,3 +12,4 @@ val path : _ t -> File.name
 (** {2 Static databases} *)
 
 val projects : Shapes.Project.t t
+val sectors : Shapes.Sector.t t

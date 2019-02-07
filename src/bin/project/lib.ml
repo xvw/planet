@@ -79,7 +79,16 @@ let license = function
     []
   | Some x ->
     Ansi.
-      [reset; fg cyan; !"-"; bg red; fg yellow; !" "; !x; !" "; reset]
+      [ reset
+      ; fg cyan
+      ; !"-"
+      ; bg green
+      ; fg black
+      ; bold
+      ; !" "
+      ; !x
+      ; !" "
+      ; reset ]
 ;;
 
 let render_link_box title list =
@@ -124,8 +133,9 @@ let show_project expanded project =
     Ansi.[!"\n"]
     @ Ansi.(box project.title [[fg cyan; !(project.synopsis)]])
     @ Ansi.
-        [ bg red
-        ; fg yellow
+        [ bg green
+        ; fg black
+        ; bold
         ; !(Format.sprintf " %s " $ status_to_string project.status)
         ]
     @ license project.license

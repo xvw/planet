@@ -28,7 +28,7 @@ test:
 	dune build src/bin/$@
 	cp _build/default/src/bin/$@ ./
 
-binaries: project/project.exe
+binaries: project/project.exe log/log.exe
 
 # Package installation
 

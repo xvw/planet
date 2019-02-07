@@ -91,21 +91,16 @@ let license = function
       ; reset ]
 ;;
 
-let render_link_box title list =
+let render_links f title list =
   match list with
   | [] ->
     []
   | li ->
-    Ansi.[reset; !"\n\n"] @ Glue.Ui.link_box title li
+    Ansi.[reset; !"\n\n"] @ f title li
 ;;
 
-let render_dated_link_box title list =
-  match list with
-  | [] ->
-    []
-  | li ->
-    Ansi.[reset; !"\n\n"] @ Glue.Ui.dated_link_box title li
-;;
+let render_link_box = render_links Glue.Ui.link_box
+let render_dated_link_box = render_links Glue.Ui.dated_link_box
 
 let render_content expanded content =
   match expanded, content with

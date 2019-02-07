@@ -1,4 +1,5 @@
 open Bedrock
+open Util
 open Error
 
 type ('a, 'b) t = ('a, 'b) Hashtbl.t
@@ -78,18 +79,6 @@ module Fetch = struct
       Error [Invalid_field field]
   ;;
 
-  let color table field =
-    match string table field with
-    | Ok str ->
-      (match Color.from_string str with
-      | Ok x ->
-        Ok x
-      | Error e ->
-        Error [e])
-    | Error e ->
-      Error e
-  ;;
-
   let bool table field =
     let open Qexp in
     match Hashtbl.find_opt table field with
@@ -148,6 +137,19 @@ module Fetch = struct
     | _ ->
       Error [Invalid_field field]
   ;;
+
+  let int table field =
+    token
+      Validation.(
+        int_of_string_opt %> from_option (Invalid_field field))
+      table
+      field
+  ;;
+
+  module D = Timetable.Day
+
+  let day = token Validation.(D.from_string %> from_result)
+  let color = token Validation.(Color.from_string %> from_result)
 end
 
 module Mapper = struct

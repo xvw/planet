@@ -1,5 +1,6 @@
 (** Structured logs*)
 
+open Bedrock
 open Paperwork
 
 (** {2 Types} *)
@@ -8,9 +9,14 @@ type t =
   { uuid : string
   ; day : Timetable.Day.t
   ; duration : int
-  ; sector : Sector.t
-  ; project : Project.t option
+  ; sector : string
+  ; project : string option
   ; label : string }
+
+(** {2 Projections} *)
+
+val to_qexp : t -> Qexp.t
+val from_qexp : Qexp.t -> t Validation.t
 
 (** {2 Utils} *)
 

@@ -38,7 +38,9 @@ module Fetch : sig
   val list : (Qexp.t -> 'a Validation.t) -> 'a list t
   val list_refutable : (Qexp.t -> 'a Validation.t) -> 'a list t
   val token : (string -> 'a Validation.t) -> 'a t
+  val int : int t
   val color : Color.t t
+  val day : Timetable.Day.t t
 end
 
 module Mapper : sig

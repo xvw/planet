@@ -56,6 +56,10 @@ val double_quote : quote
 (** A back tick. *)
 val back_tick : quote
 
+(** K/V shortcut *)
+val kv :
+  ?k:(string -> t) -> ?v:(string -> t) -> string -> string -> t
+
 (** {2 Deserialization} *)
 
 (** From [char Stream.t] to [Qexp.t].  *)

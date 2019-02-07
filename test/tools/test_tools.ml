@@ -20,6 +20,7 @@ let all_are_uniq li =
 module Check = struct
   let color = Alcotest.testable Paperwork.Color.pp Paperwork.Color.eq
   let error = Alcotest.testable Bedrock.Error.pp Bedrock.Error.eq
+  let validation left = Alcotest.(result left (list error))
 end
 
 module Testable = struct

@@ -18,6 +18,9 @@ val has_extension : string -> string -> bool
 (** Produce each lines of a string *)
 val lines : string -> string list
 
+(** Remove all spaces of a string. *)
+val super_trim : string -> string
+
 (** {2 Stdlib} *)
 
 include module type of Stdlib.String with type t := t

@@ -17,6 +17,11 @@ let all_are_uniq li =
   aux li
 ;;
 
+module Check = struct
+  let color = Alcotest.testable Paperwork.Color.pp Paperwork.Color.eq
+  let error = Alcotest.testable Bedrock.Error.pp Bedrock.Error.eq
+end
+
 module Testable = struct
   let check_result ty message a b =
     let r okt =

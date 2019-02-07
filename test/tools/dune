@@ -1,4 +1,4 @@
 (library
  (name test_tools)
  (public_name planet.test_tools)
- (libraries planet.bedrock alcotest))
+ (libraries planet.bedrock planet.paperwork alcotest))

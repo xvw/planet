@@ -32,6 +32,7 @@ type t =
   | Invalid_text_scheme
   | Unknown_status of string
   | Mapping_failure of (string * string)
+  | Unparsable_color of string
   | Unix of string
   | Exn of exn
   | List of t list
@@ -67,6 +68,7 @@ module Exn : sig
   exception Invalid_text_scheme
   exception Unknown_status of string
   exception Mapping_failure of (string * string)
+  exception Unparsable_color of string
 end
 
 (** {2 Tools to deal with errors} *)
@@ -82,3 +84,8 @@ val to_string : t -> string
 
 (** Raise an [Error.t] as an [Exn.t] *)
 val raise_ : t -> 'a
+
+(** {2 Tools for testing} *)
+
+val pp : Format.formatter -> t -> unit
+val eq : t -> t -> bool

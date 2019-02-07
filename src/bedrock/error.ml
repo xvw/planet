@@ -24,6 +24,7 @@ type t =
   | Invalid_text_scheme
   | Unknown_status of string
   | Mapping_failure of (string * string)
+  | Unparsable_color of string
   | Unix of string
   | Exn of exn
   | List of t list
@@ -58,6 +59,7 @@ module Exn = struct
   exception Invalid_text_scheme
   exception Unknown_status of string
   exception Mapping_failure of (string * string)
+  exception Unparsable_color of string
 end
 
 let rec to_exception = function
@@ -115,6 +117,8 @@ let rec to_exception = function
     exn
   | Mapping_failure (subject, content) ->
     Exn.Mapping_failure (subject, content)
+  | Unparsable_color string ->
+    Exn.Unparsable_color string
   | List errors ->
     Exn.List (List.map to_exception errors)
 ;;
@@ -170,6 +174,8 @@ let rec from_exception = function
     Invalid_text_scheme
   | Exn.Unknown_status string ->
     Unknown_status string
+  | Exn.Unparsable_color string ->
+    Unparsable_color string
   | Exn.Mapping_failure (subject, content) ->
     Mapping_failure (subject, content)
   | e ->
@@ -231,6 +237,8 @@ let rec to_string = function
     Format.sprintf "[Exception: %s]" (Printexc.to_string e)
   | Mapping_failure (subject, content) ->
     Format.sprintf "[Mapping_failure] [%s] [%s]" subject content
+  | Unparsable_color string ->
+    Format.sprintf "[Unparsable_color] [%s]" string
   | List errors ->
     Format.sprintf
       "[List] %s"
@@ -240,4 +248,17 @@ let rec to_string = function
 let raise_ error =
   let exn = to_exception error in
   raise exn
+;;
+
+let pp ppf e =
+  let str = to_string e in
+  let f = Format.sprintf "Error(%s)" str in
+  Format.fprintf ppf "%s" f
+;;
+
+let eq a b =
+  (* Cheap comparison *)
+  let x = to_string a in
+  let y = to_string b in
+  x = y
 ;;

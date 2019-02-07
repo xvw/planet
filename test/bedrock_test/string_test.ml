@@ -59,4 +59,22 @@ module Has_extension = struct
   ;;
 end
 
-let suite = Start_with.suite @ End_with.suite @ Has_extension.suite
+module Super_trim = struct
+  let suite =
+    [ "foobar", "foobar"
+    ; "foo bar", "foobar"
+    ; "rgb(x, y, z)", "rgb(x,y,z)"
+    ; "f o o\tb\ta r", "foobar" ]
+    |> List.map (fun (base, expected) ->
+           test
+             (Format.sprintf "[super_trim] %s -> %s" base expected)
+             (fun () ->
+               let result = String.super_trim base in
+               check string "same strings" expected result ) )
+  ;;
+end
+
+let suite =
+  Start_with.suite @ End_with.suite @ Has_extension.suite
+  @ Super_trim.suite
+;;

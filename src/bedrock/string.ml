@@ -42,4 +42,19 @@ let end_with base suffix =
 let has_extension base extension = end_with base ("." ^ extension)
 let lines = S.split_on_char '\n'
 
+let super_trim x =
+  let len = S.length x in
+  let rec aux acc i =
+    if i = len
+    then acc
+    else
+      match S.get x i with
+      | '\n' | '\t' | '\r' | ' ' ->
+        aux acc (succ i)
+      | char ->
+        aux (Format.sprintf "%s%c" acc char) (succ i)
+  in
+  aux "" 0
+;;
+
 include S

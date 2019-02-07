@@ -1,6 +1,6 @@
 (** Describe color *)
 
-(* open Bedrock *)
+open Bedrock
 
 (** {2 Types} *)
 
@@ -24,6 +24,12 @@ val create : ?alpha:alpha -> red -> green -> blue -> t
 val to_rgb : t -> string
 val to_hex : t -> string
 val to_string : t -> string
+val pp : Format.formatter -> t -> unit
+
+(** {2 Comparison} *)
+
+val eq : t -> t -> bool
 
 (** {2 Parsing} *)
-(* val from_string : string -> t Result.t *)
+
+val from_string : string -> t Result.t

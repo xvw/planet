@@ -169,9 +169,12 @@ let box
     ?(title_style = [bold])
     title
     fragments =
-  let a = (reset :: box_style) @ [!"┌─ "; reset] in
-  let t = title_style @ [!title; reset; !"\n"] in
-  let b = (reset :: box_style) @ [!"└─ "; reset] in
+  let a = (reset :: box_style) @ [!"┌─["; reset] in
+  let t =
+    title_style @ [!title] @ (reset :: box_style)
+    @ [!"]─→"; reset; !"\n"]
+  in
+  let b = (reset :: box_style) @ [!"└─"; reset] in
   let l =
     List.map
       (fun x ->

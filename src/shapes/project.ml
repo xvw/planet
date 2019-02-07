@@ -121,5 +121,3 @@ let pp ppf project =
     project.name
     (status_to_string project.status)
 ;;
-
-let eq a b = a = b

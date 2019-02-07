@@ -81,7 +81,7 @@ let license = function
     Ansi.
       [ reset
       ; fg cyan
-      ; !"-"
+      ; !"─"
       ; bg green
       ; fg black
       ; bold

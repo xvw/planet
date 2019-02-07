@@ -15,3 +15,4 @@ type t =
 (** {2 Utils} *)
 
 val pp : Format.formatter -> t -> unit
+val eq : t -> t -> bool

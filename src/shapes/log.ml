@@ -1,3 +1,4 @@
+open Bedrock
 open Paperwork
 
 type t =
@@ -25,4 +26,13 @@ let pp ppf log =
     log.duration
     log.label
     project
+;;
+
+let eq left right =
+  left.uuid = right.uuid
+  && Timetable.Day.eq left.day right.day
+  && left.duration = right.duration
+  && Sector.eq left.sector right.sector
+  && Option.eq Project.eq left.project right.project
+  && left.label = right.label
 ;;

@@ -3,6 +3,11 @@
 (** Type for a list. *)
 type 'a t = 'a list
 
+(** {2 Extension API} *)
+
+val zip : 'a t -> 'b t -> ('a * 'b) t option
+val eq : ('a -> 'a -> bool) -> 'a t -> 'a t -> bool
+
 (** {2 Functor instance} *)
 module Functor : Sigs.Functor.API with type 'a t = 'a list
 

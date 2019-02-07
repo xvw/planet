@@ -1,5 +1,15 @@
 type 'a t = 'a option
 
+let eq f left right =
+  match left, right with
+  | None, None ->
+    true
+  | Some x, Some y ->
+    f x y
+  | _ ->
+    false
+;;
+
 module Functor = Functor.Make (struct
   type 'a t = 'a option
 

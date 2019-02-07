@@ -121,3 +121,30 @@ let pp ppf project =
     project.name
     (status_to_string project.status)
 ;;
+
+let status_eq left right =
+  match left, right with
+  | Unceasing, Unceasing
+  | Wip, Wip
+  | Done, Done
+  | Paused, Paused
+  | Interrupted, Interrupted ->
+    true
+  | _ ->
+    false
+;;
+
+let rec eq a b =
+  a.name = b.name && a.title = b.title && a.synopsis = b.synopsis
+  && Option.eq ( = ) a.repo b.repo
+  && Option.eq ( = ) a.license b.license
+  && List.eq Link.eq_simple a.tools b.tools
+  && List.eq Link.eq_simple a.links b.links
+  && List.eq Link.eq_dated a.releases b.releases
+  && status_eq a.status b.status
+  && List.eq ( = ) a.tags b.tags
+  && Option.eq ( = ) a.picto b.picto
+  && a.indexed = b.indexed
+  && Option.eq Text.eq a.content b.content
+  && List.eq eq a.subprojects b.subprojects
+;;

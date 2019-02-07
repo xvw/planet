@@ -63,3 +63,34 @@ let fetch table field =
   | _ ->
     Error [Invalid_field field]
 ;;
+
+let pp ppf (fmt, content) =
+  let ext = Format.to_string fmt in
+  let kind =
+    match content with
+    | File k ->
+      Stdlib.Format.sprintf "file://%s" k
+    | Plain k ->
+      Stdlib.Format.sprintf "`%s`" k
+  in
+  Stdlib.Format.fprintf ppf "Text.%s=%s" ext kind
+;;
+
+let eq_format left right =
+  let open Format in
+  match left, right with
+  | Org, Org | Markdown, Markdown | Raw, Raw ->
+    true
+  | _ ->
+    false
+;;
+
+let eq_content left right =
+  match left, right with
+  | File x, File y | Plain x, Plain y ->
+    x = y
+  | _ ->
+    false
+;;
+
+let eq (a, b) (x, y) = eq_format a x && eq_content b y

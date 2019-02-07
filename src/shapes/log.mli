@@ -13,3 +13,5 @@ type t =
   ; label : string }
 
 (** {2 Utils} *)
+
+val pp : Format.formatter -> t -> unit

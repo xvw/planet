@@ -38,5 +38,4 @@ val status_to_string : status -> string
 (** {2 Utils} *)
 
 val pp : Format.formatter -> t -> unit
-(* val eq : t -> t -> bool *)
-(* TO BE DONE *)
+val eq : t -> t -> bool

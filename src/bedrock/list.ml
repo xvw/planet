@@ -1,5 +1,19 @@
 type 'a t = 'a list
 
+module L = Stdlib.List
+
+let zip left right =
+  try Some (L.map2 (fun x y -> x, y) left right) with _ -> None
+;;
+
+let eq f left right =
+  match zip left right with
+  | None ->
+    false
+  | Some l ->
+    L.for_all (fun (x, y) -> f x y) l
+;;
+
 module Functor = Functor.Make (struct
   type 'a t = 'a list
 
@@ -57,7 +71,7 @@ module Applicative = struct
   end
 end
 
-include Stdlib.List
+include L
 
 module Infix = struct
   include Functor.Infix

@@ -78,6 +78,18 @@ module Fetch = struct
       Error [Invalid_field field]
   ;;
 
+  let color table field =
+    match string table field with
+    | Ok str ->
+      (match Color.from_string str with
+      | Ok x ->
+        Ok x
+      | Error e ->
+        Error [e])
+    | Error e ->
+      Error e
+  ;;
+
   let bool table field =
     let open Qexp in
     match Hashtbl.find_opt table field with

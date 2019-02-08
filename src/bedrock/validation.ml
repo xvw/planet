@@ -1,6 +1,7 @@
 type 'a t = ('a, Error.t list) result
 type 'a st = 'a t
 
+let pop f = function Ok x -> x | Error err -> f err
 let from_result = function Ok x -> Ok x | Error x -> Error [x]
 
 let from_option error = function

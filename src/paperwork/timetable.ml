@@ -247,4 +247,14 @@ module Moment = struct
 
   let pp ppf x = Format.fprintf ppf "%s" (to_string x)
   let eq (d, h) (d2, h2) = Day.eq d d2 && Hour.eq h h2
+
+  let extract
+      ( Day.Day (Month.Month (Year.Year year, month), day)
+      , Hour.Hour (hour, min) ) =
+    let yr = Year.Year year in
+    let mt = Month.Month (yr, month) in
+    let dy = Day.Day (mt, day) in
+    let hr = Hour.Hour (hour, min) in
+    yr, mt, dy, hr
+  ;;
 end

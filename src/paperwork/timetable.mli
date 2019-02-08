@@ -99,6 +99,9 @@ module Month : sig
   (** Unserialize a [Month.t]. *)
   val from_string : string -> t Result.t
 
+  (** Get [Month.month] from int. *)
+  val from_int : int -> month Result.t
+
   (** Pretty printer *)
   val pp : Format.formatter -> t -> unit
 
@@ -181,4 +184,7 @@ module Moment : sig
 
   (** Equality *)
   val eq : t -> t -> bool
+
+  (** Extract info *)
+  val extract : t -> Year.t * Month.t * Day.t * Hour.t
 end

@@ -1,6 +1,8 @@
 type 'a t = ('a, Error.t) result
 type 'a st = 'a t
 
+let pop f = function Ok x -> x | Error err -> f err
+
 module Functor = Functor.Make (struct
   type 'a t = 'a st
 

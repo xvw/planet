@@ -5,6 +5,9 @@
 (** type for a result. *)
 type 'a t = ('a, Error.t) result
 
+(** Extract value of a result *)
+val pop : (Error.t -> 'a) -> 'a t -> 'a
+
 (** {2 Functor instance} *)
 module Functor : Sigs.Functor.API with type 'a t = 'a t
 

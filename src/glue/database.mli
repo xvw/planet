@@ -13,3 +13,4 @@ val path : _ t -> File.name
 
 val projects : Shapes.Project.t t
 val sectors : Shapes.Sector.t t
+val logs : Shapes.Log.t t

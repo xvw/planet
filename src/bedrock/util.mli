@@ -35,3 +35,6 @@ val md5 : string -> string
 
 (** [bound x min max] bounds [x] between [min] and [max]. *)
 val bound : 'a -> 'a -> 'a -> 'a
+
+(** Perform a function until the result is valid. *)
+val try_until : ('a -> bool) -> (unit -> 'a) -> 'a

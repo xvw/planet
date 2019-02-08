@@ -1,12 +1,6 @@
 (** Terminal related UI. *)
 
-open Bedrock
 open Baremetal
-
-(** {2 Prompt errors} *)
-
-val prompt_errors : ?intro:bool -> Error.t list -> unit
-val prompt_error : ?intro:bool -> Error.t -> unit
 
 (** {2 Boxes and Tables} *)
 

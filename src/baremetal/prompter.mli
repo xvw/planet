@@ -9,10 +9,17 @@
     ]}
 *)
 
+open Bedrock
+
 (** {2 Aliases} *)
 
 type question = string
 type answer = string
+
+(** {2 Prompt errors} *)
+
+val prompt_errors : ?intro:bool -> Error.t list -> unit
+val prompt_error : ?intro:bool -> Error.t -> unit
 
 (** {2 Prompters} *)
 
@@ -23,6 +30,8 @@ val generic :
   -> ?title_style:Ansi.fragments
   -> ?text_style:Ansi.fragments
   -> ?question_style:Ansi.fragments
+  -> ?title:string
+  -> ?bottom:Ansi.fragments
   -> (answer -> 'a)
   -> question
   -> 'a
@@ -34,6 +43,8 @@ val string :
   -> ?title_style:Ansi.fragments
   -> ?text_style:Ansi.fragments
   -> ?question_style:Ansi.fragments
+  -> ?title:string
+  -> ?bottom:Ansi.fragments
   -> ?f:(answer -> string)
   -> question
   -> string
@@ -45,6 +56,8 @@ val string_opt :
   -> ?title_style:Ansi.fragments
   -> ?text_style:Ansi.fragments
   -> ?question_style:Ansi.fragments
+  -> ?title:string
+  -> ?bottom:Ansi.fragments
   -> ?f:(answer option -> string option)
   -> question
   -> string option
@@ -56,6 +69,8 @@ val int :
   -> ?title_style:Ansi.fragments
   -> ?text_style:Ansi.fragments
   -> ?question_style:Ansi.fragments
+  -> ?title:string
+  -> ?bottom:Ansi.fragments
   -> ?f:(int -> int)
   -> ?default:int
   -> question
@@ -68,6 +83,47 @@ val int_opt :
   -> ?title_style:Ansi.fragments
   -> ?text_style:Ansi.fragments
   -> ?question_style:Ansi.fragments
+  -> ?title:string
+  -> ?bottom:Ansi.fragments
   -> ?f:(int option -> int option)
   -> question
   -> int option
+
+(** Display an yes-no prompter *)
+val yes_no :
+     ?prefix:Ansi.fragments
+  -> ?box_style:Ansi.fragments
+  -> ?title_style:Ansi.fragments
+  -> ?text_style:Ansi.fragments
+  -> ?question_style:Ansi.fragments
+  -> ?title:string
+  -> ?bottom:Ansi.fragments
+  -> ?f:(answer -> bool)
+  -> question
+  -> bool
+
+(** Display a prompter which could fail *)
+val resultable :
+     ?prefix:Ansi.fragments
+  -> ?box_style:Ansi.fragments
+  -> ?title_style:Ansi.fragments
+  -> ?text_style:Ansi.fragments
+  -> ?question_style:Ansi.fragments
+  -> ?title:string
+  -> ?bottom:Ansi.fragments
+  -> (string -> 'a Result.t)
+  -> question
+  -> 'a Result.t
+
+(** Display a prompter which could fail with a validation *)
+val validable :
+     ?prefix:Ansi.fragments
+  -> ?box_style:Ansi.fragments
+  -> ?title_style:Ansi.fragments
+  -> ?text_style:Ansi.fragments
+  -> ?question_style:Ansi.fragments
+  -> ?title:string
+  -> ?bottom:Ansi.fragments
+  -> (string -> 'a Validation.t)
+  -> question
+  -> 'a Validation.t

@@ -17,7 +17,7 @@ let sectors () =
         |> to_string |> print_endline )
       hashtable
   | Error errs ->
-    Glue.Ui.prompt_errors errs
+    Prompter.prompt_errors errs
 ;;
 
 let interactive () = Prompter.string_opt "When?" |> ignore

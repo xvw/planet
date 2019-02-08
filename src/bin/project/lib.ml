@@ -44,7 +44,7 @@ let ls_render_invalid_project projects =
             |> Ansi.to_string ~scoped:true
             |> print_endline
           in
-          Glue.Ui.prompt_errors ~intro:false x )
+          Prompter.prompt_errors ~intro:false x )
         projects
     in
     let () = print_newline () in
@@ -54,7 +54,7 @@ let ls_render_invalid_project projects =
 let ls () =
   match Glue.Project.inspect () with
   | Error err ->
-    Glue.Ui.prompt_error err
+    Prompter.prompt_error err
   | Ok projects ->
     let invalid_project, valid_projects =
       List.fold_right
@@ -146,7 +146,7 @@ let show_project expanded project =
 let show project_name expanded =
   match Glue.Project.read (project_name ^ ".qube") with
   | Error err, _ ->
-    Glue.Ui.prompt_errors err
+    Prompter.prompt_errors err
   | Ok project, _ ->
     show_project expanded project
 ;;

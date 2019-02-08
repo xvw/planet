@@ -8,3 +8,8 @@ let ( <% ) f g x = f (g x)
 let ( % ) = ( <% )
 let md5 = Digest.(to_hex % string)
 let bound value a b = min (max value a) b
+
+let rec try_until predicate effect =
+  let result = effect () in
+  if predicate result then result else try_until predicate effect
+;;

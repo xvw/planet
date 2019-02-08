@@ -8,6 +8,8 @@ type 'a t = ('a, Error.t list) result
 (** Extract value of a result *)
 val pop : (Error.t list -> 'a) -> 'a t -> 'a
 
+val is_valid : 'a t -> bool
+
 (** {2 Promotion's function} *)
 
 (** Promote ['a Result.t] to ['a Validation.t] *)

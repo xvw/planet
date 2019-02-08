@@ -10,6 +10,8 @@ let eq f left right =
     false
 ;;
 
+let is_valid = function Some _ -> true | None -> false
+
 module Functor = Functor.Make (struct
   type 'a t = 'a option
 

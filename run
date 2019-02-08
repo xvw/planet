@@ -1,5 +1,0 @@
-#!/bin/bash
-BIN=$1;
-shift;
-
-dune exec src/bin/$BIN/$BIN.exe $*;

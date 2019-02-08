@@ -19,3 +19,5 @@ let sectors () =
   | Error errs ->
     Glue.Ui.prompt_errors errs
 ;;
+
+let interactive () = Prompter.string_opt "When?" |> ignore

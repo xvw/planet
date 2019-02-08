@@ -18,32 +18,44 @@ type answer = string
 
 (** Display a generic prompter. *)
 val generic :
-     ?question_style:Ansi.fragments
-  -> ?answer_style:Ansi.fragments
+     ?prefix:Ansi.fragments
+  -> ?box_style:Ansi.fragments
+  -> ?title_style:Ansi.fragments
+  -> ?text_style:Ansi.fragments
+  -> ?question_style:Ansi.fragments
   -> (answer -> 'a)
   -> question
   -> 'a
 
 (** Display a string prompter *)
 val string :
-     ?question_style:Ansi.fragments
-  -> ?answer_style:Ansi.fragments
+     ?prefix:Ansi.fragments
+  -> ?box_style:Ansi.fragments
+  -> ?title_style:Ansi.fragments
+  -> ?text_style:Ansi.fragments
+  -> ?question_style:Ansi.fragments
   -> ?f:(answer -> string)
   -> question
   -> string
 
 (** Display a non-empty string prompter *)
 val string_opt :
-     ?question_style:Ansi.fragments
-  -> ?answer_style:Ansi.fragments
+     ?prefix:Ansi.fragments
+  -> ?box_style:Ansi.fragments
+  -> ?title_style:Ansi.fragments
+  -> ?text_style:Ansi.fragments
+  -> ?question_style:Ansi.fragments
   -> ?f:(answer option -> string option)
   -> question
   -> string option
 
 (** Display an int prompter *)
 val int :
-     ?question_style:Ansi.fragments
-  -> ?answer_style:Ansi.fragments
+     ?prefix:Ansi.fragments
+  -> ?box_style:Ansi.fragments
+  -> ?title_style:Ansi.fragments
+  -> ?text_style:Ansi.fragments
+  -> ?question_style:Ansi.fragments
   -> ?f:(int -> int)
   -> ?default:int
   -> question
@@ -51,8 +63,11 @@ val int :
 
 (** Display an optional-int prompter *)
 val int_opt :
-     ?question_style:Ansi.fragments
-  -> ?answer_style:Ansi.fragments
+     ?prefix:Ansi.fragments
+  -> ?box_style:Ansi.fragments
+  -> ?title_style:Ansi.fragments
+  -> ?text_style:Ansi.fragments
+  -> ?question_style:Ansi.fragments
   -> ?f:(int option -> int option)
   -> question
   -> int option

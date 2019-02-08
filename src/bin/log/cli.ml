@@ -11,6 +11,14 @@ let sectors =
   , Term.info "sectors" ~version ~doc ~exits ~man )
 ;;
 
+let interactive =
+  let doc = "Write a log in interactive mode" in
+  let man = Glue.Man.default call in
+  let exits = Term.default_exits in
+  ( Term.(const Lib.interactive $ const ())
+  , Term.info "interactive" ~version ~doc ~exits ~man )
+;;
+
 let index =
   let doc = "Manage logs for timetracking" in
   let man = Glue.Man.default call in
@@ -19,4 +27,6 @@ let index =
   , Term.info call ~version ~doc ~exits ~man )
 ;;
 
-let invoke () = Term.(exit @@ eval_choice index [sectors])
+let invoke () =
+  Term.(exit @@ eval_choice index [sectors; interactive])
+;;

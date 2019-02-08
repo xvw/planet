@@ -5,19 +5,34 @@ type question = string
 type answer = string
 
 let generic : type a.
-       ?question_style:Ansi.fragments
-    -> ?answer_style:Ansi.fragments
+       ?prefix:Ansi.fragments
+    -> ?box_style:Ansi.fragments
+    -> ?title_style:Ansi.fragments
+    -> ?text_style:Ansi.fragments
+    -> ?question_style:Ansi.fragments
     -> (answer -> a)
     -> question
     -> a =
- fun ?(question_style = Ansi.[bold])
-     ?(answer_style = [])
+ fun ?(prefix = Ansi.[!"│"])
+     ?(box_style = Ansi.[fg cyan])
+     ?(title_style = Ansi.[bold])
+     ?(text_style = [])
+     ?(question_style = [])
      callback
      question ->
-  let qs = Ansi.only_style question_style in
-  let an = Ansi.reset :: Ansi.only_style answer_style in
-  let () = Format.printf "%a%s" Ansi.pp qs question in
-  let () = Format.printf "%a@." Ansi.pp an in
+  let () =
+    Ansi.(
+      text_box
+        ~prefix
+        ~box_style
+        ~title_style
+        ~text_style
+        "prompter"
+        question
+      @ (reset :: box_style) @ [!"?"])
+    |> Ansi.to_string |> print_string
+  in
+  let () = Format.printf "%a@." Ansi.pp question_style in
   let result = Stdlib.read_line () in
   let () = Format.printf "%a" Ansi.pp [Ansi.reset] in
   callback result
@@ -26,25 +41,52 @@ let generic : type a.
 let opt = function "" -> None | x -> Some x
 
 let string
-    ?(question_style = Ansi.[bold])
-    ?(answer_style = [])
+    ?(prefix = Ansi.[!"│"])
+    ?(box_style = Ansi.[fg cyan])
+    ?(title_style = Ansi.[bold])
+    ?(text_style = [])
+    ?(question_style = [])
     ?(f = fun x -> x) =
-  generic ~question_style ~answer_style f
+  generic
+    ~prefix
+    ~box_style
+    ~title_style
+    ~text_style
+    ~question_style
+    f
 ;;
 
 let string_opt
-    ?(question_style = Ansi.[bold])
-    ?(answer_style = [])
+    ?(prefix = Ansi.[!"│"])
+    ?(box_style = Ansi.[fg cyan])
+    ?(title_style = Ansi.[bold])
+    ?(text_style = [])
+    ?(question_style = [])
     ?(f = fun x -> x) =
-  generic ~question_style ~answer_style (opt %> f)
+  generic
+    ~prefix
+    ~box_style
+    ~title_style
+    ~text_style
+    ~question_style
+    (opt %> f)
 ;;
 
 let int
-    ?(question_style = Ansi.[bold])
-    ?(answer_style = [])
+    ?(prefix = Ansi.[!"│"])
+    ?(box_style = Ansi.[fg cyan])
+    ?(title_style = Ansi.[bold])
+    ?(text_style = [])
+    ?(question_style = [])
     ?(f = fun x -> x)
     ?(default = 0) =
-  generic ~question_style ~answer_style (fun x ->
+  generic
+    ~prefix
+    ~box_style
+    ~title_style
+    ~text_style
+    ~question_style
+    (fun x ->
       match int_of_string_opt x with
       | None ->
         f default
@@ -53,8 +95,17 @@ let int
 ;;
 
 let int_opt
-    ?(question_style = Ansi.[bold])
-    ?(answer_style = [])
+    ?(prefix = Ansi.[!"│"])
+    ?(box_style = Ansi.[fg cyan])
+    ?(title_style = Ansi.[bold])
+    ?(text_style = [])
+    ?(question_style = [])
     ?(f = fun x -> x) =
-  generic ~question_style ~answer_style (int_of_string_opt %> f)
+  generic
+    ~prefix
+    ~box_style
+    ~title_style
+    ~text_style
+    ~question_style
+    (int_of_string_opt %> f)
 ;;

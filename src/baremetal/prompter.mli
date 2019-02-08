@@ -29,7 +29,7 @@ val generic :
   -> ?box_style:Ansi.fragments
   -> ?title_style:Ansi.fragments
   -> ?text_style:Ansi.fragments
-  -> ?question_style:Ansi.fragments
+  -> ?answer_style:Ansi.fragments
   -> ?title:string
   -> ?bottom:Ansi.fragments
   -> (answer -> 'a)
@@ -42,7 +42,7 @@ val string :
   -> ?box_style:Ansi.fragments
   -> ?title_style:Ansi.fragments
   -> ?text_style:Ansi.fragments
-  -> ?question_style:Ansi.fragments
+  -> ?answer_style:Ansi.fragments
   -> ?title:string
   -> ?bottom:Ansi.fragments
   -> ?f:(answer -> string)
@@ -55,7 +55,7 @@ val string_opt :
   -> ?box_style:Ansi.fragments
   -> ?title_style:Ansi.fragments
   -> ?text_style:Ansi.fragments
-  -> ?question_style:Ansi.fragments
+  -> ?answer_style:Ansi.fragments
   -> ?title:string
   -> ?bottom:Ansi.fragments
   -> ?f:(answer option -> string option)
@@ -68,7 +68,7 @@ val int :
   -> ?box_style:Ansi.fragments
   -> ?title_style:Ansi.fragments
   -> ?text_style:Ansi.fragments
-  -> ?question_style:Ansi.fragments
+  -> ?answer_style:Ansi.fragments
   -> ?title:string
   -> ?bottom:Ansi.fragments
   -> ?f:(int -> int)
@@ -82,7 +82,7 @@ val int_opt :
   -> ?box_style:Ansi.fragments
   -> ?title_style:Ansi.fragments
   -> ?text_style:Ansi.fragments
-  -> ?question_style:Ansi.fragments
+  -> ?answer_style:Ansi.fragments
   -> ?title:string
   -> ?bottom:Ansi.fragments
   -> ?f:(int option -> int option)
@@ -95,7 +95,7 @@ val yes_no :
   -> ?box_style:Ansi.fragments
   -> ?title_style:Ansi.fragments
   -> ?text_style:Ansi.fragments
-  -> ?question_style:Ansi.fragments
+  -> ?answer_style:Ansi.fragments
   -> ?title:string
   -> ?bottom:Ansi.fragments
   -> ?f:(answer -> bool)
@@ -108,7 +108,7 @@ val resultable :
   -> ?box_style:Ansi.fragments
   -> ?title_style:Ansi.fragments
   -> ?text_style:Ansi.fragments
-  -> ?question_style:Ansi.fragments
+  -> ?answer_style:Ansi.fragments
   -> ?title:string
   -> ?bottom:Ansi.fragments
   -> (string -> 'a Result.t)
@@ -121,9 +121,27 @@ val validable :
   -> ?box_style:Ansi.fragments
   -> ?title_style:Ansi.fragments
   -> ?text_style:Ansi.fragments
-  -> ?question_style:Ansi.fragments
+  -> ?answer_style:Ansi.fragments
   -> ?title:string
   -> ?bottom:Ansi.fragments
   -> (string -> 'a Validation.t)
   -> question
   -> 'a Validation.t
+
+(** Perform a choice in an array *)
+val choose :
+     ?prefix:Ansi.fragments
+  -> ?choice_prefix:Ansi.fragment list
+  -> ?choice_suffix:Ansi.fragment list
+  -> ?choice_style:Ansi.fragment list
+  -> ?box_style:Ansi.fragments
+  -> ?title_style:Ansi.fragments
+  -> ?text_style:Ansi.fragments
+  -> ?answer_style:Ansi.fragments
+  -> ?title:answer
+  -> ?bottom:Ansi.fragment list
+  -> ('a -> 'b)
+  -> ('a -> answer)
+  -> 'a array
+  -> answer
+  -> ('b, Error.t) result

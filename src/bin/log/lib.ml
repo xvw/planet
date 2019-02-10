@@ -38,6 +38,14 @@ let repeat_validation = function
     false
 ;;
 
+let repeat_option = function
+  | None ->
+    Prompter.prompt_error Error.(Invalid_int 0);
+    false
+  | Some _ ->
+    true
+;;
+
 let rec when_ () =
   try_until repeat_result (fun () ->
       Prompter.resultable
@@ -48,18 +56,39 @@ let rec when_ () =
           else Timetable.Day.from_string x )
         "Use empty string for [current timestamp]" )
   |> function
-  | Ok x as final ->
-    let x =
+  | Ok x ->
+    let valid =
       Prompter.yes_no
         ~title:"Confirm ?"
         (Format.asprintf "Choice %a" Timetable.Day.pp x)
     in
-    if x then final else when_ ()
+    if valid then x else when_ ()
   | _ ->
     when_ ()
 ;;
 
+let rec during () =
+  try_until repeat_option (fun () ->
+      Prompter.int_opt
+        ~title:"During"
+        ~f:(function
+          | None -> None | Some x when x <= 0 -> None | x -> x)
+        "How much time" )
+  |> function
+  | Some x ->
+    let valid =
+      Prompter.yes_no
+        ~title:"Confirm ?"
+        (Format.asprintf "Choice %d" x)
+    in
+    if valid then x else during ()
+  | _ ->
+    during ()
+;;
+
 let interactive () =
-  let _ = when_ () in
+  let _uuid = Uuid.make () in
+  let _timecode = when_ () in
+  let _duration = during () in
   ()
 ;;

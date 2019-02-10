@@ -20,3 +20,9 @@ let inspect () =
   Dir.children ~filter:(flip String.has_extension "qube")
   $ DB.path database >|= List.map read
 ;;
+
+let all () =
+  let open Result.Infix in
+  inspect () >|= List.map fst >|= Validation.Applicative.sequence
+  |> Validation.from_result |> Validation.join
+;;

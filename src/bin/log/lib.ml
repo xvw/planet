@@ -50,6 +50,7 @@ let rec when_ () =
   try_until repeat_result (fun () ->
       Prompter.resultable
         ~title:"When"
+        ~answer_style:Ansi.[fg yellow]
         (fun x ->
           if String.(length $ trim x) = 0
           then Glue.Util.day ()
@@ -59,6 +60,7 @@ let rec when_ () =
   | Ok x ->
     let valid =
       Prompter.yes_no
+        ~answer_style:Ansi.[fg yellow]
         ~title:"Confirm ?"
         (Format.asprintf "Choice %a" Timetable.Day.pp x)
     in
@@ -70,6 +72,7 @@ let rec when_ () =
 let rec during () =
   try_until repeat_option (fun () ->
       Prompter.int_opt
+        ~answer_style:Ansi.[fg yellow]
         ~title:"During"
         ~f:(function
           | None -> None | Some x when x <= 0 -> None | x -> x)
@@ -78,6 +81,7 @@ let rec during () =
   | Some x ->
     let valid =
       Prompter.yes_no
+        ~answer_style:Ansi.[fg yellow]
         ~title:"Confirm ?"
         (Format.asprintf "Choice %d" x)
     in
@@ -87,8 +91,14 @@ let rec during () =
 ;;
 
 let interactive () =
-  let _uuid = Uuid.make () in
-  let _timecode = when_ () in
-  let _duration = during () in
-  ()
+  match Glue.Sector.all (), Glue.Project.all () with
+  | Error x, Error y ->
+    Prompter.prompt_errors (x @ y)
+  | Error x, _ | _, Error x ->
+    Prompter.prompt_errors x
+  | Ok _sectors, Ok _projects ->
+    let _uuid = Uuid.make () in
+    let _timecode = when_ () in
+    let _duration = during () in
+    ()
 ;;

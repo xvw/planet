@@ -90,15 +90,52 @@ let rec during () =
     during ()
 ;;
 
+let rec sector sectors =
+  try_until repeat_result (fun () ->
+      Prompter.choose
+        ~answer_style:Ansi.[fg yellow]
+        ~title:"In which sector"
+        Util.id
+        Util.id
+        (Array.of_seq $ Hashtbl.to_seq_keys sectors)
+        "Related sector" )
+  |> function
+  | Ok x ->
+    let valid =
+      Prompter.yes_no
+        ~answer_style:Ansi.[fg yellow]
+        ~title:"Confirm ?"
+        (Format.asprintf "Choice %s" x)
+    in
+    if valid then x else sector sectors
+  | _ ->
+    sector sectors
+;;
+
+let project projects =
+  try_until repeat_result (fun () ->
+      Prompter.choose
+        ~answer_style:Ansi.[fg yellow]
+        ~title:"In which project"
+        (fun x -> Shapes.Project.(x.name))
+        (fun x ->
+          Shapes.Project.(
+            Format.sprintf "%s - %s" x.title x.synopsis) )
+        (Array.of_list projects)
+        "Related project" )
+;;
+
 let interactive () =
   match Glue.Sector.all (), Glue.Project.all () with
   | Error x, Error y ->
     Prompter.prompt_errors (x @ y)
   | Error x, _ | _, Error x ->
     Prompter.prompt_errors x
-  | Ok _sectors, Ok _projects ->
+  | Ok sectors, Ok projects ->
     let _uuid = Uuid.make () in
     let _timecode = when_ () in
     let _duration = during () in
+    let _sector = sector sectors in
+    let _project = project projects in
     ()
 ;;

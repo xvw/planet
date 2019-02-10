@@ -1,3 +1,5 @@
+open Bedrock
+open Util
 open Paperwork
 open Baremetal
 
@@ -20,4 +22,44 @@ let sectors () =
     Prompter.prompt_errors errs
 ;;
 
-let interactive () = Prompter.string_opt "When?" |> ignore
+let repeat_result = function
+  | Ok _ ->
+    true
+  | Error e ->
+    Prompter.prompt_error e;
+    false
+;;
+
+let repeat_validation = function
+  | Ok _ ->
+    true
+  | Error e ->
+    Prompter.prompt_errors e;
+    false
+;;
+
+let rec when_ () =
+  try_until repeat_result (fun () ->
+      Prompter.resultable
+        ~title:"When"
+        (fun x ->
+          if String.(length $ trim x) = 0
+          then Glue.Util.day ()
+          else Timetable.Day.from_string x )
+        "Use empty string for [current timestamp]" )
+  |> function
+  | Ok x as final ->
+    let x =
+      Prompter.yes_no
+        ~title:"Confirm ?"
+        (Format.asprintf "Choice %a" Timetable.Day.pp x)
+    in
+    if x then final else when_ ()
+  | _ ->
+    when_ ()
+;;
+
+let interactive () =
+  let _ = when_ () in
+  ()
+;;

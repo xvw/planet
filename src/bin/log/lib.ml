@@ -40,7 +40,7 @@ let repeat_validation = function
 
 let repeat_option = function
   | None ->
-    Prompter.prompt_error Error.(Invalid_int 0);
+    Prompter.prompt_error Error.(Invalid_field "input");
     false
   | Some _ ->
     true
@@ -61,7 +61,7 @@ let rec when_ () =
     let valid =
       Prompter.yes_no
         ~answer_style:Ansi.[fg yellow]
-        ~title:"Confirm ?"
+        ~title:"Confirm?"
         (Format.asprintf "Choice %a" Timetable.Day.pp x)
     in
     if valid then x else when_ ()
@@ -82,7 +82,7 @@ let rec during () =
     let valid =
       Prompter.yes_no
         ~answer_style:Ansi.[fg yellow]
-        ~title:"Confirm ?"
+        ~title:"Confirm?"
         (Format.asprintf "Choice %d" x)
     in
     if valid then x else during ()
@@ -104,7 +104,7 @@ let rec sector sectors =
     let valid =
       Prompter.yes_no
         ~answer_style:Ansi.[fg yellow]
-        ~title:"Confirm ?"
+        ~title:"Confirm?"
         (Format.asprintf "Choice %s" x)
     in
     if valid then x else sector sectors
@@ -117,7 +117,7 @@ let rec project projects =
   try_until repeat_result (fun () ->
       Prompter.choose
         ~answer_style:Ansi.[fg yellow]
-        ~title:"In which project"
+        ~title:"In which project?"
         (Option.map (fun x -> Shapes.Project.(x.name)))
         (function
           | Some x ->
@@ -133,7 +133,7 @@ let rec project projects =
     let valid =
       Prompter.yes_no
         ~answer_style:Ansi.[fg yellow]
-        ~title:"Confirm ?"
+        ~title:"Confirm?"
         (Format.asprintf "Choice `%s`" txt)
     in
     if valid then x else project projects
@@ -141,7 +141,26 @@ let rec project projects =
     project projects
 ;;
 
-let label () = ""
+let rec label () =
+  try_until repeat_option (fun () ->
+      Prompter.string_opt
+        ~answer_style:Ansi.[fg yellow]
+        ~title:"Label?"
+        "Describe the task" )
+  |> function
+  | Some x ->
+    let valid =
+      Prompter.yes_no
+        ~answer_style:Ansi.[fg yellow]
+        ~title:"Confirm?"
+        (Format.asprintf "Choice `%s`" x)
+    in
+    if valid then x else label ()
+  | _ ->
+    label ()
+;;
+
+let qexpify log = Qexp.node [Shapes.Log.to_qexp log]
 
 let interactive () =
   match Glue.Sector.all (), Glue.Project.all () with
@@ -150,11 +169,21 @@ let interactive () =
   | Error x, _ | _, Error x ->
     Prompter.prompt_errors x
   | Ok sectors, Ok projects ->
-    let _uuid = Uuid.make () in
-    let _timecode = when_ () in
-    let _duration = during () in
-    let _sector = sector sectors in
-    let _project = project projects in
-    let _label = label () in
-    ()
+    let uuid = Uuid.make () in
+    let a_timecode = when_ () in
+    let a_duration = during () in
+    let a_sector = sector sectors in
+    let some_project = project projects in
+    let a_label = label () in
+    let () = Ansi.[reset] |> Ansi.to_string |> print_endline in
+    let log =
+      Shapes.Log.new_log
+        (Uuid.to_string uuid)
+        a_timecode
+        a_duration
+        a_sector
+        some_project
+        a_label
+    in
+    print_endline $ (Qexp.to_string $ qexpify log)
 ;;

@@ -15,6 +15,15 @@ type t =
 
 (** {2 Projections} *)
 
+val new_log :
+     string
+  -> Timetable.Day.t
+  -> int
+  -> string
+  -> string option
+  -> string
+  -> t
+
 val to_qexp : t -> Qexp.t
 val from_qexp : Qexp.t -> t Validation.t
 

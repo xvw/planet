@@ -21,4 +21,5 @@ module Generator (G : GENERATOR) : sig
   type t = string
 
   val make : unit -> t
+  val to_string : t -> string
 end

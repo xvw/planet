@@ -33,4 +33,5 @@ module Generator (G : GENERATOR) = struct
 
   let clock = Clock.int ()
   let make () = _make clock $ G.name () $ G.pid () $ G.time ()
+  let to_string x = x
 end

@@ -112,18 +112,36 @@ let rec sector sectors =
     sector sectors
 ;;
 
-let project projects =
+let rec project projects =
+  let all_projects = None :: List.map (fun x -> Some x) projects in
   try_until repeat_result (fun () ->
       Prompter.choose
         ~answer_style:Ansi.[fg yellow]
         ~title:"In which project"
-        (fun x -> Shapes.Project.(x.name))
-        (fun x ->
-          Shapes.Project.(
-            Format.sprintf "%s - %s" x.title x.synopsis) )
-        (Array.of_list projects)
+        (Option.map (fun x -> Shapes.Project.(x.name)))
+        (function
+          | Some x ->
+            Shapes.Project.(
+              Format.sprintf "%s - %s" x.title x.synopsis)
+          | None ->
+            "Not connected")
+        (Array.of_list all_projects)
         "Related project" )
+  |> function
+  | Ok x ->
+    let txt = match x with Some x -> x | None -> "Not connected" in
+    let valid =
+      Prompter.yes_no
+        ~answer_style:Ansi.[fg yellow]
+        ~title:"Confirm ?"
+        (Format.asprintf "Choice `%s`" txt)
+    in
+    if valid then x else project projects
+  | _ ->
+    project projects
 ;;
+
+let label () = ""
 
 let interactive () =
   match Glue.Sector.all (), Glue.Project.all () with
@@ -137,5 +155,6 @@ let interactive () =
     let _duration = during () in
     let _sector = sector sectors in
     let _project = project projects in
+    let _label = label () in
     ()
 ;;

@@ -4,7 +4,7 @@ open Paperwork
 let now () = Unix.gettimeofday () |> Unix.localtime
 
 let moment_of timestamp =
-  let mon = timestamp.Unix.tm_mon in
+  let mon = timestamp.Unix.tm_mon + 1 in
   let yea = timestamp.Unix.tm_year - 100 in
   let day = timestamp.Unix.tm_mday in
   let h = timestamp.Unix.tm_hour in

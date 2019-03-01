@@ -2,14 +2,14 @@
 
 # Developement's workflow
 
-all: build doc binaries
+all: build binaries
 
 build:
 	dune build @install
 
 clean:
 	dune clean
-	rm -R bin
+	rm *.exe
 
 repl: all
 	dune utop
@@ -43,6 +43,7 @@ dev: install
 # Initialize developement environement
 
 dev-deps:
+	opam install -y dune
 	opam install -y alcotest
 	opam install -y merlin
 	opam install -y ocp-indent

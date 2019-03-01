@@ -76,7 +76,7 @@ let rec during () =
         ~title:"During"
         ~f:(function
           | None -> None | Some x when x <= 0 -> None | x -> x)
-        "How much time" )
+        "How much time (in minut)" )
   |> function
   | Some x ->
     let valid =
@@ -99,17 +99,7 @@ let rec sector sectors =
         Util.id
         (Array.of_seq $ Hashtbl.to_seq_keys sectors)
         "Related sector" )
-  |> function
-  | Ok x ->
-    let valid =
-      Prompter.yes_no
-        ~answer_style:Ansi.[fg yellow]
-        ~title:"Confirm?"
-        (Format.asprintf "Choice %s" x)
-    in
-    if valid then x else sector sectors
-  | _ ->
-    sector sectors
+  |> function Ok x -> x | _ -> sector sectors
 ;;
 
 let rec project projects =
@@ -127,18 +117,7 @@ let rec project projects =
             "Not connected")
         (Array.of_list all_projects)
         "Related project" )
-  |> function
-  | Ok x ->
-    let txt = match x with Some x -> x | None -> "Not connected" in
-    let valid =
-      Prompter.yes_no
-        ~answer_style:Ansi.[fg yellow]
-        ~title:"Confirm?"
-        (Format.asprintf "Choice `%s`" txt)
-    in
-    if valid then x else project projects
-  | _ ->
-    project projects
+  |> function Ok x -> x | _ -> project projects
 ;;
 
 let rec label () =

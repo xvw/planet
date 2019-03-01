@@ -5,3 +5,9 @@
   (:label
     "Ajout d'un système de saisie de log interactif via `./log.exe i[nteractive]`")
   (:project "planet"))
+
+((:uuid "64d3510c-7e54-2f11-4793-86a646ef049f") (:day "019C01")
+  (:duration "15") (:sector "programming")
+  (:label
+    "Amélioration de la saisie interactive (suppression des confirmations inutiles)")
+  (:project "planet"))

@@ -1,2 +1,34 @@
-((:name "prog") (:color "#c0c0c0") (:desc "test"))
-((:name "draw") (:color "#c0c0c0") (:desc "test"))
+((:name "programming") (:color "#c0c0c0")
+ (:desc "Programmation (code) relative ou non à des projets"))
+
+((:name "reading") (:color "#c0c0c0")
+ (:desc "Lecture (technique ou non)"))
+
+((:name "writing") (:color "#c0c0c0")
+ (:desc "Ecriture d'articles, de livres, de notes"))
+
+((:name "drawing") (:color "#c0c0c0")
+ (:desc "Pratique du dessin"))
+
+((:name "Painting") (:color "#c0c0c0")
+ (:desc "Pratique de la peinture (murale ou non)"))
+
+((:name "r&d") (:color "#c0c0c0")
+ (:desc "Expériences variées liées à l'apprentissage"))
+
+((:name "walk") (:color "#c0c0c0")
+ (:desc "Promenades, découvertes réelles"))
+
+((:name "tasting") (:color "#c0c0c0")
+ (:desc "Découvertes gustatives"))
+
+((:name "meeting") (:color "#c0c0c0")
+ (:desc "Evènements (techniques ou non)"))
+
+((:name "culture") (:color "#c0c0c0")
+ (:desc "Exposition, musée, cinéma, festival"))
+
+
+
+
+

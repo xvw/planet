@@ -139,6 +139,8 @@ module Month = struct
   let eq (Month (y, m)) (Month (y2, m2)) =
     Year.eq y y2 && to_char m = to_char m2
   ;;
+
+  let to_year (Month (y, _)) = y
 end
 
 module Day = struct
@@ -175,6 +177,8 @@ module Day = struct
 
   let pp ppf x = Format.fprintf ppf "%s" (to_string x)
   let eq (Day (m, d)) (Day (m2, d2)) = Month.eq m m2 && d = d2
+  let to_month (Day (m, _)) = m
+  let to_year x = Month.to_year (to_month x)
 end
 
 module Hour = struct

@@ -1,0 +1,7 @@
+;; Logs for 019C
+
+((:uuid "c20e01c5-19c5-5686-7d70-18bbd196a5c2") (:day "019C01")
+  (:duration "280") (:sector "programming")
+  (:label
+    "Ajout d'un système de saisie de log interactif via `./log.exe i[nteractive]`")
+  (:project "planet"))

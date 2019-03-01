@@ -162,6 +162,27 @@ let rec label () =
 
 let qexpify log = Qexp.node [Shapes.Log.to_qexp log]
 
+let push_result log =
+  let open Result.Infix in
+  Glue.Log.create_file Shapes.Log.(log.day)
+  >>= (fun (filename, created) ->
+        let () =
+          if not created
+          then
+            Ansi.(
+              [ fg yellow
+              ; text filename
+              ; fg green
+              ; text " has been created" ]
+              |> to_string)
+            |> print_endline
+        in
+        Ok filename )
+  >>= fun filename ->
+  let str_log = log |> qexpify |> Qexp.to_string in
+  File.append filename ("\n\n" ^ str_log) >> Ok (filename, str_log)
+;;
+
 let interactive () =
   match Glue.Sector.all (), Glue.Project.all () with
   | Error x, Error y ->
@@ -185,5 +206,19 @@ let interactive () =
         some_project
         a_label
     in
-    print_endline $ (Qexp.to_string $ qexpify log)
+    log |> push_result
+    |> (function
+    | Ok (filename, str_log) ->
+      Ansi.(
+        [ fg yellow
+        ; text "\n"
+        ; text str_log
+        ; text "\n"
+        ; fg green
+        ; text "has been dumped in: "
+        ; text filename ]
+        |> to_string)
+      |> print_endline
+    | Error x ->
+      Prompter.prompt_error x)
 ;;

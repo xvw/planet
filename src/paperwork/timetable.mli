@@ -107,6 +107,9 @@ module Month : sig
 
   (** Equality *)
   val eq : t -> t -> bool
+
+  (** Convert to year *)
+  val to_year : t -> Year.t
 end
 
 module Day : sig
@@ -133,6 +136,12 @@ module Day : sig
 
   (** Equality *)
   val eq : t -> t -> bool
+
+  (** Convert to year *)
+  val to_year : t -> Year.t
+
+  (** Convert to month *)
+  val to_month : t -> Month.t
 end
 
 module Hour : sig

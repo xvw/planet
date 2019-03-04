@@ -1,4 +1,5 @@
 open Bedrock
+open Error
 open Util
 open Paperwork
 open Baremetal
@@ -162,42 +163,108 @@ let push_result log =
   File.append filename ("\n\n" ^ str_log) >> Ok (filename, str_log)
 ;;
 
-let interactive () =
+let ensure_sectors_projects f =
   match Glue.Sector.all (), Glue.Project.all () with
   | Error x, Error y ->
     Prompter.prompt_errors (x @ y)
   | Error x, _ | _, Error x ->
     Prompter.prompt_errors x
   | Ok sectors, Ok projects ->
-    let uuid = Uuid.make () in
-    let a_timecode = when_ () in
-    let a_duration = during () in
-    let a_sector = sector sectors in
-    let some_project = project projects in
-    let a_label = label () in
-    let () = Ansi.[reset] |> Ansi.to_string |> print_endline in
-    let log =
-      Shapes.Log.new_log
-        (Uuid.to_string uuid)
-        a_timecode
-        a_duration
-        a_sector
-        some_project
-        a_label
+    f sectors projects
+;;
+
+let visual_push log =
+  log |> push_result
+  |> function
+  | Ok (filename, str_log) ->
+    Ansi.(
+      [ fg yellow
+      ; text "\n"
+      ; text str_log
+      ; text "\n"
+      ; fg green
+      ; text "has been dumped in: "
+      ; text filename ]
+      |> to_string)
+    |> print_endline
+  | Error x ->
+    Prompter.prompt_error x
+;;
+
+let interactive () =
+  ensure_sectors_projects (fun sectors projects ->
+      let uuid = Uuid.make () in
+      let a_timecode = when_ () in
+      let a_duration = during () in
+      let a_sector = sector sectors in
+      let some_project = project projects in
+      let a_label = label () in
+      let () = Ansi.[reset] |> Ansi.to_string |> print_endline in
+      let log =
+        Shapes.Log.new_log
+          (Uuid.to_string uuid)
+          a_timecode
+          a_duration
+          a_sector
+          some_project
+          a_label
+      in
+      visual_push log )
+;;
+
+let check_day = function
+  | None ->
+    Glue.Util.day () |> Validation.from_result
+  | Some x ->
+    Timetable.Day.from_string x |> Validation.from_result
+;;
+
+let check_duration =
+  Validation.from_option (Invalid_field "duration")
+;;
+
+let check_sector sectors = function
+  | None ->
+    Error [Invalid_field "sector"]
+  | Some x ->
+    let open Validation.Infix in
+    Validation.from_option
+      (Unknown ("sector: " ^ x))
+      (Hashtbl.find_opt sectors x)
+    >|= fun x -> x.Shapes.Sector.name
+;;
+
+let check_project projects = function
+  | None ->
+    Ok None
+  | Some x ->
+    let open Validation.Infix in
+    let flag =
+      List.find_opt (fun p -> p.Shapes.Project.name = x) projects
     in
-    log |> push_result
-    |> (function
-    | Ok (filename, str_log) ->
-      Ansi.(
-        [ fg yellow
-        ; text "\n"
-        ; text str_log
-        ; text "\n"
-        ; fg green
-        ; text "has been dumped in: "
-        ; text filename ]
-        |> to_string)
-      |> print_endline
-    | Error x ->
-      Prompter.prompt_error x)
+    Validation.from_option (Unknown ("project: " ^ x)) flag
+    >|= fun x -> Some x.Shapes.Project.name
+;;
+
+let check_label x =
+  if String.length (String.trim x) = 0
+  then Error [Invalid_field "label"]
+  else Ok x
+;;
+
+let record sector duration timecode project label =
+  ensure_sectors_projects (fun sectors projects ->
+      let open Validation.Infix in
+      let potential_log =
+        Shapes.Log.new_log (Uuid.make () |> Uuid.to_string)
+        <$> check_day timecode <*> check_duration duration
+        <*> check_sector sectors sector
+        <*> check_project projects project
+        <*> check_label (String.concat " " label)
+      in
+      match potential_log with
+      | Error xs ->
+        Prompter.prompt_errors xs
+      | Ok log ->
+        visual_push log )
 ;;

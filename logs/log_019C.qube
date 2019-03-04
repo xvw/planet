@@ -11,3 +11,8 @@
   (:label
     "Amélioration de la saisie interactive (suppression des confirmations inutiles)")
   (:project "planet"))
+
+((:uuid "6ba26d8a-00fe-6bbe-3b86-c75ccbc2f8ba") (:day "019C03")
+  (:duration "60") (:sector "programming")
+  (:label "Add cli-mode for task-recording using Cmdliner")
+  (:project "planet"))

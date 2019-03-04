@@ -14,5 +14,5 @@
 
 ((:uuid "6ba26d8a-00fe-6bbe-3b86-c75ccbc2f8ba") (:day "019C03")
   (:duration "60") (:sector "programming")
-  (:label "Add cli-mode for task-recording using Cmdliner")
+  (:label "Ajout d'une CLI pour la saisie des logs")
   (:project "planet"))

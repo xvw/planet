@@ -1,0 +1,120 @@
+{
+  "settings": {
+    "size": {
+      "width": 315,
+      "height": 330
+    },
+    "crest": false
+  },
+  "layers": [
+    [
+      {
+        "type": "arc_c",
+        "vertices": [
+          {
+            "x": 75,
+            "y": 165
+          },
+          {
+            "x": 165,
+            "y": 75
+          },
+          {
+            "x": 255,
+            "y": 165
+          },
+          {
+            "x": 165,
+            "y": 255
+          },
+          {
+            "x": 75,
+            "y": 165
+          }
+        ]
+      },
+      {
+        "type": "arc_r",
+        "vertices": [
+          {
+            "x": 165,
+            "y": 75
+          },
+          {
+            "x": 90,
+            "y": 135
+          },
+          {
+            "x": 165,
+            "y": 195
+          },
+          {
+            "x": 240,
+            "y": 135
+          },
+          {
+            "x": 165,
+            "y": 75
+          }
+        ]
+      }
+    ],
+    [],
+    [
+      {
+        "type": "arc_r",
+        "vertices": [
+          {
+            "x": 165,
+            "y": 75
+          },
+          {
+            "x": 75,
+            "y": 180
+          },
+          {
+            "x": 165,
+            "y": 240
+          },
+          {
+            "x": 255,
+            "y": 180
+          },
+          {
+            "x": 165,
+            "y": 75
+          }
+        ]
+      }
+    ]
+  ],
+  "styles": [
+    {
+      "thickness": 19,
+      "strokeLinecap": "round",
+      "strokeLinejoin": "round",
+      "color": "#232323",
+      "fill": "#232323",
+      "mirror_style": 0,
+      "transform": "rotate(45)"
+    },
+    {
+      "thickness": 10,
+      "strokeLinecap": "round",
+      "strokeLinejoin": "round",
+      "color": "#999",
+      "fill": "none",
+      "mirror_style": 0,
+      "transform": "rotate(45)"
+    },
+    {
+      "thickness": 10,
+      "strokeLinecap": "round",
+      "strokeLinejoin": "round",
+      "color": "#ccc",
+      "fill": "#ccc",
+      "mirror_style": 0,
+      "transform": "rotate(45)"
+    }
+  ]
+}

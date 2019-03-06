@@ -17,7 +17,11 @@
   (:label "Ajout d'une CLI pour la saisie des logs")
   (:project "planet"))
 
-
 ((:uuid "5f41f62a-9b24-c7fa-8e85-c01d90d974a2") (:day "019C06")
   (:duration "15") (:sector "writing")
   (:label "Initiation de la description de Qian") (:project "planet"))
+
+((:uuid "4e05df5b-b919-86f7-488c-f06393cf3f24") (:day "019C06")
+  (:duration "15") (:sector "programming")
+  (:label "Suppression d'un retour à la ligne dans les dumps")
+  (:project "planet"))

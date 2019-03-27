@@ -25,6 +25,10 @@
   (:duration "15") (:sector "programming")
   (:label "Suppression d'un retour à la ligne dans les dumps")
   (:project "planet"))
-((:uuid "bfa56dfb-cd88-628a-aebe-f27280a1a81d") (:day "019C27")
+
+((:uuid "df34f3bc-881c-21f3-09b6-db56890b54bc") (:day "019C27")
+  (:duration "10") (:sector "programming")
+  (:label "Correction de l'ajout de tâches") (:project "planet"))
+((:uuid "4ad085c6-a24c-ae21-d124-2fe7cc1834b3") (:day "019C27")
   (:duration "120") (:sector "programming")
-  (:label "Initialisation des binaires 'ego' et 'remor'") (:project "planet"))
+  (:label "Initiation des programmes 'ego' et 'remor'") (:project "planet"))

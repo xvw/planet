@@ -159,8 +159,8 @@ let push_result log =
         in
         Ok filename )
   >>= fun filename ->
-  let str_log = log |> qexpify |> Qexp.to_string in
-  File.append filename ("\n" ^ str_log) >> Ok (filename, str_log)
+  let str_log = log |> qexpify |> Qexp.to_string |> String.trim in
+  File.append filename ("\n\n" ^ str_log) >> Ok (filename, str_log)
 ;;
 
 let ensure_sectors_projects f =

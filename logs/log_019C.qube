@@ -25,3 +25,6 @@
   (:duration "15") (:sector "programming")
   (:label "Suppression d'un retour à la ligne dans les dumps")
   (:project "planet"))
+((:uuid "bfa56dfb-cd88-628a-aebe-f27280a1a81d") (:day "019C27")
+  (:duration "120") (:sector "programming")
+  (:label "Initialisation des binaires 'ego' et 'remor'") (:project "planet"))

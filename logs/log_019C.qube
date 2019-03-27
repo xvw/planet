@@ -29,6 +29,7 @@
 ((:uuid "df34f3bc-881c-21f3-09b6-db56890b54bc") (:day "019C27")
   (:duration "10") (:sector "programming")
   (:label "Correction de l'ajout de tâches") (:project "planet"))
+
 ((:uuid "4ad085c6-a24c-ae21-d124-2fe7cc1834b3") (:day "019C27")
   (:duration "120") (:sector "programming")
   (:label "Initiation des programmes 'ego' et 'remor'") (:project "planet"))

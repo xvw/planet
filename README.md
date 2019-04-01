@@ -1,3 +1,5 @@
+(Workin progress for... a long time)
+
 # planet
 
 > Planet is a collection of tools to build an interactive playground 
@@ -17,11 +19,11 @@ into two categories.
 
 ### As an user 
 
-- `Time tracking`: record the tasks performed during my free time 
+- Time tracking: record the tasks performed during my free time 
   (to do, among other things, the analysis);
-- `Reporting`: save, archive, share different kinds of things;
-- `Blogging`: write articles, reports;
-- `Interactive playgroud`, `sandboxing`: expose an execution context 
+- Reporting: save, archive, share different kinds of things;
+- Blogging: write articles, reports;
+- Interactive playgroud, sandboxing: expose an execution context 
   for rich, locally executable applications.
   
 ### As a developer

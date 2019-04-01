@@ -20,3 +20,11 @@ let create_file day =
   else Ok ())
   >> Ok (cname, is_already_created)
 ;;
+
+let create_whereami_file () =
+  let cname = Filename.concat log_folder "whereami.qube" in
+  let is_already_created = File.exists cname in
+  let open Result.Infix in
+  (if not is_already_created then File.create cname "" else Ok ())
+  >> Ok (cname, is_already_created)
+;;

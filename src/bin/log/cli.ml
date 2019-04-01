@@ -50,6 +50,27 @@ let record =
   , Term.info "record" ~version ~doc ~exits ~man )
 ;;
 
+let whereami =
+  let doc = "Record the place where I am" in
+  let man = Glue.Man.default call in
+  let exits = Term.default_exits in
+  let timecode =
+    let doc = "When I was at the place" in
+    Arg.(value & opt (some string) None & info ["w"; "when"] ~doc)
+  in
+  let country =
+    let doc = "The country" in
+    Arg.(
+      value & opt (some string) None & info ["co"; "country"] ~doc)
+  in
+  let city =
+    let doc = "The city" in
+    Arg.(value & opt (some string) None & info ["ci"; "city"] ~doc)
+  in
+  ( Term.(const Lib.whereami $ timecode $ country $ city)
+  , Term.info "whereami" ~version ~doc ~exits ~man )
+;;
+
 let index =
   let doc = "Manage logs for timetracking" in
   let man = Glue.Man.default call in
@@ -59,5 +80,6 @@ let index =
 ;;
 
 let invoke () =
-  Term.(exit @@ eval_choice index [sectors; interactive; record])
+  Term.(
+    exit @@ eval_choice index [sectors; interactive; record; whereami])
 ;;

@@ -11,6 +11,7 @@ let eq f left right =
 ;;
 
 let is_valid = function Some _ -> true | None -> false
+let get_or f = function None -> f () | Some r -> r
 
 module Functor = Functor.Make (struct
   type 'a t = 'a option

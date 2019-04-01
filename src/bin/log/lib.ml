@@ -174,9 +174,7 @@ let ensure_sectors_projects f =
     f sectors projects
 ;;
 
-let visual_push log =
-  log |> push_result
-  |> function
+let push_feedback = function
   | Ok (filename, str_log) ->
     Ansi.(
       [ fg yellow
@@ -191,6 +189,8 @@ let visual_push log =
   | Error x ->
     Prompter.prompt_error x
 ;;
+
+let visual_push log = log |> push_result |> push_feedback
 
 let interactive () =
   ensure_sectors_projects (fun sectors projects ->
@@ -268,4 +268,54 @@ let record sector duration timecode project label =
         Prompter.prompt_errors xs
       | Ok log ->
         visual_push log )
+;;
+
+let push_whereami place =
+  let open Result.Infix in
+  Glue.Log.create_whereami_file ()
+  >|= (fun (filename, created) ->
+        let () =
+          if not created
+          then
+            Ansi.(
+              [ fg yellow
+              ; text filename
+              ; fg green
+              ; text " has been created" ]
+              |> to_string)
+            |> print_endline
+        in
+        filename )
+  >>= (fun filename ->
+        File.append filename ("\n" ^ place) >> Ok (filename, place)
+        )
+  |> push_feedback
+;;
+
+let whereami moment opt_country opt_city =
+  match opt_country, opt_city with
+  | Some country, Some city ->
+    let co = String.(lowercase_ascii %> trim $ country) in
+    let ci = String.(lowercase_ascii %> trim $ city) in
+    let mo =
+      Option.map Timetable.Day.from_string moment
+      |> Option.get_or Glue.Util.day
+    in
+    (match mo with
+    | Error err ->
+      Prompter.prompt_error err
+    | Ok timecode ->
+      let qexp_str =
+        Qexp.(
+          node
+            [ node
+                [ keyword (Timetable.Day.to_string timecode)
+                ; string co
+                ; string ci ] ])
+        |> Qexp.to_string
+      in
+      push_whereami qexp_str)
+  | _ ->
+    Prompter.prompt_error
+      (Invalid_field "country or city can not be empty")
 ;;

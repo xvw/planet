@@ -16,3 +16,4 @@ setup.log
 _opam/
 *.install
 *.exe
+_site

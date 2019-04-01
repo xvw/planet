@@ -1,8 +1,9 @@
 (executable
- (name remor)
+ (name build)
  (libraries
    planet.bedrock
    planet.paperwork
    planet.shapes
    planet.baremetal
-   planet.glue))
+   planet.glue
+   cmdliner))

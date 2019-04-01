@@ -2,3 +2,8 @@
 ((:uuid "9236ebe2-5039-14f2-dea3-1669a97e45aa") (:day "019D01")
   (:duration "60") (:sector "programming")
   (:label "Enregistrement de la ville où je me trouve") (:project "planet"))
+
+((:uuid "3817ed2a-3480-3477-e072-1f730191ca20") (:day "019D01")
+  (:duration "30") (:sector "programming")
+  (:label "Préparation de la routine de 'build' de l'application web")
+  (:project "planet"))

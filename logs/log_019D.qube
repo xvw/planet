@@ -21,3 +21,8 @@
   (:label
     "Nettoyage du projet et mise à jours des dépendances (et développement bref)")
   (:project "qian"))
+
+((:uuid "e8c3248e-69e5-1e12-c52f-3fd9d6c133d6") (:day "019D03")
+  (:duration "180") (:sector "programming")
+  (:label "Nettoyage du projet en vue de la V2. Bataille avec Webpack !")
+  (:project "qian"))

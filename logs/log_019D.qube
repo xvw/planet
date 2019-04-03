@@ -15,3 +15,9 @@
 ((:uuid "3d26c72c-74b8-5990-1e94-62b2594714f4") (:day "019D03")
   (:duration "100") (:sector "reading")
   (:label "Lecture sur la sémantique structurale de Greimas"))
+
+((:uuid "1addc3be-aca5-ff61-9511-4197b90a8985") (:day "019D03")
+  (:duration "120") (:sector "programming")
+  (:label
+    "Nettoyage du projet et mise à jours des dépendances (et développement bref)")
+  (:project "qian"))

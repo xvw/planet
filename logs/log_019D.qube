@@ -7,3 +7,11 @@
   (:duration "30") (:sector "programming")
   (:label "Préparation de la routine de 'build' de l'application web")
   (:project "planet"))
+
+((:uuid "4df3ccba-f903-e06a-c3d0-c5dded423dab") (:day "019D02")
+  (:duration "180") (:sector "r&d")
+  (:label "Relecture de documents sur le Domain Driven Design"))
+
+((:uuid "3d26c72c-74b8-5990-1e94-62b2594714f4") (:day "019D03")
+  (:duration "100") (:sector "reading")
+  (:label "Lecture sur la sémantique structurale de Greimas"))

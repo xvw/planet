@@ -10,7 +10,7 @@
 ((:name "drawing") (:color "#c0c0c0")
  (:desc "Pratique du dessin"))
 
-((:name "Painting") (:color "#c0c0c0")
+((:name "painting") (:color "#c0c0c0")
  (:desc "Pratique de la peinture (murale ou non)"))
 
 ((:name "r&d") (:color "#c0c0c0")

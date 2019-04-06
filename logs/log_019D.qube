@@ -26,3 +26,15 @@
   (:duration "180") (:sector "programming")
   (:label "Nettoyage du projet en vue de la V2. Bataille avec Webpack !")
   (:project "qian"))
+
+((:uuid "afa794ba-89c8-e242-b385-cf99c694dd83") (:day "019D04")
+  (:duration "180") (:sector "r&d")
+  (:label "Formation 'Domain Driven Design' avec FSharp"))
+
+((:uuid "217b04d4-43f4-9517-a429-9f011c822001") (:day "019D05")
+  (:duration "180") (:sector "r&d")
+  (:label "Lecture de 'Logique du récit' de Claude Brémond"))
+
+((:uuid "309d8207-86e1-01db-5171-60c51d696714") (:day "019D06")
+  (:duration "240") (:sector "r&d")
+  (:label "Progression dans 'Logique du récit' de Claude Brémond"))

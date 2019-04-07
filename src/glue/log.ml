@@ -56,9 +56,7 @@ let logs_to_json logs =
 let whereami_to_json () =
   let filename = Filename.concat log_folder "whereami.qube" in
   let open Result.Infix in
-  filename
-  |> File.to_stream (fun _ s -> Ok s)
-  >>= Qexp.from_stream
+  filename |> File.to_string >>= Qexp.from_string
   >>= (function
         | Qexp.Node li ->
           Ok li

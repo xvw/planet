@@ -55,30 +55,36 @@ let create_api_folder () =
   trace_creation (soft_creation api_folder)
 ;;
 
-let initialize_project () =
-  let target = Filename.concat api_folder "projects.json" in
+let create_api_file f folder file =
+  let target = Filename.concat folder file in
   let () = trace_deletion (soft_deletion_file target) in
   let open Validation.Infix in
-  Glue.Project.to_json () >|= Paperwork.Json.to_string
+  f () >|= Paperwork.Json.to_string
   >>= (fun str -> File.create target str |> Validation.from_result)
   >|= (fun () -> true, target)
   |> trace_creation
 ;;
 
+let initialize_project () =
+  create_api_file Glue.Project.to_json api_folder "projects.json"
+;;
+
 let initialize_sectors () =
-  let target = Filename.concat api_folder "sectors.json" in
-  let () = trace_deletion (soft_deletion_file target) in
-  let open Validation.Infix in
-  Glue.Sector.to_json () >|= Paperwork.Json.to_string
-  >>= (fun str -> File.create target str |> Validation.from_result)
-  >|= (fun () -> true, target)
-  |> trace_creation
+  create_api_file Glue.Sector.to_json api_folder "sectors.json"
+;;
+
+let initialize_current_position () =
+  create_api_file
+    Glue.Log.whereami_to_json
+    api_folder
+    "whereami.json"
 ;;
 
 let api () =
   let () = create_api_folder () in
   let () = initialize_project () in
   let () = initialize_sectors () in
+  let () = initialize_current_position () in
   ()
 ;;
 

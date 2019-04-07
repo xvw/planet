@@ -37,13 +37,9 @@ let read_logs filename =
   filename
   |> Filename.concat log_folder
   |> File.to_string
-  |> Result.bind Paperwork.Qexp.from_string
+  |> Result.bind Qexp.from_string
+  |> Result.bind Qexp.extract_root
   |> Validation.from_result
-  >>= (function
-        | Node x ->
-          Ok x
-        | node ->
-          Error [Not_a_valid_node (Paperwork.Qexp.to_string node)])
   >|= List.map Shapes.Log.from_qexp
   >>= Validation.Applicative.sequence
 ;;

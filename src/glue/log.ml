@@ -56,12 +56,9 @@ let logs_to_json logs =
 let whereami_to_json () =
   let filename = Filename.concat log_folder "whereami.qube" in
   let open Result.Infix in
-  filename |> File.to_string >>= Qexp.from_string
-  >>= (function
-        | Qexp.Node li ->
-          Ok li
-        | x ->
-          Error (No_root_element (Qexp.to_string x)))
+  filename
+  |> File.to_stream (fun _ -> Qexp.from_stream)
+  >>= Qexp.extract_root
   >|= List.map (function
           | Qexp.Node
               [ Qexp.Keyword daypoint

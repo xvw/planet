@@ -84,3 +84,7 @@ val to_stream : t -> char Stream.t
 
 (** Format for [printf] *)
 val pp : Format.formatter -> t -> unit
+
+(** {2 Utils} *)
+
+val extract_root : t -> t list Result.t

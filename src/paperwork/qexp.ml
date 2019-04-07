@@ -203,3 +203,10 @@ let to_string = function
 
 let to_bytes qexp = qexp |> to_string |> Bytes.of_string
 let to_stream qexp = qexp |> to_string |> Stream.of_string
+
+let extract_root = function
+  | Node li ->
+    Ok li
+  | qexp ->
+    Error (No_root_element (to_string qexp))
+;;

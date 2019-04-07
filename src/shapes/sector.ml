@@ -44,3 +44,11 @@ let pp ppf sector =
 let eq a b =
   a.name = b.name && a.desc = b.desc && Color.eq a.color b.color
 ;;
+
+let to_json sector =
+  let open Json in
+  obj
+    [ "name", string sector.name
+    ; "desc", string sector.desc
+    ; "color", string $ Color.to_string sector.color ]
+;;

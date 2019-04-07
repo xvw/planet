@@ -1,6 +1,7 @@
 open Bedrock
 open Paperwork
 open Error
+open Util
 
 type status =
   | Unceasing
@@ -147,4 +148,23 @@ let rec eq a b =
   && a.indexed = b.indexed
   && Option.eq Text.eq a.content b.content
   && List.eq eq a.subprojects b.subprojects
+;;
+
+let rec to_json project =
+  let open Json in
+  obj
+    [ "name", string project.name
+    ; "title", string project.title
+    ; "synopsis", string project.synopsis
+    ; "repo", nullable Option.(project.repo >|= string)
+    ; "license", nullable Option.(project.repo >|= string)
+    ; "tools", array $ List.map Link.simple_to_json project.tools
+    ; "links", array $ List.map Link.simple_to_json project.links
+    ; ( "releases"
+      , array $ List.map Link.dated_to_json project.releases )
+    ; "status", string $ status_to_string project.status
+    ; "tags", array $ List.map string project.tags
+    ; "picto", nullable Option.(project.picto >|= string)
+    ; "indexed", bool project.indexed
+    ; "subprojects", array $ List.map to_json project.subprojects ]
 ;;

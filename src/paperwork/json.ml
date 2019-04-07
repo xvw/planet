@@ -29,7 +29,7 @@ let rec pp ppf = function
   | Nullable (Some x) ->
     Format.fprintf ppf "%a" pp x
   | Nullable None ->
-    Format.fprintf ppf ""
+    Format.fprintf ppf "null"
   | Array x ->
     Format.fprintf ppf "[@[<hov 1>%a@]]" ppa x
   | Object x ->

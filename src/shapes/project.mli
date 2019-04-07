@@ -1,5 +1,7 @@
 (** Describes a [Project] *)
 
+open Paperwork
+
 (** {2 Types} *)
 
 (** Describes the [state] of a project. *)
@@ -39,3 +41,4 @@ val status_to_string : status -> string
 
 val pp : Format.formatter -> t -> unit
 val eq : t -> t -> bool
+val to_json : t -> Json.t

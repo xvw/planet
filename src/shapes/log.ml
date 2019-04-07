@@ -76,3 +76,14 @@ let eq left right =
   && left.project = right.project
   && left.label = right.label
 ;;
+
+let to_json log =
+  let open Json in
+  obj
+    [ "uuid", string log.uuid
+    ; "date", string $ Timetable.Day.to_string log.day
+    ; "duration", int log.duration
+    ; "sector", string log.sector
+    ; "project", nullable Option.(log.project >|= string)
+    ; "label", string log.label ]
+;;

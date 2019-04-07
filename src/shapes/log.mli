@@ -31,3 +31,4 @@ val from_qexp : Qexp.t -> t Validation.t
 
 val pp : Format.formatter -> t -> unit
 val eq : t -> t -> bool
+val to_json : t -> Json.t

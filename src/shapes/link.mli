@@ -23,3 +23,5 @@ val pp_simple : Format.formatter -> simple -> unit
 val pp_dated : Format.formatter -> dated -> unit
 val eq_simple : simple -> simple -> bool
 val eq_dated : dated -> dated -> bool
+val dated_to_json : dated -> Json.t
+val simple_to_json : simple -> Json.t

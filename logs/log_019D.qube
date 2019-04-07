@@ -43,3 +43,7 @@
   (:duration "120") (:sector "programming")
   (:label "Implémentation d'un module pour générer du Json")
   (:project "planet"))
+
+((:uuid "7686c709-a704-2690-f598-e906f619d3aa") (:day "019D07")
+  (:duration "240") (:sector "programming")
+  (:label "Implémentation de divers générateurs") (:project "planet"))

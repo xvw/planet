@@ -12,21 +12,34 @@ let reducer hashtable sector =
   hashtable
 ;;
 
-let collect_sectors = function
+let collect_sectors f = function
   | Qexp.Node potential_sectors ->
     let open Validation in
-    let sectors = Hashtbl.create 2 in
     potential_sectors
     |> List.map Shapes.Sector.from_qexp
-    |> Applicative.sequence
-    >|= List.fold_left reducer sectors
+    |> Applicative.sequence >|= f
   | qexp ->
     Error [No_root_element (Qexp.to_string qexp)]
 ;;
 
 let all () =
   let open Validation in
+  let hash = Hashtbl.create 2 in
   database |> Database.path
   |> File.to_stream (fun _ -> Qexp.from_stream)
-  |> from_result >>= collect_sectors
+  |> from_result
+  >>= collect_sectors (fun sectors ->
+          List.fold_left reducer hash sectors )
+;;
+
+let to_json () =
+  let open Validation in
+  database |> Database.path
+  |> File.to_stream (fun _ -> Qexp.from_stream)
+  |> from_result >>= collect_sectors id
+  >|= fun sectors ->
+  Json.obj
+  $ List.map
+      (fun sector -> Shapes.Sector.(sector.name, to_json sector))
+      sectors
 ;;

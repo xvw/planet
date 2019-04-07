@@ -15,3 +15,6 @@ val inspect :
 
 (** Get list of project *)
 val all : unit -> Shapes.Project.t list Validation.t
+
+(** Get list of project as [Json.t] *)
+val to_json : unit -> Paperwork.Json.t Validation.t

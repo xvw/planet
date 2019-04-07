@@ -26,3 +26,13 @@ let all () =
   inspect () >|= List.map fst >|= Validation.Applicative.sequence
   |> Validation.from_result |> Validation.join
 ;;
+
+let to_json () =
+  let open Validation.Infix in
+  all ()
+  >|= fun projects ->
+  Json.obj
+  $ List.map
+      (fun project -> Shapes.Project.(project.name, to_json project))
+      projects
+;;

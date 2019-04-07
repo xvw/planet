@@ -3,20 +3,20 @@ let version = "1.0.0"
 
 open Cmdliner
 
-let clean =
-  let doc = "Clean the generated web app" in
-  let man = Glue.Man.default call in
-  let exits = Term.default_exits in
-  ( Term.(const Lib.clean_generated $ const ())
-  , Term.info "clean" ~version ~doc ~exits ~man )
-;;
-
 let init =
   let doc = "Initialize the target for generation" in
   let man = Glue.Man.default call in
   let exits = Term.default_exits in
   ( Term.(const Lib.generate $ const ())
   , Term.info "init" ~version ~doc ~exits ~man )
+;;
+
+let api =
+  let doc = "Initialize the target for API generation" in
+  let man = Glue.Man.default call in
+  let exits = Term.default_exits in
+  ( Term.(const Lib.api $ const ())
+  , Term.info "api" ~version ~doc ~exits ~man )
 ;;
 
 let logs =
@@ -35,4 +35,4 @@ let index =
   , Term.info call ~version ~doc ~exits ~man )
 ;;
 
-let invoke () = Term.(exit @@ eval_choice index [clean; init; logs])
+let invoke () = Term.(exit @@ eval_choice index [init; api; logs])

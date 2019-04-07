@@ -50,5 +50,5 @@ let to_json sector =
   obj
     [ "name", string sector.name
     ; "desc", string sector.desc
-    ; "color", string $ Color.to_string sector.color ]
+    ; "color", string $ Color.to_hex sector.color ]
 ;;

@@ -25,5 +25,7 @@ let make ?(chmod = 0o777) dirname =
 ;;
 
 let delete dirname =
-  try Ok (Unix.rmdir dirname) with _ -> Error (Unreadable dirname)
+  try Ok (Unix.rmdir dirname)
+  with Unix.(Unix_error (error, _, _)) ->
+    Error (Unix (Unix.error_message error))
 ;;

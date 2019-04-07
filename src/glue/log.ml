@@ -58,12 +58,12 @@ let whereami_to_json () =
   let open Result.Infix in
   filename
   |> File.to_stream (fun _ s -> Ok s)
-  |> Result.bind Qexp.from_stream
-  |> Result.bind (function
-         | Qexp.Node li ->
-           Ok li
-         | x ->
-           Error (No_root_element (Qexp.to_string x)) )
+  >>= Qexp.from_stream
+  >>= (function
+        | Qexp.Node li ->
+          Ok li
+        | x ->
+          Error (No_root_element (Qexp.to_string x)))
   >|= List.map (function
           | Qexp.Node
               [ Qexp.Keyword daypoint

@@ -2,7 +2,8 @@ open Bedrock
 open Error
 open Baremetal
 open Util
-module TT = Paperwork.Timetable
+open Paperwork
+module TT = Timetable
 
 let database = Database.logs
 let log_folder = Database.path database
@@ -50,4 +51,33 @@ let read_logs filename =
 let logs_to_json logs =
   let open Paperwork.Json in
   array $ List.map Shapes.Log.to_json logs
+;;
+
+let whereami_to_json () =
+  let filename = Filename.concat log_folder "whereami.qube" in
+  let open Result.Infix in
+  filename
+  |> File.to_stream (fun _ s -> Ok s)
+  |> Result.bind Qexp.from_stream
+  |> Result.bind (function
+         | Qexp.Node li ->
+           Ok li
+         | x ->
+           Error (No_root_element (Qexp.to_string x)) )
+  >|= List.map (function
+          | Qexp.Node
+              [ Qexp.Keyword daypoint
+              ; Qexp.String (_, country)
+              ; Qexp.String (_, city) ] ->
+            daypoint |> TT.Day.from_string
+            >|= fun _ ->
+            Json.(
+              obj
+                [ "date", string daypoint
+                ; "country", string country
+                ; "city", string city ])
+          | x ->
+            Error (Invalid_field (Qexp.to_string x)) )
+  >>= Result.Applicative.sequence >|= Json.array
+  |> Validation.from_result
 ;;

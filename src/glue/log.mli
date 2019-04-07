@@ -16,5 +16,8 @@ val create_whereami_file : unit -> (File.name * bool) Result.t
 (** Read all log for a bucket *)
 val read_logs : string -> Shapes.Log.t list Validation.t
 
-(** Converts logs to Json *)
+(** Converts logs to [Json.t] *)
 val logs_to_json : Shapes.Log.t list -> Paperwork.Json.t
+
+(** Convert whereami location into [Json.t] *)
+val whereami_to_json : unit -> Paperwork.Json.t Validation.t

@@ -81,3 +81,6 @@ val to_bytes : t -> bytes
 
 (** From [Qexp.t] to [char Stream.t] *)
 val to_stream : t -> char Stream.t
+
+(** Format for [printf] *)
+val pp : Format.formatter -> t -> unit

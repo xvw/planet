@@ -38,3 +38,8 @@
 ((:uuid "309d8207-86e1-01db-5171-60c51d696714") (:day "019D06")
   (:duration "240") (:sector "r&d")
   (:label "Progression dans 'Logique du récit' de Claude Brémond"))
+
+((:uuid "39b8517f-7ada-4177-6413-2e40430fe6fc") (:day "019D07")
+  (:duration "120") (:sector "programming")
+  (:label "Implémentation d'un module pour générer du Json")
+  (:project "planet"))

@@ -1,5 +1,7 @@
 open Bedrock
+open Error
 open Baremetal
+open Util
 module TT = Paperwork.Timetable
 
 let database = Database.logs
@@ -27,4 +29,25 @@ let create_whereami_file () =
   let open Result.Infix in
   (if not is_already_created then File.create cname "" else Ok ())
   >> Ok (cname, is_already_created)
+;;
+
+let read_logs filename =
+  let open Validation.Infix in
+  filename
+  |> Filename.concat log_folder
+  |> File.to_string
+  |> Result.bind Paperwork.Qexp.from_string
+  |> Validation.from_result
+  >>= (function
+        | Node x ->
+          Ok x
+        | node ->
+          Error [Not_a_valid_node (Paperwork.Qexp.to_string node)])
+  >|= List.map Shapes.Log.from_qexp
+  >>= Validation.Applicative.sequence
+;;
+
+let logs_to_json logs =
+  let open Paperwork.Json in
+  array $ List.map Shapes.Log.to_json logs
 ;;

@@ -4,46 +4,46 @@ open Baremetal
 
 let site_folder = "./_site"
 
-let init () =
+let soft_creation folder =
   let open Result.Infix in
-  if not (Dir.exists site_folder)
-  then Dir.make site_folder >> Ok true
-  else Ok false
+  if not (Dir.exists folder)
+  then Dir.make folder >> Ok (true, folder)
+  else Ok (false, folder)
 ;;
 
-let clean () =
+let soft_deletion folder =
   let open Result.Infix in
-  if Dir.exists site_folder
-  then Dir.delete site_folder >> Ok true
-  else Ok false
+  if Dir.exists folder
+  then Dir.delete folder >> Ok (true, folder)
+  else Ok (false, folder)
 ;;
 
-let clean_generated () =
-  match clean () with
+let init () = soft_creation site_folder
+let clean () = soft_deletion site_folder
+
+let trace message = function
   | Error err ->
     Prompter.prompt_error err
-  | Ok x ->
+  | Ok (x, filename) ->
     (if x
     then
       Ansi.
         [ fg green
-        ; text $ Format.sprintf "[%s] has beed deleted" site_folder
+        ; text $ Format.sprintf "[%s] has beed %s" filename message
         ]
-    else Ansi.[fg yellow; text "Nothing to do"])
+    else
+      Ansi.
+        [ fg yellow
+        ; text $ Format.sprintf "[%s] Nothing to do" filename ])
     |> Ansi.to_string |> print_endline
 ;;
 
-let generate () =
-  match init () with
-  | Error err ->
-    Prompter.prompt_error err
-  | Ok x ->
-    (if x
-    then
-      Ansi.
-        [ fg green
-        ; text $ Format.sprintf "[%s] has beed created" site_folder
-        ]
-    else Ansi.[fg yellow; text "Nothing to do"])
-    |> Ansi.to_string |> print_endline
+let trace_creation = trace "created"
+let trace_deletion = trace "deleted"
+let clean_generated () = trace_deletion (clean ())
+let generate () = trace_creation (init ())
+
+let logs () =
+  let () = generate () in
+  ()
 ;;

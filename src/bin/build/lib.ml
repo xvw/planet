@@ -4,7 +4,6 @@ open Baremetal
 
 let site_folder = "./_site"
 let api_folder = Filename.concat site_folder "api"
-let logs_folder = Filename.concat api_folder "logs"
 
 let soft_creation folder =
   let open Result.Infix in
@@ -90,5 +89,8 @@ let api () =
 
 let logs () =
   create_api_folder ();
-  trace_creation (soft_creation logs_folder)
+  create_api_file
+    Glue.Log.collect_all_log_in_json
+    api_folder
+    "logs.json"
 ;;

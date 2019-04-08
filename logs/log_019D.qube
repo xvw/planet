@@ -47,3 +47,7 @@
 ((:uuid "7686c709-a704-2690-f598-e906f619d3aa") (:day "019D07")
   (:duration "240") (:sector "programming")
   (:label "Implémentation de divers générateurs") (:project "planet"))
+
+((:uuid "9d88986a-9557-c74b-8956-41af56d9e7d4") (:day "019D08")
+  (:duration "120") (:sector "programming")
+  (:label "Génération des logs en Json") (:project "planet"))

@@ -79,18 +79,18 @@ let initialize_current_position () =
     "whereami.json"
 ;;
 
+let initialize_logs () =
+  create_api_file
+    Glue.Log.collect_all_log_in_json
+    api_folder
+    "logs.json"
+;;
+
 let api () =
   let () = create_api_folder () in
   let () = initialize_project () in
   let () = initialize_sectors () in
   let () = initialize_current_position () in
+  let () = initialize_logs () in
   ()
-;;
-
-let logs () =
-  create_api_folder ();
-  create_api_file
-    Glue.Log.collect_all_log_in_json
-    api_folder
-    "logs.json"
 ;;

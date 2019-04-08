@@ -1,1 +1,21 @@
-Test *text*.
+J'ai eu beaucoup tenté de maintenir un /blog/ au cours de ces 
+15 dernières années. J'ai parfois utilisé des plateforme pré-construites, 
+j'ai parfois tâché de construire mon propre générateur, j'ai parfois 
+utilisé des générateurs (le dernier en date étant l'excellent 
+[[https://jaspervdj.be/hakyll/][Hakyll]], que je recommande à toute personne soucieuse d'avoir un 
+outil flexible, facile à prendre en main et rapide).
+
+Ensuite, j'ai découvert des plateformes de publications plus riches 
+(comme par exemple, celle de [[https://wiki.xxiivv.com/#home][Devine Lu Linvega]] et celle de [[https://avanier.now.sh/wiki/index.html][Josh Avanier]])
+qui, en plus de servir du contenu, offraient une collection d'outils, à 
+mon sens, très intéressants. Ce genre d'outil s'apparente à un *wiki*, dont 
+le contenu (et la structure) sont construits autour de plusieurs canaux 
+de communication.
+
+En plus d'offrir un médium de publication ordonnées, elles mettent en 
+lumières des outils, comme par exemple, la journalisation des tâches, 
+les objectifs à réaliser et un suivi méticuleux de chaque projets.
+
+J'ai eu envie de construire, moi aussi, une plateforme de ce genre, 
+me permettant, par exemple, de saisir les tâches que je réalise sur 
+mon temps libre. D'où la construction de ce projet, *Planet*.

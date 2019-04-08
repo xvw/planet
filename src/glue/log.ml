@@ -72,3 +72,34 @@ let whereami_to_json () =
   >>= Result.Applicative.sequence >|= Json.array
   |> Validation.from_result
 ;;
+
+let collect_log_files () =
+  let open Result.Infix in
+  Dir.children
+    ~filter:(fun x ->
+      String.(start_with x "log_" && end_with x ".qube") )
+    log_folder
+  >|= List.sort String.compare
+;;
+
+let reduce_logs racc filename =
+  let open Validation.Infix in
+  racc
+  >>= fun acc ->
+  filename
+  |> Filename.concat log_folder
+  |> File.to_stream (fun _ -> Qexp.from_stream)
+  |> Result.bind Qexp.extract_root
+  |> Validation.from_result
+  >>= fun nodes ->
+  List.map (fun x -> Shapes.Log.(from_qexp x >|= to_json)) nodes
+  |> Validation.Applicative.sequence
+  >|= fun result -> acc @ result
+;;
+
+let collect_all_log_in_json () =
+  let open Validation.Infix in
+  collect_log_files () |> Validation.from_result
+  >>= List.fold_left reduce_logs (Ok [])
+  >|= Json.array
+;;

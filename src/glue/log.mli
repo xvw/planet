@@ -21,3 +21,6 @@ val logs_to_json : Shapes.Log.t list -> Paperwork.Json.t
 
 (** Convert whereami location into [Json.t] *)
 val whereami_to_json : unit -> Paperwork.Json.t Validation.t
+
+(** Fetch all logs in [Json.t] *)
+val collect_all_log_in_json : unit -> Paperwork.Json.t Validation.t

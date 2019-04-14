@@ -51,3 +51,24 @@
 ((:uuid "9d88986a-9557-c74b-8956-41af56d9e7d4") (:day "019D08")
   (:duration "120") (:sector "programming")
   (:label "Génération des logs en Json") (:project "planet"))
+
+((:uuid "88799ad5-0873-07f4-9887-bc5a67364123") (:day "019D09")
+  (:duration "120") (:sector "r&d")
+  (:label "Progression dans 'Logique du récit' de Claude Brémond"))
+
+((:uuid "9ff7f66c-57cc-380a-3f17-aaf41552be3e") (:day "019D10")
+  (:duration "60") (:sector "writing")
+  (:label "Expérience sur la génération de récits"))
+
+((:uuid "518b8c6a-6afd-8ca9-ec6a-cb365b3cc0cf") (:day "019D11")
+  (:duration "120") (:sector "reading")
+  (:label "Approche de la sémantique structurale de A.J. Greimas"))
+
+((:uuid "559fa1bf-a74c-5ee2-57bd-2050fa3ad845") (:day "019D12")
+  (:duration "120") (:sector "r&d")
+  (:label "Le langage de modules de OCaml pour le talk à DevoxxFR 2019"))
+
+((:uuid "f6fe00d3-b8fd-bf90-fc0e-422c3ae344af") (:day "019D13")
+  (:duration "420") (:sector "r&d")
+  (:label
+    "Les modules dans différents langages de programmation, talk DevoxxFR 2019"))

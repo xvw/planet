@@ -1,0 +1,12 @@
+(:name "rutsch")
+(:title "Rutsch")
+(:synopsis "Un outil pour rédiger des supports de présentation")
+(:status "wip")
+(:license "mit")
+(:tags "slides" "mvp" "web" "talk")
+(:repo "github.com/xvw/rutsch.git")
+(:content external #org-mode "projects/rutsch.org")
+
+(:tools
+ (ocaml "https://ocaml.org")
+ (js_of_ocaml "https://ocsigen.org/js_of_ocaml"))

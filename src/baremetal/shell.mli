@@ -20,3 +20,14 @@ val command : string -> fragment list -> command
 
 val pp : Format.formatter -> command -> unit
 val to_string : command -> string
+
+(** {2 Exection} *)
+
+val run : command -> int
+
+val run_to_stream
+  :  (command -> char Stream.t -> 'a)
+  -> command
+  -> Unix.process_status * 'a
+
+val run_to_string : command -> Unix.process_status * string

@@ -50,3 +50,26 @@ let pp ppf (cmd, fragments) =
 ;;
 
 let to_string = Format.asprintf "%a" pp
+let run command = command |> to_string |> Sys.command
+
+let run_to_stream f command =
+  let cmd = to_string command in
+  let channel = Unix.open_process_in cmd in
+  let stream = Stream.of_channel channel in
+  let result = f command stream in
+  let status = Unix.close_process_in channel in
+  status, result
+;;
+
+let run_to_string command =
+  let cmd = to_string command in
+  let channel = Unix.open_process_in cmd in
+  let rec aux acc =
+    try aux (Format.asprintf "%s%c" acc (input_char channel)) with
+    | End_of_file ->
+      acc
+  in
+  let result = aux "" in
+  let status = Unix.close_process_in channel in
+  status, result
+;;

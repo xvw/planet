@@ -72,3 +72,8 @@
   (:duration "420") (:sector "r&d")
   (:label
     "Les modules dans différents langages de programmation, talk DevoxxFR 2019"))
+
+((:uuid "97af129d-dc65-c78c-98bc-d98c37641f95") (:day "019D14")
+  (:duration "30") (:sector "programming")
+  (:label "Ajout d'une interface pour exécuter des commandes Shell")
+  (:project "planet"))

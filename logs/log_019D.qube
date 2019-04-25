@@ -77,3 +77,19 @@
   (:duration "30") (:sector "programming")
   (:label "Ajout d'une interface pour exécuter des commandes Shell")
   (:project "planet"))
+
+((:uuid "65f9391c-887b-0d8e-1e73-b9381334d8af") (:day "019D15")
+  (:duration "200") (:sector "r&d") (:label "Recherches sur les modules ML"))
+
+((:uuid "65f9391c-887b-0d8e-1e73-b9381334d8af") (:day "019D16")
+  (:duration "180") (:sector "r&d") (:label "Recherches sur les modules ML"))
+
+((:uuid "65f9391c-887b-0d8e-1e73-b9381334d8af") (:day "019D17")
+  (:duration "240") (:sector "r&d") (:label "Recherches sur les modules ML"))
+
+((:uuid "65f9391c-887b-0d8e-1e73-b9381334d8af") (:day "019D18")
+  (:duration "320") (:sector "r&d") (:label "Recherches sur les modules ML"))
+
+((:uuid "e2c87eb5-cfaa-319c-f6e3-eb9bc179667d") (:day "019D23")
+  (:duration "120") (:sector "r&d")
+  (:label "Expérimentation sur Nix et NixOS"))

@@ -103,3 +103,9 @@
 ((:uuid "092cdf82-20ae-203a-9c47-d4357b0b7488") (:day "019D26")
   (:duration "60") (:sector "programming") (:label "Réécriture du Parseur")
   (:project "brainfocaml"))
+
+((:uuid "76a8cfb5-a649-0137-856d-c0e92242062e") (:day "019D26")
+  (:duration "120") (:sector "programming")
+  (:label
+    "Réflexion sur les fonctionnalités (inutiles :P) attendues et implémentation du Parseur")
+  (:project "brainfocaml"))

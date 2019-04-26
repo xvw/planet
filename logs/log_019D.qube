@@ -93,3 +93,13 @@
 ((:uuid "e2c87eb5-cfaa-319c-f6e3-eb9bc179667d") (:day "019D23")
   (:duration "120") (:sector "r&d")
   (:label "Expérimentation sur Nix et NixOS"))
+
+((:uuid "cd28d55d-fefa-be36-fdc9-400ce2289442") (:day "019D25")
+  (:duration "60") (:sector "programming")
+  (:label
+    "Reconstruction du projet avec un tooling OCaml moderne (Dune, ocamlformat etc.)")
+  (:project "brainfocaml"))
+
+((:uuid "092cdf82-20ae-203a-9c47-d4357b0b7488") (:day "019D26")
+  (:duration "60") (:sector "programming") (:label "Réécriture du Parseur")
+  (:project "brainfocaml"))

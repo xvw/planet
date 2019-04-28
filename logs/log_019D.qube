@@ -109,3 +109,8 @@
   (:label
     "Réflexion sur les fonctionnalités (inutiles :P) attendues et implémentation du Parseur")
   (:project "brainfocaml"))
+
+((:uuid "aed07c03-d62d-1019-02ac-cc8c17acce1c") (:day "019D29")
+  (:duration "120") (:sector "r&d")
+  (:label
+    "Lecture sur l'implémentation d'un système de type et sur l'inférence"))

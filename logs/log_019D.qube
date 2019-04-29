@@ -114,3 +114,8 @@
   (:duration "120") (:sector "r&d")
   (:label
     "Lecture sur l'implémentation d'un système de type et sur l'inférence"))
+
+((:uuid "2607039d-5595-0c4a-94bc-70bbbbcd1205") (:day "019D29")
+  (:duration "200") (:sector "programming")
+  (:label "Amélioration du Parseur et initiation des premiers tests")
+  (:project "brainfocaml"))

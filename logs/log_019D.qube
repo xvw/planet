@@ -119,3 +119,8 @@
   (:duration "200") (:sector "programming")
   (:label "Amélioration du Parseur et initiation des premiers tests")
   (:project "brainfocaml"))
+
+((:uuid "d511b109-254d-5ec6-efb5-45ebd1934639") (:day "019D29")
+  (:duration "300") (:sector "r&d")
+  (:label "Expérimentations sur la génération de pages")
+  (:project "planet"))

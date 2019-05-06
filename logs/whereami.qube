@@ -1,4 +1,3 @@
-
 (#019C29 "belgique" "bruxelles")
 (#019D01 "france" "paris")
 (#019D03 "france" "lille")
@@ -10,3 +9,4 @@
 (#019D22 "france" "lille")
 (#019D29 "france" "paris")
 (#019E01 "france" "lille")
+(#019E06 "france" "paris")

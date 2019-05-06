@@ -2,3 +2,12 @@
 ((:uuid "6de0a8b0-b50a-62bb-db2b-2ebdb9ceb371") (:day "019E01")
   (:duration "180") (:sector "r&d")
   (:label "Expériences avec Godot Engine "))
+
+((:uuid "f5ecf238-9e8f-194a-f991-98ea7949e15b") (:day "019E05")
+  (:duration "320") (:sector "r&d")
+  (:label "Expériences avec ORCA (construction de bruits)"))
+
+((:uuid "06887915-9e9e-ae1c-f4ce-7a26ddab39e0") (:day "019E06")
+  (:duration "320") (:sector "r&d")
+  (:label
+    "Expériences avec Pure Data, Orca, Marabu et Bosca Ceoil pour la fabrication de bruit"))

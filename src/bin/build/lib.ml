@@ -2,7 +2,7 @@ open Bedrock
 open Bedrock.Util
 open Baremetal
 
-let site_folder = "./_site"
+let site_folder = "./_seeds"
 let api_folder = Filename.concat site_folder "api"
 
 let soft_creation folder =
@@ -36,12 +36,14 @@ let trace action message = function
               "%s [%s] has beed %s"
               action
               filename
-              message ]
+              message
+        ]
     else
       Ansi.
         [ fg yellow
         ; text
-          $ Format.sprintf "%s [%s] Nothing to do" action filename ])
+          $ Format.sprintf "%s [%s] Nothing to do" action filename
+        ])
     |> Ansi.to_string |> print_endline
 ;;
 

@@ -17,3 +17,4 @@ _opam/
 *.install
 *.exe
 _site
+_seeds

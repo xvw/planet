@@ -1,3 +1,6 @@
+open Bedrock
+open Error
+
 type fragment =
   | Flag of (bool * string * fragment option)
   | Subcommand of string
@@ -72,4 +75,15 @@ let run_to_string command =
   let result = aux "" in
   let status = Unix.close_process_in channel in
   status, result
+;;
+
+let capture f = function
+  | Unix.WEXITED 0 ->
+    f ()
+  | Unix.WEXITED x ->
+    Error (Wexited x)
+  | Unix.WSIGNALED x ->
+    Error (Wsignaled x)
+  | Unix.WSTOPPED x ->
+    Error (Wstopped x)
 ;;

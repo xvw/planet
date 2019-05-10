@@ -21,7 +21,7 @@ val command : string -> fragment list -> command
 val pp : Format.formatter -> command -> unit
 val to_string : command -> string
 
-(** {2 Exection} *)
+(** {2 Execution} *)
 
 val run : command -> int
 
@@ -31,3 +31,8 @@ val run_to_stream
   -> Unix.process_status * 'a
 
 val run_to_string : command -> Unix.process_status * string
+
+val capture
+  :  (unit -> 'a Bedrock.Result.t)
+  -> Unix.process_status
+  -> 'a Bedrock.Result.t

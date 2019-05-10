@@ -167,6 +167,11 @@ let push_result log =
   >>= fun filename ->
   let str_log = log |> qexpify |> Qexp.to_string |> String.trim in
   File.append filename ("\n" ^ str_log ^ "\n")
+  >>= (fun () -> Glue.Git.stage Glue.Log.log_pattern)
+  >>= (fun () ->
+        Glue.Git.commit ~desc:str_log
+        $ Format.asprintf "Record task: %a" Timetable.Day.pp log.day
+        )
   >> Ok (filename, str_log)
 ;;
 

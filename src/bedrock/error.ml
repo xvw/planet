@@ -26,6 +26,9 @@ type t =
   | Mapping_failure of (string * string)
   | Unparsable_color of string
   | Unix of string
+  | Wexited of int
+  | Wsignaled of int
+  | Wstopped of int
   | Exn of exn
   | List of t list
 
@@ -60,6 +63,9 @@ module Exn = struct
   exception Unknown_status of string
   exception Mapping_failure of (string * string)
   exception Unparsable_color of string
+  exception Wexited of int
+  exception Wsignaled of int
+  exception Wstopped of int
 end
 
 let rec to_exception = function
@@ -119,6 +125,12 @@ let rec to_exception = function
     Exn.Mapping_failure (subject, content)
   | Unparsable_color string ->
     Exn.Unparsable_color string
+  | Wexited i ->
+    Exn.Wexited i
+  | Wsignaled i ->
+    Exn.Wsignaled i
+  | Wstopped i ->
+    Exn.Wstopped i
   | List errors ->
     Exn.List (List.map to_exception errors)
 ;;
@@ -178,6 +190,12 @@ let rec from_exception = function
     Unparsable_color string
   | Exn.Mapping_failure (subject, content) ->
     Mapping_failure (subject, content)
+  | Exn.Wexited i ->
+    Wexited i
+  | Exn.Wsignaled i ->
+    Wsignaled i
+  | Exn.Wstopped i ->
+    Wstopped i
   | e ->
     Exn e
 ;;
@@ -239,6 +257,12 @@ let rec to_string = function
     Format.sprintf "[Mapping_failure] [%s] [%s]" subject content
   | Unparsable_color string ->
     Format.sprintf "[Unparsable_color] [%s]" string
+  | Wexited i ->
+    Format.sprintf "[WEXITED] [%d]" i
+  | Wsignaled i ->
+    Format.sprintf "[WSIGNALED] [%d]" i
+  | Wstopped i ->
+    Format.sprintf "[WSTOPPED] [%d]" i
   | List errors ->
     Format.sprintf
       "[List] %s"

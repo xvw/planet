@@ -4,7 +4,7 @@ open Error
 type fragment =
   | Flag of (bool * string * fragment option)
   | Subcommand of string
-  | String of string
+  | String of (bool * string)
   | Atom of string
 
 type command = string * fragment list
@@ -14,13 +14,14 @@ let flag ?(short = true) ?value flag_name =
 ;;
 
 let subcommand cmd = Subcommand cmd
-let string str = String str
+let string ?(escaped = false) str = String (escaped, str)
 let atom str = Atom str
 let command cmd fragments = cmd, fragments
 
 let rec fragment_mapper = function
-  | String str ->
-    "\"" ^ String.escaped str ^ "\""
+  | String (e, str) ->
+    let f = if e then String.escaped else Util.id in
+    "\"" ^ f str ^ "\""
   | Atom str ->
     str
   | Subcommand str ->

@@ -34,6 +34,9 @@ type t =
   | Mapping_failure of (string * string)
   | Unparsable_color of string
   | Unix of string
+  | Wexited of int
+  | Wsignaled of int
+  | Wstopped of int
   | Exn of exn
   | List of t list
 
@@ -69,6 +72,9 @@ module Exn : sig
   exception Unknown_status of string
   exception Mapping_failure of (string * string)
   exception Unparsable_color of string
+  exception Wexited of int
+  exception Wsignaled of int
+  exception Wstopped of int
 end
 
 (** {2 Tools to deal with errors} *)

@@ -12,7 +12,7 @@ type command
 
 val flag : ?short:bool -> ?value:fragment -> string -> fragment
 val subcommand : string -> fragment
-val string : string -> fragment
+val string : ?escaped:bool -> string -> fragment
 val atom : string -> fragment
 val command : string -> fragment list -> command
 

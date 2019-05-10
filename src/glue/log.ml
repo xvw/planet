@@ -7,6 +7,8 @@ module TT = Timetable
 
 let database = Database.logs
 let log_folder = Database.path database
+let whereami_file = Filename.concat log_folder "whereami.qube"
+let log_pattern = [ Filename.concat log_folder "log_*.qube" ]
 
 let create_file day =
   let month = TT.Day.to_month day in
@@ -15,17 +17,17 @@ let create_file day =
   let is_already_created = File.exists cname in
   let open Result.Infix in
   (if not is_already_created
-  then
+  then (
     let header =
       Format.asprintf ";; Logs for %a" TT.Month.pp month
     in
-    File.create cname header
+    File.create cname header)
   else Ok ())
   >> Ok (cname, is_already_created)
 ;;
 
 let create_whereami_file () =
-  let cname = Filename.concat log_folder "whereami.qube" in
+  let cname = whereami_file in
   let is_already_created = File.exists cname in
   let open Result.Infix in
   (if not is_already_created then File.create cname "" else Ok ())
@@ -50,7 +52,7 @@ let logs_to_json logs =
 ;;
 
 let whereami_to_json () =
-  let filename = Filename.concat log_folder "whereami.qube" in
+  let filename = whereami_file in
   let open Result.Infix in
   filename
   |> File.to_stream (fun _ -> Qexp.from_stream)
@@ -59,16 +61,18 @@ let whereami_to_json () =
           | Qexp.Node
               [ Qexp.Keyword daypoint
               ; Qexp.String (_, country)
-              ; Qexp.String (_, city) ] ->
+              ; Qexp.String (_, city)
+              ] ->
             daypoint |> TT.Day.from_string
             >|= fun _ ->
             Json.(
               obj
                 [ "date", string daypoint
                 ; "country", string country
-                ; "city", string city ])
+                ; "city", string city
+                ])
           | x ->
-            Error (Invalid_field (Qexp.to_string x)) )
+            Error (Invalid_field (Qexp.to_string x)))
   >>= Result.Applicative.sequence >|= Json.array
   |> Validation.from_result
 ;;
@@ -77,7 +81,7 @@ let collect_log_files () =
   let open Result.Infix in
   Dir.children
     ~filter:(fun x ->
-      String.(start_with x "log_" && end_with x ".qube") )
+      String.(start_with x "log_" && end_with x ".qube"))
     log_folder
   >|= List.sort String.compare
 ;;

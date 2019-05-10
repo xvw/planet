@@ -8,7 +8,7 @@ let sectors () =
   match Glue.Sector.all () with
   | Ok hashtable ->
     let () =
-      Ansi.[bold; fg cyan; !"Available sectors\n"]
+      Ansi.[ bold; fg cyan; !"Available sectors\n" ]
       |> Ansi.to_string |> print_endline
     in
     Hashtbl.iter
@@ -16,8 +16,13 @@ let sectors () =
         let open Shapes.Sector in
         let open Ansi in
         text_box sector.name sector.desc
-        @ [reset; fg cyan; !(Color.to_hex sector.color); reset; !"\n"]
-        |> to_string |> print_endline )
+        @ [ reset
+          ; fg cyan
+          ; !(Color.to_hex sector.color)
+          ; reset
+          ; !"\n"
+          ]
+        |> to_string |> print_endline)
       hashtable
   | Error errs ->
     Prompter.prompt_errors errs
@@ -51,17 +56,17 @@ let rec when_ () =
   try_until repeat_result (fun () ->
       Prompter.resultable
         ~title:"When"
-        ~answer_style:Ansi.[fg yellow]
+        ~answer_style:Ansi.[ fg yellow ]
         (fun x ->
           if String.(length $ trim x) = 0
           then Glue.Util.day ()
-          else Timetable.Day.from_string x )
-        "Use empty string for [current timestamp]" )
+          else Timetable.Day.from_string x)
+        "Use empty string for [current timestamp]")
   |> function
   | Ok x ->
     let valid =
       Prompter.yes_no
-        ~answer_style:Ansi.[fg yellow]
+        ~answer_style:Ansi.[ fg yellow ]
         ~title:"Confirm?"
         (Format.asprintf "Choice %a" Timetable.Day.pp x)
     in
@@ -73,16 +78,16 @@ let rec when_ () =
 let rec during () =
   try_until repeat_option (fun () ->
       Prompter.int_opt
-        ~answer_style:Ansi.[fg yellow]
+        ~answer_style:Ansi.[ fg yellow ]
         ~title:"During"
         ~f:(function
           | None -> None | Some x when x <= 0 -> None | x -> x)
-        "How much time (in minut)" )
+        "How much time (in minut)")
   |> function
   | Some x ->
     let valid =
       Prompter.yes_no
-        ~answer_style:Ansi.[fg yellow]
+        ~answer_style:Ansi.[ fg yellow ]
         ~title:"Confirm?"
         (Format.asprintf "Choice %d" x)
     in
@@ -94,12 +99,12 @@ let rec during () =
 let rec sector sectors =
   try_until repeat_result (fun () ->
       Prompter.choose
-        ~answer_style:Ansi.[fg yellow]
+        ~answer_style:Ansi.[ fg yellow ]
         ~title:"In which sector"
         Util.id
         Util.id
         (Array.of_seq $ Hashtbl.to_seq_keys sectors)
-        "Related sector" )
+        "Related sector")
   |> function Ok x -> x | _ -> sector sectors
 ;;
 
@@ -107,7 +112,7 @@ let rec project projects =
   let all_projects = None :: List.map (fun x -> Some x) projects in
   try_until repeat_result (fun () ->
       Prompter.choose
-        ~answer_style:Ansi.[fg yellow]
+        ~answer_style:Ansi.[ fg yellow ]
         ~title:"In which project?"
         (Option.map (fun x -> Shapes.Project.(x.name)))
         (function
@@ -117,21 +122,21 @@ let rec project projects =
           | None ->
             "Not connected")
         (Array.of_list all_projects)
-        "Related project" )
+        "Related project")
   |> function Ok x -> x | _ -> project projects
 ;;
 
 let rec label () =
   try_until repeat_option (fun () ->
       Prompter.string_opt
-        ~answer_style:Ansi.[fg yellow]
+        ~answer_style:Ansi.[ fg yellow ]
         ~title:"Label?"
-        "Describe the task" )
+        "Describe the task")
   |> function
   | Some x ->
     let valid =
       Prompter.yes_no
-        ~answer_style:Ansi.[fg yellow]
+        ~answer_style:Ansi.[ fg yellow ]
         ~title:"Confirm?"
         (Format.asprintf "Choice `%s`" x)
     in
@@ -140,7 +145,7 @@ let rec label () =
     label ()
 ;;
 
-let qexpify log = Qexp.node [Shapes.Log.to_qexp log]
+let qexpify log = Qexp.node [ Shapes.Log.to_qexp log ]
 
 let push_result log =
   let open Result.Infix in
@@ -153,11 +158,12 @@ let push_result log =
               [ fg yellow
               ; text filename
               ; fg green
-              ; text " has been created" ]
+              ; text " has been created"
+              ]
               |> to_string)
             |> print_endline
         in
-        Ok filename )
+        Ok filename)
   >>= fun filename ->
   let str_log = log |> qexpify |> Qexp.to_string |> String.trim in
   File.append filename ("\n" ^ str_log ^ "\n")
@@ -183,7 +189,8 @@ let push_feedback = function
       ; text "\n"
       ; fg green
       ; text "has been dumped in: "
-      ; text filename ]
+      ; text filename
+      ]
       |> to_string)
     |> print_endline
   | Error x ->
@@ -200,7 +207,7 @@ let interactive () =
       let a_sector = sector sectors in
       let some_project = project projects in
       let a_label = label () in
-      let () = Ansi.[reset] |> Ansi.to_string |> print_endline in
+      let () = Ansi.[ reset ] |> Ansi.to_string |> print_endline in
       let log =
         Shapes.Log.new_log
           (Uuid.to_string uuid)
@@ -210,7 +217,7 @@ let interactive () =
           some_project
           a_label
       in
-      visual_push log )
+      visual_push log)
 ;;
 
 let check_day = function
@@ -226,7 +233,7 @@ let check_duration =
 
 let check_sector sectors = function
   | None ->
-    Error [Invalid_field "sector"]
+    Error [ Invalid_field "sector" ]
   | Some x ->
     let open Validation.Infix in
     Validation.from_option
@@ -249,7 +256,7 @@ let check_project projects = function
 
 let check_label x =
   if String.length (String.trim x) = 0
-  then Error [Invalid_field "label"]
+  then Error [ Invalid_field "label" ]
   else Ok x
 ;;
 
@@ -267,7 +274,7 @@ let record sector duration timecode project label =
       | Error xs ->
         Prompter.prompt_errors xs
       | Ok log ->
-        visual_push log )
+        visual_push log)
 ;;
 
 let push_whereami place =
@@ -281,14 +288,18 @@ let push_whereami place =
               [ fg yellow
               ; text filename
               ; fg green
-              ; text " has been created" ]
+              ; text " has been created"
+              ]
               |> to_string)
             |> print_endline
         in
-        filename )
+        filename)
   >>= (fun filename ->
-        File.append filename ("\n" ^ place) >> Ok (filename, place)
-        )
+        File.append filename ("\n" ^ place) >> Ok (filename, place))
+  >>= (fun result ->
+        Glue.Git.stage [ Glue.Log.whereami_file ]
+        >>= (fun () -> Glue.Git.commit $ "update location: " ^ place)
+        >|= const result)
   |> push_feedback
 ;;
 
@@ -311,7 +322,9 @@ let whereami moment opt_country opt_city =
             [ node
                 [ keyword (Timetable.Day.to_string timecode)
                 ; string co
-                ; string ci ] ])
+                ; string ci
+                ]
+            ])
         |> Qexp.to_string
       in
       push_whereami qexp_str)

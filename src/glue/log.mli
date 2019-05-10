@@ -6,9 +6,13 @@ open Baremetal
 (** Get the database *)
 val database : Shapes.Log.t Database.t
 
+val whereami_file : File.name
+val log_pattern : File.name list
+
 (** Create the bucket for logs *)
-val create_file :
-  Paperwork.Timetable.Day.t -> (File.name * bool) Result.t
+val create_file
+  :  Paperwork.Timetable.Day.t
+  -> (File.name * bool) Result.t
 
 (** Create the bucket for whereami logs *)
 val create_whereami_file : unit -> (File.name * bool) Result.t

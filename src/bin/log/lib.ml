@@ -169,7 +169,7 @@ let push_result log =
   File.append filename ("\n" ^ str_log ^ "\n")
   >>= (fun () -> Glue.Git.stage Glue.Log.log_pattern)
   >>= (fun () ->
-        Glue.Git.commit ~desc:str_log
+        Glue.Git.commit ~desc:(String.escaped log.label)
         $ Format.asprintf "Record task: %a" Timetable.Day.pp log.day
         )
   >> Ok (filename, str_log)

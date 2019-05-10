@@ -11,3 +11,7 @@
   (:duration "320") (:sector "r&d")
   (:label
     "Expériences avec Pure Data, Orca, Marabu et Bosca Ceoil pour la fabrication de bruit"))
+
+((:uuid "9ea8c26d-f483-c483-56e1-6d4928664585") (:day "019E10")
+  (:duration "60") (:sector "programming")
+  (:label "Automatisation des commit des logs") (:project "planet"))

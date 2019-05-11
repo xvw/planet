@@ -15,3 +15,7 @@
 ((:uuid "9ea8c26d-f483-c483-56e1-6d4928664585") (:day "019E10")
   (:duration "60") (:sector "programming")
   (:label "Automatisation des commit des logs") (:project "planet"))
+
+((:uuid "40352cb2-0301-190a-162c-6db2e95f8a64") (:day "019E10")
+  (:duration "120") (:sector "r&d")
+  (:label "Expériences sur la génération de HTML") (:project "planet"))

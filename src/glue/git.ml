@@ -2,15 +2,18 @@ open Bedrock
 open Util
 open Baremetal
 
-let run cmd =
-  let status, _result = Shell.run_to_string cmd in
-  status |> Shell.capture (fun () -> Ok ())
+let git = Shell.command "git"
+let ok x = Ok x
+
+let run f cmd =
+  let status, result = Shell.run_to_string cmd in
+  status |> Shell.capture (fun () -> f result)
 ;;
 
 let stage files =
   let args = List.map Shell.string files in
-  let cmd = Shell.(command "git" $ subcommand "add" :: args) in
-  run cmd
+  let cmd = Shell.(git $ subcommand "add" :: args) in
+  Result.Infix.(run ok cmd >> Ok ())
 ;;
 
 let commit ?desc message =
@@ -22,8 +25,8 @@ let commit ?desc message =
   in
   let cmd =
     Shell.(
-      command "git"
+      git
       $ subcommand "commit" :: flag ~value:(string message) "m" :: d)
   in
-  run cmd
+  Result.Infix.(run ok cmd >> Ok ())
 ;;

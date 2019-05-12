@@ -19,3 +19,8 @@
 ((:uuid "40352cb2-0301-190a-162c-6db2e95f8a64") (:day "019E10")
   (:duration "120") (:sector "r&d")
   (:label "Expériences sur la génération de HTML") (:project "planet"))
+
+((:uuid "264876d3-9e86-e3d6-75fa-f5e79d20b105") (:day "019E12")
+  (:duration "520") (:sector "writing")
+  (:label
+    "Ecriture de la présentation pour Paris.Ex 12 (les Macros en Elixir)"))

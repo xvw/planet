@@ -1,0 +1,14 @@
+(:name "quasar")
+(:published false)
+(:title "Quasar")
+(:synopsis
+  "Une bibliothèque standard pour OCaml, parce que j'aime bien réinventer la roue")
+(:status "wip")
+(:license "mit")
+(:tags "library" "ocaml" "toolkit")
+(:repo "github.com/xvw/quasar.git")
+(:content external #org-mode "projects/quasar.org")
+
+(:tools
+ (ocaml "https://ocaml.org")
+ (js_of_ocaml "https://ocsigen.org/js_of_ocaml"))

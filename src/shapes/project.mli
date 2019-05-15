@@ -6,11 +6,11 @@ open Paperwork
 
 (** Describes the [state] of a project. *)
 type status =
-  | Unceasing  (** The project is always in progress; *)
-  | Wip  (** the project is in progress; *)
-  | Done  (** the project is done; *)
-  | Paused  (** the project is in pause; *)
-  | Interrupted  (** the project is stopped. *)
+  | Unceasing (** The project is always in progress; *)
+  | Wip (** the project is in progress; *)
+  | Done (** the project is done; *)
+  | Paused (** the project is in pause; *)
+  | Interrupted (** the project is stopped. *)
 
 (** Describes a project *)
 type t =
@@ -27,7 +27,9 @@ type t =
   ; picto : string option
   ; indexed : bool
   ; content : Text.t option
-  ; subprojects : t list }
+  ; published : bool
+  ; subprojects : t list
+  }
 
 (** {2 Api} *)
 

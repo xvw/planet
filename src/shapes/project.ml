@@ -27,7 +27,7 @@ let status_from_string str =
   | "interrupted" | "stopped" | "abandonned" ->
     Ok Interrupted
   | _ ->
-    Error [Unknown_status str]
+    Error [ Unknown_status str ]
 ;;
 
 type t =
@@ -44,7 +44,9 @@ type t =
   ; picto : string option
   ; indexed : bool
   ; content : Text.t option
-  ; subprojects : t list }
+  ; published : bool
+  ; subprojects : t list
+  }
 
 let new_project
     name
@@ -60,7 +62,9 @@ let new_project
     picto
     indexed
     content
-    subprojects =
+    published
+    subprojects
+  =
   { name
   ; title
   ; synopsis
@@ -74,7 +78,9 @@ let new_project
   ; picto
   ; indexed = (match indexed with None -> true | Some x -> x)
   ; content
-  ; subprojects }
+  ; published
+  ; subprojects
+  }
 ;;
 
 module Fetch = Table.Fetch
@@ -97,6 +103,7 @@ let rec from_qexp expr =
     <*> Fetch.(option string config "picto")
     <*> Fetch.(option bool config "indexed")
     <*> Fetch.(option Text.fetch config "content")
+    <*> Fetch.(bool_refutable config "published")
     <*> Fetch.list_refutable from_qexp config "subprojects"
   | Error _ as e ->
     Validation.from_result e
@@ -166,5 +173,6 @@ let rec to_json project =
     ; "tags", array $ List.map string project.tags
     ; "picto", nullable Option.(project.picto >|= string)
     ; "indexed", bool project.indexed
-    ; "subprojects", array $ List.map to_json project.subprojects ]
+    ; "subprojects", array $ List.map to_json project.subprojects
+    ]
 ;;

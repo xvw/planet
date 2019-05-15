@@ -1,9 +1,1 @@
-*Qian* est un tout petit explorateur de fichier écrit en *Elm* et *JavaScript*
-via *Electron*. Son nom est un clin d'oeil à [[https://en.wikipedia.org/wiki/Zhang_Qian][Zhang Qian]], un *explorateur* 
-Chinois.
-
-Quand j'ai commencé à utiliser (professionnellement) MacOSX, je n'ai pas 
-été particulièrement séduit par /Finder/ (je n'ai pas d'arguments 
-particuliers), c'est pour ça que j'ai démarré l'implémentation de *Qian*. 
-L'objectif étant d'avoir un logiciel facilement extensible n'offrant que 
-les fonctionnalités dont j'ai besoin.
+qian

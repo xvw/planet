@@ -46,7 +46,7 @@ let from_qexp f =
 let configuration =
   let open Qexp in
   let f key = function
-    | [x] ->
+    | [ x ] ->
       Ok (key, Some x)
     | [] ->
       Ok (key, None)
@@ -63,7 +63,7 @@ module Fetch = struct
     match f table field with
     | Ok x ->
       Ok (Some x)
-    | Error [Undefined_field _] ->
+    | Error [ Undefined_field _ ] ->
       Ok None
     | Error xs ->
       Error xs
@@ -74,40 +74,58 @@ module Fetch = struct
     | Some (Some (Qexp.String (_, k))) ->
       Ok k
     | None ->
-      Error [Undefined_field field]
+      Error [ Undefined_field field ]
     | _ ->
-      Error [Invalid_field field]
+      Error [ Invalid_field field ]
   ;;
 
-  let bool table field =
+  let bool_refutable ?(default = true) table field =
     let open Qexp in
     match Hashtbl.find_opt table field with
     | None ->
-      Error [Undefined_field field]
+      Ok default
     | Some (Some x) ->
       (match x with
       | Keyword x | Atom x | Tag x | String (_, x) ->
         let b = String.lowercase_ascii x in
         if b = "true" || b = "false"
         then Ok (b = "true")
-        else Error [Invalid_field field]
+        else Error [ Invalid_field field ]
       | _ ->
-        Error [Invalid_field field])
+        Error [ Invalid_field field ])
     | _ ->
-      Error [Invalid_field field]
+      Error [ Invalid_field field ]
+  ;;
+
+  let bool table field =
+    let open Qexp in
+    match Hashtbl.find_opt table field with
+    | None ->
+      Error [ Undefined_field field ]
+    | Some (Some x) ->
+      (match x with
+      | Keyword x | Atom x | Tag x | String (_, x) ->
+        let b = String.lowercase_ascii x in
+        if b = "true" || b = "false"
+        then Ok (b = "true")
+        else Error [ Invalid_field field ]
+      | _ ->
+        Error [ Invalid_field field ])
+    | _ ->
+      Error [ Invalid_field field ]
   ;;
 
   let list mapper table field =
     let open Qexp in
     match Hashtbl.find_opt table field with
     | None ->
-      Error [Undefined_field field]
+      Error [ Undefined_field field ]
     | Some (Some (Node elts)) ->
       List.map mapper elts |> Validation.Applicative.sequence
     | Some (Some elt) ->
-      List.map mapper [elt] |> Validation.Applicative.sequence
+      List.map mapper [ elt ] |> Validation.Applicative.sequence
     | _ ->
-      Error [Invalid_field field]
+      Error [ Invalid_field field ]
   ;;
 
   let list_refutable mapper table field =
@@ -118,24 +136,24 @@ module Fetch = struct
     | Some (Some (Node elts)) ->
       List.map mapper elts |> Validation.Applicative.sequence
     | Some (Some elt) ->
-      List.map mapper [elt] |> Validation.Applicative.sequence
+      List.map mapper [ elt ] |> Validation.Applicative.sequence
     | _ ->
-      Error [Invalid_field field]
+      Error [ Invalid_field field ]
   ;;
 
   let token mapper table field =
     let open Qexp in
     match Hashtbl.find_opt table field with
     | None ->
-      Error [Undefined_field field]
+      Error [ Undefined_field field ]
     | Some (Some x) ->
       (match x with
       | Atom str | String (_, str) | Tag str | Keyword str ->
         mapper str
       | _ ->
-        Error [Invalid_field field])
+        Error [ Invalid_field field ])
     | _ ->
-      Error [Invalid_field field]
+      Error [ Invalid_field field ]
   ;;
 
   let int table field =
@@ -157,7 +175,7 @@ module Mapper = struct
     | Qexp.String (_, str) ->
       Ok str
     | q ->
-      Error [Mapping_failure ("string", Qexp.to_string q)]
+      Error [ Mapping_failure ("string", Qexp.to_string q) ]
   ;;
 
   let token f = function
@@ -167,22 +185,22 @@ module Mapper = struct
     | Qexp.Keyword str ->
       f str
     | q ->
-      Error [Mapping_failure ("token", Qexp.to_string q)]
+      Error [ Mapping_failure ("token", Qexp.to_string q) ]
   ;;
 
   let couple f g = function
-    | Qexp.Node [x; y] ->
+    | Qexp.Node [ x; y ] ->
       let open Validation.Applicative in
       (fun x y -> x, y) <$> f x <*> g y
     | q ->
-      Error [Mapping_failure ("couple", Qexp.to_string q)]
+      Error [ Mapping_failure ("couple", Qexp.to_string q) ]
   ;;
 
   let triple f g h = function
-    | Qexp.Node [x; y; z] ->
+    | Qexp.Node [ x; y; z ] ->
       let open Validation.Applicative in
       (fun x y z -> x, y, z) <$> f x <*> g y <*> h z
     | q ->
-      Error [Mapping_failure ("triple", Qexp.to_string q)]
+      Error [ Mapping_failure ("triple", Qexp.to_string q) ]
   ;;
 end

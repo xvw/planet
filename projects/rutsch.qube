@@ -1,4 +1,5 @@
 (:name "rutsch")
+(:published false)
 (:title "Rutsch")
 (:synopsis "Un outil pour rédiger des supports de présentation")
 (:status "wip")

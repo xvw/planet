@@ -3,26 +3,31 @@ open Bedrock.Util
 
 let ls_render_valid_project projects =
   let () =
-    Ansi.[bold; text "Valid projects:\n"]
+    Ansi.[ bold; text "Valid projects:\n" ]
     |> Ansi.to_string ~scoped:true
     |> print_endline
   in
   List.iter
     (fun (_, x) ->
-      let name, status =
-        Shapes.Project.(x.name, status_to_string x.status)
+      let name, status, published =
+        Shapes.Project.(
+          x.name, status_to_string x.status, x.published)
+      in
+      let color =
+        if published then Ansi.green else Ansi.bright_magenta
       in
       Ansi.
         [ bold
-        ; foreground green
+        ; foreground color
         ; text " - "
         ; !name
         ; reset
         ; !" ("
         ; !status
-        ; !")" ]
+        ; !")"
+        ]
       |> Ansi.to_string ~scoped:true
-      |> print_endline )
+      |> print_endline)
     projects
 ;;
 
@@ -32,7 +37,7 @@ let ls_render_invalid_project projects =
     ()
   | _ ->
     let () =
-      Ansi.[bold; text "Invalid projects:\n"]
+      Ansi.[ bold; text "Invalid projects:\n" ]
       |> Ansi.to_string ~scoped:true
       |> print_endline
     in
@@ -40,11 +45,11 @@ let ls_render_invalid_project projects =
       List.iter
         (fun (f, x) ->
           let () =
-            Ansi.[bold; foreground red; text " - "; text f]
+            Ansi.[ bold; foreground red; text " - "; text f ]
             |> Ansi.to_string ~scoped:true
             |> print_endline
           in
-          Prompter.prompt_errors ~intro:false x )
+          Prompter.prompt_errors ~intro:false x)
         projects
     in
     let () = print_newline () in
@@ -63,7 +68,7 @@ let ls () =
           | Error errs ->
             (f, errs) :: l, r
           | Ok project ->
-            l, (f, project) :: r )
+            l, (f, project) :: r)
         projects
         ([], [])
     in
@@ -88,7 +93,8 @@ let license = function
       ; !" "
       ; !x
       ; !" "
-      ; reset ]
+      ; reset
+      ]
 ;;
 
 let render_links f title list =
@@ -96,7 +102,7 @@ let render_links f title list =
   | [] ->
     []
   | li ->
-    Ansi.[reset; !"\n\n"] @ f title li
+    Ansi.[ reset; !"\n\n" ] @ f title li
 ;;
 
 let render_link_box = render_links Glue.Ui.link_box
@@ -118,15 +124,15 @@ let render_content expanded content =
         | Ok txt ->
           x, txt)
     in
-    Ansi.[reset; !"\n\n"]
-    @ Ansi.text_box ~text_style:Ansi.[fg bright_blue] label text
+    Ansi.[ reset; !"\n\n" ]
+    @ Ansi.text_box ~text_style:Ansi.[ fg bright_blue ] label text
 ;;
 
 let show_project expanded project =
   let open Shapes.Project in
   let fragment =
-    Ansi.[!"\n"]
-    @ Ansi.(box project.title [[fg cyan; !(project.synopsis)]])
+    Ansi.[ !"\n" ]
+    @ Ansi.(box project.title [ [ fg cyan; !(project.synopsis) ] ])
     @ Ansi.
         [ bg green
         ; fg black
@@ -138,7 +144,7 @@ let show_project expanded project =
     @ render_link_box "Links" project.links
     @ (render_dated_link_box "Releases" $ List.rev project.releases)
     @ render_content expanded project.content
-    @ Ansi.[!"\n"]
+    @ Ansi.[ !"\n" ]
   in
   fragment |> Ansi.to_string ~scoped:true |> print_endline
 ;;

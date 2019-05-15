@@ -24,3 +24,7 @@
   (:duration "520") (:sector "writing")
   (:label
     "Ecriture de la présentation pour Paris.Ex 12 (les Macros en Elixir)"))
+
+((:uuid "c5c106af-8622-6542-f259-512da5b4c846") (:day "019E15")
+  (:duration "15") (:sector "programming")
+  (:label "Ajout de projets non publiés") (:project "planet"))

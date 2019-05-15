@@ -161,6 +161,7 @@ let rec to_json project =
   let open Json in
   obj
     [ "name", string project.name
+    ; "published", bool project.published
     ; "title", string project.title
     ; "synopsis", string project.synopsis
     ; "repo", nullable Option.(project.repo >|= string)

@@ -40,3 +40,7 @@
   (:label
     "Réflexion sur l'organisation de Quasar (et expériences d'implémentations)")
   (:project "quasar"))
+
+((:uuid "bbaff585-cfc1-6ccf-b37d-de976ec752d7") (:day "019E24")
+  (:duration "320") (:sector "programming")
+  (:label "Organisation générale des modules") (:project "quasar"))

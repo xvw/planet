@@ -28,3 +28,6 @@
 ((:uuid "c5c106af-8622-6542-f259-512da5b4c846") (:day "019E15")
   (:duration "15") (:sector "programming")
   (:label "Ajout de projets non publiés") (:project "planet"))
+
+((:uuid "00f8302b-a756-5c1e-fa8e-a23db339d2a4") (:day "019E17")
+  (:duration "120") (:sector "videogame") (:label "Hyper Light drifter"))

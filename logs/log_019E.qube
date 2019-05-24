@@ -34,3 +34,9 @@
 
 ((:uuid "38cc51ea-a360-a445-eee6-f7b1f1f99265") (:day "019E18")
   (:duration "120") (:sector "videogame") (:label "Hyper Light Drifter"))
+
+((:uuid "df10c94c-f214-870c-c316-c8ef146af53f") (:day "019E20")
+  (:duration "120") (:sector "r&d")
+  (:label
+    "Réflexion sur l'organisation de Quasar (et expériences d'implémentations)")
+  (:project "quasar"))

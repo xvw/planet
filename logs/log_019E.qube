@@ -31,3 +31,6 @@
 
 ((:uuid "00f8302b-a756-5c1e-fa8e-a23db339d2a4") (:day "019E17")
   (:duration "120") (:sector "videogame") (:label "Hyper Light drifter"))
+
+((:uuid "38cc51ea-a360-a445-eee6-f7b1f1f99265") (:day "019E18")
+  (:duration "120") (:sector "videogame") (:label "Hyper Light Drifter"))

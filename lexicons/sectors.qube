@@ -16,6 +16,9 @@
 ((:name "r&d") (:color "#c0c0c0")
  (:desc "Expériences variées liées à l'apprentissage"))
 
+((:name "videogame") (:color "#c0c0c0")
+ (:desc "Découvertes de jeux vidéo"))
+
 ((:name "walk") (:color "#c0c0c0")
  (:desc "Promenades, découvertes réelles"))
 

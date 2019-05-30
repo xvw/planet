@@ -44,3 +44,6 @@
 ((:uuid "bbaff585-cfc1-6ccf-b37d-de976ec752d7") (:day "019E24")
   (:duration "320") (:sector "programming")
   (:label "Organisation générale des modules") (:project "quasar"))
+
+((:uuid "b8d6ef73-e836-bcb9-2575-9bf935fb1bca") (:day "019E28")
+  (:duration "240") (:sector "r&d") (:label "Maintenance ArchLinux"))

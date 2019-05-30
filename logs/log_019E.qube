@@ -57,3 +57,7 @@
 ((:uuid "e6abf390-56ee-be5f-78fd-284b5d7d8184") (:day "019E30")
   (:duration "380") (:sector "programming")
   (:label "Implantation du module Js.Array") (:project "quasar"))
+
+((:uuid "440e6604-9f9c-6f0c-9fe2-a2aedb04ce59") (:day "019E30")
+  (:duration "60") (:sector "r&d")
+  (:label "Fix des dépôts cassés de ma distribution"))

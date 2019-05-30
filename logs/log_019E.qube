@@ -47,3 +47,9 @@
 
 ((:uuid "b8d6ef73-e836-bcb9-2575-9bf935fb1bca") (:day "019E28")
   (:duration "240") (:sector "r&d") (:label "Maintenance ArchLinux"))
+
+((:uuid "16771928-d3f3-38bb-7795-d1602efff014") (:day "019E29")
+  (:duration "240") (:sector "programming")
+  (:label
+    "Démarrage de l'organisation des fichiers et implémentation d'un premier module")
+  (:project "quasar"))

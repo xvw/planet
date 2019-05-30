@@ -53,3 +53,7 @@
   (:label
     "Démarrage de l'organisation des fichiers et implémentation d'un premier module")
   (:project "quasar"))
+
+((:uuid "e6abf390-56ee-be5f-78fd-284b5d7d8184") (:day "019E30")
+  (:duration "380") (:sector "programming")
+  (:label "Implantation du module Js.Array") (:project "quasar"))

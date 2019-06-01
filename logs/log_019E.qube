@@ -61,3 +61,8 @@
 ((:uuid "440e6604-9f9c-6f0c-9fe2-a2aedb04ce59") (:day "019E30")
   (:duration "60") (:sector "r&d")
   (:label "Fix des dépôts cassés de ma distribution"))
+
+((:uuid "9a7387bc-b051-dd04-c73a-0c84e2a83dbe") (:day "019E31")
+  (:duration "400") (:sector "programming")
+  (:label "Amélioration des premiers composants et réflexion sur les tests")
+  (:project "quasar"))

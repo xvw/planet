@@ -3,3 +3,8 @@
   (:duration "520") (:sector "programming")
   (:label "Implémentation du module Console (pour Node et le navigateur)")
   (:project "quasar"))
+
+((:uuid "d59457c5-3f59-2641-8e7f-b3bcf9eb4bfa") (:day "019F02")
+  (:duration "240") (:sector "programming")
+  (:label "Progression sur Quasar, initiation des test JavaScript")
+  (:project "quasar"))

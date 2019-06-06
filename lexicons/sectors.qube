@@ -30,3 +30,7 @@
 
 ((:name "culture") (:color "#c0c0c0")
  (:desc "Exposition, musée, cinéma, festival"))
+
+((:name "maintenance") (:color "#c0c0c0")
+ (:desc "Correctif, maintenance d'infrastructures"))
+

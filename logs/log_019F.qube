@@ -8,3 +8,7 @@
   (:duration "240") (:sector "programming")
   (:label "Progression sur Quasar, initiation des test JavaScript")
   (:project "quasar"))
+
+((:uuid "94a4a526-e214-3d9d-4af0-22640497ac1f") (:day "019F07")
+  (:duration "120") (:sector "programming")
+  (:label "Initiation concrète des tests") (:project "quasar"))

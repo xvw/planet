@@ -17,3 +17,7 @@
   (:duration "120") (:sector "programming")
   (:label "Amélioration de l'API du binding partiel de Jest")
   (:project "quasar"))
+
+((:uuid "a64c3c6f-3857-c731-67aa-e35a4b1e9914") (:day "019F17")
+  (:duration "200") (:sector "programming") (:label "Ajout de tests")
+  (:project "quasar"))

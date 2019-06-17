@@ -2,12 +2,12 @@
 
 # Developement's workflow
 
-all: build binaries
+all: build binaries build-hakyll build-pages
 
 build:
 	dune build @install
 
-clean:
+clean: clean-pages
 	dune clean
 	rm *.exe
 
@@ -86,5 +86,11 @@ build-hakyll:
 build-pages:
 	stack exec site build
 
+rebuild-pages:
+	stack exec site rebuild
+
 watch-pages:
 	stack exec site watch
+
+clean-pages:
+	stack exec site clean

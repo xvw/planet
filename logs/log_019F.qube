@@ -21,3 +21,7 @@
 ((:uuid "a64c3c6f-3857-c731-67aa-e35a4b1e9914") (:day "019F17")
   (:duration "200") (:sector "programming") (:label "Ajout de tests")
   (:project "quasar"))
+
+((:uuid "a57e28e1-c39a-bdfd-8540-e4013291aa49") (:day "019F17")
+  (:duration "120") (:sector "programming")
+  (:label "Combats avec Stack/Cabal pour initier Hakyll") (:project "planet"))

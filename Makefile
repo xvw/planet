@@ -2,12 +2,12 @@
 
 # Developement's workflow
 
-all: build binaries
+all: build binaries build-hakyll build-pages
 
 build:
 	dune build @install
 
-clean:
+clean: clean-pages
 	dune clean
 	rm *.exe
 
@@ -72,3 +72,25 @@ up:
 	opam update
 	opam upgrade
 	eval $(opam env)
+
+setup-hakyll:
+	asdf install
+	stack install hakyll --resolver lts-12.26
+
+init-hakyll:
+	stack init --resolver lts-12.26
+
+build-hakyll:
+	stack build
+
+build-pages:
+	stack exec site build
+
+rebuild-pages:
+	stack exec site rebuild
+
+watch-pages:
+	stack exec site watch
+
+clean-pages:
+	stack exec site clean

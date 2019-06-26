@@ -25,3 +25,8 @@
 ((:uuid "a57e28e1-c39a-bdfd-8540-e4013291aa49") (:day "019F17")
   (:duration "120") (:sector "programming")
   (:label "Combats avec Stack/Cabal pour initier Hakyll") (:project "planet"))
+
+((:uuid "23593b06-ad13-32b7-4a71-b5cfaaef3ccf") (:day "019F26")
+  (:duration "600") (:sector "writing")
+  (:label
+    "Réécriture complète du talk sur les modules pour SunnyTech 2019"))

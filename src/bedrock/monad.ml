@@ -26,6 +26,8 @@ struct
     include M
 
     let ( >>= ) x f = bind f x
+    let ( let* ) x f = bind f x
+    
     let lift = map
     let lift2 f a b = a >>= fun x -> b >>= fun y -> return (f x y)
 

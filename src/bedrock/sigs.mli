@@ -163,6 +163,8 @@ module Monad : sig
         return value of an IO action. 
     *)
       val void : 'a t -> unit t
+
+      val ( let* ) : 'a t -> ('a -> 'b t)  -> 'b t
     end
 
     include module type of Api

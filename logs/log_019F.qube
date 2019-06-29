@@ -40,3 +40,7 @@
 ((:uuid "29ff6ea2-a982-a29e-c43f-0439c6757980") (:day "019F29")
   (:duration "15") (:sector "maintenance") (:label "Upgrade to Caml 4.08.0")
   (:project "planet"))
+
+((:uuid "a5391f23-3b7f-fd86-3bbe-c225151f1bd5") (:day "019F29")
+  (:duration "20") (:sector "programming")
+  (:label "Expérience sur le let-operator en OCaml") (:project "planet"))

@@ -30,3 +30,6 @@
   (:duration "600") (:sector "writing")
   (:label
     "Réécriture complète du talk sur les modules pour SunnyTech 2019"))
+
+((:uuid "0180d423-6946-3e0d-4f33-dbd236e6907c") (:day "019F27")
+  (:duration "720") (:sector "meeting") (:label "Sunny Tech 2019"))

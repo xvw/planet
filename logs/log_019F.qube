@@ -37,9 +37,6 @@
 ((:uuid "0180d423-6946-3e0d-4f33-dbd236e6907c") (:day "019F28")
   (:duration "720") (:sector "meeting") (:label "Sunny Tech 2019"))
 
-((:uuid "0180d423-6946-3e0d-4f33-dbd236e6907c") (:day "019F29")
-  (:duration "720") (:sector "meeting") (:label "Sunny Tech 2019"))
-
 ((:uuid "29ff6ea2-a982-a29e-c43f-0439c6757980") (:day "019F29")
   (:duration "15") (:sector "maintenance") (:label "Upgrade to Caml 4.08.0")
   (:project "planet"))

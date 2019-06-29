@@ -33,8 +33,7 @@ binaries: project/project.exe log/log.exe build/build.exe
 # Package installation
 
 install:
-	opam install -y .
-	eval $(opam env)
+	opam install . --deps-only --yes
 	dune install
 	dune build @install
 
@@ -53,25 +52,11 @@ dev-deps:
 	opam install user-setup
 	opam user-setup install
 
-switch:
-	opam switch -y create .
-	eval $(opam env)
 
-local-install: switch
-	opam install -y .
-
-setup-dev:
-	opam switch -y create .
-	eval $(opam env)
-	opam install -y .
-
-remove-switch:
-	opam switch -y remove .
 
 up:
 	opam update
 	opam upgrade
-	eval $(opam env)
 
 setup-hakyll:
 	asdf install

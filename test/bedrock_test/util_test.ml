@@ -27,5 +27,6 @@ let suite =
   ; test "[bound] in lower case" bound_2
   ; test "[bound] in upper case" bound_3
   ; test "[md5] case 1" md5_1
-  ; test "[md5] case 2" md5_2 ]
+  ; test "[md5] case 2" md5_2
+  ]
 ;;

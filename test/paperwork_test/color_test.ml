@@ -14,7 +14,8 @@ let produce_some_colors () =
       , "#000cff" )
     ; ( Color.create ~alpha:0.6 (-1000) 12 300
       , "rgba(0, 12, 255, 0.6)"
-      , "#000cff" ) ]
+      , "#000cff" )
+    ]
   in
   List.iter
     (fun (color, rgb, hex) ->
@@ -22,7 +23,7 @@ let produce_some_colors () =
       and b = Color.to_hex color in
       let open Alcotest in
       let () = check string "same strings (rgb)" a rgb in
-      check string "same strings (hex)" b hex )
+      check string "same strings (hex)" b hex)
     subjects
 ;;
 
@@ -33,7 +34,8 @@ let parse_some_colors () =
     ; "rgb(3, 4, 5)", Ok (Color.create 3 4 5)
     ; "rgba(3, 4, 5, 0.7)", Ok (Color.create ~alpha:0.7 3 4 5)
     ; "ffffffffff", Error (Unparsable_color "ffffffffff")
-    ; "rgb(3, 5, 7", Error (Unparsable_color "rgb(3, 5, 7") ]
+    ; "rgb(3, 5, 7", Error (Unparsable_color "rgb(3, 5, 7")
+    ]
   in
   List.iter
     (fun (base, expected) ->
@@ -43,7 +45,7 @@ let parse_some_colors () =
         (result Check.color Check.error)
         "same color"
         parsed
-        expected )
+        expected)
     subject
 ;;
 
@@ -51,5 +53,6 @@ let suite =
   [ test
       "[color creation and serialization] some random cases"
       produce_some_colors
-  ; test "[color parsing] some random cases" parse_some_colors ]
+  ; test "[color parsing] some random cases" parse_some_colors
+  ]
 ;;

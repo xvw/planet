@@ -11,12 +11,13 @@ type t =
   ; duration : int
   ; sector : string
   ; project : string option
-  ; label : string }
+  ; label : string
+  }
 
 (** {2 Projections} *)
 
-val new_log :
-     string
+val new_log
+  :  string
   -> Timetable.Day.t
   -> int
   -> string

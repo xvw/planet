@@ -8,13 +8,14 @@ type t =
   ; duration : int
   ; sector : string
   ; project : string option
-  ; label : string }
+  ; label : string
+  }
 
 let qexp_project = function
   | None ->
     []
   | Some x ->
-    [Qexp.kv "project" x]
+    [ Qexp.kv "project" x ]
 ;;
 
 let to_qexp t =
@@ -23,13 +24,14 @@ let to_qexp t =
   ; kv "day" $ Timetable.Day.to_string t.day
   ; kv "duration" $ string_of_int t.duration
   ; kv "sector" t.sector
-  ; kv "label" t.label ]
+  ; kv "label" t.label
+  ]
   @ qexp_project t.project
   |> node
 ;;
 
 let new_log uuid day duration sector project label =
-  {uuid; day; duration; sector; project; label}
+  { uuid; day; duration; sector; project; label }
 ;;
 
 module Fetch = Table.Fetch
@@ -85,5 +87,6 @@ let to_json log =
     ; "duration", int log.duration
     ; "sector", string log.sector
     ; "project", nullable Option.(log.project >|= string)
-    ; "label", string log.label ]
+    ; "label", string log.label
+    ]
 ;;

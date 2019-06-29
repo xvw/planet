@@ -10,13 +10,15 @@ type t =
   { red : red
   ; green : green
   ; blue : blue
-  ; alpha : alpha option }
+  ; alpha : alpha option
+  }
 
 let create ?alpha red green blue =
   { red = Util.bound red 0 255
   ; green = Util.bound green 0 255
   ; blue = Util.bound blue 0 255
-  ; alpha = Option.map (fun x -> Util.bound 0. 1. x) alpha }
+  ; alpha = Option.map (fun x -> Util.bound 0. 1. x) alpha
+  }
 ;;
 
 let to_rgb color =
@@ -63,8 +65,11 @@ let rgba r g b a = Ok (create ~alpha:a r g b)
 
 let from_string str =
   let s = str |> String.super_trim |> String.lowercase_ascii in
-  try Scanf.sscanf s "rgb(%d,%d,%d)" rgb with _ ->
-    (try Scanf.sscanf s "rgba(%d,%d,%d,%g)" rgba with _ ->
-       (try Scanf.sscanf s "#%02x%02x%02x" rgb with _ ->
-          Error (Unparsable_color str)))
+  try Scanf.sscanf s "rgb(%d,%d,%d)" rgb with
+  | _ ->
+    (try Scanf.sscanf s "rgba(%d,%d,%d,%g)" rgba with
+    | _ ->
+      (try Scanf.sscanf s "#%02x%02x%02x" rgb with
+      | _ ->
+        Error (Unparsable_color str)))
 ;;

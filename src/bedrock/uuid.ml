@@ -21,7 +21,7 @@ let _make clock hname pid time =
   let p = string_of_int pid in
   let t = string_of_float time in
   let i = string_of_int (Clock.next clock) in
-  String.concat "-" [hname; p; t; i] |> md5 |> dashify
+  String.concat "-" [ hname; p; t; i ] |> md5 |> dashify
 ;;
 
 let make (module G : GENERATOR) () =

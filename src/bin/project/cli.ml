@@ -23,7 +23,7 @@ let show =
     let doc = "Show the article of the project" in
     Arg.(
       value & flag
-      & info ["expand"; "show-content"; "e"] ~docv:"expand" ~doc)
+      & info [ "expand"; "show-content"; "e" ] ~docv:"expand" ~doc)
   in
   let doc = "Show a specific project" in
   let man = Glue.Man.default call in
@@ -40,4 +40,4 @@ let index =
   , Term.info call ~version ~doc ~exits ~man )
 ;;
 
-let invoke () = Term.(exit @@ eval_choice index [ls; show])
+let invoke () = Term.(exit @@ eval_choice index [ ls; show ])

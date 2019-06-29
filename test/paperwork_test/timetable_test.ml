@@ -113,10 +113,10 @@ let test_is_leap () =
           bool
         | Error err ->
           failwith
-            ("Invalid year generation : " ^ Error.to_string err) )
-      [1; 2; 4; 72; 96; 952; 997; 24]
+            ("Invalid year generation : " ^ Error.to_string err))
+      [ 1; 2; 4; 72; 96; 952; 997; 24 ]
   with
-  | [4; 72; 96; 952; 24] ->
+  | [ 4; 72; 96; 952; 24 ] ->
     ()
   | _ ->
     failwith "Invalid result"
@@ -350,12 +350,12 @@ let test_moment_with6 () =
 
 let test_year_from_string1 () =
   let open Result.Infix in
-  let subject = ["000"; "001"; "123"; "156"; "999"] in
+  let subject = [ "000"; "001"; "123"; "156"; "999" ] in
   let output =
     List.bind
       (fun x ->
         Year.from_string x >|= Year.to_string
-        |> function Ok x -> [x] | _ -> [] )
+        |> function Ok x -> [ x ] | _ -> [])
       subject
   in
   check (list string) "same list" subject output
@@ -363,12 +363,12 @@ let test_year_from_string1 () =
 
 let test_year_from_string2 () =
   let open Result.Infix in
-  let subject = [""; "foo"; "-123"; "190"; "1560"; "bar"] in
+  let subject = [ ""; "foo"; "-123"; "190"; "1560"; "bar" ] in
   let output =
     List.bind
       (fun x ->
         Year.from_string x >|= Year.to_string
-        |> function Error x -> [Error.to_string x] | _ -> [] )
+        |> function Error x -> [ Error.to_string x ] | _ -> [])
       subject
   in
   check
@@ -378,18 +378,19 @@ let test_year_from_string2 () =
     ; Error.to_string $ Unparsable "foo"
     ; Error.to_string $ Unparsable "-123"
     ; Error.to_string $ Unparsable "1560"
-    ; Error.to_string $ Unparsable "bar" ]
+    ; Error.to_string $ Unparsable "bar"
+    ]
     output
 ;;
 
 let test_month_from_string1 () =
   let open Result.Infix in
-  let subject = ["000A"; "001D"; "123C"; "156E"; "999F"] in
+  let subject = [ "000A"; "001D"; "123C"; "156E"; "999F" ] in
   let output =
     List.bind
       (fun x ->
         Month.from_string x >|= Month.to_string
-        |> function Ok x -> [x] | _ -> [] )
+        |> function Ok x -> [ x ] | _ -> [])
       subject
   in
   check (list string) "same list" subject output
@@ -397,12 +398,12 @@ let test_month_from_string1 () =
 
 let test_month_from_string2 () =
   let open Result.Infix in
-  let subject = [""; "foo"; "-123"; "190R"; "1"; "210Z"] in
+  let subject = [ ""; "foo"; "-123"; "190R"; "1"; "210Z" ] in
   let output =
     List.bind
       (fun x ->
         Month.from_string x >|= Month.to_string
-        |> function Error x -> [Error.to_string x] | _ -> [] )
+        |> function Error x -> [ Error.to_string x ] | _ -> [])
       subject
   in
   check
@@ -413,20 +414,21 @@ let test_month_from_string2 () =
     ; Error.to_string $ Invalid_year (-12)
     ; Error.to_string $ Invalid_month 18
     ; Error.to_string $ Unparsable "1"
-    ; Error.to_string $ Invalid_month 26 ]
+    ; Error.to_string $ Invalid_month 26
+    ]
     output
 ;;
 
 let test_day_from_string1 () =
   let open Result.Infix in
   let subject =
-    ["000A12"; "001D30"; "123C31"; "156E28"; "999F17"; "004B29"]
+    [ "000A12"; "001D30"; "123C31"; "156E28"; "999F17"; "004B29" ]
   in
   let output =
     List.bind
       (fun x ->
         Day.from_string x >|= Day.to_string
-        |> function Ok x -> [x] | _ -> [] )
+        |> function Ok x -> [ x ] | _ -> [])
       subject
   in
   check (list string) "same list" subject output
@@ -434,12 +436,12 @@ let test_day_from_string1 () =
 
 let test_day_from_string2 () =
   let open Result.Infix in
-  let subject = [""; "foo"; "-123"; "001B29"; "1"; "210L33"] in
+  let subject = [ ""; "foo"; "-123"; "001B29"; "1"; "210L33" ] in
   let output =
     List.bind
       (fun x ->
         Day.from_string x >|= Day.to_string
-        |> function Error x -> [Error.to_string x] | _ -> [] )
+        |> function Error x -> [ Error.to_string x ] | _ -> [])
       subject
   in
   check
@@ -450,7 +452,8 @@ let test_day_from_string2 () =
     ; Error.to_string $ Unparsable "-123"
     ; Error.to_string $ Invalid_day 29
     ; Error.to_string $ Unparsable "1"
-    ; Error.to_string $ Invalid_day 33 ]
+    ; Error.to_string $ Invalid_day 33
+    ]
     output
 ;;
 
@@ -464,13 +467,14 @@ let test_hour_from_string1 () =
     ; "06AM31"
     ; "08PM03"
     ; "11AM12"
-    ; "11PM34" ]
+    ; "11PM34"
+    ]
   in
   let output =
     List.bind
       (fun x ->
         Hour.from_string x >|= Hour.to_string
-        |> function Ok x -> [x] | _ -> [] )
+        |> function Ok x -> [ x ] | _ -> [])
       subject
   in
   check (list string) "same list" subject output
@@ -478,12 +482,12 @@ let test_hour_from_string1 () =
 
 let test_hour_from_string2 () =
   let open Result.Infix in
-  let subject = [""; "22PM54"; "-123"; "18AM29"; "7"; "00AM68"] in
+  let subject = [ ""; "22PM54"; "-123"; "18AM29"; "7"; "00AM68" ] in
   let output =
     List.bind
       (fun x ->
         Hour.from_string x >|= Hour.to_string
-        |> function Error x -> [Error.to_string x] | _ -> [] )
+        |> function Error x -> [ Error.to_string x ] | _ -> [])
       subject
   in
   check
@@ -493,7 +497,8 @@ let test_hour_from_string2 () =
     ; Error.to_string $ Invalid_hour 34
     ; Error.to_string $ Unparsable "-123"
     ; Error.to_string $ Unparsable "7"
-    ; Error.to_string $ Invalid_min 68 ]
+    ; Error.to_string $ Invalid_min 68
+    ]
     output
 ;;
 
@@ -541,5 +546,6 @@ let suite =
   ; test "[Hour.from_string] Valid strings 1" test_hour_from_string1
   ; test
       "[Hour.from_string] Invalid strings 2"
-      test_hour_from_string2 ]
+      test_hour_from_string2
+  ]
 ;;

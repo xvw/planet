@@ -31,8 +31,8 @@ module Base_Lift : sig
   val lift3 : ('a -> 'b -> 'c -> 'd) -> 'a t -> 'b t -> 'c t -> 'd t
 
   (** Lift a quadratic function to actions. *)
-  val lift4 :
-       ('a -> 'b -> 'c -> 'd -> 'e)
+  val lift4
+    :  ('a -> 'b -> 'c -> 'd -> 'e)
     -> 'a t
     -> 'b t
     -> 'c t

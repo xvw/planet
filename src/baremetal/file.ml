@@ -28,7 +28,9 @@ let in_channel filename =
   try
     let channel = open_in filename in
     Ok channel
-  with _ -> Error (Unreadable filename)
+  with
+  | _ ->
+    Error (Unreadable filename)
 ;;
 
 let close_in = Stdlib.close_in_noerr
@@ -49,7 +51,9 @@ let to_stream f filename =
     let result = f filename stream in
     let () = close_in channel in
     result
-  with _ -> Error (Unreadable filename)
+  with
+  | _ ->
+    Error (Unreadable filename)
 ;;
 
 let to_bytes filename =
@@ -58,7 +62,9 @@ let to_bytes filename =
     let bytes = bytes_of_in_channel channel in
     let () = close_in channel in
     Ok bytes
-  with _ -> Error (Unreadable filename)
+  with
+  | _ ->
+    Error (Unreadable filename)
 ;;
 
 let to_string filename =
@@ -73,10 +79,14 @@ let chars filename =
       try
         let char = input_char channel in
         loop $ char :: acc
-      with End_of_file -> Ok (List.rev acc)
+      with
+      | End_of_file ->
+        Ok (List.rev acc)
     in
     loop []
-  with _ -> Error (Unreadable filename)
+  with
+  | _ ->
+    Error (Unreadable filename)
 ;;
 
 let lines filename =
@@ -86,22 +96,27 @@ let lines filename =
       try
         let line = input_line channel in
         loop $ line :: acc
-      with End_of_file -> Ok (List.rev acc)
+      with
+      | End_of_file ->
+        Ok (List.rev acc)
     in
     loop []
-  with _ -> Error (Unreadable filename)
+  with
+  | _ ->
+    Error (Unreadable filename)
 ;;
 
 let out_channel
-    ?(flags = [Open_wronly; Open_creat])
+    ?(flags = [ Open_wronly; Open_creat ])
     ?(binary = false)
     ?(append = false)
     ?(chmod = 0o777)
     ?(overwrite = false)
-    filename =
+    filename
+  =
   let mode = if binary then Open_binary else Open_text in
   let appd = if append then Open_append else Open_trunc in
-  let over = if overwrite then [] else [Open_excl] in
+  let over = if overwrite then [] else [ Open_excl ] in
   let f = mode :: appd :: (flags @ over) in
   try Ok (open_out_gen f chmod filename) with
   | Sys_error str when str = filename ^ ": File exists" ->
@@ -113,13 +128,14 @@ let out_channel
 let close_out = Stdlib.close_out_noerr
 
 let write
-    ?(flags = [Open_wronly; Open_creat])
+    ?(flags = [ Open_wronly; Open_creat ])
     ?(binary = false)
     ?(append = false)
     ?(chmod = 0o777)
     ?(overwrite = false)
     f
-    filename =
+    filename
+  =
   let open Result.Infix in
   filename
   |> out_channel ~flags ~binary ~append ~chmod ~overwrite
@@ -142,7 +158,8 @@ let append
     ?(create = false)
     ?(chmod = 0o777)
     filename
-    content =
+    content
+  =
   if (not create) && not (exists filename)
   then Error (Unreadable filename)
   else
@@ -160,7 +177,8 @@ let overwrite
     ?(create = false)
     ?(chmod = 0o777)
     filename
-    content =
+    content
+  =
   if (not create) && not (exists filename)
   then Error (Unreadable filename)
   else
@@ -174,10 +192,13 @@ let overwrite
 ;;
 
 let delete filename =
-  try Ok (Sys.remove filename) with _ -> Error (Unreadable filename)
+  try Ok (Sys.remove filename) with
+  | _ ->
+    Error (Unreadable filename)
 ;;
 
 let rename old_name new_name =
-  try Ok (Sys.rename old_name new_name) with _ ->
+  try Ok (Sys.rename old_name new_name) with
+  | _ ->
     Error (Unreadable (old_name ^ " -> " ^ new_name))
 ;;

@@ -10,8 +10,9 @@ val database : Shapes.Project.t Database.t
 val read : File.name -> Shapes.Project.t Validation.t * File.name
 
 (** Get a list of potential projects *)
-val inspect :
-  unit -> (Shapes.Project.t Validation.t * File.name) list Result.t
+val inspect
+  :  unit
+  -> (Shapes.Project.t Validation.t * File.name) list Result.t
 
 (** Get list of project *)
 val all : unit -> Shapes.Project.t list Validation.t

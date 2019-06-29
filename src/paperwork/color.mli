@@ -13,7 +13,8 @@ type t =
   { red : red
   ; green : green
   ; blue : blue
-  ; alpha : alpha option }
+  ; alpha : alpha option
+  }
 
 (** {2 Creation} *)
 

@@ -41,7 +41,7 @@ let eq_dated (a, b, c) (a1, b1, c1) =
 
 let simple_to_json (name, uri) =
   let open Json in
-  obj ["name", string name; "uri", string uri]
+  obj [ "name", string name; "uri", string uri ]
 ;;
 
 let dated_to_json (name, day, uri) =
@@ -49,5 +49,6 @@ let dated_to_json (name, day, uri) =
   obj
     [ "name", string name
     ; "uri", string uri
-    ; "date", string $ Timetable.Day.to_string day ]
+    ; "date", string $ Timetable.Day.to_string day
+    ]
 ;;

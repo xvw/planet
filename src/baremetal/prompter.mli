@@ -24,8 +24,8 @@ val prompt_error : ?intro:bool -> Error.t -> unit
 (** {2 Prompters} *)
 
 (** Display a generic prompter. *)
-val generic :
-     ?prefix:Ansi.fragments
+val generic
+  :  ?prefix:Ansi.fragments
   -> ?box_style:Ansi.fragments
   -> ?title_style:Ansi.fragments
   -> ?text_style:Ansi.fragments
@@ -37,8 +37,8 @@ val generic :
   -> 'a
 
 (** Display a string prompter *)
-val string :
-     ?prefix:Ansi.fragments
+val string
+  :  ?prefix:Ansi.fragments
   -> ?box_style:Ansi.fragments
   -> ?title_style:Ansi.fragments
   -> ?text_style:Ansi.fragments
@@ -50,8 +50,8 @@ val string :
   -> string
 
 (** Display a non-empty string prompter *)
-val string_opt :
-     ?prefix:Ansi.fragments
+val string_opt
+  :  ?prefix:Ansi.fragments
   -> ?box_style:Ansi.fragments
   -> ?title_style:Ansi.fragments
   -> ?text_style:Ansi.fragments
@@ -63,8 +63,8 @@ val string_opt :
   -> string option
 
 (** Display an int prompter *)
-val int :
-     ?prefix:Ansi.fragments
+val int
+  :  ?prefix:Ansi.fragments
   -> ?box_style:Ansi.fragments
   -> ?title_style:Ansi.fragments
   -> ?text_style:Ansi.fragments
@@ -77,8 +77,8 @@ val int :
   -> int
 
 (** Display an optional-int prompter *)
-val int_opt :
-     ?prefix:Ansi.fragments
+val int_opt
+  :  ?prefix:Ansi.fragments
   -> ?box_style:Ansi.fragments
   -> ?title_style:Ansi.fragments
   -> ?text_style:Ansi.fragments
@@ -90,8 +90,8 @@ val int_opt :
   -> int option
 
 (** Display an yes-no prompter *)
-val yes_no :
-     ?prefix:Ansi.fragments
+val yes_no
+  :  ?prefix:Ansi.fragments
   -> ?box_style:Ansi.fragments
   -> ?title_style:Ansi.fragments
   -> ?text_style:Ansi.fragments
@@ -103,8 +103,8 @@ val yes_no :
   -> bool
 
 (** Display a prompter which could fail *)
-val resultable :
-     ?prefix:Ansi.fragments
+val resultable
+  :  ?prefix:Ansi.fragments
   -> ?box_style:Ansi.fragments
   -> ?title_style:Ansi.fragments
   -> ?text_style:Ansi.fragments
@@ -116,8 +116,8 @@ val resultable :
   -> 'a Result.t
 
 (** Display a prompter which could fail with a validation *)
-val validable :
-     ?prefix:Ansi.fragments
+val validable
+  :  ?prefix:Ansi.fragments
   -> ?box_style:Ansi.fragments
   -> ?title_style:Ansi.fragments
   -> ?text_style:Ansi.fragments
@@ -129,8 +129,8 @@ val validable :
   -> 'a Validation.t
 
 (** Perform a choice in an array *)
-val choose :
-     ?prefix:Ansi.fragments
+val choose
+  :  ?prefix:Ansi.fragments
   -> ?choice_prefix:Ansi.fragment list
   -> ?choice_suffix:Ansi.fragment list
   -> ?choice_style:Ansi.fragment list

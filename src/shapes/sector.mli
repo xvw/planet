@@ -8,7 +8,8 @@ open Paperwork
 type t =
   { name : string
   ; desc : string
-  ; color : Color.t }
+  ; color : Color.t
+  }
 
 (** {2 Functions} *)
 

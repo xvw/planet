@@ -24,7 +24,7 @@ module Monad = struct
   include (
     List.Monad.Traversable
       (M) :
-      Sigs.TRAVERSABLE with type 'a t := 'a t )
+        Sigs.TRAVERSABLE with type 'a t := 'a t)
 end
 
 module Applicative = struct
@@ -34,7 +34,7 @@ module Applicative = struct
   include (
     List.Applicative.Traversable
       (A) :
-      Sigs.TRAVERSABLE with type 'a t := 'a t )
+        Sigs.TRAVERSABLE with type 'a t := 'a t)
 end
 
 module Infix = struct

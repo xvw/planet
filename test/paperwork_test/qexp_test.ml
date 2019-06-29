@@ -62,7 +62,7 @@ let parse_empty_data_5 () =
 let parse_simple_atom_1 () =
   let message = parse_message "foo" in
   match Qexp.from_string "foo" with
-  | Ok Qexp.(Node [Atom "foo"]) ->
+  | Ok Qexp.(Node [ Atom "foo" ]) ->
     ()
   | Ok qexp ->
     message (Qexp.to_string qexp)
@@ -73,7 +73,7 @@ let parse_simple_atom_1 () =
 let parse_simple_atom_2 () =
   let message = parse_message "foo" in
   match Qexp.from_string ";comment\nfoo;comment" with
-  | Ok Qexp.(Node [Atom "foo"]) ->
+  | Ok Qexp.(Node [ Atom "foo" ]) ->
     ()
   | Ok qexp ->
     message (Qexp.to_string qexp)
@@ -84,7 +84,7 @@ let parse_simple_atom_2 () =
 let parse_simple_tag_1 () =
   let message = parse_message ":foo" in
   match Qexp.from_string ":foo" with
-  | Ok Qexp.(Node [Tag "foo"]) ->
+  | Ok Qexp.(Node [ Tag "foo" ]) ->
     ()
   | Ok qexp ->
     message (Qexp.to_string qexp)
@@ -95,7 +95,7 @@ let parse_simple_tag_1 () =
 let parse_simple_tag_2 () =
   let message = parse_message ":foo" in
   match Qexp.from_string ";comment\n  :foo;comment" with
-  | Ok Qexp.(Node [Tag "foo"]) ->
+  | Ok Qexp.(Node [ Tag "foo" ]) ->
     ()
   | Ok qexp ->
     message (Qexp.to_string qexp)
@@ -106,7 +106,7 @@ let parse_simple_tag_2 () =
 let parse_simple_kwd_1 () =
   let message = parse_message "#foo" in
   match Qexp.from_string "#foo" with
-  | Ok Qexp.(Node [Keyword "foo"]) ->
+  | Ok Qexp.(Node [ Keyword "foo" ]) ->
     ()
   | Ok qexp ->
     message (Qexp.to_string qexp)
@@ -117,7 +117,7 @@ let parse_simple_kwd_1 () =
 let parse_simple_kwd_2 () =
   let message = parse_message "#foo" in
   match Qexp.from_string ";comment\n  #foo;comment" with
-  | Ok Qexp.(Node [Keyword "foo"]) ->
+  | Ok Qexp.(Node [ Keyword "foo" ]) ->
     ()
   | Ok qexp ->
     message (Qexp.to_string qexp)
@@ -138,17 +138,19 @@ let parse_complex_expression () =
   in
   match Qexp.from_string str with
   | Ok
-      Qexp.(Node
-              [ Node [Keyword "hello"; String (Double, "world")]
-              ; Node [Tag "foo"; String (Backtick, "bar")]
-              ; Node
-                  [String (Backtick, "bar"); String (Double, "baz")]
-              ; Node
-                  [ Atom "node"
-                  ; Block
-                      [ Atom "foo"
-                      ; Node [Atom "bar"; Node [Atom "baz"]] ] ] ])
-->
+      Qexp.(
+        Node
+          [ Node [ Keyword "hello"; String (Double, "world") ]
+          ; Node [ Tag "foo"; String (Backtick, "bar") ]
+          ; Node [ String (Backtick, "bar"); String (Double, "baz") ]
+          ; Node
+              [ Atom "node"
+              ; Block
+                  [ Atom "foo"
+                  ; Node [ Atom "bar"; Node [ Atom "baz" ] ]
+                  ]
+              ]
+          ]) ->
     ()
   | Ok qexp ->
     parse_message str (Qexp.to_string qexp)
@@ -226,5 +228,6 @@ let suite =
       parse_failure_3
   ; test
       "[from_string] Invalid Qexp, invalid brace/parenthesis"
-      parse_failure_4 ]
+      parse_failure_4
+  ]
 ;;

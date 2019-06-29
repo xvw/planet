@@ -1,7 +1,7 @@
 (** Extension of [Stdlib.List] *)
 
-(** Type for a list. *)
-type 'a t = 'a list
+(** {2 Stdlib} *)
+include module type of Stdlib.List
 
 (** {2 Extension API} *)
 
@@ -28,9 +28,6 @@ module Applicative : sig
   module Traversable (A : Sigs.Applicative.API) :
     Sigs.TRAVERSABLE with type 'a t = 'a A.t
 end
-
-(** {2 Stdlib} *)
-include module type of Stdlib.List
 
 (** {2 Infix operators} *)
 

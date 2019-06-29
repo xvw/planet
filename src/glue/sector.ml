@@ -19,7 +19,7 @@ let collect_sectors f = function
     |> List.map Shapes.Sector.from_qexp
     |> Applicative.sequence >|= f
   | qexp ->
-    Error [No_root_element (Qexp.to_string qexp)]
+    Error [ No_root_element (Qexp.to_string qexp) ]
 ;;
 
 let all () =
@@ -29,7 +29,7 @@ let all () =
   |> File.to_stream (fun _ -> Qexp.from_stream)
   |> from_result
   >>= collect_sectors (fun sectors ->
-          List.fold_left reducer hash sectors )
+          List.fold_left reducer hash sectors)
 ;;
 
 let to_json () =

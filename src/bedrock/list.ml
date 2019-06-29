@@ -1,5 +1,3 @@
-type 'a t = 'a list
-
 module L = Stdlib.List
 
 let zip left right =
@@ -17,7 +15,7 @@ let eq f left right =
 module Functor = Functor.Make (struct
   type 'a t = 'a list
 
-  let pure x = [x]
+  let pure x = [ x ]
   let map f x = Stdlib.List.map f x
 end)
 
@@ -25,7 +23,7 @@ module Monad = struct
   include Monad.Make_with_join (struct
     type 'a t = 'a list
 
-    let return x = [x]
+    let return x = [ x ]
     let map = Stdlib.List.map
     let join = Stdlib.List.concat
   end)

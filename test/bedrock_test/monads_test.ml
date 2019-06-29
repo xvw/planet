@@ -16,7 +16,7 @@ module type DRIVER = sig
 end
 
 module Driver (D : DRIVER) : sig
-  val suite : (string * [> `Quick] * (unit -> unit)) list
+  val suite : (string * [> `Quick ] * (unit -> unit)) list
 end = struct
   let str = D.name ^ " monad"
   let same = D.check ("same " ^ str)
@@ -49,10 +49,10 @@ end = struct
         ("[Law 2: " ^ str ^ "]: (m >>= return) = m")
         (sampling_monads law_2)
     ; test
-        ( "[Law 3: " ^ str
-        ^ "]: ((m >= f) >= g) = (m >= (fun x → f x >= g))"
-        )
-        (sampling_monads law_3) ]
+        ("[Law 3: " ^ str
+       ^ "]: ((m >= f) >= g) = (m >= (fun x → f x >= g))")
+        (sampling_monads law_3)
+    ]
   ;;
 end
 
@@ -63,8 +63,8 @@ module IntList = Driver (struct
 
   let name = "int list"
   let check = Alcotest.check (list int)
-  let f x = [succ x]
-  let g x = [x + 3456]
+  let f x = [ succ x ]
+  let g x = [ x + 3456 ]
 
   let sample_values =
     [ 1
@@ -82,16 +82,18 @@ module IntList = Driver (struct
     ; 3456789
     ; 567
     ; 56789
-    ; -45678 ]
+    ; -45678
+    ]
   ;;
 
   let sample_monad =
-    [ [1; 2; 3; 4; 5]
+    [ [ 1; 2; 3; 4; 5 ]
     ; []
-    ; [1]
-    ; [567; 5678; 9876; 3456; 56; 5678]
-    ; [-1; -2; -3]
-    ; [-1; 0; 2; 56] ]
+    ; [ 1 ]
+    ; [ 567; 5678; 9876; 3456; 56; 5678 ]
+    ; [ -1; -2; -3 ]
+    ; [ -1; 0; 2; 56 ]
+    ]
   ;;
 end)
 
@@ -102,8 +104,8 @@ module IntArray = Driver (struct
 
   let name = "int array"
   let check = Alcotest.check (array int)
-  let f x = [|succ x|]
-  let g x = [|x + 3456|]
+  let f x = [| succ x |]
+  let g x = [| x + 3456 |]
 
   let sample_values =
     [ 1
@@ -121,16 +123,18 @@ module IntArray = Driver (struct
     ; 3456789
     ; 567
     ; 56789
-    ; -45678 ]
+    ; -45678
+    ]
   ;;
 
   let sample_monad =
-    [ [|1; 2; 3; 4; 5|]
+    [ [| 1; 2; 3; 4; 5 |]
     ; [||]
-    ; [|1|]
-    ; [|567; 5678; 9876; 3456; 56; 5678|]
-    ; [|-1; -2; -3|]
-    ; [|-1; 0; 2; 56|] ]
+    ; [| 1 |]
+    ; [| 567; 5678; 9876; 3456; 56; 5678 |]
+    ; [| -1; -2; -3 |]
+    ; [| -1; 0; 2; 56 |]
+    ]
   ;;
 end)
 
@@ -141,10 +145,13 @@ module StringList = Driver (struct
 
   let name = "string list"
   let check = Alcotest.check (list string)
-  let f x = [String.lowercase_ascii x]
-  let g x = [String.uppercase_ascii x]
-  let sample_values = ["foo"; ""; "bar"; "baz"; "FOO"]
-  let sample_monad = [[]; ["foo"; "bar"; "baz"]; [""; ""; "f"; "F"]]
+  let f x = [ String.lowercase_ascii x ]
+  let g x = [ String.uppercase_ascii x ]
+  let sample_values = [ "foo"; ""; "bar"; "baz"; "FOO" ]
+
+  let sample_monad =
+    [ []; [ "foo"; "bar"; "baz" ]; [ ""; ""; "f"; "F" ] ]
+  ;;
 end)
 
 module StringArray = Driver (struct
@@ -154,12 +161,12 @@ module StringArray = Driver (struct
 
   let name = "string array"
   let check = Alcotest.check (array string)
-  let f x = [|String.lowercase_ascii x|]
-  let g x = [|String.uppercase_ascii x|]
-  let sample_values = ["foo"; ""; "bar"; "baz"; "FOO"]
+  let f x = [| String.lowercase_ascii x |]
+  let g x = [| String.uppercase_ascii x |]
+  let sample_values = [ "foo"; ""; "bar"; "baz"; "FOO" ]
 
   let sample_monad =
-    [[||]; [|"foo"; "bar"; "baz"|]; [|""; ""; "f"; "F"|]]
+    [ [||]; [| "foo"; "bar"; "baz" |]; [| ""; ""; "f"; "F" |] ]
   ;;
 end)
 
@@ -189,11 +196,12 @@ module IntOption = Driver (struct
     ; 3456789
     ; 567
     ; 56789
-    ; -45678 ]
+    ; -45678
+    ]
   ;;
 
   let sample_monad =
-    [None; Some 10; Some (-23); Some 0; None; Some (-7890)]
+    [ None; Some 10; Some (-23); Some 0; None; Some (-7890) ]
   ;;
 end)
 
@@ -206,10 +214,10 @@ module StringOption = Driver (struct
   let check = Alcotest.check (option string)
   let f x = Some (String.lowercase_ascii x)
   let g _ = None
-  let sample_values = ["foo"; ""; "bar"; "baz"; "FOO"]
+  let sample_values = [ "foo"; ""; "bar"; "baz"; "FOO" ]
 
   let sample_monad =
-    [None; Some "foo"; Some "bar"; Some "baz"; Some "F"]
+    [ None; Some "foo"; Some "bar"; Some "baz"; Some "F" ]
   ;;
 end)
 
@@ -239,10 +247,11 @@ module IntResult = Driver (struct
     ; 3456789
     ; 567
     ; 56789
-    ; -45678 ]
+    ; -45678
+    ]
   ;;
 
-  let sample_monad = [g (); Ok 10; Ok (-23); Ok 0; g (); Ok (-7890)]
+  let sample_monad = [ g (); Ok 10; Ok (-23); Ok 0; g (); Ok (-7890) ]
 end)
 
 module StringResult = Driver (struct
@@ -254,10 +263,10 @@ module StringResult = Driver (struct
   let check = Testable.check_result string
   let f x = Ok (String.lowercase_ascii x)
   let g _ = Ok "foo"
-  let sample_values = ["foo"; ""; "bar"; "baz"; "FOO"]
+  let sample_values = [ "foo"; ""; "bar"; "baz"; "FOO" ]
 
   let sample_monad =
-    [Error (Error.Unknown ""); Ok "foo"; Ok "bar"; Ok "baz"; Ok "F"]
+    [ Error (Error.Unknown ""); Ok "foo"; Ok "bar"; Ok "baz"; Ok "F" ]
   ;;
 end)
 

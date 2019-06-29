@@ -24,7 +24,7 @@ let double_quote = Double
 let back_tick = Backtick
 
 let kv ?(k = tag) ?(v = string ~quote:double_quote) key value =
-  node [k key; v value]
+  node [ k key; v value ]
 ;;
 
 let fpeek stream =

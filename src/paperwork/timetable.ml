@@ -14,7 +14,8 @@ module Year = struct
   let to_string (Year n) = Format.sprintf "%03d" n
 
   let from_string str =
-    try Scanf.sscanf str "%03d%!" make with _ ->
+    try Scanf.sscanf str "%03d%!" make with
+    | _ ->
       Error (Unparsable str)
   ;;
 
@@ -129,9 +130,10 @@ module Month = struct
     try
       let open Result.Infix in
       Scanf.sscanf str "%03d%c%!" (fun year_value char ->
-          Year.make year_value >>= fun y -> from_char char >>= make y
-      )
-    with _ -> Error (Unparsable str)
+          Year.make year_value >>= fun y -> from_char char >>= make y)
+    with
+    | _ ->
+      Error (Unparsable str)
   ;;
 
   let pp ppf x = Format.fprintf ppf "%s" (to_string x)
@@ -171,8 +173,10 @@ module Day = struct
       Scanf.sscanf str "%03d%c%02d%!" (fun yv mc dv ->
           Year.make yv
           >>= fun y ->
-          Month.from_char mc >>= Month.make y >>= flip make dv )
-    with _ -> Error (Unparsable str)
+          Month.from_char mc >>= Month.make y >>= flip make dv)
+    with
+    | _ ->
+      Error (Unparsable str)
   ;;
 
   let pp ppf x = Format.fprintf ppf "%s" (to_string x)
@@ -212,8 +216,10 @@ module Hour = struct
             | _ ->
               Error (Unparsable (str ^ ": unknown " ^ flag))
           in
-          hr >>= fun h -> make h m )
-    with _ -> Error (Unparsable str)
+          hr >>= fun h -> make h m)
+    with
+    | _ ->
+      Error (Unparsable str)
   ;;
 
   let pp ppf x = Format.fprintf ppf "%s" (to_string x)
@@ -226,7 +232,7 @@ module Moment = struct
   let make d h = d, h
 
   let make_with year_value month_value day_value hour_value min_value
-      =
+    =
     let open Result.Infix in
     day_value
     |> Day.make_with year_value month_value
@@ -245,8 +251,10 @@ module Moment = struct
       Scanf.sscanf str "%6s:%6s%!" (fun d h ->
           Day.from_string d
           >>= fun left ->
-          Hour.from_string h >|= fun right -> make left right )
-    with _ -> Error (Unparsable str)
+          Hour.from_string h >|= fun right -> make left right)
+    with
+    | _ ->
+      Error (Unparsable str)
   ;;
 
   let pp ppf x = Format.fprintf ppf "%s" (to_string x)
@@ -254,7 +262,8 @@ module Moment = struct
 
   let extract
       ( Day.Day (Month.Month (Year.Year year, month), day)
-      , Hour.Hour (hour, min) ) =
+      , Hour.Hour (hour, min) )
+    =
     let yr = Year.Year year in
     let mt = Month.Month (yr, month) in
     let dy = Day.Day (mt, day) in

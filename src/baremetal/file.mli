@@ -33,8 +33,10 @@ val close_in : in_channel -> unit
 val read : (in_channel -> 'a Result.t) -> name -> 'a Result.t
 
 (** Read file into a stream. *)
-val to_stream :
-  (name -> char Stream.t -> 'a Result.t) -> name -> 'a Result.t
+val to_stream
+  :  (name -> char Stream.t -> 'a Result.t)
+  -> name
+  -> 'a Result.t
 
 (** Read file into a bytes squences. *)
 val to_bytes : name -> bytes Result.t
@@ -51,8 +53,8 @@ val lines : name -> string list Result.t
 (** {2 Write} *)
 
 (** Open file for writting. *)
-val out_channel :
-     ?flags:open_flag list
+val out_channel
+  :  ?flags:open_flag list
   -> ?binary:bool
   -> ?append:bool
   -> ?chmod:chmod
@@ -64,8 +66,8 @@ val out_channel :
 val close_out : out_channel -> unit
 
 (** Write file. *)
-val write :
-     ?flags:open_flag list
+val write
+  :  ?flags:open_flag list
   -> ?binary:bool
   -> ?append:bool
   -> ?chmod:chmod
@@ -75,12 +77,16 @@ val write :
   -> 'a Result.t
 
 (** Create a file. *)
-val create :
-  ?binary:bool -> ?chmod:chmod -> name -> string -> unit Result.t
+val create
+  :  ?binary:bool
+  -> ?chmod:chmod
+  -> name
+  -> string
+  -> unit Result.t
 
 (** Append [content] to a file. *)
-val append :
-     ?binary:bool
+val append
+  :  ?binary:bool
   -> ?create:bool
   -> ?chmod:chmod
   -> name
@@ -88,8 +94,8 @@ val append :
   -> unit Result.t
 
 (** Overwrite a file. *)
-val overwrite :
-     ?binary:bool
+val overwrite
+  :  ?binary:bool
   -> ?create:bool
   -> ?chmod:chmod
   -> name

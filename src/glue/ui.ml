@@ -3,9 +3,9 @@ open Util
 open Baremetal
 
 let link_box
-    ?(prefix = Ansi.[!"│+ "])
-    ?(box_style = Ansi.[fg cyan])
-    ?(title_style = Ansi.[bold])
+    ?(prefix = Ansi.[ !"│+ " ])
+    ?(box_style = Ansi.[ fg cyan ])
+    ?(title_style = Ansi.[ bold ])
     ?(f =
       fun (name, url) ->
         Ansi.
@@ -17,9 +17,11 @@ let link_box
           ; underline
           ; !url
           ; reset
-          ; !">" ])
+          ; !">"
+          ])
     title
-    list =
+    list
+  =
   let maxlen =
     List.fold_left
       (fun acc (x, _) -> max acc $ String.length x)
@@ -29,16 +31,16 @@ let link_box
   let nl =
     List.map
       (fun (a, b) ->
-        a ^ (String.make $ maxlen - String.length a $ ' '), b )
+        a ^ (String.make $ maxlen - String.length a $ ' '), b)
       list
   in
   Ansi.(generic_box ~prefix ~box_style ~title_style) f title nl
 ;;
 
 let dated_link_box
-    ?(prefix = Ansi.[!"│+ "])
-    ?(box_style = Ansi.[fg cyan])
-    ?(title_style = Ansi.[bold])
+    ?(prefix = Ansi.[ !"│+ " ])
+    ?(box_style = Ansi.[ fg cyan ])
+    ?(title_style = Ansi.[ bold ])
     ?(f =
       fun (name, date, url) ->
         Ansi.
@@ -57,9 +59,11 @@ let dated_link_box
           ; underline
           ; !url
           ; reset
-          ; !">" ])
+          ; !">"
+          ])
     title
-    list =
+    list
+  =
   let maxlen =
     List.fold_left
       (fun acc (x, _, _) -> max acc $ String.length x)
@@ -69,7 +73,7 @@ let dated_link_box
   let nl =
     List.map
       (fun (a, b, c) ->
-        a ^ (String.make $ maxlen - String.length a $ ' '), b, c )
+        a ^ (String.make $ maxlen - String.length a $ ' '), b, c)
       list
   in
   Ansi.(generic_box ~prefix ~box_style ~title_style) f title nl

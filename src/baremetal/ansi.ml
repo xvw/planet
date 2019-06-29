@@ -142,11 +142,11 @@ let to_string ?(scoped = true) =
     match sequence, fragment with
     | x, [] ->
       acc ^ seq_to_string x
-      ^ if scoped then seq_to_string (Some [reset]) else ""
+      ^ if scoped then seq_to_string (Some [ reset ]) else ""
     | x, Text str :: xs ->
       aux None (acc ^ seq_to_string x ^ str) xs
     | None, frg :: xs ->
-      aux (Some [frg]) acc xs
+      aux (Some [ frg ]) acc xs
     | Some x, frg :: xs ->
       aux (Some (frg :: x)) acc xs
   in
@@ -164,47 +164,50 @@ let pps ppf fragment =
 let only_style = List.filter (function Text _ -> false | _ -> true)
 
 let box
-    ?(prefix = [!"│"])
-    ?(box_style = [fg cyan])
-    ?(title_style = [bold])
+    ?(prefix = [ !"│" ])
+    ?(box_style = [ fg cyan ])
+    ?(title_style = [ bold ])
     title
-    fragments =
-  let a = (reset :: box_style) @ [!"┌─["; reset] in
+    fragments
+  =
+  let a = (reset :: box_style) @ [ !"┌─["; reset ] in
   let t =
-    title_style @ [!title] @ (reset :: box_style)
-    @ [!"]─→"; reset; !"\n"]
+    title_style @ [ !title ] @ (reset :: box_style)
+    @ [ !"]─→"; reset; !"\n" ]
   in
-  let b = (reset :: box_style) @ [!"└─"; reset] in
+  let b = (reset :: box_style) @ [ !"└─"; reset ] in
   let l =
     List.map
       (fun x ->
-        (reset :: box_style) @ (prefix @ (reset :: x)) @ [!"\n"] )
+        (reset :: box_style) @ (prefix @ (reset :: x)) @ [ !"\n" ])
       fragments
   in
   List.flatten (a :: t :: l) @ b
 ;;
 
 let generic_box
-    ?(prefix = [!"│"])
-    ?(box_style = [fg cyan])
-    ?(title_style = [bold])
+    ?(prefix = [ !"│" ])
+    ?(box_style = [ fg cyan ])
+    ?(title_style = [ bold ])
     f
     title
-    fragments =
+    fragments
+  =
   let list = List.map f fragments in
   box ~prefix ~box_style ~title_style title list
 ;;
 
 let text_box
-    ?(prefix = [!"│"])
-    ?(box_style = [fg cyan])
-    ?(title_style = [bold])
+    ?(prefix = [ !"│" ])
+    ?(box_style = [ fg cyan ])
+    ?(title_style = [ bold ])
     ?(text_style = [])
     title
-    text =
+    text
+  =
   let l =
     text |> String.trim |> String.lines
-    |> List.map (fun l -> text_style @ [!l; reset])
+    |> List.map (fun l -> text_style @ [ !l; reset ])
   in
   box ~prefix ~box_style ~title_style title l
 ;;

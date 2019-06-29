@@ -9,7 +9,7 @@ let start_with base suffix =
   then true
   else if len_base < len_suff
   then false
-  else
+  else (
     let rec loop i =
       if i >= len_suff
       then true
@@ -17,7 +17,7 @@ let start_with base suffix =
       then loop (succ i)
       else false
     in
-    loop 0
+    loop 0)
 ;;
 
 let end_with base suffix =
@@ -27,7 +27,7 @@ let end_with base suffix =
   then true
   else if len_base < len_suff
   then false
-  else
+  else (
     let offset_i = len_base - len_suff in
     let rec loop i =
       if i >= len_suff
@@ -36,7 +36,7 @@ let end_with base suffix =
       then loop (succ i)
       else false
     in
-    loop 0
+    loop 0)
 ;;
 
 let has_extension base extension = end_with base ("." ^ extension)
@@ -47,12 +47,12 @@ let super_trim x =
   let rec aux acc i =
     if i = len
     then acc
-    else
+    else (
       match S.get x i with
       | '\n' | '\t' | '\r' | ' ' ->
         aux acc (succ i)
       | char ->
-        aux (Format.sprintf "%s%c" acc char) (succ i)
+        aux (Format.sprintf "%s%c" acc char) (succ i))
   in
   aux "" 0
 ;;

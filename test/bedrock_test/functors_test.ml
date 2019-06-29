@@ -16,7 +16,7 @@ module type DRIVER = sig
 end
 
 module Driver (D : DRIVER) : sig
-  val suite : (string * [> `Quick] * (unit -> unit)) list
+  val suite : (string * [> `Quick ] * (unit -> unit)) list
 end = struct
   let str = D.name ^ " functor"
   let same = D.check ("same " ^ str)
@@ -38,7 +38,8 @@ end = struct
     [ test ("[Law 1: " ^ str ^ "]: (map id x) = x") (sampling law_1)
     ; test
         ("[Law 2: " ^ str ^ "]: (map (f . g)) = ((map f) . (map g))")
-        (sampling law_2) ]
+        (sampling law_2)
+    ]
   ;;
 end
 
@@ -53,12 +54,13 @@ module IntList = Driver (struct
   let g x = x - 12
 
   let sample =
-    [ [1; 2; 3; 4; 5]
+    [ [ 1; 2; 3; 4; 5 ]
     ; []
-    ; [1]
-    ; [567; 5678; 9876; 3456; 56; 5678]
-    ; [-1; -2; -3]
-    ; [-1; 0; 2; 56] ]
+    ; [ 1 ]
+    ; [ 567; 5678; 9876; 3456; 56; 5678 ]
+    ; [ -1; -2; -3 ]
+    ; [ -1; 0; 2; 56 ]
+    ]
   ;;
 end)
 
@@ -73,11 +75,12 @@ module StringList = Driver (struct
   let g = String.lowercase_ascii
 
   let sample =
-    [ ["Foo"; "Bar"; "Baz"]
+    [ [ "Foo"; "Bar"; "Baz" ]
     ; []
-    ; ["1"]
-    ; ["aaaa"; "bbb"]
-    ; ["A"; "B"; "C"; "D"; "EEEE"; "FFF"] ]
+    ; [ "1" ]
+    ; [ "aaaa"; "bbb" ]
+    ; [ "A"; "B"; "C"; "D"; "EEEE"; "FFF" ]
+    ]
   ;;
 end)
 
@@ -92,12 +95,13 @@ module IntArray = Driver (struct
   let g x = x - 12
 
   let sample =
-    [ [|1; 2; 3; 4; 5|]
+    [ [| 1; 2; 3; 4; 5 |]
     ; [||]
-    ; [|1|]
-    ; [|567; 5678; 9876; 3456; 56; 5678|]
-    ; [|-1; -2; -3|]
-    ; [|-1; 0; 2; 56|] ]
+    ; [| 1 |]
+    ; [| 567; 5678; 9876; 3456; 56; 5678 |]
+    ; [| -1; -2; -3 |]
+    ; [| -1; 0; 2; 56 |]
+    ]
   ;;
 end)
 
@@ -112,11 +116,12 @@ module StringArray = Driver (struct
   let g = String.lowercase_ascii
 
   let sample =
-    [ [|"Foo"; "Bar"; "Baz"|]
+    [ [| "Foo"; "Bar"; "Baz" |]
     ; [||]
-    ; [|"1"|]
-    ; [|"aaaa"; "bbb"|]
-    ; [|"A"; "B"; "C"; "D"; "EEEE"; "FFF"|] ]
+    ; [| "1" |]
+    ; [| "aaaa"; "bbb" |]
+    ; [| "A"; "B"; "C"; "D"; "EEEE"; "FFF" |]
+    ]
   ;;
 end)
 
@@ -129,7 +134,7 @@ module StringOption = Driver (struct
   let check = check (option string)
   let f = String.uppercase_ascii
   let g = String.lowercase_ascii
-  let sample = [Some "foo"; None; Some "Bar"; Some ""]
+  let sample = [ Some "foo"; None; Some "Bar"; Some "" ]
 end)
 
 module IntOption = Driver (struct
@@ -141,7 +146,7 @@ module IntOption = Driver (struct
   let check = check (option int)
   let f = pred
   let g = succ
-  let sample = [Some 1; None; Some 1200; Some 0]
+  let sample = [ Some 1; None; Some 1200; Some 0 ]
 end)
 
 module StringResult = Driver (struct
@@ -153,7 +158,7 @@ module StringResult = Driver (struct
   let check = Testable.check_result string
   let f = String.uppercase_ascii
   let g = String.lowercase_ascii
-  let sample = [Ok "foo"; Error Error.(Unknown ""); Ok "Bar"; Ok ""]
+  let sample = [ Ok "foo"; Error Error.(Unknown ""); Ok "Bar"; Ok "" ]
 end)
 
 module IntResult = Driver (struct
@@ -165,7 +170,7 @@ module IntResult = Driver (struct
   let check = Testable.check_result int
   let f = pred
   let g = succ
-  let sample = [Ok 1; Error Error.(Unknown ""); Ok 1200; Ok 0]
+  let sample = [ Ok 1; Error Error.(Unknown ""); Ok 1200; Ok 0 ]
 end)
 
 let suite =

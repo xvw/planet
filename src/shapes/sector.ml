@@ -5,16 +5,18 @@ open Util
 type t =
   { name : string
   ; desc : string
-  ; color : Color.t }
+  ; color : Color.t
+  }
 
-let make name desc color = {name; desc; color}
+let make name desc color = { name; desc; color }
 
 let to_qexp sector =
   let open Qexp in
   node
-    [ node [tag "name"; string sector.name]
-    ; node [tag "desc"; string sector.desc]
-    ; node [tag "color"; string $ Color.to_hex sector.color] ]
+    [ node [ tag "name"; string sector.name ]
+    ; node [ tag "desc"; string sector.desc ]
+    ; node [ tag "color"; string $ Color.to_hex sector.color ]
+    ]
 ;;
 
 module Fetch = Table.Fetch
@@ -50,5 +52,6 @@ let to_json sector =
   obj
     [ "name", string sector.name
     ; "desc", string sector.desc
-    ; "color", string $ Color.to_hex sector.color ]
+    ; "color", string $ Color.to_hex sector.color
+    ]
 ;;

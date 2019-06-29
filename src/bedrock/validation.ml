@@ -3,13 +3,13 @@ type 'a st = 'a t
 
 let pop f = function Ok x -> x | Error err -> f err
 let is_valid = function Ok _ -> true | Error _ -> false
-let from_result = function Ok x -> Ok x | Error x -> Error [x]
+let from_result = function Ok x -> Ok x | Error x -> Error [ x ]
 
 let from_option error = function
   | Some x ->
     Ok x
   | None ->
-    Error [error]
+    Error [ error ]
 ;;
 
 module Functor = Functor.Make (struct
@@ -32,7 +32,7 @@ module Monad = struct
   include (
     List.Monad.Traversable
       (M) :
-      Sigs.TRAVERSABLE with type 'a t := 'a t )
+        Sigs.TRAVERSABLE with type 'a t := 'a t)
 end
 
 module Applicative = struct
@@ -57,7 +57,7 @@ module Applicative = struct
   include (
     List.Applicative.Traversable
       (A) :
-      Sigs.TRAVERSABLE with type 'a t := 'a t )
+        Sigs.TRAVERSABLE with type 'a t := 'a t)
 end
 
 module Infix = struct

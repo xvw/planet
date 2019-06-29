@@ -22,13 +22,12 @@ type quote =
 
 (** Describe a [Qexp] expression. *)
 type t =
-  | Atom of string  (** Simple atom, like [foo], [bar].*)
-  | Tag of string  (** Atom with [:] as a prefix, like [:bar].*)
-  | Keyword of string  (** Atom with [#] as a prefix, like [#foo]. *)
-  | String of (quote * string)
-      (** A String, like ["foo"], [`bar`].*)
-  | Node of t list  (** A list of [Qexp], like [(foo "bar")].*)
-  | Block of t list  (** A list of [Qexp], like [{foo bar}] *)
+  | Atom of string (** Simple atom, like [foo], [bar].*)
+  | Tag of string (** Atom with [:] as a prefix, like [:bar].*)
+  | Keyword of string (** Atom with [#] as a prefix, like [#foo]. *)
+  | String of (quote * string) (** A String, like ["foo"], [`bar`].*)
+  | Node of t list (** A list of [Qexp], like [(foo "bar")].*)
+  | Block of t list (** A list of [Qexp], like [{foo bar}] *)
 
 (** {2 Build Qexp fragments} *)
 
@@ -57,8 +56,12 @@ val double_quote : quote
 val back_tick : quote
 
 (** K/V shortcut *)
-val kv :
-  ?k:(string -> t) -> ?v:(string -> t) -> string -> string -> t
+val kv
+  :  ?k:(string -> t)
+  -> ?v:(string -> t)
+  -> string
+  -> string
+  -> t
 
 (** {2 Deserialization} *)
 

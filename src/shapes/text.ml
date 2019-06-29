@@ -41,7 +41,7 @@ let patch_flag str x f =
   | "file" | "extern" | "external" ->
     Ok (f, File x)
   | _ ->
-    Error [Invalid_text_scheme]
+    Error [ Invalid_text_scheme ]
 ;;
 
 type t = Format.t * content
@@ -49,19 +49,21 @@ type t = Format.t * content
 let fetch table field =
   match Hashtbl.find_opt table field with
   | None ->
-    Error [Undefined_field field]
+    Error [ Undefined_field field ]
   | Some (Some Qexp.(Node children)) ->
     (match children with
-    | Qexp.([ (String (_, flag) | Keyword flag | Tag flag | Atom flag)
-            ; (String (_, fmt) | Keyword fmt | Tag fmt | Atom fmt)
-            ; String (_, content) ]) ->
+    | Qexp.
+        [ (String (_, flag) | Keyword flag | Tag flag | Atom flag)
+        ; (String (_, fmt) | Keyword fmt | Tag fmt | Atom fmt)
+        ; String (_, content)
+        ] ->
       let open Validation.Infix in
       Format.from_string fmt |> Validation.from_result
       >>= patch_flag flag content
     | _ ->
-      Error [Invalid_field field])
+      Error [ Invalid_field field ])
   | _ ->
-    Error [Invalid_field field]
+    Error [ Invalid_field field ]
 ;;
 
 let pp ppf (fmt, content) =

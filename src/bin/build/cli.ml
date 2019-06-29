@@ -27,4 +27,4 @@ let index =
   , Term.info call ~version ~doc ~exits ~man )
 ;;
 
-let invoke () = Term.(exit @@ eval_choice index [init; api])
+let invoke () = Term.(exit @@ eval_choice index [ init; api ])

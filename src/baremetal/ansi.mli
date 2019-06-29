@@ -112,8 +112,8 @@ val pps : Format.formatter -> fragments -> unit
 val only_style : fragments -> fragments
 
 (** Boxed fragment *)
-val box :
-     ?prefix:fragments
+val box
+  :  ?prefix:fragments
   -> ?box_style:fragments
   -> ?title_style:fragments
   -> string
@@ -121,8 +121,8 @@ val box :
   -> fragments
 
 (** generic box fragment *)
-val generic_box :
-     ?prefix:fragments
+val generic_box
+  :  ?prefix:fragments
   -> ?box_style:fragments
   -> ?title_style:fragments
   -> ('a -> fragments)
@@ -130,8 +130,8 @@ val generic_box :
   -> 'a list
   -> fragments
 
-val text_box :
-     ?prefix:fragments
+val text_box
+  :  ?prefix:fragments
   -> ?box_style:fragments
   -> ?title_style:fragments
   -> ?text_style:fragments

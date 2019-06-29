@@ -179,8 +179,13 @@ module Moment : sig
   val make : Day.t -> Hour.t -> t
 
   (** Build a [Moment.t] with all values. *)
-  val make_with :
-    int -> Month.month -> int -> int -> int -> t Result.t
+  val make_with
+    :  int
+    -> Month.month
+    -> int
+    -> int
+    -> int
+    -> t Result.t
 
   (** Serialize a [Moment.t]. *)
   val to_string : t -> string

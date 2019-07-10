@@ -26,8 +26,6 @@ struct
     include M
 
     let ( >>= ) x f = bind f x
-    let ( let* ) x f = bind f x
-    
     let lift = map
     let lift2 f a b = a >>= fun x -> b >>= fun y -> return (f x y)
 
@@ -56,6 +54,13 @@ struct
   end
 
   include Infix
+
+  module Syntax =
+  struct
+    let ( let* ) x f = bind f x
+  end
+
+  include Syntax
 end
 
 module Make_with_join (M : Sigs.Monad.REQUIREMENT_JOIN) :

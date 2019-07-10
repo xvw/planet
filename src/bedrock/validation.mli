@@ -44,10 +44,17 @@ module Infix : sig
   include module type of Applicative.Infix
 end
 
+(** {2 Syntax} *)
+
+module Syntax : sig
+  include module type of Monad.Syntax
+  include module type of Applicative.Syntax
+end
+
 (** Instance inclusion *)
 
 include module type of Functor.Api
 include module type of Monad.Api
 include module type of Applicative.Api
 include module type of Infix
-include module type of Infix
+include module type of Syntax

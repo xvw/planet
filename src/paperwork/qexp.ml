@@ -104,63 +104,6 @@ let parse_string stream quote delimiter =
   parse false ""
 ;;
 
-(* let from_stream input =
- *   let open Result.Monad in
- *   let rec parse last_char last_bracket acc =
- *     let current_char =
- *       match last_char with None -> fpeek input | x -> x
- *     in
- *     match current_char with
- *     | Some (' ' | '\t' | '\n') ->
- *       parse None last_bracket acc
- *     | Some ';' ->
- *       let () = consume_line input in
- *       parse None last_bracket acc
- *     | Some '(' ->
- *       parse None `Parenthesis []
- *       >>= fun node -> parse None last_bracket (node :: acc)
- *     | Some ')' ->
- *       (match last_bracket with
- *       | `Parenthesis ->
- *         return (node $ List.rev acc)
- *       | placeholder ->
- *         check_bracket ')' placeholder)
- *     | Some '{' ->
- *       parse None `Brace []
- *       >>= fun node -> parse None last_bracket (node :: acc)
- *     | Some '}' ->
- *       (match last_bracket with
- *       | `Brace ->
- *         return (block $ List.rev acc)
- *       | placeholder ->
- *         check_bracket '}' placeholder)
- *     | Some '"' ->
- *       parse_string input Double '"'
- *       >>= fun str -> parse None last_bracket (str :: acc)
- *     | Some '`' ->
- *       parse_string input Backtick '`'
- *       >>= fun str -> parse None last_bracket (str :: acc)
- *     | Some ':' ->
- *       parse_tag input
- *       >>= fun (token, chr) -> parse chr last_bracket (token :: acc)
- *     | Some '#' ->
- *       parse_keyword input
- *       >>= fun (token, chr) -> parse chr last_bracket (token :: acc)
- *     | Some chr when is_token_char chr ->
- *       parse_atom chr input
- *       >>= fun (token, chr) -> parse chr last_bracket (token :: acc)
- *     | Some chr ->
- *       Error (Illegal_character chr)
- *     | None ->
- *       (match last_bracket with
- *       | `Void ->
- *         return (node $ List.rev acc)
- *       | placeholder ->
- *         check_bracket '\n' placeholder)
- *   in
- *   parse None `Void []
- * ;; *)
-
 let from_stream input =
   let open Result.Monad in
   let rec parse last_char last_bracket acc =

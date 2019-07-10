@@ -28,7 +28,13 @@ module Infix = struct
   include Applicative.Infix
 end
 
+module Syntax = struct
+  include Monad.Syntax
+  include Applicative.Syntax
+end
+
 include Functor.Api
 include Monad.Api
 include Applicative.Api
 include Infix
+include Syntax

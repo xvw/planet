@@ -117,6 +117,11 @@ module Applicative : sig
     end
 
     include module type of Infix
+
+    module Syntax : sig
+      val ( let+ ) : ('a -> 'b) -> 'a t -> 'b t
+      val ( and+ ) : ('a -> 'b) t -> 'a t -> 'b t
+    end
   end
 end
 
@@ -163,8 +168,6 @@ module Monad : sig
         return value of an IO action. 
     *)
       val void : 'a t -> unit t
-
-      val ( let* ) : 'a t -> ('a -> 'b t)  -> 'b t
     end
 
     include module type of Api
@@ -195,6 +198,12 @@ module Monad : sig
     end
 
     include module type of Infix
+
+    module Syntax : sig
+      val ( let* ) : 'a t -> ('a -> 'b t) -> 'b t
+    end
+
+    include module type of Syntax
   end
 end
 

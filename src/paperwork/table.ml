@@ -15,10 +15,9 @@ let from_qexp_gen f qexp =
       | table, [] ->
         table
       | Ok table, Qexp.Node (key :: value) :: xs ->
-        let open Result.Infix in
+        let open Result.Syntax in
         let new_table =
-          f key value
-          >>= fun (k, v) ->
+          let* k, v = f key value in
           let () = Hashtbl.add table k v in
           Ok table
         in

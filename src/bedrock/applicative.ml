@@ -31,6 +31,11 @@ module Make (A : Sigs.Applicative.REQUIREMENT) :
   end
 
   include Infix
+
+  module Syntax = struct
+    let ( let+ ) = map
+    let ( and+ ) = ap
+  end
 end
 
 module From_monad (M : Sigs.Monad.REQUIREMENT_BIND) :

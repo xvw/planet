@@ -1,5 +1,4 @@
 open Bedrock
-open Util
 open Error
 
 module Year = struct
@@ -128,9 +127,11 @@ module Month = struct
 
   let from_string str =
     try
-      let open Result.Infix in
+      let open Result.Syntax in
       Scanf.sscanf str "%03d%c%!" (fun year_value char ->
-          Year.make year_value >>= fun y -> from_char char >>= make y)
+          let* y = Year.make year_value in
+          let* m = from_char char in
+          make y m)
     with
     | _ ->
       Error (Unparsable str)
@@ -156,10 +157,10 @@ module Day = struct
   ;;
 
   let make_with year_value month_value day_value =
-    let open Result.Infix in
-    year_value |> Year.make
-    >>= fun y ->
-    Month.make y month_value >>= fun m -> make m day_value
+    let open Result.Syntax in
+    let* y = Year.make year_value in
+    let* m = Month.make y month_value in
+    make m day_value
   ;;
 
   let to_string (Day (m, d)) =
@@ -169,11 +170,12 @@ module Day = struct
 
   let from_string str =
     try
-      let open Result.Infix in
+      let open Result.Syntax in
       Scanf.sscanf str "%03d%c%02d%!" (fun yv mc dv ->
-          Year.make yv
-          >>= fun y ->
-          Month.from_char mc >>= Month.make y >>= flip make dv)
+          let* y = Year.make yv in
+          let* c = Month.from_char mc in
+          let* m = Month.make y c in
+          make m dv)
     with
     | _ ->
       Error (Unparsable str)
@@ -205,7 +207,7 @@ module Hour = struct
 
   let from_string str =
     try
-      let open Result.Infix in
+      let open Result.Syntax in
       Scanf.sscanf str "%2d%2s%2d%!" (fun h flag m ->
           let hr =
             match String.lowercase_ascii flag with
@@ -216,7 +218,8 @@ module Hour = struct
             | _ ->
               Error (Unparsable (str ^ ": unknown " ^ flag))
           in
-          hr >>= fun h -> make h m)
+          let* h = hr in
+          make h m)
     with
     | _ ->
       Error (Unparsable str)
@@ -233,10 +236,10 @@ module Moment = struct
 
   let make_with year_value month_value day_value hour_value min_value
     =
-    let open Result.Infix in
-    day_value
-    |> Day.make_with year_value month_value
-    >>= fun d -> Hour.make hour_value min_value >|= make d
+    let open Result.Syntax in
+    let* d = Day.make_with year_value month_value day_value in
+    let* c = Hour.make hour_value min_value in
+    Ok (make d c)
   ;;
 
   let to_string (d, h) =
@@ -247,11 +250,11 @@ module Moment = struct
 
   let from_string str =
     try
-      let open Result.Infix in
+      let open Result.Syntax in
       Scanf.sscanf str "%6s:%6s%!" (fun d h ->
-          Day.from_string d
-          >>= fun left ->
-          Hour.from_string h >|= fun right -> make left right)
+          let* left = Day.from_string d in
+          let* right = Hour.from_string h in
+          Ok (make left right))
     with
     | _ ->
       Error (Unparsable str)

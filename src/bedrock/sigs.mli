@@ -119,8 +119,8 @@ module Applicative : sig
     include module type of Infix
 
     module Syntax : sig
-      val ( let+ ) : ('a -> 'b) -> 'a t -> 'b t
-      val ( and+ ) : ('a -> 'b) t -> 'a t -> 'b t
+      val ( let+ ) : 'a t -> ('a -> 'b)  -> 'b t
+      val ( and+ ) : 'a t -> 'b t-> ('a * 'b) t
     end
   end
 end

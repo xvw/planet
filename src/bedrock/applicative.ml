@@ -33,8 +33,8 @@ module Make (A : Sigs.Applicative.REQUIREMENT) :
   include Infix
 
   module Syntax = struct
-    let ( let+ ) = map
-    let ( and+ ) = ap
+    let ( let+ ) x f = map f x
+    let ( and+ ) xa ya = pure (fun x y -> (x, y)) <*> xa <*> ya
   end
 end
 

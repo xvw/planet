@@ -39,14 +39,14 @@ module Fetch = Table.Fetch
 let from_qexp expr =
   match Table.configuration expr with
   | Ok config ->
-    let open Validation.Infix in
-    new_log
-    <$> Fetch.string config "uuid"
-    <*> Fetch.day config "day"
-    <*> Fetch.int config "duration"
-    <*> Fetch.string config "sector"
-    <*> Fetch.(option string config "project")
-    <*> Fetch.string config "label"
+    let open Validation.Syntax in
+    let+ uuid = Fetch.string config "uuid"
+    and+ day = Fetch.day config "day"
+    and+ duration = Fetch.int config "duration"
+    and+ sector = Fetch.string config "sector"
+    and+ project = Fetch.(option string config "project")
+    and+ label = Fetch.string config "label" in
+    new_log uuid day duration sector project label
   | Error _ as e ->
     Validation.from_result e
 ;;

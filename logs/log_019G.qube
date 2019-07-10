@@ -1,0 +1,6 @@
+;; Logs for 019G
+((:uuid "f6feb336-4037-92a3-7d1a-fe7f4e90168c") (:day "019G10")
+  (:duration "120") (:sector "programming")
+  (:label
+    "Utilisation dans la syntaxe monadique pour une majeure partie du module PaperWork")
+  (:project "planet"))

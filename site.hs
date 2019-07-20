@@ -16,6 +16,14 @@ main = hakyll $ do
         route   idRoute
         compile copyFileCompiler
 
+    match "picto/*.svg" $ do
+        route   idRoute
+        compile copyFileCompiler
+
+    match "picto/*.png" $ do
+        route   idRoute
+        compile copyFileCompiler
+
     match "css/*" $ do
         route   idRoute
         compile compressCssCompiler

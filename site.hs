@@ -16,11 +16,7 @@ main = hakyll $ do
         route   idRoute
         compile copyFileCompiler
 
-    match "picto/*.svg" $ do
-        route   idRoute
-        compile copyFileCompiler
-
-    match "picto/*.png" $ do
+    match ("picto/*.png" .||. "picto/*.svg") $ do
         route   idRoute
         compile copyFileCompiler
 

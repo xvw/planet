@@ -4,3 +4,7 @@
   (:label
     "Utilisation dans la syntaxe monadique pour une majeure partie du module PaperWork")
   (:project "planet"))
+
+((:uuid "fbb10b5f-8efd-a43d-c680-33e74bb2ff4c") (:day "019G21")
+  (:duration "60") (:sector "programming")
+  (:label "Design de l'application web") (:project "planet"))

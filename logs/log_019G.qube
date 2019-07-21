@@ -12,3 +12,7 @@
 ((:uuid "54560ac8-818b-f1d4-5fc1-dcdb7e3a8ac2") (:day "019G21")
   (:duration "120") (:sector "programming")
   (:label "Design de l'interface de Planet") (:project "planet"))
+
+((:uuid "723aea1a-38d5-f936-aefb-c5fc99e72db8") (:day "019G21")
+  (:duration "120") (:sector "design")
+  (:label "Plusieurs expériences de layout") (:project "planet"))

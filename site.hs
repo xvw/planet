@@ -10,8 +10,8 @@ unseedRoute = gsubRoute "_seeds/" (const "")
 main :: IO ()
 main = hakyll $ do
 
-    match "templates/*" $ compile templateBodyCompiler   
-  
+    match "templates/*" $ compile templateBodyCompiler
+    
     match "images/*" $ do
         route   idRoute
         compile copyFileCompiler

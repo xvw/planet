@@ -29,12 +29,12 @@ main {
     padding: 18px 12px;
 }
 
-header {
-    padding: 18px 12px;
+main > .container {
+    padding: 12px;
 }
 
-header .pictogram {
-    width: 64px;
+header {
+    padding: 18px 12px;
 }
 
 header .for-pictorgram {
@@ -42,17 +42,50 @@ header .for-pictorgram {
     flex: 0;
 }
 
-header > div {
+header .for-pictorgram  .pictogram { 
+    width: 64px;
+    height: auto;
+}
+
+header > div > div {
     display: flex;
     flex-direction: row;
 }
 
-header > div > div {
+header > div > div > * {
     margin: auto 0;
 }
 
-header > div > .header-bar {
+header > div > div > .header-bar {
     flex: 1;
+}
+
+header > div > nav {
+    margin-top: 12px;
+    margin-left: 12px;
+}
+
+header > div > nav > a {
+    font-size: 80%;
+    font-weight: 500;
+    text-decoration: none;
+    color: #000000;
+    display: inline-block;
+    padding: 4px 24px;
+    border-radius: 4px;
+    margin-right: 8px;
+    color: #b2b2b2;
+    background-color: #ffffff;
+    transition: all 0.3s ease-out;
+}
+
+header > div > nav > a:hover {
+    color: #000000;
+}
+
+
+header > div > nav > a > img {
+    width: 32px;
 }
 
 header h2,
@@ -95,6 +128,7 @@ footer > div > .right {
 
 footer .pictogram {
     width: 32px;
+    height: auto;
 }
 
 footer a {

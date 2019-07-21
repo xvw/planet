@@ -20,6 +20,27 @@ body {
 
 main {
     flex: 1;
+    padding: 18px 12px;
+}
+
+header {
+    padding: 18px 12px;
+}
+
+header h2,
+header h1 {
+    padding: 0;
+    margin: 0;
+}
+
+header h1 {
+    font-size: 150%;
+    font-weight: 300;
+}
+
+header h2 {
+    font-size: 110%;
+    font-weight: 100;
 }
 
 footer {

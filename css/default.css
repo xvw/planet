@@ -39,6 +39,7 @@ header .pictogram {
 
 header .for-pictorgram {
     margin-right: 12px;
+    flex: 0;
 }
 
 header > div {
@@ -48,6 +49,10 @@ header > div {
 
 header > div > div {
     margin: auto 0;
+}
+
+header > div > .header-bar {
+    flex: 1;
 }
 
 header h2,

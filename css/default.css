@@ -33,6 +33,23 @@ header {
     padding: 18px 12px;
 }
 
+header .pictogram {
+    width: 64px;
+}
+
+header .for-pictorgram {
+    margin-right: 12px;
+}
+
+header > div {
+    display: flex;
+    flex-direction: row;
+}
+
+header > div > div {
+    margin: auto 0;
+}
+
 header h2,
 header h1 {
     padding: 0;

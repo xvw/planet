@@ -1,6 +1,9 @@
 ((:name "programming") (:color "#c0c0c0")
  (:desc "Programmation (code) relative ou non à des projets"))
 
+((:name "design") (:color "#c0c0c0")
+ (:desc "Design d'application/interfaces graphiques"))
+
 ((:name "reading") (:color "#c0c0c0")
  (:desc "Lecture (technique ou non)"))
 

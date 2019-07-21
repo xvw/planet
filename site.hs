@@ -20,9 +20,13 @@ main = hakyll $ do
         route   idRoute
         compile copyFileCompiler
 
-    match "css/*" $ do
+    match ("css/*.css" .||. "fonts/*/*.css") $ do
         route   idRoute
         compile compressCssCompiler
+
+    match ("fonts/*/*.woff" .||. "fonts/*/*.woff2") $ do
+        route   idRoute
+        compile copyFileCompiler
  
     match "_seeds/api/*.json" $ do
         route (unseedRoute `composeRoutes` setExtension "json")

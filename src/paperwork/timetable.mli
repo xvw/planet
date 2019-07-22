@@ -61,6 +61,9 @@ module Year : sig
 
   (** Equality *)
   val eq : t -> t -> bool
+
+  (** Compare *)
+  val cmp : t -> t -> int
 end
 
 module Month : sig
@@ -108,6 +111,9 @@ module Month : sig
   (** Equality *)
   val eq : t -> t -> bool
 
+  (** Compare *)
+  val cmp : t -> t -> int
+
   (** Convert to year *)
   val to_year : t -> Year.t
 end
@@ -136,6 +142,9 @@ module Day : sig
 
   (** Equality *)
   val eq : t -> t -> bool
+
+  (** Compare *)
+  val cmp : t -> t -> int
 
   (** Convert to year *)
   val to_year : t -> Year.t
@@ -166,6 +175,9 @@ module Hour : sig
 
   (** Equality *)
   val eq : t -> t -> bool
+
+  (** Compare *)
+  val cmp : t -> t -> int
 end
 
 module Moment : sig
@@ -198,6 +210,9 @@ module Moment : sig
 
   (** Equality *)
   val eq : t -> t -> bool
+
+  (** Compare *)
+  val cmp : t -> t -> int
 
   (** Extract info *)
   val extract : t -> Year.t * Month.t * Day.t * Hour.t

@@ -8,6 +8,7 @@
 (:content external #org-mode "projects/planet.org")
 
 (:tools
+ (inter "https://rsms.me/inter/")
  (ocaml "https://ocaml.org")
  (js_of_ocaml "https://ocsigen.org/js_of_ocaml")
  (pandoc "https://pandoc.org/")
@@ -17,3 +18,5 @@
 
 (:links
  ((main "https://xvw.github.io")))
+
+(:updated_at "019G22")

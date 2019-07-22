@@ -25,6 +25,7 @@ module Year = struct
 
   let pp ppf x = Format.fprintf ppf "%s" (to_string x)
   let eq (Year x) (Year y) = x = y
+  let cmp (Year x) (Year y) = compare x y
 end
 
 module Month = struct
@@ -143,6 +144,11 @@ module Month = struct
     Year.eq y y2 && to_char m = to_char m2
   ;;
 
+  let cmp (Month (y, m)) (Month (y2, m2)) =
+    let r = Year.cmp y y2 in
+    if r = 0 then compare m m2 else r
+  ;;
+
   let to_year (Month (y, _)) = y
 end
 
@@ -183,6 +189,12 @@ module Day = struct
 
   let pp ppf x = Format.fprintf ppf "%s" (to_string x)
   let eq (Day (m, d)) (Day (m2, d2)) = Month.eq m m2 && d = d2
+
+  let cmp (Day (m, d)) (Day (m2, d2)) =
+    let r = Month.cmp m m2 in
+    if r = 0 then compare d d2 else r
+  ;;
+
   let to_month (Day (m, _)) = m
   let to_year x = Month.to_year (to_month x)
 end
@@ -227,6 +239,11 @@ module Hour = struct
 
   let pp ppf x = Format.fprintf ppf "%s" (to_string x)
   let eq (Hour (h, m)) (Hour (h2, m2)) = h = h2 && m = m2
+
+  let cmp (Hour (h, m)) (Hour (h2, m2)) =
+    let r = compare h h2 in
+    if r = 0 then compare m m2 else r
+  ;;
 end
 
 module Moment = struct
@@ -262,6 +279,11 @@ module Moment = struct
 
   let pp ppf x = Format.fprintf ppf "%s" (to_string x)
   let eq (d, h) (d2, h2) = Day.eq d d2 && Hour.eq h h2
+
+  let cmp (d, h) (d2, h2) =
+    let r = Day.cmp d d2 in
+    if r = 0 then Hour.cmp h h2 else r
+  ;;
 
   let extract
       ( Day.Day (Month.Month (Year.Year year, month), day)

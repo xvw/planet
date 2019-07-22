@@ -25,6 +25,7 @@ let all () =
   let open Result.Infix in
   inspect () >|= List.map fst >|= Validation.Applicative.sequence
   |> Validation.from_result |> Validation.join
+  |> Validation.map (List.sort Shapes.Project.compare_date)
 ;;
 
 let to_json () =

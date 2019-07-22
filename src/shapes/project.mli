@@ -17,6 +17,7 @@ type t =
   { name : string
   ; title : string
   ; synopsis : string
+  ; updated_at : Timetable.Day.t option
   ; repo : string option
   ; license : string option
   ; tools : Link.simple list
@@ -44,3 +45,4 @@ val status_to_string : status -> string
 val pp : Format.formatter -> t -> unit
 val eq : t -> t -> bool
 val to_json : t -> Json.t
+val compare_date : t -> t -> int

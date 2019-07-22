@@ -81,5 +81,6 @@ clean-pages:
 	stack exec site clean
 
 web-reset: clean
+	dune build @install
 	stack build
 	stack exec site rebuild

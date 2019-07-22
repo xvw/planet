@@ -79,3 +79,7 @@ watch-pages:
 
 clean-pages:
 	stack exec site clean
+
+web-reset: clean
+	stack build
+	stack exec site rebuild

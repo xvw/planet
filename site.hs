@@ -35,10 +35,7 @@ main = hakyll $ do
       compile copyFileCompiler
 
     -- Project seeded (from Planet)
-    match ("_seeds/projects/*.org"
-            .||. "_seeds/projects/*.md"
-            .||. "_seeds/projects/*.txt"
-          ) $ do
+    match projectsRule $ do
       route (unseedRoute `composeRoutes` setExtension "html")
       compile $ pandocCompiler
         >>= loadAndApplyTemplate "templates/default.html" projectContext
@@ -48,12 +45,8 @@ main = hakyll $ do
     match "index.html" $ do
       route idRoute
       compile $ do
-        projects <-
-          (loadAll (
-              "_seeds/projects/*.org"
-              .||. "_seeds/projects/*.md"
-              .||. "_seeds/projects/*.txt"
-              ))
+        
+        projects <- (loadAll projectsRule)
         
         let indexContext =
                listField "projects" projectContext (return projects) `mappend`
@@ -81,3 +74,10 @@ projectContext =
   pathField      "path"              `mappend`
   metadataField                      `mappend`
   missingField
+
+-- Rules
+
+projectsRule =
+  "_seeds/projects/*.org"
+  .||. "_seeds/projects/*.md"
+  .||. "_seeds/projects/*.txt"

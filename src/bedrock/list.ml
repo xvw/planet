@@ -12,6 +12,13 @@ let eq f left right =
     L.for_all (fun (x, y) -> f x y) l
 ;;
 
+let ( @? ) left = function
+  | None ->
+    left
+  | Some right ->
+    left @ right
+;;
+
 module Functor = Functor.Make (struct
   type 'a t = 'a list
 

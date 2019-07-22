@@ -6,6 +6,7 @@ type 'a t = 'a option
 val eq : ('a -> 'a -> bool) -> 'a option -> 'a option -> bool
 val is_valid : 'a t -> bool
 val get_or : (unit -> 'a) -> 'a t -> 'a
+val to_list : 'a option -> 'a list
 
 (** {2 Functor instance} *)
 module Functor : Sigs.Functor.API with type 'a t = 'a option

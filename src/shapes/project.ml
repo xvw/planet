@@ -126,6 +126,57 @@ let status_to_string = function
     "interrupted"
 ;;
 
+let kvo obj k f =
+  let open Option.Infix in
+  obj >|= (fun x -> Qexp.kv k (f x)) |> Option.to_list
+;;
+
+let kvcons key f list = Qexp.[ node (tag key :: List.map f list) ]
+
+let kvcontent = function
+  | None ->
+    []
+  | Some (format, Text.File str) ->
+    Qexp.
+      [ tag "content"
+      ; string "external"
+      ; keyword (Text.Format.to_string format)
+      ; string str
+      ]
+  | Some (format, Text.Plain str) ->
+    Qexp.
+      [ tag "content"
+      ; string "internal"
+      ; keyword (Text.Format.to_string format)
+      ; string str
+      ]
+;;
+
+let to_qexp project =
+  let open Qexp in
+  let open Timetable in
+  [ kv "name" project.name
+  ; kv "title" project.title
+  ; kv "synopsis" project.synopsis
+  ; kv "status" (status_to_string project.status)
+  ; kv
+      ~v:atom
+      "indexed"
+      (if project.indexed then "true" else "false")
+  ; kv
+      ~v:atom
+      "published"
+      (if project.published then "true" else "false")
+  ]
+  @ kvo project.repo "license" id
+  @ kvo project.picto "picto" id
+  @ kvo project.updated_at "updated_at" Day.to_string
+  @ kvo project.repo "repo" id
+  @ kvcons "tags" string project.tags
+  @ kvcontent project.content
+  |> node
+;;
+
 let pp ppf project =
   Format.fprintf
     ppf

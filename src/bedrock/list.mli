@@ -7,6 +7,7 @@ include module type of Stdlib.List
 
 val zip : 'a t -> 'b t -> ('a * 'b) t option
 val eq : ('a -> 'a -> bool) -> 'a t -> 'a t -> bool
+val ( @? ) : 'a list -> 'a list option -> 'a list
 
 (** {2 Functor instance} *)
 module Functor : Sigs.Functor.API with type 'a t = 'a list

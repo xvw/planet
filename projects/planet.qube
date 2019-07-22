@@ -9,7 +9,7 @@
 
 (:tools
  (inter "https://rsms.me/inter/")
- (ocaml "https://ocaml.org")
+ (ocaml "https://ocamlpipi.org")
  (js_of_ocaml "https://ocsigen.org/js_of_ocaml")
  (pandoc "https://pandoc.org/")
  (git "https://github.com/git/git")

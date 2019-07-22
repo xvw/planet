@@ -25,3 +25,5 @@ val eq_simple : simple -> simple -> bool
 val eq_dated : dated -> dated -> bool
 val dated_to_json : dated -> Json.t
 val simple_to_json : simple -> Json.t
+val simple_to_qexp : simple -> Qexp.t
+val dated_to_qexp : dated -> Qexp.t

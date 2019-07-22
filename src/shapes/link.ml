@@ -52,3 +52,14 @@ let dated_to_json (name, day, uri) =
     ; "date", string $ Timetable.Day.to_string day
     ]
 ;;
+
+let simple_to_qexp (name, uri) =
+  let open Qexp in
+  node [ string name; string uri ]
+;;
+
+let dated_to_qexp (name, day, uri) =
+  let open Qexp in
+  node
+    [ string name; keyword (Timetable.Day.to_string day); string uri ]
+;;

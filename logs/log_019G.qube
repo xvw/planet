@@ -22,3 +22,7 @@
   (:label
     "Génération des projets de Planet à Hakyll (et autres tâches de design)")
   (:project "planet"))
+
+((:uuid "a53804c4-2822-aa05-77ce-601883d38ddf") (:day "019G22")
+  (:duration "15") (:sector "programming")
+  (:label "Organisation des projets par activité") (:project "planet"))

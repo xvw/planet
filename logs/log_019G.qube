@@ -26,3 +26,7 @@
 ((:uuid "a53804c4-2822-aa05-77ce-601883d38ddf") (:day "019G22")
   (:duration "15") (:sector "programming")
   (:label "Organisation des projets par activité") (:project "planet"))
+
+((:uuid "1abfdc05-c011-47c5-7736-fb38f6a99f1b") (:day "019G22")
+  (:duration "120") (:sector "programming")
+  (:label "Rendus des projets en Q-expression") (:project "planet"))

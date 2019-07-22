@@ -37,10 +37,9 @@ main = hakyll $ do
     -- Project seeded (from Planet)
     match ("_seeds/projects/*.org"
             .||. "_seeds/projects/*.md"
-            .||. "_seeds/projects/*.markdown"
-            .||. "_seeds/projects/*.rst"
+            .||. "_seeds/projects/*.txt"
           ) $ do
-      route $ setExtension "html"
+      route (unseedRoute `composeRoutes` setExtension "html")
       compile $ pandocCompiler
         >>= loadAndApplyTemplate "templates/default.html" projectContext
         >>= relativizeUrls
@@ -49,9 +48,20 @@ main = hakyll $ do
     match "index.html" $ do
       route idRoute
       compile $ do
+        projects <-
+          (loadAll (
+              "_seeds/projects/*.org"
+              .||. "_seeds/projects/*.md"
+              .||. "_seeds/projects/*.txt"
+              ))
+        
+        let indexContext =
+               listField "projects" projectContext (return projects) `mappend`
+              defaultContext
+
         getResourceBody
-          >>= applyAsTemplate defaultContext
-          >>= loadAndApplyTemplate "templates/default.html" defaultContext
+          >>= applyAsTemplate indexContext
+          >>= loadAndApplyTemplate "templates/default.html" indexContext
           >>= relativizeUrls
 
 

@@ -19,6 +19,22 @@ let api =
   , Term.info "api" ~version ~doc ~exits ~man )
 ;;
 
+let projects =
+  let doc = "Initialize the target for Project generation" in
+  let man = Glue.Man.default call in
+  let exits = Term.default_exits in
+  ( Term.(const Lib.projects $ const ())
+  , Term.info "projects" ~version ~doc ~exits ~man )
+;;
+
+let all =
+  let doc = "Build everything" in
+  let man = Glue.Man.default call in
+  let exits = Term.default_exits in
+  ( Term.(const Lib.all $ const ())
+  , Term.info "all" ~version ~doc ~exits ~man )
+;;
+
 let index =
   let doc = "Manage build process of Planet" in
   let man = Glue.Man.default call in
@@ -27,4 +43,6 @@ let index =
   , Term.info call ~version ~doc ~exits ~man )
 ;;
 
-let invoke () = Term.(exit @@ eval_choice index [ init; api ])
+let invoke () =
+  Term.(exit @@ eval_choice index [ all; init; api; projects ])
+;;

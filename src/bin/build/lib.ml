@@ -4,6 +4,7 @@ open Baremetal
 
 let site_folder = "./_seeds"
 let api_folder = Filename.concat site_folder "api"
+let project_folder = Filename.concat site_folder "projects"
 
 let soft_creation folder =
   let open Result.Infix in
@@ -56,7 +57,12 @@ let create_api_folder () =
   trace_creation (soft_creation api_folder)
 ;;
 
-let create_api_file f folder file =
+let create_projects_folder () =
+  generate ();
+  trace_creation (soft_creation project_folder)
+;;
+
+let create_file f folder file =
   let target = Filename.concat folder file in
   let () = trace_deletion (soft_deletion_file target) in
   let open Validation.Infix in
@@ -66,33 +72,62 @@ let create_api_file f folder file =
   |> trace_creation
 ;;
 
-let initialize_project () =
-  create_api_file Glue.Project.to_json api_folder "projects.json"
+let initialize_api_project () =
+  create_file Glue.Project.to_json api_folder "projects.json"
 ;;
 
-let initialize_sectors () =
-  create_api_file Glue.Sector.to_json api_folder "sectors.json"
+let initialize_api_sectors () =
+  create_file Glue.Sector.to_json api_folder "sectors.json"
 ;;
 
-let initialize_current_position () =
-  create_api_file
-    Glue.Log.whereami_to_json
-    api_folder
-    "whereami.json"
+let initialize_api_current_position () =
+  create_file Glue.Log.whereami_to_json api_folder "whereami.json"
 ;;
 
 let initialize_logs () =
-  create_api_file
-    Glue.Log.collect_all_log_in_json
-    api_folder
-    "logs.json"
+  create_file Glue.Log.collect_all_log_in_json api_folder "logs.json"
+;;
+
+let create_projects_files () =
+  let open Validation.Infix in
+  Glue.Project.all ()
+  >|= List.map Glue.Project.to_hakyll_string
+  >>= Validation.Applicative.sequence
+  >>= fun elts ->
+  List.map
+    (fun (project, extension, content) ->
+      let open Shapes.Project in
+      let filename = project.name ^ "." ^ extension in
+      let target = Filename.concat project_folder filename in
+      let () = trace_deletion (soft_deletion_file target) in
+      File.create target content
+      |> Validation.from_result
+      >|= (fun () -> true, target)
+      |> trace_creation |> Validation.pure)
+    elts
+  |> Validation.Applicative.sequence
 ;;
 
 let api () =
   let () = create_api_folder () in
-  let () = initialize_project () in
-  let () = initialize_sectors () in
-  let () = initialize_current_position () in
+  let () = initialize_api_project () in
+  let () = initialize_api_sectors () in
+  let () = initialize_api_current_position () in
   let () = initialize_logs () in
+  ()
+;;
+
+let projects () =
+  let () = create_projects_folder () in
+  match create_projects_files () with
+  | Error e ->
+    Prompter.prompt_errors e
+  | Ok _ ->
+    ()
+;;
+
+let all () =
+  let () = api () in
+  let () = projects () in
   ()
 ;;

@@ -19,3 +19,8 @@ val all : unit -> Shapes.Project.t list Validation.t
 
 (** Get list of project as [Json.t] *)
 val to_json : unit -> Paperwork.Json.t Validation.t
+
+(** Convert project to Hakyll file *)
+val to_hakyll_string
+  :  Shapes.Project.t
+  -> (Shapes.Project.t * File.name * string) Validation.t

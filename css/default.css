@@ -24,6 +24,11 @@ body {
     margin: auto;
 }
 
+.container p {
+    margin: 0;
+    padding: 0;
+}
+
 main {
     flex: 1;
     padding: 18px 12px;

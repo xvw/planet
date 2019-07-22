@@ -131,25 +131,32 @@ let kvo obj k f =
   obj >|= (fun x -> Qexp.kv k (f x)) |> Option.to_list
 ;;
 
-let kvcons key f list = Qexp.[ node (tag key :: List.map f list) ]
-
 let kvcontent = function
   | None ->
     []
   | Some (format, Text.File str) ->
     Qexp.
-      [ tag "content"
-      ; string "external"
-      ; keyword (Text.Format.to_string format)
-      ; string str
+      [ node
+          [ tag "content"
+          ; string "external"
+          ; keyword (Text.Format.to_string format)
+          ; string str
+          ]
       ]
   | Some (format, Text.Plain str) ->
     Qexp.
-      [ tag "content"
-      ; string "internal"
-      ; keyword (Text.Format.to_string format)
-      ; string str
+      [ node
+          [ tag "content"
+          ; string "internal"
+          ; keyword (Text.Format.to_string format)
+          ; string str
+          ]
       ]
+;;
+
+let kvlist key list f =
+  let open Qexp in
+  [ node [ tag key; node (List.map f list) ] ]
 ;;
 
 let to_qexp project =
@@ -170,10 +177,13 @@ let to_qexp project =
   ]
   @ kvo project.repo "license" id
   @ kvo project.picto "picto" id
+  @ kvcontent project.content
   @ kvo project.updated_at "updated_at" Day.to_string
   @ kvo project.repo "repo" id
-  @ kvcons "tags" string project.tags
-  @ kvcontent project.content
+  @ kvlist "tags" project.tags string
+  @ kvlist "tools" project.tools Link.simple_to_qexp
+  @ kvlist "links" project.links Link.simple_to_qexp
+  @ kvlist "releases" project.releases Link.dated_to_qexp
   |> node
 ;;
 

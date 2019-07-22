@@ -16,3 +16,9 @@
 ((:uuid "723aea1a-38d5-f936-aefb-c5fc99e72db8") (:day "019G21")
   (:duration "120") (:sector "design")
   (:label "Plusieurs expériences de layout") (:project "planet"))
+
+((:uuid "c8be5a9e-ea85-c0e8-518f-d75a6b7fc07b") (:day "019G22")
+  (:duration "320") (:sector "programming")
+  (:label
+    "Génération des projets de Planet à Hakyll (et autres tâches de design)")
+  (:project "planet"))

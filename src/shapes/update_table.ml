@@ -2,13 +2,14 @@ open Bedrock
 open Paperwork
 open Util
 open Error
+module D = Timetable.Day
 
-type t = (string, Timetable.Day.t) Hashtbl.t
+type t = (string, D.t) Hashtbl.t
 
 let store_update table = function
   | Qexp.(Node [ String (_, name); Keyword timecode ]) ->
     let open Result in
-    let* code = Timetable.Day.from_string timecode in
+    let* code = D.from_string timecode in
     let+ final_table =
       let () = Hashtbl.remove table name in
       let () = Hashtbl.add table name code in
@@ -37,8 +38,7 @@ let to_qexp table =
   Hashtbl.fold
     (fun key value acc ->
       let open Qexp in
-      node [ string key; keyword $ Timetable.Day.to_string value ]
-      :: acc)
+      node [ string key; keyword $ D.to_string value ] :: acc)
     table
     []
   |> Qexp.node

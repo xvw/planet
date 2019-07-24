@@ -30,3 +30,8 @@
 ((:uuid "1abfdc05-c011-47c5-7736-fb38f6a99f1b") (:day "019G22")
   (:duration "120") (:sector "programming")
   (:label "Rendus des projets en Q-expression") (:project "planet"))
+
+((:uuid "ed3bcf4f-fe38-79ab-f6bc-fb6c4e039827") (:day "019G24")
+  (:duration "30") (:sector "programming")
+  (:label "Introduction des "updated_at" pour les projets")
+  (:project "planet"))

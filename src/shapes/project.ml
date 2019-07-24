@@ -34,7 +34,6 @@ type t =
   { name : string
   ; title : string
   ; synopsis : string
-  ; updated_at : Timetable.Day.t option
   ; repo : string option
   ; license : string option
   ; tools : Link.simple list
@@ -53,7 +52,6 @@ let new_project
     name
     title
     synopsis
-    updated_at
     repo
     license
     tools
@@ -70,7 +68,6 @@ let new_project
   { name
   ; title
   ; synopsis
-  ; updated_at
   ; repo
   ; license
   ; tools
@@ -96,7 +93,6 @@ let rec from_qexp expr =
     <$> Fetch.string config "name"
     <*> Fetch.string config "title"
     <*> Fetch.string config "synopsis"
-    <*> Fetch.(option day config "updated_at")
     <*> Fetch.(option string config "repo")
     <*> Fetch.(option string config "license")
     <*> Fetch.list_refutable Link.mapper_simple config "tools"
@@ -161,7 +157,6 @@ let kvlist key list f =
 
 let to_qexp project =
   let open Qexp in
-  let open Timetable in
   [ kv "name" project.name
   ; kv "title" project.title
   ; kv "synopsis" project.synopsis
@@ -178,7 +173,6 @@ let to_qexp project =
   @ kvo project.repo "license" id
   @ kvo project.picto "picto" id
   @ kvcontent project.content
-  @ kvo project.updated_at "updated_at" Day.to_string
   @ kvo project.repo "repo" id
   @ kvlist "tags" project.tags string
   @ kvlist "tools" project.tools Link.simple_to_qexp
@@ -229,11 +223,6 @@ let rec to_json project =
     ; "published", bool project.published
     ; "title", string project.title
     ; "synopsis", string project.synopsis
-    ; ( "updated_at"
-      , nullable
-          Option.(
-            project.updated_at >|= Timetable.Day.to_string >|= string)
-      )
     ; "repo", nullable Option.(project.repo >|= string)
     ; "license", nullable Option.(project.repo >|= string)
     ; "tools", array $ List.map Link.simple_to_json project.tools
@@ -246,16 +235,4 @@ let rec to_json project =
     ; "indexed", bool project.indexed
     ; "subprojects", array $ List.map to_json project.subprojects
     ]
-;;
-
-let compare_date project1 project2 =
-  match project1.updated_at, project2.updated_at with
-  | None, None ->
-    0
-  | Some _, None ->
-    -1
-  | None, Some _ ->
-    1
-  | Some x, Some y ->
-    Timetable.Day.cmp y x
 ;;

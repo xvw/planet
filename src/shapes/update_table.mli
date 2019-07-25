@@ -11,3 +11,8 @@ type t
 
 val from_qexp : Qexp.t -> t Result.t
 val to_qexp : t -> Qexp.t
+
+(** {2 Mutation} *)
+
+val fetch : t -> string -> Timetable.Day.t option
+val push : t -> string -> Timetable.Day.t -> t

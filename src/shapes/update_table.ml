@@ -43,3 +43,19 @@ let to_qexp table =
     []
   |> Qexp.node
 ;;
+
+let fetch table key = Hashtbl.find_opt table key
+
+let push table key value =
+  let () =
+    match fetch table key with
+    | None ->
+      Hashtbl.add table key value
+    | Some x ->
+      if D.cmp x value < 0
+      then (
+        let () = Hashtbl.remove table key in
+        Hashtbl.add table key x)
+  in
+  table
+;;

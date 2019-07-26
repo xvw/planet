@@ -7,6 +7,8 @@ open Paperwork
 
 type t
 
+val empty : unit -> t
+
 (** {2 Coercion} *)
 
 val from_qexp : Qexp.t -> t Result.t

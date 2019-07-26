@@ -6,6 +6,8 @@ module D = Timetable.Day
 
 type t = (string, D.t) Hashtbl.t
 
+let empty () = Hashtbl.create 1
+
 let store_update table = function
   | Qexp.(Node [ String (_, name); Keyword timecode ]) ->
     let open Result in
@@ -22,7 +24,7 @@ let store_update table = function
 
 let from_qexp = function
   | Qexp.Node elts ->
-    let table = Hashtbl.create 1 in
+    let table = empty () in
     List.fold_left
       (fun potential_table expr ->
         let open Result.Syntax in

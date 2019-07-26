@@ -43,3 +43,8 @@
 ((:uuid "012682a6-722e-4c29-f86a-0a736eb3b3e1") (:day "019G26")
   (:duration "1") (:sector "r&d")
   (:label "Expérience sur les accents & caractères spéciaux"))
+
+((:uuid "51c679c8-9ba5-c7ac-40d2-d267eca575ee") (:day "019G26")
+  (:duration "5") (:sector "programming")
+  (:label "Amélioration de l'API des tables de raffraichissement")
+  (:project "planet"))

@@ -35,3 +35,7 @@
   (:duration "30") (:sector "programming")
   (:label "Introduction des "updated_at" pour les projets")
   (:project "planet"))
+
+((:uuid "fecd16fd-dc8a-f322-d64a-2b9471f53cc5") (:day "019G26")
+  (:duration "5") (:sector "programming")
+  (:label "Suppression de secteurs inutiles") (:project "planet"))

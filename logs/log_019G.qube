@@ -39,3 +39,7 @@
 ((:uuid "fecd16fd-dc8a-f322-d64a-2b9471f53cc5") (:day "019G26")
   (:duration "5") (:sector "programming")
   (:label "Suppression de secteurs inutiles") (:project "planet"))
+
+((:uuid "012682a6-722e-4c29-f86a-0a736eb3b3e1") (:day "019G26")
+  (:duration "1") (:sector "r&d")
+  (:label "Expérience sur les accents & caractères spéciaux"))

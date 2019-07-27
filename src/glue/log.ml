@@ -8,6 +8,7 @@ module TT = Timetable
 let database = Database.logs
 let log_folder = Database.path database
 let whereami_file = Filename.concat log_folder "whereami.qube"
+let update_table_project = Filename.concat log_folder "projects.qube"
 let log_pattern = [ Filename.concat log_folder "log_*.qube" ]
 
 let create_file day =
@@ -26,12 +27,18 @@ let create_file day =
   >> Ok (cname, is_already_created)
 ;;
 
-let create_whereami_file () =
-  let cname = whereami_file in
+let create_artifact_file file =
+  let cname = file in
   let is_already_created = File.exists cname in
   let open Result.Infix in
   (if not is_already_created then File.create cname "" else Ok ())
   >> Ok (cname, is_already_created)
+;;
+
+let create_whereami_file () = create_artifact_file whereami_file
+
+let create_update_table_projects () =
+  create_artifact_file update_table_project
 ;;
 
 let read_logs filename =
@@ -44,6 +51,20 @@ let read_logs filename =
   |> Validation.from_result
   >|= List.map Shapes.Log.from_qexp
   >>= Validation.Applicative.sequence
+;;
+
+let read_project_updates () =
+  let open Result.Infix in
+  create_update_table_projects ()
+  >> (update_table_project |> File.to_string
+     |> Result.bind Qexp.from_string
+     |> Result.bind Shapes.Update_table.from_qexp)
+;;
+
+let push_project_updates table =
+  let qexp = Shapes.Update_table.to_qexp table in
+  let str = Qexp.to_string qexp in
+  File.overwrite update_table_project str
 ;;
 
 let logs_to_json logs =

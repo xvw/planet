@@ -174,14 +174,18 @@ let push_result log =
   >> Ok (filename, str_log)
 ;;
 
-let ensure_sectors_projects f =
-  match Glue.Sector.all (), Glue.Project.all () with
-  | Error x, Error y ->
-    Prompter.prompt_errors (x @ y)
-  | Error x, _ | _, Error x ->
+let ensure_sectors_projects_updates f =
+  match
+    ( Glue.Sector.all ()
+    , Glue.Project.all ()
+    , Validation.from_result $ Glue.Log.read_project_updates () )
+  with
+  | Error x, Error y, Error z ->
+    Prompter.prompt_errors (x @ y @ z)
+  | Error x, _, _ | _, Error x, _ | _, _, Error x ->
     Prompter.prompt_errors x
-  | Ok sectors, Ok projects ->
-    f sectors projects
+  | Ok sectors, Ok projects, Ok updates ->
+    f sectors projects updates
 ;;
 
 let push_feedback = function
@@ -201,10 +205,26 @@ let push_feedback = function
     Prompter.prompt_error x
 ;;
 
-let visual_push log = log |> push_result |> push_feedback
+let visual_push update log =
+  let up =
+    let open Shapes.Log in
+    match log.project with
+    | None ->
+      Ok log
+    | Some project ->
+      let t = Shapes.Update_table.push update project log.day in
+      let open Result.Infix in
+      Glue.Log.push_project_updates t >> Ok log
+  in
+  match up with
+  | Ok l ->
+    l |> push_result |> push_feedback
+  | Error e ->
+    Prompter.prompt_error e
+;;
 
 let interactive () =
-  ensure_sectors_projects (fun sectors projects ->
+  ensure_sectors_projects_updates (fun sectors projects update ->
       let uuid = Uuid.make () in
       let a_timecode = when_ () in
       let a_duration = during () in
@@ -221,7 +241,7 @@ let interactive () =
           some_project
           a_label
       in
-      visual_push log)
+      visual_push update log)
 ;;
 
 let check_day = function
@@ -265,7 +285,7 @@ let check_label x =
 ;;
 
 let record sector duration timecode project label =
-  ensure_sectors_projects (fun sectors projects ->
+  ensure_sectors_projects_updates (fun sectors projects update ->
       let open Validation.Infix in
       let potential_log =
         Shapes.Log.new_log (Uuid.make () |> Uuid.to_string)
@@ -278,7 +298,7 @@ let record sector duration timecode project label =
       | Error xs ->
         Prompter.prompt_errors xs
       | Ok log ->
-        visual_push log)
+        visual_push update log)
 ;;
 
 let push_whereami place =

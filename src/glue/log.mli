@@ -17,8 +17,19 @@ val create_file
 (** Create the bucket for whereami logs *)
 val create_whereami_file : unit -> (File.name * bool) Result.t
 
+(** Create update table for projects *)
+val create_update_table_projects
+  :  unit
+  -> (File.name * bool) Result.t
+
 (** Read all log for a bucket *)
 val read_logs : string -> Shapes.Log.t list Validation.t
+
+(** Read update table for projects *)
+val read_project_updates : unit -> Shapes.Update_table.t Result.t
+
+(** Push projects in file *)
+val push_project_updates : Shapes.Update_table.t -> unit Result.t
 
 (** Converts logs to [Json.t] *)
 val logs_to_json : Shapes.Log.t list -> Paperwork.Json.t

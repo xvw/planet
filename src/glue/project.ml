@@ -17,6 +17,17 @@ let read table filename =
   |> fun x -> x, filename
 ;;
 
+let may_sort = function
+  | None, None ->
+    0
+  | _, None ->
+    -1
+  | None, _ ->
+    1
+  | Some x, Some y ->
+    Timetable.Day.cmp y x
+;;
+
 let inspect () =
   let open Result.Infix in
   Log.read_project_updates ()
@@ -24,6 +35,16 @@ let inspect () =
   Dir.children ~filter:(flip String.has_extension "qube")
   $ DB.path database
   >|= List.map (read table)
+  >|= List.sort (fun (p, _) (q, _) ->
+          match p, q with
+          | Error _, Error _ ->
+            0
+          | _, Error _ ->
+            -1
+          | Error _, _ ->
+            1
+          | Ok (_, x), Ok (_, y) ->
+            may_sort (x, y))
 ;;
 
 let all () =

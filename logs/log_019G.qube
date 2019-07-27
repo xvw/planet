@@ -57,3 +57,7 @@
 ((:uuid "bdcbfb41-cc74-6712-c013-23b7ff50aea7") (:day "019G27")
   (:duration "15") (:sector "programming")
   (:label "Commit des tables d'updates") (:project "planet"))
+
+((:uuid "18c42d65-7aa2-32de-f925-9567fb38d094") (:day "019G27")
+  (:duration "30") (:sector "programming")
+  (:label "Tri des projets par dernière mise à jour") (:project "planet"))

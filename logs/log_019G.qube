@@ -65,3 +65,7 @@
 ((:uuid "04373152-9702-b3a6-16ae-ed5b0c9f9bf8") (:day "019G27")
   (:duration "10") (:sector "r&d")
   (:label "Expérimentations avec le toplevel d'OCaml") (:project "rutsch"))
+
+((:uuid "d192acac-0b8e-de9b-5bdd-80cb0b912851") (:day "019G27")
+  (:duration "60") (:sector "design")
+  (:label "Mise en forme de la liste des projets") (:project "planet"))

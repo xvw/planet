@@ -49,7 +49,7 @@ main = hakyll $ do
         projects <- (recentFirst =<< loadAll projectsRule)
         
         let indexContext =
-               listField "projects" projectContext (return projects) `mappend`
+              listField "projects" projectContext (return projects) `mappend`
               defaultContext
 
         getResourceBody

@@ -6,19 +6,24 @@ module DB = Database
 
 let database = DB.projects
 
-let read filename =
+let read table filename =
   let open Validation in
   filename
   |> Filename.concat (DB.path database)
   |> File.to_stream (fun _ -> Qexp.from_stream)
   |> from_result >>= Shapes.Project.from_qexp
+  >|= (fun project ->
+        project, Shapes.Update_table.fetch table project.name)
   |> fun x -> x, filename
 ;;
 
 let inspect () =
-  let open Result.Monad in
+  let open Result.Infix in
+  Log.read_project_updates ()
+  >>= fun table ->
   Dir.children ~filter:(flip String.has_extension "qube")
-  $ DB.path database >|= List.map read
+  $ DB.path database
+  >|= List.map (read table)
 ;;
 
 let all () =
@@ -33,7 +38,8 @@ let to_json () =
   >|= fun projects ->
   Json.obj
   $ List.map
-      (fun project -> Shapes.Project.(project.name, to_json project))
+      (fun (project, _) ->
+        Shapes.Project.(project.name, to_json project))
       projects
 ;;
 

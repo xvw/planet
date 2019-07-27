@@ -7,15 +7,27 @@ open Baremetal
 val database : Shapes.Project.t Database.t
 
 (** Read a project from a file *)
-val read : File.name -> Shapes.Project.t Validation.t * File.name
+val read
+  :  Shapes.Update_table.t
+  -> File.name
+  -> (Shapes.Project.t * Paperwork.Timetable.Day.t option)
+     Validation.t
+     * File.name
 
 (** Get a list of potential projects *)
 val inspect
   :  unit
-  -> (Shapes.Project.t Validation.t * File.name) list Result.t
+  -> ((Shapes.Project.t * Paperwork.Timetable.Day.t option)
+      Validation.t
+     * File.name)
+     list
+     Result.t
 
 (** Get list of project *)
-val all : unit -> Shapes.Project.t list Validation.t
+val all
+  :  unit
+  -> (Shapes.Project.t * Paperwork.Timetable.Day.t option) list
+     Validation.t
 
 (** Get list of project as [Json.t] *)
 val to_json : unit -> Paperwork.Json.t Validation.t

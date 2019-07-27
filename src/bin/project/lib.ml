@@ -67,7 +67,7 @@ let ls () =
           match elt with
           | Error errs ->
             (f, errs) :: l, r
-          | Ok project ->
+          | Ok (project, _) ->
             l, (f, project) :: r)
         projects
         ([], [])
@@ -150,9 +150,16 @@ let show_project expanded project =
 ;;
 
 let show project_name expanded =
-  match Glue.Project.read (project_name ^ ".qube") with
-  | Error err, _ ->
+  let r =
+    let open Bedrock in
+    Glue.Log.read_project_updates ()
+    |> Validation.from_result
+    |> Validation.bind (fun t ->
+           fst (Glue.Project.read t (project_name ^ ".qube")))
+  in
+  match r with
+  | Error err ->
     Prompter.prompt_errors err
-  | Ok project, _ ->
+  | Ok (project, _) ->
     show_project expanded project
 ;;

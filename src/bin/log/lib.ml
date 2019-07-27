@@ -229,7 +229,7 @@ let interactive () =
       let a_timecode = when_ () in
       let a_duration = during () in
       let a_sector = sector sectors in
-      let some_project = project projects in
+      let some_project = project (List.map fst projects) in
       let a_label = label () in
       let () = Ansi.[ reset ] |> Ansi.to_string |> print_endline in
       let log =
@@ -291,7 +291,7 @@ let record sector duration timecode project label =
         Shapes.Log.new_log (Uuid.make () |> Uuid.to_string)
         <$> check_day timecode <*> check_duration duration
         <*> check_sector sectors sector
-        <*> check_project projects project
+        <*> check_project (List.map fst projects) project
         <*> check_label (String.concat " " label)
       in
       match potential_log with

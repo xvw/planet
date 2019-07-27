@@ -53,3 +53,7 @@
   (:duration "60") (:sector "programming")
   (:label "Tracking des mises à jours pour chaques projets")
   (:project "planet"))
+
+((:uuid "bdcbfb41-cc74-6712-c013-23b7ff50aea7") (:day "019G27")
+  (:duration "15") (:sector "programming")
+  (:label "Commit des tables d'updates") (:project "planet"))

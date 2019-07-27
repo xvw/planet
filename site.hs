@@ -46,7 +46,7 @@ main = hakyll $ do
       route idRoute
       compile $ do
         
-        projects <- (loadAll projectsRule)
+        projects <- (recentFirst =<< loadAll projectsRule)
         
         let indexContext =
                listField "projects" projectContext (return projects) `mappend`

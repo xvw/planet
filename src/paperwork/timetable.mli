@@ -116,6 +116,9 @@ module Month : sig
 
   (** Convert to year *)
   val to_year : t -> Year.t
+
+  (** Convert month to int *)
+  val to_int : month -> int
 end
 
 module Day : sig
@@ -139,6 +142,9 @@ module Day : sig
 
   (** Pretty printer *)
   val pp : Format.formatter -> t -> unit
+
+  (** Pretty printer for regular date *)
+  val ppr : Format.formatter -> t -> unit
 
   (** Equality *)
   val eq : t -> t -> bool

@@ -101,6 +101,33 @@ module Month = struct
       'l'
   ;;
 
+  let to_int = function
+    | Jan ->
+      1
+    | Feb ->
+      2
+    | Mar ->
+      3
+    | Apr ->
+      4
+    | May ->
+      5
+    | Jun ->
+      6
+    | Jul ->
+      7
+    | Aug ->
+      8
+    | Sep ->
+      9
+    | Oct ->
+      10
+    | Nov ->
+      11
+    | Dec ->
+      12
+  ;;
+
   let from_char char =
     let c = Char.lowercase_ascii char |> int_of_char in
     let a = int_of_char 'a' in
@@ -188,6 +215,12 @@ module Day = struct
   ;;
 
   let pp ppf x = Format.fprintf ppf "%s" (to_string x)
+
+  let ppr ppf (Day (Month (Year y, mc), d)) =
+    let m = Month.to_int mc in
+    Format.fprintf ppf "%04d-%02d-%02d" (y + 2000) m d
+  ;;
+
   let eq (Day (m, d)) (Day (m2, d2)) = Month.eq m m2 && d = d2
 
   let cmp (Day (m, d)) (Day (m2, d2)) =

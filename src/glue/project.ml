@@ -93,21 +93,28 @@ let fetch_project_text project =
     Ok (fetch_project_format format, content)
 ;;
 
-let to_hakyll_string_aux project =
+let to_hakyll_string_aux day project =
   let open Format in
   let open Shapes.Project in
   let open Result.Syntax in
+  let render_date = function
+    | None ->
+      "2019-01-01"
+    | Some d ->
+      Format.asprintf "%a" Timetable.Day.ppr d
+  in
   let+ ext, body = fetch_project_text project in
   let content =
     "---\n"
     ^ asprintf "title: %s\n" project.title
     ^ asprintf "name: %s\n" project.name
     ^ asprintf "synopsis: %s\n" project.synopsis
+    ^ asprintf "date: %s\n" (render_date day)
     ^ "---\n" ^ body
   in
   project, ext, content
 ;;
 
-let to_hakyll_string project =
-  project |> to_hakyll_string_aux |> Validation.from_result
+let to_hakyll_string (project, day) =
+  project |> to_hakyll_string_aux day |> Validation.from_result
 ;;

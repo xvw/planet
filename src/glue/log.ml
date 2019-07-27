@@ -9,7 +9,10 @@ let database = Database.logs
 let log_folder = Database.path database
 let whereami_file = Filename.concat log_folder "whereami.qube"
 let update_table_project = Filename.concat log_folder "projects.qube"
-let log_pattern = [ Filename.concat log_folder "log_*.qube" ]
+
+let log_pattern =
+  [ Filename.concat log_folder "log_*.qube"; update_table_project ]
+;;
 
 let create_file day =
   let month = TT.Day.to_month day in

@@ -48,3 +48,8 @@
   (:duration "5") (:sector "programming")
   (:label "Amélioration de l'API des tables de raffraichissement")
   (:project "planet"))
+
+((:uuid "c3485df3-5ed3-b950-f3aa-1cd8bc805130") (:day "019G27")
+  (:duration "60") (:sector "programming")
+  (:label "Tracking des mises à jours pour chaques projets")
+  (:project "planet"))

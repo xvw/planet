@@ -103,6 +103,13 @@ let to_hakyll_string_aux day project =
     | Some d ->
       Format.asprintf "%a" Timetable.Day.ppr d
   in
+  let may_render key f = function
+    | None ->
+      ""
+    | Some k ->
+      asprintf "%s: %s\n" key (f k)
+  in
+  let render_bool k x = if x then asprintf "%s: %B\n" k x else "" in
   let+ ext, body = fetch_project_text project in
   let content =
     "---\n"
@@ -110,6 +117,14 @@ let to_hakyll_string_aux day project =
     ^ asprintf "name: %s\n" project.name
     ^ asprintf "synopsis: %s\n" project.synopsis
     ^ asprintf "date: %s\n" (render_date day)
+    ^ asprintf
+        "status: %s\n"
+        (Shapes.Project.status_to_string project.status)
+    ^ may_render "repo" id project.repo
+    ^ may_render "license" id project.license
+    ^ render_bool "indexed" project.indexed
+    ^ render_bool "published" project.published
+    ^ may_render "pictogram" id project.picto
     ^ "---\n" ^ body
   in
   project, ext, content

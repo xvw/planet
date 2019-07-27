@@ -1,5 +1,26 @@
-<ul>
-  $for(projects)$
-  <li>$name$ : $synopsis$</li>
-  $endfor$
-</ul>
+$for(projects)$
+$if(published)$
+<a href="$url$" class="project-item">
+  <div class="project-picto">
+    $if(pictogram)$
+    <img src="$pictogram$"/>
+    $endif$
+  </div>
+  <div class="project-details">
+    <h2>$name$</h2>
+    <p>$synopsis$</p>
+    <div class="project-badges">
+      <div class="project-badge status $status$">
+        $status$
+      </div>
+      $if(license)$
+      <div class="project-badge license $license$">
+        $license$
+      </div>
+      $endif$
+    </div>
+  </div>
+</a>
+$endif$
+$endfor$
+

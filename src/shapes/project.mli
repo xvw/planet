@@ -21,6 +21,7 @@ type t =
   ; license : string option
   ; tools : Link.simple list
   ; links : Link.simple list
+  ; typography : Link.simple list
   ; releases : Link.dated list
   ; status : status
   ; tags : string list

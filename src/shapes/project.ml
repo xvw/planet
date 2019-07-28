@@ -38,6 +38,7 @@ type t =
   ; license : string option
   ; tools : Link.simple list
   ; links : Link.simple list
+  ; typography : Link.simple list
   ; releases : Link.dated list
   ; status : status
   ; tags : string list
@@ -56,6 +57,7 @@ let new_project
     license
     tools
     links
+    typography
     releases
     status
     tags
@@ -72,6 +74,7 @@ let new_project
   ; license
   ; tools
   ; links
+  ; typography
   ; releases
   ; status
   ; tags
@@ -97,6 +100,7 @@ let rec from_qexp expr =
     <*> Fetch.(option string config "license")
     <*> Fetch.list_refutable Link.mapper_simple config "tools"
     <*> Fetch.list_refutable Link.mapper_simple config "links"
+    <*> Fetch.list_refutable Link.mapper_simple config "typography"
     <*> Fetch.list_refutable Link.mapper_dated config "releases"
     <*> Fetch.token status_from_string config "status"
     <*> Fetch.list_refutable Table.Mapper.string config "tags"
@@ -177,6 +181,7 @@ let to_qexp project =
   @ kvlist "tags" project.tags string
   @ kvlist "tools" project.tools Link.simple_to_qexp
   @ kvlist "links" project.links Link.simple_to_qexp
+  @ kvlist "typography" project.typography Link.simple_to_qexp
   @ kvlist "releases" project.releases Link.dated_to_qexp
   |> node
 ;;
@@ -208,10 +213,12 @@ let rec eq a b =
   && List.eq Link.eq_simple a.tools b.tools
   && List.eq Link.eq_simple a.links b.links
   && List.eq Link.eq_dated a.releases b.releases
+  && List.eq Link.eq_simple a.typography b.typography
   && status_eq a.status b.status
   && List.eq ( = ) a.tags b.tags
   && Option.eq ( = ) a.picto b.picto
   && a.indexed = b.indexed
+  && a.published = b.published
   && Option.eq Text.eq a.content b.content
   && List.eq eq a.subprojects b.subprojects
 ;;
@@ -227,6 +234,8 @@ let rec to_json project =
     ; "license", nullable Option.(project.repo >|= string)
     ; "tools", array $ List.map Link.simple_to_json project.tools
     ; "links", array $ List.map Link.simple_to_json project.links
+    ; ( "typography"
+      , array $ List.map Link.simple_to_json project.typography )
     ; ( "releases"
       , array $ List.map Link.dated_to_json project.releases )
     ; "status", string $ status_to_string project.status

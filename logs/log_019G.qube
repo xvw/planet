@@ -69,3 +69,8 @@
 ((:uuid "d192acac-0b8e-de9b-5bdd-80cb0b912851") (:day "019G27")
   (:duration "60") (:sector "design")
   (:label "Mise en forme de la liste des projets") (:project "planet"))
+
+((:uuid "af7f8aa2-4720-756f-8d41-8b2e612623b8") (:day "019G28")
+  (:duration "10") (:sector "programming")
+  (:label "Ajout d'un champ typographie pour les projets")
+  (:project "planet"))

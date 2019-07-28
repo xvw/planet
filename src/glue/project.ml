@@ -94,39 +94,28 @@ let fetch_project_text project =
 ;;
 
 let to_hakyll_string_aux day project =
-  let open Format in
   let open Shapes.Project in
   let open Result.Syntax in
-  let render_date = function
-    | None ->
-      "2019-01-01"
-    | Some d ->
-      Format.asprintf "%a" Timetable.Day.ppr d
-  in
-  let may_render key f = function
-    | None ->
-      ""
-    | Some k ->
-      asprintf "%s: %s\n" key (f k)
-  in
-  let render_bool k x = if x then asprintf "%s: %B\n" k x else "" in
   let+ ext, body = fetch_project_text project in
-  let content =
-    "---\n"
-    ^ asprintf "title: %s\n" project.title
-    ^ asprintf "name: %s\n" project.name
-    ^ asprintf "synopsis: %s\n" project.synopsis
-    ^ asprintf "date: %s\n" (render_date day)
-    ^ asprintf
-        "status: %s\n"
-        (Shapes.Project.status_to_string project.status)
-    ^ may_render "repo" id project.repo
-    ^ may_render "license" id project.license
-    ^ render_bool "indexed" project.indexed
-    ^ render_bool "published" project.published
-    ^ may_render "pictogram" id project.picto
-    ^ "---\n" ^ body
+  let header =
+    Hakyll.(
+      join
+        [ render_string "title" project.title
+        ; render_string "name" project.name
+        ; render_string "synopsis" project.synopsis
+        ; may_render_date ~default:"2019-01-01" "date" day
+        ; render
+            "status"
+            Shapes.Project.status_to_string
+            project.status
+        ; may_render "pictogram" id project.picto
+        ; may_render "repo" id project.repo
+        ; may_render "license" id project.license
+        ; render_if "indexed" project.indexed
+        ; render_if "published" project.published
+        ])
   in
+  let content = header ^ body in
   project, ext, content
 ;;
 

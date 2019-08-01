@@ -1,0 +1,13 @@
+(:name "phragment")
+(:title "Phragment")
+(:synopsis "Un protocol de conversations décentralisé")
+(:status "wip")
+(:license "mit")
+(:tags "phragment" "discussion" "decentralized")
+(:repo "github.com/xvw/phragment.git")
+(:content external #org-mode "projects/phragment.org")
+(:picto "/picto/phragment.white.svg")
+
+(:tools
+ (ocaml "https://ocaml.org")
+ (js_of_ocaml "https://ocsigen.org/js_of_ocaml"))

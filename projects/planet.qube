@@ -9,7 +9,7 @@
 (:picto "/picto/planet.white.svg")
 
 (:tools
- (ocaml "https://ocamlpipi.org")
+ (ocaml "https://ocaml.org")
  (js_of_ocaml "https://ocsigen.org/js_of_ocaml")
  (pandoc "https://pandoc.org/")
  (git "https://github.com/git/git")

@@ -82,3 +82,7 @@
 ((:uuid "07e7985f-762d-a26d-c185-2ec73f048136") (:day "019G29")
   (:duration "200") (:sector "r&d") (:label "Raisonnement sur le protocol")
   (:project "phragment"))
+
+((:uuid "95c55fde-060c-150e-5df9-f866eb74ca85") (:day "019G30")
+  (:duration "120") (:sector "r&d") (:label "Raisonnement sur le manifeste")
+  (:project "phragment"))

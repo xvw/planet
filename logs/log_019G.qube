@@ -78,3 +78,7 @@
 ((:uuid "b6faaabf-c1ae-801e-0f63-e42a1c04af8c") (:day "019G28")
   (:duration "200") (:sector "r&d") (:label "Initiation du projet")
   (:project "phragment"))
+
+((:uuid "07e7985f-762d-a26d-c185-2ec73f048136") (:day "019G29")
+  (:duration "200") (:sector "r&d") (:label "Raisonnement sur le protocol")
+  (:project "phragment"))

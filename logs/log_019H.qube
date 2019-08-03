@@ -2,3 +2,7 @@
 ((:uuid "585d325d-cbb0-358a-b033-09bd913a69eb") (:day "019H02")
   (:duration "30") (:sector "design") (:label "Iconographie")
   (:project "phragment"))
+
+((:uuid "dbf9e5f1-3fa9-a58f-cd8c-ab1d9cbecf62") (:day "019H03")
+  (:duration "120") (:sector "writing")
+  (:label "Introduction et contextualisation") (:project "phragment"))

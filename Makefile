@@ -2,7 +2,7 @@
 
 # Developement's workflow
 
-all: build binaries build-hakyll build-pages
+all: render
 
 build:
 	dune build @install
@@ -82,5 +82,10 @@ clean-pages:
 
 web-reset: clean
 	(make build; make binaries; ./build.exe all)
+	stack build
+	stack exec site rebuild
+
+render: binaries
+	./build.exe all
 	stack build
 	stack exec site rebuild

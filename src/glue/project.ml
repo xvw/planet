@@ -93,10 +93,18 @@ let fetch_project_text project =
     Ok (fetch_project_format format, content)
 ;;
 
+let as_textarea =
+  Format.asprintf
+    {|<textarea data-planet-qexp="project">%s</textarea>|}
+;;
+
 let to_hakyll_string_aux day project =
   let open Shapes.Project in
   let open Result.Syntax in
   let+ ext, body = fetch_project_text project in
+  let pstring =
+    project |> Shapes.Project.to_qexp |> Paperwork.Qexp.to_string
+  in
   let header =
     Hakyll.(
       join
@@ -113,10 +121,15 @@ let to_hakyll_string_aux day project =
         ; may_render "license" id project.license
         ; render_if "indexed" project.indexed
         ; render_if "published" project.published
+        ; render_string
+            "qexp_partial"
+            (Format.asprintf
+               "_seeds/partials/%s.qexp.html"
+               project.name)
         ])
   in
   let content = header ^ body in
-  project, ext, content
+  project, ext, content, as_textarea pstring
 ;;
 
 let to_hakyll_string (project, day) =

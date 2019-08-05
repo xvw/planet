@@ -5,6 +5,7 @@ open Baremetal
 let site_folder = "./_seeds"
 let api_folder = Filename.concat site_folder "api"
 let project_folder = Filename.concat site_folder "projects"
+let seed_partials = Filename.concat site_folder "partials"
 
 let soft_creation folder =
   let open Result.Infix in
@@ -62,6 +63,11 @@ let create_projects_folder () =
   trace_creation (soft_creation project_folder)
 ;;
 
+let create_partials () =
+  generate ();
+  trace_creation (soft_creation seed_partials)
+;;
+
 let create_file f folder file =
   let target = Filename.concat folder file in
   let () = trace_deletion (soft_deletion_file target) in
@@ -95,15 +101,19 @@ let create_projects_files () =
   >>= Validation.Applicative.sequence
   >>= fun elts ->
   List.map
-    (fun (project, extension, content) ->
+    (fun (project, extension, content, project_str) ->
       let open Shapes.Project in
       let filename = project.name ^ "." ^ extension in
       let target = Filename.concat project_folder filename in
+      let partial =
+        Filename.concat seed_partials project.name ^ ".qexp.html"
+      in
       let () = trace_deletion (soft_deletion_file target) in
+      let () = trace_deletion (soft_deletion_file partial) in
       File.create target content
-      |> Validation.from_result
-      >|= (fun () -> true, target)
-      |> trace_creation |> Validation.pure)
+      |> Result.bind (fun () -> File.create partial project_str)
+      |> Result.map (fun () -> true, target ^ " & " ^ partial)
+      |> Validation.from_result |> trace_creation |> Validation.pure)
     elts
   |> Validation.Applicative.sequence
 ;;
@@ -119,6 +129,7 @@ let api () =
 
 let projects () =
   let () = create_projects_folder () in
+  let () = create_partials () in
   match create_projects_files () with
   | Error e ->
     Prompter.prompt_errors e

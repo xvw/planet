@@ -9,6 +9,9 @@ main = hakyll $ do
     -- Templates compilation
     match "templates/*" $ compile templateBodyCompiler
 
+    -- Artifacts partials
+    match "_seeds/partials/*.html" $ compile templateBodyCompiler
+
     -- Static images
     match "images/*" $ do
       route   idRoute
@@ -38,6 +41,8 @@ main = hakyll $ do
     match projectsRule $ do
       route (unseedRoute `composeRoutes` setExtension "html")
       compile $ pandocCompiler
+        >>= saveSnapshot "content"
+        >>= loadAndApplyTemplate "templates/project.html" projectContext
         >>= loadAndApplyTemplate "templates/default.html" projectContext
         >>= relativizeUrls
       

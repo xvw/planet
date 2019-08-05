@@ -211,4 +211,6 @@ footer a {
     font-weight: 200;
 }
 
-
+.qexp-metadata {
+    display: none;
+}

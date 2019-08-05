@@ -35,4 +35,4 @@ val to_json : unit -> Paperwork.Json.t Validation.t
 (** Convert project to Hakyll file *)
 val to_hakyll_string
   :  Shapes.Project.t * Paperwork.Timetable.Day.t option
-  -> (Shapes.Project.t * File.name * string) Validation.t
+  -> (Shapes.Project.t * File.name * string * string) Validation.t

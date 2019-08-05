@@ -1,26 +1,17 @@
 ((:name "programming") (:color "#c0c0c0")
  (:desc "Programmation (code) relative ou non à des projets"))
 
-((:name "design") (:color "#c0c0c0")
- (:desc "Design d'application/interfaces graphiques"))
+((:name "visual") (:color "#c0c0c0")
+ (:desc "Dessin/Peinture/Design"))
 
-((:name "reading") (:color "#c0c0c0")
- (:desc "Lecture (technique ou non)"))
+((:name "audio") (:color "#c0c0c0")
+ (:desc "Musique/Sound design"))
 
 ((:name "writing") (:color "#c0c0c0")
  (:desc "Ecriture d'articles, de livres, de notes"))
 
-((:name "drawing") (:color "#c0c0c0")
- (:desc "Pratique du dessin"))
-
-((:name "painting") (:color "#c0c0c0")
- (:desc "Pratique de la peinture (murale ou non)"))
-
 ((:name "r&d") (:color "#c0c0c0")
  (:desc "Expériences variées liées à l'apprentissage"))
-
-((:name "meeting") (:color "#c0c0c0")
- (:desc "Evènements (techniques ou non)"))
 
 ((:name "maintenance") (:color "#c0c0c0")
  (:desc "Correctif, maintenance d'infrastructures"))

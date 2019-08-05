@@ -10,3 +10,7 @@
 ((:uuid "5ab036d1-d758-19e1-df52-488279dab34e") (:day "019H05")
   (:duration "30") (:sector "writing") (:label "Refonte de l'introduction")
   (:project "phragment"))
+
+((:uuid "96c57fab-e6fb-7a85-bf0d-6fea5843f164") (:day "019H05")
+  (:duration "15") (:sector "programming")
+  (:label "Amélioration des routines de build") (:project "planet"))

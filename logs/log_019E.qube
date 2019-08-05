@@ -4,11 +4,11 @@
   (:label "Expériences avec Godot Engine "))
 
 ((:uuid "f5ecf238-9e8f-194a-f991-98ea7949e15b") (:day "019E05")
-  (:duration "320") (:sector "r&d")
+  (:duration "320") (:sector "audio")
   (:label "Expériences avec ORCA (construction de bruits)"))
 
 ((:uuid "06887915-9e9e-ae1c-f4ce-7a26ddab39e0") (:day "019E06")
-  (:duration "320") (:sector "r&d")
+  (:duration "320") (:sector "audio")
   (:label
     "Expériences avec Pure Data, Orca, Marabu et Bosca Ceoil pour la fabrication de bruit"))
 
@@ -28,12 +28,6 @@
 ((:uuid "c5c106af-8622-6542-f259-512da5b4c846") (:day "019E15")
   (:duration "15") (:sector "programming")
   (:label "Ajout de projets non publiés") (:project "planet"))
-
-((:uuid "00f8302b-a756-5c1e-fa8e-a23db339d2a4") (:day "019E17")
-  (:duration "120") (:sector "videogame") (:label "Hyper Light drifter"))
-
-((:uuid "38cc51ea-a360-a445-eee6-f7b1f1f99265") (:day "019E18")
-  (:duration "120") (:sector "videogame") (:label "Hyper Light Drifter"))
 
 ((:uuid "df10c94c-f214-870c-c316-c8ef146af53f") (:day "019E20")
   (:duration "120") (:sector "r&d")

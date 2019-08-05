@@ -14,7 +14,7 @@
   (:label "Design de l'interface de Planet") (:project "planet"))
 
 ((:uuid "723aea1a-38d5-f936-aefb-c5fc99e72db8") (:day "019G21")
-  (:duration "120") (:sector "design")
+  (:duration "120") (:sector "visual")
   (:label "Plusieurs expériences de layout") (:project "planet"))
 
 ((:uuid "c8be5a9e-ea85-c0e8-518f-d75a6b7fc07b") (:day "019G22")
@@ -67,7 +67,7 @@
   (:label "Expérimentations avec le toplevel d'OCaml") (:project "rutsch"))
 
 ((:uuid "d192acac-0b8e-de9b-5bdd-80cb0b912851") (:day "019G27")
-  (:duration "60") (:sector "design")
+  (:duration "60") (:sector "visual")
   (:label "Mise en forme de la liste des projets") (:project "planet"))
 
 ((:uuid "af7f8aa2-4720-756f-8d41-8b2e612623b8") (:day "019G28")

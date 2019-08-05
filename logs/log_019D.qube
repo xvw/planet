@@ -13,7 +13,7 @@
   (:label "Relecture de documents sur le Domain Driven Design"))
 
 ((:uuid "3d26c72c-74b8-5990-1e94-62b2594714f4") (:day "019D03")
-  (:duration "100") (:sector "reading")
+  (:duration "100") (:sector "r&d")
   (:label "Lecture sur la sémantique structurale de Greimas"))
 
 ((:uuid "1addc3be-aca5-ff61-9511-4197b90a8985") (:day "019D03")

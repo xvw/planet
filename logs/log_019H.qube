@@ -1,6 +1,6 @@
 ;; Logs for 019H
 ((:uuid "585d325d-cbb0-358a-b033-09bd913a69eb") (:day "019H02")
-  (:duration "30") (:sector "design") (:label "Iconographie")
+  (:duration "30") (:sector "visual") (:label "Iconographie")
   (:project "phragment"))
 
 ((:uuid "dbf9e5f1-3fa9-a58f-cd8c-ab1d9cbecf62") (:day "019H03")
@@ -19,3 +19,7 @@
   (:duration "120") (:sector "programming")
   (:label "Injection des metadonnées dans la page de projet")
   (:project "planet"))
+
+((:uuid "ea4f4628-88e7-a230-ddb8-861ef26f6afd") (:day "019H06")
+  (:duration "10") (:sector "maintenance")
+  (:label "Mise à jours des secteurs") (:project "planet"))

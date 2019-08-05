@@ -14,3 +14,8 @@
 ((:uuid "96c57fab-e6fb-7a85-bf0d-6fea5843f164") (:day "019H05")
   (:duration "15") (:sector "programming")
   (:label "Amélioration des routines de build") (:project "planet"))
+
+((:uuid "b588d51e-9d86-f6a2-c728-26a85fc59362") (:day "019H06")
+  (:duration "120") (:sector "programming")
+  (:label "Injection des metadonnées dans la page de projet")
+  (:project "planet"))

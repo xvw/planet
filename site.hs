@@ -7,10 +7,7 @@ main :: IO ()
 main = hakyll $ do
 
     -- Templates compilation
-    match "templates/*" $ compile templateBodyCompiler
-
-    -- Artifacts partials
-    match "_seeds/partials/*.html" $ compile templateBodyCompiler
+    match templatesRule $ compile templateBodyCompiler
 
     -- Static images
     match "images/*" $ do
@@ -86,3 +83,7 @@ projectsRule =
   "_seeds/projects/*.org"
   .||. "_seeds/projects/*.md"
   .||. "_seeds/projects/*.txt"
+
+templatesRule =
+  "templates/*.html"
+  .||. "_seeds/partials/*.html"

@@ -6,3 +6,7 @@
 ((:uuid "dbf9e5f1-3fa9-a58f-cd8c-ab1d9cbecf62") (:day "019H03")
   (:duration "120") (:sector "writing")
   (:label "Introduction et contextualisation") (:project "phragment"))
+
+((:uuid "5ab036d1-d758-19e1-df52-488279dab34e") (:day "019H05")
+  (:duration "30") (:sector "writing") (:label "Refonte de l'introduction")
+  (:project "phragment"))

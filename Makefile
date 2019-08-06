@@ -89,3 +89,6 @@ render: binaries
 	./build.exe all
 	stack build
 	stack exec site rebuild
+
+hydrate: binaries
+	./build.exe all

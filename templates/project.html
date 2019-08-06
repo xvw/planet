@@ -1,7 +1,19 @@
 <div class="qexp-metadata">
   $partial(qexp_partial)$
 </div>
-
-$title$
-
-$body$
+<div class="project-page">
+  <div class="project-header">
+    <div class="project-picto">
+      $if(pictogram)$
+      <img src="$pictogram$"/>
+      $endif$
+    </div>
+    <div class="project-details">
+      <h2>$displayable_title$</h2>
+      <span class="synopsis">
+        $synopsis$
+      </span>
+    </div>
+  </div>
+  $body$
+</div>

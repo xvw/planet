@@ -109,6 +109,7 @@ let to_hakyll_string_aux day project =
     Hakyll.(
       join
         [ render_string "title" project.title
+        ; render_string "displayable_title" project.title
         ; render_string "name" project.name
         ; render_string "synopsis" project.synopsis
         ; may_render_date ~default:"2019-01-01" "date" day

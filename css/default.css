@@ -86,6 +86,7 @@ header > div > nav > a > img {
     width: 32px;
 }
 
+.project-page h2,
 header h2,
 header h1 {
     padding: 0;
@@ -149,6 +150,7 @@ footer a {
     text-align: right;
 }
 
+.project-page .project-header,
 .project-item {
     font-size: 80%;
     margin: 0;
@@ -160,11 +162,20 @@ footer a {
     color: #000;
 }
 
+.project-page .project-header img,
 .project-item img {
-    width: 32px;
     height: auto;
 }
 
+.project-item img {
+    width: 32px;
+}
+
+.project-page .project-header img {
+    width: 48px;
+}
+
+.project-page .project-picto,
 .project-item .project-picto {
     background-color: #000;
     padding: 2px;
@@ -179,6 +190,7 @@ footer a {
     font-size: 140%;
 }
 
+.project-page .project-details,
 .project-item .project-details {
     margin-left: 12px;
 }

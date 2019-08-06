@@ -27,3 +27,7 @@
 ((:uuid "727e0166-a1b2-c58c-37d7-7afb43918f7f") (:day "019H06")
   (:duration "60") (:sector "programming")
   (:label "Démarrage de la présentation de projets") (:project "planet"))
+
+((:uuid "28c46fc0-0617-5fa0-29a0-f1c555dd245b") (:day "019H06")
+  (:duration "10") (:sector "programming")
+  (:label "Fix mise à jours de projets") (:project "planet"))

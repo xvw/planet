@@ -57,7 +57,7 @@ let push table key value =
       if D.cmp x value < 0
       then (
         let () = Hashtbl.remove table key in
-        Hashtbl.add table key x)
+        Hashtbl.add table key value)
   in
   table
 ;;

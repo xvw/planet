@@ -152,14 +152,22 @@ footer a {
 
 .project-page .project-header,
 .project-item {
-    font-size: 80%;
     margin: 0;
     margin-bottom: 16px;
     display: flex;
     flex-direction: row;
+    color: #000;
+}
+
+.project-page .project-header {
+    align-items: center;
+}
+
+.project-item {
     align-items: start;
     text-decoration: none;
     color: #000;
+    font-size: 80%;
 }
 
 .project-page .project-header img,
@@ -172,15 +180,19 @@ footer a {
 }
 
 .project-page .project-header img {
-    width: 48px;
+    width: 64px;
 }
 
 .project-page .project-picto,
 .project-item .project-picto {
-    background-color: #000;
     padding: 2px;
-    border-radius: 30% 0;
 }
+
+.project-item .project-picto {
+    background-color: #000;
+    border-radius: 10px 0 10px 0;
+}
+
 
 .project-item h2 {
     padding: 0;

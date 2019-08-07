@@ -6,7 +6,7 @@
 (:tags "planet" "log" "web" "ocaml" "journal" "blog")
 (:repo "github.com/xvw/planet.git")
 (:content external #org-mode "projects/planet.org")
-(:picto "/picto/planet.white.svg")
+(:picto "planet")
 
 (:tools
  (ocaml "https://ocaml.org")

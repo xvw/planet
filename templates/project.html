@@ -15,5 +15,22 @@
       </span>
     </div>
   </div>
-  $body$
+  <div class="project-badges">
+    <div class="project-badge status $status$">
+      $status$
+    </div>
+    $if(license)$
+    <div class="project-badge license $license$">
+      $license$
+    </div>
+    $endif$
+    $if(repo)$
+    <div class="project-badge repo">
+      <a href="https://$repo$">$repo$</a>
+    </div>
+    $endif$
+  </div>
+  <div class="project-text">
+    $body$
+  </div>
 </div>

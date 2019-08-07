@@ -39,7 +39,9 @@ main > .container {
 }
 
 header {
-    padding: 18px 12px;
+    padding: 48px 12px 32px 12px;
+    background-color: #FFF;
+    margin-bottom: 24px;
 }
 
 header .for-pictorgram {
@@ -153,14 +155,19 @@ footer a {
 .project-page .project-header,
 .project-item {
     margin: 0;
-    margin-bottom: 16px;
     display: flex;
     flex-direction: row;
     color: #000;
 }
 
+.project-item {
+    margin-bottom: 16px;
+}
+
 .project-page .project-header {
     align-items: center;
+    /* background-color: #fff; */
+    /* border-bottom: 2px solid black; */
 }
 
 .project-item {
@@ -207,6 +214,11 @@ footer a {
     margin-left: 12px;
 }
 
+.project-page .project-text {
+    margin: 32px 0;
+}
+
+.project-page .project-badges,
 .project-item .project-badges {
     margin: 0;
     margin-top: 8px;
@@ -214,7 +226,7 @@ footer a {
     flex-direction: row;
 }
 
-.project-item .project-badges > .project-badge {
+.project-badges > .project-badge {
     font-weight: 400;
     font-size: 95%;
     background-color: #FFF;
@@ -223,17 +235,30 @@ footer a {
     margin-right: 6px;
 }
 
-.project-item .project-badges > .status::before {
+.project-badges > .status::before {
     content: "status: ";
     font-weight: 200;
     color: #444;
 }
 
-.project-item .project-badges > .license::before {
+.project-badges .project-badge a {
+    text-decoration: none;
+    color: #000;
+}
+
+
+.project-badges > .license::before {
     content: "licence: ";
     color: #444;
     font-weight: 200;
 }
+
+.project-badges > .repo::before {
+    content: "repo: ";
+    color: #444;
+    font-weight: 200;
+}
+
 
 .qexp-metadata {
     display: none;

@@ -39,7 +39,7 @@ main > .container {
 }
 
 header {
-    padding: 48px 12px 32px 12px;
+    padding: 48px 12px 22px 12px;
     background-color: #FFF;
     margin-bottom: 24px;
 }
@@ -76,16 +76,12 @@ header > div > nav > a {
     font-size: 80%;
     font-weight: 500;
     text-decoration: none;
-    color: #222222;
+    color: #fff;
     display: inline-block;
-    padding: 4px 24px;
+    padding: 4px 12px;
     border-radius: 4px;
     margin-right: 8px;
-    background-color: #ffffff;
-}
-
-header > div > nav > a > img {
-    width: 32px;
+    background-color: #000;
 }
 
 .project-page h2,
@@ -214,8 +210,21 @@ footer a {
     margin-left: 12px;
 }
 
-.project-page .project-text {
+.project-page .project-content {
     margin: 32px 0;
+    display: flex;
+    flex-direction: row;
+}
+
+.project-page .project-content .project-paper {
+    flex: 5;
+    margin-right: 32px;
+}
+
+.project-page .project-content .project-rightbar {
+    flex: 2;
+    /* border-left: 2px solid #f2f2f2; */
+    padding: 0 18px 0 12px;
 }
 
 .project-page .project-badges,

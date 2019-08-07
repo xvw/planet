@@ -32,3 +32,7 @@
   (:duration "20") (:sector "programming")
   (:label "Correctif des tables de mises à jours des projets")
   (:project "planet"))
+
+((:uuid "b71009f5-dc71-90ae-f006-383da436a0d7") (:day "019H07")
+  (:duration "60") (:sector "visual") (:label "UI de la page projets")
+  (:project "planet"))

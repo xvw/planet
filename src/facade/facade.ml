@@ -9,5 +9,7 @@ let () =
     "planet"
     (object%js
        method hello nickname = hello nickname
+
+       val project = Widget.Project.api
     end)
 ;;

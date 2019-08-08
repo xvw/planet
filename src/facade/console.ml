@@ -1,5 +1,4 @@
 open Js_of_ocaml
-open Bedrock.Util
 
 class type hook =
   object
@@ -32,9 +31,8 @@ let trace () = console##trace
 
 let table ?columns obj =
   let opt_columns =
-    Js.Optdef.map
-    $ Js.Optdef.option columns
-    $ Util.Array.from_list Js.string
+    Js.Optdef.map (Js.Optdef.option columns) (fun columns ->
+        List.map Js.string columns |> Array.of_list |> Js.array)
   in
   console##table obj opt_columns
 ;;

@@ -1,4 +1,4 @@
-<div class="qexp-metadata">
+<div class="qexp-metadata" id="project-qexp-metadata">
   $partial(qexp_partial)$
 </div>
 <div class="project-page">
@@ -35,7 +35,15 @@
       $body$
     </div>
     <div class="project-rightbar">
-      foo
+      <div id="project-dynamic-data">
+      </div>
     </div>
   </div>
 </div>
+<script type="application/javascript">
+  const textareaSelector = "#project-qexp-metadata > textarea";
+  const containerSelector = "project-dynamic-data";
+  const textarea = document.querySelector(textareaSelector);
+  const container = document.getElementById(containerSelector);
+  planet.project.boot(textarea, container)
+</script>

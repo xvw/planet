@@ -32,6 +32,7 @@ body {
 main {
     flex: 1;
     padding: 18px 12px;
+    margin-top: 18px;
 }
 
 main > .container {
@@ -41,7 +42,6 @@ main > .container {
 header {
     padding: 48px 12px 22px 12px;
     background-color: #FFF;
-    margin-bottom: 24px;
 }
 
 header .for-pictorgram {
@@ -99,6 +99,14 @@ header h1 {
 header h2 {
     font-size: 110%;
     font-weight: 100;
+}
+
+.error-box {
+    background-color: #000;
+    color: #fff;
+    padding: 12px;
+    position: sticky;
+    top: 0;
 }
 
 footer {

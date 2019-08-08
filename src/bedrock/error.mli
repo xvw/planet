@@ -7,6 +7,7 @@
 
 (** Describe the list of all errors *)
 type t =
+  | Of of string
   | Unknown of string
   | Unmatched_character of char
   | Illegal_character of char
@@ -44,6 +45,7 @@ type t =
 module Exn : sig
   type t = exn
 
+  exception Of of string
   exception Unknown of string
   exception Unmatched_character of char
   exception Illegal_character of char

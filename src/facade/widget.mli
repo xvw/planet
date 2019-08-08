@@ -1,10 +1,14 @@
 open Js_of_ocaml
 
 module Project : sig
-  val api
-    : < boot :
-          Dom_html.textAreaElement Js.t Js.Opt.t
-          -> Dom_html.element Js.t Js.Opt.t
-          -> unit Js.meth >
-      Js.t
+  class type boot_input =
+    object
+      method qexp_project :
+        Dom_html.textAreaElement Js.t Js.Opt.t Js.readonly_prop
+
+      method container :
+        Dom_html.element Js.t Js.Opt.t Js.readonly_prop
+    end
+
+  val api : < boot : boot_input Js.t -> unit Js.meth > Js.t
 end

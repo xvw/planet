@@ -41,9 +41,8 @@
   </div>
 </div>
 <script type="application/javascript">
-  const textareaSelector = "#project-qexp-metadata > textarea";
-  const containerSelector = "project-dynamic-data";
-  const textarea = document.querySelector(textareaSelector);
-  const container = document.getElementById(containerSelector);
-  planet.project.boot(textarea, container)
+  planet.project.boot({
+    qexp_project: document.querySelector("textarea[data-planet-qexp='project']"),
+    container: document.getElementById("project-dynamic-data")
+  });
 </script>

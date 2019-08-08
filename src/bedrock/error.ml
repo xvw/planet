@@ -1,4 +1,5 @@
 type t =
+  | Of of string
   | Unknown of string
   | Unmatched_character of char
   | Illegal_character of char
@@ -35,6 +36,7 @@ type t =
 module Exn = struct
   type t = exn
 
+  exception Of of string
   exception Unknown of string
   exception Unmatched_character of char
   exception Illegal_character of char
@@ -69,6 +71,8 @@ module Exn = struct
 end
 
 let rec to_exception = function
+  | Of message ->
+    Exn.Of message
   | Unknown message ->
     Exn.Unknown message
   | Unmatched_character char ->
@@ -136,6 +140,8 @@ let rec to_exception = function
 ;;
 
 let rec from_exception = function
+  | Exn.Of message ->
+    Of message
   | Exn.Unknown message ->
     Unknown message
   | Exn.Unmatched_character char ->
@@ -201,6 +207,8 @@ let rec from_exception = function
 ;;
 
 let rec to_string = function
+  | Of message ->
+    Format.sprintf "[Error] %s" message
   | Unknown message ->
     Format.sprintf "[Unknown] %s" message
   | Unmatched_character char ->

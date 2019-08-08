@@ -25,5 +25,10 @@ depends: [
   "odoc" {with-doc}
   "ocaml" { >= "4.08.0" }
   "alcotest" {with-test}
+  "js_of_ocaml-compiler" {build & >= "3.0" & < "4.0"}
+  "js_of_ocaml-ppx" {build & >= "3.0" & < "4.0"}
+  "js_of_ocaml-lwt" {>= "3.0" & < "4.0"}
+  "js_of_ocaml" {>= "3.0" & < "4.0"}
+  "lwt_ppx" {build}
   "cmdliner"
 ]

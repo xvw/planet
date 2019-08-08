@@ -3,4 +3,4 @@ break-cases = nested
 break-infix = wrap
 type-decl = sparse
 margin = 70
-version = 0.10
+version = 0.11.0

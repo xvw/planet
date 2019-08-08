@@ -34,6 +34,11 @@ main = hakyll $ do
       route (unseedRoute `composeRoutes` setExtension "json")
       compile copyFileCompiler
 
+    -- JSOO Artifacts
+    match "_seeds/*.bc.js" $ do
+      route (unseedRoute `composeRoutes` setExtension "js")
+      compile copyFileCompiler
+
     -- Project seeded (from Planet)
     match projectsRule $ do
       route (unseedRoute `composeRoutes` setExtension "html")

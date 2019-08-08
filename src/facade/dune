@@ -1,0 +1,12 @@
+(executable
+ (name facade)
+ (js_of_ocaml)
+ (preprocess (pps js_of_ocaml-ppx lwt_ppx))
+ (libraries
+   bedrock
+   paperwork
+   shapes
+   js_of_ocaml
+   js_of_ocaml-lwt
+ )
+)

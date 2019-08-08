@@ -24,11 +24,18 @@ test:
 	dune runtest -f
 
 # Build binaries
-%.exe : build
+%.exe: build
 	dune build src/bin/$@
 	cp _build/default/src/bin/$@ ./
 
-binaries: project/project.exe log/log.exe build/build.exe
+%.bc.js: build
+	mkdir -p _seeds
+	dune build src/$@
+	cp _build/default/src/$@ ./_seeds
+
+binaries: project/project.exe log/log.exe build/build.exe client
+
+client: facade/facade.bc.js
 
 # Package installation
 

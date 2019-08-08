@@ -3,7 +3,7 @@ open Js_of_ocaml
 module Project : sig
   class type boot_input =
     object
-      method qexp_project :
+      method project :
         Dom_html.textAreaElement Js.t Js.Opt.t Js.readonly_prop
 
       method container :

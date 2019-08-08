@@ -11,7 +11,7 @@ let render_error errors =
 module Project = struct
   class type boot_input =
     object
-      method qexp_project :
+      method project :
         Dom_html.textAreaElement Js.t Js.Opt.t Js.readonly_prop
 
       method container :
@@ -42,7 +42,7 @@ module Project = struct
     match
       ensure
       <$> validate "unable to find container" input##.container
-      <*> validate_project input##.qexp_project
+      <*> validate_project input##.project
     with
     | Ok (_container, _project) ->
       Console.print "year"

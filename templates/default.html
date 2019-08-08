@@ -4,6 +4,22 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    $if(author)$
+    <meta name="author" content="$author$">
+    $else$
+    <meta name="author" content="Xavier Van de Woestyne">
+    $endif$
+    $if(synopsis)$
+    <meta
+      name="description"
+      content="$if(title)$$title$: $endif$$synopsis$"
+      >
+    $else$
+    <meta
+      name="description"
+      content="Planet, page personnelle de Xavier Van de Woestyne"
+      >
+    $endif$
     <title>
       xvw - $title$
       $if(synopsis)$

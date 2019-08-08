@@ -36,3 +36,8 @@
 ((:uuid "b71009f5-dc71-90ae-f006-383da436a0d7") (:day "019H07")
   (:duration "60") (:sector "visual") (:label "UI de la page projets")
   (:project "planet"))
+
+((:uuid "7439ce4d-6699-2a02-a8f9-2302f4cbdad6") (:day "019H08")
+  (:duration "60") (:sector "programming")
+  (:label "Mise en place du client (OCaml et JavaScript)")
+  (:project "planet"))

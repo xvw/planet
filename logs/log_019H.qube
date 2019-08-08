@@ -41,3 +41,7 @@
   (:duration "60") (:sector "programming")
   (:label "Mise en place du client (OCaml et JavaScript)")
   (:project "planet"))
+
+((:uuid "84da3b00-b4cc-6fb8-23aa-7c4b08eb9c91") (:day "019H08")
+  (:duration "120") (:sector "programming") (:label "Initiation du client")
+  (:project "planet"))

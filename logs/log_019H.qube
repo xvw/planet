@@ -45,3 +45,7 @@
 ((:uuid "84da3b00-b4cc-6fb8-23aa-7c4b08eb9c91") (:day "019H08")
   (:duration "120") (:sector "programming") (:label "Initiation du client")
   (:project "planet"))
+
+((:uuid "773e95ac-1388-a5ea-ab12-f64b992bbd01") (:day "019H09")
+  (:duration "320") (:sector "programming")
+  (:label "Initialisation de l'UI des projets") (:project "planet"))

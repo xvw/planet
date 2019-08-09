@@ -7,7 +7,3 @@
 (:tags "slides" "mvp" "web" "talk")
 (:repo "github.com/xvw/rutsch.git")
 (:content external #org-mode "projects/rutsch.org")
-
-(:tools
- (ocaml "https://ocaml.org")
- (js_of_ocaml "https://ocsigen.org/js_of_ocaml"))

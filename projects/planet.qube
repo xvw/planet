@@ -8,16 +8,24 @@
 (:content external #org-mode "projects/planet.org")
 (:picto "planet")
 
-(:tools
- (ocaml "https://ocaml.org")
- (js_of_ocaml "https://ocsigen.org/js_of_ocaml")
- (pandoc "https://pandoc.org/")
- (git "https://github.com/git/git")
- (github "https://github.com")
- (hakyll "https://jaspervdj.be/hakyll/"))
-
-(:typography
- ((inter "https://rsms.me/inter/")))
-
 (:links
- ((main "https://xvw.github.io")))
+ (
+  ("links"
+   (
+    (main "https://xvw.github.io")
+    )
+   )
+  ("tools"
+   (
+    (ocaml "https://ocaml.org")
+    (js_of_ocaml "https://ocsigen.org/js_of_ocaml")
+    (hakyll "https://jaspervdj.be/hakyll/")
+    )
+   )
+  ("typography"
+   (
+    (inter "https://rsms.me/inter/")
+    )
+   )
+  )
+ )

@@ -17,8 +17,7 @@ build: [
 depopts: [
   "base-unix"
   "base-threads"
-]
- 
+] 
 
 depends: [
   "dune" {build}
@@ -28,7 +27,9 @@ depends: [
   "js_of_ocaml-compiler" {build & >= "3.0" & < "4.0"}
   "js_of_ocaml-ppx" {build & >= "3.0" & < "4.0"}
   "js_of_ocaml-lwt" {>= "3.0" & < "4.0"}
+  "js_of_ocaml-tyxml" {>= "3.0" & < "4.0"}
   "js_of_ocaml" {>= "3.0" & < "4.0"}
+  "tyxml"
   "lwt_ppx" {build}
   "cmdliner"
 ]

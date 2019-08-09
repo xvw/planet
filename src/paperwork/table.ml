@@ -55,6 +55,41 @@ let configuration =
   from_qexp f
 ;;
 
+module Mapper = struct
+  let string = function
+    | Qexp.String (_, str) ->
+      Ok str
+    | q ->
+      Error [ Mapping_failure ("string", Qexp.to_string q) ]
+  ;;
+
+  let token f = function
+    | Qexp.String (_, str)
+    | Qexp.Atom str
+    | Qexp.Tag str
+    | Qexp.Keyword str ->
+      f str
+    | q ->
+      Error [ Mapping_failure ("token", Qexp.to_string q) ]
+  ;;
+
+  let couple f g = function
+    | Qexp.Node [ x; y ] ->
+      let open Validation.Applicative in
+      (fun x y -> x, y) <$> f x <*> g y
+    | q ->
+      Error [ Mapping_failure ("couple", Qexp.to_string q) ]
+  ;;
+
+  let triple f g h = function
+    | Qexp.Node [ x; y; z ] ->
+      let open Validation.Applicative in
+      (fun x y z -> x, y, z) <$> f x <*> g y <*> h z
+    | q ->
+      Error [ Mapping_failure ("triple", Qexp.to_string q) ]
+  ;;
+end
+
 module Fetch = struct
   type 'a t = configuration -> string -> 'a Validation.t
 
@@ -119,7 +154,7 @@ module Fetch = struct
     match Hashtbl.find_opt table field with
     | None ->
       Error [ Undefined_field field ]
-    | Some (Some (Node elts)) ->
+    | Some (Some (Block elts)) | Some (Some (Node elts)) ->
       List.map mapper elts |> Validation.Applicative.sequence
     | Some (Some elt) ->
       List.map mapper [ elt ] |> Validation.Applicative.sequence
@@ -132,12 +167,35 @@ module Fetch = struct
     match Hashtbl.find_opt table field with
     | None ->
       Ok []
-    | Some (Some (Node elts)) ->
+    | Some (Some (Block elts)) | Some (Some (Node elts)) ->
       List.map mapper elts |> Validation.Applicative.sequence
     | Some (Some elt) ->
       List.map mapper [ elt ] |> Validation.Applicative.sequence
     | _ ->
       Error [ Invalid_field field ]
+  ;;
+
+  let aux_ziplist f mapper table field =
+    let open Qexp in
+    f
+      Mapper.(
+        couple
+        $ token (fun x -> Ok x)
+        $ function
+        | Node elts ->
+          List.map mapper elts |> Validation.Applicative.sequence
+        | _ ->
+          Error [ Invalid_field field ])
+      table
+      field
+  ;;
+
+  let ziplist mapper table field =
+    aux_ziplist list mapper table field
+  ;;
+
+  let ziplist_refutable mapper table field =
+    aux_ziplist list_refutable mapper table field
   ;;
 
   let token mapper table field =
@@ -167,39 +225,4 @@ module Fetch = struct
 
   let day = token Validation.(D.from_string %> from_result)
   let color = token Validation.(Color.from_string %> from_result)
-end
-
-module Mapper = struct
-  let string = function
-    | Qexp.String (_, str) ->
-      Ok str
-    | q ->
-      Error [ Mapping_failure ("string", Qexp.to_string q) ]
-  ;;
-
-  let token f = function
-    | Qexp.String (_, str)
-    | Qexp.Atom str
-    | Qexp.Tag str
-    | Qexp.Keyword str ->
-      f str
-    | q ->
-      Error [ Mapping_failure ("token", Qexp.to_string q) ]
-  ;;
-
-  let couple f g = function
-    | Qexp.Node [ x; y ] ->
-      let open Validation.Applicative in
-      (fun x y -> x, y) <$> f x <*> g y
-    | q ->
-      Error [ Mapping_failure ("couple", Qexp.to_string q) ]
-  ;;
-
-  let triple f g h = function
-    | Qexp.Node [ x; y; z ] ->
-      let open Validation.Applicative in
-      (fun x y z -> x, y, z) <$> f x <*> g y <*> h z
-    | q ->
-      Error [ Mapping_failure ("triple", Qexp.to_string q) ]
-  ;;
 end

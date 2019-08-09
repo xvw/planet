@@ -140,8 +140,10 @@ let show_project expanded project =
         ; !(Format.sprintf " %s " $ status_to_string project.status)
         ]
     @ license project.license
-    @ render_link_box "Tools" project.tools
-    @ render_link_box "Links" project.links
+    @ List.fold_left
+        (fun acc (key, value) -> acc @ render_link_box key value)
+        []
+        project.links
     @ (render_dated_link_box "Releases" $ List.rev project.releases)
     @ render_content expanded project.content
     @ Ansi.[ !"\n" ]

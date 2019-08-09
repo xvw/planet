@@ -3,6 +3,7 @@ open Bedrock
 open Error
 open Paperwork
 open Util
+module Tyxml = Js_of_ocaml_tyxml.Tyxml_js
 
 let render_error errors =
   errors |> List.iter (to_string %> Js.string %> Console.error)
@@ -18,7 +19,33 @@ module Project = struct
         Dom_html.element Js.t Js.Opt.t Js.readonly_prop
     end
 
-  let ensure container project = container, project
+  let render_tags = function
+    | [] ->
+      []
+    | tags ->
+      let len = List.length tags in
+      let open Tyxml.Html in
+      [ div
+          ~a:[ a_class [ "right-section"; "tag-list" ] ]
+          [ h3
+              [ span [ txt "Tags" ]
+              ; span
+                  ~a:[ a_class [ "label" ] ]
+                  [ txt $ string_of_int len ]
+              ]
+          ; ul (List.map (fun tag -> li [ txt tag ]) tags)
+          ]
+      ]
+  ;;
+
+  let render_summary container project =
+    let open Tyxml.Html in
+    let ui =
+      div (render_tags Shapes.Project.(project.tags))
+      |> Tyxml.To_dom.of_div
+    in
+    Dom.appendChild container ui
+  ;;
 
   let validate str optional_node =
     optional_node |> Js.Opt.to_option
@@ -40,12 +67,12 @@ module Project = struct
   let boot input =
     let open Validation.Infix in
     match
-      ensure
+      (fun x y -> x, y)
       <$> validate "unable to find container" input##.container
       <*> validate_project input##.project
     with
-    | Ok (_container, _project) ->
-      Console.print "year"
+    | Ok (container, project) ->
+      render_summary container project
     | Error errs ->
       render_error errs
   ;;

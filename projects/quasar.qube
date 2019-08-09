@@ -8,7 +8,3 @@
 (:tags "library" "ocaml" "toolkit")
 (:repo "github.com/xvw/quasar.git")
 (:content external #org-mode "projects/quasar.org")
-
-(:tools
- (ocaml "https://ocaml.org")
- (js_of_ocaml "https://ocsigen.org/js_of_ocaml"))

@@ -19,9 +19,7 @@ type t =
   ; synopsis : string
   ; repo : string option
   ; license : string option
-  ; tools : Link.simple list
-  ; links : Link.simple list
-  ; typography : Link.simple list
+  ; links : (string * Link.simple list) list
   ; releases : Link.dated list
   ; status : status
   ; tags : string list

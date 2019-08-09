@@ -30,7 +30,7 @@ test:
 
 %.bc.js: build
 	mkdir -p _seeds
-	dune build src/$@
+	dune build src/$@ --profile release
 	cp _build/default/src/$@ ./_seeds
 
 binaries: project/project.exe log/log.exe build/build.exe client

@@ -8,14 +8,6 @@
 (:content external #org-mode "projects/qian.org")
 (:picto "qian")
 
-(:tools
- (elm "https://elm-lang.org/")
- (nodejs "https://nodejs.org/en/")
- (electron "https://electronjs.org/"))
-
-(:links
- ((producthunt "https://www.producthunt.com/posts/qian")))
-
 (:releases
  ("v1.0.0" #017K27 "https://github.com/xvw/qian/releases/tag/v1.0")
  ("v1.2.0" #017L13 "https://github.com/xvw/qian/releases/tag/v1.2.0")

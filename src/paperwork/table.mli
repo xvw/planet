@@ -24,26 +24,6 @@ val from_qexp
 (** Build a [Table.configuration] from a [Qexp.t]. *)
 val configuration : Qexp.t -> configuration Result.t
 
-(** {2 Fetch data from table} 
-    
-    A [Table.t] is fetchable to extract fields using predicates.
-*)
-
-module Fetch : sig
-  type 'a t = configuration -> string -> 'a Validation.t
-
-  val option : 'a t -> 'a option t
-  val string : string t
-  val bool_refutable : ?default:bool -> bool t
-  val bool : bool t
-  val list : (Qexp.t -> 'a Validation.t) -> 'a list t
-  val list_refutable : (Qexp.t -> 'a Validation.t) -> 'a list t
-  val token : (string -> 'a Validation.t) -> 'a t
-  val int : int t
-  val color : Color.t t
-  val day : Timetable.Day.t t
-end
-
 module Mapper : sig
   val string : Qexp.t -> string Validation.t
 
@@ -64,4 +44,33 @@ module Mapper : sig
     -> (Qexp.t -> 'c Validation.t)
     -> Qexp.t
     -> ('a * 'b * 'c) Validation.t
+end
+
+(** {2 Fetch data from table} 
+    
+    A [Table.t] is fetchable to extract fields using predicates.
+*)
+
+module Fetch : sig
+  type 'a t = configuration -> string -> 'a Validation.t
+
+  val option : 'a t -> 'a option t
+  val string : string t
+  val bool_refutable : ?default:bool -> bool t
+  val bool : bool t
+  val list : (Qexp.t -> 'a Validation.t) -> 'a list t
+  val list_refutable : (Qexp.t -> 'a Validation.t) -> 'a list t
+
+  val ziplist
+    :  (Qexp.t -> 'a Validation.t)
+    -> (string * 'a list) list t
+
+  val ziplist_refutable
+    :  (Qexp.t -> 'a Validation.t)
+    -> (string * 'a list) list t
+
+  val token : (string -> 'a Validation.t) -> 'a t
+  val int : int t
+  val color : Color.t t
+  val day : Timetable.Day.t t
 end

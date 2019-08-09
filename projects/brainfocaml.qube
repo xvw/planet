@@ -8,9 +8,5 @@
 (:repo "github.com/xvw/brainfocaml.git")
 (:content external #org-mode "projects/brainfocaml.org")
 
-(:tools
- (ocaml "https://ocaml.org")
- (js_of_ocaml "https://ocsigen.org/js_of_ocaml"))
-
 (:releases
  (("v1.0.0" #019D26 "https://github.com/xvw/brainfocaml/releases/tag/1.0.0")))

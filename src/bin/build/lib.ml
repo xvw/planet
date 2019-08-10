@@ -35,7 +35,7 @@ let trace action message = function
         [ fg green
         ; text
           $ Format.sprintf
-              "%s [%s] has beed %s"
+              "%s [%s] has been %s"
               action
               filename
               message

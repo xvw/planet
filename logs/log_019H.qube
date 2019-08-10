@@ -49,3 +49,8 @@
 ((:uuid "773e95ac-1388-a5ea-ab12-f64b992bbd01") (:day "019H09")
   (:duration "320") (:sector "programming")
   (:label "Initialisation de l'UI des projets") (:project "planet"))
+
+((:uuid "ed80c8e0-1db7-1997-6703-92f4ee70b73e") (:day "019H10")
+  (:duration "30") (:sector "programming")
+  (:label "Affichage des releases dans la page des projets")
+  (:project "planet"))

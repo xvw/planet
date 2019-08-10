@@ -58,3 +58,7 @@
 ((:uuid "c35e096f-3ad0-ac77-4644-6449364da119") (:day "019H10")
   (:duration "20") (:sector "programming")
   (:label "Experience using clear screen") (:project "planet"))
+
+((:uuid "d68fc31f-f357-2323-d781-cf715cfa6b30") (:day "019H10")
+  (:duration "10") (:sector "programming")
+  (:label "Fix du clean de l'écran") (:project "planet"))

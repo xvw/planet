@@ -54,3 +54,7 @@
   (:duration "30") (:sector "programming")
   (:label "Affichage des releases dans la page des projets")
   (:project "planet"))
+
+((:uuid "c35e096f-3ad0-ac77-4644-6449364da119") (:day "019H10")
+  (:duration "20") (:sector "programming")
+  (:label "Experience using clear screen") (:project "planet"))

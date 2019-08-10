@@ -62,3 +62,7 @@
 ((:uuid "d68fc31f-f357-2323-d781-cf715cfa6b30") (:day "019H10")
   (:duration "10") (:sector "programming")
   (:label "Fix du clean de l'écran") (:project "planet"))
+
+((:uuid "e2b6754a-c388-b424-8be9-89629e174431") (:day "019H10")
+  (:duration "15") (:sector "visual") (:label "UI Tweak sur les projets")
+  (:project "planet"))

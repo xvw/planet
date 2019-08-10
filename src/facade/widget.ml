@@ -19,6 +19,28 @@ module Project = struct
         Dom_html.element Js.t Js.Opt.t Js.readonly_prop
     end
 
+  let render_releases = function
+    | [] ->
+      []
+    | releases ->
+      let len = List.length releases in
+      let open Tyxml.Html in
+      [ div
+          ~a:[ a_class [ "right-section"; "release-list" ] ]
+          [ h3
+              [ span [ txt "Releases" ]
+              ; span
+                  ~a:[ a_class [ "label" ] ]
+                  [ txt $ string_of_int len ]
+              ]
+          ; ul
+              (List.map
+                 (fun (name, _date, url) -> li [ txt name ])
+                 releases)
+          ]
+      ]
+  ;;
+
   let render_tags = function
     | [] ->
       []
@@ -38,10 +60,42 @@ module Project = struct
       ]
   ;;
 
+  let render_links links =
+    List.fold_left
+      (fun acc (section_name, links) ->
+        match links with
+        | [] ->
+          []
+        | links ->
+          let len = List.length links in
+          let open Tyxml.Html in
+          acc
+          @ [ div
+                ~a:[ a_class [ "right-section"; "link-list" ] ]
+                [ h3
+                    [ span [ txt section_name ]
+                    ; span
+                        ~a:[ a_class [ "label" ] ]
+                        [ txt $ string_of_int len ]
+                    ]
+                ; ul
+                    (List.map
+                       (fun (name, url) ->
+                         li [ a ~a:[ a_href url ] [ txt name ] ])
+                       links)
+                ]
+            ])
+      []
+      links
+  ;;
+
   let render_summary container project =
     let open Tyxml.Html in
     let ui =
-      div (render_tags Shapes.Project.(project.tags))
+      div
+        (render_releases Shapes.Project.(project.releases)
+        @ render_tags Shapes.Project.(project.tags)
+        @ render_links Shapes.Project.(project.links))
       |> Tyxml.To_dom.of_div
     in
     Dom.appendChild container ui

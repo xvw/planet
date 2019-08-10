@@ -280,3 +280,33 @@ footer a {
 .qexp-metadata {
     display: none;
 }
+
+.right-section {
+    margin: 0;
+    margin-bottom: 28px;
+}
+
+.right-section h3 {
+    margin: 0;
+    display: flex;
+    border-bottom: 2px solid #000;
+    padding: 4px 12px;
+    padding-right: 4px;
+    padding-bottom: 16px;
+    align-items: center;
+    font-size: 110%;
+}
+
+.right-section h3 > span {
+    flex: 1; 
+}
+
+.right-section h3 > span.label {
+    flex: 0;
+    background-color: #000;
+    color: #FFF;
+    padding: 4px 12px;
+    border-radius: 8px;
+    font-size: 80%;
+}
+

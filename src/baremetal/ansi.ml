@@ -47,6 +47,7 @@ type fragment =
   | Foreground of color
   | Background of color
   | Text of string
+  | F of string
 
 type fragments = fragment list
 
@@ -61,6 +62,10 @@ let blink = Blink
 let inverse = Inverse
 let hidden = Hidden
 let text x = Text x
+let erase_line = F "K"
+let erase_above = F "1J"
+let erase_below = F "0J"
+let erase_screen = F "2J"
 
 let to_int_fg = function
   | Default ->
@@ -121,6 +126,8 @@ let to_string_aux s =
       `I (to_int_bg c)
     | Text txt ->
       `S txt
+    | F s ->
+      `S s
   in
   match aux s with `I i -> string_of_int i | `S i -> i
 ;;

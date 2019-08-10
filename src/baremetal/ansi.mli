@@ -65,6 +65,10 @@ val underline : fragment
 val blink : fragment
 val inverse : fragment
 val hidden : fragment
+val erase_line : fragment
+val erase_above : fragment
+val erase_below : fragment
+val erase_screen : fragment
 
 (** Convert a [string] to a [fragments]. *)
 val text : string -> fragment

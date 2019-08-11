@@ -10,11 +10,6 @@
 
 (:links
  (
-  ("links"
-   (
-    (main "https://xvw.github.io")
-    )
-   )
   ("tools"
    (
     (ocaml "https://ocaml.org")

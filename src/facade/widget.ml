@@ -94,7 +94,7 @@ module Project = struct
     let ui =
       div
         (render_tags Shapes.Project.(project.tags)
-        @ render_releases Shapes.Project.(project.releases)
+        @ render_releases Shapes.Project.(List.rev project.releases)
         @ render_links Shapes.Project.(project.links))
       |> Tyxml.To_dom.of_div
     in

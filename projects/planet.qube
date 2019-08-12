@@ -10,16 +10,20 @@
 
 (:links
  (
-  ("tools"
+  ("langages"
    (
-    (ocaml "https://ocaml.org")
-    (js_of_ocaml "https://ocsigen.org/js_of_ocaml")
-    (hakyll "https://jaspervdj.be/hakyll/")
+    (OCaml "https://ocaml.org")
     )
    )
-  ("typography"
+  ("outils"
    (
-    (inter "https://rsms.me/inter/")
+    (Js_of_ocaml "https://ocsigen.org/js_of_ocaml")
+    (Hakyll "https://jaspervdj.be/hakyll/")
+    )
+   )
+  ("typographies"
+   (
+    (Inter "https://rsms.me/inter/")
     )
    )
   )

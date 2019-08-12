@@ -105,6 +105,12 @@ let to_hakyll_string_aux day project =
   let pstring =
     project |> Shapes.Project.to_qexp |> Paperwork.Qexp.to_string
   in
+  let render_picto = function
+    | None ->
+      Hakyll.render_string "pictogram" "unknown"
+    | Some x ->
+      Hakyll.render_string "pictogram" x
+  in
   let header =
     Hakyll.(
       join
@@ -117,7 +123,7 @@ let to_hakyll_string_aux day project =
             "status"
             Shapes.Project.status_to_string
             project.status
-        ; may_render "pictogram" id project.picto
+        ; render_picto project.picto
         ; may_render "repo" id project.repo
         ; may_render "license" id project.license
         ; render_if "indexed" project.indexed

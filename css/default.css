@@ -45,7 +45,7 @@ pre.sourceCode {
     padding: 12px;
     font-size: 90%;
     border-radius: 4px;
-    margin: 38px 0;
+    margin: 22px 0;
 }
 
 pre.sourceCode * {
@@ -389,5 +389,6 @@ footer a {
     display: block;
     text-decoration: none;
     color: #000;
-    font-family: "Fira Mono", monospace;    
+    font-family: "Fira Mono", monospace;
+    flex: 1;
 }

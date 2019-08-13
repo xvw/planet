@@ -8,18 +8,3 @@ développer une application concrète.
 Développé en [[https://elm-lang.org][Elm]], un petit langage de programmation fonctionnelle dédié au 
 développement d'application web /cliente/ et via [[https://electronjs.org][Electron]], l'expérience de 
 développement a été plutôt agréable.
-
-#+BEGIN_SRC ocaml
-let call = "./log.exe"
-let version = "1.0.0"
-
-open Cmdliner
-
-let sectors =
-  let doc = "Show the list of available sectors" in
-  let man = Glue.Man.default call in
-  let exits = Term.default_exits in
-  ( Term.(const Lib.sectors $ const ())
-  , Term.info "sectors" ~version ~doc ~exits ~man )
-;;
-#+END_SRC

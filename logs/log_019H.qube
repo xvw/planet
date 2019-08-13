@@ -66,3 +66,7 @@
 ((:uuid "e2b6754a-c388-b424-8be9-89629e174431") (:day "019H10")
   (:duration "15") (:sector "visual") (:label "UI Tweak sur les projets")
   (:project "planet"))
+
+((:uuid "6787ddbc-d30e-5515-06aa-fa0ba6b19e28") (:day "019H13")
+  (:duration "120") (:sector "programming")
+  (:label "Ajout de différentes fonctionnalités") (:project "planet"))

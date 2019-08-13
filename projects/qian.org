@@ -1,9 +1,25 @@
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque et hendrerit nisl. Maecenas finibus nibh quis libero condimentum, vel congue eros scelerisque. In sed elit luctus, lobortis nisi id, mollis nulla. Curabitur nec urna eros. Suspendisse potenti. Pellentesque eleifend auctor ante, eu laoreet nulla volutpat sit amet. Donec ultrices purus diam, ut accumsan nibh egestas gravida. In ac rhoncus velit. Nam augue arcu, lacinia sit amet scelerisque quis, sollicitudin quis enim. Sed eget molestie lacus, eget sodales eros. Phasellus sodales sem augue, eget efficitur sapien rutrum eget. Praesent a augue aliquam, pulvinar dui in, hendrerit diam. Sed feugiat nibh eu ligula iaculis facilisis sit amet eget urna. Donec congue augue sem, ac finibus tortor iaculis sit amet. Pellentesque et justo et odio tincidunt interdum eget quis odio. Aenean maximus, lacus eu pharetra mollis, mauris turpis iaculis urna, molestie imperdiet orci massa quis nisl.
+*Qian* est un explorateur de fichiers minimaliste. Il a été initialement 
+développé en Novembre 2017, en approximativement 1 semaine (avec deux heures
+par jour). Historiquement, le projet a été initié car je détestais 
+l'explorateur de fichiers de MacOSX, [[https://support.apple.com/en-gb/HT201732][Finder]]. En plus de proposer une alternative
+(beaucoup moins riche en fonctionnalités), c'était aussi l'occasion de 
+développer une application concrète.
 
-Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec molestie ipsum sapien, nec hendrerit risus porttitor fringilla. Sed luctus augue at tellus laoreet, sed condimentum turpis molestie. Ut scelerisque scelerisque augue, rhoncus laoreet elit sodales sit amet. Integer convallis sodales laoreet. Maecenas luctus metus erat, sed mollis metus interdum sit amet. Nullam ultricies tempor libero a dapibus. Quisque congue urna tincidunt eros sollicitudin, vel euismod neque convallis. Vestibulum cursus lectus in mi ullamcorper, nec pulvinar eros egestas. Cras finibus in nunc ut luctus.
+Développé en [[https://elm-lang.org][Elm]], un petit langage de programmation fonctionnelle dédié au 
+développement d'application web /cliente/ et via [[https://electronjs.org][Electron]], l'expérience de 
+développement a été plutôt agréable.
 
-Mauris pulvinar turpis in viverra blandit. Praesent tempor lobortis lectus. Nulla ac imperdiet nibh, eget fringilla velit. Etiam cursus tellus et consectetur semper. Vivamus at velit id tellus malesuada dapibus. Morbi mauris enim, dignissim a sagittis quis, iaculis vitae dolor. In consequat justo nisi, eget ultrices sem condimentum ut. Sed sit amet eleifend diam. Donec eu pellentesque diam, eget laoreet urna. Maecenas non ligula ex. Pellentesque eleifend, sapien eu bibendum suscipit, dolor nibh eleifend turpis, ut semper tortor enim a felis. Quisque lobortis augue in congue pharetra.
+#+BEGIN_SRC ocaml
+module From_monad (M : Sigs.Monad.REQUIREMENT_BIND) :
+  Sigs.Applicative.REQUIREMENT with type 'a t = 'a M.t = struct
 
-Morbi luctus feugiat accumsan. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed sed sem at risus iaculis molestie. Fusce a enim ex. Nullam mollis auctor elit non faucibus. Maecenas scelerisque orci a libero ultricies sagittis. Nulla posuere non tellus at tristique. Etiam vel blandit lacus.
+  (** Return type *)
+  type 'a t = 'a M.t
 
-Nam eget ligula eu odio lacinia vulputate. Cras aliquet ante diam, tempor blandit eros rutrum quis. Vestibulum et imperdiet leo. Phasellus in urna sagittis, laoreet mi eget, sodales erat. Pellentesque lacinia congue nibh. Ut sagittis finibus magna in efficitur. Duis faucibus ultrices vehicula. Phasellus efficitur odio dolor, eu malesuada leo volutpat nec. Ut volutpat turpis in molestie dignissim. Sed ultricies ultrices eros, et dapibus diam lobortis id. Suspendisse congue ante at massa convallis, in rhoncus erat feugiat. Nam enim est, bibendum sit amet eleifend vitae, viverra in metus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse potenti. Donec lacinia consequat laoreet. 
+  let pure = M.return
+  let ap fs xs = 
+    M.bind (fun f -> 
+      M.bind (fun x -> pure (f x)) xs
+    ) fs
+end
+#+END_SRC

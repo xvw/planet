@@ -1,0 +1,42 @@
+@import '../fonts/inter/inter.css';
+/* fira-mono-regular - latin_greek-ext_cyrillic-ext_latin-ext_cyrillic_greek */
+@font-face {
+  font-family: 'Fira Mono';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/fira-mono/fira-mono-v8-latin_greek-ext_cyrillic-ext_latin-ext_cyrillic_greek-regular.eot'); /* IE9 Compat Modes */
+  src: local('Fira Mono Regular'), local('FiraMono-Regular'),
+       url('../fonts/fira-mono/fira-mono-v8-latin_greek-ext_cyrillic-ext_latin-ext_cyrillic_greek-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('../fonts/fira-mono/fira-mono-v8-latin_greek-ext_cyrillic-ext_latin-ext_cyrillic_greek-regular.woff2') format('woff2'), /* Super Modern Browsers */
+       url('../fonts/fira-mono/fira-mono-v8-latin_greek-ext_cyrillic-ext_latin-ext_cyrillic_greek-regular.woff') format('woff'), /* Modern Browsers */
+       url('../fonts/fira-mono/fira-mono-v8-latin_greek-ext_cyrillic-ext_latin-ext_cyrillic_greek-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+       url('../fonts/fira-mono/fira-mono-v8-latin_greek-ext_cyrillic-ext_latin-ext_cyrillic_greek-regular.svg#FiraMono') format('svg'); /* Legacy iOS */
+}
+
+/* fira-mono-500 - latin_greek-ext_cyrillic-ext_latin-ext_cyrillic_greek */
+@font-face {
+  font-family: 'Fira Mono';
+  font-style: normal;
+  font-weight: 500;
+  src: url('../fonts/fira-mono/fira-mono-v8-latin_greek-ext_cyrillic-ext_latin-ext_cyrillic_greek-500.eot'); /* IE9 Compat Modes */
+  src: local('Fira Mono Medium'), local('FiraMono-Medium'),
+       url('../fonts/fira-mono/fira-mono-v8-latin_greek-ext_cyrillic-ext_latin-ext_cyrillic_greek-500.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('../fonts/fira-mono/fira-mono-v8-latin_greek-ext_cyrillic-ext_latin-ext_cyrillic_greek-500.woff2') format('woff2'), /* Super Modern Browsers */
+       url('../fonts/fira-mono/fira-mono-v8-latin_greek-ext_cyrillic-ext_latin-ext_cyrillic_greek-500.woff') format('woff'), /* Modern Browsers */
+       url('../fonts/fira-mono/fira-mono-v8-latin_greek-ext_cyrillic-ext_latin-ext_cyrillic_greek-500.ttf') format('truetype'), /* Safari, Android, iOS */
+       url('../fonts/fira-mono/fira-mono-v8-latin_greek-ext_cyrillic-ext_latin-ext_cyrillic_greek-500.svg#FiraMono') format('svg'); /* Legacy iOS */
+}
+
+/* fira-mono-700 - latin_greek-ext_cyrillic-ext_latin-ext_cyrillic_greek */
+@font-face {
+  font-family: 'Fira Mono';
+  font-style: normal;
+  font-weight: 700;
+  src: url('../fonts/fira-mono/fira-mono-v8-latin_greek-ext_cyrillic-ext_latin-ext_cyrillic_greek-700.eot'); /* IE9 Compat Modes */
+  src: local('Fira Mono Bold'), local('FiraMono-Bold'),
+       url('../fonts/fira-mono/fira-mono-v8-latin_greek-ext_cyrillic-ext_latin-ext_cyrillic_greek-700.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('../fonts/fira-mono/fira-mono-v8-latin_greek-ext_cyrillic-ext_latin-ext_cyrillic_greek-700.woff2') format('woff2'), /* Super Modern Browsers */
+       url('../fonts/fira-mono/fira-mono-v8-latin_greek-ext_cyrillic-ext_latin-ext_cyrillic_greek-700.woff') format('woff'), /* Modern Browsers */
+       url('../fonts/fira-mono/fira-mono-v8-latin_greek-ext_cyrillic-ext_latin-ext_cyrillic_greek-700.ttf') format('truetype'), /* Safari, Android, iOS */
+       url('../fonts/fira-mono/fira-mono-v8-latin_greek-ext_cyrillic-ext_latin-ext_cyrillic_greek-700.svg#FiraMono') format('svg'); /* Legacy iOS */
+}

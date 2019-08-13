@@ -24,6 +24,7 @@
   ("typographies"
    (
     (Inter "https://rsms.me/inter/")
+    ("Fira Mono" "https://mozilla.github.io/Fira/")
     )
    )
   )

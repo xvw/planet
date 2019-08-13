@@ -8,6 +8,21 @@
 (:content external #org-mode "projects/qian.org")
 (:picto "qian")
 
+(:links
+ (
+  ("langages"
+   (
+    (Elm "https://elm-lang.org/")
+    )
+   )
+  ("outils"
+   (
+    (ElectronJS "https://electronjs.org/")
+    )
+   )
+  )
+ )
+
 (:releases
  ("v1.0.0" #017K27 "https://github.com/xvw/qian/releases/tag/v1.0")
  ("v1.2.0" #017L13 "https://github.com/xvw/qian/releases/tag/v1.2.0")

@@ -35,7 +35,18 @@ module Project = struct
               ]
           ; ul
               (List.map
-                 (fun (name, _date, url) -> li [ txt name ])
+                 (fun (name, date, url) ->
+                   li
+                     [ span
+                         ~a:[ a_class [ "date" ] ]
+                         [ txt
+                           $ Format.asprintf
+                               "%a"
+                               Paperwork.Timetable.Day.ppr
+                               date
+                         ]
+                     ; a ~a:[ a_href url ] [ txt name ]
+                     ])
                  releases)
           ]
       ]

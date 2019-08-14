@@ -13,6 +13,7 @@
   ("langages"
    (
     (OCaml "https://ocaml.org")
+    (Haskell "https://www.haskell.org/")
     )
    )
   ("outils"

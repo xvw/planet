@@ -110,7 +110,7 @@ let collect_log_files () =
   >|= List.sort String.compare
 ;;
 
-let reduce_logs racc filename =
+let reduce_logs_json racc filename =
   let open Validation.Infix in
   racc
   >>= fun acc ->
@@ -128,6 +128,6 @@ let reduce_logs racc filename =
 let collect_all_log_in_json () =
   let open Validation.Infix in
   collect_log_files () |> Validation.from_result
-  >>= List.fold_left reduce_logs (Ok [])
+  >>= List.fold_left reduce_logs_json (Ok [])
   >|= Json.array
 ;;

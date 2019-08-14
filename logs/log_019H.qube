@@ -74,3 +74,6 @@
 ((:uuid "2b616bde-a229-6646-1a89-b0d908214b16") (:day "019H13")
   (:duration "120") (:sector "programming") (:label "Tâches diverses")
   (:project "planet"))
+
+((:uuid "d04d46ba-e89c-66fc-0db1-2c062ca0638b") (:day "019H14")
+  (:duration "60") (:sector "r&d") (:label "Histoire du web, Alexandria"))

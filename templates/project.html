@@ -35,14 +35,20 @@
       $body$
     </div>
     <div class="project-rightbar">
-      <div id="project-dynamic-data">
+      <div id="project-content-right">
       </div>
     </div>
   </div>
 </div>
+<div id="project-content-bottom">
+</div>
 <script type="application/javascript">
+  console.log(document.getElementById("content-right"))
   planet.project.boot({
+    timedata: document.querySelector(
+      "textarea[data-planet-qexp='project_timedata']"),
     project: document.querySelector("textarea[data-planet-qexp='project']"),
-    container: document.getElementById("project-dynamic-data")
+    rightContainer: document.getElementById("project-content-right"),
+    bottomContainer: document.getElementById("project-content-bottom")
   });
 </script>

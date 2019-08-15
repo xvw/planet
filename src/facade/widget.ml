@@ -12,10 +12,16 @@ let render_error errors =
 module Project = struct
   class type boot_input =
     object
+      method timedata :
+        Dom_html.textAreaElement Js.t Js.Opt.t Js.readonly_prop
+
       method project :
         Dom_html.textAreaElement Js.t Js.Opt.t Js.readonly_prop
 
-      method container :
+      method rightContainer :
+        Dom_html.element Js.t Js.Opt.t Js.readonly_prop
+
+      method bottomContainer :
         Dom_html.element Js.t Js.Opt.t Js.readonly_prop
     end
 
@@ -26,7 +32,7 @@ module Project = struct
       let len = List.length releases in
       let open Tyxml.Html in
       [ div
-          ~a:[ a_class [ "right-section"; "release-list" ] ]
+          ~a:[ a_class [ "project-block"; "release-list" ] ]
           [ h3
               [ span [ txt "Releases" ]
               ; span
@@ -59,7 +65,7 @@ module Project = struct
       let len = List.length tags in
       let open Tyxml.Html in
       [ div
-          ~a:[ a_class [ "right-section"; "tag-list" ] ]
+          ~a:[ a_class [ "project-block"; "tag-list" ] ]
           [ h3
               [ span [ txt "Tags" ]
               ; span
@@ -82,7 +88,7 @@ module Project = struct
           let open Tyxml.Html in
           acc
           @ [ div
-                ~a:[ a_class [ "right-section"; "link-list" ] ]
+                ~a:[ a_class [ "project-block"; "link-list" ] ]
                 [ h3
                     [ span [ txt section_name ]
                     ; span
@@ -100,16 +106,39 @@ module Project = struct
       links
   ;;
 
-  let render_summary container project =
+  let render_timedata td =
+    match Js.Opt.to_option td with
+    | None ->
+      []
+    | Some _txtarea ->
+      let open Tyxml.Html in
+      [ div
+          ~a:[ a_class [ "project-block"; "tag-list" ] ]
+          [ h3 [ span [ txt "Tracking" ] ] ]
+      ]
+  ;;
+
+  let render_summary
+      right_container
+      bottom_container
+      project
+      timedata
+    =
     let open Tyxml.Html in
-    let ui =
+    let right_content =
       div
-        (render_tags Shapes.Project.(project.tags)
+        (render_timedata timedata
+        @ render_tags Shapes.Project.(project.tags)
         @ render_releases Shapes.Project.(List.rev project.releases)
-        @ render_links Shapes.Project.(project.links))
+        )
       |> Tyxml.To_dom.of_div
     in
-    Dom.appendChild container ui
+    let bottom_content =
+      div (render_links Shapes.Project.(project.links))
+      |> Tyxml.To_dom.of_div
+    in
+    Dom.appendChild right_container right_content;
+    Dom.appendChild bottom_container bottom_content
   ;;
 
   let validate str optional_node =
@@ -132,12 +161,21 @@ module Project = struct
   let boot input =
     let open Validation.Infix in
     match
-      (fun x y -> x, y)
-      <$> validate "unable to find container" input##.container
+      (fun x y z -> x, y, z)
+      <$> validate
+            "unable to find right container"
+            input##.rightContainer
+      <*> validate
+            "unable to find bottom container"
+            input##.bottomContainer
       <*> validate_project input##.project
     with
-    | Ok (container, project) ->
-      render_summary container project
+    | Ok (right_container, bottom_container, project) ->
+      render_summary
+        right_container
+        bottom_container
+        project
+        input##.timedata
     | Error errs ->
       render_error errs
   ;;

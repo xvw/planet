@@ -85,3 +85,8 @@
 ((:uuid "2c19127c-fa4f-4ddd-7415-507545ecd6c5") (:day "019H15")
   (:duration "60") (:sector "programming")
   (:label "Réécriture des contextes de génération") (:project "planet"))
+
+((:uuid "06d5e4c5-7cfc-5024-9231-ba3dd8c20606") (:day "019H15")
+  (:duration "120") (:sector "programming")
+  (:label "Remonter les données des logs dans les pages de projets")
+  (:project "planet"))

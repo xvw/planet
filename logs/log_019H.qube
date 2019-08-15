@@ -90,3 +90,7 @@
   (:duration "120") (:sector "programming")
   (:label "Remonter les données des logs dans les pages de projets")
   (:project "planet"))
+
+((:uuid "d5b7f2b0-561f-853d-88dd-a6057b603909") (:day "019H15")
+  (:duration "25") (:sector "visual")
+  (:label "Modification de l'UI des projets") (:project "planet"))

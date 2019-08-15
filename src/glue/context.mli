@@ -1,15 +1,11 @@
 (** Build a context for page generation *)
 
-type project_context =
-  { project_context_sectors : (string, int) Hashtbl.t
-  ; project_context_counter : int
-  ; project_context_streak : int
-  }
+(** A context for projects *)
+module Projects : sig
+  type t
 
-type t =
-  { sectors : (string, int) Hashtbl.t
-  ; projects : (string, project_context) Hashtbl.t
-  ; streak : int
-  ; counter : int
-  ; update_table : Shapes.Update_table.t
-  }
+  val update : t -> Shapes.Log.t -> t
+  val init : Shapes.Update_table.t -> t
+  val to_qexp : t -> Paperwork.Qexp.t
+  val project_to_qexp : t -> string -> Paperwork.Qexp.t option
+end

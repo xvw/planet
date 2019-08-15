@@ -94,3 +94,7 @@
 ((:uuid "d5b7f2b0-561f-853d-88dd-a6057b603909") (:day "019H15")
   (:duration "25") (:sector "visual")
   (:label "Modification de l'UI des projets") (:project "planet"))
+
+((:uuid "aa259e69-7912-a7cb-ffb1-e6d0c9e07217") (:day "019H15")
+  (:duration "60") (:sector "visual")
+  (:label "Modification de l'UI des projets") (:project "planet"))

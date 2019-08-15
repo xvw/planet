@@ -131,3 +131,24 @@ let collect_all_log_in_json () =
   >>= List.fold_left reduce_logs_json (Ok [])
   >|= Json.array
 ;;
+
+let traverse f default =
+  let open Validation.Infix in
+  collect_log_files () |> Validation.from_result
+  >>= fun files ->
+  List.fold_left
+    (fun potential_acc filename ->
+      potential_acc
+      >>= fun acc ->
+      filename
+      |> Filename.concat log_folder
+      |> File.to_stream (fun _ -> Qexp.from_stream)
+      |> Result.bind Qexp.extract_root
+      |> Validation.from_result
+      >>= (fun nodes ->
+            List.map (fun x -> Shapes.Log.(from_qexp x)) nodes
+            |> Validation.Applicative.sequence)
+      >|= fun nodes -> List.fold_left f acc nodes)
+    (Ok default)
+    files
+;;

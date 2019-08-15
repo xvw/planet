@@ -39,3 +39,6 @@ val whereami_to_json : unit -> Paperwork.Json.t Validation.t
 
 (** Fetch all logs in [Json.t] *)
 val collect_all_log_in_json : unit -> Paperwork.Json.t Validation.t
+
+(** Fetch all logs using a reducer *)
+val traverse : ('a -> Shapes.Log.t -> 'a) -> 'a -> 'a Validation.t

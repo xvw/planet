@@ -328,7 +328,7 @@ footer a {
 #project-content-bottom .project-block h3 {
     margin: 0;
     color: #000;
-    border-bottom: 2px solid #BBB;
+    /* border-bottom: 2px solid #BBB; */
 }
 
 #project-content-bottom .project-block h3 > span,
@@ -366,15 +366,22 @@ footer a {
 
 
 #project-content-bottom .list-of-links > div {
-    flex: 1 1 40%;
-    margin-right: 24px;
+    flex: 0 1 33%;
+    padding: 0 12px;
+}
+
+#project-content-bottom .list-of-links div:last-child {
+    margin-right: 0;
 }
 
 
 #project-content-bottom .project-block ul > li,
 #project-content-right .project-block ul > li {
     list-style: none;
-    margin: 4px;
+}
+
+#project-content-right .project-block ul > li {
+    margin: 4px 0px;
 }
 
 #project-content-bottom .link-list ul > li {
@@ -422,4 +429,10 @@ footer a {
     color: #000;
     font-family: "Fira Mono", monospace;
     flex: 1;
+}
+
+#project-content-bottom {
+    border-top: 2px solid #eee;
+    margin-top: 12px;
+    padding-top: 20px;
 }

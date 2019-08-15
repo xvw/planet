@@ -19,4 +19,7 @@ module Projects : sig
   val init : Shapes.Update_table.t -> t
   val to_qexp : t -> Paperwork.Qexp.t
   val project_to_qexp : string -> context -> Paperwork.Qexp.t
+
+  (* val project_from_qexp : Paperwork.Qexp.t -> context
+   * val project_from_string : string -> context *)
 end

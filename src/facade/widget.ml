@@ -84,17 +84,11 @@ module Project = struct
         | [] ->
           []
         | links ->
-          let len = List.length links in
           let open Tyxml.Html in
           acc
           @ [ div
                 ~a:[ a_class [ "project-block"; "link-list" ] ]
-                [ h3
-                    [ span [ txt section_name ]
-                    ; span
-                        ~a:[ a_class [ "label" ] ]
-                        [ txt $ string_of_int len ]
-                    ]
+                [ h3 [ span [ txt section_name ] ]
                 ; ul
                     (List.map
                        (fun (name, url) ->

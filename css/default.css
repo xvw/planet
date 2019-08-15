@@ -313,14 +313,22 @@ footer a {
 #project-content-right .project-block h3 {
     margin: 0;
     display: flex;
-    border-bottom: 2px solid #EEE;
-    color: #888;
-    padding: 4px 12px;
-    padding-right: 4px;
-    padding-bottom: 8px;
     align-items: center;
     font-size: 100%;
+    padding: 8px 0;
     text-transform: capitalize;
+}
+
+#project-content-right .project-block h3 {
+    padding-bottom: 8px;
+    border-bottom: 2px solid #EEE;
+    color: #888;
+}
+
+#project-content-bottom .project-block h3 {
+    margin: 0;
+    color: #000;
+    border-bottom: 2px solid #BBB;
 }
 
 #project-content-bottom .project-block h3 > span,
@@ -338,12 +346,30 @@ footer a {
     font-size: 80%;
 }
 
-#project-content-bottom .project-block ul,
+#project-content-bottom .project-block ul {
+    margin: 0;
+    padding: 4px 8px;
+}
+
 #project-content-right .project-block ul {
     margin: 0;
     padding: 4px 8px;
     margin-top: 12px;
 }
+
+#project-content-bottom .list-of-links {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+
+#project-content-bottom .list-of-links > div {
+    flex: 1 1 40%;
+    margin-right: 24px;
+}
+
 
 #project-content-bottom .project-block ul > li,
 #project-content-right .project-block ul > li {
@@ -351,7 +377,7 @@ footer a {
     margin: 4px;
 }
 
-#project-content-right .link-list ul > li {
+#project-content-bottom .link-list ul > li {
     border-bottom: 1px solid #eee;
 }
 
@@ -368,7 +394,7 @@ footer a {
 #project-content-bottom .link-list ul > li > a {
     text-decoration: none;
     color: #555;
-    padding: 8px 0;
+    font-size: 88%;
     display: block;
 }
 

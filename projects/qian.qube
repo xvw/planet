@@ -10,9 +10,15 @@
 
 (:links
  (
+  ("Liens"
+   (
+    ("Product Hunt" "https://www.producthunt.com/posts/qian")
+    )
+   )
   ("langages"
    (
     (Elm "https://elm-lang.org/")
+    (JavaScript "https://developer.mozilla.org/en-US/docs/Web/JavaScript")
     )
    )
   ("outils"

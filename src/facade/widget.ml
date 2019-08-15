@@ -134,7 +134,9 @@ module Project = struct
       |> Tyxml.To_dom.of_div
     in
     let bottom_content =
-      div (render_links Shapes.Project.(project.links))
+      div
+        ~a:[ a_class [ "list-of-links" ] ]
+        (render_links Shapes.Project.(project.links))
       |> Tyxml.To_dom.of_div
     in
     Dom.appendChild right_container right_content;

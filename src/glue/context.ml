@@ -1,7 +1,7 @@
 module Projects = struct
   type context =
     { name : string
-    ; start_date : Paperwork.Timetable.Day.t
+    ; start_date : Paperwork.Timetable.Day.t option
     ; logs_counter : int
     ; minuts_counter : int
     ; sectors_counters : (string, int) Hashtbl.t
@@ -27,17 +27,21 @@ module Projects = struct
     let open Shapes.Log in
     let sectors = add_to_sectors (Hashtbl.create 1) log.sector in
     { name = project
-    ; start_date = log.day
+    ; start_date = Some log.day
     ; logs_counter = 1
     ; minuts_counter = log.duration
     ; sectors_counters = sectors
     }
   ;;
 
-  let keep_smallest_date date1 date2 =
-    if Paperwork.Timetable.Day.cmp date1 date2 < 0
-    then date2
-    else date1
+  let keep_smallest_date potential_date1 date2 =
+    match potential_date1 with
+    | None ->
+      Some date2
+    | Some date1 ->
+      if Paperwork.Timetable.Day.cmp date1 date2 < 0
+      then Some date2
+      else Some date1
   ;;
 
   let diff base log =
@@ -83,22 +87,27 @@ module Projects = struct
     node
       [ string name
       ; node
-          [ node [ tag "name"; string value.name ]
-          ; node
-              [ tag "start_date"
-              ; keyword
-                  (Paperwork.Timetable.Day.to_string value.start_date)
-              ]
-          ; node
-              [ tag "logs_counter"
-              ; atom (string_of_int value.logs_counter)
-              ]
-          ; node
-              [ tag "minuts_counter"
-              ; atom (string_of_int value.minuts_counter)
-              ]
-          ; node [ tag "sectors_counters"; node sectors ]
-          ]
+          ([ node [ tag "name"; string value.name ]
+           ; node
+               [ tag "logs_counter"
+               ; atom (string_of_int value.logs_counter)
+               ]
+           ; node
+               [ tag "minuts_counter"
+               ; atom (string_of_int value.minuts_counter)
+               ]
+           ; node [ tag "sectors_counters"; node sectors ]
+           ]
+          @
+          match value.start_date with
+          | None ->
+            []
+          | Some date ->
+            [ node
+                [ tag "start_date"
+                ; keyword (Paperwork.Timetable.Day.to_string date)
+                ]
+            ])
       ]
   ;;
 
@@ -116,9 +125,20 @@ module Projects = struct
       ]
   ;;
 
+  let empty_project_context name =
+    { name
+    ; start_date = None
+    ; logs_counter = 0
+    ; minuts_counter = 0
+    ; sectors_counters = Hashtbl.create 0
+    }
+  ;;
+
   let project_to_qexp ctx project =
-    let open Bedrock.Option.Infix in
-    Hashtbl.find_opt ctx.projects project
-    >|= aux_project_qexp project
+    match Hashtbl.find_opt ctx.projects project with
+    | Some p ->
+      aux_project_qexp project p
+    | None ->
+      aux_project_qexp project (empty_project_context project)
   ;;
 end

@@ -81,3 +81,7 @@
 ((:uuid "7cf05675-9841-4238-8633-d8b8d4740fd9") (:day "019H15")
   (:duration "20") (:sector "programming")
   (:label "Amélioration de la traversée des logs") (:project "planet"))
+
+((:uuid "2c19127c-fa4f-4ddd-7415-507545ecd6c5") (:day "019H15")
+  (:duration "60") (:sector "programming")
+  (:label "Réécriture des contextes de génération") (:project "planet"))

@@ -125,7 +125,10 @@ let traverse f default =
       |> Validation.from_result
       >>= (fun nodes ->
             List.map (fun x -> Shapes.Log.(from_qexp x)) nodes
-            |> Validation.Applicative.sequence)
+            |> Validation.Applicative.sequence
+            >|= List.sort (fun log_a log_b ->
+                    let open Shapes.Log in
+                    Timetable.Day.cmp log_a.day log_b.day))
       >|= fun nodes -> List.fold_left f acc nodes)
     (Ok default)
     files

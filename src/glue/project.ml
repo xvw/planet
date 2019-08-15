@@ -6,14 +6,17 @@ module DB = Database
 
 let database = DB.projects
 
-let read table filename =
+let read ctx filename =
   let open Validation in
   filename
   |> Filename.concat (DB.path database)
   |> File.to_stream (fun _ -> Qexp.from_stream)
   |> from_result >>= Shapes.Project.from_qexp
   >|= (fun project ->
-        project, Shapes.Update_table.fetch table project.name)
+        let open Context.Projects in
+        ( project
+        , Shapes.Update_table.fetch ctx.updates project.name
+        , Hashtbl.find_opt ctx.projects project.name ))
   |> fun x -> x, filename
 ;;
 
@@ -29,12 +32,19 @@ let may_sort = function
 ;;
 
 let inspect () =
-  let open Result.Infix in
+  let open Validation.Infix in
   Log.read_project_updates ()
+  |> Validation.from_result
   >>= fun table ->
-  Dir.children ~filter:(flip String.has_extension "qube")
-  $ DB.path database
-  >|= List.map (read table)
+  Log.traverse Context.Projects.update
+  $ Context.Projects.init table
+  >>= (fun ctx ->
+        Dir.children
+          ~filter:(flip String.has_extension "qube")
+          (DB.path database)
+        |> Validation.from_result
+        >|= fun children -> children, ctx)
+  >|= (fun (children, ctx) -> List.map (read ctx) children)
   >|= List.sort (fun (p, _) (q, _) ->
           match p, q with
           | Error _, Error _ ->
@@ -43,14 +53,14 @@ let inspect () =
             -1
           | Error _, _ ->
             1
-          | Ok (_, x), Ok (_, y) ->
+          | Ok (_, x, _), Ok (_, y, _) ->
             may_sort (x, y))
 ;;
 
 let all () =
-  let open Result.Infix in
+  let open Validation.Infix in
   inspect () >|= List.map fst >|= Validation.Applicative.sequence
-  |> Validation.from_result |> Validation.join
+  |> Validation.join
 ;;
 
 let to_json () =
@@ -59,7 +69,7 @@ let to_json () =
   >|= fun projects ->
   Json.obj
   $ List.map
-      (fun (project, _) ->
+      (fun (project, _, _) ->
         Shapes.Project.(project.name, to_json project))
       projects
 ;;
@@ -94,11 +104,10 @@ let fetch_project_text project =
 ;;
 
 let as_textarea =
-  Format.asprintf
-    {|<textarea data-planet-qexp="project">%s</textarea>|}
+  Format.asprintf {|<textarea data-planet-qexp="%s">%s</textarea>|}
 ;;
 
-let to_hakyll_string_aux day project =
+let to_hakyll_string_aux day project_opt project =
   let open Shapes.Project in
   let open Result.Syntax in
   let+ ext, body = fetch_project_text project in
@@ -136,9 +145,24 @@ let to_hakyll_string_aux day project =
         ])
   in
   let content = header ^ body in
-  project, ext, content, as_textarea pstring
+  ( project
+  , ext
+  , content
+  , as_textarea "project" pstring
+    ^
+    match project_opt with
+    | None ->
+      ""
+    | Some metadata ->
+      let str =
+        Context.Projects.project_to_qexp project.name metadata
+        |> Paperwork.Qexp.to_string
+      in
+      "\n" ^ as_textarea "project_timedata" str )
 ;;
 
-let to_hakyll_string (project, day) =
-  project |> to_hakyll_string_aux day |> Validation.from_result
+let to_hakyll_string (project, day, project_opt) =
+  project
+  |> to_hakyll_string_aux day project_opt
+  |> Validation.from_result
 ;;

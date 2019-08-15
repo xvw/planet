@@ -235,7 +235,9 @@ let interactive () =
       let () = clr () in
       let a_sector = sector sectors in
       let () = clr () in
-      let some_project = project (List.map fst projects) in
+      let some_project =
+        project (List.map (fun (x, _, _) -> x) projects)
+      in
       let () = clr () in
       let a_label = label () in
       let () = clr () in
@@ -299,7 +301,9 @@ let record sector duration timecode project label =
         Shapes.Log.new_log (Uuid.make () |> Uuid.to_string)
         <$> check_day timecode <*> check_duration duration
         <*> check_sector sectors sector
-        <*> check_project (List.map fst projects) project
+        <*> check_project
+              (List.map (fun (x, _, _) -> x) projects)
+              project
         <*> check_label (String.concat " " label)
       in
       match potential_log with

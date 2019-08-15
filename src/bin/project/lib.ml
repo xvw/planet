@@ -59,7 +59,7 @@ let ls_render_invalid_project projects =
 let ls () =
   match Glue.Project.inspect () with
   | Error err ->
-    Prompter.prompt_error err
+    Prompter.prompt_errors err
   | Ok projects ->
     let invalid_project, valid_projects =
       List.fold_right
@@ -67,7 +67,7 @@ let ls () =
           match elt with
           | Error errs ->
             (f, errs) :: l, r
-          | Ok (project, _) ->
+          | Ok (project, _, _) ->
             l, (f, project) :: r)
         projects
         ([], [])
@@ -156,12 +156,13 @@ let show project_name expanded =
     let open Bedrock in
     Glue.Log.read_project_updates ()
     |> Validation.from_result
+    |> Validation.map Glue.Context.Projects.init
     |> Validation.bind (fun t ->
            fst (Glue.Project.read t (project_name ^ ".qube")))
   in
   match r with
   | Error err ->
     Prompter.prompt_errors err
-  | Ok (project, _) ->
+  | Ok (project, _, _) ->
     show_project expanded project
 ;;

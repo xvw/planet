@@ -12,20 +12,21 @@ module Projects = struct
     ; projects : (string, context) Hashtbl.t
     }
 
-  let add_to_sectors ctx sector =
-    match Hashtbl.find_opt ctx sector with
+  let add_to_sectors ctx log =
+    let open Shapes.Log in
+    match Hashtbl.find_opt ctx log.sector with
     | None ->
-      let () = Hashtbl.add ctx sector 1 in
+      let () = Hashtbl.add ctx log.sector log.duration in
       ctx
     | Some i ->
-      let () = Hashtbl.remove ctx sector in
-      let () = Hashtbl.add ctx sector (i + 1) in
+      let () = Hashtbl.remove ctx log.sector in
+      let () = Hashtbl.add ctx log.sector (i + log.duration) in
       ctx
   ;;
 
   let init_project project log =
     let open Shapes.Log in
-    let sectors = add_to_sectors (Hashtbl.create 1) log.sector in
+    let sectors = add_to_sectors (Hashtbl.create 1) log in
     { name = project
     ; start_date = Some log.day
     ; logs_counter = 1
@@ -39,7 +40,7 @@ module Projects = struct
     | None ->
       Some date2
     | Some date1 ->
-      if Paperwork.Timetable.Day.cmp date1 date2 < 0
+      if Paperwork.Timetable.Day.cmp date1 date2 > 0
       then Some date2
       else Some date1
   ;;
@@ -50,8 +51,7 @@ module Projects = struct
       start_date = keep_smallest_date base.start_date log.day
     ; logs_counter = base.logs_counter + 1
     ; minuts_counter = base.minuts_counter + log.duration
-    ; sectors_counters =
-        add_to_sectors base.sectors_counters log.sector
+    ; sectors_counters = add_to_sectors base.sectors_counters log
     }
   ;;
 
@@ -77,7 +77,7 @@ module Projects = struct
 
   let init table = { updates = table; projects = Hashtbl.create 1 }
 
-  let aux_project_qexp name value =
+  let project_to_qexp name value =
     let open Paperwork.Qexp in
     let sectors =
       value.sectors_counters |> Hashtbl.to_seq |> List.of_seq
@@ -120,25 +120,24 @@ module Projects = struct
           [ tag "projects"
           ; node
               (ctx.projects |> Hashtbl.to_seq |> List.of_seq
-              |> List.map (fun (k, v) -> aux_project_qexp k v))
+              |> List.map (fun (k, v) -> project_to_qexp k v))
           ]
       ]
   ;;
 
-  let empty_project_context name =
-    { name
-    ; start_date = None
-    ; logs_counter = 0
-    ; minuts_counter = 0
-    ; sectors_counters = Hashtbl.create 0
-    }
-  ;;
+  (* let empty_project_context name =
+   *   { name
+   *   ; start_date = None
+   *   ; logs_counter = 0
+   *   ; minuts_counter = 0
+   *   ; sectors_counters = Hashtbl.create 0
+   *   }
+   * ;; *)
 
-  let project_to_qexp ctx project =
-    match Hashtbl.find_opt ctx.projects project with
-    | Some p ->
-      aux_project_qexp project p
-    | None ->
-      aux_project_qexp project (empty_project_context project)
-  ;;
+  (* let project_to_qexp ctx project =
+   *   match Hashtbl.find_opt ctx.projects project with
+   *   | Some p ->
+   *     aux_project_qexp project p
+   *   | None ->
+   *     aux_project_qexp project (empty_project_context project) *)
 end

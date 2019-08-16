@@ -103,3 +103,8 @@
   (:duration "60") (:sector "visual")
   (:label "Ajout d'un block de suivi du timetracking par projets")
   (:project "planet"))
+
+((:uuid "2f1ee4f0-5eb2-89a8-be79-dbe4aead5ed9") (:day "019H16")
+  (:duration "120") (:sector "programming")
+  (:label "Tâches variées et correctif des accents dans les logs")
+  (:project "planet"))

@@ -43,3 +43,22 @@ let to_json () =
       (fun sector -> Shapes.Sector.(sector.name, to_json sector))
       sectors
 ;;
+
+let compute_html_node acc sector =
+  let open Shapes.Sector in
+  acc
+  ^ Shapes.Metahtml.to_html
+      [ "name", sector.name
+      ; "desc", sector.desc
+      ; "color", Paperwork.Color.to_rgb sector.color
+      ]
+;;
+
+let to_html () =
+  let open Validation in
+  database |> Database.path
+  |> File.to_stream (fun _ -> Qexp.from_stream)
+  |> from_result >>= collect_sectors id
+  >|= List.fold_left compute_html_node ""
+  |> function Ok x -> x | _ -> ""
+;;

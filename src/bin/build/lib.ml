@@ -137,8 +137,22 @@ let projects () =
     ()
 ;;
 
+let sectors () =
+  let open Validation.Infix in
+  let () = create_partials () in
+  let partial =
+    Filename.concat seed_partials "planet_sectors.meta.html"
+  in
+  let () = trace_deletion (soft_deletion_file partial) in
+  let str = Glue.Sector.to_html () in
+  File.create partial str |> Validation.from_result
+  >|= (fun () -> true, partial)
+  |> trace_creation
+;;
+
 let all () =
   let () = api () in
   let () = projects () in
+  let () = sectors () in
   ()
 ;;

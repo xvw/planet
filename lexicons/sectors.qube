@@ -10,7 +10,7 @@
 ((:name "writing") (:color "#c0c0c0")
  (:desc "Ecriture d'articles, de livres, de notes"))
 
-((:name "r&d") (:color "#c0c0c0")
+((:name "research") (:color "#c0c0c0")
  (:desc "Expériences variées liées à l'apprentissage"))
 
 ((:name "maintenance") (:color "#c0c0c0")

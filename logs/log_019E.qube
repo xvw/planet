@@ -1,6 +1,6 @@
 ;; Logs for 019E
 ((:uuid "6de0a8b0-b50a-62bb-db2b-2ebdb9ceb371") (:day "019E01")
-  (:duration "180") (:sector "r&d")
+  (:duration "180") (:sector "research")
   (:label "Expériences avec Godot Engine "))
 
 ((:uuid "f5ecf238-9e8f-194a-f991-98ea7949e15b") (:day "019E05")
@@ -17,7 +17,7 @@
   (:label "Automatisation des commit des logs") (:project "planet"))
 
 ((:uuid "40352cb2-0301-190a-162c-6db2e95f8a64") (:day "019E10")
-  (:duration "120") (:sector "r&d")
+  (:duration "120") (:sector "research")
   (:label "Expériences sur la génération de HTML") (:project "planet"))
 
 ((:uuid "264876d3-9e86-e3d6-75fa-f5e79d20b105") (:day "019E12")
@@ -30,7 +30,7 @@
   (:label "Ajout de projets non publiés") (:project "planet"))
 
 ((:uuid "df10c94c-f214-870c-c316-c8ef146af53f") (:day "019E20")
-  (:duration "120") (:sector "r&d")
+  (:duration "120") (:sector "research")
   (:label
     "Réflexion sur l'organisation de Quasar (et expériences d'implémentations)")
   (:project "quasar"))
@@ -40,7 +40,7 @@
   (:label "Organisation générale des modules") (:project "quasar"))
 
 ((:uuid "b8d6ef73-e836-bcb9-2575-9bf935fb1bca") (:day "019E28")
-  (:duration "240") (:sector "r&d") (:label "Maintenance ArchLinux"))
+  (:duration "240") (:sector "research") (:label "Maintenance ArchLinux"))
 
 ((:uuid "16771928-d3f3-38bb-7795-d1602efff014") (:day "019E29")
   (:duration "240") (:sector "programming")
@@ -53,7 +53,7 @@
   (:label "Implantation du module Js.Array") (:project "quasar"))
 
 ((:uuid "440e6604-9f9c-6f0c-9fe2-a2aedb04ce59") (:day "019E30")
-  (:duration "60") (:sector "r&d")
+  (:duration "60") (:sector "research")
   (:label "Fix des dépôts cassés de ma distribution"))
 
 ((:uuid "9a7387bc-b051-dd04-c73a-0c84e2a83dbe") (:day "019E31")

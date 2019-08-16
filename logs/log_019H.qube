@@ -76,7 +76,7 @@
   (:project "planet"))
 
 ((:uuid "d04d46ba-e89c-66fc-0db1-2c062ca0638b") (:day "019H14")
-  (:duration "60") (:sector "r&d") (:label "Histoire du web, Alexandria"))
+  (:duration "60") (:sector "research") (:label "Histoire du web, Alexandria"))
 
 ((:uuid "7cf05675-9841-4238-8633-d8b8d4740fd9") (:day "019H15")
   (:duration "20") (:sector "programming")

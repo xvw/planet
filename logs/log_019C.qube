@@ -35,5 +35,5 @@
   (:label "Initiation des programmes 'ego' et 'remor'") (:project "planet"))
 
 ((:uuid "3d3b2037-0e46-e3eb-fa0a-2ebfab6facb5") (:day "019C28")
-  (:duration "120") (:sector "r&d")
+  (:duration "120") (:sector "research")
   (:label "Documentation et expériences avec MirageOS"))

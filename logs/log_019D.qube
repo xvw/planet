@@ -9,11 +9,11 @@
   (:project "planet"))
 
 ((:uuid "4df3ccba-f903-e06a-c3d0-c5dded423dab") (:day "019D02")
-  (:duration "180") (:sector "r&d")
+  (:duration "180") (:sector "research")
   (:label "Relecture de documents sur le Domain Driven Design"))
 
 ((:uuid "3d26c72c-74b8-5990-1e94-62b2594714f4") (:day "019D03")
-  (:duration "100") (:sector "r&d")
+  (:duration "100") (:sector "research")
   (:label "Lecture sur la sémantique structurale de Greimas"))
 
 ((:uuid "1addc3be-aca5-ff61-9511-4197b90a8985") (:day "019D03")
@@ -28,15 +28,15 @@
   (:project "qian"))
 
 ((:uuid "afa794ba-89c8-e242-b385-cf99c694dd83") (:day "019D04")
-  (:duration "180") (:sector "r&d")
+  (:duration "180") (:sector "research")
   (:label "Formation 'Domain Driven Design' avec FSharp"))
 
 ((:uuid "217b04d4-43f4-9517-a429-9f011c822001") (:day "019D05")
-  (:duration "180") (:sector "r&d")
+  (:duration "180") (:sector "research")
   (:label "Lecture de 'Logique du récit' de Claude Brémond"))
 
 ((:uuid "309d8207-86e1-01db-5171-60c51d696714") (:day "019D06")
-  (:duration "240") (:sector "r&d")
+  (:duration "240") (:sector "research")
   (:label "Progression dans 'Logique du récit' de Claude Brémond"))
 
 ((:uuid "39b8517f-7ada-4177-6413-2e40430fe6fc") (:day "019D07")
@@ -53,7 +53,7 @@
   (:label "Génération des logs en Json") (:project "planet"))
 
 ((:uuid "88799ad5-0873-07f4-9887-bc5a67364123") (:day "019D09")
-  (:duration "120") (:sector "r&d")
+  (:duration "120") (:sector "research")
   (:label "Progression dans 'Logique du récit' de Claude Brémond"))
 
 ((:uuid "9ff7f66c-57cc-380a-3f17-aaf41552be3e") (:day "019D10")
@@ -65,11 +65,11 @@
   (:label "Approche de la sémantique structurale de A.J. Greimas"))
 
 ((:uuid "559fa1bf-a74c-5ee2-57bd-2050fa3ad845") (:day "019D12")
-  (:duration "120") (:sector "r&d")
+  (:duration "120") (:sector "research")
   (:label "Le langage de modules de OCaml pour le talk à DevoxxFR 2019"))
 
 ((:uuid "f6fe00d3-b8fd-bf90-fc0e-422c3ae344af") (:day "019D13")
-  (:duration "420") (:sector "r&d")
+  (:duration "420") (:sector "research")
   (:label
     "Les modules dans différents langages de programmation, talk DevoxxFR 2019"))
 
@@ -79,19 +79,19 @@
   (:project "planet"))
 
 ((:uuid "65f9391c-887b-0d8e-1e73-b9381334d8af") (:day "019D15")
-  (:duration "200") (:sector "r&d") (:label "Recherches sur les modules ML"))
+  (:duration "200") (:sector "research") (:label "Recherches sur les modules ML"))
 
 ((:uuid "65f9391c-887b-0d8e-1e73-b9381334d8af") (:day "019D16")
-  (:duration "180") (:sector "r&d") (:label "Recherches sur les modules ML"))
+  (:duration "180") (:sector "research") (:label "Recherches sur les modules ML"))
 
 ((:uuid "65f9391c-887b-0d8e-1e73-b9381334d8af") (:day "019D17")
-  (:duration "240") (:sector "r&d") (:label "Recherches sur les modules ML"))
+  (:duration "240") (:sector "research") (:label "Recherches sur les modules ML"))
 
 ((:uuid "65f9391c-887b-0d8e-1e73-b9381334d8af") (:day "019D18")
-  (:duration "320") (:sector "r&d") (:label "Recherches sur les modules ML"))
+  (:duration "320") (:sector "research") (:label "Recherches sur les modules ML"))
 
 ((:uuid "e2c87eb5-cfaa-319c-f6e3-eb9bc179667d") (:day "019D23")
-  (:duration "120") (:sector "r&d")
+  (:duration "120") (:sector "research")
   (:label "Expérimentation sur Nix et NixOS"))
 
 ((:uuid "cd28d55d-fefa-be36-fdc9-400ce2289442") (:day "019D25")
@@ -111,7 +111,7 @@
   (:project "brainfocaml"))
 
 ((:uuid "aed07c03-d62d-1019-02ac-cc8c17acce1c") (:day "019D29")
-  (:duration "120") (:sector "r&d")
+  (:duration "120") (:sector "research")
   (:label
     "Lecture sur l'implémentation d'un système de type et sur l'inférence"))
 
@@ -121,6 +121,6 @@
   (:project "brainfocaml"))
 
 ((:uuid "d511b109-254d-5ec6-efb5-45ebd1934639") (:day "019D29")
-  (:duration "300") (:sector "r&d")
+  (:duration "300") (:sector "research")
   (:label "Expérimentations sur la génération de pages")
   (:project "planet"))

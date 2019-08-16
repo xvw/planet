@@ -41,7 +41,7 @@
   (:label "Suppression de secteurs inutiles") (:project "planet"))
 
 ((:uuid "012682a6-722e-4c29-f86a-0a736eb3b3e1") (:day "019G26")
-  (:duration "1") (:sector "r&d")
+  (:duration "1") (:sector "research")
   (:label "Expérience sur les accents & caractères spéciaux"))
 
 ((:uuid "51c679c8-9ba5-c7ac-40d2-d267eca575ee") (:day "019G26")
@@ -63,7 +63,7 @@
   (:label "Tri des projets par dernière mise à jour") (:project "planet"))
 
 ((:uuid "04373152-9702-b3a6-16ae-ed5b0c9f9bf8") (:day "019G27")
-  (:duration "10") (:sector "r&d")
+  (:duration "10") (:sector "research")
   (:label "Expérimentations avec le toplevel d'OCaml") (:project "rutsch"))
 
 ((:uuid "d192acac-0b8e-de9b-5bdd-80cb0b912851") (:day "019G27")
@@ -76,13 +76,13 @@
   (:project "planet"))
 
 ((:uuid "b6faaabf-c1ae-801e-0f63-e42a1c04af8c") (:day "019G28")
-  (:duration "200") (:sector "r&d") (:label "Initiation du projet")
+  (:duration "200") (:sector "research") (:label "Initiation du projet")
   (:project "phragment"))
 
 ((:uuid "07e7985f-762d-a26d-c185-2ec73f048136") (:day "019G29")
-  (:duration "200") (:sector "r&d") (:label "Raisonnement sur le protocol")
+  (:duration "200") (:sector "research") (:label "Raisonnement sur le protocol")
   (:project "phragment"))
 
 ((:uuid "95c55fde-060c-150e-5df9-f866eb74ca85") (:day "019G30")
-  (:duration "120") (:sector "r&d") (:label "Raisonnement sur le manifeste")
+  (:duration "120") (:sector "research") (:label "Raisonnement sur le manifeste")
   (:project "phragment"))

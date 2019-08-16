@@ -98,3 +98,8 @@
 ((:uuid "aa259e69-7912-a7cb-ffb1-e6d0c9e07217") (:day "019H15")
   (:duration "60") (:sector "visual")
   (:label "Modification de l'UI des projets") (:project "planet"))
+
+((:uuid "38ed746a-7151-21d0-7027-b25377c67360") (:day "019H16")
+  (:duration "60") (:sector "visual")
+  (:label "Ajout d'un block de suivi du timetracking par projets")
+  (:project "planet"))

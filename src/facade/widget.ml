@@ -187,14 +187,18 @@ module Project = struct
         )
       |> Tyxml.To_dom.of_div
     in
-    let bottom_content =
-      div
-        ~a:[ a_class [ "list-of-links" ] ]
-        (render_links Shapes.Project.(project.links))
-      |> Tyxml.To_dom.of_div
-    in
-    Dom.appendChild right_container right_content;
-    Dom.appendChild bottom_container bottom_content
+    let () = Dom.appendChild right_container right_content in
+    match Shapes.Project.(project.links) with
+    | [] ->
+      ()
+    | _ :: _ ->
+      let bottom_content =
+        div
+          ~a:[ a_class [ "list-of-links" ] ]
+          (render_links Shapes.Project.(project.links))
+        |> Tyxml.To_dom.of_div
+      in
+      Dom.appendChild bottom_container bottom_content
   ;;
 
   let validate_project node =

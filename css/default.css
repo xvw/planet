@@ -265,8 +265,10 @@ footer a {
 }
 
 .project-badges > .project-badge {
+    border-radius: 4px;
+    font-family: "Fira Mono", monospace;
     font-weight: 400;
-    font-size: 95%;
+    font-size: 80%;
     background-color: #FFF;
     padding: 4px 8px;
     margin: 0;
@@ -457,3 +459,8 @@ footer a {
     margin-top: 12px;
     padding-top: 20px;
 }
+
+#project-content-bottom:empty {
+    display: none;
+}
+

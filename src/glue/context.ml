@@ -1,3 +1,6 @@
+module Table = Paperwork.Table
+module Fetch = Table.Fetch
+
 module Projects = struct
   type context =
     { name : string
@@ -125,19 +128,40 @@ module Projects = struct
       ]
   ;;
 
-  (* let empty_project_context name =
-   *   { name
-   *   ; start_date = None
-   *   ; logs_counter = 0
-   *   ; minuts_counter = 0
-   *   ; sectors_counters = Hashtbl.create 0
-   *   }
-   * ;; *)
+  let make_context
+      name
+      start_date
+      logs_counter
+      minuts_counter
+      sectors_counters
+    =
+    { name
+    ; start_date
+    ; logs_counter
+    ; minuts_counter
+    ; sectors_counters
+    }
+  ;;
 
-  (* let project_to_qexp ctx project =
-   *   match Hashtbl.find_opt ctx.projects project with
-   *   | Some p ->
-   *     aux_project_qexp project p
-   *   | None ->
-   *     aux_project_qexp project (empty_project_context project) *)
+  let project_from_qexp qexp =
+    let open Bedrock in
+    match Table.configuration qexp with
+    | Ok config ->
+      let open Validation.Infix in
+      make_context
+      <$> Fetch.(string config "name")
+      <*> Fetch.(option day config "start_date")
+      <*> Fetch.(int config "logs_counter")
+      <*> Fetch.(int config "minuts_counter")
+      <*> Fetch.hashtbl_refutable
+            (fun key -> function Paperwork.Qexp.Atom value ->
+                value |> int_of_string_opt
+                |> Validation.from_option (Unparsable value)
+                >|= fun v -> key, v | expr ->
+                Error [ Unparsable (Paperwork.Qexp.to_string expr) ])
+            config
+            "sectors"
+    | Error _ as e ->
+      Validation.from_result e
+  ;;
 end

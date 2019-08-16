@@ -9,6 +9,11 @@ let render_error errors =
   errors |> List.iter (to_string %> Js.string %> Console.error)
 ;;
 
+let validate str optional_node =
+  optional_node |> Js.Opt.to_option
+  |> Validation.from_option (Of str)
+;;
+
 module Project = struct
   class type boot_input =
     object
@@ -100,15 +105,27 @@ module Project = struct
       links
   ;;
 
-  let render_timedata td =
-    match Js.Opt.to_option td with
-    | None ->
+  let render_timedata textarea_timedata =
+    let tdata =
+      let open Validation.Infix in
+      textarea_timedata |> Js.Opt.to_option
+      |> Validation.from_option (Of "Unable to find time metadata")
+      >>= fun textarea ->
+      textarea##.textContent
+      |> validate "Content of textarea is malformed"
+      >>= fun text ->
+      Js.to_string text |> Paperwork.Qexp.from_string
+      |> Validation.from_result
+    in
+    match tdata with
+    | Error errs ->
+      let () = render_error errs in
       []
-    | Some _txtarea ->
+    | Ok _content ->
       let open Tyxml.Html in
       [ div
           ~a:[ a_class [ "project-block"; "tag-list" ] ]
-          [ h3 [ span [ txt "Tracking" ] ] ]
+          [ h3 [ span [ txt "Suivi" ] ] ]
       ]
   ;;
 
@@ -135,11 +152,6 @@ module Project = struct
     in
     Dom.appendChild right_container right_content;
     Dom.appendChild bottom_container bottom_content
-  ;;
-
-  let validate str optional_node =
-    optional_node |> Js.Opt.to_option
-    |> Validation.from_option (Of str)
   ;;
 
   let validate_project node =

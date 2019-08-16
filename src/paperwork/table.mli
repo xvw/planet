@@ -69,6 +69,14 @@ module Fetch : sig
     :  (Qexp.t -> 'a Validation.t)
     -> (string * 'a list) list t
 
+  val hashtbl
+    :  (string -> Qexp.t -> ('a * 'b) Validation.t)
+    -> ('a, 'b) Hashtbl.t t
+
+  val hashtbl_refutable
+    :  (string -> Qexp.t -> ('a * 'b) Validation.t)
+    -> ('a, 'b) Hashtbl.t t
+
   val token : (string -> 'a Validation.t) -> 'a t
   val int : int t
   val color : Color.t t

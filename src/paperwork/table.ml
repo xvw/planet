@@ -175,6 +175,25 @@ module Fetch = struct
       Error [ Invalid_field field ]
   ;;
 
+  let aux_hashtbl f mapper table field =
+    let open Validation.Infix in
+    f
+      Mapper.(couple $ token (fun x -> Ok x) $ fun x -> Ok x)
+      table
+      field
+    >>= List.map (fun (x, y) -> mapper x y)
+        %> Validation.Applicative.sequence
+    >|= List.to_seq %> Hashtbl.of_seq
+  ;;
+
+  let hashtbl mapper table field =
+    aux_hashtbl list mapper table field
+  ;;
+
+  let hashtbl_refutable mapper table field =
+    aux_hashtbl list_refutable mapper table field
+  ;;
+
   let aux_ziplist f mapper table field =
     let open Qexp in
     f

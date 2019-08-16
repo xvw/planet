@@ -156,7 +156,7 @@ let show project_name expanded =
     let open Bedrock in
     Glue.Log.read_project_updates ()
     |> Validation.from_result
-    |> Validation.map Glue.Context.Projects.init
+    |> Validation.map Shapes.Context.Projects.init
     |> Validation.bind (fun t ->
            fst (Glue.Project.read t (project_name ^ ".qube")))
   in

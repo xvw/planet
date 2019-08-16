@@ -13,7 +13,7 @@ let read ctx filename =
   |> File.to_stream (fun _ -> Qexp.from_stream)
   |> from_result >>= Shapes.Project.from_qexp
   >|= (fun project ->
-        let open Context.Projects in
+        let open Shapes.Context.Projects in
         ( project
         , Shapes.Update_table.fetch ctx.updates project.name
         , Hashtbl.find_opt ctx.projects project.name ))
@@ -36,8 +36,8 @@ let inspect () =
   Log.read_project_updates ()
   |> Validation.from_result
   >>= fun table ->
-  Log.traverse Context.Projects.update
-  $ Context.Projects.init table
+  Log.traverse Shapes.Context.Projects.update
+  $ Shapes.Context.Projects.init table
   >>= (fun ctx ->
         Dir.children
           ~filter:(flip String.has_extension "qube")
@@ -155,7 +155,7 @@ let to_hakyll_string_aux day project_opt project =
       ""
     | Some metadata ->
       let str =
-        Context.Projects.project_to_qexp project.name metadata
+        Shapes.Context.Projects.project_to_qexp project.name metadata
         |> Paperwork.Qexp.to_string
       in
       "\n" ^ as_textarea "project_timedata" str )

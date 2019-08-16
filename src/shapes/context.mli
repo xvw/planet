@@ -11,12 +11,12 @@ module Projects : sig
     }
 
   type t =
-    { updates : Shapes.Update_table.t
+    { updates : Update_table.t
     ; projects : (string, context) Hashtbl.t
     }
 
-  val update : t -> Shapes.Log.t -> t
-  val init : Shapes.Update_table.t -> t
+  val update : t -> Log.t -> t
+  val init : Update_table.t -> t
   val to_qexp : t -> Paperwork.Qexp.t
   val project_to_qexp : string -> context -> Paperwork.Qexp.t
 

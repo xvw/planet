@@ -8,11 +8,11 @@ val database : Shapes.Project.t Database.t
 
 (** Read a project from a file *)
 val read
-  :  Context.Projects.t
+  :  Shapes.Context.Projects.t
   -> File.name
   -> (Shapes.Project.t
      * Paperwork.Timetable.Day.t option
-     * Context.Projects.context option)
+     * Shapes.Context.Projects.context option)
      Validation.t
      * File.name
 
@@ -21,7 +21,7 @@ val inspect
   :  unit
   -> ((Shapes.Project.t
       * Paperwork.Timetable.Day.t option
-      * Context.Projects.context option)
+      * Shapes.Context.Projects.context option)
       Validation.t
      * File.name)
      list
@@ -32,7 +32,7 @@ val all
   :  unit
   -> (Shapes.Project.t
      * Paperwork.Timetable.Day.t option
-     * Context.Projects.context option)
+     * Shapes.Context.Projects.context option)
      list
      Validation.t
 
@@ -43,5 +43,5 @@ val to_json : unit -> Paperwork.Json.t Validation.t
 val to_hakyll_string
   :  Shapes.Project.t
      * Paperwork.Timetable.Day.t option
-     * Context.Projects.context option
+     * Shapes.Context.Projects.context option
   -> (Shapes.Project.t * File.name * string * string) Validation.t

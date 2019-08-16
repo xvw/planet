@@ -11,12 +11,12 @@ module Projects = struct
     }
 
   type t =
-    { updates : Shapes.Update_table.t
+    { updates : Update_table.t
     ; projects : (string, context) Hashtbl.t
     }
 
   let add_to_sectors ctx log =
-    let open Shapes.Log in
+    let open Log in
     match Hashtbl.find_opt ctx log.sector with
     | None ->
       let () = Hashtbl.add ctx log.sector log.duration in
@@ -28,7 +28,7 @@ module Projects = struct
   ;;
 
   let init_project project log =
-    let open Shapes.Log in
+    let open Log in
     let sectors = add_to_sectors (Hashtbl.create 1) log in
     { name = project
     ; start_date = Some log.day
@@ -49,7 +49,7 @@ module Projects = struct
   ;;
 
   let diff base log =
-    let open Shapes.Log in
+    let open Log in
     { base with
       start_date = keep_smallest_date base.start_date log.day
     ; logs_counter = base.logs_counter + 1
@@ -70,7 +70,7 @@ module Projects = struct
   ;;
 
   let update ctx log =
-    let open Shapes.Log in
+    let open Log in
     match log.project with
     | None ->
       ctx
@@ -117,8 +117,7 @@ module Projects = struct
   let to_qexp ctx =
     let open Paperwork.Qexp in
     node
-      [ node
-          [ tag "updates"; Shapes.Update_table.to_qexp ctx.updates ]
+      [ node [ tag "updates"; Update_table.to_qexp ctx.updates ]
       ; node
           [ tag "projects"
           ; node

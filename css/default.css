@@ -405,22 +405,43 @@ footer a {
     display: block;
 }
 
+#project-content-right .tracking  ul.stats > li,
 #project-content-right .release-list ul > li {
     display: flex;
     flex-direction: row;
     align-items: center;
 }
 
+#project-content-right .tracking ul.stats {
+    font-size: 75%;
+}
+
+#project-content-right .tracking  ul.stats > li > .label,
 #project-content-right .release-list ul > li > .date {
-    background-color: #000;
-    color: #fff;
     padding: 4px 8px;
     border-radius: 4px;
-    font-size: 75%;
-    font-weight: 500;
     display: block;
     margin-right: 12px;
+}
+
+#project-content-right .tracking  ul.stats > li > .label {
+    background-color: #eee;
+    color: #666;
+    font-weight: 700;
+    flex: 0 1 40%;
+    text-align: center;
+}
+
+#project-content-right .tracking ul.stats > li > .data,
+#project-content-right .release-list ul > li > .date {
     font-family: "Fira Mono", monospace;
+}
+
+#project-content-right .release-list ul > li > .date {
+    font-weight: 500;
+    background-color: #000;
+    color: #fff;
+    font-size: 75%;
 }
 
 #project-content-right .release-list ul > li > a {

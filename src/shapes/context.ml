@@ -80,7 +80,7 @@ module Projects = struct
 
   let init table = { updates = table; projects = Hashtbl.create 1 }
 
-  let project_to_qexp name value =
+  let project_to_qexp _name value =
     let open Paperwork.Qexp in
     let sectors =
       value.sectors_counters |> Hashtbl.to_seq |> List.of_seq
@@ -88,30 +88,27 @@ module Projects = struct
              node [ string k; atom (string_of_int value) ])
     in
     node
-      [ string name
-      ; node
-          ([ node [ tag "name"; string value.name ]
-           ; node
-               [ tag "logs_counter"
-               ; atom (string_of_int value.logs_counter)
-               ]
-           ; node
-               [ tag "minuts_counter"
-               ; atom (string_of_int value.minuts_counter)
-               ]
-           ; node [ tag "sectors_counters"; node sectors ]
+      ([ node [ tag "name"; string value.name ]
+       ; node
+           [ tag "logs_counter"
+           ; atom (string_of_int value.logs_counter)
            ]
-          @
-          match value.start_date with
-          | None ->
-            []
-          | Some date ->
-            [ node
-                [ tag "start_date"
-                ; keyword (Paperwork.Timetable.Day.to_string date)
-                ]
-            ])
-      ]
+       ; node
+           [ tag "minuts_counter"
+           ; atom (string_of_int value.minuts_counter)
+           ]
+       ; node [ tag "sectors_counters"; node sectors ]
+       ]
+      @
+      match value.start_date with
+      | None ->
+        []
+      | Some date ->
+        [ node
+            [ tag "start_date"
+            ; keyword (Paperwork.Timetable.Day.to_string date)
+            ]
+        ])
   ;;
 
   let to_qexp ctx =

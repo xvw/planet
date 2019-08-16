@@ -105,27 +105,67 @@ module Project = struct
       links
   ;;
 
-  let render_timedata textarea_timedata =
-    let tdata =
-      let open Validation.Infix in
-      textarea_timedata |> Js.Opt.to_option
-      |> Validation.from_option (Of "Unable to find time metadata")
-      >>= fun textarea ->
-      textarea##.textContent
-      |> validate "Content of textarea is malformed"
-      >>= fun text ->
-      Js.to_string text |> Paperwork.Qexp.from_string
-      |> Validation.from_result
-    in
-    match tdata with
+  let collect_data textarea_timedata =
+    let open Validation.Infix in
+    textarea_timedata |> Js.Opt.to_option
+    |> Validation.from_option (Of "Unable to find time metadata")
+    >>= fun textarea ->
+    textarea##.textContent
+    |> validate "Content of textarea is malformed"
+    >>= fun text ->
+    Js.to_string text |> Paperwork.Qexp.from_string
+    |> Validation.from_result
+    >>= Shapes.Context.Projects.project_from_qexp
+  ;;
+
+  let render_start_date = function
+    | None ->
+      []
+    | Some start_date ->
+      let open Tyxml.Html in
+      [ li
+          [ span ~a:[ a_class [ "label" ] ] [ txt "Démarrage" ]
+          ; span
+              ~a:[ a_class [ "data" ] ]
+              [ txt
+                $ Format.asprintf
+                    "~%a"
+                    Paperwork.Timetable.Day.ppr
+                    start_date
+              ]
+          ]
+      ]
+  ;;
+
+  let render_timedata data =
+    match collect_data data with
     | Error errs ->
       let () = render_error errs in
       []
-    | Ok _content ->
+    | Ok ctx ->
       let open Tyxml.Html in
+      let open Shapes.Context.Projects in
       [ div
-          ~a:[ a_class [ "project-block"; "tag-list" ] ]
-          [ h3 [ span [ txt "Suivi" ] ] ]
+          ~a:[ a_class [ "project-block"; "tracking" ] ]
+          [ h3 [ span [ txt "Suivi" ] ]
+          ; ul
+              ~a:[ a_class [ "stats" ] ]
+              (render_start_date ctx.start_date
+              @ [ li
+                    [ span ~a:[ a_class [ "label" ] ] [ txt "Logs" ]
+                    ; span
+                        ~a:[ a_class [ "data" ] ]
+                        [ txt
+                          $ Format.asprintf
+                              "%d entrée%s"
+                              ctx.logs_counter
+                              (if ctx.logs_counter > 1
+                              then "s"
+                              else "")
+                        ]
+                    ]
+                ])
+          ]
       ]
   ;;
 

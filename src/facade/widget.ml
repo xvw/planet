@@ -118,22 +118,23 @@ module Project = struct
     >>= Shapes.Context.Projects.project_from_qexp
   ;;
 
+  let create_data_block key value =
+    let open Tyxml.Html in
+    li
+      [ span ~a:[ a_class [ "label" ] ] [ txt key ]
+      ; span ~a:[ a_class [ "data" ] ] [ txt value ]
+      ]
+  ;;
+
   let render_start_date = function
     | None ->
       []
     | Some start_date ->
-      let open Tyxml.Html in
-      [ li
-          [ span ~a:[ a_class [ "label" ] ] [ txt "Démarrage" ]
-          ; span
-              ~a:[ a_class [ "data" ] ]
-              [ txt
-                $ Format.asprintf
-                    "~%a"
-                    Paperwork.Timetable.Day.ppr
-                    start_date
-              ]
-          ]
+      [ create_data_block "Démarrage"
+        $ Format.asprintf
+            "~%a"
+            Paperwork.Timetable.Day.ppr
+            start_date
       ]
   ;;
 
@@ -145,25 +146,27 @@ module Project = struct
     | Ok ctx ->
       let open Tyxml.Html in
       let open Shapes.Context.Projects in
+      let hours =
+        let duration = float_of_int ctx.minuts_counter in
+        let minuts = duration /. 60.0 in
+        minuts
+      in
       [ div
           ~a:[ a_class [ "project-block"; "tracking" ] ]
           [ h3 [ span [ txt "Suivi" ] ]
           ; ul
               ~a:[ a_class [ "stats" ] ]
               (render_start_date ctx.start_date
-              @ [ li
-                    [ span ~a:[ a_class [ "label" ] ] [ txt "Logs" ]
-                    ; span
-                        ~a:[ a_class [ "data" ] ]
-                        [ txt
-                          $ Format.asprintf
-                              "%d entrée%s"
-                              ctx.logs_counter
-                              (if ctx.logs_counter > 1
-                              then "s"
-                              else "")
-                        ]
-                    ]
+              @ [ create_data_block "Logs"
+                  $ Format.asprintf
+                      "%d entrée%s"
+                      ctx.logs_counter
+                      (if ctx.logs_counter > 1 then "s" else "")
+                ; create_data_block "Durée"
+                  $ Format.asprintf
+                      "~%0.1f heure%s"
+                      hours
+                      (if hours >= 2.0 then "s" else "")
                 ])
           ]
       ]

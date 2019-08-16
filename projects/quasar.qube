@@ -5,6 +5,6 @@
   "Une bibliothèque standard pour OCaml, parce que j'aime bien réinventer la roue")
 (:status "wip")
 (:license "mit")
-(:tags "library" "ocaml" "toolkit")
+(:tags "library" "ocaml" "toolkit" "node" "stdlib")
 (:repo "github.com/xvw/quasar.git")
 (:content external #org-mode "projects/quasar.org")

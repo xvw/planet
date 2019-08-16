@@ -3,7 +3,7 @@
 (:synopsis "Un protocole de conversations décentralisé")
 (:status "wip")
 (:license "mit")
-(:tags "phragment" "discussion" "decentralized")
+(:tags "discussion" "decentralized" "forum" "protocol")
 (:repo "github.com/xvw/phragment.git")
 (:content external #org-mode "projects/phragment.org")
 (:picto "phragment")

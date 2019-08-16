@@ -4,7 +4,7 @@
 (:synopsis "Boite à outils autours de l'interprétation/exécution de Brainfuck")
 (:status "wip")
 (:license "mit")
-(:tags "brainfuck" "ocaml" "toolkit")
+(:tags "brainfuck" "ocaml" "parser" "interpreter" "compilation")
 (:repo "github.com/xvw/brainfocaml.git")
 (:content external #org-mode "projects/brainfocaml.org")
 

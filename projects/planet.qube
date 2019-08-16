@@ -3,7 +3,7 @@
 (:synopsis "Une collection d'outils pour construire ma page personnelle")
 (:status "unceasing")
 (:license "mit")
-(:tags "planet" "log" "web" "ocaml" "journal" "blog")
+(:tags "log" "web" "ocaml" "journal" "blog" "hakyll")
 (:repo "github.com/xvw/planet.git")
 (:content external #org-mode "projects/planet.org")
 (:picto "planet")

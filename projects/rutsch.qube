@@ -4,6 +4,6 @@
 (:synopsis "Un outil pour rédiger des supports de présentation")
 (:status "wip")
 (:license "mit")
-(:tags "slides" "mvp" "web" "talk")
+(:tags "slides" "mvp" "web" "talk" "presentation")
 (:repo "github.com/xvw/rutsch.git")
 (:content external #org-mode "projects/rutsch.org")

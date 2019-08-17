@@ -113,3 +113,8 @@
   (:duration "120") (:sector "programming")
   (:label "Initiation du block de suivi dans les pages de projets")
   (:project "planet"))
+
+((:uuid "3c03a5d0-0a98-683a-7b8f-560ba14ba4c8") (:day "019H17")
+  (:duration "120") (:sector "visual")
+  (:label "Initiation du block de suivi dans la page projet, partie visuelle")
+  (:project "planet"))

@@ -119,3 +119,8 @@
   (:duration "320") (:sector "visual")
   (:label "Design des graphiques de secteurs pour les projets")
   (:project "planet"))
+
+((:uuid "10238315-3994-b9a5-2db4-b9722c5e55b5") (:day "019H17")
+  (:duration "120") (:sector "research")
+  (:label "Recherches et expérimentations pour enrichir le markup de Planet")
+  (:project "planet"))

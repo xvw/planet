@@ -4,6 +4,9 @@
     box-sizing: border-box;
 }
 
+planet-metadata {
+    display: none;
+}
 
 body {    
     padding: 0;
@@ -464,3 +467,11 @@ footer a {
     display: none;
 }
 
+#project-content-right .tracking-graph {
+    margin: 24px 8px 8px 8px;
+}
+
+#project-content-right .tracking-graph text {
+    font-family: "Fira Mono", monospace;
+    font-size: 60%;
+}

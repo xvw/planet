@@ -48,6 +48,7 @@ let compute_html_node acc sector =
   let open Shapes.Sector in
   acc
   ^ Shapes.Metahtml.to_html
+      [ "sector-data" ]
       [ "name", sector.name
       ; "desc", sector.desc
       ; "color", Paperwork.Color.to_rgb sector.color

@@ -156,7 +156,7 @@ module Projects = struct
                 >|= fun v -> key, v | expr ->
                 Error [ Unparsable (Paperwork.Qexp.to_string expr) ])
             config
-            "sectors"
+            "sectors_counters"
     | Error _ as e ->
       Validation.from_result e
   ;;

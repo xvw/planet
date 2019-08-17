@@ -13,6 +13,7 @@ type t =
 
 (** {2 Functions} *)
 
+val make : string -> string -> Color.t -> t
 val to_qexp : t -> Qexp.t
 val from_qexp : Qexp.t -> t Validation.t
 

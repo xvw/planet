@@ -1,9 +1,37 @@
 open Js_of_ocaml
 open Bedrock
 open Error
+module Tyxml = Js_of_ocaml_tyxml.Tyxml_js
 
-module Deal = struct
-  let with_code node = Ok ()
+module Code = struct
+  let underbox parent node =
+    if Attr.Data.(parent.?{"pellet"} || parent.?{"file"})
+    then
+      let open Tyxml.Html in
+      let pellet =
+        Attr.Data.(parent.%{"pellet"})
+        |> Option.map (fun pellet ->
+               [ div ~a:[ a_class [ "code-pellet" ] ] [ txt pellet ] ])
+        |> Option.get_or (fun () -> [])
+      in
+      let file =
+        Attr.Data.(parent.%{"file"})
+        |> Option.map (fun file ->
+               [ div ~a:[ a_class [ "code-file" ] ] [ txt file ] ])
+        |> Option.get_or (fun () -> [])
+      in
+      let box =
+        div ~a:[ a_class [ "code-underbox" ] ] (pellet @ file)
+      in
+      Ok (Dom.appendChild node (Tyxml.To_dom.of_div box))
+    else Ok ()
+  ;;
+
+  let deal_with parent nodes =
+    let open Validation.Infix in
+    List.map (underbox parent) (Dom.list_of_nodeList nodes)
+    |> Validation.Applicative.sequence >> Ok ()
+  ;;
 end
 
 let mount container =
@@ -14,7 +42,10 @@ let mount container =
          |> Validation.from_option (Of "Unable to find kind")
          |> Validation.bind (function
                 | "code" ->
-                  Deal.with_code node
+                  Code.deal_with
+                    node
+                    (node##querySelectorAll
+                       (Js.string "div.sourceCode"))
                 | kind ->
                   Error
                     [ Of (Format.asprintf "Unknown kind [%s]" kind) ]))

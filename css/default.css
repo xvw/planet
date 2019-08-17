@@ -43,12 +43,38 @@ body {
     border-bottom: 1px dotted #666;
 }
 
-pre.sourceCode {
+div.sourceCode {
     background-color: #fefefe;
-    padding: 12px;
+    padding: 8px;
     font-size: 90%;
     border-radius: 4px;
     margin: 22px 0;
+}
+
+div.sourceCode .code-underbox:empty {
+    display: none;
+}
+
+div.sourceCode .code-underbox {
+    display: flex;
+    flex-direction: row;
+    margin-top: 12px;
+    align-items: center;
+}
+
+div.sourceCode .code-underbox .code-pellet {
+    flex: 0;
+    margin-right: 10px;
+    background-color: #444;
+    color: #FFF;
+    padding: 3px 12px;
+    font-weight: 700;
+    font-size: 80%;
+}
+
+div.sourceCode .code-underbox .code-file {
+    flex: 1;
+    color: #444;
 }
 
 pre.sourceCode * {

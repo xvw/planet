@@ -8,9 +8,9 @@ Morbi luctus feugiat accumsan. Pellentesque habitant morbi tristique senectus et
 
 
 #+ATTR_HTML: :data-kind code
-#+ATTR_HTML: :data-pellet true
+#+ATTR_HTML: :data-pellet ocaml :data-file foo/bar/sample.ml
 #+ATTR_HTML: :data-ln true 
-#+ATTR_HTML: :data-start: 10
+#+ATTR_HTML: :data-start 10
 #+BEGIN_roe
 #+BEGIN_SRC ocaml
 module Sector = struct

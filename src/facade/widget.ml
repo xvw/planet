@@ -18,24 +18,21 @@ let validate str optional_node =
 ;;
 
 let get_data f elt key =
-  elt##getAttribute (Js.string $ Format.asprintf "data-%s" key)
-  |> Js.Opt.to_option
+  Attr.Data.(elt.%{key})
   |> Validation.from_option (Of "Unable to find sector data")
   |> Validation.bind f
 ;;
 
 module Sector = struct
   let nodelist_to_hashtbl node_list =
-    let () = Console.log node_list in
     node_list |> Dom.list_of_nodeList
     |> List.map (fun node ->
            let open Validation.Infix in
            Shapes.Sector.make
-           <$> get_data (fun x -> Ok (Js.to_string x)) node "name"
-           <*> get_data (fun x -> Ok (Js.to_string x)) node "desc"
+           <$> get_data (fun x -> Ok x) node "name"
+           <*> get_data (fun x -> Ok x) node "desc"
            <*> get_data
-                 (Js.to_string %> Color.from_string
-                %> Validation.from_result)
+                 (Color.from_string %> Validation.from_result)
                  node
                  "color"
            >|= fun sector -> sector.name, sector)
@@ -366,7 +363,6 @@ module Project = struct
 
   let boot input =
     let open Validation.Infix in
-    let () = Console.log input##.sectors in
     match
       (fun x y z a -> x, y, z, a)
       <$> validate

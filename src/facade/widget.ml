@@ -8,10 +8,6 @@ module Svg = Tyxml.Svg
 
 let d ?(u = `Px) value = value, Some u
 
-let render_error errors =
-  errors |> List.iter (to_string %> Js.string %> Console.error)
-;;
-
 let validate str optional_node =
   optional_node |> Js.Opt.to_option
   |> Validation.from_option (Of str)
@@ -284,7 +280,7 @@ module Project = struct
   let render_timedata data sectors =
     match collect_data data with
     | Error errs ->
-      let () = render_error errs in
+      let () = Console.render_error errs in
       []
     | Ok ctx ->
       let open Tyxml.Html in
@@ -382,7 +378,7 @@ module Project = struct
         input##.timedata
         sectors
     | Error errs ->
-      render_error errs
+      Console.render_error errs
   ;;
 
   let api =

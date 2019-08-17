@@ -6,5 +6,33 @@ Mauris pulvinar turpis in viverra blandit. Praesent tempor lobortis lectus. Null
 
 Morbi luctus feugiat accumsan. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed sed sem at risus iaculis molestie. Fusce a enim ex. Nullam mollis auctor elit non faucibus. Maecenas scelerisque orci a libero ultricies sagittis. Nulla posuere non tellus at tristique. Etiam vel blandit lacus.
 
+
+#+ATTR_HTML: :data-kind code
+#+ATTR_HTML: :data-pellet true
+#+ATTR_HTML: :data-ln true 
+#+ATTR_HTML: :data-start: 10
+#+BEGIN_roe
+#+BEGIN_SRC ocaml
+module Sector = struct
+  let nodelist_to_hashtbl node_list =
+    node_list |> Dom.list_of_nodeList
+    |> List.map (fun node ->
+           let open Validation.Infix in
+           Shapes.Sector.make
+           <$> get_data (fun x -> Ok x) node "name"
+           <*> get_data (fun x -> Ok x) node "desc"
+           <*> get_data
+                 (Color.from_string %> Validation.from_result)
+                 node
+                 "color"
+           >|= fun sector -> sector.name, sector)
+    |> Validation.Applicative.sequence
+    |> Validation.map (List.to_seq %> Hashtbl.of_seq)
+  ;;
+end
+#+END_SRC
+#+END_roe
+
+
 Nam eget ligula eu odio lacinia vulputate. Cras aliquet ante diam, tempor blandit eros rutrum quis. Vestibulum et imperdiet leo. Phasellus in urna sagittis, laoreet mi eget, sodales erat. Pellentesque lacinia congue nibh. Ut sagittis finibus magna in efficitur. Duis faucibus ultrices vehicula. Phasellus efficitur odio dolor, eu malesuada leo volutpat nec. Ut volutpat turpis in molestie dignissim. Sed ultricies ultrices eros, et dapibus diam lobortis id. Suspendisse congue ante at massa convallis, in rhoncus erat feugiat. Nam enim est, bibendum sit amet eleifend vitae, viverra in metus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse potenti. Donec lacinia consequat laoreet. 
 

@@ -31,7 +31,7 @@
     $endif$
   </div>
   <div class="project-content">
-    <div class="project-paper structured-text">
+    <div class="project-paper structured-text" id="roe-container">
       $body$
     </div>
     <div class="project-rightbar">
@@ -44,16 +44,29 @@
 <script type="application/javascript">
   planet.start(
     function() {
+      // Boot project
       planet.project.boot({
         timedata: document.querySelector(
-          "textarea[data-planet-qexp='project_timedata']"),
-        project: document.querySelector("textarea[data-planet-qexp='project']"),
-        rightContainer: document.getElementById("project-content-right"),
-        bottomContainer: document.getElementById("project-content-bottom"),
+          "textarea[data-planet-qexp='project_timedata']"
+        ),
+        project: document.querySelector(
+          "textarea[data-planet-qexp='project']"
+        ),
+        rightContainer: document.getElementById(
+          "project-content-right"
+        ),
+        bottomContainer: document.getElementById(
+          "project-content-bottom"
+        ),
         sectors: document.querySelectorAll(
           "#planet-sectors-metadata > .sector-data"
         )
       });
+
+      // Mount ROE
+      planet.roe.mount(
+        document.getElementById("roe-container")
+      );
     }
   );
 </script>

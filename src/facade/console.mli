@@ -1,5 +1,7 @@
 (** Generic Console Binding. *)
 
+open Bedrock
+
 (** {2 API} *)
 
 (** {3 Log/Print} *)
@@ -91,3 +93,6 @@ val group : ?label:'a -> unit -> unit
 
 (** Exits the current inline group in the [console]. *)
 val group_end : unit -> unit
+
+(** render errors *)
+val render_error : Error.t list -> unit

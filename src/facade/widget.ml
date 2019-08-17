@@ -171,11 +171,15 @@ module Project = struct
       ]
   ;;
 
-  let sectors_legend total sectors counters _len =
-    let size = 10. in
-    List.mapi
-      (fun ik (sector_name, duration) ->
-        let i = float_of_int ik in
+  let compute_sectors total sectors hash_counters =
+    let counters =
+      hash_counters |> Hashtbl.to_seq
+      |> Seq.filter (fun (k, v) -> v > 0)
+      |> List.of_seq
+      |> List.sort (fun (_, a) (_, b) -> compare b a)
+    in
+    List.map
+      (fun (sector_name, duration) ->
         let c =
           Hashtbl.find_opt sectors sector_name
           |> Option.map (fun x -> Shapes.Sector.(x.color))
@@ -184,47 +188,100 @@ module Project = struct
         let pc =
           float_of_int duration /. float_of_int total *. 100.
         in
+        sector_name, c, pc)
+      counters
+  ;;
+
+  let sectors_legend margin counters =
+    let size = 10. in
+    List.mapi
+      (fun ik (sector_name, color, percent) ->
+        let i = float_of_int ik in
         let open Svg in
         [ rect
             ~a:
               [ a_x $ d 0.
-              ; a_y $ d ((size +. 2.) *. i)
+              ; a_y $ d (margin +. ((size +. 2.) *. i))
               ; a_width $ d size
               ; a_height $ d size
               ; a_rx $ d 2.
               ; a_ry $ d 2.
-              ; a_fill $ `Color (Color.to_hex c, None)
+              ; a_fill $ `Color (Color.to_hex color, None)
               ]
             []
         ; text
             ~a:
               [ a_x_list [ d $ size +. 4. ]
-              ; a_y_list [ d $ ((size +. 2.) *. i) +. 8. ]
+              ; a_y_list [ d $ margin +. ((size +. 2.) *. i) +. 8. ]
               ; a_text_anchor `Start
               ]
             [ txt
-              $ Format.asprintf "%s (%03.2f%s)" sector_name pc "%"
+              $ Format.asprintf
+                  "%s (%03.2f%s)"
+                  sector_name
+                  percent
+                  "%"
             ]
         ])
       counters
     |> List.flatten
   ;;
 
+  let sectors_charts width counters =
+    let h = 10. in
+    List.mapi
+      (fun ik (sector_name, color, percent) ->
+        let i = float_of_int ik in
+        let rect_width = width *. (percent /. 100.0) in
+        let open Svg in
+        [ rect
+            ~a:
+              [ a_x $ d 0.
+              ; a_y $ d ((h +. 6.) *. i)
+              ; a_height $ d h
+              ; a_width $ d width
+              ; a_fill $ `Color ("#ffffff", None)
+              ; a_rx $ d 2.
+              ; a_ry $ d 2.
+              ]
+            []
+        ; rect
+            ~a:
+              [ a_x $ d 0.
+              ; a_y $ d ((h +. 6.) *. i)
+              ; a_height $ d h
+              ; a_width $ d rect_width
+              ; a_fill $ `Color (Color.to_hex color, None)
+              ; a_rx $ d 2.
+              ; a_ry $ d 2.
+              ]
+            []
+        ])
+      counters
+    |> List.flatten
+  ;;
+
   let render_sector_graph total sectors hash_counters =
-    let counters =
-      hash_counters |> Hashtbl.to_seq
-      |> Seq.filter (fun (k, v) -> v > 0)
-      |> List.of_seq
-      |> List.sort (fun (_, a) (_, b) -> compare b a)
-    in
+    let counters = compute_sectors total sectors hash_counters in
     let len = List.length counters in
+    let flen = float_of_int len in
+    let width = 200. in
+    let bh = 14.5 in
+    let ch = 16.0 in
+    let margin = 10.0 in
+    let computed_height_sectors = flen *. bh in
+    let computed_height_charts = (flen *. ch) +. margin in
+    let height = computed_height_charts +. computed_height_sectors in
     Tyxml.Html.svg
       ~a:
         Svg.
-          [ a_viewBox (0., 0., 200., 80.)
+          [ a_viewBox (0., 0., width, height)
+          ; a_width $ d ~u:`Pt width
+          ; a_height $ d ~u:`Pt height
           ; a_class [ "tracking-graph" ]
           ]
-      (sectors_legend total sectors counters len)
+      (sectors_charts width counters
+      @ sectors_legend computed_height_charts counters)
   ;;
 
   let render_timedata data sectors =

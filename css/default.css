@@ -468,7 +468,8 @@ footer a {
 }
 
 #project-content-right .tracking-graph {
-    margin: 24px 8px 8px 8px;
+    margin: 0px 8px;
+    width: 100%;
 }
 
 #project-content-right .tracking-graph text {

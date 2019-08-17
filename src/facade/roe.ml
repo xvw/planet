@@ -23,13 +23,19 @@ module Code = struct
       let box =
         div ~a:[ a_class [ "code-underbox" ] ] (pellet @ file)
       in
-      Ok (Dom.appendChild node (Tyxml.To_dom.of_div box))
-    else Ok ()
+      let () = Dom.appendChild node (Tyxml.To_dom.of_div box) in
+      Ok node
+    else Ok node
   ;;
+
+  let line_number parent node = Ok node
 
   let deal_with parent nodes =
     let open Validation.Infix in
-    List.map (underbox parent) (Dom.list_of_nodeList nodes)
+    let list = Dom.list_of_nodeList nodes in
+    List.map
+      (fun node -> node |> line_number parent >>= underbox parent)
+      list
     |> Validation.Applicative.sequence >> Ok ()
   ;;
 end

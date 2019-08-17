@@ -43,6 +43,15 @@ body {
     border-bottom: 1px dotted #666;
 }
 
+pre.sourceCode {
+    max-width: 0;
+}
+
+pre.sourceCode * {
+    font-family: "Fira Mono", monospace;
+}
+
+
 div.sourceCode {
     background-color: #fefefe;
     padding: 8px;
@@ -75,10 +84,6 @@ div.sourceCode .code-underbox .code-pellet {
 div.sourceCode .code-underbox .code-file {
     flex: 1;
     color: #444;
-}
-
-pre.sourceCode * {
-    font-family: "Fira Mono", monospace;
 }
 
 main {
@@ -276,11 +281,13 @@ footer a {
 
 .project-page .project-content .project-paper {
     flex: 5;
+    flex-shrink: 0;
     margin-right: 32px;
 }
 
 .project-page .project-content .project-rightbar {
     flex: 2;
+    flex-shrink: 0;
     /* border-left: 2px solid #f2f2f2; */
     padding: 0 18px 0 12px;
 }

@@ -108,3 +108,8 @@
   (:duration "120") (:sector "programming")
   (:label "Tâches variées et correctif des accents dans les logs")
   (:project "planet"))
+
+((:uuid "6b3e5f15-db6c-941f-b4b2-44c961a51065") (:day "019H17")
+  (:duration "120") (:sector "programming")
+  (:label "Initiation du block de suivi dans les pages de projets")
+  (:project "planet"))

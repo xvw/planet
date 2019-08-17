@@ -114,3 +114,8 @@
   (:duration "120") (:sector "visual")
   (:label "Initiation du block de suivi dans la page projet, partie visuelle")
   (:project "planet"))
+
+((:uuid "fe4b001e-8a73-eb44-a913-e757d55ff505") (:day "019H17")
+  (:duration "320") (:sector "visual")
+  (:label "Design des graphiques de secteurs pour les projets")
+  (:project "planet"))

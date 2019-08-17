@@ -50,3 +50,8 @@ The idea behind [Planet] is strongly inspired by the work of
 - {{: Glue/index.html} Glue}: The library used to build specifics CLI
   using [planet-ecosystem]. The library exposes, for example, [databases]
   links and tools to deal with [planet] data-structures.
+
+{2 Facade}
+
+[Facade] is a library compiled in JavaScript and used to extend the behaviour
+of [Planet] pages.

@@ -13,10 +13,18 @@ let ( .%{}<- ) element attribute value =
   element##setAttribute attr svalue
 ;;
 
+let ( .?{} ) element attribute =
+  let key = Js.string attribute in
+  let exists = element##hasAttribute key in
+  Js.to_bool exists
+;;
+
 module Data = struct
   let ( .%{} ) element attribute = element.%{("data-" ^ attribute)}
 
   let ( .%{}<- ) element attribute value =
     element.%{("data-" ^ attribute)} <- value
   ;;
+
+  let ( .?{} ) element attribute = element.?{("data-" ^ attribute)}
 end

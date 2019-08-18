@@ -2,6 +2,7 @@
 (:title "Phragment")
 (:synopsis "Un protocole de conversations décentralisé")
 (:status "wip")
+(:published false)
 (:license "mit")
 (:tags "discussion" "decentralized" "forum" "protocol")
 (:repo "github.com/xvw/phragment.git")

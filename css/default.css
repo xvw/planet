@@ -21,6 +21,21 @@ body {
     line-height: 1.5;
 }
 
+
+figure > img.image-cover {
+    width: 100%;
+    margin-top: 48px;
+    border-radius: 4px;
+}
+
+figure > img.image-cover ~ figcaption {
+    font-size: 80%;
+    text-align: center;
+    color: #888;
+    margin-bottom: 32px;
+    
+}
+
 .container {
     width: 100%;
     max-width: 1024px;

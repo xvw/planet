@@ -1,4 +1,15 @@
-Ecrire une introduction de *Planet*
+*Planet* est une collection d'outils qui permettent l'hydratation 
+de cette pages. Ses objectifs (et dans une moindre mesure, son 
+esthétique) sont fortement inspirés par [[https://wiki.xxiivv.com/#nataniev][Nataniev]], de [[https://wiki.xxiivv.com][Devine Lu Linvega]].
+L'ensemble de cette application web est générée statiquement via 
+des données collectées et ordonnancées par Planet. Pour le moment 
+la génération statique des pages HTML est assurée par [[https://jaspervdj.be/hakyll/][Hakyll]], un 
+générateur de générateurs de sites statiques très permissif.
+
+
+#+ATTR_HTML: :class image-cover
+#+CAPTION: Une petite planète, qui se construit lentement
+[[../images/planet-lore-1.png]]
 
 
 ** Format d'écriture
@@ -8,7 +19,7 @@ Bien que grâce à [[https://jaspervdj.be/hakyll/][Hakyll]] et [[https://pandoc.
 le choix de [[https://www.orgmode.org/][Org]]. Etant un utilisateur d'Emacs, le support éditeur est 
 assez impressionnant et Org offre une grammaire riche et extensible.
 
-Cependant, pour des besoins spécifiques liés à mes rédactions, *Planet* 
+Cependant, pour des besoins spécifiques liés à mes rédactions, Planet 
 étend les fonctionnalités natives de Org. Cette bibliothèque s'appelle 
 *Roe* pour /Rich Org Extension/. Elle utilise un client JavaScript 
 (écrit en OCaml) pour enrichir la page visitée par l'utilisateur.

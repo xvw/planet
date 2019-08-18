@@ -138,3 +138,7 @@
 ((:uuid "b7fb6cf8-2f4f-9e99-a2ef-037156f3b28e") (:day "019H18")
   (:duration "100") (:sector "visual")
   (:label "Recherches pour les citations de ROE") (:project "planet"))
+
+((:uuid "35748446-40df-b1d1-5153-779d62f40fa9") (:day "019H18")
+  (:duration "60") (:sector "visual")
+  (:label "Mise en forme des citations dans ROE") (:project "planet"))

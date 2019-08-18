@@ -6,13 +6,95 @@ des données collectées et ordonnancées par Planet. Pour le moment
 la génération statique des pages HTML est assurée par [[https://jaspervdj.be/hakyll/][Hakyll]], un 
 générateur de générateurs de sites statiques très permissif.
 
+Planet est principalement programmé en [[https://ocaml.org][OCaml]], y comprit le client 
+JavaScript via [[https://ocsigen.org/js_of_ocaml][Js of OCaml]].
+Bien que dépendant de certains outils spécifiques (comme Hakyll,
+Js of OCaml, et certaines bibliothèques OCaml incontournables), 
+La majeure partie de Planet est développée à la main.
 
 #+ATTR_HTML: :class image-cover
 #+CAPTION: Une petite planète, qui se construit lentement
 [[../images/planet-lore-1.png]]
 
+Planet est un projet qui à pour vocation à ne jamais terminer, 
+en effet, j'aimerais le maintenir en continu, en améliorant son 
+ergonomie, et ce qu'il permet de faire. Pour le moment, le système 
+et sa collection de logiciels me permet de mener à bien différentes 
+tâches : 
 
-** Format d'écriture
++ organiser et structurer des documents ;
++ saisir mes activités (durant mon temps libre) ;
++ restituer ces saisies de temps ;
++ organiser mes projets personnels et les mettres en pages.
+
+** Fonctionnement général
+
+Planet est un agrégat de bibliothèques et de logiciels. Chacun de ces 
+logiciels produit des données (dans des formats qui seront décrits plus 
+tard) qui seront ingérés par une routine pour produire des documents 
+compréhensibles par Hakyll.
+
+*** Formats et sérialisation
+
+Même s'il existe énormément de standards pour sérialiser et désérialiser 
+des structures de données hétérogènes, Planet utilise ses propres formats.
+La motivation initiale étant de pouvoir à tout moment changer de technologie
+et de ne pas dépendre d'une bibiliothèque complexe. En utilisant ses propres 
+formats d'échanges, il est possible de changer le code sans devoir modifier 
+les données générées par Planet. Le [[https://en.wikipedia.org/wiki/JSON][Json]] est un format qui est parfaitement 
+adapté à ce genre de tâche, mais il est assez compliqué à /parser/ à la main.
+
+Voici la liste des formats exotiques que Planet comprend (et génère) :
+
+*QExp* 
+
+Les QExp's sont une légère variation des [[https://en.wikipedia.org/wiki/S-expression][S-expressions]], la différence 
+majeure réside dans le fait que les QExp's offrent "plus de sémantiques" et 
+sont parfaitement adaptés à la représentation de tables clés-valeurs. Ce 
+format sert à représenter l'ensemble des données stockées de Planet. Par 
+exemple, un /log/ est enregistré sous cette forme : 
+
+#+ATTR_HTML: :data-kind code 
+#+ATTR_HTML: :data-pellet QExp
+#+ATTR_HTML: :data-line-number true
+#+ATTR_HTML: :data-file Exemple d'utilisation dans les logs
+#+ATTR_HTML: :data-url https://github.com/xvw/planet/tree/master/logs
+#+BEGIN_roe
+#+BEGIN_SRC scheme
+((:uuid "ed80c8e0-1db7-1997-6703-92f4ee70b73e") (:day "019H10")
+  (:duration "30") (:sector "programming")
+  (:label "Affichage des releases dans la page des projets")
+  (:project "planet"))
+#+END_src
+#+END_roe
+
+
+*Timepoint*
+
+Planet utilise son propre format de représentation du temps. La représentation
+est très compacte et facile à /parser/. Elle représente les points 
+temporels sous plusieurs formes :
+
++ *Année* : src_literal{019} pour src_literal{2019} ;
+
++ *Mois*  : src_literal{019A} pour src_literal{Janvier 2019} (où la lettre 
+  défini le mois, src_literal{A} pour Janvier et src_literal{L} pour 
+  Décembre) ;
+
++ *Jours* : src_literal{019A22} pour le src_literal{22 Janvier 2019} ;
+
++ *Heure* : src_literal{11PM22} représente src_literal{23h 22} et 
+  src_literal{4AM12} représente src_literal{4h 12} ;
+
++ *Moment* : C'est la conjonction d'un *jour* et d'une *heure*, par exemple,
+  src_literal{019C07:06PM23} représente le src_literal{7 Février 2019} à 
+  src_literal{18h 23}.
+
+La réprésentation des points temporels n'est pas plus précise qu'à la 
+minute car je n'ai pas encore eu besoin d'utiliser des secondes (ou encore 
+plus précis).
+
+** ROE : Rich Org Extension
 
 Bien que grâce à [[https://jaspervdj.be/hakyll/][Hakyll]] et [[https://pandoc.org/][Pandoc]], j'ai la possibilité d'écrire dans 
 énormément de formats différents, j'ai fais, depuis quelques années, 

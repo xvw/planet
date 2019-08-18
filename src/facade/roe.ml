@@ -4,6 +4,46 @@ open Util
 open Error
 module Tyxml = Js_of_ocaml_tyxml.Tyxml_js
 
+type range =
+  | Single of int
+  | Range of (int * int)
+
+let range_of_string obj =
+  try
+    Scanf.sscanf obj "%d..%d" (fun a b ->
+        Some
+          (if a < b
+          then Range (a, b)
+          else if a > b
+          then Range (b, a)
+          else Single a))
+  with
+  | _ ->
+    obj |> int_of_string_opt |> Option.map (fun x -> Single x)
+;;
+
+let range_each f = function
+  | Single x ->
+    f x
+  | Range (a, b) ->
+    let rec aux n =
+      if n = b
+      then f n
+      else (
+        let () = f n in
+        aux (succ n))
+    in
+    aux a
+;;
+
+let range_of_element element key =
+  Attr.Data.(element.%{key})
+  |> Option.map
+       (String.split_on_char ';'
+       %> List.map (String.trim %> range_of_string))
+  |> Option.bind Option.Applicative.sequence
+;;
+
 module Code = struct
   let prepare parent node =
     let () = Dom.removeChild parent node in
@@ -34,7 +74,14 @@ module Code = struct
       let file =
         Attr.Data.(parent.%{"file"})
         |> Option.map (fun file ->
-               [ div ~a:[ a_class [ "code-file" ] ] [ txt file ] ])
+               let attr =
+                 match Attr.Data.(parent.%{"url"}) with
+                 | None ->
+                   txt file
+                 | Some x ->
+                   a ~a:[ a_href x ] [ txt file ]
+               in
+               [ div ~a:[ a_class [ "code-file" ] ] [ attr ] ])
         |> Option.get_or (fun () -> [])
       in
       let box =
@@ -75,13 +122,43 @@ module Code = struct
     else Ok (subparent, node)
   ;;
 
+  let highlight_lines parent (subparent, node) =
+    let offset =
+      Attr.Data.(parent.%{"line-start"})
+      |> Option.bind int_of_string_opt
+      |> Option.get_or (fun () -> 1)
+    in
+    let ranges =
+      range_of_element parent "hl" |> Option.get_or (fun () -> [])
+    in
+    let () =
+      List.iter
+        (range_each (fun i ->
+             let real_index = i - offset + 1 in
+             match
+               node##querySelector
+                 (Js.string
+                 $ Format.asprintf
+                     ".sourceLine[title='%d']"
+                     real_index)
+               |> Js.Opt.to_option
+             with
+             | None ->
+               ()
+             | Some x ->
+               x##.classList##add (Js.string "highlighted")))
+        ranges
+    in
+    Ok (subparent, node)
+  ;;
+
   let deal_with parent nodes =
     let open Validation.Infix in
     let list = Dom.list_of_nodeList nodes in
     List.map
       (fun node ->
         node |> prepare parent >>= line_number parent
-        >>= underbox parent)
+        >>= underbox parent >>= highlight_lines parent)
       list
     |> Validation.Applicative.sequence >> Ok ()
   ;;

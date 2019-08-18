@@ -10,8 +10,10 @@ Morbi luctus feugiat accumsan. Pellentesque habitant morbi tristique senectus et
 #+ATTR_HTML: :data-kind code
 #+ATTR_HTML: :data-pellet ocaml
 #+ATTR_HTML: :data-file sample/foo/bar/test.ml
+#+ATTR_HTML: :data-url https://xvw.github.io
 #+ATTR_HTML: :data-line-number true 
 #+ATTR_HTML: :data-line-start foo
+#+ATTR_HTML: :data-hl 3..5;11..12;15
 #+BEGIN_roe
 #+BEGIN_SRC ocaml
 open Js_of_ocaml

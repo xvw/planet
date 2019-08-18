@@ -132,6 +132,18 @@ div.code-container .code-underbox .code-file {
     color: #444;
 }
 
+div.code-container .code-underbox .code-file a {
+    color: #444;
+    text-decoration: none;
+    border-bottom: 1px dotted #444;
+}
+
+.highlighted {
+    background-color: #E8FAF8;
+    border-radius: 4px;
+    
+}
+
 main {
     flex: 1;
     padding: 18px 12px;

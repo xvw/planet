@@ -14,8 +14,23 @@ Cependant, pour des besoins spécifiques liés à mes rédactions, *Planet*
 (écrit en OCaml) pour enrichir la page visitée par l'utilisateur.
 
 *** Citations
+Comme il est très courant que je cite des personnes variées dans mes 
+articles, j'ai ajouté un facilitateur de citations qui exploite ces 
+métadonnées :
+
++ ajout en pied de citation l'auteur via src_literal{data-author} ;
+
++ ajout en pied de citation l'année de la citation via src_literal{data-when} ;
+
++ ajout en pied de citation l'emplacement de la citation via 
+  src_literal{data-where} (que l'on peut adjoindre d'un lien via 
+  src_literal{data-url}).
 
 #+ATTR_HTML: :data-kind quote
+#+ATTR_HTML: :data-author G. W. Leibniz
+#+ATTR_HTML: :data-when 1900
+#+ATTR_HTML: :data-where Œuvres philosophiques de Leibniz T. 1
+#+ATTR_HTML: :data-url https://gallica.bnf.fr/ark:/12148/bpt6k2100044.image
 #+BEGIN_roe
 #+BEGIN_quote 
 Il est bon de faire la distinction entre la perception qui est l’état 
@@ -23,6 +38,16 @@ intérieur de la *Monade* représentant les choses externes, et l’aperception
 qui est la conscience ou la connaissance réflexive de cet état intérieur
 #+END_quote
 #+END_roe
+
+La citation est enrichie des données suivantes :
+
+#+BEGIN_example
+#+ATTR_HTML: :data-kind quote
+#+ATTR_HTML: :data-author G. W. Leibniz
+#+ATTR_HTML: :data-when 1900
+#+ATTR_HTML: :data-where Œuvres philosophiques de Leibniz T. 1
+#+ATTR_HTML: :data-url https://gallica.bnf.fr/ark:/12148/bpt6k2100044.image
+#+END_example
 
 *** Affichage du code source
 Org et Hakyll via Pandoc supportent très bien l'affichage de code, les 
@@ -45,27 +70,7 @@ ajoutées :
   lumière les lignes 1, 12, celles de 15 à 18 et celles de 38 à 44.
 
 L'ensemble de ces paramètres sont facultatifs (et à choisir en fonction 
-du contexte de rédaction). Voici un exemple d'une petite portion de code:
-  
-#+BEGIN_EXAMPLE
-#+BEGIN_roe
-#+ATTR_HTML: :data-kind code
-#+ATTR_HTML: :data-pellet OCaml :data-file example/functor.ml 
-#+ATTR_HTML: :data-url https://github.com/xvw/planet/blob/master/src/bedrock/list.ml
-#+ATTR_HTML: :data-line-number true
-#+ATTR_HTML: :data-line-start 22
-#+ATTR_HTML: :data-hl 22;24..25
-#+BEGIN_src ocaml
-module Functor = Functor.Make (struct
-  type 'a t = 'a list
-  let pure x = [ x ]
-  let map f x = Stdlib.List.map f x
-end)
-#+END_src
-#+END_roe
-#+END_EXAMPLE
-
-Qui affichera le code de cette manière :
+du contexte de rédaction).
 
 #+ATTR_HTML: :data-kind code
 #+ATTR_HTML: :data-pellet OCaml :data-file example/functor.ml 
@@ -82,3 +87,14 @@ module Functor = Functor.Make (struct
 end)
 #+END_src
 #+END_roe
+
+Ici le noeud est enrichi des données suivantes :
+
+#+BEGIN_example
+#+ATTR_HTML: :data-kind code
+#+ATTR_HTML: :data-pellet OCaml :data-file example/functor.ml 
+#+ATTR_HTML: :data-url https://github.com/xvw/planet/blob/master/src/bedrock/list.ml
+#+ATTR_HTML: :data-line-number true
+#+ATTR_HTML: :data-line-start 22
+#+ATTR_HTML: :data-hl 22;24..25 
+#+END_example

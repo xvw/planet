@@ -164,6 +164,60 @@ module Code = struct
   ;;
 end
 
+module Quote = struct
+  let at = function
+    | None ->
+      []
+    | Some date ->
+      let open Tyxml.Html in
+      [ div ~a:[ a_class [ "quote-date" ] ] [ span [ txt date ] ] ]
+  ;;
+
+  let where node = function
+    | None ->
+      []
+    | Some place ->
+      let open Tyxml.Html in
+      let t = txt place in
+      let child =
+        match Attr.Data.(node.%{"url"}) with
+        | None ->
+          span [ t ]
+        | Some x ->
+          a ~a:[ a_href x ] [ t ]
+      in
+      [ div ~a:[ a_class [ "quote-place" ] ] [ child ] ]
+  ;;
+
+  let by = function
+    | None ->
+      []
+    | Some author ->
+      let open Tyxml.Html in
+      [ div ~a:[ a_class [ "quote-author" ] ] [ span [ txt author ] ]
+      ]
+  ;;
+
+  let deal_with node =
+    let () =
+      if Attr.Data.(
+           node.?{"author"} || node.?{"where"} || node.?{"when"})
+      then
+        let open Tyxml.Html in
+        let box =
+          div
+            ~a:[ a_class [ "quote-underbox" ] ]
+            (at Attr.Data.(node.%{"when"})
+            @ where node Attr.Data.(node.%{"where"})
+            @ by Attr.Data.(node.%{"author"}))
+          |> Tyxml.To_dom.of_div
+        in
+        Dom.appendChild node box
+    in
+    Ok ()
+  ;;
+end
+
 let mount container =
   container##querySelectorAll (Js.string ".roe")
   |> Dom.list_of_nodeList
@@ -176,6 +230,8 @@ let mount container =
                     node
                     (node##querySelectorAll
                        (Js.string "div.sourceCode"))
+                | "quote" ->
+                  Quote.deal_with node
                 | kind ->
                   Error
                     [ Of (Format.asprintf "Unknown kind [%s]" kind) ]))

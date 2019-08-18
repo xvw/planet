@@ -153,6 +153,7 @@ div.code-container .code-underbox .code-file {
     color: #444;
 }
 
+div.roe[data-kind="quote"] .quote-underbox .quote-place a,
 div.code-container .code-underbox .code-file a {
     color: #444;
     text-decoration: none;
@@ -613,15 +614,62 @@ pre.example {
     border-radius: 4px;
 }
 
-div.roe blockquote {
-    font-family: 'Old Standard TT', 'Helvetica Neue', Helvetica, serif;
-    font-size: 130%;
-    background-color: #fff;
-    padding: 12px 24px;
-    border-radius: 4px;
-    line-height: 110%;
+div.roe[data-kind="quote"] {
+    margin-bottom: 32px;
 }
 
-div.roe blockquote p:last-child {
+div.roe[data-kind="quote"] blockquote {
+    font-family: 'Old Standard TT', 'Helvetica Neue', Helvetica, serif;
+    font-size: 125%;
+    line-height: 115%;
+    background-color: #fff;
+    padding: 24px 24px;
+    border-radius: 4px;
+    margin: 24px 32px;
+}
+
+div.roe[data-kind="quote"] blockquote p:last-child {
     margin: 0;
+}
+
+div.roe[data-kind="quote"] .quote-underbox {
+    margin: 0 32px;
+    padding: 0;
+    padding-top: 12px;
+    display: flex;
+    flex-direction: row;
+    font-size: 75%;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+
+div.roe[data-kind="quote"] > *:first-child {
+    margin-bottom: 0;
+}
+
+div.roe[data-kind="quote"] .quote-underbox .quote-author {
+    text-align: right;
+    margin-left: 8px;
+}
+
+div.roe[data-kind="quote"] .quote-underbox .quote-place,
+div.roe[data-kind="quote"] .quote-underbox .quote-date > span,
+div.roe[data-kind="quote"] .quote-underbox .quote-author > span {
+    font-weight: 400;
+    border-radius: 4px;
+    color: #999;
+}
+
+div.roe[data-kind="quote"] .quote-underbox .quote-place {
+}
+
+div.roe[data-kind="quote"] .quote-underbox .quote-date > span,
+div.roe[data-kind="quote"] .quote-underbox .quote-author > span {
+    font-weight: 700;
+    padding: 3px 12px
+}
+
+div.roe[data-kind="quote"] .quote-underbox .quote-author > span {
+    border: 2px solid #DDD;
 }

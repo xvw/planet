@@ -35,19 +35,21 @@ L'ensemble de ces paramètres sont facultatifs (et à choisir en fonction
 du contexte de rédaction). Voici un exemple d'une petite portion de code:
   
 #+BEGIN_EXAMPLE
-#+BEGIN_src ocaml
+#+BEGIN_roe
 #+ATTR_HTML: :data-kind code
 #+ATTR_HTML: :data-pellet OCaml :data-file example/functor.ml 
 #+ATTR_HTML: :data-url https://github.com/xvw/planet/blob/master/src/bedrock/list.ml
 #+ATTR_HTML: :data-line-number true
 #+ATTR_HTML: :data-line-start 22
 #+ATTR_HTML: :data-hl 22;24..25
+#+BEGIN_src ocaml
 module Functor = Functor.Make (struct
   type 'a t = 'a list
   let pure x = [ x ]
   let map f x = Stdlib.List.map f x
 end)
 #+END_src
+#+END_roe
 #+END_EXAMPLE
 
 Qui affichera le code de cette manière :

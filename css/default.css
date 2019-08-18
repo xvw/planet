@@ -590,17 +590,17 @@ footer a {
 
 .structured-text h1 {
     font-size: 170%;
-    margin: 48px 0 32px 0;
+    margin: 64px 0 40px 0;
 }
 
 .structured-text h2 {
     font-size: 130%;
-    margin: 32px 0 24px 0;
+    margin: 48px 0 32px 0;
 }
 
 .structured-text h3 {
     font-size: 110%;
-    margin: 22px 0 2px 0;
+    margin: 32px 0 22px 0;
 }
 
 pre.example {

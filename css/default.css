@@ -54,24 +54,70 @@ pre.sourceCode * {
 
 div.sourceCode {
     background-color: #fefefe;
-    padding: 8px;
     font-size: 90%;
     border-radius: 4px;
-    margin: 22px 0;
+    margin: 24px 0;
+    padding: 8px;
 }
 
-div.sourceCode .code-underbox:empty {
+div.code-container {
+    background-color: #fefefe;
+    border-radius: 4px;
+    margin: 24px 0;
+    padding: 8px;
+    font-size: 90%;
+}
+
+div.code-container  div.sourceCode {
+    padding: 0;
+    margin: 0;
+    font-size: 100%;
+}
+
+div.code-container > .code-concrete-container {
+    display: flex;
+    flex-direction: row;
+    
+}
+
+div.code-container .code-line-number {
+    flex: 0;
+    order: 0;
+    padding: 0;
+    text-align: right;
+    color: #888;
+    margin: 0;
+    margin-right: 24px;
+    font-family: "Fira Mono", monospace;
+}
+
+div.code-container .code-line-number > div {
+    min-width: 18px;
+    display: inline-block;
+    font-weight: 400;
+    font-size: 100%;
+    border: 1px solid transparent;
+    height: 1.5em;
+}
+
+div.code-container div.sourceCode {
+    flex: 1;
+    order: 1;
+}
+
+
+div.code-container .code-underbox:empty {
     display: none;
 }
 
-div.sourceCode .code-underbox {
+div.code-container .code-underbox {
     display: flex;
     flex-direction: row;
-    margin-top: 12px;
+    margin-top: 8px;
     align-items: center;
 }
 
-div.sourceCode .code-underbox .code-pellet {
+div.code-container .code-underbox .code-pellet {
     flex: 0;
     margin-right: 10px;
     background-color: #444;
@@ -81,7 +127,7 @@ div.sourceCode .code-underbox .code-pellet {
     font-size: 80%;
 }
 
-div.sourceCode .code-underbox .code-file {
+div.code-container .code-underbox .code-file {
     flex: 1;
     color: #444;
 }

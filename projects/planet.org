@@ -8,10 +8,40 @@ Morbi luctus feugiat accumsan. Pellentesque habitant morbi tristique senectus et
 
 
 #+ATTR_HTML: :data-kind code
-#+ATTR_HTML: :data-pellet ocaml :data-file foo/bar/sample.ml
-#+ATTR_HTML: :data-ln true 
-#+ATTR_HTML: :data-start 10
+#+ATTR_HTML: :data-pellet ocaml
+#+ATTR_HTML: :data-file sample/foo/bar/test.ml
+#+ATTR_HTML: :data-line-number true 
+#+ATTR_HTML: :data-line-start foo
 #+BEGIN_roe
+#+BEGIN_SRC ocaml
+open Js_of_ocaml
+open Bedrock
+open Util
+open Error
+module Tyxml = Js_of_ocaml_tyxml.Tyxml_js
+
+module Code = struct
+  let prepare parent node =
+    let () = Dom.removeChild parent node in
+    let open Tyxml.Html in
+    let subparent =
+      div
+        ~a:[ a_class [ "code-container" ] ]
+        [ div
+            ~a:[ a_class [ "code-concrete-container" ] ]
+            [ Tyxml.Of_dom.of_div node ]
+        ]
+      |> Tyxml.To_dom.of_div
+    in
+    let () = Dom.appendChild parent subparent in
+    Ok (subparent, node)
+  ;;
+end
+#+END_SRC
+#+END_roe
+
+Nam eget ligula eu odio lacinia vulputate. Cras aliquet ante diam, tempor blandit eros rutrum quis. Vestibulum et imperdiet leo. Phasellus in urna sagittis, laoreet mi eget, sodales erat. Pellentesque lacinia congue nibh. Ut sagittis finibus magna in efficitur. Duis faucibus ultrices vehicula. Phasellus efficitur odio dolor, eu malesuada leo volutpat nec. Ut volutpat turpis in molestie dignissim. Sed ultricies ultrices eros, et dapibus diam lobortis id. Suspendisse congue ante at massa convallis, in rhoncus erat feugiat. Nam enim est, bibendum sit amet eleifend vitae, viverra in metus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse potenti. Donec lacinia consequat laoreet. 
+
 #+BEGIN_SRC ocaml
 module Sector = struct
   let nodelist_to_hashtbl node_list =
@@ -31,8 +61,5 @@ module Sector = struct
   ;;
 end
 #+END_SRC
-#+END_roe
-
 
 Nam eget ligula eu odio lacinia vulputate. Cras aliquet ante diam, tempor blandit eros rutrum quis. Vestibulum et imperdiet leo. Phasellus in urna sagittis, laoreet mi eget, sodales erat. Pellentesque lacinia congue nibh. Ut sagittis finibus magna in efficitur. Duis faucibus ultrices vehicula. Phasellus efficitur odio dolor, eu malesuada leo volutpat nec. Ut volutpat turpis in molestie dignissim. Sed ultricies ultrices eros, et dapibus diam lobortis id. Suspendisse congue ante at massa convallis, in rhoncus erat feugiat. Nam enim est, bibendum sit amet eleifend vitae, viverra in metus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse potenti. Donec lacinia consequat laoreet. 
-

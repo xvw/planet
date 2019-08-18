@@ -1,10 +1,14 @@
-a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { display: inline-block;  border: 1px solid transparent; margin: 0; height: 1.5em;}
 a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
+a.sourceLine:empty { min-height: 1.5em; text-decoration: none;}
+a.sourceLine:empty::before {
+    content: " ";
+    color: transparent;
+}
+.sourceCode { overflow: visible;}
 code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
+pre.sourceCode { margin: 0;}
 @media screen {
 div.sourceCode { overflow: auto; }
 }

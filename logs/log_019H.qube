@@ -146,3 +146,7 @@
 ((:uuid "be724d4f-4c29-8db9-20d2-ee7e9a32ee6d") (:day "019H18")
   (:duration "30") (:sector "visual") (:label "Images du lore potentiel")
   (:project "planet"))
+
+((:uuid "c2a0dcd7-a9de-33bb-ecc6-ef684d755241") (:day "019H19")
+  (:duration "120") (:sector "writing")
+  (:label "Rédaction de la présentation de Planet") (:project "planet"))

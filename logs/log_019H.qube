@@ -124,3 +124,8 @@
   (:duration "120") (:sector "research")
   (:label "Recherches et expérimentations pour enrichir le markup de Planet")
   (:project "planet"))
+
+((:uuid "bbc5d59e-c02e-068d-ce64-53a033bb08c8") (:day "019H18")
+  (:duration "120") (:sector "programming")
+  (:label "Enrichissement de Org avec des block de code paramétrables")
+  (:project "planet"))

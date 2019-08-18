@@ -142,3 +142,7 @@
 ((:uuid "35748446-40df-b1d1-5153-779d62f40fa9") (:day "019H18")
   (:duration "60") (:sector "visual")
   (:label "Mise en forme des citations dans ROE") (:project "planet"))
+
+((:uuid "be724d4f-4c29-8db9-20d2-ee7e9a32ee6d") (:day "019H18")
+  (:duration "30") (:sector "visual") (:label "Images du lore potentiel")
+  (:project "planet"))

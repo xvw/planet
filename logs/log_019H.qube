@@ -134,3 +134,7 @@
   (:duration "320") (:sector "writing")
   (:label "Expérimentations et description des premières extensions de ROE")
   (:project "planet"))
+
+((:uuid "b7fb6cf8-2f4f-9e99-a2ef-037156f3b28e") (:day "019H18")
+  (:duration "100") (:sector "visual")
+  (:label "Recherches pour les citations de ROE") (:project "planet"))

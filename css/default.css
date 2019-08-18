@@ -145,6 +145,7 @@ div.code-container .code-underbox .code-pellet {
     padding: 3px 12px;
     font-weight: 700;
     font-size: 80%;
+    border-radius: 4px;
 }
 
 div.code-container .code-underbox .code-file {

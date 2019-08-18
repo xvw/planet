@@ -612,3 +612,16 @@ pre.example {
     padding: 8px;
     border-radius: 4px;
 }
+
+div.roe blockquote {
+    font-family: 'Old Standard TT', 'Helvetica Neue', Helvetica, serif;
+    font-size: 130%;
+    background-color: #fff;
+    padding: 12px 24px;
+    border-radius: 4px;
+    line-height: 110%;
+}
+
+div.roe blockquote p:last-child {
+    margin: 0;
+}

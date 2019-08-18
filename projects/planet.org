@@ -9,7 +9,20 @@ le choix de [[https://www.orgmode.org/][Org]]. Etant un utilisateur d'Emacs, le 
 assez impressionnant et Org offre une grammaire riche et extensible.
 
 Cependant, pour des besoins spécifiques liés à mes rédactions, *Planet* 
-étend les fonctionnalités natives de Org.
+étend les fonctionnalités natives de Org. Cette bibliothèque s'appelle 
+*Roe* pour /Rich Org Extension/. Elle utilise un client JavaScript 
+(écrit en OCaml) pour enrichir la page visitée par l'utilisateur.
+
+*** Citations
+
+#+ATTR_HTML: :data-kind quote
+#+BEGIN_roe
+#+BEGIN_quote 
+Il est bon de faire la distinction entre la perception qui est l’état 
+intérieur de la *Monade* représentant les choses externes, et l’aperception 
+qui est la conscience ou la connaissance réflexive de cet état intérieur
+#+END_quote
+#+END_roe
 
 *** Affichage du code source
 Org et Hakyll via Pandoc supportent très bien l'affichage de code, les 

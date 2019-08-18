@@ -35,7 +35,7 @@ métadonnées :
 #+BEGIN_quote 
 Il est bon de faire la distinction entre la perception qui est l’état 
 intérieur de la *Monade* représentant les choses externes, et l’aperception 
-qui est la conscience ou la connaissance réflexive de cet état intérieur
+qui est la conscience ou la connaissance réflexive de cet état intérieur.
 #+END_quote
 #+END_roe
 

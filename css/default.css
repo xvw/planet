@@ -615,17 +615,18 @@ pre.example {
 }
 
 div.roe[data-kind="quote"] {
-    margin-bottom: 32px;
+    margin: 48px 28px;
+    /* padding: 8px; */
+    /* border-radius: 23px; */
+    /* border-left: 4px solid #f3f3f3; */
 }
 
 div.roe[data-kind="quote"] blockquote {
     font-family: 'Old Standard TT', 'Helvetica Neue', Helvetica, serif;
     font-size: 125%;
     line-height: 115%;
-    background-color: #fff;
-    padding: 24px 24px;
     border-radius: 4px;
-    margin: 24px 32px;
+    text-align: justify;
 }
 
 div.roe[data-kind="quote"] blockquote p:last-child {

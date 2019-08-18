@@ -6,15 +6,17 @@ des données collectées et ordonnancées par Planet. Pour le moment
 la génération statique des pages HTML est assurée par [[https://jaspervdj.be/hakyll/][Hakyll]], un 
 générateur de générateurs de sites statiques très permissif.
 
+
+#+ATTR_HTML: :class image-cover
+#+CAPTION: Une petite planète, qui se construit lentement
+[[../images/planet-lore-1.png]]
+
+
 Planet est principalement programmé en [[https://ocaml.org][OCaml]], y comprit le client 
 JavaScript via [[https://ocsigen.org/js_of_ocaml][Js of OCaml]].
 Bien que dépendant de certains outils spécifiques (comme Hakyll,
 Js of OCaml, et certaines bibliothèques OCaml incontournables), 
 La majeure partie de Planet est développée à la main.
-
-#+ATTR_HTML: :class image-cover
-#+CAPTION: Une petite planète, qui se construit lentement
-[[../images/planet-lore-1.png]]
 
 Planet est un projet qui à pour vocation à ne jamais terminer, 
 en effet, j'aimerais le maintenir en continu, en améliorant son 
@@ -26,168 +28,3 @@ tâches :
 + saisir mes activités (durant mon temps libre) ;
 + restituer ces saisies de temps ;
 + organiser mes projets personnels et les mettres en pages.
-
-** Fonctionnement général
-
-Planet est un agrégat de bibliothèques et de logiciels. Chacun de ces 
-logiciels produit des données (dans des formats qui seront décrits plus 
-tard) qui seront ingérés par une routine pour produire des documents 
-compréhensibles par Hakyll.
-
-*** Formats et sérialisation
-
-Même s'il existe énormément de standards pour sérialiser et désérialiser 
-des structures de données hétérogènes, Planet utilise ses propres formats.
-La motivation initiale étant de pouvoir à tout moment changer de technologie
-et de ne pas dépendre d'une bibiliothèque complexe. En utilisant ses propres 
-formats d'échanges, il est possible de changer le code sans devoir modifier 
-les données générées par Planet. Le [[https://en.wikipedia.org/wiki/JSON][Json]] est un format qui est parfaitement 
-adapté à ce genre de tâche, mais il est assez compliqué à /parser/ à la main.
-
-Voici la liste des formats exotiques que Planet comprend (et génère) :
-
-*QExp* 
-
-Les QExp's sont une légère variation des [[https://en.wikipedia.org/wiki/S-expression][S-expressions]], la différence 
-majeure réside dans le fait que les QExp's offrent "plus de sémantiques" et 
-sont parfaitement adaptés à la représentation de tables clés-valeurs. Ce 
-format sert à représenter l'ensemble des données stockées de Planet. Par 
-exemple, un /log/ est enregistré sous cette forme : 
-
-#+ATTR_HTML: :data-kind code 
-#+ATTR_HTML: :data-pellet QExp
-#+ATTR_HTML: :data-line-number true
-#+ATTR_HTML: :data-file Exemple d'utilisation dans les logs
-#+ATTR_HTML: :data-url https://github.com/xvw/planet/tree/master/logs
-#+BEGIN_roe
-#+BEGIN_SRC scheme
-((:uuid "ed80c8e0-1db7-1997-6703-92f4ee70b73e") (:day "019H10")
-  (:duration "30") (:sector "programming")
-  (:label "Affichage des releases dans la page des projets")
-  (:project "planet"))
-#+END_src
-#+END_roe
-
-
-*Timepoint*
-
-Planet utilise son propre format de représentation du temps. La représentation
-est très compacte et facile à /parser/. Elle représente les points 
-temporels sous plusieurs formes :
-
-+ *Année* : src_literal{019} pour src_literal{2019} ;
-
-+ *Mois*  : src_literal{019A} pour src_literal{Janvier 2019} (où la lettre 
-  défini le mois, src_literal{A} pour Janvier et src_literal{L} pour 
-  Décembre) ;
-
-+ *Jours* : src_literal{019A22} pour le src_literal{22 Janvier 2019} ;
-
-+ *Heure* : src_literal{11PM22} représente src_literal{23h 22} et 
-  src_literal{4AM12} représente src_literal{4h 12} ;
-
-+ *Moment* : C'est la conjonction d'un *jour* et d'une *heure*, par exemple,
-  src_literal{019C07:06PM23} représente le src_literal{7 Février 2019} à 
-  src_literal{18h 23}.
-
-La réprésentation des points temporels n'est pas plus précise qu'à la 
-minute car je n'ai pas encore eu besoin d'utiliser des secondes (ou encore 
-plus précis).
-
-** ROE : Rich Org Extension
-
-Bien que grâce à [[https://jaspervdj.be/hakyll/][Hakyll]] et [[https://pandoc.org/][Pandoc]], j'ai la possibilité d'écrire dans 
-énormément de formats différents, j'ai fais, depuis quelques années, 
-le choix de [[https://www.orgmode.org/][Org]]. Etant un utilisateur d'Emacs, le support éditeur est 
-assez impressionnant et Org offre une grammaire riche et extensible.
-
-Cependant, pour des besoins spécifiques liés à mes rédactions, Planet 
-étend les fonctionnalités natives de Org. Cette bibliothèque s'appelle 
-*Roe* pour /Rich Org Extension/. Elle utilise un client JavaScript 
-(écrit en OCaml) pour enrichir la page visitée par l'utilisateur.
-
-*** Citations
-Comme il est très courant que je cite des personnes variées dans mes 
-articles, j'ai ajouté un facilitateur de citations qui exploite ces 
-métadonnées :
-
-+ ajout en pied de citation l'auteur via src_literal{data-author} ;
-
-+ ajout en pied de citation l'année de la citation via src_literal{data-when} ;
-
-+ ajout en pied de citation l'emplacement de la citation via 
-  src_literal{data-where} (que l'on peut adjoindre d'un lien via 
-  src_literal{data-url}).
-
-#+ATTR_HTML: :data-kind quote
-#+ATTR_HTML: :data-author G. W. Leibniz
-#+ATTR_HTML: :data-when 1900
-#+ATTR_HTML: :data-where Œuvres philosophiques de Leibniz T. 1
-#+ATTR_HTML: :data-url https://gallica.bnf.fr/ark:/12148/bpt6k2100044.image
-#+BEGIN_roe
-#+BEGIN_quote 
-Il est bon de faire la distinction entre la perception qui est l’état 
-intérieur de la *Monade* représentant les choses externes, et l’aperception 
-qui est la conscience ou la connaissance réflexive de cet état intérieur.
-#+END_quote
-#+END_roe
-
-La citation est enrichie des données suivantes :
-
-#+BEGIN_example
-#+ATTR_HTML: :data-kind quote
-#+ATTR_HTML: :data-author G. W. Leibniz
-#+ATTR_HTML: :data-when 1900
-#+ATTR_HTML: :data-where Œuvres philosophiques de Leibniz T. 1
-#+ATTR_HTML: :data-url https://gallica.bnf.fr/ark:/12148/bpt6k2100044.image
-#+END_example
-
-*** Affichage du code source
-Org et Hakyll via Pandoc supportent très bien l'affichage de code, les 
-modifications ont donc été assez légères. Voici la liste des fonctionnalités
-ajoutées :
-
-+ ajout de pied de bloc via les commandes src_literal{data-pellet}, 
-  src_literal{data-file} et src_literal{data-url} (src_literal{data-url} n'est
-  effectif que si src_literal{data_file} est présent) ;
-
-+ activation du compteur de lignes via src_literal{data-line-number} et 
-  possibilité de démarrer le compteur à un nombre spécifique via 
-  src_literal{data-line-start} ;
-
-+ Mise en lumière de plusieurs lignes via src_literal{data-hl} qui peut 
-  prendre une liste de lignes à mettre en surbrillance en respectant 
-  ce motif : chaque séquence est séparée par un src_literal{;} et on peut 
-  exprimer un seul élément, avec un nombre, ou un interval avec 
-  src_literal{x..y}. Par exemple, src_literal{1;12;15..18;44..38} mettra en 
-  lumière les lignes 1, 12, celles de 15 à 18 et celles de 38 à 44.
-
-L'ensemble de ces paramètres sont facultatifs (et à choisir en fonction 
-du contexte de rédaction).
-
-#+ATTR_HTML: :data-kind code
-#+ATTR_HTML: :data-pellet OCaml :data-file example/functor.ml 
-#+ATTR_HTML: :data-url https://github.com/xvw/planet/blob/master/src/bedrock/list.ml
-#+ATTR_HTML: :data-line-number true
-#+ATTR_HTML: :data-line-start 22
-#+ATTR_HTML: :data-hl 22;24..25
-#+BEGIN_roe
-#+BEGIN_src ocaml
-module Functor = Functor.Make (struct
-  type 'a t = 'a list
-  let pure x = [ x ]
-  let map f x = Stdlib.List.map f x
-end)
-#+END_src
-#+END_roe
-
-Ici le noeud est enrichi des données suivantes :
-
-#+BEGIN_example
-#+ATTR_HTML: :data-kind code
-#+ATTR_HTML: :data-pellet OCaml :data-file example/functor.ml 
-#+ATTR_HTML: :data-url https://github.com/xvw/planet/blob/master/src/bedrock/list.ml
-#+ATTR_HTML: :data-line-number true
-#+ATTR_HTML: :data-line-start 22
-#+ATTR_HTML: :data-hl 22;24..25 
-#+END_example

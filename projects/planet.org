@@ -16,19 +16,19 @@ Org et Hakyll via Pandoc supportent très bien l'affichage de code, les
 modifications ont donc été assez légères. Voici la liste des fonctionnalités
 ajoutées :
 
-+ ajout de pied de bloc via les commandes src_org{data-pellet}, 
-  src_org{data-file} et src_org{data-url} (src_org{data-url} n'est
-  effectif que si src_org{data_file} est présent) ;
++ ajout de pied de bloc via les commandes src_literal{data-pellet}, 
+  src_literal{data-file} et src_literal{data-url} (src_literal{data-url} n'est
+  effectif que si src_literal{data_file} est présent) ;
 
-+ activation du compteur de lignes via src_org{data-line-number} et 
++ activation du compteur de lignes via src_literal{data-line-number} et 
   possibilité de démarrer le compteur à un nombre spécifique via 
-  src_org{data-line-start} ;
+  src_literal{data-line-start} ;
 
-+ Mise en lumière de plusieurs lignes via src_org{data-hl} qui peut 
++ Mise en lumière de plusieurs lignes via src_literal{data-hl} qui peut 
   prendre une liste de lignes à mettre en surbrillance en respectant 
-  ce motif : chaque séquence est séparée par un src_org{;} et on peut 
+  ce motif : chaque séquence est séparée par un src_literal{;} et on peut 
   exprimer un seul élément, avec un nombre, ou un interval avec 
-  src_org{x..y}. Par exemple, src_org{1;12;15..18;44..38} mettra en 
+  src_literal{x..y}. Par exemple, src_literal{1;12;15..18;44..38} mettra en 
   lumière les lignes 1, 12, celles de 15 à 18 et celles de 38 à 44.
 
 L'ensemble de ces paramètres sont facultatifs (et à choisir en fonction 

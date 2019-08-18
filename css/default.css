@@ -43,7 +43,7 @@ body {
     border-bottom: 1px dotted #666;
 }
 
-code {
+code.literal {
     font-family: "Fira Mono", monospace;
     background-color: #FFF;
     color: #333;

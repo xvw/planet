@@ -129,3 +129,8 @@
   (:duration "120") (:sector "programming")
   (:label "Enrichissement de Org avec des block de code paramétrables")
   (:project "planet"))
+
+((:uuid "9b6d6398-8cfc-804d-e159-637816dd5cab") (:day "019H18")
+  (:duration "320") (:sector "writing")
+  (:label "Expérimentations et description des premières extensions de ROE")
+  (:project "planet"))

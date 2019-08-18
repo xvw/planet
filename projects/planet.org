@@ -1,67 +1,69 @@
-*planet* yo Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque et hendrerit nisl. Maecenas finibus nibh quis libero condimentum, vel congue eros scelerisque. In sed elit luctus, lobortis nisi id, mollis nulla. Curabitur nec urna eros. Suspendisse potenti. Pellentesque eleifend auctor ante, eu laoreet nulla volutpat sit amet. Donec ultrices purus diam, ut accumsan nibh egestas gravida. In ac rhoncus velit. Nam augue arcu, lacinia sit amet scelerisque quis, sollicitudin quis enim. Sed eget molestie lacus, eget sodales eros. Phasellus sodales sem augue, eget efficitur sapien rutrum eget. Praesent a augue aliquam, pulvinar dui in, hendrerit diam. Sed feugiat nibh eu ligula iaculis facilisis sit amet eget urna. Donec congue augue sem, ac finibus tortor iaculis sit amet. Pellentesque et justo et odio tincidunt interdum eget quis odio. Aenean maximus, lacus eu pharetra mollis, mauris turpis iaculis urna, molestie imperdiet orci massa quis nisl.
+Ecrire une introduction de *Planet*
 
-Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec molestie ipsum sapien, nec hendrerit risus porttitor fringilla. Sed luctus augue at tellus laoreet, sed condimentum turpis molestie. Ut scelerisque scelerisque augue, rhoncus laoreet elit sodales sit amet. Integer convallis sodales laoreet. Maecenas luctus metus erat, sed mollis metus interdum sit amet. Nullam ultricies tempor libero a dapibus. Quisque congue urna tincidunt eros sollicitudin, vel euismod neque convallis. Vestibulum cursus lectus in mi ullamcorper, nec pulvinar eros egestas. Cras finibus in nunc ut luctus.
 
-Mauris pulvinar turpis in viverra blandit. Praesent tempor lobortis lectus. Nulla ac imperdiet nibh, eget fringilla velit. Etiam cursus tellus et consectetur semper. Vivamus at velit id tellus malesuada dapibus. Morbi mauris enim, dignissim a sagittis quis, iaculis vitae dolor. In consequat justo nisi, eget ultrices sem condimentum ut. Sed sit amet eleifend diam. Donec eu pellentesque diam, eget laoreet urna. Maecenas non ligula ex. Pellentesque eleifend, sapien eu bibendum suscipit, dolor nibh eleifend turpis, ut semper tortor enim a felis. Quisque lobortis augue in congue pharetra.
+** Format d'écriture
 
-Morbi luctus feugiat accumsan. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed sed sem at risus iaculis molestie. Fusce a enim ex. Nullam mollis auctor elit non faucibus. Maecenas scelerisque orci a libero ultricies sagittis. Nulla posuere non tellus at tristique. Etiam vel blandit lacus.
+Bien que grâce à [[https://jaspervdj.be/hakyll/][Hakyll]] et [[https://pandoc.org/][Pandoc]], j'ai la possibilité d'écrire dans 
+énormément de formats différents, j'ai fais, depuis quelques années, 
+le choix de [[https://www.orgmode.org/][Org]]. Etant un utilisateur d'Emacs, le support éditeur est 
+assez impressionnant et Org offre une grammaire riche et extensible.
 
+Cependant, pour des besoins spécifiques liés à mes rédactions, *Planet* 
+étend les fonctionnalités natives de Org.
+
+*** Affichage du code source
+Org et Hakyll via Pandoc supportent très bien l'affichage de code, les 
+modifications ont donc été assez légères. Voici la liste des fonctionnalités
+ajoutées :
+
++ ajout de pied de bloc via les commandes src_org{data-pellet}, 
+  src_org{data-file} et src_org{data-url} (src_org{data-url} n'est
+  effectif que si src_org{data_file} est présent) ;
+
++ activation du compteur de lignes via src_org{data-line-number} et 
+  possibilité de démarrer le compteur à un nombre spécifique via 
+  src_org{data-line-start} ;
+
++ Mise en lumière de plusieurs lignes via src_org{data-hl} qui peut 
+  prendre une liste de lignes à mettre en surbrillance en respectant 
+  ce motif : chaque séquence est séparée par un src_org{;} et on peut 
+  exprimer un seul élément, avec un nombre, ou un interval avec 
+  src_org{x..y}. Par exemple, src_org{1;12;15..18;44..38} mettra en 
+  lumière les lignes 1, 12, celles de 15 à 18 et celles de 38 à 44.
+
+L'ensemble de ces paramètres sont facultatifs (et à choisir en fonction 
+du contexte de rédaction). Voici un exemple d'une petite portion de code:
+  
+#+BEGIN_EXAMPLE
+#+BEGIN_src ocaml
+#+ATTR_HTML: :data-kind code
+#+ATTR_HTML: :data-pellet OCaml :data-file example/functor.ml 
+#+ATTR_HTML: :data-url https://github.com/xvw/planet/blob/master/src/bedrock/list.ml
+#+ATTR_HTML: :data-line-number true
+#+ATTR_HTML: :data-line-start 22
+#+ATTR_HTML: :data-hl 22;24..25
+module Functor = Functor.Make (struct
+  type 'a t = 'a list
+  let pure x = [ x ]
+  let map f x = Stdlib.List.map f x
+end)
+#+END_src
+#+END_EXAMPLE
+
+Qui affichera le code de cette manière :
 
 #+ATTR_HTML: :data-kind code
-#+ATTR_HTML: :data-pellet ocaml
-#+ATTR_HTML: :data-file sample/foo/bar/test.ml
-#+ATTR_HTML: :data-url https://xvw.github.io
-#+ATTR_HTML: :data-line-number true 
-#+ATTR_HTML: :data-line-start foo
-#+ATTR_HTML: :data-hl 3..5;11..12;15
+#+ATTR_HTML: :data-pellet OCaml :data-file example/functor.ml 
+#+ATTR_HTML: :data-url https://github.com/xvw/planet/blob/master/src/bedrock/list.ml
+#+ATTR_HTML: :data-line-number true
+#+ATTR_HTML: :data-line-start 22
+#+ATTR_HTML: :data-hl 22;24..25
 #+BEGIN_roe
-#+BEGIN_SRC ocaml
-open Js_of_ocaml
-open Bedrock
-open Util
-open Error
-module Tyxml = Js_of_ocaml_tyxml.Tyxml_js
-
-module Code = struct
-  let prepare parent node =
-    let () = Dom.removeChild parent node in
-    let open Tyxml.Html in
-    let subparent =
-      div
-        ~a:[ a_class [ "code-container" ] ]
-        [ div
-            ~a:[ a_class [ "code-concrete-container" ] ]
-            [ Tyxml.Of_dom.of_div node ]
-        ]
-      |> Tyxml.To_dom.of_div
-    in
-    let () = Dom.appendChild parent subparent in
-    Ok (subparent, node)
-  ;;
-end
-#+END_SRC
+#+BEGIN_src ocaml
+module Functor = Functor.Make (struct
+  type 'a t = 'a list
+  let pure x = [ x ]
+  let map f x = Stdlib.List.map f x
+end)
+#+END_src
 #+END_roe
-
-Nam eget ligula eu odio lacinia vulputate. Cras aliquet ante diam, tempor blandit eros rutrum quis. Vestibulum et imperdiet leo. Phasellus in urna sagittis, laoreet mi eget, sodales erat. Pellentesque lacinia congue nibh. Ut sagittis finibus magna in efficitur. Duis faucibus ultrices vehicula. Phasellus efficitur odio dolor, eu malesuada leo volutpat nec. Ut volutpat turpis in molestie dignissim. Sed ultricies ultrices eros, et dapibus diam lobortis id. Suspendisse congue ante at massa convallis, in rhoncus erat feugiat. Nam enim est, bibendum sit amet eleifend vitae, viverra in metus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse potenti. Donec lacinia consequat laoreet. 
-
-#+BEGIN_SRC ocaml
-module Sector = struct
-  let nodelist_to_hashtbl node_list =
-    node_list |> Dom.list_of_nodeList
-    |> List.map (fun node ->
-           let open Validation.Infix in
-           Shapes.Sector.make
-           <$> get_data (fun x -> Ok x) node "name"
-           <*> get_data (fun x -> Ok x) node "desc"
-           <*> get_data
-                 (Color.from_string %> Validation.from_result)
-                 node
-                 "color"
-           >|= fun sector -> sector.name, sector)
-    |> Validation.Applicative.sequence
-    |> Validation.map (List.to_seq %> Hashtbl.of_seq)
-  ;;
-end
-#+END_SRC
-
-Nam eget ligula eu odio lacinia vulputate. Cras aliquet ante diam, tempor blandit eros rutrum quis. Vestibulum et imperdiet leo. Phasellus in urna sagittis, laoreet mi eget, sodales erat. Pellentesque lacinia congue nibh. Ut sagittis finibus magna in efficitur. Duis faucibus ultrices vehicula. Phasellus efficitur odio dolor, eu malesuada leo volutpat nec. Ut volutpat turpis in molestie dignissim. Sed ultricies ultrices eros, et dapibus diam lobortis id. Suspendisse congue ante at massa convallis, in rhoncus erat feugiat. Nam enim est, bibendum sit amet eleifend vitae, viverra in metus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse potenti. Donec lacinia consequat laoreet. 

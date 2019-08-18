@@ -43,8 +43,28 @@ body {
     border-bottom: 1px dotted #666;
 }
 
+code {
+    font-family: "Fira Mono", monospace;
+    background-color: #FFF;
+    color: #333;
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-size: 80%;
+}
+
+
 pre.sourceCode {
     max-width: 0;
+}
+
+pre.example code,
+pre.sourceCode code {
+    color: #000;
+    border-radius: 0;
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+    font-size: 100%;
 }
 
 pre.sourceCode * {
@@ -566,4 +586,28 @@ footer a {
 #project-content-right .tracking-graph text {
     font-family: "Fira Mono", monospace;
     font-size: 60%;
+}
+
+.structured-text h1 {
+    font-size: 170%;
+    margin: 48px 0 32px 0;
+}
+
+.structured-text h2 {
+    font-size: 130%;
+    margin: 32px 0 24px 0;
+}
+
+.structured-text h3 {
+    font-size: 110%;
+    margin: 22px 0 2px 0;
+}
+
+pre.example {
+    font-family: "Fira Mono", monospace;
+    font-size: 85%;
+    background-color: #fff;
+    color: #333;
+    padding: 8px;
+    border-radius: 4px;
 }

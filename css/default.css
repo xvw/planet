@@ -538,6 +538,14 @@ footer a {
     display: block;
 }
 
+#project-content-right .release-list a.view-releases {
+    display: block;
+    margin-top: 12px;
+    font-size: 85%;
+    color: #444;
+    text-decoration: none;
+}
+
 #project-content-right .tracking  ul.stats > li,
 #project-content-right .release-list ul > li {
     display: flex;

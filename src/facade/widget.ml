@@ -56,36 +56,48 @@ module Project = struct
         Dom_html.element Dom.nodeList Js.t Js.readonly_prop
     end
 
-  let render_releases = function
+  let cut = function a :: b :: c :: _ -> [ a; b; c ] | xs -> xs
+
+  let render_releases repo = function
     | [] ->
       []
     | releases ->
       let len = List.length releases in
+      let cutted = cut releases in
       let open Tyxml.Html in
       [ div
           ~a:[ a_class [ "project-block"; "release-list" ] ]
-          [ h3
-              [ span [ txt "Releases" ]
-              ; span
-                  ~a:[ a_class [ "label" ] ]
-                  [ txt $ string_of_int len ]
-              ]
-          ; ul
-              (List.map
-                 (fun (name, date, url) ->
-                   li
-                     [ span
-                         ~a:[ a_class [ "date" ] ]
-                         [ txt
-                           $ Format.asprintf
-                               "%a"
-                               Paperwork.Timetable.Day.ppr
-                               date
-                         ]
-                     ; a ~a:[ a_href url ] [ txt name ]
-                     ])
-                 releases)
-          ]
+          ([ h3
+               [ span [ txt "Releases" ]
+               ; span
+                   ~a:[ a_class [ "label" ] ]
+                   [ txt $ string_of_int len ]
+               ]
+           ; ul
+               (List.map
+                  (fun (name, date, url) ->
+                    li
+                      [ span
+                          ~a:[ a_class [ "date" ] ]
+                          [ txt
+                            $ Format.asprintf
+                                "%a"
+                                Paperwork.Timetable.Day.ppr
+                                date
+                          ]
+                      ; a ~a:[ a_href url ] [ txt name ]
+                      ])
+                  cutted)
+           ]
+          @ (repo
+            |> Option.map (fun r ->
+                   a
+                     ~a:
+                       [ a_class [ "view-releases" ]
+                       ; a_href (Shapes.Repo.releases_url r)
+                       ]
+                     [ txt "Toutes les releases" ])
+            |> Option.to_list))
       ]
   ;;
 
@@ -327,8 +339,9 @@ module Project = struct
       div
         (render_timedata timedata sectors
         @ render_tags Shapes.Project.(project.tags)
-        @ render_releases Shapes.Project.(List.rev project.releases)
-        )
+        @ render_releases
+            project.repo
+            Shapes.Project.(List.rev project.releases))
       |> Tyxml.To_dom.of_div
     in
     let () = Dom.appendChild right_container right_content in

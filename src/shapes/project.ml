@@ -181,7 +181,9 @@ let to_qexp project =
   @ kvo project.license "license" id
   @ kvo project.picto "picto" id
   @ kvcontent project.content
-  @ (project.repo |> Option.map Repo.to_qexp |> Option.to_list)
+  @ (project.repo
+    |> Option.map (fun x -> node [ tag "repo"; Repo.to_qexp x ])
+    |> Option.to_list)
   @ kvlist "tags" project.tags string
   @ kvziplist "links" project.links Link.simple_to_qexp
   @ kvlist "releases" project.releases Link.dated_to_qexp

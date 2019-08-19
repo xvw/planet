@@ -5,6 +5,11 @@ l'explorateur de fichiers de MacOSX, [[https://support.apple.com/en-gb/HT201732]
 (beaucoup moins riche en fonctionnalités), c'était aussi l'occasion de 
 développer une application concrète.
 
+#+ATTR_HTML: :class image-cover
+#+CAPTION: Une image de la version 1.3.2
+[[../images/qian-render-1.png]]
+
+
 Développé en [[https://elm-lang.org][Elm]], un petit langage de programmation fonctionnelle dédié au 
 développement d'application web /cliente/ et via [[https://electronjs.org][Electron]], l'expérience de 
 développement a été plutôt agréable.

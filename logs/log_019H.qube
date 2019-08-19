@@ -150,3 +150,9 @@
 ((:uuid "c2a0dcd7-a9de-33bb-ecc6-ef684d755241") (:day "019H19")
   (:duration "120") (:sector "writing")
   (:label "Rédaction de la présentation de Planet") (:project "planet"))
+
+((:uuid "9421d65b-d42a-fda8-22d7-e37307bd78a0") (:day "019H19")
+  (:duration "85") (:sector "programming")
+  (:label
+    "Modification de la représentation des Repositories et restriction de la liste des releases")
+  (:project "planet"))

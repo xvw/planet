@@ -133,7 +133,8 @@ let to_hakyll_string_aux day project_opt project =
             Shapes.Project.status_to_string
             project.status
         ; render_picto project.picto
-        ; may_render "repo" id project.repo
+        ; may_render "repo" Shapes.Repo.repr project.repo
+        ; may_render "repo_url" Shapes.Repo.base_url project.repo
         ; may_render "license" id project.license
         ; render_if "indexed" project.indexed
         ; render_if "published" project.published

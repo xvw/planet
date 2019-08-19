@@ -6,5 +6,5 @@
 (:status "wip")
 (:license "mit")
 (:tags "library" "ocaml" "toolkit" "node" "stdlib")
-(:repo "github.com/xvw/quasar.git")
+(:repo (#github xvw quasar))
 (:content external #org-mode "projects/quasar.org")

@@ -5,7 +5,7 @@
 (:status "wip")
 (:license "mit")
 (:tags "brainfuck" "ocaml" "parser" "interpreter" "compilation")
-(:repo "github.com/xvw/brainfocaml.git")
+(:repo (#github xvw brainfocaml))
 (:content external #org-mode "projects/brainfocaml.org")
 
 (:releases

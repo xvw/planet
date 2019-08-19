@@ -5,5 +5,5 @@
 (:status "wip")
 (:license "mit")
 (:tags "slides" "mvp" "web" "talk" "presentation")
-(:repo "github.com/xvw/rutsch.git")
+(:repo (#github xvw rutsch))
 (:content external #org-mode "projects/rutsch.org")

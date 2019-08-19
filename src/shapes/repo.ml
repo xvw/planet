@@ -28,16 +28,6 @@ let gitlab ~user project_name =
   Gitlab { username = ftrim user; name = ftrim project_name }
 ;;
 
-let valid_repo_kind str =
-  match ftrim str with
-  | "github" ->
-    true
-  | "gitlab" ->
-    true
-  | _ ->
-    false
-;;
-
 let domain = function
   | Github _ ->
     "github.com"

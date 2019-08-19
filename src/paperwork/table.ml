@@ -93,6 +93,16 @@ end
 module Fetch = struct
   type 'a t = configuration -> string -> 'a Validation.t
 
+  let map f table field =
+    match Hashtbl.find_opt table field with
+    | Some (Some obj) ->
+      f obj
+    | None ->
+      Error [ Undefined_field field ]
+    | _ ->
+      Error [ Invalid_field field ]
+  ;;
+
   let option f table field =
     match f table field with
     | Ok x ->

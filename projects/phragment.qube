@@ -5,7 +5,7 @@
 (:published false)
 (:license "mit")
 (:tags "discussion" "decentralized" "forum" "protocol")
-(:repo "github.com/xvw/phragment.git")
+(:repo (#github xvw phragment))
 (:content external #org-mode "projects/phragment.org")
 (:picto "phragment")
 

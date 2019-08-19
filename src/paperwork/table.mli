@@ -54,6 +54,7 @@ end
 module Fetch : sig
   type 'a t = configuration -> string -> 'a Validation.t
 
+  val map : (Qexp.t -> 'a Validation.t) -> 'a t
   val option : 'a t -> 'a option t
   val string : string t
   val bool_refutable : ?default:bool -> bool t

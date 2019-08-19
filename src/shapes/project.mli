@@ -17,7 +17,7 @@ type t =
   { name : string
   ; title : string
   ; synopsis : string
-  ; repo : string option
+  ; repo : Repo.t option
   ; license : string option
   ; links : (string * Link.simple list) list
   ; releases : Link.dated list

@@ -4,7 +4,7 @@
 (:status "wip")
 (:license "mit")
 (:tags "file" "explorer" "mvp" "minimalist" "elm" "electron")
-(:repo "github.com/xvw/qian.git")
+(:repo (#github xvw qian))
 (:content external #org-mode "projects/qian.org")
 (:picto "qian")
 

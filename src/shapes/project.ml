@@ -34,7 +34,7 @@ type t =
   { name : string
   ; title : string
   ; synopsis : string
-  ; repo : string option
+  ; repo : Repo.t option
   ; license : string option
   ; links : (string * Link.simple list) list
   ; releases : Link.dated list
@@ -90,7 +90,7 @@ let rec from_qexp expr =
     <$> Fetch.string config "name"
     <*> Fetch.string config "title"
     <*> Fetch.string config "synopsis"
-    <*> Fetch.(option string config "repo")
+    <*> Fetch.(option (map Repo.from_qexp) config "repo")
     <*> Fetch.(option string config "license")
     <*> Fetch.ziplist_refutable Link.mapper_simple config "links"
     <*> Fetch.list_refutable Link.mapper_dated config "releases"
@@ -178,10 +178,10 @@ let to_qexp project =
       "published"
       (if project.published then "true" else "false")
   ]
-  @ kvo project.repo "license" id
+  @ kvo project.license "license" id
   @ kvo project.picto "picto" id
   @ kvcontent project.content
-  @ kvo project.repo "repo" id
+  @ (project.repo |> Option.map Repo.to_qexp |> Option.to_list)
   @ kvlist "tags" project.tags string
   @ kvziplist "links" project.links Link.simple_to_qexp
   @ kvlist "releases" project.releases Link.dated_to_qexp
@@ -233,8 +233,9 @@ let rec to_json project =
     ; "published", bool project.published
     ; "title", string project.title
     ; "synopsis", string project.synopsis
-    ; "repo", nullable Option.(project.repo >|= string)
-    ; "license", nullable Option.(project.repo >|= string)
+    ; ( "repo"
+      , nullable Option.(project.repo >|= Repo.base_url %> string) )
+    ; "license", nullable Option.(project.license >|= string)
     ; ( "links"
       , obj
           (List.map

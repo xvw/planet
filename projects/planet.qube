@@ -4,7 +4,7 @@
 (:status "unceasing")
 (:license "mit")
 (:tags "log" "web" "ocaml" "journal" "blog" "hakyll")
-(:repo "github.com/xvw/planet.git")
+(:repo (#github xvw planet))
 (:content external #org-mode "projects/planet.org")
 (:picto "planet")
 

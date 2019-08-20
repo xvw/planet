@@ -327,6 +327,20 @@ module Project = struct
       ]
   ;;
 
+  let compute_links project =
+    let open Shapes.Project in
+    (Option.map
+       (fun repo ->
+         ( Shapes.Repo.kind repo
+         , [ "Page du projet", Shapes.Repo.base_url repo
+           ; "Bug tracker", Shapes.Repo.bucktracker_url repo
+           ; "Contributeurs", Shapes.Repo.contributors_url repo
+           ] ))
+       project.repo
+    |> Option.to_list)
+    @ project.links
+  ;;
+
   let render_summary
       right_container
       bottom_container
@@ -345,14 +359,13 @@ module Project = struct
       |> Tyxml.To_dom.of_div
     in
     let () = Dom.appendChild right_container right_content in
-    match Shapes.Project.(project.links) with
+    let links = compute_links project in
+    match links with
     | [] ->
       ()
     | _ :: _ ->
       let bottom_content =
-        div
-          ~a:[ a_class [ "list-of-links" ] ]
-          (render_links Shapes.Project.(project.links))
+        div ~a:[ a_class [ "list-of-links" ] ] (render_links links)
         |> Tyxml.To_dom.of_div
       in
       Dom.appendChild bottom_container bottom_content

@@ -19,6 +19,62 @@ let get_data f elt key =
   |> Validation.bind f
 ;;
 
+module Common = struct
+  let compute_time_ago node =
+    let open Validation.Infix in
+    match
+      get_data
+        (Timetable.Day.from_string %> Validation.from_result)
+        node
+        "planet-ago"
+      >|= Timetable.Day.unfold
+      >|= (fun (y, m, d) -> new%js Js.date_day y (m - 1) d)
+      >|= fun d -> d##getTime
+    with
+    | Error errs ->
+      let () = node##.classList##add (Js.string "hidden-object") in
+      Console.error
+      $ object%js
+          val messages =
+            Js.array
+              (List.map (to_string %> Js.string) errs
+              |> Array.of_list)
+
+          val node = node
+        end
+    | Ok timestamp_badge ->
+      let timestamp_now = (new%js Js.date_now)##getTime in
+      let st =
+        (timestamp_now -. timestamp_badge)
+        /. (60. *. 60. *. 24. *. 1000.)
+        |> int_of_float
+      in
+      let txt_content =
+        match st with
+        | 0 ->
+          "aujourd'hui"
+        | 1 ->
+          "hier"
+        | n ->
+          Format.asprintf "il y a %d jours" n
+      in
+      let content =
+        txt_content |> Tyxml.Html.txt |> Tyxml.To_dom.of_pcdata
+      in
+      Dom.appendChild node content
+  ;;
+
+  let time_ago_for =
+    Dom.list_of_nodeList %> List.iter compute_time_ago
+  ;;
+
+  let api =
+    object%js
+      method timeAgo nodes = time_ago_for nodes
+    end
+  ;;
+end
+
 module Sector = struct
   let nodelist_to_hashtbl node_list =
     node_list |> Dom.list_of_nodeList

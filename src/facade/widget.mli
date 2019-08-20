@@ -1,5 +1,11 @@
 open Js_of_ocaml
 
+module Common : sig
+  val api
+    : < timeAgo : Dom_html.element Dom.nodeList Js.t -> unit Js.meth >
+      Js.t
+end
+
 module Sector : sig
   val nodelist_to_hashtbl
     :  Dom_html.element Dom.nodeList Js.t

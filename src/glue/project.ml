@@ -127,7 +127,16 @@ let to_hakyll_string_aux day project_opt project =
         ; render_string "displayable_title" project.title
         ; render_string "name" project.name
         ; render_string "synopsis" project.synopsis
-        ; may_render_date ~default:"2019-01-01" "date" day
+        ; may_render_with_format
+            ~default:"2019-01-01"
+            Timetable.Day.ppr
+            "date"
+            day
+        ; may_render_with_format
+            ~default:"019A01"
+            Timetable.Day.pp
+            "date_planet"
+            day
         ; render
             "status"
             Shapes.Project.status_to_string

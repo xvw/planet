@@ -26,6 +26,7 @@ module Year = struct
   let pp ppf x = Format.fprintf ppf "%s" (to_string x)
   let eq (Year x) (Year y) = x = y
   let cmp (Year x) (Year y) = compare x y
+  let unfold (Year n) = 2000 + n
 end
 
 module Month = struct
@@ -177,6 +178,7 @@ module Month = struct
   ;;
 
   let to_year (Month (y, _)) = y
+  let unfold (Month (y, n)) = Year.unfold y, to_int n
 end
 
 module Day = struct
@@ -230,6 +232,11 @@ module Day = struct
 
   let to_month (Day (m, _)) = m
   let to_year x = Month.to_year (to_month x)
+
+  let unfold (Day (m, n)) =
+    let y, m = Month.unfold m in
+    y, m, n
+  ;;
 end
 
 module Hour = struct
@@ -277,6 +284,8 @@ module Hour = struct
     let r = compare h h2 in
     if r = 0 then compare m m2 else r
   ;;
+
+  let unfold (Hour k) = k
 end
 
 module Moment = struct
@@ -327,5 +336,11 @@ module Moment = struct
     let dy = Day.Day (mt, day) in
     let hr = Hour.Hour (hour, min) in
     yr, mt, dy, hr
+  ;;
+
+  let unfold (dp, hp) =
+    let y, m, d = Day.unfold dp
+    and h, mn = Hour.unfold hp in
+    y, m, d, h, mn
   ;;
 end

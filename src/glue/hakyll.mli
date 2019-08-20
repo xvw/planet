@@ -21,10 +21,11 @@ val may_render_with
   -> 'a option
   -> metadata
 
-val may_render_date
+val may_render_with_format
   :  default:string
+  -> (Format.formatter -> 'a -> unit)
   -> metadata_key
-  -> Paperwork.Timetable.Day.t option
+  -> 'a option
   -> metadata
 
 val render_if : metadata_key -> bool -> metadata

@@ -21,10 +21,10 @@ let may_render key f = function
     render key f value
 ;;
 
-let may_render_date ~default key value =
+let may_render_with_format ~default f key value =
   may_render_with
     key
-    (fun x -> Format.asprintf "%a" Paperwork.Timetable.Day.ppr x)
+    (fun x -> Format.asprintf "%a" f x)
     default
     value
 ;;

@@ -1,5 +1,5 @@
 (** Format for time serialization.
-    
+2    
     {2 Concept}
 
     The goal of this module is to provides a easy-way to 
@@ -64,6 +64,9 @@ module Year : sig
 
   (** Compare *)
   val cmp : t -> t -> int
+
+  (** Convert to an unabstract representation *)
+  val unfold : t -> int
 end
 
 module Month : sig
@@ -119,6 +122,9 @@ module Month : sig
 
   (** Convert month to int *)
   val to_int : month -> int
+
+  (** Convert to an unabstract representation *)
+  val unfold : t -> int * int
 end
 
 module Day : sig
@@ -157,6 +163,9 @@ module Day : sig
 
   (** Convert to month *)
   val to_month : t -> Month.t
+
+  (** Convert to an unabstract representation *)
+  val unfold : t -> int * int * int
 end
 
 module Hour : sig
@@ -184,6 +193,9 @@ module Hour : sig
 
   (** Compare *)
   val cmp : t -> t -> int
+
+  (** Convert to an unabstract representation *)
+  val unfold : t -> int * int
 end
 
 module Moment : sig
@@ -222,4 +234,7 @@ module Moment : sig
 
   (** Extract info *)
   val extract : t -> Year.t * Month.t * Day.t * Hour.t
+
+  (** Convert to an unabstract representation *)
+  val unfold : t -> int * int * int * int * int
 end

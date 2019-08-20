@@ -4,6 +4,7 @@
     box-sizing: border-box;
 }
 
+.hidden-object,
 planet-metadata {
     display: none;
 }
@@ -406,20 +407,20 @@ footer a {
     margin-right: 6px;
 }
 
-.project-badges > .status::before {
-    content: "status: ";
+.project-badges > .updated-ago::before {
+    content: "modifié ";
     font-weight: 200;
     color: #444;
 }
 
-.project-badges .project-badge a {
-    text-decoration: none;
-    color: #000;
+.project-badges > .status::before {
+    content: "status : ";
+    font-weight: 200;
+    color: #444;
 }
 
-
 .project-badges > .license::before {
-    content: "licence: ";
+    content: "licence : ";
     color: #444;
     font-weight: 200;
 }
@@ -430,6 +431,11 @@ footer a {
     font-weight: 200;
 }
 
+
+.project-badges .project-badge a {
+    text-decoration: none;
+    color: #000;
+}
 
 .qexp-metadata {
     display: none;

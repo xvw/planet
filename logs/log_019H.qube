@@ -161,3 +161,9 @@
   (:duration "20") (:sector "programming")
   (:label "Ajout d'un block relatif aux dépôt des projets")
   (:project "planet"))
+
+((:uuid "98b2688c-b374-41db-33ec-85355b8dded6") (:day "019H21")
+  (:duration "120") (:sector "programming")
+  (:label
+    "Amélioration de l'API JS de Planet et ajout de pastille de modifications")
+  (:project "planet"))

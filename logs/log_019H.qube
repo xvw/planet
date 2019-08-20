@@ -156,3 +156,8 @@
   (:label
     "Modification de la représentation des Repositories et restriction de la liste des releases")
   (:project "planet"))
+
+((:uuid "e84c983c-d866-437c-5a99-9d4063c7a99d") (:day "019H20")
+  (:duration "20") (:sector "programming")
+  (:label "Ajout d'un block relatif aux dépôt des projets")
+  (:project "planet"))

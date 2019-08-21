@@ -167,3 +167,9 @@
   (:label
     "Amélioration de l'API JS de Planet et ajout de pastille de modifications")
   (:project "planet"))
+
+((:uuid "9d264552-0df4-ad7f-dfd5-b029bbe5ee2c") (:day "019H21")
+  (:duration "100") (:sector "programming")
+  (:label
+    "Remontée de la durée de vie du projet et amélioration de la génération des tables de mises à jours")
+  (:project "planet"))

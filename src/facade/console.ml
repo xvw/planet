@@ -64,3 +64,15 @@ let group_end () = console##groupEnd
 let render_error errors =
   errors |> List.iter (Error.to_string %> Js.string %> error)
 ;;
+
+let dump_errors obj errs =
+  error
+  $ object%js
+      val messages =
+        Js.array
+          (List.map (Error.to_string %> Js.string) errs
+          |> Array.of_list)
+
+      val reference = obj
+    end
+;;

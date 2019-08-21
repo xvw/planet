@@ -6,7 +6,7 @@ module Log : sig
     object
       method uuid : Js.js_string Js.t Js.readonly_prop
 
-      method day : Js.js_string Js.t Js.readonly_prop
+      method date : Js.js_string Js.t Js.readonly_prop
 
       method duration : int Js.readonly_prop
 

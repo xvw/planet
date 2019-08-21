@@ -96,3 +96,6 @@ val group_end : unit -> unit
 
 (** render errors *)
 val render_error : Error.t list -> unit
+
+(** Generic printer *)
+val dump_errors : 'a -> Error.t list -> unit

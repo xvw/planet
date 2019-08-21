@@ -10,7 +10,7 @@ module Log = struct
     object
       method uuid : Js.js_string Js.t Js.readonly_prop
 
-      method day : Js.js_string Js.t Js.readonly_prop
+      method date : Js.js_string Js.t Js.readonly_prop
 
       method duration : int Js.readonly_prop
 
@@ -33,7 +33,7 @@ module Log = struct
     <$> (Js.to_string %> pure) obj##.uuid
     <*> (Js.to_string %> Paperwork.Timetable.Day.from_string
        %> from_result)
-          obj##.day
+          obj##.date
     <*> pure obj##.duration
     <*> (Js.to_string %> pure) obj##.sector
     <*> (Js.Optdef.to_option %> Option.map Js.to_string %> pure)
@@ -41,12 +41,26 @@ module Log = struct
     <*> (Js.to_string %> pure) obj##.label
   ;;
 
+  let reduce_log acc log _i =
+    let open Shapes.Log in
+    let () = Console.print log.uuid in
+    ()
+  ;;
+
   let hydrate () =
     let open Lwt.Infix in
     "/api/logs.json" |> Ajax.get
     >|= (fun frame -> frame.Ajax.content)
     >|= Js.string
-    >|= (fun x -> Js._JSON##parse x)
-    >|= Console.log
+    >|= fun x ->
+    (Js._JSON##parse x)##reduce_init
+      (Js.wrap_callback (fun acc obj i _ ->
+           match shape obj with
+           | Error errs ->
+             let () = Console.dump_errors obj errs in
+             acc
+           | Ok log ->
+             reduce_log acc log i))
+      ()
   ;;
 end

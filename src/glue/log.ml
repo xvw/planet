@@ -5,6 +5,11 @@ open Util
 open Paperwork
 module TT = Timetable
 
+let pcmp f a b =
+  let r = f a b in
+  if r = 0 then -1 else r
+;;
+
 let database = Database.logs
 let log_folder = Database.path database
 let whereami_file = Filename.concat log_folder "whereami.qube"
@@ -83,7 +88,7 @@ let log_cmp log_a log_b =
 let whereami_to_json ?(reverse = true) () =
   let filename = whereami_file in
   let cmp (a, _, _) (b, _, _) = Timetable.Day.cmp a b in
-  let sorter = if reverse then flip cmp else cmp in
+  let sorter = if reverse then flip $ pcmp cmp else pcmp cmp in
   let open Result.Infix in
   filename
   |> File.to_stream (fun _ -> Qexp.from_stream)
@@ -123,7 +128,9 @@ let collect_log_files ?(reverse = true) () =
 
 let traverse ?(reverse = true) f default =
   let open Validation.Infix in
-  let sorter = if reverse then flip log_cmp else log_cmp in
+  let sorter =
+    if reverse then flip $ pcmp log_cmp else pcmp log_cmp
+  in
   collect_log_files ~reverse ()
   |> Validation.from_result
   >>= fun files ->

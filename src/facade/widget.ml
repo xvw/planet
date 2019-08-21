@@ -8,24 +8,6 @@ module Svg = Tyxml.Svg
 
 let d ?(u = `Px) value = value, Some u
 
-let time_of ppwrk =
-  let y, m, d = Timetable.Day.unfold ppwrk in
-  (new%js Js.date_day y (m - 1) d)##getTime
-;;
-
-let days_ago_to_string ?(max = (new%js Js.date_now)##getTime) min =
-  let st =
-    (max -. min) /. (60. *. 60. *. 24. *. 1000.) |> int_of_float
-  in
-  match st with
-  | 0 ->
-    "aujourd'hui"
-  | 1 ->
-    "hier"
-  | n ->
-    Format.asprintf "il y a %d jours" n
-;;
-
 let validate str optional_node =
   optional_node |> Js.Opt.to_option
   |> Validation.from_option (Of str)
@@ -45,23 +27,16 @@ module Common = struct
         (Timetable.Day.from_string %> Validation.from_result)
         node
         "planet-ago"
-      >|= time_of
     with
     | Error errs ->
       let () = node##.classList##add (Js.string "hidden-object") in
-      Console.error
-      $ object%js
-          val messages =
-            Js.array
-              (List.map (to_string %> Js.string) errs
-              |> Array.of_list)
-
-          val node = node
-        end
-    | Ok timestamp_badge ->
-      let txt_content = days_ago_to_string timestamp_badge in
+      Console.dump_errors node errs
+    | Ok min_date ->
+      let d = Calendar.from_day min_date in
+      let txt_content = Calendar.Ago.compute d in
       let content =
-        txt_content |> Tyxml.Html.txt |> Tyxml.To_dom.of_pcdata
+        txt_content |> Calendar.Ago.stringify |> Tyxml.Html.txt
+        |> Tyxml.To_dom.of_pcdata
       in
       Dom.appendChild node content
   ;;
@@ -238,10 +213,10 @@ module Project = struct
     | None ->
       []
     | Some update ->
-      let ts = time_of update in
-      let r = days_ago_to_string ts in
+      let ts = Calendar.from_day update in
+      let r = Calendar.Ago.compute ts in
       [ create_data_block ~classes:[ "capitalized" ] "Mise à jour"
-        $ Format.asprintf "%s" r
+        $ Format.asprintf "%s" (Calendar.Ago.stringify r)
       ]
   ;;
 

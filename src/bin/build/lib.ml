@@ -141,6 +141,23 @@ let projects () =
     ()
 ;;
 
+let generation_id () =
+  let open Validation.Infix in
+  let () = create_partials () in
+  let partial =
+    Filename.concat seed_partials "generation_id.meta.html"
+  in
+  let () = trace_deletion (soft_deletion_file partial) in
+  let str =
+    Shapes.Metahtml.to_html
+      [ "generation_id" ]
+      [ ("uuid", Baremetal.Uuid.(make () |> to_string)) ]
+  in
+  File.create partial str |> Validation.from_result
+  >|= (fun () -> true, partial)
+  |> trace_creation
+;;
+
 let sectors () =
   let open Validation.Infix in
   let () = create_partials () in
@@ -155,6 +172,7 @@ let sectors () =
 ;;
 
 let all () =
+  let () = generation_id () in
   let () = api () in
   let () = projects () in
   let () = sectors () in

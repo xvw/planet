@@ -37,5 +37,7 @@ let () =
        val common = Widget.Common.api
 
        val roe = Roe.api
+
+       val logs = Binding.Log.api
     end)
 ;;

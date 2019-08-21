@@ -150,7 +150,7 @@ let generation_id () =
   let () = trace_deletion (soft_deletion_file partial) in
   let str =
     Shapes.Metahtml.to_html
-      [ "generation_id" ]
+      [ "generation-id-data" ]
       [ ("uuid", Baremetal.Uuid.(make () |> to_string)) ]
   in
   File.create partial str |> Validation.from_result

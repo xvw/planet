@@ -20,5 +20,5 @@ module Log : sig
   type t = js Js.t
 
   val shape : t -> Shapes.Log.t Validation.t
-  val api : < process : unit Js.meth > Js.t
+  val hydrate : unit -> unit Lwt.t
 end

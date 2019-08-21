@@ -80,7 +80,11 @@
       $partial("_seeds/partials/planet_sectors.meta.html")$
     </div>
     <script type="application/javascript">
-      planet.start();
+      planet.start(
+        document.querySelector(
+          "#planet-sectors-metadata > .generation-id-data"
+        )
+      );
     </script>
   </body>
 </html>

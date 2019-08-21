@@ -3,6 +3,7 @@ open Bedrock
 open Util
 open Error
 open Paperwork
+module Ajax = Lwt_xmlHttpRequest
 
 module Log = struct
   class type js =
@@ -40,11 +41,12 @@ module Log = struct
     <*> (Js.to_string %> pure) obj##.label
   ;;
 
-  let process () = Console.print "Process logs"
-
-  let api =
-    object%js
-      method process = process ()
-    end
+  let hydrate () =
+    let open Lwt.Infix in
+    "/api/logs.json" |> Ajax.get
+    >|= (fun frame -> frame.Ajax.content)
+    >|= Js.string
+    >|= (fun x -> Js._JSON##parse x)
+    >|= Console.log
   ;;
 end

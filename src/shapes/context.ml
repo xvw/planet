@@ -64,7 +64,7 @@ module Projects = struct
     let open Log in
     { base with
       start_date = keep_smallest_date base.start_date log.day
-    ; last_update = keep_biggest_date base.start_date log.day
+    ; last_update = keep_biggest_date base.last_update log.day
     ; logs_counter = base.logs_counter + 1
     ; minuts_counter = base.minuts_counter + log.duration
     ; sectors_counters = add_to_sectors base.sectors_counters log

@@ -13,6 +13,6 @@
 ((:name "research") (:color "#fec771")
  (:desc "Expériences variées liées à l'apprentissage"))
 
-((:name "maintenance") (:color "#f6d365")
+((:name "maintenance") (:color "#A4D932")
  (:desc "Correctif, maintenance d'infrastructures"))
 

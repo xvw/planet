@@ -35,10 +35,20 @@ val push_project_updates : Shapes.Update_table.t -> unit Result.t
 val logs_to_json : Shapes.Log.t list -> Paperwork.Json.t
 
 (** Convert whereami location into [Json.t] *)
-val whereami_to_json : unit -> Paperwork.Json.t Validation.t
+val whereami_to_json
+  :  ?reverse:bool
+  -> unit
+  -> Paperwork.Json.t Validation.t
 
 (** Fetch all logs in [Json.t] *)
-val collect_all_log_in_json : unit -> Paperwork.Json.t Validation.t
+val collect_all_log_in_json
+  :  ?reverse:bool
+  -> unit
+  -> Paperwork.Json.t Validation.t
 
 (** Fetch all logs using a reducer *)
-val traverse : ('a -> Shapes.Log.t -> 'a) -> 'a -> 'a Validation.t
+val traverse
+  :  ?reverse:bool
+  -> ('a -> Shapes.Log.t -> 'a)
+  -> 'a
+  -> 'a Validation.t

@@ -47,6 +47,15 @@ main = hakyll $ do
         >>= loadAndApplyTemplate "templates/project.html" projectContext
         >>= loadAndApplyTemplate "templates/default.html" projectContext
         >>= relativizeUrls
+
+    -- Journal.html
+    match "journal.html" $ do
+      route idRoute
+      compile $ do
+        getResourceBody
+        >>= applyAsTemplate defaultContext
+        >>= loadAndApplyTemplate "templates/default.html" defaultContext
+        >>= relativizeUrls
       
     -- Index.html
     match "index.html" $ do

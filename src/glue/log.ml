@@ -75,8 +75,15 @@ let logs_to_json logs =
   array $ List.map Shapes.Log.to_json logs
 ;;
 
-let whereami_to_json () =
+let log_cmp log_a log_b =
+  let open Shapes.Log in
+  Timetable.Day.cmp log_a.day log_b.day
+;;
+
+let whereami_to_json ?(reverse = true) () =
   let filename = whereami_file in
+  let cmp (a, _, _) (b, _, _) = Timetable.Day.cmp a b in
+  let sorter = if reverse then flip cmp else cmp in
   let open Result.Infix in
   filename
   |> File.to_stream (fun _ -> Qexp.from_stream)
@@ -88,31 +95,37 @@ let whereami_to_json () =
               ; Qexp.String (_, city)
               ] ->
             daypoint |> TT.Day.from_string
-            >|= fun _ ->
-            Json.(
-              obj
-                [ "date", string daypoint
-                ; "country", string country
-                ; "city", string city
-                ])
+            >|= fun dp -> dp, country, city
           | x ->
             Error (Invalid_field (Qexp.to_string x)))
-  >>= Result.Applicative.sequence >|= Json.array
-  |> Validation.from_result
+  >>= Result.Applicative.sequence >|= List.sort sorter
+  >|= List.map (fun (daypoint, country, city) ->
+          Json.(
+            obj
+              [ "date", string $ Timetable.Day.to_string daypoint
+              ; "country", string country
+              ; "city", string city
+              ]))
+  >|= Json.array |> Validation.from_result
 ;;
 
-let collect_log_files () =
+let collect_log_files ?(reverse = true) () =
+  let sorter =
+    if reverse then flip String.compare else String.compare
+  in
   let open Result.Infix in
   Dir.children
     ~filter:(fun x ->
       String.(start_with x "log_" && end_with x ".qube"))
     log_folder
-  >|= List.sort String.compare
+  >|= List.sort sorter
 ;;
 
-let traverse f default =
+let traverse ?(reverse = true) f default =
   let open Validation.Infix in
-  collect_log_files () |> Validation.from_result
+  let sorter = if reverse then flip log_cmp else log_cmp in
+  collect_log_files ~reverse ()
+  |> Validation.from_result
   >>= fun files ->
   List.fold_left
     (fun potential_acc filename ->
@@ -125,17 +138,17 @@ let traverse f default =
       |> Validation.from_result
       >>= (fun nodes ->
             List.map (fun x -> Shapes.Log.(from_qexp x)) nodes
-            |> Validation.Applicative.sequence
-            >|= List.sort (fun log_a log_b ->
-                    let open Shapes.Log in
-                    Timetable.Day.cmp log_a.day log_b.day))
+            |> Validation.Applicative.sequence >|= List.sort sorter)
       >|= fun nodes -> List.fold_left f acc nodes)
     (Ok default)
     files
 ;;
 
-let collect_all_log_in_json () =
+let collect_all_log_in_json ?(reverse = true) () =
   let open Validation.Infix in
-  traverse (fun acc log -> acc @ [ Shapes.Log.to_json log ]) []
+  traverse
+    ~reverse
+    (fun acc log -> acc @ [ Shapes.Log.to_json log ])
+    []
   >|= Json.array
 ;;

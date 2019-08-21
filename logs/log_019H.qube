@@ -173,3 +173,7 @@
   (:label
     "Remontée de la durée de vie du projet et amélioration de la génération des tables de mises à jours")
   (:project "planet"))
+
+((:uuid "3b2e6318-508f-00b1-5299-08efd73ee1a1") (:day "019H21")
+  (:duration "120") (:sector "programming")
+  (:label "Expérimentations sur la mise en cache") (:project "planet"))

@@ -5,6 +5,7 @@ module Projects : sig
   type context =
     { name : string
     ; start_date : Paperwork.Timetable.Day.t option
+    ; last_update : Paperwork.Timetable.Day.t option
     ; logs_counter : int
     ; minuts_counter : int
     ; sectors_counters : (string, int) Hashtbl.t

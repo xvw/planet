@@ -5,6 +5,7 @@ module Projects = struct
   type context =
     { name : string
     ; start_date : Paperwork.Timetable.Day.t option
+    ; last_update : Paperwork.Timetable.Day.t option
     ; logs_counter : int
     ; minuts_counter : int
     ; sectors_counters : (string, int) Hashtbl.t
@@ -32,10 +33,21 @@ module Projects = struct
     let sectors = add_to_sectors (Hashtbl.create 1) log in
     { name = project
     ; start_date = Some log.day
+    ; last_update = Some log.day
     ; logs_counter = 1
     ; minuts_counter = log.duration
     ; sectors_counters = sectors
     }
+  ;;
+
+  let keep_biggest_date potential_date1 date2 =
+    match potential_date1 with
+    | None ->
+      Some date2
+    | Some date1 ->
+      if Paperwork.Timetable.Day.cmp date2 date1 > 0
+      then Some date2
+      else Some date1
   ;;
 
   let keep_smallest_date potential_date1 date2 =
@@ -52,6 +64,7 @@ module Projects = struct
     let open Log in
     { base with
       start_date = keep_smallest_date base.start_date log.day
+    ; last_update = keep_biggest_date base.start_date log.day
     ; logs_counter = base.logs_counter + 1
     ; minuts_counter = base.minuts_counter + log.duration
     ; sectors_counters = add_to_sectors base.sectors_counters log
@@ -75,7 +88,12 @@ module Projects = struct
     | None ->
       ctx
     | Some project ->
-      { ctx with projects = update_project ctx.projects project log }
+      let new_table =
+        Update_table.push ctx.updates project log.day
+      in
+      { projects = update_project ctx.projects project log
+      ; updates = new_table
+      }
   ;;
 
   let init table = { updates = table; projects = Hashtbl.create 1 }
@@ -99,13 +117,22 @@ module Projects = struct
            ]
        ; node [ tag "sectors_counters"; node sectors ]
        ]
+      @ (match value.start_date with
+        | None ->
+          []
+        | Some date ->
+          [ node
+              [ tag "start_date"
+              ; keyword (Paperwork.Timetable.Day.to_string date)
+              ]
+          ])
       @
-      match value.start_date with
+      match value.last_update with
       | None ->
         []
       | Some date ->
         [ node
-            [ tag "start_date"
+            [ tag "last_update"
             ; keyword (Paperwork.Timetable.Day.to_string date)
             ]
         ])
@@ -127,12 +154,14 @@ module Projects = struct
   let make_context
       name
       start_date
+      last_update
       logs_counter
       minuts_counter
       sectors_counters
     =
     { name
     ; start_date
+    ; last_update
     ; logs_counter
     ; minuts_counter
     ; sectors_counters
@@ -147,6 +176,7 @@ module Projects = struct
       make_context
       <$> Fetch.(string config "name")
       <*> Fetch.(option day config "start_date")
+      <*> Fetch.(option day config "last_update")
       <*> Fetch.(int config "logs_counter")
       <*> Fetch.(int config "minuts_counter")
       <*> Fetch.hashtbl_refutable

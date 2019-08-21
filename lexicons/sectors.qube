@@ -1,7 +1,7 @@
 ((:name "programming") (:color "#00818a")
  (:desc "Programmation (code) relative ou non à des projets"))
 
-((:name "visual") (:color "#543864")
+((:name "visual") (:color "#cba1d2")
  (:desc "Dessin/Peinture/Design"))
 
 ((:name "audio") (:color "#8b4367")

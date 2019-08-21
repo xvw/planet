@@ -44,23 +44,29 @@ let inspect () =
           (DB.path database)
         |> Validation.from_result
         >|= fun children -> children, ctx)
-  >|= (fun (children, ctx) -> List.map (read ctx) children)
-  >|= List.sort (fun (p, _) (q, _) ->
-          match p, q with
-          | Error _, Error _ ->
-            0
-          | _, Error _ ->
-            -1
-          | Error _, _ ->
-            1
-          | Ok (_, x, _), Ok (_, y, _) ->
-            may_sort (x, y))
+  >|= (fun (children, ctx) -> ctx, List.map (read ctx) children)
+  >|= fun (ctx, list) ->
+  ( ctx
+  , List.sort
+      (fun (p, _) (q, _) ->
+        match p, q with
+        | Error _, Error _ ->
+          0
+        | _, Error _ ->
+          -1
+        | Error _, _ ->
+          1
+        | Ok (_, x, _), Ok (_, y, _) ->
+          may_sort (x, y))
+      list )
 ;;
 
 let all () =
   let open Validation.Infix in
-  inspect () >|= List.map fst >|= Validation.Applicative.sequence
-  |> Validation.join
+  inspect ()
+  >|= (fun (ctx, x) -> ctx, List.map fst x)
+  >>= fun (ctx, x) ->
+  x |> Validation.Applicative.sequence >|= fun list -> ctx, list
 ;;
 
 let to_json () =
@@ -71,7 +77,7 @@ let to_json () =
   $ List.map
       (fun (project, _, _) ->
         Shapes.Project.(project.name, to_json project))
-      projects
+      (snd projects)
 ;;
 
 let fetch_project_content content =

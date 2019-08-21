@@ -9,6 +9,10 @@ planet-metadata {
     display: none;
 }
 
+.capitalized::first-letter {
+    text-transform: uppercase;
+}
+
 body {    
     padding: 0;
     margin: 0;

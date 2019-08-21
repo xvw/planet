@@ -8,6 +8,24 @@ module Svg = Tyxml.Svg
 
 let d ?(u = `Px) value = value, Some u
 
+let time_of ppwrk =
+  let y, m, d = Timetable.Day.unfold ppwrk in
+  (new%js Js.date_day y (m - 1) d)##getTime
+;;
+
+let days_ago_to_string ?(max = (new%js Js.date_now)##getTime) min =
+  let st =
+    (max -. min) /. (60. *. 60. *. 24. *. 1000.) |> int_of_float
+  in
+  match st with
+  | 0 ->
+    "aujourd'hui"
+  | 1 ->
+    "hier"
+  | n ->
+    Format.asprintf "il y a %d jours" n
+;;
+
 let validate str optional_node =
   optional_node |> Js.Opt.to_option
   |> Validation.from_option (Of str)
@@ -27,9 +45,7 @@ module Common = struct
         (Timetable.Day.from_string %> Validation.from_result)
         node
         "planet-ago"
-      >|= Timetable.Day.unfold
-      >|= (fun (y, m, d) -> new%js Js.date_day y (m - 1) d)
-      >|= fun d -> d##getTime
+      >|= time_of
     with
     | Error errs ->
       let () = node##.classList##add (Js.string "hidden-object") in
@@ -43,21 +59,7 @@ module Common = struct
           val node = node
         end
     | Ok timestamp_badge ->
-      let timestamp_now = (new%js Js.date_now)##getTime in
-      let st =
-        (timestamp_now -. timestamp_badge)
-        /. (60. *. 60. *. 24. *. 1000.)
-        |> int_of_float
-      in
-      let txt_content =
-        match st with
-        | 0 ->
-          "aujourd'hui"
-        | 1 ->
-          "hier"
-        | n ->
-          Format.asprintf "il y a %d jours" n
-      in
+      let txt_content = days_ago_to_string timestamp_badge in
       let content =
         txt_content |> Tyxml.Html.txt |> Tyxml.To_dom.of_pcdata
       in
@@ -212,11 +214,11 @@ module Project = struct
     >>= Shapes.Context.Projects.project_from_qexp
   ;;
 
-  let create_data_block key value =
+  let create_data_block ?(classes = []) key value =
     let open Tyxml.Html in
     li
       [ span ~a:[ a_class [ "label" ] ] [ txt key ]
-      ; span ~a:[ a_class [ "data" ] ] [ txt value ]
+      ; span ~a:[ a_class ([ "data" ] @ classes) ] [ txt value ]
       ]
   ;;
 
@@ -229,6 +231,17 @@ module Project = struct
             "~%a"
             Paperwork.Timetable.Day.ppr
             start_date
+      ]
+  ;;
+
+  let render_last_update = function
+    | None ->
+      []
+    | Some update ->
+      let ts = time_of update in
+      let r = days_ago_to_string ts in
+      [ create_data_block ~classes:[ "capitalized" ] "Mise à jour"
+        $ Format.asprintf "%s" r
       ]
   ;;
 
@@ -364,6 +377,7 @@ module Project = struct
           ; ul
               ~a:[ a_class [ "stats" ] ]
               (render_start_date ctx.start_date
+              @ render_last_update ctx.last_update
               @ [ create_data_block "Logs"
                   $ Format.asprintf
                       "%d entrée%s"

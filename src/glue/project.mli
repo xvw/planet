@@ -19,21 +19,23 @@ val read
 (** Get a list of potential projects *)
 val inspect
   :  unit
-  -> ((Shapes.Project.t
-      * Paperwork.Timetable.Day.t option
-      * Shapes.Context.Projects.context option)
-      Validation.t
-     * File.name)
-     list
+  -> (Shapes.Context.Projects.t
+     * ((Shapes.Project.t
+        * Paperwork.Timetable.Day.t option
+        * Shapes.Context.Projects.context option)
+        Validation.t
+       * File.name)
+       list)
      Validation.t
 
 (** Get list of project *)
 val all
   :  unit
-  -> (Shapes.Project.t
-     * Paperwork.Timetable.Day.t option
-     * Shapes.Context.Projects.context option)
-     list
+  -> (Shapes.Context.Projects.t
+     * (Shapes.Project.t
+       * Paperwork.Timetable.Day.t option
+       * Shapes.Context.Projects.context option)
+       list)
      Validation.t
 
 (** Get list of project as [Json.t] *)

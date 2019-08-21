@@ -60,7 +60,7 @@ let ls () =
   match Glue.Project.inspect () with
   | Error err ->
     Prompter.prompt_errors err
-  | Ok projects ->
+  | Ok (_, projects) ->
     let invalid_project, valid_projects =
       List.fold_right
         (fun (elt, f) (l, r) ->

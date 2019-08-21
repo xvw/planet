@@ -174,18 +174,14 @@ let push_result log =
   >> Ok (filename, str_log)
 ;;
 
-let ensure_sectors_projects_updates f =
-  match
-    ( Glue.Sector.all ()
-    , Glue.Project.all ()
-    , Validation.from_result $ Glue.Log.read_project_updates () )
-  with
-  | Error x, Error y, Error z ->
-    Prompter.prompt_errors (x @ y @ z)
-  | Error x, _, _ | _, Error x, _ | _, _, Error x ->
+let ensure_sectors_projects f =
+  match Glue.Sector.all (), Glue.Project.all () with
+  | Error x, Error y ->
+    Prompter.prompt_errors (x @ y)
+  | Error x, _ | _, Error x ->
     Prompter.prompt_errors x
-  | Ok sectors, Ok projects, Ok updates ->
-    f sectors projects updates
+  | Ok sectors, Ok ctx ->
+    f sectors ctx
 ;;
 
 let push_feedback = function
@@ -226,7 +222,7 @@ let visual_push update log =
 let clr () = "\027[2J" |> print_endline
 
 let interactive () =
-  ensure_sectors_projects_updates (fun sectors projects update ->
+  ensure_sectors_projects (fun sectors (ctx, projects) ->
       let uuid = Uuid.make () in
       let () = clr () in
       let a_timecode = when_ () in
@@ -251,7 +247,7 @@ let interactive () =
           some_project
           a_label
       in
-      visual_push update log)
+      visual_push Shapes.Context.Projects.(ctx.updates) log)
 ;;
 
 let check_day = function
@@ -295,7 +291,7 @@ let check_label x =
 ;;
 
 let record sector duration timecode project label =
-  ensure_sectors_projects_updates (fun sectors projects update ->
+  ensure_sectors_projects (fun sectors (ctx, projects) ->
       let open Validation.Infix in
       let potential_log =
         Shapes.Log.new_log (Uuid.make () |> Uuid.to_string)
@@ -310,7 +306,7 @@ let record sector duration timecode project label =
       | Error xs ->
         Prompter.prompt_errors xs
       | Ok log ->
-        visual_push update log)
+        visual_push Shapes.Context.Projects.(ctx.updates) log)
 ;;
 
 let push_whereami place =

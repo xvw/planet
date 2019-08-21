@@ -97,7 +97,11 @@ let initialize_logs () =
 let create_projects_files () =
   let open Validation.Infix in
   Glue.Project.all ()
-  >|= List.map Glue.Project.to_hakyll_string
+  >>= (fun (ctx, projects) ->
+        Glue.Log.push_project_updates
+          Shapes.Context.Projects.(ctx.updates)
+        |> Validation.from_result
+        >|= fun () -> List.map Glue.Project.to_hakyll_string projects)
   >>= Validation.Applicative.sequence
   >>= fun elts ->
   List.map

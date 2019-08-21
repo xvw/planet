@@ -21,4 +21,5 @@ module Log : sig
 
   val shape : t -> Shapes.Log.t Validation.t
   val hydrate : unit -> unit Lwt.t
+  val get_by_id : string -> Shapes.Log.t option
 end

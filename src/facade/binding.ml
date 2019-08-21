@@ -2,7 +2,6 @@ open Js_of_ocaml
 open Bedrock
 open Util
 open Error
-open Paperwork
 module Ajax = Lwt_xmlHttpRequest
 
 module Log = struct
@@ -41,9 +40,21 @@ module Log = struct
     <*> (Js.to_string %> pure) obj##.label
   ;;
 
+  let dump_log log =
+    let open Shapes.Log in
+    let k = "log-" ^ log.uuid in
+    let c = to_json %> Paperwork.Json.to_string $ log in
+    Storage.Session.set k c
+  ;;
+
+  let get_by_id uuid =
+    "log-" ^ uuid |> Storage.Session.get
+    |> Option.map (Js.string %> Json.unsafe_input)
+  ;;
+
   let reduce_log acc log _i =
     let open Shapes.Log in
-    let () = Console.print log.uuid in
+    let () = dump_log log in
     ()
   ;;
 

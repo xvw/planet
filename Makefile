@@ -99,3 +99,7 @@ render: binaries
 
 hydrate: binaries
 	./build.exe all
+
+s:
+	./build.exe all
+	stack exec site build

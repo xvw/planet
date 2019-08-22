@@ -49,8 +49,8 @@ main = hakyll $ do
         >>= relativizeUrls
 
     -- Journal.html
-    match "journal.html" $ do
-      route idRoute
+    match "pages/*.html" $ do
+      route (truncateRoute "pages/" `composeRoutes` setExtension "html")
       compile $ do
         getResourceBody
         >>= applyAsTemplate defaultContext
@@ -76,7 +76,8 @@ main = hakyll $ do
 
 
 -- Remove artifacts in routes
-unseedRoute = gsubRoute "_seeds/" (const "")
+truncateRoute fragment = gsubRoute fragment (const "")
+unseedRoute = truncateRoute "_seeds/"
 
 -- Custom Contexts
 

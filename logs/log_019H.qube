@@ -189,3 +189,7 @@
 ((:uuid "64b5c2d9-442a-130b-f0ac-382c79e3314f") (:day "019H23")
   (:duration "200") (:sector "programming")
   (:label "Initiation de l'infrastructure du projet") (:project "preface"))
+
+((:uuid "e91d9018-bdb3-83ea-eec0-13f088dd8041") (:day "019H23")
+  (:duration "10") (:sector "visual") (:label "Création d'un pictogram")
+  (:project "quasar"))

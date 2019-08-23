@@ -191,7 +191,7 @@
   (:label "Initiation de l'infrastructure du projet") (:project "preface"))
 
 ((:uuid "e91d9018-bdb3-83ea-eec0-13f088dd8041") (:day "019H23")
-  (:duration "10") (:sector "visual") (:label "Création d'un pictogram")
+  (:duration "10") (:sector "visual") (:label "Création d'un pictogramme")
   (:project "quasar"))
 
 ((:uuid "bedbd840-314f-70c2-368e-95534d31f05d") (:day "019H23")

@@ -197,3 +197,7 @@
 ((:uuid "bedbd840-314f-70c2-368e-95534d31f05d") (:day "019H23")
   (:duration "10") (:sector "visual") (:label "Création d'un pictogramme")
   (:project "brainfocaml"))
+
+((:uuid "447159ba-a480-2eb5-af97-c76af5d30524") (:day "019H23")
+  (:duration "15") (:sector "visual") (:label "Nouveau pictogramme")
+  (:project "qian"))

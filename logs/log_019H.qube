@@ -181,3 +181,7 @@
 ((:uuid "dddeac9e-4c92-22b7-8b24-4655f3518896") (:day "019H21")
   (:duration "320") (:sector "maintenance")
   (:label "Amélioration (et fragmentation) du code") (:project "planet"))
+
+((:uuid "93b7154f-463d-746c-e5fc-d0ecb76fe908") (:day "019H22")
+  (:duration "30") (:sector "programming") (:label "Initiation du projet")
+  (:project "preface"))

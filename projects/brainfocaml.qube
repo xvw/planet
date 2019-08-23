@@ -1,5 +1,5 @@
 (:name "brainfocaml")
-(:published false)
+(:published true)
 (:title "Brainfocaml")
 (:synopsis "Boite à outils autours de l'interprétation/exécution de Brainfuck")
 (:status "wip")
@@ -7,6 +7,7 @@
 (:tags "brainfuck" "ocaml" "parser" "interpreter" "compilation")
 (:repo (#github xvw brainfocaml))
 (:content external #org-mode "projects/brainfocaml.org")
+(:picto "brainfocaml")
 
 (:releases
  (("v1.0.0" #019D26 "https://github.com/xvw/brainfocaml/releases/tag/1.0.0")))

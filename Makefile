@@ -85,6 +85,7 @@ watch-pages:
 	stack exec site watch
 
 clean-pages:
+	rm -rf _seeds
 	stack exec site clean
 
 web-reset: clean

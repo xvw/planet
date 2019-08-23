@@ -342,7 +342,7 @@ footer a {
 }
 
 .project-item img {
-    width: 32px;
+    width: 48px;
 }
 
 .project-page .project-header img {
@@ -355,8 +355,9 @@ footer a {
 }
 
 .project-item .project-picto {
-    background-color: #000;
-    border-radius: 10px 0 10px 0;
+    /* background-color: #000; */
+    /* border-radius: 10px 0 10px 0; */
+    /* padding: 4px; */
 }
 
 

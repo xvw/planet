@@ -1,0 +1,78 @@
+{
+  "settings": {
+    "size": {
+      "width": 360,
+      "height": 360
+    },
+    "crest": false
+  },
+  "layers": [
+    [
+      {
+        "type": "line",
+        "vertices": [
+          {
+            "x": 60,
+            "y": 120
+          },
+          {
+            "x": 180,
+            "y": 180
+          },
+          {
+            "x": 60,
+            "y": 240
+          }
+        ]
+      },
+      {
+        "type": "line",
+        "vertices": [
+          {
+            "x": 180,
+            "y": 120
+          },
+          {
+            "x": 300,
+            "y": 180
+          },
+          {
+            "x": 180,
+            "y": 240
+          }
+        ]
+      }
+    ],
+    [],
+    []
+  ],
+  "styles": [
+    {
+      "thickness": 22,
+      "strokeLinecap": "round",
+      "strokeLinejoin": "round",
+      "color": "#000",
+      "fill": "none",
+      "mirror_style": 0,
+      "transform": "rotate(45)"
+    },
+    {
+      "thickness": 10,
+      "strokeLinecap": "round",
+      "strokeLinejoin": "round",
+      "color": "#ccc",
+      "fill": "none",
+      "mirror_style": 0,
+      "transform": "rotate(45)"
+    },
+    {
+      "thickness": 14,
+      "strokeLinecap": "round",
+      "strokeLinejoin": "round",
+      "color": "#fff",
+      "fill": "none",
+      "mirror_style": 0,
+      "transform": "rotate(45)"
+    }
+  ]
+}

@@ -1,8 +1,8 @@
 (:name "preface")
-(:published false)
+(:published true)
 (:title "Preface")
 (:synopsis
-  "Une bibliothèque OCaml qui permet la manipulation d'objets théoriques de la programmation fonctionnelle.")
+  "Une bibliothèque OCaml qui permet la manipulation d'objets théoriques de la programmation fonctionnelle")
 (:status "wip")
 (:license "mit")
 (:tags "library" "ocaml")

@@ -1,10 +1,11 @@
 (:name "quasar")
-(:published false)
+(:published true)
 (:title "Quasar")
 (:synopsis
-  "Une bibliothèque standard pour le développement d'application JavaScript en OCaml.")
+  "Une bibliothèque standard pour le développement d'application JavaScript en OCaml")
 (:status "wip")
 (:license "mit")
 (:tags "library" "ocaml" "toolkit" "node" "stdlib")
 (:repo (#github xvw quasar))
 (:content external #org-mode "projects/quasar.org")
+(:picto "quasar")

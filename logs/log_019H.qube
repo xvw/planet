@@ -185,3 +185,7 @@
 ((:uuid "93b7154f-463d-746c-e5fc-d0ecb76fe908") (:day "019H22")
   (:duration "30") (:sector "programming") (:label "Initiation du projet")
   (:project "preface"))
+
+((:uuid "64b5c2d9-442a-130b-f0ac-382c79e3314f") (:day "019H23")
+  (:duration "200") (:sector "programming")
+  (:label "Initiation de l'infrastructure du projet") (:project "preface"))

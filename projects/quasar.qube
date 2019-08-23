@@ -2,7 +2,7 @@
 (:published false)
 (:title "Quasar")
 (:synopsis
-  "Une bibliothèque standard pour OCaml, parce que j'aime bien réinventer la roue")
+  "Une bibliothèque standard pour le développement d'application JavaScript en OCaml.")
 (:status "wip")
 (:license "mit")
 (:tags "library" "ocaml" "toolkit" "node" "stdlib")

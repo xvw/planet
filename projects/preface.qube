@@ -1,0 +1,10 @@
+(:name "preface")
+(:published false)
+(:title "Preface")
+(:synopsis
+  "Une bibliothèque OCaml qui permet la manipulation d'objets théoriques de la programmation fonctionnelle.")
+(:status "wip")
+(:license "mit")
+(:tags "library" "ocaml")
+(:repo (#github xvw preface))
+(:content external #org-mode "projects/preface.org")

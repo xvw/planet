@@ -2,3 +2,8 @@
 ((:uuid "907faa66-aa39-da07-a555-6a7509668c3e") (:day "015H22")
   (:duration "580") (:sector "visual")
   (:label "Level design des différents niveaux") (:project "almost_heroic"))
+
+((:uuid "5eadb8d5-6381-1831-f38c-abd6710c61c0") (:day "015H23")
+  (:duration "600") (:sector "programming")
+  (:label "Programmation des différents systèmes")
+  (:project "almost_heroic"))

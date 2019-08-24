@@ -1,0 +1,37 @@
+(:name "almost_heroic")
+(:title "Almost Heroic")
+(:synopsis "Un RPG classique réalisé pour le Ludum Dare 33")
+(:status "done")
+(:license "mit")
+(:tags "game" "rpgmaker" "rme" "ruby" "jam" "ludum dare")
+(:repo (#github rmex AlmostHeroic))
+(:content external #org-mode "projects/almost_heroic.org")
+(:picto "almost")
+
+(:links
+ (
+  ("Partenaires"
+   (
+    ("Joke" "https://biloumaster.itch.io/")
+    ("Zangther" "https://github.com/bastienduplessier")
+    )
+   )
+  ("Liens"
+   (
+    ("Ressources visuelles" "https://biloumaster.itch.io/free-rpg-asset")
+    ("Page itch.io" "https://xvw.itch.io/almost-heroic")
+    ("Page Ludum Dare" "http://ludumdare.com/compo/ludum-dare-33/?action=preview&uid=57278")
+    ("Test par Yuko" "http://luminatis-rm.blogspot.com/2016/06/almost-heroic-le-classicisme-de-rpg.html")
+    )
+   )
+  ("outils"
+   (
+    ("RPG Maker VXAce" "http://www.rpgmakerweb.com/products/programs/rpg-maker-vx-ace")
+    ("RME" "https://rmex.github.io")
+    )
+   )
+  )
+ )
+
+(:releases
+ (("v1.0.0" #019H24 "https://github.com/RMEx/AlmostHeroic/releases/tag/v1.0.0")))

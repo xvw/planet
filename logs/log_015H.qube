@@ -7,3 +7,7 @@
   (:duration "600") (:sector "programming")
   (:label "Programmation des différents systèmes")
   (:project "almost_heroic"))
+
+((:uuid "76c8fa60-3b1c-07ea-21c1-bafd15a93aff") (:day "015H24")
+  (:duration "700") (:sector "writing") (:label "Ecriture des dialogues")
+  (:project "almost_heroic"))

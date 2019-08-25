@@ -1,7 +1,8 @@
 *Almost Heroic* est un jeu de type RPG (classique) réalisé durant la 
 *Ludum Dare 33*, le weekend du 22 au 24 Août 2015. Le jeu a été réalisé 
-en approximativement 72 heures avec le logiciel *RPGMaker VXAce* et 
-le script *RME*.
+en approximativement 72 heures avec le logiciel *RPGMaker VXAce* 
+(ce qui implique malheureusement que le jeu ne fonctionne que sous 
+Windows... hélas) et le script *RME*. 
 
 #+ATTR_HTML: :class image-cover
 #+CAPTION: You are the monster

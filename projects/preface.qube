@@ -1,5 +1,5 @@
 (:name "preface")
-(:published true)
+(:published false)
 (:title "Preface")
 (:synopsis
   "Une bibliothèque OCaml qui permet la manipulation d'objets théoriques de la programmation fonctionnelle")

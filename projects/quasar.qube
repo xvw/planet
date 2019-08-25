@@ -1,5 +1,5 @@
 (:name "quasar")
-(:published true)
+(:published false)
 (:title "Quasar")
 (:synopsis
   "Une bibliothèque standard pour le développement d'application JavaScript en OCaml")

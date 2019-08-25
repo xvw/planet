@@ -206,3 +206,8 @@
   (:duration "20") (:sector "writing")
   (:label "Ecriture de la présentation pour Planet")
   (:project "almost_heroic"))
+
+((:uuid "d31de10d-1d82-7e05-8399-8ae6e2d3f5e1") (:day "019H25")
+  (:duration "320") (:sector "maintenance")
+  (:label "Mise en place de l'intégration continue via les Github Actions")
+  (:project "preface"))

@@ -1,1 +1,18 @@
+Le *Brainfuck* est un langage esothérique, inventé en 1993 par [[https://esolangs.org/wiki/Urban_M%C3%BCller][Urban Müller]].
+Le langage ne repose que sur 8 instructions et est pourtant [[https://fr.wikipedia.org/wiki/Turing-complet][Turing Complet]].
 
+#+BEGIN_src bash
+# Hello World en Brainfuck
+++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>
+++.<<+++++++++++++++.>.+++.------.--------.>+.>.
+#+END_src
+
+Même si écrire un programme en Brainfuck est compliqué (et discutablemment
+intéressant), écrire un programme capable d'interprêter du Brainfuck est 
+un exercice pédagogique amusant (et potentiellement formateur).
+
+*Brainfocaml* est la conjonction d'une bibliothèque et d'un exécutable 
+(rédigés en OCaml). Il permet de soit inteprêter à la volée du Brainfuck, 
+soit de le compiler dans le langage C. 
+L'implémentation de l'interpréteur est écrite dans un style fonctionnel et 
+utilise un [[http://www.ens-lyon.fr/DI/wp-content/uploads/2010/09/huet-zipper.pdf][Zipper]] pour représenter la mémoire.

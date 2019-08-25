@@ -215,3 +215,8 @@
 ((:uuid "8839c7e9-d332-8ca9-c247-6f6bf956f44a") (:day "019H25")
   (:duration "30") (:sector "writing")
   (:label "Présentation du projet pour Planet") (:project "brainfocaml"))
+
+((:uuid "89f522fc-c53d-bf71-0446-8c08ee8537d5") (:day "019H25")
+  (:duration "60") (:sector "programming")
+  (:label "Refonte de l'API (utilisation de Dune, OCamlformat etc.)")
+  (:project "brainfocaml"))

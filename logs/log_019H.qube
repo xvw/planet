@@ -211,3 +211,7 @@
   (:duration "320") (:sector "maintenance")
   (:label "Mise en place de l'intégration continue via les Github Actions")
   (:project "preface"))
+
+((:uuid "8839c7e9-d332-8ca9-c247-6f6bf956f44a") (:day "019H25")
+  (:duration "30") (:sector "writing")
+  (:label "Présentation du projet pour Planet") (:project "brainfocaml"))

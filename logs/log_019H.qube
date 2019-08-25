@@ -201,3 +201,8 @@
 ((:uuid "447159ba-a480-2eb5-af97-c76af5d30524") (:day "019H23")
   (:duration "15") (:sector "visual") (:label "Nouveau pictogramme")
   (:project "qian"))
+
+((:uuid "c04d2ccf-1508-35d7-c4f8-285157e53262") (:day "019H25")
+  (:duration "20") (:sector "writing")
+  (:label "Ecriture de la présentation pour Planet")
+  (:project "almost_heroic"))

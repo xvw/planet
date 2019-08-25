@@ -220,3 +220,7 @@
   (:duration "60") (:sector "programming")
   (:label "Refonte de l'API (utilisation de Dune, OCamlformat etc.)")
   (:project "brainfocaml"))
+
+((:uuid "2b3c9dfa-af87-75fa-0eb1-0caa987cdf13") (:day "019H26")
+  (:duration "30") (:sector "visual") (:label "Dessin de la cover du projet")
+  (:project "brainfocaml"))

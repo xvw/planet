@@ -708,3 +708,20 @@ div.roe[data-kind="quote"] .quote-underbox .quote-author > span {
 div.roe[data-kind="quote"] .quote-underbox .quote-author > span {
     border: 2px solid #DDD;
 }
+
+div.mozaic > p {
+    margin: 32px auto;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+}
+
+div.mozaic > p > * {
+    flex: 0 1 40%;
+}
+
+div.mozaic img {
+    width: 100%;
+    padding: 8px;
+}

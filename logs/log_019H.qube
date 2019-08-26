@@ -224,3 +224,6 @@
 ((:uuid "2b3c9dfa-af87-75fa-0eb1-0caa987cdf13") (:day "019H26")
   (:duration "30") (:sector "visual") (:label "Dessin de la cover du projet")
   (:project "brainfocaml"))
+
+((:uuid "bbb064d1-273e-d31d-bdea-83a0d262728c") (:day "019H26")
+  (:duration "300") (:sector "visual") (:label "Dessins libres"))

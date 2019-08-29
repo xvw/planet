@@ -227,3 +227,7 @@
 
 ((:uuid "bbb064d1-273e-d31d-bdea-83a0d262728c") (:day "019H26")
   (:duration "300") (:sector "visual") (:label "Dessins libres"))
+
+((:uuid "75468218-2d53-fe5c-8196-f9a25c921750") (:day "019H29")
+  (:duration "60") (:sector "programming")
+  (:label "Expériences avec le premier module") (:project "preface"))

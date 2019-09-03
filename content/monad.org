@@ -1,0 +1,910 @@
+#+BEGIN_QUOTE
+Ce n'est pas très original d'écrire, en 2018, un article sur les monades.
+Cependant, ça présente plusieurs intérêts. Premièrement, ça permet d'ajouter
+relativement facilement un peu de contenu à mon blog. Ensuite, il y a déjà
+énormément de documentation. Pour terminer, ça permet, éventuellement, de
+servir de base à des articles potentiellement originaux.
+
+L'article suppose que vous ayez ... une vague idée de ce qu'est une monade,
+ou d'avoir au moins trifouillé IO en Haskell. Mais bon, vous pouvez quand
+même lire l'article sinon (évidemment).
+
+L'objectif réel de cet article est de concrétiser (du mieux que je peux) une
+intuition liée aux monades. Parce que ça permet, parfois, d'écrire du code
+lisible, et puis c'est toujours cool de pouvoir se servir de mots compliqués
+pour expliquer des choses concrètes (pour peu que l'on donne les outils pour
+être compris !)
+#+END_QUOTE
+
+Il m'arrive souvent de lire, sur /les internets/, que la communauté des
+programmeurs fonctionnels est élitiste. Même si je ne me considère pas comme
+appartenant à cette communauté, je dois avouer que quand j'ai eu des questions
+(plein de questions !) à lui poser, j'ai très souvent eu des réponses claires,
+tenant bien souvent compte du fait que j'étais (et suis toujours) un total néophyte
+et qu'il fallait parfois me prendre par la main. Je n'ai donc jamais réellement
+trouvé les membres de /ces/ communautés particulièrement élitistes.
+Je les voyais plus comme détenteurs d'un savoir intéressant.
+
+Par contre, ce qu'il faut avouer, c'est que le
+[[https://github.com/hemanth/functional-programming-jargon][/jargon/ de la programmation fonctionnelle]] peut parfois être très impressionnant.
+Je pense que la notion de *monades*, particulièrement commentée/illustrée
+sur internet, fait partie de la collection de terminologie que l'on pourrait
+considérer comme "bloquante" (aha) quand on apprend à utiliser un langage, comme
+[[https://www.haskell.org/][Haskell]] par exemple, qui propose rapidement de s'en servir pour des cas d'usages
+spécifiques.
+
+L'objectif de l'article est de résumer ce que *je pense* avoir compris des monades,
+quelques années après en avoir utilisé dans plusieurs projets (parfois ne sachant
+pas du tout qu'il s'agissait de monades). Pour ça, on s'intéressera aux origines
+des monades, et on en présentera sommairement quelques-unes.
+
+Par contre, je pense que le terme est parfois trop utilisé, par exemple :
+"/Ah ! Ta fonction doit potentiellement ne rien renvoyer ? Tu n'as qu'à utiliser/
+/la monade Option/ !". Je pense que ce genre de phrase véhicule une idée
+d'élitisme /latent/, bien que peu pernicieuse. J'ai rarement entendu quelqu'un dire
+"/Ah ! tu veux transformer les données d'une liste en autre chose ? Tu n'as qu'à/
+/utiliser le Foncteur List/".[fn:1]
+
+** De la théorie des catégories à la programmation
+
+Historiquement appelées "/constructions standards/" ou "/triples/" en topologie
+algébrique dans les années 50, c'est en 1971 que [[https://en.wikipedia.org/wiki/Saunders_Mac_Lane][Saunders MacLane]] leur donne le
+nom de *monades*, en référence au /concept philosophique/ du même nom, et en
+l'utilisant dans *la théorie des catégories*. Il introduit aussi une des
+/punchlines/ les plus /badass/ du monde de la programmation fonctionnelle (à
+mon sens), "/a monad is a monoid in the category of endofunctors/". Ce qui est
+cool avec cette phrase, c'est qu'elle ne dit absolument rien pour, à mon avis,
+89% (ce nombre est évidemment choisi arbitrairement) des programmeurs.
+
+Plus tard, [[https://en.wikipedia.org/wiki/Eugenio_Moggi][Eugenio Moggi]] donnera cette définition : une *monade* sur une *catégorie*
+$\Omega$ est un *triplet* ($T,\eta, \mu$) où :
+
+- $T : \Omega \rightarrow \Omega$ est un *foncteur* ;
+- $\eta : Id_{\Omega} \rightarrow T$ et $\mu : T^2 \rightarrow T$ sont des
+  *transformations naturelles* telles que :
+  - $\mu_A \bullet T \mu_A = \mu_A \bullet \mu_{TA}$
+  - $\mu_A \bullet \eta_{TA} = Id_{TA} = \mu_A \bullet T_{\eta A}$
+
+Tout ça ne nous avance pas beaucoup, surtout si on a aucun bagage en théorie
+des catégories. Cependant, ça aura eu le mérite de faire croitre la crédibilité
+de l'article en ajoutant des petits symboles grecs un peu partout !
+
+Concrètement, essayons de voir rapidement ce que tout cela veut dire :
+
+- le $T$ de notre foncteur signifie qu'il s'agit d'un *type paramétré*, par
+  exemple /une liste de choses/ (src_ocaml{'a list}), ou d'une option de quelque
+  chose (src_ocaml{'a option}) ;
+- les transformations naturelles $\eta$ et $\mu$ sont en quelque sorte des
+  fonctions ;
+- $T^2$ exprime, en référence à nos exemples précédents, /une liste de liste de/
+  /choses/ (src_ocaml{'a list list}) ou encore src_ocaml{'a option option} ;
+- $Id$ exprime l'identité, donc une fonction qui pour src_ocaml{x} renvoie
+  src_ocaml{x}, par exemple src_ocaml{fun x -> x} ;
+- l'opérateur $\bullet$ est un opérateur [[https://en.wikipedia.org/wiki/Function_composition][de composition]].
+
+Essayons de projeter ces ingrédients dans un langage de programmation statiquement
+typé, comme *OCaml* par exemple.
+
+*** Traduction d'une définition catégorique dans un langage fonctionnel
+
+La traduction proposée par [[http://homepages.inf.ed.ac.uk/wadler/papers/marktoberdorf/baastad.pdf][Philip Wadler]] considère que le foncteur
+devient *un constructeur de type* (un type paramétré)
+avec une fonction de /mapping/, ce qui correspond formellement à la définition
+d'un foncteur. Et les deux transformations naturelles deviennent des *fonctions*,
+src_ocaml{join} pour $\mu$ et src_ocaml{pure} pour $\eta$.
+
+Dans l'exemple ci-dessous, j'utilise un module pour représenter les opérations
+liées à une monade.
+
+#+BEGIN_SRC ocaml
+module type MONAD =
+sig
+  (* Le foncteur *)
+  type 'a t
+  val map  : ('a -> 'b) -> 'a t -> 'b t
+
+  (* La transformation naturelle η *)
+  val pure : 'a -> 'a t
+
+  (* La transformation naturelle μ *)
+  val join : ('a t) t -> 'a t
+end
+#+END_SRC
+
+#+BEGIN_QUOTE
+*NB:* Parfois, il arrive que la transformation src_ocaml{pure} s'appelle
+src_ocaml{return}, j'ai pris la décision d'utiliser src_ocaml{pure} pour
+éviter une confusion potentielle avec le mot clé *return* de la programmation
+impérative.
+#+END_QUOTE
+
+Nous avons encodé, en OCaml, une partie des ingrédients évoqués en théorie des
+catégories, cependant, dans la définition, il était question de certaines
+contraintes liées aux transformations naturelles.
+
+On pose donc les deux contraintes (qu'on appelle des "*lois*") :
+
+- $join \bullet join = join \bullet map \ join$
+- $join \bullet pure = id = join \bullet map \ pure$
+
+Ce n'est malheureusement pas suffisant. En décrivant les fonctions comme des
+transformations naturelles, nous avions évoqué que c'était "presque pareil".
+Les transformations naturelles impliquent des lois complémentaires, qui sont
+implicites dans la définition catégorique car on est *explicite* sur le fait
+qu'il s'agit de transformations naturelles. Ici comme on utilise des fonctions,
+il est nécessaire d'adjoindre 4 lois pour formaliser le fait que les deux
+fonctions src_ocaml{join} et src_ocaml{pure} sont bien des transformations
+naturelles :
+
+- $map \ id = id$
+- $map \ (g \bullet f)\ = map \ g \bullet map \ f$
+- $map f \bullet join = join \bullet map \ (map \ f)$
+- $map f \bullet pure = pure \bullet f$
+
+Cependant, la traduction dans un langage fonctionnel ne garantit absolument pas
+que la fonction de /mapping/ termine. De ce fait, *la définition dans un langage*
+*fonctionnel n'est pas formellement une monade de la théorie des catégories*.
+
+Mais dans l'absolu, est-ce que ça nous concerne réellement quand on est
+utilisateur de bibliothèques monadiques ?
+
+*** Une différence entre la définition /catégorique/ et /programmatique/
+
+En fait, le point essentiel de cette introduction un peu barbante, c'est que
+même si elles sont analogues, elles sont aussi différentes. En théorie des
+catégories, les monades ont été développées par Moggi pour *raisonner* à
+propos des programmes à effets, alors que les monades présentées par Wadler
+sont utilisées pour *implémenter* des programmes à effets dans un langage
+de programmation fonctionnel pur. En plus de ça, la sémantique du contexte
+fait légèrement varier les deux définitions de monades, certains aspects
+des propositions de Moggi ne sont pas nécessaires dans une monade définie
+dans le contexte d'un langage de programmation.
+
+Donc même si connaître l'origine mathématique d'un objet de programmation
+est sans doute toujours intéressant, il ne faut pas développer d'analogies
+trop fortes, pour ne pas tendre vers une stricte équivalence entre le concept
+initial, issu des mathématiques, et son implémentation concrète dans un langage
+de programmation parce qu'il est fort probable que certaines règles, certains
+outils soient légèrement altérés par le changement de contexte.
+
+Ne retenons donc que la phrase "/A monad is just a monoid in the category of/
+/endofunctors, what's the problem?/" pour pouvoir briller en société.
+
+** Les monades en programmation fonctionnelle
+
+En général, quand on lit des ressources sur les monades, on utilise parfois
+(... oké, souvent) une autre interface :
+
+#+BEGIN_SRC ocaml
+module type MONAD =
+sig
+  type 'a t
+  val pure  : 'a -> 'a t
+  val (>>=) : 'a t -> ('a -> 'b t)  -> 'b t
+end
+#+END_SRC
+
+#+BEGIN_QUOTE
+*NB:* Dans certains langages, src_ocaml{>>=} s'appelle parfois
+src_ocaml{flatMap}.
+#+END_QUOTE
+
+Qui doit satisfaire ces lois :
+
+- $pure \ a \ \mathbin{\gg =} \ f = f \ a$
+- $m \ \mathbin{\gg =} \ pure = m$
+- $(m \ \mathbin{\gg =} \ f)
+  \ \mathbin{\gg =} \ g = m \ \mathbin{\gg =}
+  \ (fun \ x \rightarrow f \ x \ \mathbin{\gg =} \ g)$
+
+Cette interface permet d'arriver exactement aux mêmes résultats que la précédente
+car il est possible d'implémenter src_ocaml{map} et src_ocaml{join} avec
+src_ocaml{pure} et src_ocaml{>>=} :
+
+#+BEGIN_SRC ocaml
+let join x  = x >>= (fun x -> x)
+let map f x = x >>= (fun x -> pure (f x))
+#+END_SRC
+
+De même qu'avec src_ocaml{pure}, src_ocaml{map} et src_ocaml{join} il est
+possible d'implémenter src_ocaml{>>=} :
+
+#+BEGIN_SRC ocaml
+let (>>=) x f = join (map f x)
+#+END_SRC
+
+
+#+BEGIN_QUOTE
+*NB:* Ici, le nom src_ocaml{flatMap} prend tout son sens.
+#+END_QUOTE
+
+Cette équivalence est possible si l'on respecte les lois que nous avons
+évoquées précédemment. C'est d'ailleurs tout l'intérêt de ces dernières. Elles
+permettent, en plus de créer une équivalence entre les deux interfaces, de
+dériver une [[http://hackage.haskell.org/package/base-4.11.1.0/docs/Control-Monad.html][collection de combinateurs]] utiles lorsque l'on travaille avec
+des monades. Donc ces deux interfaces, couplées à leurs "lois", sont les
+prérequis minimums pour découler une série d'outils très utiles. Cependant, nous
+ne les développerons pas dans cet article.
+
+Concrètement, ces lois sont des axiomes attachés aux monades. Ils peuvent
+donc servir de base de raisonnement !
+
+Certains me demanderont pourquoi j'ai introduit la monade en informatique avec
+la première interface, qui semble plus complexe et qui possède plus de lois.
+C'est parce que je trouve qu'il est *plus facile de comprendre la relation*
+entre une monade en programmation et une monade en théorie des catégories.
+En effet, on peut projeter presque chacun des ingrédients de la monade en
+théorie des catégories dans des objets d'un langage de programmation
+fonctionnelle statiquement typé.
+
+** Tout ça, ce ne sont que des interfaces !
+
+Jusqu'à présent, nous avons observé (de loin) l'origine des monades et nous
+les avons représentées sous forme d'interfaces. Mais ça ne nous dit toujours
+pas ce que c'est et à quoi ça sert. Une manière de résumer le concept derrière
+des monades pourrait être de proposer deux petites définitions :
+
+- une monade *encapsule* un /objet/ dans une structure plus riche ;
+- et elle permet d'exprimer plusieurs *types de construction* pour une
+  *même structure*.
+
+Concrètement, il suffit d'implémenter une des deux interfaces en veillant bien
+à respecter "les lois" pour avoir une monade. Donc *il n'existe pas, à priori,
+de nombre fini de monades*. Même s'il en existe des courantes, la condition
+pour être une monade est de respecter les prérequis des interfaces précédemment
+évoquées (tout en respectant leur lois).
+
+Voici un module paramétré qui permet de construire des modules "monadiques"
+au besoin. Nous nous en servirons pour présenter quelques exemples.
+
+#+BEGIN_QUOTE
+*NB:* Un module paramétré, en OCaml, c'est un module qui est paramétré par
+un autre module, dont l'interface est fixée et qui permettra de produire un
+nouveau module construit sur la base du module paramétré et du module passé
+en argument.
+#+END_QUOTE
+
+#+BEGIN_SRC ocaml
+module type BINDABLE =
+sig
+  type 'a t
+  val pure  : 'a -> 'a t
+  val (>>=) : 'a t -> ('a -> 'b t)  -> 'b t
+end
+
+module type JOINABLE =
+sig
+  type 'a t
+  val pure : 'a -> 'a t
+  val map  : ('a -> 'b) -> 'a t -> 'b t
+  val join : ('a t) t -> 'a t
+end
+
+module type MONAD =
+sig
+  type 'a t
+  val pure  : 'a -> 'a t
+  val map   : ('a -> 'b) -> 'a t -> 'b t
+  val join  : ('a t) t -> 'a t
+  val (>>=) : 'a t -> ('a -> 'b t)  -> 'b t
+end
+
+module With_bind (M : BINDABLE) :
+  MONAD with type 'a t = 'a M.t =
+struct
+  include M
+  let join x  = x >>= (fun x -> x)
+  let map f x = x >>= (fun a -> pure (f a))
+end
+
+module With_join (M : JOINABLE) :
+  MONAD with type 'a t = 'a M.t =
+struct
+  include M
+  let (>>=) x f = join (map f x)
+end
+#+END_SRC
+
+Sans se soucier des détails syntaxiques liés à OCaml, on possède maintenant
+deux modules pour construire des modules qui définissent des monades. Le premier
+permet de construire un module monadique avec la première interface (qui requiert
+la présence de src_ocaml{map} et src_ocaml{join}), la seconde requiert src_ocaml{>>=}.
+
+** Deux premières monades : src_ocaml{Option} et src_ocaml{List}
+
+Sans plus attendre, je vous propose deux implémentations concrètes de modules pour
+deux monades différentes.
+
+Premièrement, la monade src_ocaml{Option}, qui repose sur le type src_ocaml{'a option}.
+Ce type est assez simple, il permet de caractériser la présence d'une valeur ou non
+(ce qui permet, au demeurant, d'éviter les src_java{NullPointerException}) :
+
+#+BEGIN_SRC ocaml
+module OptionM = With_bind(
+  struct
+    type 'a t = 'a option
+    let pure x = Some x
+    let (>>=) x f = match x with
+      | Some a -> f a
+      | None -> None
+  end)
+#+END_SRC
+
+La monade src_ocaml{List}, que l'on appelle aussi parfois, pour des raisons
+discutablement pédagogiques, src_ocaml{Non_Determinist}, repose sur le type
+src_ocaml{'a list}. Cette fois j'ai utilisé le module src_ocaml{With_join} pour
+la construire, car le module src_ocaml{List} expose déjà les fonctions dont
+j'ai besoin pour implémenter les prérequis.
+
+#+BEGIN_SRC ocaml
+module ListM = With_join(
+  struct
+    type 'a t = 'a list
+    let pure x = [x]
+    let map = List.map
+    let join = List.flatten
+  end)
+#+END_SRC
+
+Comme nos fonctions src_ocaml{>>=} renvoient une monade (pour rappel, voici
+son type src_ocaml{'a t -> ('a -> 'b t)  -> 'b t}), on peut chainer
+les appels de src_ocaml{>>=}, ce qui est assez pratique.
+
+Par exemple, imaginons cette fonction qui effectue la division de src_ocaml{a}
+par src_ocaml{b}. Si le diviseur est égal à zéro, la division échoue (et renvoie
+src_ocaml{None}), si elle réussit, elle emballe le résultat dans src_ocaml{Some}.
+Son type est src_ocaml{int -> int -> int option}.
+
+#+BEGIN_SRC ocaml
+let safe_div b a =
+  if b = 0 then None
+  else Some (a / b)
+#+END_SRC
+
+Voici deux valeurs calculées en utilisant notre module fraîchement défini :
+
+#+BEGIN_SRC ocaml
+let valueA = let open OptionM in
+  pure 1000
+  >>= safe_div 10
+  >>= safe_div 100
+
+let valueB = let open OptionM in
+  pure 1000
+  >>= safe_div 0
+  >>= safe_div 10
+#+END_SRC
+
+#+BEGIN_QUOTE
+*NB:* La construction src_ocaml{let open Module in} permet d'ouvrir localement
+un module, pour ne pas devoir préfixer chacun des appels de fonctions dans le
+scope courant.
+#+END_QUOTE
+
+src_ocaml{valueA} vaudra src_ocaml{Some 1} car chacune des divisions est valide,
+par contre, src_ocaml{valueB} vaudra src_ocaml{None} car la première étape
+divise par zéro.
+
+Utilisons maintenant notre monade src_ocaml{List} en implémentant, par exemple,
+le produit cartésien de deux listes :
+
+#+BEGIN_SRC ocaml
+let ( >< ) list_a list_b = let open ListM in
+  list_a
+  >>= fun a -> list_b
+  >>= fun b -> pure (a, b)
+
+let valueC = [1; 2; 3] >< ["a"; "b"; "c"]
+#+END_SRC
+
+#+BEGIN_QUOTE
+*NB:* Je vous invite à essayer de comprendre au mieux l'implémentation du module
+src_ocaml{ListM} pour tâcher de comprendre comment la fonction src_ocaml{><}
+(pour construire le produit cartésien de deux listes) fonctionne.
+#+END_QUOTE
+
+En allant un peu plus loin avec le module src_ocaml{ListM}, il est même possible
+de simuler le comportement des [[https://fr.wikipedia.org/wiki/Ensemble#D%C3%A9finition_d%E2%80%99un_ensemble_en_compr%C3%A9hension][compréhensions]]. Pour cela, on va construire une
+fonction qui nous aidera à formaliser les compréhensions sous forme de construction
+monadique :
+
+#+BEGIN_SRC ocaml
+let keep_if predicate x = let open ListM in
+  if predicate x then pure x else []
+#+END_SRC
+
+L'idée générale derrière cette fonction est très proche de src_ocaml{safe_div}.
+Si le prédicat est respecté, on garde l'élément, sinon on le supprime.
+On peut maintenant implémenter plusieurs types de compréhensions différentes :
+
+*** $\{ \ x *2 \ | \ x \in [1, 2, 3] \ \}$
+#+BEGIN_SRC ocaml
+[1; 2; 3] >>= (fun x -> [x * 2])
+#+END_SRC
+
+*** $\{ \ x *2 \ | \ x \in [1, 2, 3], \ 1 < x \ \}$
+#+BEGIN_SRC ocaml
+[1; 2; 3] >>= keep_if ((<) 1) >>= (fun x -> [x * 2])
+#+END_SRC
+
+*** Promotion de fonctions
+
+On a remarqué que l'opérateur que l'on utilise le plus souvent est src_ocaml{>>=}.
+Cependant, pour chainer facilement les étapes d'un calcul, la fonction qu'il
+prend en argument est de type src_ocaml{('a -> 'b t)}. Ça pourrait être ennuyeux,
+par exemple, quand on travaille avec le type src_ocaml{int option}, que l'ensemble
+des opérations/fonctions liées au type src_ocaml{int} doit être emballé.
+Par exemple, la fonction src_ocaml{succ}, qui pour un entier, renvoie son successeur :
+src_ocaml{fun x -> Some (succ x)}.
+
+Pour pallier à ce souci, on peut utiliser des fonctions qui promotent des fonctions
+pour être utilisables avec l'opérateur src_ocaml{>>=}. On en a déjà survolé une,
+c'est la fonction src_ocaml{map}. Elle permet de promouvoir une fonction à un
+seul argument en une fonction qui renvoie une monade. De ce fait, plutôt que
+d'écrire :
+
+#+BEGIN_SRC ocaml
+(Some 10) >>= (fun x -> Some (succ x))
+#+END_SRC
+
+Nous aurions pu écrire :
+
+#+BEGIN_SRC ocaml
+(Some 10) |> map succ
+#+END_SRC
+
+Le fait de promouvoir une fonction pour être
+utilisable dans un contexte monadique s'appelle le /lifting/. On peut implémenter
+autant de fonctions que l'on veut pour des fonctions à plusieurs arguments :
+
+#+BEGIN_SRC ocaml
+(* Exactement pareil que map *)
+val liftM : ('a -> 'b) -> 'a t -> 'b t
+let liftM f x = x >>= (fun a -> pure (f a))
+
+(* Pour les fonctions à deux paramètres *)
+val liftM2 : ('a -> 'b -> 'c) -> 'a t -> 'b t -> 'c t
+let liftM2 f x y =
+  x >>= fun a ->
+  y >>= fun b -> pure (f a b)
+
+(* Pour les fonctions à trois paramètres *)
+val liftM3 :
+  ('a -> 'b -> 'c -> 'd) -> 'a t -> 'b t -> 'c t
+  -> 'd t
+let liftM3 f x y =
+  x >>= fun a ->
+  y >>= fun b ->
+  z >>= fun c -> pure (f a b c)
+
+(* Etc ...*)
+#+END_SRC
+
+En général, les bibliothèques (par exemple celles de Haskell) vont jusqu'à 5.
+Maintenant, on peut facilement faire des opérations sur des monades, via les
+fonctions reliées aux types qui les habitent. Par exemple :
+
+#+BEGIN_SRC ocaml
+liftM2 (+) (Some 10) (Some 11)
+#+END_SRC
+
+Qui donnera le résultat src_ocaml{Some 21}.
+
+*** Pour conclure sur l'utilisation des deux monades
+
+Nous avons survolé quelques cas d'école liés à ces deux monades. Cette partie
+de l'article peut être assez touffue (et peut être compliquée) pour les lecteurs
+non initiés. Dans la section suivante, nous tâcherons de revenir sur les
+caractéristiques fondamentales des monades au moyen de métaphores. L'objectif
+sera de clarifier l'usage concret de ces deux monades au travers des bouts de
+définitions que nous avions évoqués auparavant.
+
+** Clarifications et métaphores
+
+Si j'ai pris la décision de proposer deux monades différentes pour observer des
+premières utilisations, c'est principalement pour renforcer une phrase que
+j'avais évoquée précédemment :
+
+#+BEGIN_QUOTE
+Elle permet d'exprimer plusieurs *types de constructions* pour une
+*même structure*.
+#+END_QUOTE
+
+Dans les exemples précédents, on a pu observer que pour une interface commune,
+sur des types différents, on effectue des *constructions différentes*. Il arrive
+parfois que l'on trouve des analogies entre les monades et les motifs de conceptions,
+je trouve cette analogie très discutable parce qu'à mon sens, l'objectif premier
+d'un motif de conception est de répondre à un problème de conception logicielle.
+Les monades, elles, répondent, de manière unifiée, à plusieurs problèmes de
+conception logicielle. Je trouve ça très différent.
+
+Concrètement, le fait que les monades résolvent plusieurs problèmes implique
+qu'il peut être difficile de les raisonner comme un tout.
+Je pense que l'enjeu d'un programmeur qui est amené à se servir de monades doit
+avant tout comprendre "/qu'est-ce-que résout spécifiquement la monade qu'il/
+/utilise/".
+
+Par exemple, la monade src_ocaml{Option} permet d'ajouter un contexte d'échec
+(ou d'absence) à une valeur. Alors que la monade src_ocaml{List} permet de
+construire une nouvelle liste via une fonction.
+
+Dans la littérature, on trouve souvent deux analogies.
+Les monades [[https://wiki.haskell.org/Monads_as_containers][vues comme des /containers/]] ou [[https://wiki.haskell.org/Monads_as_computation][vues comme des calculs]]. Bien sûr, ces
+deux analogies ne s'excluent pas mutuellement. On peut parfaitement imaginer
+qu'src_ocaml{Option} est un /container/ mais permet aussi d'être évaluée comme
+un calcul.
+
+*** Les monades vues comme des /containers/
+
+Généralement, la métaphore des /containers/ s'exprime plus facilement avec la
+première interface (celle qui utilise src_ocaml{map} et src_ocaml{join}). On
+peut facilement imaginer qu'une monade est une boite. Que la fonction
+src_ocaml{map} prend la valeur contenue dans la boite, lui applique une fonction
+et la remet dans une boite. Et la fonction src_ocaml{join} prend une boite dans
+laquelle se trouve une boite, prend cette dernière boite, prend tout son contenu
+et le met dans la première boite. En général, l'explication de src_ocaml{>>=}
+n'est que la combinaison de src_ocaml{map} et src_ocaml{join}.\\
+Dans le cas des listes, je trouve qu'utiliser la première interface est plus
+simple, et que ça insiste implicitement sur l'aspect *non-déterministe* que peut
+offrir src_ocaml{>>=}. En effet, l'opérateur se contente de /mapper/, et ensuite
+de /joindre/, de ce fait, il est possible de "supprimer des valeurs" dans la liste,
+au contraire de l'usage de la fonction src_ocaml{map} seul, mais aussi d'en
+ajouter. Imaginons par exemple cette fonction, discutablement utile, qui va, pour
+chaque élément d'une liste d'entiers se comporter ainsi :
+
+- si le nombre est nul, il est enlevé ;
+- si le nombre est pair, il est dupliqué ;
+- si le nombre est impair, il est conservé.
+
+#+BEGIN_SRC ocaml
+let f my_integer_list =
+  my_integer_list
+  >>= (fun x ->
+      if x = 0 then []
+      else if x mod 2 = 0 then [x; x]
+      else [x]
+    )
+
+let value = f [1; 2; 0; 4; 3]
+(* int list = [1; 2; 2; 4; 4; 3] *)
+#+END_SRC
+
+C'est grâce à cet aspect non-déterministe qu'il est possible, relativement
+facilement, d'encoder des /compréhensions/ avec la monade src_ocaml{List}.
+
+*** Les monades vues comme des calculs
+
+Dans la première métaphore, on se concentrait sur *le type* habitant de la
+monade, cette métaphore, complémentaire à la précédente se focalise sur
+l'opérateur src_ocaml{>>=} et la relation qu'il permet de construire entre
+plusieurs instances d'une même monade.
+
+L'idée fondamentale derrière cette approche est de ne pas /réellement/
+s'intéresser au contenu de "la boite" (d'où sa complémentarité avec
+la métaphore précédente) mais de s'intéresser à la composition, via l'opérateur
+src_ocaml{>>=}, ce qui fait que la projection via la seconde interface (celle
+où l'on implémente src_{>>=}, logique) semble plus facile.
+
+En plus de permettre de *chainer* des séquences de calcul (ce qui pourrait
+potentiellement rappeler une manière idiomatique de transformer des données
+dans la programmation impérative), cela permet parfois d'encoder des calculs
+moins standards dans le langage. Par exemple, les *effets de bord* dans un
+langage de programmation fonctionnel pur (comme la monade src_ocaml{IO} en
+Haskell), des *constructions asynchrones* (dans des langages autres que JavaScript),
+ou encore des *continuations* et des *reprises*.
+
+*Railway oriented programming*
+
+La métaphore du calcul permet parfois de se représenter une séquence de calcul
+monadique comme des [[https://vimeo.com/97344498][rails de train]] (je recommande d'ailleurs cette vidéo
+qui est très claire et très pédagogique). On peut ressentir cette métaphore
+dans l'usage de la monade src_ocaml{Option}. Tant que l'on possède une valeur,
+src_ocaml{Some 'a}, on continue les calculs, dès que l'on a src_ocaml{None},
+on termine le calcul. Une autre monade permettant d'encoder des *exceptions*
+est aussi un bon candidat à l'analogie des rails de train.
+
+** La monade src_ocaml{State}
+
+Il arrive souvent qu'un module monadique expose plus de fonctions que celles
+présentées dans l'interface générale. C'est le cas, par exemple, de la monade
+src_ocaml{State}.
+
+En parlant de métaphores, nous avions évoqué l'idée que certaines monades encodaient
+des opérations non-standards dans un langage. Dans un langage fonctionnel pur,
+les variables sont *immuables*. Cependant, OCaml est un langage fonctionnel impur,
+qui offre des mécaniques de programmation impérative. On peut donc, entre autre,
+écrire des cellules de références, qui sont des constructions *mutables*.
+En général, quand on parle de constructions mutables, on attend, pour un état,
+les opérations de *lecture* et d'*écriture*.
+
+La monade src_ocaml{State} permet de mimer ce comportement dans un langage
+fonctionnel pur.
+
+Concrètement, un état dans la monade src_ocaml{State} est une abstraction sur une
+fonction qui prend un état "courant" et retourne un couple constitué d'une
+valeur de retour intermédiaire et d'un nouvel état. En plus des combinateurs
+classiques, on peut étendre le module avec quelques fonctions utiles :
+
+#+BEGIN_SRC ocaml
+module State (S : sig type t end) :
+sig
+  type state = S.t
+  include MONAD with type 'a t = (state -> 'a * state)
+  val get : state t
+  val put : state -> unit t
+  val eval : 'a t -> state -> 'a
+  val exec : 'a t -> state -> state
+  val run : 'a t -> state -> ('a * state)
+end
+#+END_SRC
+
+#+BEGIN_QUOTE
+*NB:* Normalement, le type de la monade est, ici, défini par deux paramètres,
+cependant, pour être raccord avec l'interface src_OCAML{MONAD} que nous avions
+défini précédemment, je paramètre le module par un autre module qui fixe le
+type de l'état, laissant la valeur polymorphique pour le résultat intermédiaire.
+
+De ce fait, on peut créer un module src_ocaml{Count} qui sera une spécialisation
+du module src_ocaml{State} pour les entiers :
+
+#+BEGIN_SRC ocaml
+module Count = State(struct type t = int end)
+#+END_SRC
+#+END_QUOTE
+
+Comme on peut le voir dans la signature de notre module, le type de la monade
+src_ocaml{State} n'est rien de plus qu'une fonction
+src_ocaml{type 'a t = state -> 'a * state}. Pour des raisons de commodité, lorsque
+l'on parlera de src_ocaml{'a}, on utilisera le terme *résultat* et lorsque l'on
+parlera du src_ocaml{state} à gauche de la flèche, on parlera de *l'état courant*
+et pour le src_ocaml{state} à droite de la flèche on parlera de *nouvel état*.
+
+Définissons les objectifs des fonctions auxiliaires. La fonction src_ocaml{get}
+considère que l'état courant devient le résultat du calcul. La fonction
+src_ocaml{put} prend l'état, lui applique une fonction qui construira un nouvel
+état. En général, cette fonction est /stateful/, elle exécute potentiellement
+un effet, donc le résultat intermédiaire devient /unit/.
+
+Les trois dernières fonctions, src_ocaml{run}, src_ocaml{eval} et src_ocaml{exec}
+permettent d'exécuter une monade d'état. src_ocaml{run} renverra le couple de
+la valeur intermédiaire et de l'état, src_ocaml{eval} ne renverra que le résultat
+intermédiaire et src_ocaml{exec} ne renverra que le dernier état. Chacune de ces
+fonctions prend un état initial, qui correspondra à la première valeur du calcul.
+
+Voici comment implémenter la monade src_ocaml{State} :
+
+#+BEGIN_SRC ocaml
+module State (S : sig type t end) :
+sig
+  type state = S.t
+  include MONAD with type 'a t = (state -> 'a * state)
+  val get : state t
+  val put : state -> unit t
+  val eval : 'a t -> state -> 'a
+  val exec : 'a t -> state -> state
+  val run : 'a t -> state -> ('a * state)
+end = struct
+
+  type state = S.t
+  include With_bind(
+    struct
+      type 'a t = (state -> 'a * state)
+      let pure x = (fun state -> (x, state))
+      let (>>=) h f =
+        (fun state ->
+            let (x, new_state) = h state in
+            let g = f x in
+            g new_state
+          )
+    end)
+
+  let get = (fun state -> (state, state))
+  let put state = (fun _ -> ((), state))
+  let run f init = f init
+  let eval f state = fst (f state)
+  let exec f state = snd (f state)
+end
+#+END_SRC
+
+
+Voici quelques exemples de son utilisation :
+
+#+BEGIN_SRC ocaml
+run (pure 0) 1
+#+END_SRC
+
+Dans ce premier exemple, rien d'extraordinaire. On exécute simplement
+l'instruction d'initialisation, mais en démarrant l'état à 1. L'état
+courant sera donc égal à src_ocaml{1} mais la valeur intermédiaire, auquel
+on n'a absolument pas touché sera égale à src_ocaml{0}.
+
+#+BEGIN_SRC ocaml
+run (
+  pure 0
+  >>= fun index -> put (index + 1)
+  >>= fun () ->
+  get
+) 1
+#+END_SRC
+
+Ici, on incrémente l'état courant et on associe l'état courant à la valeur de
+retour intermédiaire. Le résultat final sera donc le couple src_ocaml{(1, 1)}.
+Le motif src_ocaml{put + get} est récurrent, il correspond à la modification
+de l'état, le passage de l'état courant en valeur intermédiaire.
+
+#+BEGIN_SRC ocaml
+run (
+  pure 0
+  >>= fun index -> put (index + 1)
+  >>= fun () -> get
+  >>= fun index -> put (index + 1)
+  >>= fun () -> get
+  >>= fun index -> put (index + 1)
+  >>= fun () -> get
+  >>= fun index ->
+  pure (Format.sprintf "Je vaux %d -->" index)
+) 0
+#+END_SRC
+
+Ce dernier exemple est très similaire au précédent, sauf que tout à la fin,
+on substitue la valeur de retour intermédiaire par une chaine de caractères
+construite sur la base de l'état courant.
+
+Avec la monade src_ocaml{State}, on peut désormais mimer le comportement des
+langages impératifs en construisant des états que l'on pourra modifier. Il faut
+retenir qu'elle ne fait qu'encapsuler une fonction. De ce fait, une fois que
+l'état est construit, et ça peut avoir lieu en plusieurs étapes, il faut
+exécuter la séquence de calcul pour restituer l'état final. Concrètement, elle
+permet d'encoder une construction non-standard dans un langage souche.
+
+J'ai choisi de présenter src_ocaml{State} parce qu'elle est, à mon sens, assez
+facile à appréhender. Cependant, il existe des monades, "plus complexes pour
+une initiation", qui encodent des constructions plus complexes, par exemple,
+[[http://www.haskellforall.com/2012/12/the-continuation-monad.html][Continuation]] (qui sur beaucoup d'aspects, ressemble un peu aux *Promesses* de
+JavaScript), qui au lieu de renvoyer une valeur, passe le résultat d'une étape
+à une autre étape.
+
+** Apports réels des monades à l'usage
+
+Bien que l'on ait évoqué la possibilité de mettre en oeuvre des constructions
+non standard, on pourrait s'en passer. Par exemple, plutôt qu'utiliser une
+monade d'état, on pourrait, sans se soucier des propriétés des monades,
+utiliser "simplement" un argument complémentaire à une fonction qui, à chaque
+itération de la fonction, ferait office d'accumulateur de résultat, et définir
+chaque étape intermédiaire (ne provoquant pas d'itération) dans des variables
+différentes. De plus, comme nous avons vu que les monades offrent une interface
+commune pour beaucoup de problèmes *différents*, il faut tout de même comprendre
+son intérêt (et le rôle de src_ocaml{>>=}) pour chaque monade différente.
+
+Les monades ne servent pas qu'à augmenter son "jargon de programmeur". Elles
+offrent, selon moi, trois axes. Les deux premiers sont liés à la monade en
+tant qu'interface générale, le troisième est lié à l'usage de certains
+langages qui favorisent l'utilisation de monades.
+
+*** De la structure
+
+Le premier apport lié à l'usage des monades est qu'elles offrent une manière
+*systèmatique* de structurer un programme en deux parties bien distinctes :
+
+- l'algorithme à proprement parler ;
+- l'outillage nécessaire à cet algorithme (par exemple un état). Et cet outillage
+  peut être masqué dans des bibliothèques (potentiellement réutilisables).
+
+De plus, elles permettent aussi de rendre explicite le flot d'un programme, d'une
+manière assez uniforme. Car même si, comme on l'a vu, le rôle de chaque monade
+diffère, le fait de partager une interface commune donne tout de même de bonnes
+informations sur le comportement général du calcul, de manière abstraite. Les
+monades amènent une notion de *composition* élégante et uniforme.
+
+*** De la réutilisabilité
+
+Même si dans les exemples précédents, nous n'avons utilisé que des versions minimales
+de nos monades, en utilisant une interface (volontairement) limitée, les monades
+exposent [[http://hackage.haskell.org/package/base-4.11.1.0/docs/Control-Monad.html][un grand nombre de fonctions complémentaires]]. Ces fonctions ne nécessitent
+généralement que les fonctions exposées par notre interface minimaliste pour être
+implémentées, de ce fait, n'implémenter que 2 ou 3 fonctions peut suffire à
+construire une interface riche, et ce pour toutes les monades. Par exemple, les
+fonctions de promotion (/lifting/) que nous avons évoquées précédemment sont
+génériques et ne peuvent être implémentées qu'une seule fois et être offertes par
+le module paramétré qui construit une monade.
+
+La capacité à paramétrer une monade (via un module en OCaml, une classe de type
+en Haskell ou de l'héritage en programmation Orientée objets) est possible grâce
+au respect des lois monadiques.
+
+En tant que développeur, on n'est bien plus souvent amené à "utiliser des monades"
+existantes qu'à en "découvrir". Généralement, la preuve minimale que l'on peut
+apporter à la découverte d'une monade est le respect des lois monadiques sur
+l'interface que l'on choisi d'implémenter.
+
+** Syntaxes et notations
+
+Bien que les opérateurs et fonctions exposés par les monades permettent de se
+représenter assez simplement les séquences de calcul, certains langages ont
+fait le choix de mettre en place des extensions de syntaxes pour offrir une
+notation plus commode pour le traitement des monades.
+
+Haskell a choisi de mettre en place la *do-notation*. Par exemple, on écrira :
+
+#+BEGIN_SRC haskell
+cartesian_product :: [(String, Int)]
+cartesian_product = do
+  x <- ["foo", "bar", "foobar"]
+  y <- [1, 3, 9]
+  return (x, y)
+#+END_SRC
+
+Plutôt que :
+
+#+BEGIN_SRC haskell
+cartesian_product :: [(String, Int)]
+cartesian_product =
+  ["foo", "bar", "foobar"]
+  >>= \x -> [1, 3, 9]
+  >>= \y -> return (x, y)
+#+END_SRC
+
+L'avantage de cette notation est qu'elle permet d'appréhender certains concepts
+(comme par exemple la lecture/écriture de fichiers) sans se soucier de la
+notion de monade.
+
+Pour ma part, j'aime beaucoup le choix qu'a fait F#, ils offrent une
+[[https://docs.microsoft.com/fr-fr/dotnet/fsharp/language-reference/computation-expressions][syntaxe alternative]] qui permet de généraliser l'écriture de /workflows/ monadiques,
+mais pas [[https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/computation-zoo.pdf][uniquement]]. C'est d'ailleurs sur la base de ces constructeurs d'expressions
+que reposent leurs /workflows/ asynchrones et leurs /workflows/ de requêtage
+SQL.
+
+Scala, que je ne connais pas très bien, expose aussi  [[https://docs.scala-lang.org/tutorials/FAQ/yield.html][une syntaxe]], qui repose
+sur celle des compréhensions.
+
+OCaml, actuellement, délègue à une [[https://github.com/janestreet/ppx_let][extension de syntaxe externe]] l'alternative
+pour écrire de manière commode des /workflows/ monadiques, cependant,
+[[https://github.com/ocaml/ocaml/pull/1947][des conversations ont actuellement lieu]] pour aboutir à une généralisation proche
+de celle de F#.
+
+** Pour conclure, enfin
+
+Je décide de terminer, ici, cette naïve introduction aux monades ! Ce que l'on
+va retenir, c'est qu'une monade est un type équipé de deux (ou trois en
+fonction de l'interface choisie) opérations qui permet de respecter une interface
+commune de programmation pour solutionner divers problèmes.
+
+Elles permettent plusieurs choses :
+
+- la réutilisation de code (et la construction de bibliothèques génériques) ;
+- l'introduction dans un langage de construction non-standards ;
+- la séparation entre l'algorithme et son outillage alternatif ;
+- d'ordonner/séquencer des effets (je n'ai pas réellement évoqué cette partie
+  qui fera surement l'objet d'un prochain article) ;
+- de briller dans les salons !
+
+Au-delà des apports concrets, les monades ont aussi été la source d'inspiration
+de certaines pratiques/outils dans des langages plus /mainstream/, par exemple
+pour l'implémentation de *LINQ*, dans le monde .NET ou comme base de raisonnement
+pour les Promesses en JavaScript.
+
+En plus des apports concrets et indirects, je pense que les monades sont une
+première étape "souple" à franchir pour s'initier à une étude "un peu plus
+théorique" des langages de programmation tout en offrant des avantages
+indéniables, liés, entre autres, à la composition. Bref, la monade est une
+abstraction puissante.
+
+Il reste encore beaucoup de sujets à couvrir, par exemple, les transformations
+de monades, pour coupler des monades. Cependant, pour que l'article ne soit pas
+trop indigeste, j'arrête maintenant. (Mais ce seront, aussi, sûrement
+des sujets couverts par les prochains articles !)
+
+J'espère que cet article aura été potentiellement utile pour quelqu'un. Merci
+pour votre lecture et à bientôt !
+
+#+BEGIN_QUOTE
+*NB... FINAL:* Si vous voyez des coquilles, vous trouverez, entre les notes et les
+commentaires, un lien vers les sources du blog, et donc de cet article,
+n'hésitez pas à faire une PR ou à écrire un commentaire !
+#+END_QUOTE
+
+Je remercie grandement Anne-Charlotte et Jules pour avoir relu (et fait remonter)
+pleins de petites coquilles !
+
+[fn:1] Ce n'est pas une moquerie ou une critique, même si le ton est un peu
+       sarcastique, je comprends évidemment ce genre de raccourci.

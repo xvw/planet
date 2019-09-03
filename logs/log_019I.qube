@@ -1,0 +1,5 @@
+;; Logs for 019I
+((:uuid "e5a1aa2a-bc43-f4c2-8cd8-a88e6aefbe32") (:day "019I03")
+  (:duration "120") (:sector "programming")
+  (:label "Initialisation des stories. Ajout des blogposts")
+  (:project "planet"))

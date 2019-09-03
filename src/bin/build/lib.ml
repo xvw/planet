@@ -182,11 +182,19 @@ let sectors () =
   |> trace_creation
 ;;
 
+let stories () =
+  let open Validation.Infix in
+  Glue.Story.collect ()
+  >|= List.iter (Format.printf "%a\n" Shapes.Story.pp)
+  |> const ()
+;;
+
 let all () =
   let () = generation_id () in
   let () = copyright_date () in
   let () = api () in
   let () = projects () in
   let () = sectors () in
+  let () = stories () in
   ()
 ;;

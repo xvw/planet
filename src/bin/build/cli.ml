@@ -27,6 +27,14 @@ let projects =
   , Term.info "projects" ~version ~doc ~exits ~man )
 ;;
 
+let stories =
+  let doc = "Build stories from Planet" in
+  let man = Glue.Man.default call in
+  let exits = Term.default_exits in
+  ( Term.(const Lib.stories $ const ())
+  , Term.info "stories" ~version ~doc ~exits ~man )
+;;
+
 let all =
   let doc = "Build everything" in
   let man = Glue.Man.default call in
@@ -44,5 +52,6 @@ let index =
 ;;
 
 let invoke () =
-  Term.(exit @@ eval_choice index [ all; init; api; projects ])
+  Term.(
+    exit @@ eval_choice index [ all; init; api; projects; stories ])
 ;;

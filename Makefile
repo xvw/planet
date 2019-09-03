@@ -11,7 +11,7 @@ clean: clean-pages
 	dune clean
 	rm *.exe
 
-repl: all
+repl: build
 	dune utop
 
 doc:
@@ -33,7 +33,7 @@ test:
 	dune build src/$@ --profile release
 	cp _build/default/src/$@ ./_seeds
 
-binaries: project/project.exe log/log.exe build/build.exe client
+binaries: project/project.exe log/log.exe build/build.exe
 
 client: facade/facade.bc.js
 
@@ -93,12 +93,15 @@ web-reset: clean
 	stack build
 	stack exec site rebuild
 
-render: binaries
+render: binaries client
 	./build.exe all
 	stack build
 	stack exec site rebuild
 
 hydrate: binaries
+	./build.exe all
+
+rehydrate: binaries client
 	./build.exe all
 
 s:

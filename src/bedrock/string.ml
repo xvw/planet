@@ -23,7 +23,7 @@ let start_with base suffix =
 let end_with base suffix =
   let len_base = S.length base in
   let len_suff = S.length suffix in
-  if len_base = len_suff && len_base = len_suff
+  if len_base = len_suff && base = suffix
   then true
   else if len_base < len_suff
   then false

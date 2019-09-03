@@ -3,3 +3,7 @@
   (:duration "120") (:sector "programming")
   (:label "Initialisation des stories. Ajout des blogposts")
   (:project "planet"))
+
+((:uuid "d9a59ee4-cc4d-702d-c270-adff3613f0a5") (:day "019I03")
+  (:duration "30") (:sector "programming")
+  (:label "Dynamisation du copyright") (:project "planet"))

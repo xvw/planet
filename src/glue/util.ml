@@ -3,6 +3,11 @@ open Paperwork
 
 let now () = Unix.gettimeofday () |> Unix.localtime
 
+let current_year () =
+  let n = now () in
+  n.Unix.tm_year + 1900
+;;
+
 let moment_of timestamp =
   let mon = timestamp.Unix.tm_mon + 1 in
   let yea = timestamp.Unix.tm_year - 100 in

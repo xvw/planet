@@ -158,6 +158,17 @@ let generation_id () =
   |> trace_creation
 ;;
 
+let copyright_date () =
+  let open Validation.Infix in
+  let () = create_partials () in
+  let partial = Filename.concat seed_partials "copyright_end.html" in
+  let () = trace_deletion (soft_deletion_file partial) in
+  let str = string_of_int (Glue.Util.current_year ()) in
+  File.create partial str |> Validation.from_result
+  >|= (fun () -> true, partial)
+  |> trace_creation
+;;
+
 let sectors () =
   let open Validation.Infix in
   let () = create_partials () in
@@ -173,6 +184,7 @@ let sectors () =
 
 let all () =
   let () = generation_id () in
+  let () = copyright_date () in
   let () = api () in
   let () = projects () in
   let () = sectors () in

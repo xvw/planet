@@ -3,6 +3,11 @@
 open Bedrock
 open Paperwork
 
+(** {2 Helpers} *)
+
+val now : unit -> Unix.tm
+val current_year : unit -> int
+
 (** {2 Timetable helpers} *)
 
 val moment_of : Unix.tm -> Timetable.Moment.t Result.t

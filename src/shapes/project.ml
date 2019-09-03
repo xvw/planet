@@ -30,6 +30,19 @@ let status_from_string str =
     Error [ Unknown_status str ]
 ;;
 
+let status_to_string = function
+  | Unceasing ->
+    "unceasing"
+  | Wip ->
+    "wip"
+  | Done ->
+    "done"
+  | Paused ->
+    "paused"
+  | Interrupted ->
+    "interrupted"
+;;
+
 type t =
   { name : string
   ; title : string
@@ -105,64 +118,6 @@ let rec from_qexp expr =
     Validation.from_result e
 ;;
 
-let status_to_string = function
-  | Unceasing ->
-    "unceasing"
-  | Wip ->
-    "wip"
-  | Done ->
-    "done"
-  | Paused ->
-    "paused"
-  | Interrupted ->
-    "interrupted"
-;;
-
-let kvo obj k f =
-  let open Option.Infix in
-  obj >|= (fun x -> Qexp.kv k (f x)) |> Option.to_list
-;;
-
-let kvcontent = function
-  | None ->
-    []
-  | Some (format, Text.File str) ->
-    Qexp.
-      [ node
-          [ tag "content"
-          ; string "external"
-          ; keyword (Text.Format.to_string format)
-          ; string str
-          ]
-      ]
-  | Some (format, Text.Plain str) ->
-    Qexp.
-      [ node
-          [ tag "content"
-          ; string "internal"
-          ; keyword (Text.Format.to_string format)
-          ; string str
-          ]
-      ]
-;;
-
-let kvlist key list f =
-  let open Qexp in
-  [ node [ tag key; node (List.map f list) ] ]
-;;
-
-let kvziplist key list f =
-  let open Qexp in
-  [ node
-      [ tag key
-      ; node
-          (List.map
-             (fun (k, v) -> node [ string k; node (List.map f v) ])
-             list)
-      ]
-  ]
-;;
-
 let to_qexp project =
   let open Qexp in
   [ kv "name" project.name
@@ -178,15 +133,15 @@ let to_qexp project =
       "published"
       (if project.published then "true" else "false")
   ]
-  @ kvo project.license "license" id
-  @ kvo project.picto "picto" id
-  @ kvcontent project.content
+  @ Kv.option project.license "license" id
+  @ Kv.option project.picto "picto" id
+  @ Kv.content project.content
   @ (project.repo
     |> Option.map (fun x -> node [ tag "repo"; Repo.to_qexp x ])
     |> Option.to_list)
-  @ kvlist "tags" project.tags string
-  @ kvziplist "links" project.links Link.simple_to_qexp
-  @ kvlist "releases" project.releases Link.dated_to_qexp
+  @ Kv.list "tags" project.tags string
+  @ Kv.ziplist "links" project.links Link.simple_to_qexp
+  @ Kv.list "releases" project.releases Link.dated_to_qexp
   |> node
 ;;
 

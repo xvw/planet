@@ -24,6 +24,7 @@ type t =
   | Invalid_field of string
   | Invalid_text_scheme
   | Unknown_status of string
+  | Unknown_kind of string
   | Mapping_failure of (string * string)
   | Unparsable_color of string
   | Unix of string
@@ -63,6 +64,7 @@ module Exn = struct
   exception Invalid_field of string
   exception Invalid_text_scheme
   exception Unknown_status of string
+  exception Unknown_kind of string
   exception Mapping_failure of (string * string)
   exception Unparsable_color of string
   exception Wexited of int
@@ -123,6 +125,8 @@ let rec to_exception = function
     Exn.Invalid_text_scheme
   | Unknown_status string ->
     Exn.Unknown_status string
+  | Unknown_kind string ->
+    Exn.Unknown_kind string
   | Exn exn ->
     exn
   | Mapping_failure (subject, content) ->
@@ -257,6 +261,8 @@ let rec to_string = function
     Format.sprintf "[Unix error] %s" string
   | Unknown_status string ->
     Format.sprintf "[Unknown_status] %s" string
+  | Unknown_kind string ->
+    Format.sprintf "[Unknown_kind] %s" string
   | Invalid_text_scheme ->
     "[Invalid_text_scheme]"
   | Exn e ->

@@ -32,6 +32,7 @@ type t =
   | Invalid_field of string
   | Invalid_text_scheme
   | Unknown_status of string
+  | Unknown_kind of string
   | Mapping_failure of (string * string)
   | Unparsable_color of string
   | Unix of string
@@ -72,6 +73,7 @@ module Exn : sig
   exception Invalid_field of string
   exception Invalid_text_scheme
   exception Unknown_status of string
+  exception Unknown_kind of string
   exception Mapping_failure of (string * string)
   exception Unparsable_color of string
   exception Wexited of int

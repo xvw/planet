@@ -8,7 +8,7 @@ type kind =
   | Short
 
 type t =
-  { url : string
+  { permaname : string
   ; title : string
   ; synopsis : string
   ; links : (string * Link.simple list) list
@@ -34,7 +34,7 @@ let kind_from_string str =
 let kind_to_string = function Long -> "long" | Short -> "short"
 
 let new_story
-    url
+    permaname
     title
     synopsis
     links
@@ -46,7 +46,7 @@ let new_story
     date
     kind
   =
-  { url
+  { permaname
   ; title
   ; synopsis
   ; links
@@ -69,7 +69,7 @@ let from_qexp expr =
   | Ok config ->
     let open Validation.Infix in
     new_story
-    <$> Fetch.string config "url"
+    <$> Fetch.string config "permaname"
     <*> Fetch.string config "title"
     <*> Fetch.string config "synopsis"
     <*> Fetch.ziplist_refutable Link.mapper_simple config "links"
@@ -87,7 +87,7 @@ let from_qexp expr =
 
 let to_qexp story =
   let open Qexp in
-  [ kv "url" story.url
+  [ kv "permaname" story.permaname
   ; kv "title" story.title
   ; kv "synopsis" story.synopsis
   ]
@@ -122,7 +122,8 @@ let kind_eq a b =
 ;;
 
 let eq a b =
-  a.title = b.title && a.synopsis = b.synopsis && a.url = b.url
+  a.title = b.title && a.synopsis = b.synopsis
+  && a.permaname = b.permaname
   && a.category = b.category
   && Timetable.Day.eq a.date b.date
   && kind_eq a.kind b.kind
@@ -140,7 +141,7 @@ let to_json story =
   let open Json in
   obj
     [ "title", string story.title
-    ; "url", string story.url
+    ; "permaname", string story.permaname
     ; "category", string story.category
     ; "date", string (Timetable.Day.to_string story.date)
     ; "kind", string (kind_to_string story.kind)

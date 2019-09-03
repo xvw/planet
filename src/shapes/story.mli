@@ -11,7 +11,7 @@ type kind =
 
 (** A Story *)
 type t =
-  { url : string
+  { permaname : string
   ; title : string
   ; synopsis : string
   ; links : (string * Link.simple list) list

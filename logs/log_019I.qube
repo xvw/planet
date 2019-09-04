@@ -12,3 +12,7 @@
   (:duration "320") (:sector "programming")
   (:label "Génération des pages Hakyll en fonction des blog post")
   (:project "planet"))
+
+((:uuid "9766e842-e9ff-1cdc-95ac-a6e3c8b6e4aa") (:day "019I04")
+  (:duration "60") (:sector "visual")
+  (:label "Mise en page de l'accueil du site") (:project "planet"))

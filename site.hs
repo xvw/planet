@@ -48,6 +48,24 @@ main = hakyll $ do
         >>= loadAndApplyTemplate "templates/default.html" projectContext
         >>= relativizeUrls
 
+    -- Long Stories seeded (from Planet)
+    match longsRule $ do
+      route (unseedRoute `composeRoutes` setExtension "html")
+      compile $ pandocCompiler
+        >>= saveSnapshot "content"
+        >>= loadAndApplyTemplate "templates/post.html" defaultContext
+        >>= loadAndApplyTemplate "templates/default.html" defaultContext
+        >>= relativizeUrls
+
+    -- Short Stories seeded (from Planet)
+    match shortsRule $ do
+      route (unseedRoute `composeRoutes` setExtension "html")
+      compile $ pandocCompiler
+        >>= saveSnapshot "content"
+        >>= loadAndApplyTemplate "templates/post.html" defaultContext
+        >>= loadAndApplyTemplate "templates/default.html" defaultContext
+        >>= relativizeUrls    
+
     -- Journal.html
     match "pages/*.html" $ do
       route (truncateRoute "pages/" `composeRoutes` setExtension "html")
@@ -63,9 +81,13 @@ main = hakyll $ do
       compile $ do
         
         projects <- (recentFirst =<< loadAll projectsRule)
+        longs <- (recentFirst =<< loadAll longsRule)
+        shorts <- (recentFirst =<< loadAll shortsRule)
         
         let indexContext =
               listField "projects" projectContext (return projects) `mappend`
+              listField "shorts" defaultContext (return shorts) `mappend`
+              listField "longs" defaultContext (return longs) `mappend`
               defaultContext
 
         getResourceBody
@@ -98,6 +120,16 @@ projectsRule =
   "_seeds/projects/*.org"
   .||. "_seeds/projects/*.md"
   .||. "_seeds/projects/*.txt"
+
+longsRule =
+  "_seeds/longs/*.org"
+  .||. "_seeds/longs/*.md"
+  .||. "_seeds/longs/*.txt"
+
+shortsRule =
+  "_seeds/shorts/*.org"
+  .||. "_seeds/shorts/*.md"
+  .||. "_seeds/shorts/*.txt"
 
 templatesRule =
   "templates/*.html"

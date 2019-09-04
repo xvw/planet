@@ -1,0 +1,15 @@
+<div class="qexp-metadata" id="story-qexp-metadata">
+  $partial(qexp_partial)$
+</div>
+
+<div class="story-paper structured-text" id="roe-container">
+  $body$
+</div>
+
+<script type="application/javascript">
+  planet.suspend(function() {
+    planet.roe.mount(
+        document.getElementById("roe-container")
+      );
+  });
+</script>

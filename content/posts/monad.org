@@ -43,7 +43,7 @@ Par contre, je pense que le terme est parfois trop utilisé, par exemple :
 /la monade Option/ !". Je pense que ce genre de phrase véhicule une idée
 d'élitisme /latent/, bien que peu pernicieuse. J'ai rarement entendu quelqu'un dire
 "/Ah ! tu veux transformer les données d'une liste en autre chose ? Tu n'as qu'à/
-/utiliser le Foncteur List/".[fn:1]
+/utiliser le Foncteur List/".
 
 ** De la théorie des catégories à la programmation
 

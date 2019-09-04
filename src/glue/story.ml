@@ -62,6 +62,7 @@ let to_hakyll story =
               [ render_string "title" story.title
               ; render_string "permaname" story.permaname
               ; render_string "synopsis" story.synopsis
+              ; render_if "published" story.published
               ; render
                   "date"
                   (Format.asprintf "%a" Timetable.Day.ppr)

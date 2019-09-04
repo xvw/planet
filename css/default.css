@@ -4,6 +4,58 @@
     box-sizing: border-box;
 }
 
+html,
+body,
+p,
+ol,
+ul,
+li,
+dl,
+dt,
+dd,
+blockquote,
+figure,
+fieldset,
+legend,
+textarea,
+pre,
+iframe,
+hr,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  padding: 0;
+}
+
+
+button,
+input,
+select,
+textarea {
+  margin: 0;
+}
+
+img,
+video {
+  height: auto;
+  max-width: 100%;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+td,
+th {
+  padding: 0;
+  text-align: left;
+}
+
 .hidden-object,
 planet-metadata {
     display: none;
@@ -26,6 +78,24 @@ body {
     line-height: 1.5;
 }
 
+.main-columns {
+    display: flex;
+    flex-direction: row;
+}
+
+.main-columns > div {
+    flex: 1;
+    margin-left: 32px;
+}
+
+.main-columns > div:first-child {
+    margin-left: 0;
+}
+
+.main-columns h2.column-title {
+    margin-bottom: 32px;
+    font-weight: 200;
+}
 
 figure > img.image-cover {
     width: 100%;
@@ -315,9 +385,19 @@ footer a {
 
 .project-page .project-header,
 .project-item {
-    margin: 0;
     display: flex;
     flex-direction: row;
+}
+
+a.long-item {
+    display: block;
+    margin-bottom: 32px;
+}
+
+.long-item,
+.project-page .project-header,
+.project-item {
+    margin: 0;
     color: #000;
 }
 
@@ -329,6 +409,7 @@ footer a {
     align-items: center;
 }
 
+.long-item,
 .project-item {
     align-items: start;
     text-decoration: none;
@@ -361,7 +442,8 @@ footer a {
 }
 
 
-.project-item h2 {
+.long-item h3,
+.project-item h3 {
     padding: 0;
     margin: 0;
     margin-bottom: 6px;
@@ -401,6 +483,7 @@ footer a {
     flex-direction: row;
 }
 
+.long-item .badge,
 .project-badges > .project-badge {
     border-radius: 4px;
     font-family: "Fira Mono", monospace;
@@ -410,6 +493,16 @@ footer a {
     padding: 4px 8px;
     margin: 0;
     margin-right: 6px;
+}
+
+.long-item p {
+    margin-bottom: 8px;
+}
+
+.long-item .published::before {
+    content: "publié le ";
+    font-weight: 200;
+    color: #444;
 }
 
 .project-badges > .updated-ago::before {

@@ -7,3 +7,8 @@
 ((:uuid "d9a59ee4-cc4d-702d-c270-adff3613f0a5") (:day "019I03")
   (:duration "30") (:sector "programming")
   (:label "Dynamisation du copyright") (:project "planet"))
+
+((:uuid "349a176a-1b84-1e0e-247c-b6c231fdced5") (:day "019I04")
+  (:duration "320") (:sector "programming")
+  (:label "Génération des pages Hakyll en fonction des blog post")
+  (:project "planet"))

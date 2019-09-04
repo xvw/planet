@@ -89,24 +89,15 @@ let fetch_project_content content =
     File.to_string filename
 ;;
 
-let fetch_project_format = function
-  | Shapes.Text.Format.Raw ->
-    "txt"
-  | Shapes.Text.Format.Org ->
-    "org"
-  | Shapes.Text.Format.Markdown ->
-    "md"
-;;
-
 let fetch_project_text project =
   let open Shapes.Project in
   match project.content with
   | None ->
     Ok ("org", "")
-  | Some (format, t) ->
+  | Some ((_format, t) as k) ->
     let open Result.Syntax in
-    let* content = fetch_project_content t in
-    Ok (fetch_project_format format, content)
+    let+ content = fetch_project_content t in
+    Shapes.Text.extension_for k, content
 ;;
 
 let as_textarea =

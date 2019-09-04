@@ -96,3 +96,13 @@ let eq_content left right =
 ;;
 
 let eq (a, b) (x, y) = eq_format a x && eq_content b y
+
+let extension_for (f, _) =
+  match f with
+  | Format.Raw ->
+    "txt"
+  | Format.Org ->
+    "org"
+  | Format.Markdown ->
+    "md"
+;;

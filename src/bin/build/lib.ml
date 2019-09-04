@@ -6,6 +6,8 @@ let site_folder = "./_seeds"
 let api_folder = Filename.concat site_folder "api"
 let project_folder = Filename.concat site_folder "projects"
 let seed_partials = Filename.concat site_folder "partials"
+let long_folder = Filename.concat site_folder "longs"
+let short_folder = Filename.concat site_folder "shorts"
 
 let soft_creation folder =
   let open Result.Infix in
@@ -66,6 +68,12 @@ let create_projects_folder () =
 let create_partials () =
   generate ();
   trace_creation (soft_creation seed_partials)
+;;
+
+let create_stories_folder () =
+  generate ();
+  trace_creation (soft_creation long_folder);
+  trace_creation (soft_creation short_folder)
 ;;
 
 let create_file f folder file =
@@ -182,11 +190,48 @@ let sectors () =
   |> trace_creation
 ;;
 
+let story_chose_target story filename =
+  let folder =
+    match story.Shapes.Story.kind with
+    | Shapes.Story.Long ->
+      long_folder
+    | Shapes.Story.Short ->
+      short_folder
+  in
+  Filename.concat folder filename
+;;
+
 let stories () =
   let open Validation.Infix in
+  let () = create_partials () in
+  let () = create_stories_folder () in
   Glue.Story.collect ()
-  >|= List.iter (Format.printf "%a\n" Shapes.Story.pp)
-  |> const ()
+  >|= List.map Glue.Story.to_hakyll
+  >>= Validation.Applicative.sequence
+  >>= (fun elts ->
+        List.map
+          (fun ( story
+               , extension
+               , content
+               , partial_name
+               , partial_content ) ->
+            let open Shapes.Story in
+            let filename = story.permaname ^ "." ^ extension in
+            let target = story_chose_target story filename in
+            let partial =
+              Filename.concat seed_partials partial_name
+            in
+            let () = trace_deletion (soft_deletion_file target) in
+            let () = trace_deletion (soft_deletion_file partial) in
+            File.create target content
+            |> Result.bind (fun () ->
+                   File.create partial partial_content)
+            |> Result.map (fun () -> true, target ^ " & " ^ partial)
+            |> Validation.from_result |> trace_creation
+            |> Validation.pure)
+          elts
+        |> Validation.Applicative.sequence)
+  |> function Error e -> Prompter.prompt_errors e | Ok _ -> ()
 ;;
 
 let all () =

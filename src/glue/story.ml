@@ -52,7 +52,7 @@ let to_hakyll story =
         in
         let partial =
           Format.asprintf
-            "_seeds/partials/%s.%s.qexp.html"
+            "%s.%s.qexp.html"
             story.permaname
             (Shapes.Story.kind_to_string story.kind)
         in
@@ -72,7 +72,9 @@ let to_hakyll story =
                   story.related_project
               ; render_string "category" story.category
               ; render "kind" Shapes.Story.kind_to_string story.kind
-              ; render_string "qexp_partial" partial
+              ; render_string
+                  "qexp_partial"
+                  ("_seeds/partials/" ^ partial)
               ])
         in
         let final_content = header ^ content in

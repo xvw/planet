@@ -16,3 +16,8 @@
 ((:uuid "9766e842-e9ff-1cdc-95ac-a6e3c8b6e4aa") (:day "019I04")
   (:duration "60") (:sector "visual")
   (:label "Mise en page de l'accueil du site") (:project "planet"))
+
+((:uuid "134b2a9c-bc59-aafa-9ef8-58aa2f4d576c") (:day "019I06")
+  (:duration "60") (:sector "visual")
+  (:label "Amélioration de l'affichage des publications")
+  (:project "planet"))

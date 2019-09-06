@@ -55,8 +55,7 @@ struct
 
   include Infix
 
-  module Syntax =
-  struct
+  module Syntax = struct
     let ( let* ) x f = bind f x
   end
 

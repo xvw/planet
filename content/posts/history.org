@@ -3,7 +3,8 @@ Au contraire des deux précédents articles, je vais tâcher d'être très bref 
 présentant un usage concret d'une structure de données pour représenter un
 *historique naviguable*. L'intérêt de l'usage d'un Zipper réside dans la
 simplicité étonnante avec laquelle il est implémentable. Le code présenté dans
-cet article sera, une fois de plus, en [[http://elm-lang.org/][Elm]].
+cet article sera en [[http://elm-lang.org/][Elm]], un petit langage fonctionnel facile à lire, dont 
+la syntaxe ressemble à Haskell.
 
 Cet article sera un peu différent des précédents car il présente une expérience
 concrète et un raisonnement sur quelle structure de données utiliser pour

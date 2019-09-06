@@ -37,7 +37,13 @@
         <div>
           <div class="header-bar">
             <h1>xvw.github.io</h1>
+            $if(main_section)$
+            <h2>$main_section$</h2>
+            $else$
+            $if(title)$
             <h2>$title$</h2>
+            $endif$
+            $endif$
           </div>
         </div>
         <nav>

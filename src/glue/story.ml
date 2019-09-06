@@ -60,6 +60,7 @@ let to_hakyll story =
           Hakyll.(
             join
               [ render_string "title" story.title
+              ; render_string "main_section" "Tentative"
               ; render_string "permaname" story.permaname
               ; render_string "synopsis" story.synopsis
               ; render_if "published" story.published

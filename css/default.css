@@ -313,7 +313,6 @@ header > div > nav > a {
     background-color: #000;
 }
 
-.content-page h2,
 header h2,
 header h1 {
     padding: 0;
@@ -385,7 +384,7 @@ footer a {
     text-align: right;
 }
 
-.content-page .project-header,
+.content-page .major-header,
 .project-item {
     display: flex;
     flex-direction: row;
@@ -397,7 +396,7 @@ a.long-item {
 }
 
 .long-item,
-.content-page .project-header,
+.content-page .major-header,
 .project-item {
     margin: 0;
     color: #000;
@@ -407,7 +406,7 @@ a.long-item {
     margin-bottom: 16px;
 }
 
-.content-page .project-header {
+.content-page .major-header {
     align-items: center;
 }
 
@@ -419,7 +418,7 @@ a.long-item {
     font-size: 80%;
 }
 
-.content-page .project-header img,
+.content-page .major-header img,
 .project-item img {
     height: auto;
 }
@@ -428,7 +427,7 @@ a.long-item {
     width: 48px;
 }
 
-.content-page .project-header img {
+.content-page .major-header img {
     width: 64px;
 }
 
@@ -453,9 +452,13 @@ a.long-item {
     font-size: 140%;
 }
 
-.content-page .project-details,
+.content-page .major-details,
 .project-item .project-details {
     margin-left: 12px;
+}
+
+.major-details h1 {
+    font-weight: 700;
 }
 
 .content-page .major-content {
@@ -485,6 +488,7 @@ a.long-item {
     flex-direction: row;
 }
 
+.major-details .badge,
 .long-item .badge,
 .project-badges > .project-badge {
     border-radius: 4px;
@@ -501,6 +505,7 @@ a.long-item {
     margin-bottom: 8px;
 }
 
+.major-details .published::before,
 .long-item .published::before {
     content: "publié le ";
     font-weight: 200;
@@ -724,34 +729,65 @@ a.long-item {
     font-size: 110%;
 }
 
+.structured-text h1,
+.structured-text h2,
+.structured-text h3 {
+    font-weight: 300;
+}
+
+.structured-text figure {
+    display: block;
+    text-align: center;
+    max-width: 100%;
+    padding: 32px;
+}
+
+.structured-text figure > img {
+    max-width: 100%;
+    margin: auto;
+}
+
+.structured-text figure figcaption {
+    margin: 0;
+    text-align: center;
+    font-size: 80%;
+    color: #333;
+}
+
 .structured-text h1 {
-    font-size: 170%;
+    font-size: 180%;
     margin: 64px 0 32px 0;
 }
 
 .structured-text h2 {
-    font-size: 150%;
+    font-size: 160%;
     margin: 64px 0 32px 0;
 }
 
 .structured-text h3 {
-    font-size: 120%;
+    font-size: 140%;
     margin: 48px 0 26px 0;
 }
 
 .structured-text blockquote {
     margin: 12px 48px 12px 48px;
+    font-style: italic;
 }
 
 .structured-text p {
     margin: 6px 0 24px 0;
 }
-
+.structured-text li,
 .structured-text blockquote,
 .structured-text p {
     line-height: 140%;
+    font-weight: 300;
 }
 
+.structured-text strong,
+.structured-text b {
+    font-weight: 500;
+}
 
 pre.example {
     font-family: "Fira Mono", monospace;

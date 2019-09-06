@@ -121,6 +121,7 @@ let to_hakyll_string_aux day project_opt project =
     Hakyll.(
       join
         [ render_string "title" project.title
+        ; render_string "main_section" "Projet"
         ; render_string "displayable_title" project.title
         ; render_string "name" project.name
         ; render_string "synopsis" project.synopsis

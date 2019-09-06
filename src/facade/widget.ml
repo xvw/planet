@@ -82,6 +82,25 @@ module Common = struct
       Dom.appendChild container bottom_content
   ;;
 
+  let render_tags = function
+    | [] ->
+      []
+    | tags ->
+      let len = List.length tags in
+      let open Tyxml.Html in
+      [ div
+          ~a:[ a_class [ "project-block"; "tag-list" ] ]
+          [ h3
+              [ span [ txt "Tags" ]
+              ; span
+                  ~a:[ a_class [ "label" ] ]
+                  [ txt $ string_of_int len ]
+              ]
+          ; ul (List.map (fun tag -> li [ txt tag ]) tags)
+          ]
+      ]
+  ;;
+
   let api =
     object%js
       method timeAgo nodes = time_ago_for nodes
@@ -168,25 +187,6 @@ module Project = struct
                        ]
                      [ txt "Toutes les releases" ])
             |> Option.to_list))
-      ]
-  ;;
-
-  let render_tags = function
-    | [] ->
-      []
-    | tags ->
-      let len = List.length tags in
-      let open Tyxml.Html in
-      [ div
-          ~a:[ a_class [ "project-block"; "tag-list" ] ]
-          [ h3
-              [ span [ txt "Tags" ]
-              ; span
-                  ~a:[ a_class [ "label" ] ]
-                  [ txt $ string_of_int len ]
-              ]
-          ; ul (List.map (fun tag -> li [ txt tag ]) tags)
-          ]
       ]
   ;;
 
@@ -411,7 +411,7 @@ module Project = struct
     let right_content =
       div
         (render_timedata timedata sectors
-        @ render_tags Shapes.Project.(project.tags)
+        @ Common.render_tags Shapes.Project.(project.tags)
         @ render_releases
             project.repo
             Shapes.Project.(List.rev project.releases))
@@ -479,6 +479,12 @@ module Story = struct
     end
 
   let render_summary right_container bottom_container story =
+    let open Tyxml.Html in
+    let right_content =
+      div (Common.render_tags story.Shapes.Story.tags)
+      |> Tyxml.To_dom.of_div
+    in
+    let () = Dom.appendChild right_container right_content in
     Common.render_links bottom_container story.Shapes.Story.links
   ;;
 

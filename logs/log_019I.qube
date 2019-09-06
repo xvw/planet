@@ -21,3 +21,7 @@
   (:duration "60") (:sector "visual")
   (:label "Amélioration de l'affichage des publications")
   (:project "planet"))
+
+((:uuid "48fcea64-8d93-34f4-4aea-24ba58a4f8f5") (:day "019I06")
+  (:duration "60") (:sector "visual")
+  (:label "Amélioration de la page d'articles") (:project "planet"))

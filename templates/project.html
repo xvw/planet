@@ -1,7 +1,7 @@
 <div class="qexp-metadata" id="project-qexp-metadata">
   $partial(qexp_partial)$
 </div>
-<div class="project-page">
+<div class="content-page">
   <div class="project-header">
     <div class="project-picto">
       $if(pictogram)$
@@ -30,17 +30,17 @@
     </div>
     $endif$
   </div>
-  <div class="project-content">
-    <div class="project-paper structured-text" id="roe-container">
+  <div class="major-content">
+    <div class="long-text structured-text" id="roe-container">
       $body$
     </div>
-    <div class="project-rightbar">
-      <div id="project-content-right">
+    <div class="content-rightbar">
+      <div id="major-content-right">
       </div>
     </div>
   </div>
 </div>
-<div id="project-content-bottom"></div>
+<div id="major-content-bottom"></div>
 <script type="application/javascript">
   planet.suspend(function() {
     planet.project.boot({
@@ -51,10 +51,10 @@
         "textarea[data-planet-qexp='project']"
       ),
       rightContainer: document.getElementById(
-        "project-content-right"
+        "major-content-right"
       ),
       bottomContainer: document.getElementById(
-        "project-content-bottom"
+        "major-content-bottom"
       ),
       sectors: document.querySelectorAll(
         "#planet-sectors-metadata > .sector-data"

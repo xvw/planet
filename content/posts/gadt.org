@@ -75,7 +75,9 @@ De plus, ils s'utilisent très bien avec *la correspondance de motifs*. Par exem
 comment implémenter la fonction *iterate* pour notre nouveau type liste, dont le type 
 serait :
 
-src_ocaml{val iterate : ('a -> unit) -> 'a my_list -> unit}
+#+BEGIN_SRC ocaml 
+val iterate : ('a -> unit) -> 'a my_list -> unit
+#+END_SRC
 
 #+BEGIN_SRC ocaml
 let rec iterate f list = 

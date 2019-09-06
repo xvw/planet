@@ -7,8 +7,6 @@
 html,
 body,
 p,
-ol,
-ul,
 li,
 dl,
 dt,
@@ -161,6 +159,11 @@ pre.sourceCode * {
     font-family: "Fira Mono", monospace;
 }
 
+code.sourceCode {
+    background-color: #fefefe;
+    padding: 2px 8px;
+    border-radius: 4px;
+}
 
 div.sourceCode {
     background-color: #fefefe;
@@ -295,8 +298,7 @@ header > div > div > .header-bar {
 }
 
 header > div > nav {
-    margin-top: 12px;
-    margin-left: 12px;
+    margin-top: 32px;
 }
 
 header > div > nav > a {
@@ -311,7 +313,7 @@ header > div > nav > a {
     background-color: #000;
 }
 
-.project-page h2,
+.content-page h2,
 header h2,
 header h1 {
     padding: 0;
@@ -383,7 +385,7 @@ footer a {
     text-align: right;
 }
 
-.project-page .project-header,
+.content-page .project-header,
 .project-item {
     display: flex;
     flex-direction: row;
@@ -395,7 +397,7 @@ a.long-item {
 }
 
 .long-item,
-.project-page .project-header,
+.content-page .project-header,
 .project-item {
     margin: 0;
     color: #000;
@@ -405,7 +407,7 @@ a.long-item {
     margin-bottom: 16px;
 }
 
-.project-page .project-header {
+.content-page .project-header {
     align-items: center;
 }
 
@@ -417,7 +419,7 @@ a.long-item {
     font-size: 80%;
 }
 
-.project-page .project-header img,
+.content-page .project-header img,
 .project-item img {
     height: auto;
 }
@@ -426,11 +428,11 @@ a.long-item {
     width: 48px;
 }
 
-.project-page .project-header img {
+.content-page .project-header img {
     width: 64px;
 }
 
-.project-page .project-picto,
+.content-page .project-picto,
 .project-item .project-picto {
     padding: 2px;
 }
@@ -451,31 +453,31 @@ a.long-item {
     font-size: 140%;
 }
 
-.project-page .project-details,
+.content-page .project-details,
 .project-item .project-details {
     margin-left: 12px;
 }
 
-.project-page .project-content {
+.content-page .major-content {
     margin: 32px 0;
     display: flex;
     flex-direction: row;
 }
 
-.project-page .project-content .project-paper {
+.content-page .major-content .long-text {
     flex: 5;
     flex-shrink: 0;
     margin-right: 32px;
 }
 
-.project-page .project-content .project-rightbar {
+.content-page .major-content .content-rightbar {
     flex: 2;
     flex-shrink: 0;
     /* border-left: 2px solid #f2f2f2; */
     padding: 0 18px 0 12px;
 }
 
-.project-page .project-badges,
+.content-page .project-badges,
 .project-item .project-badges {
     margin: 0;
     margin-top: 8px;
@@ -540,14 +542,14 @@ a.long-item {
 }
 
 
-#project-content-bottom .project-block,
-#project-content-right .project-block {
+#major-content-bottom .project-block,
+#major-content-right .project-block {
     margin: 0;
     margin-bottom: 28px;
 }
 
-#project-content-bottom .project-block h3,
-#project-content-right .project-block h3 {
+#major-content-bottom .project-block h3,
+#major-content-right .project-block h3 {
     margin: 0;
     display: flex;
     align-items: center;
@@ -556,25 +558,25 @@ a.long-item {
     text-transform: capitalize;
 }
 
-#project-content-right .project-block h3 {
+#major-content-right .project-block h3 {
     padding-bottom: 8px;
     border-bottom: 2px solid #EEE;
     color: #888;
 }
 
-#project-content-bottom .project-block h3 {
+#major-content-bottom .project-block h3 {
     margin: 0;
     color: #000;
     /* border-bottom: 2px solid #BBB; */
 }
 
-#project-content-bottom .project-block h3 > span,
-#project-content-right .project-block h3 > span {
+#major-content-bottom .project-block h3 > span,
+#major-content-right .project-block h3 > span {
     flex: 1; 
 }
 
-#project-content-bottom .project-block h3 > span.label,
-#project-content-right .project-block h3 > span.label {
+#major-content-bottom .project-block h3 > span.label,
+#major-content-right .project-block h3 > span.label {
     flex: 0;
     background-color: #eee;
     color: #666;
@@ -583,18 +585,18 @@ a.long-item {
     font-size: 80%;
 }
 
-#project-content-bottom .project-block ul {
+#major-content-bottom .project-block ul {
     margin: 0;
     padding: 4px 8px;
 }
 
-#project-content-right .project-block ul {
+#major-content-right .project-block ul {
     margin: 0;
     padding: 4px 8px;
     margin-top: 12px;
 }
 
-#project-content-bottom .list-of-links {
+#major-content-bottom .list-of-links {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -602,30 +604,30 @@ a.long-item {
 }
 
 
-#project-content-bottom .list-of-links > div {
+#major-content-bottom .list-of-links > div {
     flex: 0 1 33%;
     padding: 0 12px;
 }
 
-#project-content-bottom .list-of-links div:last-child {
+#major-content-bottom .list-of-links div:last-child {
     margin-right: 0;
 }
 
 
-#project-content-bottom .project-block ul > li,
-#project-content-right .project-block ul > li {
+#major-content-bottom .project-block ul > li,
+#major-content-right .project-block ul > li {
     list-style: none;
 }
 
-#project-content-right .project-block ul > li {
+#major-content-right .project-block ul > li {
     margin: 4px 0px;
 }
 
-#project-content-bottom .link-list ul > li {
+#major-content-bottom .link-list ul > li {
     border-bottom: 1px solid #eee;
 }
 
-#project-content-right .tag-list ul > li {
+#major-content-right .tag-list ul > li {
     display: inline-block;
     background-color: #000;
     color: #fff;
@@ -635,14 +637,14 @@ a.long-item {
     border-radius: 4px;
 }
 
-#project-content-bottom .link-list ul > li > a {
+#major-content-bottom .link-list ul > li > a {
     text-decoration: none;
     color: #555;
     font-size: 88%;
     display: block;
 }
 
-#project-content-right .release-list a.view-releases {
+#major-content-right .release-list a.view-releases {
     display: block;
     margin-top: 12px;
     font-size: 85%;
@@ -650,26 +652,26 @@ a.long-item {
     text-decoration: none;
 }
 
-#project-content-right .tracking  ul.stats > li,
-#project-content-right .release-list ul > li {
+#major-content-right .tracking  ul.stats > li,
+#major-content-right .release-list ul > li {
     display: flex;
     flex-direction: row;
     align-items: center;
 }
 
-#project-content-right .tracking ul.stats {
+#major-content-right .tracking ul.stats {
     font-size: 75%;
 }
 
-#project-content-right .tracking  ul.stats > li > .label,
-#project-content-right .release-list ul > li > .date {
+#major-content-right .tracking  ul.stats > li > .label,
+#major-content-right .release-list ul > li > .date {
     padding: 4px 8px;
     border-radius: 4px;
     display: block;
     margin-right: 12px;
 }
 
-#project-content-right .tracking  ul.stats > li > .label {
+#major-content-right .tracking  ul.stats > li > .label {
     background-color: #eee;
     color: #666;
     font-weight: 700;
@@ -677,19 +679,19 @@ a.long-item {
     text-align: center;
 }
 
-#project-content-right .tracking ul.stats > li > .data,
-#project-content-right .release-list ul > li > .date {
+#major-content-right .tracking ul.stats > li > .data,
+#major-content-right .release-list ul > li > .date {
     font-family: "Fira Mono", monospace;
 }
 
-#project-content-right .release-list ul > li > .date {
+#major-content-right .release-list ul > li > .date {
     font-weight: 500;
     background-color: #000;
     color: #fff;
     font-size: 75%;
 }
 
-#project-content-right .release-list ul > li > a {
+#major-content-right .release-list ul > li > a {
     display: block;
     text-decoration: none;
     color: #000;
@@ -697,40 +699,59 @@ a.long-item {
     flex: 1;
 }
 
-#project-content-bottom {
+#major-content-bottom {
     border-top: 2px solid #eee;
     margin-top: 12px;
     padding-top: 20px;
 }
 
-#project-content-bottom:empty {
+#major-content-bottom:empty {
     display: none;
 }
 
-#project-content-right .tracking-graph {
+#major-content-right .tracking-graph {
     margin: 0px 8px;
     width: 100%;
 }
 
-#project-content-right .tracking-graph text {
+#major-content-right .tracking-graph text {
     font-family: "Fira Mono", monospace;
     font-size: 60%;
 }
 
+.structured-text .math em{
+    font-family: 'Old Standard TT', 'Helvetica Neue', Helvetica, serif;
+    font-size: 110%;
+}
+
 .structured-text h1 {
     font-size: 170%;
-    margin: 64px 0 40px 0;
+    margin: 64px 0 32px 0;
 }
 
 .structured-text h2 {
-    font-size: 130%;
-    margin: 48px 0 32px 0;
+    font-size: 150%;
+    margin: 64px 0 32px 0;
 }
 
 .structured-text h3 {
-    font-size: 110%;
-    margin: 32px 0 22px 0;
+    font-size: 120%;
+    margin: 48px 0 26px 0;
 }
+
+.structured-text blockquote {
+    margin: 12px 48px 12px 48px;
+}
+
+.structured-text p {
+    margin: 6px 0 24px 0;
+}
+
+.structured-text blockquote,
+.structured-text p {
+    line-height: 140%;
+}
+
 
 pre.example {
     font-family: "Fira Mono", monospace;

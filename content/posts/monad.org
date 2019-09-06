@@ -124,8 +124,8 @@ contraintes liées aux transformations naturelles.
 
 On pose donc les deux contraintes (qu'on appelle des "*lois*") :
 
-- $join \bullet join = join \bullet map \ join$
-- $join \bullet pure = id = join \bullet map \ pure$
+1. $join \bullet join = join \bullet map \ join$
+2. $join \bullet pure = id = join \bullet map \ pure$
 
 Ce n'est malheureusement pas suffisant. En décrivant les fonctions comme des
 transformations naturelles, nous avions évoqué que c'était "presque pareil".
@@ -136,10 +136,10 @@ il est nécessaire d'adjoindre 4 lois pour formaliser le fait que les deux
 fonctions src_ocaml{join} et src_ocaml{pure} sont bien des transformations
 naturelles :
 
-- $map \ id = id$
-- $map \ (g \bullet f)\ = map \ g \bullet map \ f$
-- $map f \bullet join = join \bullet map \ (map \ f)$
-- $map f \bullet pure = pure \bullet f$
+1) $map \ id = id$
+2) $map \ (g \bullet f)\ = map \ g \bullet map \ f$
+3) $map f \bullet join = join \bullet map \ (map \ f)$
+4) $map f \bullet pure = pure \bullet f$
 
 Cependant, la traduction dans un langage fonctionnel ne garantit absolument pas
 que la fonction de /mapping/ termine. De ce fait, *la définition dans un langage*

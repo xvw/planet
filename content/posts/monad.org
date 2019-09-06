@@ -271,7 +271,9 @@ sig
   val pure  : 'a -> 'a t
   val (>>=) : 'a t -> ('a -> 'b t)  -> 'b t
 end
+#+END_SRC
 
+#+BEGIN_SRC ocaml
 module type JOINABLE =
 sig
   type 'a t
@@ -279,7 +281,9 @@ sig
   val map  : ('a -> 'b) -> 'a t -> 'b t
   val join : ('a t) t -> 'a t
 end
+#+END_SRC
 
+#+BEGIN_SRC ocaml
 module type MONAD =
 sig
   type 'a t
@@ -288,7 +292,9 @@ sig
   val join  : ('a t) t -> 'a t
   val (>>=) : 'a t -> ('a -> 'b t)  -> 'b t
 end
+#+END_SRC
 
+#+BEGIN_SRC ocaml
 module With_bind (M : BINDABLE) :
   MONAD with type 'a t = 'a M.t =
 struct
@@ -296,7 +302,9 @@ struct
   let join x  = x >>= (fun x -> x)
   let map f x = x >>= (fun a -> pure (f a))
 end
+#+END_SRC
 
+#+BEGIN_SRC ocaml
 module With_join (M : JOINABLE) :
   MONAD with type 'a t = 'a M.t =
 struct
@@ -368,7 +376,9 @@ let valueA = let open OptionM in
   pure 1000
   >>= safe_div 10
   >>= safe_div 100
+#+END_SRC
 
+#+BEGIN_SRC ocaml
 let valueB = let open OptionM in
   pure 1000
   >>= safe_div 0
@@ -461,13 +471,17 @@ autant de fonctions que l'on veut pour des fonctions à plusieurs arguments :
 (* Exactement pareil que map *)
 val liftM : ('a -> 'b) -> 'a t -> 'b t
 let liftM f x = x >>= (fun a -> pure (f a))
+#+END_SRC
 
+#+BEGIN_SRC ocaml
 (* Pour les fonctions à deux paramètres *)
 val liftM2 : ('a -> 'b -> 'c) -> 'a t -> 'b t -> 'c t
 let liftM2 f x y =
   x >>= fun a ->
   y >>= fun b -> pure (f a b)
+#+END_SRC
 
+#+BEGIN_SRC ocaml
 (* Pour les fonctions à trois paramètres *)
 val liftM3 :
   ('a -> 'b -> 'c -> 'd) -> 'a t -> 'b t -> 'c t
@@ -852,17 +866,91 @@ Pour ma part, j'aime beaucoup le choix qu'a fait F#, ils offrent une
 [[https://docs.microsoft.com/fr-fr/dotnet/fsharp/language-reference/computation-expressions][syntaxe alternative]] qui permet de généraliser l'écriture de /workflows/ monadiques,
 mais pas [[https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/computation-zoo.pdf][uniquement]]. C'est d'ailleurs sur la base de ces constructeurs d'expressions
 que reposent leurs /workflows/ asynchrones et leurs /workflows/ de requêtage
-SQL.
+SQL. Par exemple, pour les *Options* :
+
+#+BEGIN_SRC fsharp
+// On décrit les opérations valides
+type OptionBuilder () = 
+  
+  member this.Bind(x, f) = 
+    match x with 
+    | None -> None 
+    | Some value -> f value
+
+  member this.Return(x) = 
+    Some x
+
+// On implémente le Workflow
+let option = new OptionBuilder()
+#+END_SRC
+
+On peut maintenant se servir de src_fsharp{option} comme d'une *do-notation*
+spécialisée pour *Option*, par exemple :
+
+#+BEGIN_SRC fsharp
+let safeDivide x y = 
+  match y with 
+  | 0 -> None 
+  | nonNull -> Some (x / nonNull)
+
+let result = option {
+  let! a = safeDivide 1 10
+  let! b = safeDivide a 3 
+  let! c = safeDivide b 0
+  return c
+}
+#+END_SRC
+
+Au lieu de :
+
+#+BEGIN_SRC fsharp
+let safeDivide x y = 
+  match y with 
+  | 0 -> None 
+  | nonNull -> x / nonNull
+
+// Dans l'assomption que (>>=) existe dans le scope courant
+let result = 
+  open Option 
+  safeDivide 1 10 >>= fun a -> 
+  safeDivide a 3  >>= fun b -> 
+  safeDivide b 0 >>= fun c -> 
+  return c
+}
+#+END_SRC
+
+De plus, les expressions de calculs permettent d'aller bien plus loin, 
+comme l'explique le papier [[https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/computation-zoo.pdf][The Fsharp computation expression Zoo]].
+
+OCaml, après avoir délègue pendant longtemps les raccourcis syntaxiques pour les 
+monades à une [[https://github.com/janestreet/ppx_let][extension de syntaxe externe]] alternative, offre depuis peu 
+(src_ocaml{>= 4.08}) la possibilité de [[http://caml.inria.fr/pub/distrib/ocaml-4.08/ocaml-4.08-refman.html#s%3Abinding-operators][de surcharger l'opérateur src_ocaml{let}]]
+ce qui permet d'écrire des "programmes monadiques" plus lisibles. Par 
+exemple, en reprenant l'exemple du produit cartésien de deux listes : 
+
+#+BEGIN_SRC haskell
+let (let*) x f = List.(x >>= f)
+let cartesian_product =
+  let* x = ["foo"; "bar"; "foobar"] in 
+  let* y = [1; 3; 9] in 
+  List.return (x, y)
+#+END_SRC
+
+Au lieu de :
+
+#+BEGIN_SRC haskell
+let cartesian_product =
+  let open List in
+  ["foo"; "bar"; "foobar"] >>= fun x ->
+  [1; 3; 9] >>= fun y ->
+  List.return (x, y)
+#+END_SRC
+
 
 Scala, que je ne connais pas très bien, expose aussi  [[https://docs.scala-lang.org/tutorials/FAQ/yield.html][une syntaxe]], qui repose
 sur celle des compréhensions.
 
-OCaml, actuellement, délègue à une [[https://github.com/janestreet/ppx_let][extension de syntaxe externe]] l'alternative
-pour écrire de manière commode des /workflows/ monadiques, cependant,
-[[https://github.com/ocaml/ocaml/pull/1947][des conversations ont actuellement lieu]] pour aboutir à une généralisation proche
-de celle de F#.
-
-** Pour conclure, enfin
+** Pour conclure ... enfin
 
 Je décide de terminer, ici, cette naïve introduction aux monades ! Ce que l'on
 va retenir, c'est qu'une monade est un type équipé de deux (ou trois en

@@ -28,7 +28,6 @@
 (#019F26 "france" "montpellier")
 (#019F28 "belgique" "bruxelles")
 (#019F30 "france" "lille")
-
 (#019G04 "france" "paris")
 (#019G05 "france" "lille")
 (#019G08 "france" "paris")
@@ -47,4 +46,8 @@
 (#019H19 "france" "paris")
 (#019H21 "france" "lille")
 (#019H28 "belgique" "bruxelles")
-(#019I03 "belgique" "bruxelles")
+(#019I03 "france" "lille")
+(#019I07 "belgique" "bruxelles")
+(#019I08 "france" "lille")
+(#019I09 "france" "paris")
+(#019I013 "france" "lille")

@@ -29,3 +29,8 @@
 ((:uuid "8bb1194e-2f53-7bae-8588-f566669ec923") (:day "019I06")
   (:duration "20") (:sector "writing")
   (:label "Actualisation de l'article sur les monades") (:project "planet"))
+
+((:uuid "7c77c97d-0b2f-75ed-3fe6-9c2931543d31") (:day "019I06")
+  (:duration "30") (:sector "programming")
+  (:label "Ajout des liens en bas de page pour les articles")
+  (:project "planet"))

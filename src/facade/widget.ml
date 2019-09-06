@@ -45,6 +45,43 @@ module Common = struct
     Dom.list_of_nodeList %> List.iter compute_time_ago
   ;;
 
+  let render_links_subsection links =
+    List.fold_left
+      (fun acc (section_name, links) ->
+        match links with
+        | [] ->
+          []
+        | links ->
+          let open Tyxml.Html in
+          acc
+          @ [ div
+                ~a:[ a_class [ "project-block"; "link-list" ] ]
+                [ h3 [ span [ txt section_name ] ]
+                ; ul
+                    (List.map
+                       (fun (name, url) ->
+                         li [ a ~a:[ a_href url ] [ txt name ] ])
+                       links)
+                ]
+            ])
+      []
+      links
+  ;;
+
+  let render_links ?(classes = []) container = function
+    | [] ->
+      ()
+    | _ :: _ as links ->
+      let open Tyxml.Html in
+      let bottom_content =
+        div
+          ~a:[ a_class ("list-of-links" :: classes) ]
+          (render_links_subsection links)
+        |> Tyxml.To_dom.of_div
+      in
+      Dom.appendChild container bottom_content
+  ;;
+
   let api =
     object%js
       method timeAgo nodes = time_ago_for nodes
@@ -151,29 +188,6 @@ module Project = struct
           ; ul (List.map (fun tag -> li [ txt tag ]) tags)
           ]
       ]
-  ;;
-
-  let render_links links =
-    List.fold_left
-      (fun acc (section_name, links) ->
-        match links with
-        | [] ->
-          []
-        | links ->
-          let open Tyxml.Html in
-          acc
-          @ [ div
-                ~a:[ a_class [ "project-block"; "link-list" ] ]
-                [ h3 [ span [ txt section_name ] ]
-                ; ul
-                    (List.map
-                       (fun (name, url) ->
-                         li [ a ~a:[ a_href url ] [ txt name ] ])
-                       links)
-                ]
-            ])
-      []
-      links
   ;;
 
   let collect_data textarea_timedata =
@@ -405,15 +419,7 @@ module Project = struct
     in
     let () = Dom.appendChild right_container right_content in
     let links = compute_links project in
-    match links with
-    | [] ->
-      ()
-    | _ :: _ ->
-      let bottom_content =
-        div ~a:[ a_class [ "list-of-links" ] ] (render_links links)
-        |> Tyxml.To_dom.of_div
-      in
-      Dom.appendChild bottom_container bottom_content
+    Common.render_links bottom_container links
   ;;
 
   let validate_project node =
@@ -448,6 +454,60 @@ module Project = struct
         project
         input##.timedata
         sectors
+    | Error errs ->
+      Console.render_error errs
+  ;;
+
+  let api =
+    object%js
+      method boot input = boot input
+    end
+  ;;
+end
+
+module Story = struct
+  class type boot_input =
+    object
+      method story :
+        Dom_html.textAreaElement Js.t Js.Opt.t Js.readonly_prop
+
+      method rightContainer :
+        Dom_html.element Js.t Js.Opt.t Js.readonly_prop
+
+      method bottomContainer :
+        Dom_html.element Js.t Js.Opt.t Js.readonly_prop
+    end
+
+  let render_summary right_container bottom_container story =
+    Common.render_links bottom_container story.Shapes.Story.links
+  ;;
+
+  let validate_story node =
+    let open Validation.Infix in
+    node
+    |> validate "unable to find story metadata"
+    >>= (fun textarea ->
+          textarea##.textContent
+          |> validate "unable to find meta data for story")
+    >|= Js.to_string
+    >>= Qexp.from_string %> Validation.from_result
+    >>= Shapes.Story.from_qexp
+  ;;
+
+  let boot input =
+    let open Validation.Infix in
+    match
+      (fun x y z -> x, y, z)
+      <$> validate
+            "unable to find right container"
+            input##.rightContainer
+      <*> validate
+            "unable to find bottom container"
+            input##.bottomContainer
+      <*> validate_story input##.story
+    with
+    | Ok (right_container, bottom_container, story) ->
+      render_summary right_container bottom_container story
     | Error errs ->
       Console.render_error errs
   ;;

@@ -20,14 +20,25 @@
       $body$
     </div>
     <div class="content-rightbar">
-      <div id="major-content-right">
-        test
-      </div>
+      <div id="major-content-right"></div>
     </div>
   </div>
 </div>
 <div id="major-content-bottom"></div>
 <script type="application/javascript">
+  planet.suspend(function() {
+    planet.story.boot({
+      story: document.querySelector(
+        "textarea[data-planet-qexp='story']"
+      ),
+      rightContainer: document.getElementById(
+        "major-content-right"
+      ),
+      bottomContainer: document.getElementById(
+        "major-content-bottom"
+      )
+    });
+  });
   planet.suspend(function() {
     planet.roe.mount(
         document.getElementById("roe-container")

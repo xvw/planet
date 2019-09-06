@@ -67,6 +67,8 @@ let () =
 
        val project = Widget.Project.api
 
+       val story = Widget.Story.api
+
        val common = Widget.Common.api
 
        val roe = Roe.api

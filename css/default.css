@@ -271,6 +271,7 @@ main > .container {
 
 #sticky-header {
     position: sticky;
+    position: -webkit-sticky;
     top: 2px;
     bottom: 0;
 }
@@ -353,6 +354,7 @@ header h2 {
     color: #fff;
     padding: 12px;
     position: sticky;
+    position: -webkit-sticky;
     top: 0;
 }
 
@@ -906,6 +908,7 @@ div.resume-box {
     top: 230px;
     display: block;
     position: sticky;
+    position: -webkit-sticky;
     top: 0;
     background-color: #f9f9f9;
     padding: 6px 4px;

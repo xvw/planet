@@ -34,3 +34,7 @@
   (:duration "30") (:sector "programming")
   (:label "Ajout des liens en bas de page pour les articles")
   (:project "planet"))
+
+((:uuid "fd752eb1-0acf-8e7d-b62b-4fd8872c9d8e") (:day "019I12")
+  (:duration "120") (:sector "programming")
+  (:label "Intégration de la reprise de la lecture") (:project "planet"))

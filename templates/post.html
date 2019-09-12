@@ -18,6 +18,7 @@
   <div class="major-content">
     <div class="long-text structured-text" id="roe-container">
       $body$
+      <div id="eof-page"></div>
     </div>
     <div class="content-rightbar">
       <div id="major-content-right"></div>
@@ -28,6 +29,8 @@
 <script type="application/javascript">
   planet.suspend(function() {
     planet.story.boot({
+      path: "$url$",
+      eof: document.getElementById("eof-page"),
       story: document.querySelector(
         "textarea[data-planet-qexp='story']"
       ),

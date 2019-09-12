@@ -37,6 +37,10 @@ end
 module Story : sig
   class type boot_input =
     object
+      method path : Js.js_string Js.t Js.readonly_prop
+
+      method eof : Dom_html.element Js.t Js.Opt.t Js.readonly_prop
+
       method story :
         Dom_html.textAreaElement Js.t Js.Opt.t Js.readonly_prop
 

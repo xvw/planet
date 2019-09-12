@@ -1,13 +1,13 @@
 open Js_of_ocaml
 
-let hydrate uuid =
-  let open Lwt.Infix in
-  "Start processing data" |> Lwt.return >|= Console.print
-  >|= Storage.Session.clear
-  >|= (fun () -> Storage.Session.set "planet-uuid" uuid)
-  >>= Binding.Log.hydrate
-  >|= fun () -> Console.print "Processing data done"
-;;
+(* let hydrate uuid =
+ *   let open Lwt.Infix in
+ *   "Start processing data" |> Lwt.return >|= Console.print
+ *   >|= Storage.Session.clear
+ *   >|= (fun () -> Storage.Session.set "planet-uuid" uuid)
+ *   >>= Binding.Log.hydrate
+ *   >|= fun () -> Console.print "Processing data done"
+ * ;; *)
 
 let start generation_id_node f =
   let open Bedrock.Validation in
@@ -21,9 +21,11 @@ let start generation_id_node f =
          let () = Console.print ("Planet is started with " ^ uuid) in
          (match Storage.Session.get "planet-uuid" with
          | None ->
-           hydrate uuid
+           Lwt.return_unit
+         (* hydrate uuid *)
          | Some pred_uuid when uuid <> pred_uuid ->
-           hydrate uuid
+           Lwt.return_unit
+         (* hydrate uuid *)
          | _ ->
            Lwt.return_unit)
        | Error errs ->

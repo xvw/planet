@@ -269,6 +269,25 @@ main > .container {
     padding: 12px;
 }
 
+#sticky-header {
+    position: sticky;
+    top: 2px;
+    bottom: 0;
+}
+
+#sticky-header:empty {
+    display: none;
+}
+
+#sticky-header > div {
+    max-width: 1024px;
+    margin: auto;
+}
+
+#sticky-header > div:empty {
+    display: none;
+}
+
 header {
     padding: 48px 12px 22px 12px;
     background-color: #FFF;
@@ -476,8 +495,13 @@ a.long-item {
 .content-page .major-content .content-rightbar {
     flex: 2;
     flex-shrink: 0;
-    /* border-left: 2px solid #f2f2f2; */
     padding: 0 18px 0 12px;
+    display: flex;
+    flex-direction: column;
+}
+
+.content-page .major-content .content-rightbar > div {
+    flex: 1;
 }
 
 .content-page .project-badges,
@@ -563,6 +587,7 @@ a.long-item {
     text-transform: capitalize;
 }
 
+div.resume-box h3,
 #major-content-right .project-block h3 {
     padding-bottom: 8px;
     border-bottom: 2px solid #EEE;
@@ -874,4 +899,45 @@ div.mozaic > p > * {
 div.mozaic img {
     width: 100%;
     padding: 8px;
+}
+
+div.resume-box {
+    margin-bottom: 32px;
+    top: 230px;
+    display: block;
+    position: sticky;
+    top: 0;
+    background-color: #f9f9f9;
+    padding: 6px 4px;
+}
+
+div.resume-box .progress-bar {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    width: 100%;
+    height: 12px;
+    margin: 12px auto;
+    display: flex;
+    flex-direction: column;
+}
+
+div.resume-box .progress-bar > .progress {
+    background-color: #ddd;
+    border-radius: 8px;
+    transition: all 0.8s ease;
+    flex: 1;
+}
+
+div.resume-box .button {
+    background-color: #ddd;
+    display: inline-block;
+    margin: 6px auto;
+    padding: 2px 4px;
+    text-align: center;
+    font-size: 80%;
+    margin: 0 4px;
+    text-decoration: none;
+    color: #000;
+    cursor: pointer;
+    border-radius: 4px;
 }

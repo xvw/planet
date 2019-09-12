@@ -1,10 +1,117 @@
 open Js_of_ocaml
-open Bedrock
-open Error
 open Paperwork
-open Util
 module Tyxml = Js_of_ocaml_tyxml.Tyxml_js
 module Svg = Tyxml.Svg
+module Lwt_js_events = Js_of_ocaml_lwt.Lwt_js_events
+
+module Resume = struct
+  open Util
+
+  let resize = watch Lwt_js_events.onresize
+  let make_storage_key path = "--planet-scroll-position:" ^ path
+
+  let get_size = function
+    | None ->
+      let h = document##.documentElement##.scrollHeight in
+      let c = document##.documentElement##.clientHeight in
+      float_of_int (h - c)
+    | Some x ->
+      let c = document##.documentElement##.clientHeight in
+      float_of_int (offset_y x - c)
+  ;;
+
+  let find_pred_h offset =
+    let h = Js.string "h1, h2, h3, h4, h5, h6" in
+    let nodes =
+      document##querySelectorAll h |> Dom.list_of_nodeList
+    in
+    nodes
+    |> List.filter (fun node -> offset_y node < offset)
+    |> List.sort (fun a b -> compare (offset_y b) (offset_y a))
+    |> function x :: _ -> Some (Js.to_string x##.id) | [] -> None
+  ;;
+
+  let jump_to elt _ev _ =
+    let offset = max 0 (offset_y elt - 20) in
+    let () = window##scroll 0 offset in
+    Lwt.return_unit
+  ;;
+
+  let compute_progress percent x =
+    let p = min (int_of_float (percent *. 100.0)) 100 in
+    let px = string_of_int p ^ "%" in
+    x##.style##.width := Js.string px
+  ;;
+
+  let perform_ui key resume jump =
+    match Bedrock.Option.(Storage.Local.get key >>= get_by_id) with
+    | None ->
+      Dom.removeChild resume jump
+    | Some elt ->
+      let _ = Lwt_js_events.(async_loop click jump (jump_to elt)) in
+      ()
+  ;;
+
+  let handle resume progress jump path eof =
+    let path = Js.to_string path in
+    let key = make_storage_key path in
+    let last_tick = ref 0. in
+    let document_size = ref (get_size eof) in
+    let () = perform_ui key resume jump in
+    let () = compute_progress 0.0 progress in
+    let _ =
+      let open Lwt_js_events in
+      let _ =
+        resize () (fun _ ->
+            document_size := get_size eof;
+            compute_progress !last_tick progress)
+      in
+      seq_loop scroll window (fun target _ ->
+          let real_scroll = scroll_y () in
+          let scroll = float_of_int real_scroll in
+          let raw_percent = scroll /. !document_size in
+          let percent =
+            if raw_percent >= 95.0 then 100.0 else raw_percent
+          in
+          let pred_percent = !last_tick in
+          let abs_percent = abs_float (percent -. pred_percent) in
+          let diff = abs_percent *. !document_size in
+          let () =
+            Console.log
+              (object%js
+                 val percent = percent
+
+                 val scroll = scroll
+
+                 val pc = abs_percent
+
+                 val diff = diff
+
+                 val size = !document_size
+              end)
+          in
+          let () =
+            if diff > 25.0
+            then (
+              let () = last_tick := percent in
+              let () =
+                match find_pred_h real_scroll with
+                | Some "" | None ->
+                  Storage.Local.remove key
+                | Some id ->
+                  Storage.Local.set key id
+              in
+              compute_progress percent progress)
+          in
+          request_animation_frame ())
+    in
+    ()
+  ;;
+end
+
+open Bedrock
+open Error
+open Util
 
 let d ?(u = `Px) value = value, Some u
 
@@ -468,6 +575,10 @@ end
 module Story = struct
   class type boot_input =
     object
+      method path : Js.js_string Js.t Js.readonly_prop
+
+      method eof : Dom_html.element Js.t Js.Opt.t Js.readonly_prop
+
       method story :
         Dom_html.textAreaElement Js.t Js.Opt.t Js.readonly_prop
 
@@ -478,14 +589,41 @@ module Story = struct
         Dom_html.element Js.t Js.Opt.t Js.readonly_prop
     end
 
+  let resume_handler =
+    let open Tyxml.Html in
+    let progress = div ~a:[ a_class [ "progress" ] ] [] in
+    let jump = a ~a:[ a_class [ "button" ] ] [ txt "Reprendre" ] in
+    let b =
+      div
+        ~a:[ a_class [ "resume-box" ] ]
+        [ h3 [ span [ txt "Progression" ] ]
+        ; div ~a:[ a_class [ "progress-bar" ] ] [ progress ]
+        ; jump
+        ; a
+            ~a:[ a_class [ "button" ]; a_href "/index.html" ]
+            [ txt "Index" ]
+        ]
+    in
+    b, progress, jump
+  ;;
+
   let render_summary right_container bottom_container story =
     let open Tyxml.Html in
+    let resume_box, progress, jump = resume_handler in
+    let () =
+      Dom.appendChild
+        right_container
+        (Tyxml.To_dom.of_div resume_box)
+    in
     let right_content =
       div (Common.render_tags story.Shapes.Story.tags)
       |> Tyxml.To_dom.of_div
     in
     let () = Dom.appendChild right_container right_content in
-    Common.render_links bottom_container story.Shapes.Story.links
+    let () =
+      Common.render_links bottom_container story.Shapes.Story.links
+    in
+    resume_box, progress, jump
   ;;
 
   let validate_story node =
@@ -513,7 +651,17 @@ module Story = struct
       <*> validate_story input##.story
     with
     | Ok (right_container, bottom_container, story) ->
-      render_summary right_container bottom_container story
+      let resume, progress, jump =
+        render_summary right_container bottom_container story
+      in
+      let tdom = Tyxml.To_dom.of_div in
+      let tdoma = Tyxml.To_dom.of_a in
+      Resume.handle
+        (tdom resume)
+        (tdom progress)
+        (tdoma jump)
+        input##.path
+        (Js.Opt.to_option input##.eof)
     | Error errs ->
       Console.render_error errs
   ;;

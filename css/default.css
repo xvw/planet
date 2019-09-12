@@ -944,3 +944,47 @@ div.resume-box .button {
     cursor: pointer;
     border-radius: 4px;
 }
+
+
+@media screen and (max-width: 720px) {
+    .main-columns {
+        flex-direction: column;
+    }
+
+    .main-columns > div {
+        flex: 0;
+        margin-left: 0;
+        padding-bottom: 24px;
+        margin-bottom: 32px;
+        border-bottom: 1px solid #c0c0c0;
+    }
+
+    .main-columns > div:last-child {
+        margin-bottom: 0;
+    }
+
+    .main-columns > div:last-child {
+        border: 0px solid black;
+    }
+
+    footer > .container {
+        flex-direction: column;
+    }
+
+    footer > .container > div {
+        text-align: center;
+    }
+
+    .project-item .project-badges {
+        display: none;
+    }
+
+    .project-item {
+        margin-bottom: 32px;
+    }
+
+    .project-item:last-child {
+        margin-bottom: 0;
+    }
+    
+}

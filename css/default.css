@@ -411,6 +411,11 @@ footer a {
     flex-direction: row;
 }
 
+.major-header .synopsis {
+    display: block;
+    margin-bottom: 12px;
+}
+
 a.long-item {
     display: block;
     margin-bottom: 32px;

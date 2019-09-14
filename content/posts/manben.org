@@ -1,0 +1,132 @@
+#+BEGIN_QUOTE
+En ce moment, depuis presque 10 mois, je ne suis pas super productif en
+terme de rédaction. J'ai bien ajouté une page "projets" et une page
+"peintures" histoire de faire croire que cette page est toujours active,
+mais personne n'est dupe !
+
+Donc plutôt que d'écrire sur des sujets "de programmation", j'ai décidé
+d'écrire une brève sur une émission que j'ai découverte hier et que j'ai
+trouvé trop cool !
+
+Le but de l'article n'est pas de présenter formellement ces émissions mais
+de tenter de vous partager ma motivation pour ce genre de contenu.
+#+END_QUOTE
+
+Je ne connais pas du tout le site [[http://www.konbini.com/fr/][Konbini]], pourtant je suis tombé sur une
+série d'entrevues assez /sympa/ où des dessinateurs/illustrateurs/graphistes
+sont questionnés et répondent en dessins (et en commentaires).
+La série s'appelle "_l'interview Papier Crayon_".
+
+#+BEGIN_QUOTE
+*NB*: Entre temps j'ai découvert un peu plus de leur contenu et je dois 
+bien avouer que je suis très loin d'être réellement amateur ...
+#+END_QUOTE
+
+Même si le format de l'émission (qui en plus, est assez court) ne permet pas
+aux auteurs de s'étendre sur les réponses, ça permet tout de même de se rendre
+compte que [[https://www.youtube.com/watch?v=qOvak-j4yrs][Bastien Vivès]] est égal à l'image que j'avais de lui : "trop cool",
+que [[https://www.youtube.com/watch?v=iORNib9p-OM][Jamie Hewlet]] a du mal à dessiner [[https://en.wikipedia.org/wiki/Alfred_E._Neuman][Alfred E Neuman]] (mais qu'il est très cordial),
+et surtout, que [[https://www.youtube.com/watch?v=22ffEdwA09g][Naoki Urasawa]] est _incroyable_.
+
+J'ai trouvé l'entrevue de Urasawa particulièrement chouette pour trois raisons.
+Premièrement, parce qu'il dessine vraiment bien, tout en prenant le temps de
+répondre, avec humour, aux questions. Ensuite parce que c'est grâce aux
+commentaires de la vidéo que j'ai découvert _Manben_.
+Troisièmement, parce que sa manière de gérer l'espace de sa composition m'a
+fait penser à [[https://www.youtube.com/watch?v=tgQ0vKCZZ4E][Hugo Pratt]] dans _Tac au tac_, que je vais présenter tout
+de suite !
+
+** Tac au tac, une émission de Jean Frapat
+
+C'est généralement sur ces mots que commence un épisode de _Tac au tac_. Avant
+d'écrire cet article, je n'avais aucune idée de qui était Jean Frapat, maintenant,
+grâce à [[https://fr.wikipedia.org/wiki/Jean_Frapat][Wikipedia]], je sais que c'est un /producteur artistique et présentateur/
+primé du _Prix de la critique_ en 1980.
+
+Concrètement, l'émission met en scène des dessinateurs pour coopérer ou s'affronter
+dans des dessins improvisés avec des contraintes qui rappellent un peu [[https://fr.wikipedia.org/wiki/Oulipo][L'Oulipo]].
+L'ambiance est détendue, la réalisation... particulière (mais pas désagréable du tout),
+et la bande son souvent génial !
+
+Ce qui est complètement génial dans cette émission, c'est qu'on y voit des dessinateurs,
+ayant généralement une place importante dans le monde de la bande dessinée, faire
+un étalage insolent de leur talent, sans pression, détendus.
+
+L'émission a été diffusée entre 1969 et 1975, donc un peu après le premier age d'or de
+la bande dessinée. Cependant, les auteurs à succès sont encore, pour la plupart,
+vivants, ce qui fait que le casting des épisodes peut faire tourner la tête !
+
+Une partie des épisodes est retrouvable sur Youtube, par exemple
+[[https://www.youtube.com/watch?v=kImL7-SfJQk][Mœbius et Druillet dans un duel avec Bretécher et Gotlib]],
+[[https://www.youtube.com/watch?v=tgQ0vKCZZ4E][Hugo Pratt et Mœbius réalisant un cadavre exquis sur base d'onomatopées]] ou
+encore [[https://www.youtube.com/watch?v=YsMbSTmhVXU][Goscinny et Uderzo, eux aussi réalisant un cadavre exquis]].
+
+Et l'ensemble des épisodes à été mis en ligne par [[http://www.ina.fr/emissions/tac-au-tac/][L'INA]] en 2010 !
+
+C'est une émission qui plait, sans aucun doutes, aux amateurs de bandes dessinées.
+Et j'ai été ravi d'apprendre que depuis Janvier 2018, une nouvelle version de
+l'émission était diffusée. Cependant, je n'ai pas encore eu l'occasion d'en regarder
+un épisode.
+
+Personne ne semble savoir ce qu'il est advenu des dessins réalisés durant
+l'émission. Ils n'ont jamais été exposés ! Il existe cependant plusieurs théories.
+L'une spécule sur le fait que les dessins auraient été détruits, car trop
+encombrant (quelle tristesse). Une autre spécule sur le fait qu'ils auraient
+été conservés, par l'INA ou par Jean Frapat.
+
+Ce que j'adore vraiment dans cette émission, c'est qu'elle m'a permis de
+découvrir, un peu, comment travaillaient certains dessinateurs que j'admire,
+mais aussi de découvrir le travail d'autres que je ne connaissais pas du tout.
+
+** Manben, quand Urasawa met en lumière les méthodes de travail de ses pairs
+
+Même si chaque bande dessinée à son style, on peut facilement imaginer qu'il
+existe une série de méthodologies, de codes pratiques, que les auteurs
+utilisent pour dessiner des planches. L'objectif de l'émission de télévision
+_Manben_, orchestrée par, une fois de plus, _Naoki Urasawa_ est de montrer
+les différentes manières de travailler de différents auteurs de /mangas/ au
+travers d'entretiens détaillés. Il existe actuellement quatre saisons de l'émission.
+
+Je pense que les raisons qui font que j'ai apprécié cette émission sont,
+approximativement, les mêmes que celles qui ont fait que j'ai apprécié
+_Tac au tac_. Je peux en apprendre sur les méthodes de travail d'auteurs dont
+j'admire le travail et découvrir d'autres auteurs (parfois emblématique de la
+culture du manga).
+
+Un point qui rend l'émission très appréciable, en plus de son contenu de
+qualité, est que Naoki Urasawa est un très grand nom dans le monde du manga,
+qui choisi des auteurs qui lui plaise. Les échanges entre les deux intervenants
+sont donc toujours teinté d'un respect mutuel qui donne un ton très agréable
+à l'émission. De plus, comme je savais que la production de manga est très agile,
+que les dessinateurs travaillent généralement avec des assistants, j'imaginais
+naïvement que tout était très codifiés et redondant. Je me trompais, chaque
+dessinateur présenté utilise son propre mode de travail et sa collections de
+techniques. Par exemple, [[https://www.youtube.com/watch?v=sazDsffXZMI][Fujita Kazuhiro]] (_Ushio et Tora_) travaille de manière
+très brutale, en utilisant peut d'esquisses de construction, et travaillant
+beaucoup avec le liquide correcteur, ou encore [[https://www.youtube.com/watch?v=ZRcE5XVTQVA][Saito Takao]] (_Golgo 13_, entre autres),
+qui se sert de sa cigarette pour accélérer le séchage de son liquide correcteur et
+[[https://www.youtube.com/watch?v=dapJMoOLI44][Asano Inio]] (_Un monde formidable_, entre autres) qui travaille beaucoup avec
+le numérique.
+
+Au contraire de _Tac au tac_, les dessinateurs travaillent généralement sur
+des planches de leur série en cours, ce qui fait qu'ils n'ont pas de contraintes
+supplémentaires. Cet aspect permet, au travers de l'émission, de mettre en lumière
+certaines de leurs obsessions, liées par exemples aux expressions, de les
+voir recommencer à de multiples reprises des visages, ou des poses. Je trouve ça
+très impressionnant à voir, d'autant qu'Urasawa comprend cette obsession, "seul
+le dessinateur sait l'expression qu'il veut donner à un personnage".
+
+L'ensemble des épisodes déjà diffusés est trouvable sur Internet, en version
+sous-titrée (Japonais - Anglais).
+
+** Pour conclure
+
+Je trouve ces deux émissions très intéressantes, semblables mais
+différentes. J'ai eu beaucoup de plaisir à en regarder un grand nombre
+d'épisodes !
+
+J'espère que si vous ne les connaissiez pas, cette brève vous aura peut être
+données envie de les regarder. N'hésitez pas, si vous en connaissez, à me
+partager, via _Twitter_, _courriel_ ou par _commentaires_ des émissions que
+vous trouvez intéressantes à regarder. Et bonne fin de vacances (pour ceux
+qui en ont !)

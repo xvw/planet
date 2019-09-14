@@ -1,0 +1,21 @@
+(:title "Konbini, Tac au tac et Manben")
+(:kind long)
+(:date #018H19)
+(:permaname "konbini_tac_au_tac_manben")
+(:synopsis "L'article présente quelques émissions que je trouve cool !")
+(:content external #org-mode "content/posts/manben.org")
+(:published true)
+(:category "culture")
+(:tags "télévision" "dessin" "bandes dessinées")
+
+(:links
+ (
+  ("Liens"
+   (
+    ("Playlist des interviews Papier-crayon" "https://www.youtube.com/watch?v=RQnfhnm7tAo&list=PL6yqY0TQJgwfVR-APTNdj5NPRXxhp8BY2")
+    ("Site amateur regroupant les saisons de Manben" "http://www.naokiurasawa.com/")
+    ("Tac au tac sur BDGest" "https://www.bdgest.com/news-608-BD-tac-au-tac.html")
+    )
+   )
+  )
+ )

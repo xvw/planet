@@ -18,7 +18,8 @@ val read
 
 (** Get a list of potential projects *)
 val inspect
-  :  unit
+  :  ?rctx:Shapes.Context.t
+  -> unit
   -> (Shapes.Context.Projects.t
      * ((Shapes.Project.t
         * Paperwork.Timetable.Day.t option
@@ -30,7 +31,8 @@ val inspect
 
 (** Get list of project *)
 val all
-  :  unit
+  :  ?rctx:Shapes.Context.t
+  -> unit
   -> (Shapes.Context.Projects.t
      * (Shapes.Project.t
        * Paperwork.Timetable.Day.t option

@@ -159,3 +159,11 @@ let collect_all_log_in_json ?(reverse = true) () =
     []
   >|= Json.array
 ;;
+
+let context () =
+  let open Validation.Syntax in
+  let* table = read_project_updates () |> Validation.from_result in
+  let* ctx = Ok (Shapes.Context.init table) in
+  let+ result = traverse Shapes.Context.update ctx in
+  result
+;;

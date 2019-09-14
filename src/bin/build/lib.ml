@@ -102,9 +102,9 @@ let initialize_logs () =
   create_file Glue.Log.collect_all_log_in_json api_folder "logs.json"
 ;;
 
-let create_projects_files () =
+let create_projects_files ?rctx () =
   let open Validation.Infix in
-  Glue.Project.all ()
+  Glue.Project.all ?rctx ()
   >>= (fun (ctx, projects) ->
         Glue.Log.push_project_updates
           Shapes.Context.Projects.(ctx.updates)
@@ -139,10 +139,10 @@ let api () =
   ()
 ;;
 
-let projects () =
+let projects ?rctx () =
   let () = create_projects_folder () in
   let () = create_partials () in
-  match create_projects_files () with
+  match create_projects_files ?rctx () with
   | Error e ->
     Prompter.prompt_errors e
   | Ok _ ->
@@ -234,12 +234,19 @@ let stories () =
   |> function Error e -> Prompter.prompt_errors e | Ok _ -> ()
 ;;
 
+let base_project () = projects ()
+
 let all () =
-  let () = generation_id () in
-  let () = copyright_date () in
-  let () = api () in
-  let () = projects () in
-  let () = sectors () in
-  let () = stories () in
+  let _ =
+    let open Validation.Syntax in
+    let* rctx = Glue.Log.context () in
+    let* () = Ok (generation_id ()) in
+    let* () = Ok (copyright_date ()) in
+    let* () = Ok (api ()) in
+    let* () = Ok (projects ~rctx ()) in
+    let* () = Ok (sectors ()) in
+    let+ () = Ok (stories ()) in
+    ()
+  in
   ()
 ;;

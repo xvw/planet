@@ -1,6 +1,38 @@
 module Table = Paperwork.Table
 module Fetch = Table.Fetch
 
+let keep_biggest_date potential_date1 date2 =
+  match potential_date1 with
+  | None ->
+    Some date2
+  | Some date1 ->
+    if Paperwork.Timetable.Day.cmp date2 date1 > 0
+    then Some date2
+    else Some date1
+;;
+
+let keep_smallest_date potential_date1 date2 =
+  match potential_date1 with
+  | None ->
+    Some date2
+  | Some date1 ->
+    if Paperwork.Timetable.Day.cmp date1 date2 > 0
+    then Some date2
+    else Some date1
+;;
+
+let add_to_sectors ctx log =
+  let open Log in
+  match Hashtbl.find_opt ctx log.sector with
+  | None ->
+    let () = Hashtbl.add ctx log.sector log.duration in
+    ctx
+  | Some i ->
+    let () = Hashtbl.remove ctx log.sector in
+    let () = Hashtbl.add ctx log.sector (i + log.duration) in
+    ctx
+;;
+
 module Projects = struct
   type context =
     { name : string
@@ -16,18 +48,6 @@ module Projects = struct
     ; projects : (string, context) Hashtbl.t
     }
 
-  let add_to_sectors ctx log =
-    let open Log in
-    match Hashtbl.find_opt ctx log.sector with
-    | None ->
-      let () = Hashtbl.add ctx log.sector log.duration in
-      ctx
-    | Some i ->
-      let () = Hashtbl.remove ctx log.sector in
-      let () = Hashtbl.add ctx log.sector (i + log.duration) in
-      ctx
-  ;;
-
   let init_project project log =
     let open Log in
     let sectors = add_to_sectors (Hashtbl.create 1) log in
@@ -38,26 +58,6 @@ module Projects = struct
     ; minuts_counter = log.duration
     ; sectors_counters = sectors
     }
-  ;;
-
-  let keep_biggest_date potential_date1 date2 =
-    match potential_date1 with
-    | None ->
-      Some date2
-    | Some date1 ->
-      if Paperwork.Timetable.Day.cmp date2 date1 > 0
-      then Some date2
-      else Some date1
-  ;;
-
-  let keep_smallest_date potential_date1 date2 =
-    match potential_date1 with
-    | None ->
-      Some date2
-    | Some date1 ->
-      if Paperwork.Timetable.Day.cmp date1 date2 > 0
-      then Some date2
-      else Some date1
   ;;
 
   let diff base log =
@@ -191,3 +191,44 @@ module Projects = struct
       Validation.from_result e
   ;;
 end
+
+type context =
+  { start_date : Paperwork.Timetable.Day.t option
+  ; last_update : Paperwork.Timetable.Day.t option
+  ; log_counter : int
+  ; minuts_counter : int
+  ; sectors_counters : (string, int) Hashtbl.t
+  }
+
+type t =
+  { projects_data : Projects.t
+  ; global_data : context
+  }
+
+let update_global base log =
+  let open Log in
+  { start_date = keep_smallest_date base.start_date log.day
+  ; last_update = keep_biggest_date base.last_update log.day
+  ; log_counter = base.log_counter + 1
+  ; minuts_counter = base.minuts_counter + log.duration
+  ; sectors_counters = add_to_sectors base.sectors_counters log
+  }
+;;
+
+let init table =
+  { projects_data = Projects.init table
+  ; global_data =
+      { start_date = None
+      ; last_update = None
+      ; log_counter = 0
+      ; minuts_counter = 0
+      ; sectors_counters = Hashtbl.create 1
+      }
+  }
+;;
+
+let update ctx log =
+  { projects_data = Projects.update ctx.projects_data log
+  ; global_data = update_global ctx.global_data log
+  }
+;;

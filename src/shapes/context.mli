@@ -25,3 +25,19 @@ module Projects : sig
     :  Paperwork.Qexp.t
     -> context Bedrock.Validation.t
 end
+
+type context =
+  { start_date : Paperwork.Timetable.Day.t option
+  ; last_update : Paperwork.Timetable.Day.t option
+  ; log_counter : int
+  ; minuts_counter : int
+  ; sectors_counters : (string, int) Hashtbl.t
+  }
+
+type t =
+  { projects_data : Projects.t
+  ; global_data : context
+  }
+
+val init : Update_table.t -> t
+val update : t -> Log.t -> t

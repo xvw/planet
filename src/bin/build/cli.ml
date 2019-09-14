@@ -23,7 +23,7 @@ let projects =
   let doc = "Initialize the target for Project generation" in
   let man = Glue.Man.default call in
   let exits = Term.default_exits in
-  ( Term.(const Lib.projects $ const ())
+  ( Term.(const Lib.base_project $ const ())
   , Term.info "projects" ~version ~doc ~exits ~man )
 ;;
 

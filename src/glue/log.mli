@@ -52,3 +52,5 @@ val traverse
   -> ('a -> Shapes.Log.t -> 'a)
   -> 'a
   -> 'a Validation.t
+
+val context : unit -> Shapes.Context.t Validation.t

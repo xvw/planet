@@ -31,13 +31,17 @@ let may_sort = function
     Timetable.Day.cmp y x
 ;;
 
-let inspect () =
+let inspect ?rctx () =
   let open Validation.Infix in
   Log.read_project_updates ()
   |> Validation.from_result
   >>= fun table ->
-  Log.traverse Shapes.Context.Projects.update
-  $ Shapes.Context.Projects.init table
+  (match rctx with
+  | None ->
+    Log.traverse Shapes.Context.Projects.update
+    $ Shapes.Context.Projects.init table
+  | Some c ->
+    Ok Shapes.Context.(c.projects_data))
   >>= (fun ctx ->
         Dir.children
           ~filter:(flip String.has_extension "qube")
@@ -61,9 +65,9 @@ let inspect () =
       list )
 ;;
 
-let all () =
+let all ?rctx () =
   let open Validation.Infix in
-  inspect ()
+  inspect ?rctx ()
   >|= (fun (ctx, x) -> ctx, List.map fst x)
   >>= fun (ctx, x) ->
   x |> Validation.Applicative.sequence >|= fun list -> ctx, list

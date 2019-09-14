@@ -42,3 +42,8 @@
 ((:uuid "520a73a5-1477-85ba-079f-929e8d5cdcf3") (:day "019I12")
   (:duration "100") (:sector "visual") (:label "Page d'accueil adaptative")
   (:project "planet"))
+
+((:uuid "82194e5e-6ab2-36ef-1f2f-3d973af32299") (:day "019I14")
+  (:duration "30") (:sector "programming")
+  (:label "Utilisation d'un contexte local pour la traversée des logs")
+  (:project "planet"))

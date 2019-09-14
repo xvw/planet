@@ -75,3 +75,39 @@ module Log = struct
       ()
   ;;
 end
+
+module Location = struct
+  class type js =
+    object
+      method date : Js.js_string Js.t Js.readonly_prop
+
+      method country : Js.js_string Js.t Js.readonly_prop
+
+      method city : Js.js_string Js.t Js.readonly_prop
+    end
+
+  type t = js Js.t
+
+  let mk date country city = date, country, city
+
+  let shape obj =
+    let open Validation in
+    mk
+    <$> (Js.to_string %> Paperwork.Timetable.Day.from_string
+       %> from_result)
+          obj##.date
+    <*> (Js.to_string %> String.capitalize_ascii %> pure)
+          obj##.country
+    <*> (Js.to_string %> String.capitalize_ascii %> pure) obj##.city
+  ;;
+
+  let get () =
+    let open Lwt.Infix in
+    "/api/whereami.json" |> Ajax.get
+    >|= (fun frame -> frame.Ajax.content)
+    >|= Js.string
+    >|= (fun x -> Js._JSON##parse x)
+    >|= Js.to_array %> Array.to_list %> List.map shape
+        %> Validation.Applicative.sequence
+  ;;
+end

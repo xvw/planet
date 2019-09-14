@@ -51,3 +51,7 @@
 ((:uuid "d804224f-70ca-772f-3a37-34c02d816c1b") (:day "019I14")
   (:duration "60") (:sector "programming")
   (:label "Récupération des données de localisation") (:project "planet"))
+
+((:uuid "597b5b43-6e19-b3eb-e23a-e64eefce49cd") (:day "019I14")
+  (:duration "10") (:sector "writing")
+  (:label "Intégration de l'article Manben") (:project "planet"))

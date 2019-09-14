@@ -47,3 +47,7 @@
   (:duration "30") (:sector "programming")
   (:label "Utilisation d'un contexte local pour la traversée des logs")
   (:project "planet"))
+
+((:uuid "d804224f-70ca-772f-3a37-34c02d816c1b") (:day "019I14")
+  (:duration "60") (:sector "programming")
+  (:label "Récupération des données de localisation") (:project "planet"))

@@ -235,6 +235,7 @@ let stories () =
 ;;
 
 let base_project () = projects ()
+let location () = ()
 
 let all () =
   let _ =
@@ -245,8 +246,9 @@ let all () =
     let* () = Ok (api ()) in
     let* () = Ok (projects ~rctx ()) in
     let* () = Ok (sectors ()) in
-    let+ () = Ok (stories ()) in
-    ()
+    let* () = Ok (stories ()) in
+    let* () = Ok (location ()) in
+    Ok ()
   in
   ()
 ;;

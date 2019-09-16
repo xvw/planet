@@ -35,6 +35,14 @@ let stories =
   , Term.info "stories" ~version ~doc ~exits ~man )
 ;;
 
+let location =
+  let doc = "Build location from Planet" in
+  let man = Glue.Man.default call in
+  let exits = Term.default_exits in
+  ( Term.(const Lib.location $ const ())
+  , Term.info "location" ~version ~doc ~exits ~man )
+;;
+
 let all =
   let doc = "Build everything" in
   let man = Glue.Man.default call in

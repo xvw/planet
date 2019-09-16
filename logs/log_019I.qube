@@ -55,3 +55,8 @@
 ((:uuid "597b5b43-6e19-b3eb-e23a-e64eefce49cd") (:day "019I14")
   (:duration "10") (:sector "writing")
   (:label "Intégration de l'article Manben") (:project "planet"))
+
+((:uuid "55fe84d5-3e6a-a0ee-d883-dcee19e61efa") (:day "019I16")
+  (:duration "120") (:sector "programming")
+  (:label "Développement d'un mode Emacs pour les tâches récurrentes")
+  (:project "planet"))

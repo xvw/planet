@@ -60,3 +60,8 @@
   (:duration "120") (:sector "programming")
   (:label "Développement d'un mode Emacs pour les tâches récurrentes")
   (:project "planet"))
+
+((:uuid "a529d6bb-47c0-4995-d3ca-989f3e4ca8bd") (:day "019I16")
+  (:duration "180") (:sector "programming")
+  (:label "Affichages des locations dans une page dédiée")
+  (:project "planet"))

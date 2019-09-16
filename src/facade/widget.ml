@@ -672,3 +672,96 @@ module Story = struct
     end
   ;;
 end
+
+module Location = struct
+  class type boot_input =
+    object
+      method locationBox :
+        Dom_html.element Js.t Js.Opt.t Js.readonly_prop
+    end
+
+  let walk_logs (now, current, logs) =
+    let open Tyxml.Html in
+    div
+      (List.map
+         (fun (log, country, city) ->
+           let dt = Calendar.(Ago.compute (from_day log)) in
+           let st = Calendar.Ago.stringify dt in
+           let chead =
+             if Timetable.Day.cmp now log < 0
+             then "future"
+             else if Timetable.Day.cmp now log > 0
+             then "past"
+             else "present"
+           in
+           let crest =
+             match current with
+             | None ->
+               []
+             | Some x ->
+               if Timetable.Day.eq log x then [ "current" ] else []
+           in
+           div
+             ~a:[ a_class (chead :: crest) ]
+             [ div
+                 ~a:[ a_class [ "moment" ] ]
+                 [ txt $ Format.asprintf "%a" Timetable.Day.ppr log ]
+             ; div ~a:[ a_class [ "since" ] ] [ txt st ]
+             ; div ~a:[ a_class [ "country" ] ] [ txt country ]
+             ; div ~a:[ a_class [ "city" ] ] [ txt city ]
+             ])
+         logs)
+  ;;
+
+  let collect_current_location (now, acc, r) (l, _, _) =
+    if Timetable.Day.cmp l now <= 0
+    then (
+      match acc with
+      | None ->
+        now, Some l, r
+      | Some x ->
+        now, Some (if Timetable.Day.cmp x l < 0 then l else x), r)
+    else now, acc, r
+  ;;
+
+  let boot input =
+    match
+      Validation.Infix.(
+        id
+        <$> validate
+              "unable to find location container"
+              input##.locationBox)
+    with
+    | Ok location_box ->
+      let open Lwt.Infix in
+      Binding.Location.get ()
+      >|= (function
+            | Ok logs ->
+              (match Calendar.(to_day (now ())) with
+              | Ok n ->
+                List.sort
+                  (fun (a, _, _) (b, _, _) -> Timetable.Day.cmp b a)
+                  logs
+                |> List.fold_left
+                     collect_current_location
+                     (n, None, logs)
+                |> walk_logs
+              | Error err ->
+                Console.render_error [ err ];
+                Tyxml.Html.div [])
+            | Error errs ->
+              Console.render_error errs;
+              Tyxml.Html.div [])
+      >|= (fun d ->
+            Dom.appendChild location_box (Tyxml.To_dom.of_div d))
+      |> ignore
+    | Error errs ->
+      Console.render_error errs
+  ;;
+
+  let api =
+    object%js
+      method boot input = boot input
+    end
+  ;;
+end

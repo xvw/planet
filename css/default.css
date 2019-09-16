@@ -428,6 +428,10 @@ a.long-item {
     color: #000;
 }
 
+.long-item p.synopsis {
+    margin-top: 12px;
+}
+
 .project-item {
     margin-bottom: 16px;
 }
@@ -948,6 +952,15 @@ div.resume-box .button {
     color: #000;
     cursor: pointer;
     border-radius: 4px;
+}
+
+div.location-box > div > div {
+    display: flex;
+    flex-direction: row;
+}
+
+div.location-box > div > div > div  {
+    flex: 1;
 }
 
 

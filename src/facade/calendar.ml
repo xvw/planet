@@ -11,7 +11,7 @@ let time_of date = date##getTime
 
 let from_day day =
   let y, m, d = Timetable.Day.unfold day in
-  new%js Js.date_day y (m - 1) d
+  new%js Js.date_min y (m - 1) d 9 0
 ;;
 
 let from_month month =
@@ -27,6 +27,13 @@ let from_year year =
 let from_moment moment =
   let y, mo, d, h, min = Timetable.Moment.unfold moment in
   new%js Js.date_min y (mo - 1) d h min
+;;
+
+let to_day date =
+  let y = date##getFullYear - 2000 in
+  let m = Timetable.Month.from_int (date##getMonth + 1) in
+  let d = date##getDate in
+  Result.Infix.(m >>= fun m -> Timetable.Day.make_with y m d)
 ;;
 
 module Ago = struct
@@ -60,7 +67,7 @@ module Ago = struct
 
   let in_past = function Past -> true | Future -> false
 
-  let stringify = function
+  let stringify ?(since = "il y a") ?(since_f = "dans") = function
     | Today, _ ->
       "aujourd'hui"
     | Yesterday, dir ->
@@ -68,12 +75,12 @@ module Ago = struct
     | Days i, dir ->
       Format.asprintf
         "%s %d jours"
-        (if in_past dir then "il y a" else "dans")
+        (if in_past dir then since else since_f)
         i
     | Weeks i, dir ->
       Format.asprintf
         "%s %d semaine%s"
-        (if in_past dir then "il y a" else "dans")
+        (if in_past dir then since else since_f)
         i
         (if i > 1 then "s" else "")
   ;;

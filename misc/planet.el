@@ -23,7 +23,7 @@
      "*planet-build")
     (pop-to-buffer "*planet-build")))
 
-(defun planet-whereami (city country)
+(defun planet-whereami (country city)
   "Track current Location"
   (interactive "sCountry: \nsCity: ")
   (with-output-to-temp-buffer "*planet-build"

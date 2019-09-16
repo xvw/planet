@@ -53,3 +53,13 @@ module Story : sig
 
   val api : < boot : boot_input Js.t -> unit Js.meth > Js.t
 end
+
+module Location : sig
+  class type boot_input =
+    object
+      method locationBox :
+        Dom_html.element Js.t Js.Opt.t Js.readonly_prop
+    end
+
+  val api : < boot : boot_input Js.t -> unit Js.meth > Js.t
+end

@@ -21,11 +21,11 @@ let start generation_id_node f =
          let () = Console.print ("Planet is started with " ^ uuid) in
          (match Storage.Session.get "planet-uuid" with
          | None ->
+           (* hydrate uuid *)
            Lwt.return_unit
-         (* hydrate uuid *)
          | Some pred_uuid when uuid <> pred_uuid ->
+           (* hydrate uuid *)
            Lwt.return_unit
-         (* hydrate uuid *)
          | _ ->
            Lwt.return_unit)
        | Error errs ->
@@ -68,6 +68,8 @@ let () =
          start nodes f
 
        val project = Widget.Project.api
+
+       val location = Widget.Location.api
 
        val story = Widget.Story.api
 

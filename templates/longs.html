@@ -1,10 +1,12 @@
-$for(longs)$
-$if(published)$
-<a href="$url$" class="long-item">
-  <h3>$title$</h3>
-  <span class="badge published">$date$</span>
-  <span class="badge">$category$</span>
-  <p class="synopsis">$synopsis$</p>
-</a>
-$endif$
-$endfor$
+<div class="container">
+  $for(longs)$
+  $if(published)$
+  <a href="$url$" class="long-item">
+    <h3>$title$</h3>
+    <span class="badge published">$date$</span>
+    <span class="badge">$category$</span>
+    <p class="synopsis">$synopsis$</p>
+  </a>
+  $endif$
+  $endfor$
+</div>

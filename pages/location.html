@@ -1,13 +1,9 @@
-<p class="free-paragraph">
-  J'essaie de maintenir une liste des lieux où je me trouverai à des dates
-  précises.
-</p>
+<div class="container">
+  <a class="std-button small-text" href="#current-location">En ce moment</a>
 
-<a class="std-button small-text" href="#current-location">En ce moment</a>
+  <div class="location-box"></div>
 
-<div class="location-box"></div>
-
-
+</div>
 <script type="application/javascript">
   planet.suspend(function() {
     planet.location.boot({

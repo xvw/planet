@@ -1,46 +1,48 @@
-<div class="qexp-metadata" id="project-qexp-metadata">
-  $partial(qexp_partial)$
-</div>
-<div class="content-page">
-  <div class="major-header">
-    <div class="project-picto">
-      $if(pictogram)$
-      <img src="/picto/$pictogram$.black.svg"/>
+<div class="container">
+  <div class="qexp-metadata" id="project-qexp-metadata">
+    $partial(qexp_partial)$
+  </div>
+  <div class="content-page">
+    <div class="major-header">
+      <div class="project-picto">
+        $if(pictogram)$
+        <img src="/picto/$pictogram$.black.svg"/>
+        $endif$
+      </div>
+      <div class="major-details">
+        <h1>$displayable_title$</h1>
+        <span class="synopsis">
+          $synopsis$
+        </span>
+      </div>
+    </div>
+    <div class="project-badges">
+      <div class="project-badge status $status$">
+        $status$
+      </div>
+      $if(license)$
+      <div class="project-badge license $license$">
+        $license$
+      </div>
+      $endif$
+      $if(repo)$
+      <div class="project-badge repo">
+        <a href="$repo_url$">$repo$</a>
+      </div>
       $endif$
     </div>
-    <div class="major-details">
-      <h1>$displayable_title$</h1>
-      <span class="synopsis">
-        $synopsis$
-      </span>
-    </div>
-  </div>
-  <div class="project-badges">
-    <div class="project-badge status $status$">
-      $status$
-    </div>
-    $if(license)$
-    <div class="project-badge license $license$">
-      $license$
-    </div>
-    $endif$
-    $if(repo)$
-    <div class="project-badge repo">
-      <a href="$repo_url$">$repo$</a>
-    </div>
-    $endif$
-  </div>
-  <div class="major-content">
-    <div class="long-text structured-text" id="roe-container">
-      $body$
-    </div>
-    <div class="content-rightbar">
-      <div id="major-content-right">
+    <div class="major-content">
+      <div class="long-text structured-text" id="roe-container">
+        $body$
+      </div>
+      <div class="content-rightbar">
+        <div id="major-content-right">
+        </div>
       </div>
     </div>
   </div>
+  <div id="major-content-bottom"></div>
 </div>
-<div id="major-content-bottom"></div>
 <script type="application/javascript">
   planet.suspend(function() {
     planet.project.boot({
@@ -61,10 +63,10 @@
       )
     });
   });
-       
+  
   planet.suspend(function() {
     planet.roe.mount(
-        document.getElementById("roe-container")
-      );
+      document.getElementById("roe-container")
+    );
   });
 </script>

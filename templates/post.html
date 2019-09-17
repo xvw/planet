@@ -1,31 +1,33 @@
-<div class="qexp-metadata" id="story-qexp-metadata">
-  $partial(qexp_partial)$
-</div>
+<div  class="container">
+  <div class="qexp-metadata" id="story-qexp-metadata">
+    $partial(qexp_partial)$
+  </div>
 
-<div class="content-page">
-  <div class="major-header">
-    <div class="major-details">
-      <h1>$title$</h1>
-      <span class="synopsis">
-        $synopsis$
-      </span>
-      <div>
-        <span class="badge published">$date$</span>
-        <span class="badge">$category$</span>
+  <div class="content-page">
+    <div class="major-header">
+      <div class="major-details">
+        <h1>$title$</h1>
+        <span class="synopsis">
+          $synopsis$
+        </span>
+        <div>
+          <span class="badge published">$date$</span>
+          <span class="badge">$category$</span>
+        </div>
+      </div>
+    </div>
+    <div class="major-content">
+      <div class="long-text structured-text" id="roe-container">
+        $body$
+        <div id="eof-page"></div>
+      </div>
+      <div class="content-rightbar">
+        <div id="major-content-right"></div>
       </div>
     </div>
   </div>
-  <div class="major-content">
-    <div class="long-text structured-text" id="roe-container">
-      $body$
-      <div id="eof-page"></div>
-    </div>
-    <div class="content-rightbar">
-      <div id="major-content-right"></div>
-    </div>
-  </div>
+  <div id="major-content-bottom"></div>
 </div>
-<div id="major-content-bottom"></div>
 <script type="application/javascript">
   planet.suspend(function() {
     planet.story.boot({
@@ -44,7 +46,7 @@
   });
   planet.suspend(function() {
     planet.roe.mount(
-        document.getElementById("roe-container")
-      );
+      document.getElementById("roe-container")
+    );
   });
 </script>

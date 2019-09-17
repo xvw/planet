@@ -139,6 +139,7 @@ figure > img.image-cover ~ figcaption {
     margin-bottom: 1rem;
 }
 
+.structured-text ul a,
 .structured-text p a {
     color: #333;
     text-decoration: none;

@@ -123,6 +123,19 @@ figure > img.image-cover ~ figcaption {
     
 }
 
+.black-block {
+    background-color: #000;
+    color: #FFF;
+}
+
+.page-cover {
+    margin: auto;
+}
+
+.page-cover img {
+    margin: auto;
+}
+
 .container {
     width: 100%;
     max-width: 1024px;
@@ -276,12 +289,11 @@ div.code-container .code-underbox .code-file a {
 
 main {
     flex: 1;
-    padding: 18px 12px;
-    margin-top: 18px;
 }
 
 main > .container {
-    padding: 12px;
+    padding: 18px 0;
+    margin-top: 32px;
 }
 
 #sticky-header {

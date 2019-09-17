@@ -731,6 +731,23 @@ module Location = struct
     else now, acc, r
   ;;
 
+  let handle_location = function
+    | Ok logs ->
+      (match Calendar.(to_day (now ())) with
+      | Ok n ->
+        List.sort
+          (fun (a, _, _) (b, _, _) -> Timetable.Day.cmp b a)
+          logs
+        |> List.fold_left collect_current_location (n, None, logs)
+        |> walk_logs
+      | Error err ->
+        Console.render_error [ err ];
+        Tyxml.Html.div [])
+    | Error errs ->
+      Console.render_error errs;
+      Tyxml.Html.div []
+  ;;
+
   let boot input =
     match
       Validation.Infix.(
@@ -741,24 +758,7 @@ module Location = struct
     with
     | Ok location_box ->
       let open Lwt.Infix in
-      Binding.Location.get ()
-      >|= (function
-            | Ok logs ->
-              (match Calendar.(to_day (now ())) with
-              | Ok n ->
-                List.sort
-                  (fun (a, _, _) (b, _, _) -> Timetable.Day.cmp b a)
-                  logs
-                |> List.fold_left
-                     collect_current_location
-                     (n, None, logs)
-                |> walk_logs
-              | Error err ->
-                Console.render_error [ err ];
-                Tyxml.Html.div [])
-            | Error errs ->
-              Console.render_error errs;
-              Tyxml.Html.div [])
+      Binding.Location.get () >|= handle_location
       >|= (fun d ->
             Dom.appendChild location_box (Tyxml.To_dom.of_div d))
       |> ignore

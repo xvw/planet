@@ -78,12 +78,12 @@ body {
 
 .std-button {
     display: inline-block;
-    padding: 4px 12px;
+    padding: 2px 6px;
     color: #000;
     border: 2px solid #000;
     border-radius: 4px;
     text-decoration: none;
-    font-weight: 700;
+    font-weight: 600;
 }
 
 .small-text {
@@ -1009,9 +1009,6 @@ div.location-box > div > div.current {
 div.location-box > div > div.current > div.since::before {
     content: "depuis ";
 }
-
-
-
 
 p.free-paragraph {
     display: block;

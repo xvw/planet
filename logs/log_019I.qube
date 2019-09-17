@@ -65,3 +65,8 @@
   (:duration "180") (:sector "programming")
   (:label "Affichages des locations dans une page dédiée")
   (:project "planet"))
+
+((:uuid "db74d7c7-9a47-9215-0f8d-f92288d1229e") (:day "019I17")
+  (:duration "45") (:sector "visual")
+  (:label "Affichage des positions dans la page location")
+  (:project "planet"))

@@ -47,7 +47,11 @@ module Ago = struct
     | Past
     | Future
 
-  let compute ?(reference = now ()) d =
+  let precise_label a b =
+    if a##getDate = b##getDate then Today else Yesterday
+  ;;
+
+  let compute ?(in_day = false) ?(reference = now ()) d =
     let tmin = time_of d in
     let tmax = time_of reference in
     let direction = if reference > d then Past else Future in
@@ -55,14 +59,14 @@ module Ago = struct
     let days_f = Stdlib.(diff /. 86400000.) in
     let k = Stdlib.(abs_float) in
     let days = k days_f in
-    ( (if days < 0.5
-      then Today
-      else if days > 0.5 && days < 1.9
-      then Yesterday
-      else if days < 7.
+    let res =
+      if days < 2.0
+      then precise_label reference d
+      else if days < 7. || in_day
       then Days (int_of_float days)
-      else Weeks (int_of_float (k (days_f /. 7.))))
-    , direction )
+      else Weeks (int_of_float (k (days_f /. 7.)))
+    in
+    res, direction
   ;;
 
   let in_past = function Past -> true | Future -> false

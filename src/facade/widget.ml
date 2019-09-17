@@ -685,7 +685,9 @@ module Location = struct
     div
       (List.map
          (fun (log, country, city) ->
-           let dt = Calendar.(Ago.compute (from_day log)) in
+           let dt =
+             Calendar.(Ago.compute ~in_day:true (from_day log))
+           in
            let st = Calendar.Ago.stringify dt in
            let chead =
              if Timetable.Day.cmp now log < 0
@@ -694,15 +696,20 @@ module Location = struct
              then "past"
              else "present"
            in
-           let crest =
+           let attr =
              match current with
              | None ->
-               []
+               [ a_class [ chead ] ]
              | Some x ->
-               if Timetable.Day.eq log x then [ "current" ] else []
+               if Timetable.Day.eq log x
+               then
+                 [ a_class [ "current"; chead ]
+                 ; a_id "current-location"
+                 ]
+               else [ a_class [ chead ] ]
            in
            div
-             ~a:[ a_class (chead :: crest) ]
+             ~a:attr
              [ div
                  ~a:[ a_class [ "moment" ] ]
                  [ txt $ Format.asprintf "%a" Timetable.Day.ppr log ]

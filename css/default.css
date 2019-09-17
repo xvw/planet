@@ -76,6 +76,20 @@ body {
     line-height: 1.5;
 }
 
+.std-button {
+    display: inline-block;
+    padding: 4px 12px;
+    color: #000;
+    border: 2px solid #000;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.small-text {
+    font-size: 80%;
+}
+
 .main-columns {
     display: flex;
     flex-direction: row;
@@ -954,13 +968,54 @@ div.resume-box .button {
     border-radius: 4px;
 }
 
+div.location-box {
+    margin-top: 32px;
+}
+
 div.location-box > div > div {
     display: flex;
     flex-direction: row;
+    font-size: 80%;
 }
 
 div.location-box > div > div > div  {
     flex: 1;
+}
+
+div.location-box > div > div > div.moment  {
+    font-family: "Fira Mono", monospace;
+}
+
+
+div.location-box > div > div > div:first-letter {
+    text-transform: capitalize;
+}
+
+div.location-box > div > div {
+    padding: 6px 12px;
+}
+
+div.location-box > div > div:nth-child(even) {
+    background-color: #FFF;
+}
+
+div.location-box > div > div.current {
+    background-color: #000;
+    color: #FFF;
+    font-weight: 700;
+    border-radius: 8px;
+}
+
+div.location-box > div > div.current > div.since::before {
+    content: "depuis ";
+}
+
+
+
+
+p.free-paragraph {
+    display: block;
+    margin: 8px 0;
 }
 
 

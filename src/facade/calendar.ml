@@ -11,7 +11,7 @@ let time_of date = date##getTime
 
 let from_day day =
   let y, m, d = Timetable.Day.unfold day in
-  new%js Js.date_min y (m - 1) d 9 0
+  new%js Js.date_day y (m - 1) d
 ;;
 
 let from_month month =
@@ -53,15 +53,15 @@ module Ago = struct
     let direction = if reference > d then Past else Future in
     let diff = tmax -. tmin in
     let days_f = Stdlib.(diff /. 86400000.) in
-    let k = Stdlib.(int_of_float %> abs) in
+    let k = Stdlib.(abs_float) in
     let days = k days_f in
-    ( (if days = 0
+    ( (if days < 0.5
       then Today
-      else if days = 1
+      else if days > 0.5 && days < 1.9
       then Yesterday
-      else if days < 7
-      then Days days
-      else Weeks (k (days_f /. 7.)))
+      else if days < 7.
+      then Days (int_of_float days)
+      else Weeks (int_of_float (k (days_f /. 7.))))
     , direction )
   ;;
 

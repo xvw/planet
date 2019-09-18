@@ -79,3 +79,7 @@
   (:duration "300") (:sector "visual")
   (:label "Expérience sur la représentation de calendriers")
   (:project "planet"))
+
+((:uuid "eb1df0a0-0d4c-7021-fbe0-d705dc47259b") (:day "019I18")
+  (:duration "100") (:sector "programming")
+  (:label "Initiation de l'UI de la page Journal") (:project "planet"))

@@ -177,6 +177,24 @@ let copyright_date () =
   |> trace_creation
 ;;
 
+let context ctx =
+  let open Validation.Infix in
+  let () = create_partials () in
+  let partial =
+    Filename.concat seed_partials "planet_context.meta.html"
+  in
+  let () = trace_deletion (soft_deletion_file partial) in
+  let str =
+    Format.asprintf
+      {|<textarea data-planet-qexp="global-context">%s</textarea>|}
+      Shapes.Context.(
+        context_to_qexp ctx.global_data |> Paperwork.Qexp.to_string)
+  in
+  File.create partial str |> Validation.from_result
+  >|= (fun () -> true, partial)
+  |> trace_creation
+;;
+
 let sectors () =
   let open Validation.Infix in
   let () = create_partials () in
@@ -245,6 +263,7 @@ let all () =
     let* () = Ok (copyright_date ()) in
     let* () = Ok (api ()) in
     let* () = Ok (projects ~rctx ()) in
+    let* () = Ok (context rctx) in
     let* () = Ok (sectors ()) in
     let* () = Ok (stories ()) in
     let* () = Ok (location ()) in

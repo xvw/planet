@@ -231,7 +231,7 @@ module Graph = struct
     let boxes =
       let rec aux offx offy acc date =
         let ts = date##valueOf in
-        if ts >= end_date##valueOf
+        if ts > end_date##valueOf
         then acc
         else (
           let y = float_of_int offx *. (cell_w +. g) in
@@ -827,6 +827,35 @@ module Location = struct
             Dom.appendChild location_box (Tyxml.To_dom.of_div d);
             logs)
       |> ignore
+    | Error errs ->
+      Console.render_error errs
+  ;;
+
+  let api =
+    object%js
+      method boot input = boot input
+    end
+  ;;
+end
+
+module Diary = struct
+  class type boot_input =
+    object
+      method calendarBox :
+        Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
+    end
+
+  let boot input =
+    match
+      Validation.Infix.(
+        id
+        <$> validate
+              "unable to find calendar container"
+              input##.calendarBox)
+    with
+    | Ok calendar_box ->
+      let c = Graph.calendar 800 in
+      Dom.appendChild calendar_box (Tyxml.To_dom.of_element c)
     | Error errs ->
       Console.render_error errs
   ;;

@@ -79,6 +79,8 @@ let () =
 
        val common = Widget.Common.api
 
+       val diary = Widget.Diary.api
+
        val roe = Roe.api
     end)
 ;;

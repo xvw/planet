@@ -104,9 +104,14 @@ body {
     margin-left: 0;
 }
 
+.classic-title,
+.main-columns h2.column-title {
+    margin-bottom: 16px;
+    font-weight: 200;
+}
+
 .main-columns h2.column-title {
     margin-bottom: 32px;
-    font-weight: 200;
 }
 
 figure > img.image-cover {
@@ -1031,6 +1036,14 @@ div.location-box > div > div.current > div.since::before {
 
 .location-for-calendar svg {
     width: 100%;
+}
+
+.calendar-view svg {
+    width: 100%;
+}
+
+.calendar-view {
+    margin-bottom: 28px;
 }
 
 

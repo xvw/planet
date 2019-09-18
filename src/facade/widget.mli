@@ -63,3 +63,13 @@ module Location : sig
 
   val api : < boot : boot_input Js.t -> unit Js.meth > Js.t
 end
+
+module Diary : sig
+  class type boot_input =
+    object
+      method calendarBox :
+        Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
+    end
+
+  val api : < boot : boot_input Js.t -> unit Js.meth > Js.t
+end

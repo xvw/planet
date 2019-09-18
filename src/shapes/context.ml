@@ -195,7 +195,7 @@ end
 type context =
   { start_date : Paperwork.Timetable.Day.t option
   ; last_update : Paperwork.Timetable.Day.t option
-  ; log_counter : int
+  ; logs_counter : int
   ; minuts_counter : int
   ; sectors_counters : (string, int) Hashtbl.t
   }
@@ -209,7 +209,7 @@ let update_global base log =
   let open Log in
   { start_date = keep_smallest_date base.start_date log.day
   ; last_update = keep_biggest_date base.last_update log.day
-  ; log_counter = base.log_counter + 1
+  ; logs_counter = base.logs_counter + 1
   ; minuts_counter = base.minuts_counter + log.duration
   ; sectors_counters = add_to_sectors base.sectors_counters log
   }
@@ -220,7 +220,7 @@ let init table =
   ; global_data =
       { start_date = None
       ; last_update = None
-      ; log_counter = 0
+      ; logs_counter = 0
       ; minuts_counter = 0
       ; sectors_counters = Hashtbl.create 1
       }
@@ -231,4 +231,43 @@ let update ctx log =
   { projects_data = Projects.update ctx.projects_data log
   ; global_data = update_global ctx.global_data log
   }
+;;
+
+let context_to_qexp value =
+  let open Paperwork.Qexp in
+  let sectors =
+    value.sectors_counters |> Hashtbl.to_seq |> List.of_seq
+    |> List.map (fun (k, value) ->
+           node [ string k; atom (string_of_int value) ])
+  in
+  node
+    ([ node
+         [ tag "logs_counter"
+         ; atom (string_of_int value.logs_counter)
+         ]
+     ; node
+         [ tag "minuts_counter"
+         ; atom (string_of_int value.minuts_counter)
+         ]
+     ; node [ tag "sectors_counters"; node sectors ]
+     ]
+    @ (match value.start_date with
+      | None ->
+        []
+      | Some date ->
+        [ node
+            [ tag "start_date"
+            ; keyword (Paperwork.Timetable.Day.to_string date)
+            ]
+        ])
+    @
+    match value.last_update with
+    | None ->
+      []
+    | Some date ->
+      [ node
+          [ tag "last_update"
+          ; keyword (Paperwork.Timetable.Day.to_string date)
+          ]
+      ])
 ;;

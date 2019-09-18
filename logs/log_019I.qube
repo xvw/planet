@@ -70,3 +70,7 @@
   (:duration "45") (:sector "visual")
   (:label "Affichage des positions dans la page location")
   (:project "planet"))
+
+((:uuid "8434002c-9e96-45ff-c6c7-191a287e5b9d") (:day "019I18")
+  (:duration "200") (:sector "programming")
+  (:label "Helpers en tout genre pour les dates") (:project "planet"))

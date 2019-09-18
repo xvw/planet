@@ -51,6 +51,8 @@ let () =
            val loadTasks = Js.array [||]
 
            method isoWeek date = Calendar.iso_week date
+
+           method yearsAgo years date = Calendar.years_ago years date
          end
 
        method suspend f =

@@ -59,6 +59,23 @@ let iso_week target =
   1 + int_of_float r
 ;;
 
+let to_monday date =
+  let ts = date##valueOf in
+  let target = new%js Js.date_fromTimeValue ts in
+  let day = date##getDay in
+  let factor = if day = 0 then -6 else 1 in
+  let diff = date##getDate - day + factor in
+  let _ = target##setDate diff in
+  target
+;;
+
+let years_ago years date =
+  let ts = date##valueOf in
+  let target = new%js Js.date_fromTimeValue ts in
+  let _ = target##setFullYear (date##getFullYear - years) in
+  to_monday target
+;;
+
 module Ago = struct
   type t =
     | Today

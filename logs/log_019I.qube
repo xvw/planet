@@ -74,3 +74,8 @@
 ((:uuid "8434002c-9e96-45ff-c6c7-191a287e5b9d") (:day "019I18")
   (:duration "200") (:sector "programming")
   (:label "Helpers en tout genre pour les dates") (:project "planet"))
+
+((:uuid "48aa1634-c777-9ff2-5423-eb7ce55f74af") (:day "019I18")
+  (:duration "300") (:sector "visual")
+  (:label "Expérience sur la représentation de calendriers")
+  (:project "planet"))

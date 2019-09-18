@@ -1,5 +1,5 @@
 <div class="page-cover black-block">
-  <div class="container for-calendar"></div>
+  <div class="container location-for-calendar"></div>
 </div>
 
 
@@ -12,7 +12,8 @@
 <script type="application/javascript">
   planet.suspend(function() {
     planet.location.boot({
-      locationBox: document.querySelector(".location-box")
+      locationBox: document.querySelector(".location-box"),
+      calendarBox: document.querySelector(".location-for-calendar")
     });
   });
 </script>

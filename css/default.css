@@ -1023,11 +1023,20 @@ div.location-box > div > div.current > div.since::before {
     content: "depuis ";
 }
 
+.location-for-calendar {
+    padding: 12px;
+    width: 100%;
+}
+
+.location-for-calendar svg {
+    border: 1px solid white;
+    width: 100%;
+}
+
 p.free-paragraph {
     display: block;
     margin: 8px 0;
 }
-
 
 @media screen and (max-width: 720px) {
     .main-columns {

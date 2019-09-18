@@ -12,6 +12,7 @@ val from_month : Timetable.Month.t -> date
 val from_year : Timetable.Year.t -> date
 val from_moment : Timetable.Moment.t -> date
 val to_day : date -> Timetable.Day.t Result.t
+val iso_week : date -> int
 
 module Ago : sig
   type t =

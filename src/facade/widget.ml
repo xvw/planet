@@ -4,6 +4,8 @@ module Tyxml = Js_of_ocaml_tyxml.Tyxml_js
 module Svg = Tyxml.Svg
 module Lwt_js_events = Js_of_ocaml_lwt.Lwt_js_events
 
+let d ?(u = `Px) value = value, Some u
+
 module Resume = struct
   open Util
 
@@ -113,8 +115,6 @@ open Bedrock
 open Error
 open Util
 
-let d ?(u = `Px) value = value, Some u
-
 let validate str optional_node =
   optional_node |> Js.Opt.to_option
   |> Validation.from_option (Of str)
@@ -212,6 +212,24 @@ module Common = struct
     object%js
       method timeAgo nodes = time_ago_for nodes
     end
+  ;;
+end
+
+module Graph = struct
+  let calendar ?(classes = []) ?(date = Calendar.now ()) width height
+    =
+    let w = float_of_int width in
+    let h = float_of_int height in
+    Tyxml.Html.(
+      svg
+        ~a:
+          Svg.
+            [ a_viewBox (0., 0., w, h)
+            ; a_width $ d ~u:`Pt w
+            ; a_height $ d ~u:`Pt h
+            ; a_class ("calendar-graph" :: classes)
+            ])
+      []
   ;;
 end
 
@@ -678,6 +696,9 @@ module Location = struct
     object
       method locationBox :
         Dom_html.element Js.t Js.Opt.t Js.readonly_prop
+
+      method calendarBox :
+        Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
     end
 
   let walk_logs (now, current, logs) =
@@ -740,27 +761,37 @@ module Location = struct
           logs
         |> List.fold_left collect_current_location (n, None, logs)
         |> walk_logs
+        |> fun x -> logs, x
       | Error err ->
         Console.render_error [ err ];
-        Tyxml.Html.div [])
+        [], Tyxml.Html.div [])
     | Error errs ->
       Console.render_error errs;
-      Tyxml.Html.div []
+      [], Tyxml.Html.div []
   ;;
 
   let boot input =
     match
       Validation.Infix.(
-        id
+        (fun x y -> x, y)
         <$> validate
               "unable to find location container"
-              input##.locationBox)
+              input##.locationBox
+        <*> validate
+              "unable to find calendar container"
+              input##.calendarBox)
     with
-    | Ok location_box ->
+    | Ok (location_box, calendar_box) ->
       let open Lwt.Infix in
       Binding.Location.get () >|= handle_location
-      >|= (fun d ->
-            Dom.appendChild location_box (Tyxml.To_dom.of_div d))
+      >|= (fun (logs, d) ->
+            Dom.appendChild location_box (Tyxml.To_dom.of_div d);
+            logs)
+      >|= (fun _logs ->
+            let calendar =
+              Graph.calendar 800 120 |> Tyxml.To_dom.of_element
+            in
+            Dom.appendChild calendar_box calendar)
       |> ignore
     | Error errs ->
       Console.render_error errs

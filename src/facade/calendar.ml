@@ -36,6 +36,29 @@ let to_day date =
   Result.Infix.(m >>= fun m -> Timetable.Day.make_with y m d)
 ;;
 
+let iso_week target =
+  let dnbr = (target##getDay + 6) mod 7 in
+  let _ = target##setDate (target##getDate - dnbr + 3) in
+  let first = target##valueOf in
+  let _ = target##setMonth 0 in
+  let _ = target##setDate 1 in
+  let _ =
+    if target##getDay <> 4
+    then (
+      let _ = target##setMonth 0 in
+      let _ =
+        let k = 4 - target##getDay in
+        let p = k + 7 in
+        let m = p mod 7 in
+        target##setDate (1 + m)
+      in
+      ())
+  in
+  let v = first -. target##valueOf in
+  let r = Stdlib.ceil (v /. 604800000.) in
+  1 + int_of_float r
+;;
+
 module Ago = struct
   type t =
     | Today

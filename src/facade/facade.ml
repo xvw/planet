@@ -49,6 +49,8 @@ let () =
        val internal =
          object%js
            val loadTasks = Js.array [||]
+
+           method isoWeek date = Calendar.iso_week date
          end
 
        method suspend f =

@@ -216,10 +216,57 @@ module Common = struct
 end
 
 module Graph = struct
-  let calendar ?(classes = []) ?(date = Calendar.now ()) width height
+  let calendar
+      ?(prefix_id = "calendar-box-")
+      ?(classes = [])
+      ?(end_date = Calendar.now ())
+      ?(gutter = 2)
+      width
     =
     let w = float_of_int width in
-    let h = float_of_int height in
+    let g = float_of_int gutter in
+    let start_date = Calendar.years_ago 1 end_date in
+    let cell_w = (w -. (52.0 *. g)) /. 53.0 in
+    let h = (cell_w *. 7.0) +. (7.0 *. g) in
+    let boxes =
+      let rec aux offx offy acc date =
+        let ts = date##valueOf in
+        if ts >= end_date##valueOf
+        then acc
+        else (
+          let y = float_of_int offx *. (cell_w +. g) in
+          let x = float_of_int offy *. (cell_w +. g) in
+          let rect =
+            Svg.(
+              rect
+                ~a:
+                  [ a_id
+                      (Format.asprintf
+                         "%s%04d-%02d-%02d"
+                         prefix_id
+                         date##getFullYear
+                         date##getMonth
+                         (date##getDate + 1))
+                  ; a_x $ d x
+                  ; a_y $ d y
+                  ; a_rx $ d 2.
+                  ; a_ry $ d 2.
+                  ; a_width $ d cell_w
+                  ; a_height $ d cell_w
+                  ; a_fill $ `Color ("#FFF", None)
+                  ]
+                [])
+          in
+          let succ_date = new%js Js.date_fromTimeValue ts in
+          let _ = succ_date##setDate (date##getDate + 1) in
+          aux
+            (succ offx mod 7)
+            (if offx >= 6 then succ offy else offy)
+            (rect :: acc)
+            succ_date)
+      in
+      aux 0 0 [] start_date
+    in
     Tyxml.Html.(
       svg
         ~a:
@@ -229,7 +276,7 @@ module Graph = struct
             ; a_height $ d ~u:`Pt h
             ; a_class ("calendar-graph" :: classes)
             ])
-      []
+      boxes
   ;;
 end
 
@@ -696,9 +743,6 @@ module Location = struct
     object
       method locationBox :
         Dom_html.element Js.t Js.Opt.t Js.readonly_prop
-
-      method calendarBox :
-        Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
     end
 
   let walk_logs (now, current, logs) =
@@ -756,9 +800,7 @@ module Location = struct
     | Ok logs ->
       (match Calendar.(to_day (now ())) with
       | Ok n ->
-        List.sort
-          (fun (a, _, _) (b, _, _) -> Timetable.Day.cmp b a)
-          logs
+        logs
         |> List.fold_left collect_current_location (n, None, logs)
         |> walk_logs
         |> fun x -> logs, x
@@ -773,25 +815,17 @@ module Location = struct
   let boot input =
     match
       Validation.Infix.(
-        (fun x y -> x, y)
+        id
         <$> validate
               "unable to find location container"
-              input##.locationBox
-        <*> validate
-              "unable to find calendar container"
-              input##.calendarBox)
+              input##.locationBox)
     with
-    | Ok (location_box, calendar_box) ->
+    | Ok location_box ->
       let open Lwt.Infix in
       Binding.Location.get () >|= handle_location
       >|= (fun (logs, d) ->
             Dom.appendChild location_box (Tyxml.To_dom.of_div d);
             logs)
-      >|= (fun _logs ->
-            let calendar =
-              Graph.calendar 800 120 |> Tyxml.To_dom.of_element
-            in
-            Dom.appendChild calendar_box calendar)
       |> ignore
     | Error errs ->
       Console.render_error errs

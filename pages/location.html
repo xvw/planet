@@ -1,8 +1,3 @@
-<div class="page-cover black-block">
-  <div class="container location-for-calendar"></div>
-</div>
-
-
 <div class="container">
   <a class="std-button small-text" href="#current-location">En ce moment</a>
 
@@ -12,8 +7,7 @@
 <script type="application/javascript">
   planet.suspend(function() {
     planet.location.boot({
-      locationBox: document.querySelector(".location-box"),
-      calendarBox: document.querySelector(".location-for-calendar")
+      locationBox: document.querySelector(".location-box")
     });
   });
 </script>

@@ -389,6 +389,7 @@ footer {
     background-color: #ffffff;
     padding: 18px 12px;
     font-size: 80%;
+    margin-top: 64px;
 }
 
 footer > div {
@@ -1024,14 +1025,14 @@ div.location-box > div > div.current > div.since::before {
 }
 
 .location-for-calendar {
-    padding: 12px;
+    padding: 32px 12px;
     width: 100%;
 }
 
 .location-for-calendar svg {
-    border: 1px solid white;
     width: 100%;
 }
+
 
 p.free-paragraph {
     display: block;

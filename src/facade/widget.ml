@@ -854,19 +854,32 @@ end
 module Diary = struct
   class type boot_input =
     object
+      method context :
+        Dom_html.textAreaElement Js.t Js.Opt.t Js.readonly_prop
+
       method calendarBox :
         Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
+
+      method statisticBox :
+        Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
+
+      method sectors :
+        Dom_html.element Dom.nodeList Js.t Js.readonly_prop
     end
 
   let boot input =
     match
       Validation.Infix.(
-        id
+        (fun x y z -> x, y, z)
         <$> validate
               "unable to find calendar container"
-              input##.calendarBox)
+              input##.calendarBox
+        <*> validate
+              "unable to find statistic container"
+              input##.statisticBox
+        <*> Sector.nodelist_to_hashtbl input##.sectors)
     with
-    | Ok calendar_box ->
+    | Ok (calendar_box, _statistic_box, _sectors) ->
       let c = Graph.calendar 800 in
       Dom.appendChild calendar_box (Tyxml.To_dom.of_element c)
     | Error errs ->

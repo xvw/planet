@@ -727,6 +727,10 @@ div.resume-box h3,
     text-decoration: none;
 }
 
+#major-content-right .tracking  ul.stats {
+    margin-bottom: 24px;
+}
+
 #major-content-right .tracking  ul.stats > li,
 #major-content-right .release-list ul > li {
     display: flex;

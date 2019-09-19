@@ -1,3 +1,6 @@
+---
+title: Statistiques et suivi
+---
 <div class="page-cover black-block">
   <div class="container">
     <h2 class="classic-title">Activité</h2>
@@ -14,6 +17,7 @@
   <div class="main-columns">
     <div>
       <h2 class="classic-title">Statistiques</h2>
+      <div class="global-statistics"></div>
     </div>
     <div>
       right
@@ -22,9 +26,16 @@
   
 </div>
 <script type="application/javascript">
-    planet.suspend(function() {
+  planet.suspend(function() {
     planet.diary.boot({
-      calendarBox: document.querySelector(".calendar-view")
+      context: document.querySelector(
+        "textarea[data-planet-qexp='global-context']"
+      ),
+      calendarBox: document.querySelector(".calendar-view"),
+        statisticBox: document.querySelector(".global-statistics"),
+      sectors: document.querySelectorAll(
+        "#planet-sectors-metadata > .sector-data"
+      )
     });
   });
 </script>

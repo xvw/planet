@@ -127,6 +127,14 @@ let get_data f elt key =
 ;;
 
 module Common = struct
+  let create_data_block ?(classes = []) key value =
+    let open Tyxml.Html in
+    li
+      [ span ~a:[ a_class [ "label" ] ] [ txt key ]
+      ; span ~a:[ a_class ([ "data" ] @ classes) ] [ txt value ]
+      ]
+  ;;
+
   let compute_time_ago node =
     let open Validation.Infix in
     match
@@ -298,96 +306,12 @@ module Sector = struct
   ;;
 end
 
-module Project = struct
-  class type boot_input =
-    object
-      method timedata :
-        Dom_html.textAreaElement Js.t Js.Opt.t Js.readonly_prop
-
-      method project :
-        Dom_html.textAreaElement Js.t Js.Opt.t Js.readonly_prop
-
-      method rightContainer :
-        Dom_html.element Js.t Js.Opt.t Js.readonly_prop
-
-      method bottomContainer :
-        Dom_html.element Js.t Js.Opt.t Js.readonly_prop
-
-      method sectors :
-        Dom_html.element Dom.nodeList Js.t Js.readonly_prop
-    end
-
-  let cut = function a :: b :: c :: _ -> [ a; b; c ] | xs -> xs
-
-  let render_releases repo = function
-    | [] ->
-      []
-    | releases ->
-      let len = List.length releases in
-      let cutted = cut releases in
-      let open Tyxml.Html in
-      [ div
-          ~a:[ a_class [ "project-block"; "release-list" ] ]
-          ([ h3
-               [ span [ txt "Releases" ]
-               ; span
-                   ~a:[ a_class [ "label" ] ]
-                   [ txt $ string_of_int len ]
-               ]
-           ; ul
-               (List.map
-                  (fun (name, date, url) ->
-                    li
-                      [ span
-                          ~a:[ a_class [ "date" ] ]
-                          [ txt
-                            $ Format.asprintf
-                                "%a"
-                                Paperwork.Timetable.Day.ppr
-                                date
-                          ]
-                      ; a ~a:[ a_href url ] [ txt name ]
-                      ])
-                  cutted)
-           ]
-          @ (repo
-            |> Option.map (fun r ->
-                   a
-                     ~a:
-                       [ a_class [ "view-releases" ]
-                       ; a_href (Shapes.Repo.releases_url r)
-                       ]
-                     [ txt "Toutes les releases" ])
-            |> Option.to_list))
-      ]
-  ;;
-
-  let collect_data textarea_timedata =
-    let open Validation.Infix in
-    textarea_timedata |> Js.Opt.to_option
-    |> Validation.from_option (Of "Unable to find time metadata")
-    >>= fun textarea ->
-    textarea##.textContent
-    |> validate "Content of textarea is malformed"
-    >>= fun text ->
-    Js.to_string text |> Paperwork.Qexp.from_string
-    |> Validation.from_result
-    >>= Shapes.Context.Projects.project_from_qexp
-  ;;
-
-  let create_data_block ?(classes = []) key value =
-    let open Tyxml.Html in
-    li
-      [ span ~a:[ a_class [ "label" ] ] [ txt key ]
-      ; span ~a:[ a_class ([ "data" ] @ classes) ] [ txt value ]
-      ]
-  ;;
-
+module Stats = struct
   let render_start_date = function
     | None ->
       []
     | Some start_date ->
-      [ create_data_block "Démarrage"
+      [ Common.create_data_block "Démarrage"
         $ Format.asprintf
             "~%a"
             Paperwork.Timetable.Day.ppr
@@ -401,7 +325,9 @@ module Project = struct
     | Some update ->
       let ts = Calendar.from_day update in
       let r = Calendar.Ago.compute ts in
-      [ create_data_block ~classes:[ "capitalized" ] "Mise à jour"
+      [ Common.create_data_block
+          ~classes:[ "capitalized" ]
+          "Mise à jour"
         $ Format.asprintf "%s" (Calendar.Ago.stringify r)
       ]
   ;;
@@ -519,43 +445,116 @@ module Project = struct
       @ sectors_legend computed_height_charts counters)
   ;;
 
-  let render_timedata data sectors =
-    match collect_data data with
-    | Error errs ->
-      let () = Console.render_error errs in
+  let render_timedata
+      minuts_counter
+      start_date
+      last_update
+      logs_counter
+      sectors
+      sectors_counter
+    =
+    let open Tyxml.Html in
+    let hours =
+      let duration = float_of_int minuts_counter in
+      let minuts = duration /. 60.0 in
+      minuts
+    in
+    [ h3 [ span [ txt "Suivi" ] ]
+    ; ul
+        ~a:[ a_class [ "stats" ] ]
+        (render_start_date start_date
+        @ render_last_update last_update
+        @ [ Common.create_data_block "Logs"
+            $ Format.asprintf
+                "%d entrée%s"
+                logs_counter
+                (if logs_counter > 1 then "s" else "")
+          ; Common.create_data_block "Durée"
+            $ Format.asprintf
+                "~%0.1f heure%s"
+                hours
+                (if hours >= 2.0 then "s" else "")
+          ])
+    ; render_sector_graph minuts_counter sectors sectors_counter
+    ]
+  ;;
+end
+
+module Project = struct
+  class type boot_input =
+    object
+      method timedata :
+        Dom_html.textAreaElement Js.t Js.Opt.t Js.readonly_prop
+
+      method project :
+        Dom_html.textAreaElement Js.t Js.Opt.t Js.readonly_prop
+
+      method rightContainer :
+        Dom_html.element Js.t Js.Opt.t Js.readonly_prop
+
+      method bottomContainer :
+        Dom_html.element Js.t Js.Opt.t Js.readonly_prop
+
+      method sectors :
+        Dom_html.element Dom.nodeList Js.t Js.readonly_prop
+    end
+
+  let cut = function a :: b :: c :: _ -> [ a; b; c ] | xs -> xs
+
+  let render_releases repo = function
+    | [] ->
       []
-    | Ok ctx ->
+    | releases ->
+      let len = List.length releases in
+      let cutted = cut releases in
       let open Tyxml.Html in
-      let open Shapes.Context.Projects in
-      let hours =
-        let duration = float_of_int ctx.minuts_counter in
-        let minuts = duration /. 60.0 in
-        minuts
-      in
       [ div
-          ~a:[ a_class [ "project-block"; "tracking" ] ]
-          [ h3 [ span [ txt "Suivi" ] ]
-          ; ul
-              ~a:[ a_class [ "stats" ] ]
-              (render_start_date ctx.start_date
-              @ render_last_update ctx.last_update
-              @ [ create_data_block "Logs"
-                  $ Format.asprintf
-                      "%d entrée%s"
-                      ctx.logs_counter
-                      (if ctx.logs_counter > 1 then "s" else "")
-                ; create_data_block "Durée"
-                  $ Format.asprintf
-                      "~%0.1f heure%s"
-                      hours
-                      (if hours >= 2.0 then "s" else "")
-                ])
-          ]
-      ; render_sector_graph
-          ctx.minuts_counter
-          sectors
-          ctx.sectors_counters
+          ~a:[ a_class [ "project-block"; "release-list" ] ]
+          ([ h3
+               [ span [ txt "Releases" ]
+               ; span
+                   ~a:[ a_class [ "label" ] ]
+                   [ txt $ string_of_int len ]
+               ]
+           ; ul
+               (List.map
+                  (fun (name, date, url) ->
+                    li
+                      [ span
+                          ~a:[ a_class [ "date" ] ]
+                          [ txt
+                            $ Format.asprintf
+                                "%a"
+                                Paperwork.Timetable.Day.ppr
+                                date
+                          ]
+                      ; a ~a:[ a_href url ] [ txt name ]
+                      ])
+                  cutted)
+           ]
+          @ (repo
+            |> Option.map (fun r ->
+                   a
+                     ~a:
+                       [ a_class [ "view-releases" ]
+                       ; a_href (Shapes.Repo.releases_url r)
+                       ]
+                     [ txt "Toutes les releases" ])
+            |> Option.to_list))
       ]
+  ;;
+
+  let collect_data textarea_timedata =
+    let open Validation.Infix in
+    textarea_timedata |> Js.Opt.to_option
+    |> Validation.from_option (Of "Unable to find time metadata")
+    >>= fun textarea ->
+    textarea##.textContent
+    |> validate "Content of textarea is malformed"
+    >>= fun text ->
+    Js.to_string text |> Paperwork.Qexp.from_string
+    |> Validation.from_result
+    >>= Shapes.Context.Projects.project_from_qexp
   ;;
 
   let compute_links project =
@@ -582,11 +581,25 @@ module Project = struct
     let open Tyxml.Html in
     let right_content =
       div
-        (render_timedata timedata sectors
-        @ Common.render_tags Shapes.Project.(project.tags)
-        @ render_releases
-            project.repo
-            Shapes.Project.(List.rev project.releases))
+        (match collect_data timedata with
+        | Error errs ->
+          let () = Console.render_error errs in
+          []
+        | Ok ctx ->
+          (div
+             ~a:[ a_class [ "project-block"; "tracking" ] ]
+             (let open Shapes.Context.Projects in
+             Stats.render_timedata
+               ctx.minuts_counter
+               ctx.start_date
+               ctx.last_update
+               ctx.logs_counter
+               sectors
+               ctx.sectors_counters)
+          :: Common.render_tags Shapes.Project.(project.tags))
+          @ render_releases
+              project.repo
+              Shapes.Project.(List.rev project.releases))
       |> Tyxml.To_dom.of_div
     in
     let () = Dom.appendChild right_container right_content in

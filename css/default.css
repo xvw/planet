@@ -135,6 +135,7 @@ figure > img.image-cover ~ figcaption {
 
 .page-cover {
     margin: auto;
+    padding: 28px 0;
 }
 
 .page-cover img {

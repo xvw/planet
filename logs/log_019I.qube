@@ -83,3 +83,8 @@
 ((:uuid "eb1df0a0-0d4c-7021-fbe0-d705dc47259b") (:day "019I18")
   (:duration "100") (:sector "programming")
   (:label "Initiation de l'UI de la page Journal") (:project "planet"))
+
+((:uuid "bac96d41-ed75-adf9-b656-23855552998d") (:day "019I19")
+  (:duration "60") (:sector "programming")
+  (:label "Isolation du code pour générer les statistiques par projets")
+  (:project "planet"))

@@ -76,6 +76,9 @@ module Diary : sig
       method statisticBox :
         Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
 
+      method entryBox :
+        Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
+
       method sectors :
         Dom_html.element Dom.nodeList Js.t Js.readonly_prop
     end

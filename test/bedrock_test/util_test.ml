@@ -22,11 +22,25 @@ let md5_2 () =
     (Util.md5 "Foo/Bar")
 ;;
 
+let hds_1 () =
+  check
+    (list int)
+    "same lists"
+    [ 1; 2; 3 ]
+    (List.hds 3 [ 1; 2; 3; 4; 5 ])
+;;
+
+let hds_2 () = check (list int) "same lists" [ 1 ] (List.hds 3 [ 1 ])
+let hds_3 () = check (list int) "same lists" [] (List.hds 3 [])
+
 let suite =
   [ test "[bound] in simple case" bound_1
   ; test "[bound] in lower case" bound_2
   ; test "[bound] in upper case" bound_3
   ; test "[md5] case 1" md5_1
   ; test "[md5] case 2" md5_2
+  ; test "[List.hds] case 1" hds_1
+  ; test "[List.hds] case 2" hds_2
+  ; test "[List.hds] case 3" hds_3
   ]
 ;;

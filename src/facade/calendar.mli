@@ -15,6 +15,7 @@ val to_day : date -> Timetable.Day.t Result.t
 val iso_week : date -> int
 val to_monday : date -> date
 val years_ago : int -> date -> date
+val weeks_between : date -> date -> int
 
 module Ago : sig
   type t =

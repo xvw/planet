@@ -44,11 +44,12 @@ module Log = struct
     let open Shapes.Log in
     let k = "log-" ^ log.uuid in
     let c = to_json %> Paperwork.Json.to_string $ log in
-    Storage.Session.set k c
+    let () = Console.log c in
+    Storage.Local.set k c
   ;;
 
   let get_by_id uuid =
-    "log-" ^ uuid |> Storage.Session.get
+    "log-" ^ uuid |> Storage.Local.get
     |> Option.map (Js.string %> Json.unsafe_input)
   ;;
 
@@ -73,6 +74,27 @@ module Log = struct
            | Ok log ->
              reduce_log acc log i))
       ()
+  ;;
+
+  let get_last_logs () =
+    let open Lwt.Infix in
+    "/api/last_logs.json" |> Ajax.get
+    >|= (fun frame -> frame.Ajax.content)
+    >|= Js.string
+    >|= (fun x ->
+          let p = Js._JSON##parse x in
+          let r = Js.to_array p in
+          Array.fold_left
+            (fun acc obj ->
+              match shape obj with
+              | Error errs ->
+                let () = Console.dump_errors obj errs in
+                acc
+              | Ok log ->
+                log :: acc)
+            []
+            r)
+    >|= List.rev
   ;;
 end
 

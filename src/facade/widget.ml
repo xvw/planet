@@ -234,10 +234,14 @@ module Graph = struct
     let w = float_of_int width in
     let g = float_of_int gutter in
     let start_date = Calendar.years_ago 1 end_date in
-    let cell_w = (w -. (52.0 *. g)) /. 53.0 in
+    let nb_weeks =
+      float_of_int (Calendar.weeks_between end_date start_date)
+    in
+    let cell_w = (w -. (nb_weeks *. g)) /. (nb_weeks +. 1.0) in
     let h = (cell_w *. 7.0) +. (7.0 *. g) in
     let boxes =
       let rec aux offx offy acc date =
+        let () = Console.log date in
         let ts = date##valueOf in
         if ts > end_date##valueOf
         then acc
@@ -254,7 +258,7 @@ module Graph = struct
                          prefix_id
                          date##getFullYear
                          date##getMonth
-                         (date##getDate + 1))
+                         date##getDate)
                   ; a_x $ d x
                   ; a_y $ d y
                   ; a_rx $ d 2.
@@ -373,7 +377,7 @@ module Stats = struct
         ; text
             ~a:
               [ a_x_list [ d $ size +. 4. ]
-              ; a_y_list [ d $ margin +. ((size +. 2.) *. i) +. 8. ]
+              ; a_y_list [ d $ margin +. ((size +. 2.) *. i) +. 10. ]
               ; a_text_anchor `Start
               ]
             [ txt
@@ -874,6 +878,9 @@ module Diary = struct
       method statisticBox :
         Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
 
+      method entryBox :
+        Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
+
       method sectors :
         Dom_html.element Dom.nodeList Js.t Js.readonly_prop
     end
@@ -883,47 +890,90 @@ module Diary = struct
     node
     |> validate "unable to find context metadata"
     >>= (fun textarea ->
-          textarea##.textContent
-          |> validate "unable to find context for project")
+          textarea##.textContent |> validate "unable to find context")
     >|= Js.to_string
     >>= Qexp.from_string %> Validation.from_result
     >>= Shapes.Context.context_from_qexp
   ;;
 
+  let render_calendar calendar_box =
+    let c = Graph.calendar 800 in
+    Dom.appendChild calendar_box (Tyxml.To_dom.of_element c)
+  ;;
+
+  let render_stats ctx sectors statistic_box =
+    let open Tyxml.Html in
+    let block =
+      div
+        ~a:[ a_class [ "tracking" ] ]
+        (let open Shapes.Context in
+        Stats.render_timedata
+          ~width:500
+          ctx.minuts_counter
+          ctx.start_date
+          ctx.last_update
+          ctx.logs_counter
+          sectors
+          ctx.sectors_counters)
+      |> Tyxml.To_dom.of_div
+    in
+    Dom.appendChild statistic_box block
+  ;;
+
+  let render_logs container logs =
+    let () = container##.innerHTML := Js.string "" in
+    let open Tyxml.Html in
+    let l =
+      ul
+        ~a:[ a_class [ "logs" ] ]
+        (List.map
+           (fun log ->
+             let open Shapes.Log in
+             li
+               ~a:[ a_class [ "log" ] ]
+               [ span
+                   ~a:[ a_class [ "log-date" ] ]
+                   [ txt
+                     $ Format.asprintf "%a" Timetable.Day.ppr log.day
+                   ]
+               ; div ~a:[ a_class [ "log-label" ] ] [ txt log.label ]
+               ; div
+                   ~a:[ a_class [ "log-bottom" ] ]
+                   [ span
+                       ~a:[ a_class [ "log-duration" ] ]
+                       [ txt $ string_of_int log.duration ]
+                   ]
+               ])
+           logs)
+    in
+    Dom.appendChild container (Tyxml.To_dom.of_ul l)
+  ;;
+
   let boot input =
     match
       Validation.Infix.(
-        (fun w x y z -> w, x, y, z)
+        (fun v w x y z -> v, w, x, y, z)
         <$> validate
               "unable to find calendar container"
               input##.calendarBox
         <*> validate
               "unable to find statistic container"
               input##.statisticBox
+        <*> validate
+              "unable to find entry container"
+              input##.entryBox
         <*> Sector.nodelist_to_hashtbl input##.sectors
         <*> validate_context input##.context)
     with
-    | Ok (calendar_box, statistic_box, sectors, ctx) ->
-      let c = Graph.calendar 800 in
+    | Ok (calendar_box, statistic_box, entry_box, sectors, ctx) ->
+      let () = render_calendar calendar_box in
+      let () = render_stats ctx sectors statistic_box in
+      let open Lwt.Infix in
       let () =
-        Dom.appendChild calendar_box (Tyxml.To_dom.of_element c)
+        Binding.Log.get_last_logs ()
+        >|= render_logs entry_box |> ignore
       in
-      let open Tyxml.Html in
-      let block =
-        div
-          ~a:[ a_class [ "tracking" ] ]
-          (let open Shapes.Context in
-          Stats.render_timedata
-            ~width:500
-            ctx.minuts_counter
-            ctx.start_date
-            ctx.last_update
-            ctx.logs_counter
-            sectors
-            ctx.sectors_counters)
-        |> Tyxml.To_dom.of_div
-      in
-      Dom.appendChild statistic_box block
+      ()
     | Error errs ->
       Console.render_error errs
   ;;

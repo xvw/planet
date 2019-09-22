@@ -69,11 +69,20 @@ let to_monday date =
   target
 ;;
 
+let weeks_between d1 d2 =
+  let one = float_of_int (1000 * 60 * 60 * 24 * 7) in
+  let ms1 = d1##getTime in
+  let ms2 = d2##getTime in
+  let ms = abs_float (ms1 -. ms2) in
+  let r = Stdlib.ceil (ms /. one) in
+  int_of_float r
+;;
+
 let years_ago years date =
   let ts = date##valueOf in
   let target = new%js Js.date_fromTimeValue ts in
   let _ = target##setFullYear (date##getFullYear - years) in
-  to_monday target
+  if target##getDay = 1 then target else to_monday target
 ;;
 
 module Ago = struct

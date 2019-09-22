@@ -19,6 +19,18 @@ let ( @? ) left = function
     left @ right
 ;;
 
+let hds index list =
+  let rec aux acc i = function
+    | [] ->
+      Stdlib.List.rev acc
+    | x :: xs ->
+      if i <= 0
+      then Stdlib.List.rev (x :: acc)
+      else aux (x :: acc) (pred i) xs
+  in
+  aux [] (pred index) list
+;;
+
 module Functor = Functor.Make (struct
   type 'a t = 'a list
 

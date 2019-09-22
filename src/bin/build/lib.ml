@@ -99,7 +99,24 @@ let initialize_api_current_position () =
 ;;
 
 let initialize_logs () =
-  create_file Glue.Log.collect_all_log_in_json api_folder "logs.json"
+  let open Validation.Infix in
+  let list =
+    Glue.Log.traverse
+      ~reverse:true
+      (fun acc log -> acc @ [ Shapes.Log.to_json log ])
+      []
+  in
+  let fragment = list >|= List.hds 5 in
+  let () =
+    create_file
+      (fun () -> list >|= Paperwork.Json.array)
+      api_folder
+      "logs.json"
+  in
+  create_file
+    (fun () -> fragment >|= Paperwork.Json.array)
+    api_folder
+    "last_logs.json"
 ;;
 
 let create_projects_files ?rctx () =

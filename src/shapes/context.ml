@@ -271,3 +271,40 @@ let context_to_qexp value =
           ]
       ])
 ;;
+
+let make_context
+    start_date
+    last_update
+    logs_counter
+    minuts_counter
+    sectors_counters
+  =
+  { start_date
+  ; last_update
+  ; logs_counter
+  ; minuts_counter
+  ; sectors_counters
+  }
+;;
+
+let context_from_qexp qexp =
+  let open Bedrock in
+  match Table.configuration qexp with
+  | Ok config ->
+    let open Validation.Infix in
+    make_context
+    <$> Fetch.(option day config "start_date")
+    <*> Fetch.(option day config "last_update")
+    <*> Fetch.(int config "logs_counter")
+    <*> Fetch.(int config "minuts_counter")
+    <*> Fetch.hashtbl_refutable
+          (fun key -> function Paperwork.Qexp.Atom value ->
+              value |> int_of_string_opt
+              |> Validation.from_option (Unparsable value)
+              >|= fun v -> key, v | expr ->
+              Error [ Unparsable (Paperwork.Qexp.to_string expr) ])
+          config
+          "sectors_counters"
+  | Error _ as e ->
+    Validation.from_result e
+;;

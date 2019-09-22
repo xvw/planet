@@ -422,11 +422,10 @@ module Stats = struct
     |> List.flatten
   ;;
 
-  let render_sector_graph total sectors hash_counters =
+  let render_sector_graph width total sectors hash_counters =
     let counters = compute_sectors total sectors hash_counters in
     let len = List.length counters in
     let flen = float_of_int len in
-    let width = 200. in
     let bh = 14.5 in
     let ch = 16.0 in
     let margin = 10.0 in
@@ -446,6 +445,7 @@ module Stats = struct
   ;;
 
   let render_timedata
+      ?(width = 200)
       minuts_counter
       start_date
       last_update
@@ -459,8 +459,7 @@ module Stats = struct
       let minuts = duration /. 60.0 in
       minuts
     in
-    [ h3 [ span [ txt "Suivi" ] ]
-    ; ul
+    [ ul
         ~a:[ a_class [ "stats" ] ]
         (render_start_date start_date
         @ render_last_update last_update
@@ -475,7 +474,11 @@ module Stats = struct
                 hours
                 (if hours >= 2.0 then "s" else "")
           ])
-    ; render_sector_graph minuts_counter sectors sectors_counter
+    ; render_sector_graph
+        (float_of_int width)
+        minuts_counter
+        sectors
+        sectors_counter
     ]
   ;;
 end
@@ -579,30 +582,38 @@ module Project = struct
       sectors
     =
     let open Tyxml.Html in
-    let right_content =
-      div
-        (match collect_data timedata with
-        | Error errs ->
-          let () = Console.render_error errs in
-          []
-        | Ok ctx ->
-          (div
-             ~a:[ a_class [ "project-block"; "tracking" ] ]
-             (let open Shapes.Context.Projects in
-             Stats.render_timedata
-               ctx.minuts_counter
-               ctx.start_date
-               ctx.last_update
-               ctx.logs_counter
-               sectors
-               ctx.sectors_counters)
-          :: Common.render_tags Shapes.Project.(project.tags))
-          @ render_releases
-              project.repo
-              Shapes.Project.(List.rev project.releases))
-      |> Tyxml.To_dom.of_div
+    let ctn =
+      match collect_data timedata with
+      | Error errs ->
+        let () = Console.render_error errs in
+        span []
+      | Ok ctx ->
+        let title = h3 [ span [ txt "Suivi" ] ] in
+        let graph =
+          let open Shapes.Context.Projects in
+          Stats.render_timedata
+            ctx.minuts_counter
+            ctx.start_date
+            ctx.last_update
+            ctx.logs_counter
+            sectors
+            ctx.sectors_counters
+        in
+        let tags =
+          Common.render_tags Shapes.Project.(project.tags)
+        in
+        let releases =
+          render_releases
+            project.repo
+            Shapes.Project.(List.rev project.releases)
+        in
+        div
+          ~a:[ a_class [ "project-block"; "tracking" ] ]
+          (title :: (graph @ tags @ releases))
     in
-    let () = Dom.appendChild right_container right_content in
+    let () =
+      Dom.appendChild right_container (Tyxml.To_dom.of_element ctn)
+    in
     let links = compute_links project in
     Common.render_links bottom_container links
   ;;
@@ -867,21 +878,52 @@ module Diary = struct
         Dom_html.element Dom.nodeList Js.t Js.readonly_prop
     end
 
+  let validate_context node =
+    let open Validation.Infix in
+    node
+    |> validate "unable to find context metadata"
+    >>= (fun textarea ->
+          textarea##.textContent
+          |> validate "unable to find context for project")
+    >|= Js.to_string
+    >>= Qexp.from_string %> Validation.from_result
+    >>= Shapes.Context.context_from_qexp
+  ;;
+
   let boot input =
     match
       Validation.Infix.(
-        (fun x y z -> x, y, z)
+        (fun w x y z -> w, x, y, z)
         <$> validate
               "unable to find calendar container"
               input##.calendarBox
         <*> validate
               "unable to find statistic container"
               input##.statisticBox
-        <*> Sector.nodelist_to_hashtbl input##.sectors)
+        <*> Sector.nodelist_to_hashtbl input##.sectors
+        <*> validate_context input##.context)
     with
-    | Ok (calendar_box, _statistic_box, _sectors) ->
+    | Ok (calendar_box, statistic_box, sectors, ctx) ->
       let c = Graph.calendar 800 in
-      Dom.appendChild calendar_box (Tyxml.To_dom.of_element c)
+      let () =
+        Dom.appendChild calendar_box (Tyxml.To_dom.of_element c)
+      in
+      let open Tyxml.Html in
+      let block =
+        div
+          ~a:[ a_class [ "tracking" ] ]
+          (let open Shapes.Context in
+          Stats.render_timedata
+            ~width:500
+            ctx.minuts_counter
+            ctx.start_date
+            ctx.last_update
+            ctx.logs_counter
+            sectors
+            ctx.sectors_counters)
+        |> Tyxml.To_dom.of_div
+      in
+      Dom.appendChild statistic_box block
     | Error errs ->
       Console.render_error errs
   ;;

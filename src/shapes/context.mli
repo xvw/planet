@@ -42,3 +42,7 @@ type t =
 val init : Update_table.t -> t
 val update : t -> Log.t -> t
 val context_to_qexp : context -> Paperwork.Qexp.t
+
+val context_from_qexp
+  :  Paperwork.Qexp.t
+  -> context Bedrock.Validation.t

@@ -665,10 +665,16 @@ div.resume-box h3,
     padding: 4px 8px;
 }
 
+
+.tracking ul,
 #major-content-right .project-block ul {
     margin: 0;
     padding: 4px 8px;
     margin-top: 12px;
+}
+
+#major-content-right .project-block ul {
+    margin-bottom: 28px;
 }
 
 #major-content-bottom .list-of-links {
@@ -689,11 +695,13 @@ div.resume-box h3,
 }
 
 
+.tracking ul li,
 #major-content-bottom .project-block ul > li,
 #major-content-right .project-block ul > li {
     list-style: none;
 }
 
+.tracking ul li,
 #major-content-right .project-block ul > li {
     margin: 4px 0px;
 }
@@ -727,22 +735,14 @@ div.resume-box h3,
     text-decoration: none;
 }
 
-#major-content-right .tracking  ul.stats {
-    margin-bottom: 24px;
-}
-
-#major-content-right .tracking  ul.stats > li,
+.tracking  ul.stats > li,
 #major-content-right .release-list ul > li {
     display: flex;
     flex-direction: row;
     align-items: center;
 }
 
-#major-content-right .tracking ul.stats {
-    font-size: 75%;
-}
-
-#major-content-right .tracking  ul.stats > li > .label,
+.tracking  ul.stats > li > .label,
 #major-content-right .release-list ul > li > .date {
     padding: 4px 8px;
     border-radius: 4px;
@@ -750,7 +750,11 @@ div.resume-box h3,
     margin-right: 12px;
 }
 
-#major-content-right .tracking  ul.stats > li > .label {
+.tracking  ul.stats > li {
+    font-size: 80%;
+}
+
+.tracking  ul.stats > li > .label {
     background-color: #eee;
     color: #666;
     font-weight: 700;
@@ -758,7 +762,7 @@ div.resume-box h3,
     text-align: center;
 }
 
-#major-content-right .tracking ul.stats > li > .data,
+.tracking ul.stats > li > .data,
 #major-content-right .release-list ul > li > .date {
     font-family: "Fira Mono", monospace;
 }
@@ -788,15 +792,25 @@ div.resume-box h3,
     display: none;
 }
 
-#major-content-right .tracking-graph {
+.tracking-graph {
     margin: 0px 8px;
     width: 100%;
 }
 
-#major-content-right .tracking-graph text {
+.tracking-graph text {
     font-family: "Fira Mono", monospace;
+    font-size: 80%;
+}
+
+
+#major-content-right .tracking li {
+    font-size: 70%;
+}
+
+#major-content-right .tracking-graph text {
     font-size: 60%;
 }
+
 
 .structured-text .math em{
     font-family: 'Old Standard TT', 'Helvetica Neue', Helvetica, serif;

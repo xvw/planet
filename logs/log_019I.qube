@@ -88,3 +88,8 @@
   (:duration "60") (:sector "programming")
   (:label "Isolation du code pour générer les statistiques par projets")
   (:project "planet"))
+
+((:uuid "e0bbb18b-539a-0b85-36de-ece12d007e9f") (:day "019I22")
+  (:duration "30") (:sector "visual")
+  (:label "Représentation des statistiques globales dans la page de Journal")
+  (:project "planet"))

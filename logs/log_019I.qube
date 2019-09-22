@@ -93,3 +93,8 @@
   (:duration "30") (:sector "visual")
   (:label "Représentation des statistiques globales dans la page de Journal")
   (:project "planet"))
+
+((:uuid "ece79699-fe72-b72a-13b4-13180da5eea0") (:day "019I22")
+  (:duration "30") (:sector "programming")
+  (:label "Modification de la représentation interne d'un Foncteur")
+  (:project "preface"))

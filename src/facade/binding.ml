@@ -4,6 +4,32 @@ open Util
 open Error
 module Ajax = Lwt_xmlHttpRequest
 
+module Project = struct
+  class type short_js =
+    object
+      method name : Js.js_string Js.t Js.readonly_prop
+
+      method published : bool Js.t Js.Optdef.t Js.readonly_prop
+    end
+
+  type short = short_js Js.t
+
+  let short_shape obj =
+    ( Js.to_string obj##.name
+    , Js.Optdef.case obj##.published (fun () -> true) Js.to_bool )
+  ;;
+
+  let get () =
+    let open Lwt.Infix in
+    "/api/projects.json" |> Ajax.get
+    >|= (fun frame -> frame.Ajax.content)
+    >|= Js.string
+    >|= (fun x -> Js._JSON##parse x)
+    >|= Js.to_array %> Array.to_seq %> Seq.map short_shape
+    >|= Hashtbl.of_seq
+  ;;
+end
+
 module Log = struct
   class type js =
     object

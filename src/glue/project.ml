@@ -77,10 +77,9 @@ let to_json () =
   let open Validation.Infix in
   all ()
   >|= fun projects ->
-  Json.obj
+  Json.array
   $ List.map
-      (fun (project, _, _) ->
-        Shapes.Project.(project.name, to_json project))
+      (fun (project, _, _) -> Shapes.Project.to_json project)
       (snd projects)
 ;;
 

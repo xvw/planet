@@ -1,6 +1,20 @@
 open Js_of_ocaml
 open Bedrock
 
+module Project : sig
+  class type short_js =
+    object
+      method name : Js.js_string Js.t Js.readonly_prop
+
+      method published : bool Js.t Js.Optdef.t Js.readonly_prop
+    end
+
+  type short = short_js Js.t
+
+  val short_shape : short -> string * bool
+  val get : unit -> (string, bool) Hashtbl.t Lwt.t
+end
+
 module Log : sig
   class type js =
     object

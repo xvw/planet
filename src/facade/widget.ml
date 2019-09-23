@@ -234,16 +234,19 @@ module Graph = struct
     let w = float_of_int width in
     let g = float_of_int gutter in
     let start_date = Calendar.years_ago 1 end_date in
+    let _ = end_date##setHours 23 in
+    let _ = end_date##setMinutes 59 in
+    let _ = end_date##setSeconds 59 in
     let nb_weeks =
       float_of_int (Calendar.weeks_between end_date start_date)
     in
     let cell_w = (w -. (nb_weeks *. g)) /. (nb_weeks +. 1.0) in
     let h = (cell_w *. 7.0) +. (7.0 *. g) in
+    let ms = end_date##valueOf in
     let boxes =
       let rec aux offx offy acc date =
-        let () = Console.log date in
         let ts = date##valueOf in
-        if ts > end_date##valueOf
+        if ms < ts
         then acc
         else (
           let y = float_of_int offx *. (cell_w +. g) in
@@ -908,7 +911,7 @@ module Diary = struct
         ~a:[ a_class [ "tracking" ] ]
         (let open Shapes.Context in
         Stats.render_timedata
-          ~width:500
+          ~width:280
           ctx.minuts_counter
           ctx.start_date
           ctx.last_update
@@ -920,7 +923,7 @@ module Diary = struct
     Dom.appendChild statistic_box block
   ;;
 
-  let render_logs container logs =
+  let render_logs sectors container logs projects =
     let () = container##.innerHTML := Js.string "" in
     let open Tyxml.Html in
     let l =
@@ -929,17 +932,71 @@ module Diary = struct
         (List.map
            (fun log ->
              let open Shapes.Log in
+             let sector = Hashtbl.find_opt sectors log.sector in
+             let color =
+               match sector with
+               | Some x ->
+                 x.Shapes.Sector.color
+               | None ->
+                 Color.create 255 0 0
+             in
+             let proj =
+               let open Option.Infix in
+               match
+                 log.project
+                 >>= fun key ->
+                 Hashtbl.find_opt projects key
+                 >|= fun value -> key, value
+               with
+               | None ->
+                 []
+               | Some (key, value) ->
+                 [ div
+                     ~a:[ a_class [ "log-project" ] ]
+                     [ (if value
+                       then
+                         a
+                           ~a:
+                             [ a_href
+                               $ Format.asprintf
+                                   "/projects/%s.html"
+                                   key
+                             ]
+                           [ txt key ]
+                       else span [ txt key ])
+                     ]
+                 ]
+             in
              li
                ~a:[ a_class [ "log" ] ]
-               [ span
-                   ~a:[ a_class [ "log-date" ] ]
-                   [ txt
-                     $ Format.asprintf "%a" Timetable.Day.ppr log.day
-                   ]
+               [ div
+                   ~a:[ a_class [ "log-header" ] ]
+                   (div
+                      ~a:[ a_class [ "log-date" ] ]
+                      [ txt
+                        $ Format.asprintf
+                            "%a"
+                            Timetable.Day.ppr
+                            log.day
+                      ]
+                   :: proj)
                ; div ~a:[ a_class [ "log-label" ] ] [ txt log.label ]
                ; div
                    ~a:[ a_class [ "log-bottom" ] ]
-                   [ span
+                   [ div
+                       ~a:[ a_class [ "log-sector" ] ]
+                       [ div
+                           ~a:
+                             [ a_class [ "log-sector-pill" ]
+                             ; a_style
+                               $ Format.asprintf
+                                   "background-color: %s;"
+                                   (Color.to_hex color)
+                             ]
+                           []
+                       ; span [ txt log.sector ]
+                       ]
+                   ; div
                        ~a:[ a_class [ "log-duration" ] ]
                        [ txt $ string_of_int log.duration ]
                    ]
@@ -971,7 +1028,12 @@ module Diary = struct
       let open Lwt.Infix in
       let () =
         Binding.Log.get_last_logs ()
-        >|= render_logs entry_box |> ignore
+        >>= (fun logs ->
+              Binding.Project.get ()
+              >|= fun projects -> logs, projects)
+        >|= (fun (logs, projects) ->
+              render_logs sectors entry_box logs projects)
+        |> ignore
       in
       ()
     | Error errs ->

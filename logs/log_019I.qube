@@ -98,3 +98,7 @@
   (:duration "30") (:sector "programming")
   (:label "Modification de la représentation interne d'un Foncteur")
   (:project "preface"))
+
+((:uuid "c88119f9-d5c2-d224-991b-717ec2ef443c") (:day "019I23")
+  (:duration "250") (:sector "visual")
+  (:label "Amélioration du visuel du journal") (:project "planet"))

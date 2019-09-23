@@ -60,10 +60,6 @@
   (:duration "60") (:sector "writing")
   (:label "Expérience sur la génération de récits"))
 
-((:uuid "518b8c6a-6afd-8ca9-ec6a-cb365b3cc0cf") (:day "019D11")
-  (:duration "120") (:sector "reading")
-  (:label "Approche de la sémantique structurale de A.J. Greimas"))
-
 ((:uuid "559fa1bf-a74c-5ee2-57bd-2050fa3ad845") (:day "019D12")
   (:duration "120") (:sector "research")
   (:label "Le langage de modules de OCaml pour le talk à DevoxxFR 2019"))

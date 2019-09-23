@@ -16,11 +16,11 @@ title: Statistiques et suivi
 
   <div class="main-columns">
     <div>
-      <h2 class="classic-title">Statistiques</h2>
+      <h2 class="classic-title">Statistiques globales</h2>
       <div class="global-statistics"></div>
     </div>
     <div class="tier">
-      <h2 class="classic-title">Entrées</h2>
+      <h2 class="classic-title">Dernières entrées</h2>
       <div class="logs-container"></div>
     </div>
   </div>
@@ -28,7 +28,7 @@ title: Statistiques et suivi
 </div>
 <script type="application/javascript">
   planet.suspend(function() {
-    planet.diary.boot({
+   let k =  planet.diary.boot({
       context: document.querySelector(
         "textarea[data-planet-qexp='global-context']"
       ),
@@ -38,6 +38,7 @@ title: Statistiques et suivi
       sectors: document.querySelectorAll(
         "#planet-sectors-metadata > .sector-data"
       )
-    });
+   });
+    console.log(k);
   });
 </script>

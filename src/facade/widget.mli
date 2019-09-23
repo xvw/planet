@@ -31,7 +31,7 @@ module Project : sig
         Dom_html.element Dom.nodeList Js.t Js.readonly_prop
     end
 
-  val api : < boot : boot_input Js.t -> unit Js.meth > Js.t
+  val api : < boot : boot_input Js.t -> unit Lwt.t Js.meth > Js.t
 end
 
 module Story : sig
@@ -51,7 +51,7 @@ module Story : sig
         Dom_html.element Js.t Js.Opt.t Js.readonly_prop
     end
 
-  val api : < boot : boot_input Js.t -> unit Js.meth > Js.t
+  val api : < boot : boot_input Js.t -> unit Lwt.t Js.meth > Js.t
 end
 
 module Location : sig
@@ -61,7 +61,7 @@ module Location : sig
         Dom_html.element Js.t Js.Opt.t Js.readonly_prop
     end
 
-  val api : < boot : boot_input Js.t -> unit Js.meth > Js.t
+  val api : < boot : boot_input Js.t -> unit Lwt.t Js.meth > Js.t
 end
 
 module Diary : sig
@@ -83,5 +83,5 @@ module Diary : sig
         Dom_html.element Dom.nodeList Js.t Js.readonly_prop
     end
 
-  val api : < boot : boot_input Js.t -> unit Js.meth > Js.t
+  val api : < boot : boot_input Js.t -> unit Lwt.t Js.meth > Js.t
 end

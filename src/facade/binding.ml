@@ -2,6 +2,7 @@ open Js_of_ocaml
 open Bedrock
 open Util
 open Error
+open Paperwork.Timetable
 module Ajax = Lwt_xmlHttpRequest
 
 module Project = struct
@@ -41,7 +42,7 @@ module Log = struct
 
       method sector : Js.js_string Js.t Js.readonly_prop
 
-      method project : Js.js_string Js.t Js.Optdef.t Js.readonly_prop
+      method project : Js.js_string Js.t Js.Opt.t Js.readonly_prop
 
       method label : Js.js_string Js.t Js.readonly_prop
     end
@@ -61,7 +62,7 @@ module Log = struct
           obj##.date
     <*> pure obj##.duration
     <*> (Js.to_string %> pure) obj##.sector
-    <*> (Js.Optdef.to_option %> Option.map Js.to_string %> pure)
+    <*> (Js.Opt.to_option %> Option.map Js.to_string %> pure)
           obj##.project
     <*> (Js.to_string %> pure) obj##.label
   ;;
@@ -70,7 +71,6 @@ module Log = struct
     let open Shapes.Log in
     let k = "log-" ^ log.uuid in
     let c = to_json %> Paperwork.Json.to_string $ log in
-    let () = Console.log c in
     Storage.Local.set k c
   ;;
 
@@ -100,6 +100,41 @@ module Log = struct
            | Ok log ->
              reduce_log acc log i))
       ()
+  ;;
+
+  let collect () =
+    let open Lwt.Infix in
+    "/api/logs.json" |> Ajax.get
+    >|= (fun frame -> frame.Ajax.content)
+    >|= Js.string
+    >>= fun x ->
+    let parsed = Js.(_JSON##parse x |> Js.to_array) in
+    let hash = Hashtbl.create 1 in
+    Array.fold_left
+      (fun promise_h obj ->
+        promise_h
+        >|= fun h ->
+        match shape obj with
+        | Error errs ->
+          let () = Console.dump_errors obj errs in
+          let () =
+            Js.raise_js_error
+              (new%js Js.error_constr (Js.string "Aie Aie"))
+          in
+          h
+        | Ok log ->
+          let open Shapes.Log in
+          let key = Format.asprintf "%a" Day.ppr log.day in
+          (match Hashtbl.find_opt h key with
+          | None ->
+            let () = Hashtbl.add h key [ log ] in
+            h
+          | Some acc ->
+            let () = Hashtbl.remove h key in
+            let () = Hashtbl.add h key (log :: acc) in
+            h))
+      (Lwt.return hash)
+      parsed
   ;;
 
   let get_last_logs () =

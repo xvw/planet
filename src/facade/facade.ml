@@ -1,44 +1,25 @@
 open Js_of_ocaml
+module Lwt_js_events = Js_of_ocaml_lwt.Lwt_js_events
 
-(* let hydrate uuid =
- *   let open Lwt.Infix in
- *   "Start processing data" |> Lwt.return >|= Console.print
- *   >|= (fun () -> Storage.Session.set "planet-uuid" uuid)
- *   >>= Binding.Log.hydrate
- *   >|= fun () -> Console.print "Processing data done"
- * ;; *)
-
-let start generation_id_node f =
+let start _generation_id_node f =
   let open Bedrock.Validation in
-  generation_id_node |> Js.Opt.to_option
-  |> from_option (Of "Unable to find generation-id")
-  >>= (fun x ->
-        Attr.Data.(x.%{"uuid"})
-        |> from_option (Of "Unable to find data-uuid"))
-  |> (function
-       | Ok uuid ->
-         let () = Console.print ("Planet is started with " ^ uuid) in
-         (match Storage.Session.get "planet-uuid" with
-         | None ->
-           Lwt.return_unit
-         (* hydrate uuid *)
-         | Some pred_uuid when uuid <> pred_uuid ->
-           Lwt.return_unit
-         (* hydrate uuid *)
-         | _ ->
-           Lwt.return_unit)
-       | Error errs ->
-         Lwt.return (Console.render_error errs))
-  |> fun promise ->
-  Dom_html.window##.onload
-  := Dom.handler (fun _ ->
-         let open Lwt.Infix in
-         let _ =
-           Lwt.finalize
-             (fun () -> promise)
-             (fun () -> Lwt.return (f ()))
-         in
-         Js._true)
+  (* generation_id_node |> Js.Opt.to_option
+   * |> from_option (Of "Unable to find generation-id")
+   * >>= (fun x ->
+   *       Attr.Data.(x.%{"uuid"})
+   *       |> from_option (Of "Unable to find data-uuid"))
+   * |> (function
+   *      | Ok uuid ->
+   *        let () = Console.print ("Planet is started with " ^ uuid) in
+   *        Lwt.return_unit
+   *      | Error errs ->
+   *        Lwt.return (Console.render_error errs))
+   * |> fun promise -> *)
+  Lwt.Infix.(
+    Lwt.return (Console.log "Await for planet")
+    >>= Lwt_js_events.onload
+    >>= (fun _ev -> f ())
+    >|= fun () -> Console.log "Planet launched")
 ;;
 
 let () =
@@ -64,9 +45,10 @@ let () =
            |> Js.to_array
            |> Array.fold_left
                 (fun callback task () ->
-                  let () = callback () in
-                  Js.Unsafe.fun_call task [||])
-                (fun () -> ())
+                  let open Lwt.Infix in
+                  callback ()
+                  >|= fun () -> Js.Unsafe.fun_call task [||])
+                (fun () -> Lwt.return_unit)
          in
          start nodes f
 

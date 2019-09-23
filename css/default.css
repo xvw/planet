@@ -1064,6 +1064,20 @@ div.location-box > div > div.current > div.since::before {
     margin-bottom: 28px;
 }
 
+.calendar-view svg rect.day-box {
+    fill: #333;
+}
+
+.calendar-view svg rect.non-empty {
+    cursor: pointer;
+    fill: #CCC;
+}
+
+.calendar-view svg rect.non-empty:hover {
+    fill: #FFF;
+}
+
+
 
 p.free-paragraph {
     display: block;

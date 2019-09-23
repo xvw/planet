@@ -230,6 +230,8 @@ module Graph = struct
       ?(end_date = Calendar.now ())
       ?(gutter = 2)
       width
+      logs
+      render_logs
     =
     let w = float_of_int width in
     let g = float_of_int gutter in
@@ -251,25 +253,44 @@ module Graph = struct
         else (
           let y = float_of_int offx *. (cell_w +. g) in
           let x = float_of_int offy *. (cell_w +. g) in
+          let key =
+            Format.asprintf
+              "%04d-%02d-%02d"
+              date##getFullYear
+              (succ date##getMonth)
+              date##getDate
+          in
+          let attr_tail =
+            match Hashtbl.find_opt logs key with
+            | None ->
+              Svg.[ a_class [ "day-box"; "empty" ] ]
+            | Some current_logs ->
+              Svg.
+                [ a_class [ "day-box"; "non-empty" ]
+                ; a_onclick (fun _ ->
+                      let () = render_logs current_logs in
+                      true)
+                ]
+          in
           let rect =
             Svg.(
               rect
                 ~a:
-                  [ a_id
-                      (Format.asprintf
-                         "%s%04d-%02d-%02d"
-                         prefix_id
-                         date##getFullYear
-                         date##getMonth
-                         date##getDate)
-                  ; a_x $ d x
-                  ; a_y $ d y
-                  ; a_rx $ d 2.
-                  ; a_ry $ d 2.
-                  ; a_width $ d cell_w
-                  ; a_height $ d cell_w
-                  ; a_fill $ `Color ("#FFF", None)
-                  ]
+                  ([ a_id
+                       (Format.asprintf
+                          "%s%04d-%02d-%02d"
+                          prefix_id
+                          date##getFullYear
+                          date##getMonth
+                          date##getDate)
+                   ; a_x $ d x
+                   ; a_y $ d y
+                   ; a_rx $ d 2.
+                   ; a_ry $ d 2.
+                   ; a_width $ d cell_w
+                   ; a_height $ d cell_w
+                   ]
+                  @ attr_tail)
                 [])
           in
           let succ_date = new%js Js.date_fromTimeValue ts in
@@ -639,26 +660,27 @@ module Project = struct
 
   let boot input =
     let open Validation.Infix in
-    match
-      (fun x y z a -> x, y, z, a)
-      <$> validate
-            "unable to find right container"
-            input##.rightContainer
-      <*> validate
-            "unable to find bottom container"
-            input##.bottomContainer
-      <*> validate_project input##.project
-      <*> Sector.nodelist_to_hashtbl input##.sectors
-    with
-    | Ok (right_container, bottom_container, project, sectors) ->
-      render_summary
-        right_container
-        bottom_container
-        project
-        input##.timedata
-        sectors
-    | Error errs ->
-      Console.render_error errs
+    Lwt.return
+      (match
+         (fun x y z a -> x, y, z, a)
+         <$> validate
+               "unable to find right container"
+               input##.rightContainer
+         <*> validate
+               "unable to find bottom container"
+               input##.bottomContainer
+         <*> validate_project input##.project
+         <*> Sector.nodelist_to_hashtbl input##.sectors
+       with
+      | Ok (right_container, bottom_container, project, sectors) ->
+        render_summary
+          right_container
+          bottom_container
+          project
+          input##.timedata
+          sectors
+      | Error errs ->
+        Console.render_error errs)
   ;;
 
   let api =
@@ -736,30 +758,31 @@ module Story = struct
 
   let boot input =
     let open Validation.Infix in
-    match
-      (fun x y z -> x, y, z)
-      <$> validate
-            "unable to find right container"
-            input##.rightContainer
-      <*> validate
-            "unable to find bottom container"
-            input##.bottomContainer
-      <*> validate_story input##.story
-    with
-    | Ok (right_container, bottom_container, story) ->
-      let resume, progress, jump =
-        render_summary right_container bottom_container story
-      in
-      let tdom = Tyxml.To_dom.of_div in
-      let tdoma = Tyxml.To_dom.of_a in
-      Resume.handle
-        (tdom resume)
-        (tdom progress)
-        (tdoma jump)
-        input##.path
-        (Js.Opt.to_option input##.eof)
-    | Error errs ->
-      Console.render_error errs
+    Lwt.return
+      (match
+         (fun x y z -> x, y, z)
+         <$> validate
+               "unable to find right container"
+               input##.rightContainer
+         <*> validate
+               "unable to find bottom container"
+               input##.bottomContainer
+         <*> validate_story input##.story
+       with
+      | Ok (right_container, bottom_container, story) ->
+        let resume, progress, jump =
+          render_summary right_container bottom_container story
+        in
+        let tdom = Tyxml.To_dom.of_div in
+        let tdoma = Tyxml.To_dom.of_a in
+        Resume.handle
+          (tdom resume)
+          (tdom progress)
+          (tdoma jump)
+          input##.path
+          (Js.Opt.to_option input##.eof)
+      | Error errs ->
+        Console.render_error errs)
   ;;
 
   let api =
@@ -854,12 +877,10 @@ module Location = struct
     | Ok location_box ->
       let open Lwt.Infix in
       Binding.Location.get () >|= handle_location
-      >|= (fun (logs, d) ->
-            Dom.appendChild location_box (Tyxml.To_dom.of_div d);
-            logs)
-      |> ignore
+      >|= fun (logs, d) ->
+      Dom.appendChild location_box (Tyxml.To_dom.of_div d)
     | Error errs ->
-      Console.render_error errs
+      Lwt.return $ Console.render_error errs
   ;;
 
   let api =
@@ -899,8 +920,8 @@ module Diary = struct
     >>= Shapes.Context.context_from_qexp
   ;;
 
-  let render_calendar calendar_box =
-    let c = Graph.calendar 800 in
+  let render_calendar calendar_box render_logs logs =
+    let c = Graph.calendar 800 logs render_logs in
     Dom.appendChild calendar_box (Tyxml.To_dom.of_element c)
   ;;
 
@@ -923,7 +944,7 @@ module Diary = struct
     Dom.appendChild statistic_box block
   ;;
 
-  let render_logs sectors container logs projects =
+  let render_logs sectors container projects logs =
     let () = container##.innerHTML := Js.string "" in
     let open Tyxml.Html in
     let l =
@@ -1023,21 +1044,25 @@ module Diary = struct
         <*> validate_context input##.context)
     with
     | Ok (calendar_box, statistic_box, entry_box, sectors, ctx) ->
-      let () = render_calendar calendar_box in
-      let () = render_stats ctx sectors statistic_box in
       let open Lwt.Infix in
-      let () =
-        Binding.Log.get_last_logs ()
-        >>= (fun logs ->
-              Binding.Project.get ()
-              >|= fun projects -> logs, projects)
-        >|= (fun (logs, projects) ->
-              render_logs sectors entry_box logs projects)
-        |> ignore
-      in
-      ()
+      Binding.Log.get_last_logs ()
+      >>= (fun logs ->
+            Binding.Project.get () >|= fun projects -> logs, projects)
+      >|= (fun (logs, projects) ->
+            let () = render_logs sectors entry_box projects logs in
+            projects)
+      >|= (fun projects ->
+            let () = render_stats ctx sectors statistic_box in
+            projects)
+      >>= (fun projects ->
+            Binding.Log.collect () >|= fun logs -> logs, projects)
+      >|= fun (logs, projects) ->
+      render_calendar
+        calendar_box
+        (render_logs sectors entry_box projects)
+        logs
     | Error errs ->
-      Console.render_error errs
+      Lwt.return (Console.render_error errs)
   ;;
 
   let api =

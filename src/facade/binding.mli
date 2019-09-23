@@ -26,7 +26,7 @@ module Log : sig
 
       method sector : Js.js_string Js.t Js.readonly_prop
 
-      method project : Js.js_string Js.t Js.Optdef.t Js.readonly_prop
+      method project : Js.js_string Js.t Js.Opt.t Js.readonly_prop
 
       method label : Js.js_string Js.t Js.readonly_prop
     end
@@ -37,6 +37,7 @@ module Log : sig
   val hydrate : unit -> unit Lwt.t
   val get_by_id : string -> Shapes.Log.t option
   val get_last_logs : unit -> Shapes.Log.t list Lwt.t
+  val collect : unit -> (string, Shapes.Log.t list) Hashtbl.t Lwt.t
 end
 
 module Location : sig

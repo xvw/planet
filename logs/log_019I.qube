@@ -107,3 +107,8 @@
   (:duration "220") (:sector "programming")
   (:label "Rendu interactif de la carte d'activité pour la page Journal")
   (:project "planet"))
+
+((:uuid "17dc352a-d893-e299-db55-50e96e87272f") (:day "019I24")
+  (:duration "30") (:sector "programming")
+  (:label "Relecture et expérimentation sur les Applicatives")
+  (:project "preface"))

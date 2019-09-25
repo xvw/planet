@@ -112,3 +112,8 @@
   (:duration "30") (:sector "programming")
   (:label "Relecture et expérimentation sur les Applicatives")
   (:project "preface"))
+
+((:uuid "dfdcbd81-db07-9ae3-4a61-6512a4cec485") (:day "019I25")
+  (:duration "60") (:sector "programming")
+  (:label "Initiation des monades dans la bibliothèque")
+  (:project "preface"))

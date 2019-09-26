@@ -122,3 +122,7 @@
   (:duration "200") (:sector "programming")
   (:label "Implémentation des monades dans la bibliothèque")
   (:project "preface"))
+
+((:uuid "16cae6dc-b80d-6fd9-025c-3d08a37bac31") (:day "019I26")
+  (:duration "420") (:sector "programming")
+  (:label "Amélioration de l'API des monades") (:project "preface"))

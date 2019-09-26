@@ -117,3 +117,8 @@
   (:duration "60") (:sector "programming")
   (:label "Initiation des monades dans la bibliothèque")
   (:project "preface"))
+
+((:uuid "500935cc-7393-8667-ae5e-b191b46b66db") (:day "019I26")
+  (:duration "200") (:sector "programming")
+  (:label "Implémentation des monades dans la bibliothèque")
+  (:project "preface"))

@@ -231,6 +231,7 @@ module Graph = struct
       ?(gutter = 2)
       width
       logs
+      (title_box : Dom_html.headingElement Js.t)
       render_logs
     =
     let w = float_of_int width in
@@ -269,6 +270,17 @@ module Graph = struct
                 [ a_class [ "day-box"; "non-empty" ]
                 ; a_onclick (fun _ ->
                       let () = render_logs current_logs in
+                      let suffix =
+                        if List.length current_logs > 1
+                        then "s"
+                        else ""
+                      in
+                      let label =
+                        Format.asprintf "Entrée%s du %s" suffix key
+                      in
+                      let () =
+                        title_box##.innerHTML := Js.string label
+                      in
                       true)
                 ]
           in
@@ -899,6 +911,9 @@ module Diary = struct
       method calendarBox :
         Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
 
+      method titleBox :
+        Dom_html.headingElement Js.t Js.Opt.t Js.readonly_prop
+
       method statisticBox :
         Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
 
@@ -920,8 +935,8 @@ module Diary = struct
     >>= Shapes.Context.context_from_qexp
   ;;
 
-  let render_calendar calendar_box render_logs logs =
-    let c = Graph.calendar 800 logs render_logs in
+  let render_calendar calendar_box title_box render_logs logs =
+    let c = Graph.calendar 800 logs title_box render_logs in
     Dom.appendChild calendar_box (Tyxml.To_dom.of_element c)
   ;;
 
@@ -1030,7 +1045,7 @@ module Diary = struct
   let boot input =
     match
       Validation.Infix.(
-        (fun v w x y z -> v, w, x, y, z)
+        (fun u v w x y z -> u, v, w, x, y, z)
         <$> validate
               "unable to find calendar container"
               input##.calendarBox
@@ -1040,10 +1055,19 @@ module Diary = struct
         <*> validate
               "unable to find entry container"
               input##.entryBox
+        <*> validate
+              "Unable to find title container"
+              input##.titleBox
         <*> Sector.nodelist_to_hashtbl input##.sectors
         <*> validate_context input##.context)
     with
-    | Ok (calendar_box, statistic_box, entry_box, sectors, ctx) ->
+    | Ok
+        ( calendar_box
+        , statistic_box
+        , entry_box
+        , title_box
+        , sectors
+        , ctx ) ->
       let open Lwt.Infix in
       Binding.Log.get_last_logs ()
       >>= (fun logs ->
@@ -1059,6 +1083,7 @@ module Diary = struct
       >|= fun (logs, projects) ->
       render_calendar
         calendar_box
+        title_box
         (render_logs sectors entry_box projects)
         logs
     | Error errs ->

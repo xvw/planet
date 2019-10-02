@@ -20,7 +20,7 @@ title: Statistiques et suivi
       <div class="global-statistics"></div>
     </div>
     <div class="tier">
-      <h2 class="classic-title">Entrées</h2>
+      <h2 class="classic-title entries-title">Dernières entrées</h2>
       <div class="logs-container"></div>
     </div>
   </div>
@@ -32,12 +32,13 @@ title: Statistiques et suivi
       context: document.querySelector(
         "textarea[data-planet-qexp='global-context']"
       ),
-      calendarBox: document.querySelector(".calendar-view"),
-      statisticBox: document.querySelector(".global-statistics"),
-      entryBox: document.querySelector(".logs-container"),
-      sectors: document.querySelectorAll(
-        "#planet-sectors-metadata > .sector-data"
-      )
+     calendarBox: document.querySelector(".calendar-view"),
+     titleBox: document.querySelector(".entries-title"),
+     statisticBox: document.querySelector(".global-statistics"),
+     entryBox: document.querySelector(".logs-container"),
+     sectors: document.querySelectorAll(
+       "#planet-sectors-metadata > .sector-data"
+     )
    });
     console.log(k);
   });

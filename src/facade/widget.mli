@@ -73,6 +73,9 @@ module Diary : sig
       method calendarBox :
         Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
 
+      method titleBox :
+        Dom_html.headingElement Js.t Js.Opt.t Js.readonly_prop
+
       method statisticBox :
         Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
 

@@ -3,3 +3,7 @@
   (:duration "100") (:sector "programming")
   (:label "Amélioration de l'interactivité dans le journal")
   (:project "planet"))
+
+((:uuid "b8608ddf-e4cf-1d9f-a457-bc4e746d49fc") (:day "019J09")
+  (:duration "320") (:sector "programming")
+  (:label "Développement de la version 2") (:project "rme"))

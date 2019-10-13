@@ -168,8 +168,8 @@ Dans cet exemple, src_ocaml{'b} sera le type des données de la liste, et on uti
 src_ocaml{'a} pour définir si la liste est vide ou non.
 
 #+BEGIN_SRC ocaml
-type empty_t 
-type not_empty_t 
+type empty_t = Empty_t 
+type not_empty_t = Not_empty_t
 
 type 'a my_list =
  | Empty
@@ -194,8 +194,8 @@ nom. Nous allons pouvoir implémenter l'interface de notre module:
 
 
 #+BEGIN_SRC ocaml
- type empty_t
- type not_empty_t 
+ type empty_t = Empty_t
+ type not_empty_t = Not_empty_t
  type ('a, 'b) t
 
  val empty : (empty_t, 'a) t

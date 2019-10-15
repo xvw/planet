@@ -7,3 +7,7 @@
 ((:uuid "b8608ddf-e4cf-1d9f-a457-bc4e746d49fc") (:day "019J09")
   (:duration "320") (:sector "programming")
   (:label "Développement de la version 2") (:project "rme"))
+
+((:uuid "2fa1baa0-0dd3-d6c7-55e2-3a9ee77289f8") (:day "019J15")
+  (:duration "60") (:sector "writing")
+  (:label "Rédaction de la page de présentation") (:project "planet"))

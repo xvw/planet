@@ -118,6 +118,11 @@ body {
     flex: 2;
 }
 
+.main-columns .large {
+    flex: 3;
+}
+
+
 figure > img.image-cover {
     width: 100%;
     margin-top: 48px;
@@ -626,6 +631,7 @@ a.long-item {
     margin-bottom: 28px;
 }
 
+.block-title,
 #major-content-bottom .project-block h3,
 #major-content-right .project-block h3 {
     margin: 0;
@@ -636,6 +642,7 @@ a.long-item {
     text-transform: capitalize;
 }
 
+.block-title,
 div.resume-box h3,
 #major-content-right .project-block h3 {
     padding-bottom: 8px;
@@ -1167,6 +1174,40 @@ p.free-paragraph {
     font-size: 80%;
     color: #888;
     padding: 12px 8px;
+}
+
+.timeline {
+    padding: 0;
+    margin: 0;
+}
+
+.timeline > li {
+    list-style: none;
+    background-color: transparent;
+    padding: 4px;
+    display: flex;
+    border-radius: 4px;
+    font-weight: 400;
+    font-size: 90%;
+    padding-right: 8px;
+}
+
+.timeline > li:nth-child(odd) {
+    background-color: #fff;
+}
+
+.timeline > li .range {
+    font-family: "Fira Mono", monospace;
+    background-color: #ddd;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 700;
+    color: #333;
+    margin-right: 8px;
+}
+
+.timeline > li .label {
+    flex: 1;
 }
 
 @media screen and (max-width: 720px) {

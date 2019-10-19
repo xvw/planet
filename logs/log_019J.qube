@@ -20,3 +20,6 @@
 ((:uuid "fee21698-f33f-549a-4bc7-5305729d2f77") (:day "019J16")
   (:duration "10") (:sector "maintenance")
   (:label "Correction quotes/doublequotes") (:project "planet"))
+
+((:uuid "5477c557-c924-6539-48cc-aa86ca9d0006") (:day "019J19")
+  (:duration "120") (:sector "visual") (:label "Expériences avec Blender"))

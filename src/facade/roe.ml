@@ -219,17 +219,17 @@ module Quote = struct
 end
 
 let mount container =
-  container##querySelectorAll (Js.string ".roe")
+  container##querySelectorAll (Js.string "[data-roe-kind]")
   |> Dom.list_of_nodeList
   |> List.map (fun node ->
-         Attr.Data.(node.%{"kind"})
+         Attr.Data.(node.%{"roe-kind"})
          |> Validation.from_option (Of "Unable to find kind")
          |> Validation.bind (function
                 | "code" ->
                   Code.deal_with
                     node
                     (node##querySelectorAll
-                       (Js.string "div.sourceCode"))
+                       (Js.string "pre.sourceCode"))
                 | "quote" ->
                   Quote.deal_with node
                 | kind ->

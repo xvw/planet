@@ -219,12 +219,11 @@ div.sourceCode {
 div.code-container {
     background-color: #fefefe;
     border-radius: 4px;
-    margin: 24px 0;
     padding: 8px;
     font-size: 90%;
 }
 
-div.code-container  div.sourceCode {
+div.sourceCode div.code-container  {
     padding: 0;
     margin: 0;
     font-size: 100%;
@@ -233,7 +232,6 @@ div.code-container  div.sourceCode {
 div.code-container > .code-concrete-container {
     display: flex;
     flex-direction: row;
-    
 }
 
 div.code-container .code-line-number {
@@ -243,7 +241,7 @@ div.code-container .code-line-number {
     text-align: right;
     color: #888;
     margin: 0;
-    margin-right: 24px;
+    margin-right: 18px;
     font-family: "Fira Mono", monospace;
 }
 
@@ -256,7 +254,7 @@ div.code-container .code-line-number > div {
     height: 1.5em;
 }
 
-div.code-container div.sourceCode {
+div.code-container pre.sourceCode {
     flex: 1;
     order: 1;
 }

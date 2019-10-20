@@ -5,6 +5,7 @@ module Svg = Tyxml.Svg
 module Lwt_js_events = Js_of_ocaml_lwt.Lwt_js_events
 
 let d ?(u = `Px) value = value, Some u
+let clear node = node##.innerHTML := Js.string ""
 
 module Resume = struct
   open Util
@@ -637,10 +638,12 @@ module Project = struct
           ~a:[ a_class [ "project-block"; "tracking" ] ]
           (title :: (graph @ tags @ releases))
     in
+    let () = clear right_container in
     let () =
       Dom.appendChild right_container (Tyxml.To_dom.of_element ctn)
     in
     let links = compute_links project in
+    let () = clear bottom_container in
     Common.render_links bottom_container links
   ;;
 
@@ -726,6 +729,7 @@ module Story = struct
   let render_summary right_container bottom_container story =
     let open Tyxml.Html in
     let resume_box, progress, jump = resume_handler in
+    let () = clear right_container in
     let () =
       Dom.appendChild
         right_container
@@ -736,6 +740,7 @@ module Story = struct
       |> Tyxml.To_dom.of_div
     in
     let () = Dom.appendChild right_container right_content in
+    let () = clear bottom_container in
     let () =
       Common.render_links bottom_container story.Shapes.Story.links
     in
@@ -876,6 +881,7 @@ module Location = struct
       let open Lwt.Infix in
       Binding.Location.get () >|= handle_location
       >|= fun (logs, d) ->
+      let () = clear location_box in
       Dom.appendChild location_box (Tyxml.To_dom.of_div d)
     | Error errs ->
       Lwt.return $ Console.render_error errs
@@ -923,6 +929,7 @@ module Diary = struct
 
   let render_calendar calendar_box title_box render_logs logs =
     let c = Graph.calendar 800 logs title_box render_logs in
+    let () = clear calendar_box in
     Dom.appendChild calendar_box (Tyxml.To_dom.of_element c)
   ;;
 
@@ -942,11 +949,11 @@ module Diary = struct
           ctx.sectors_counters)
       |> Tyxml.To_dom.of_div
     in
+    let () = clear statistic_box in
     Dom.appendChild statistic_box block
   ;;
 
   let render_logs sectors container projects logs =
-    let () = container##.innerHTML := Js.string "" in
     let open Tyxml.Html in
     let l =
       ul
@@ -1025,6 +1032,7 @@ module Diary = struct
                ])
            logs)
     in
+    let () = clear container in
     Dom.appendChild container (Tyxml.To_dom.of_ul l)
   ;;
 

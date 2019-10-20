@@ -1174,11 +1174,13 @@ p.free-paragraph {
     padding: 12px 8px;
 }
 
+.labelized-ul,
 .timeline {
     padding: 0;
-    margin: 0;
+    margin: 8px 0;
 }
 
+.labelized-ul > li,
 .timeline > li {
     list-style: none;
     background-color: transparent;
@@ -1194,6 +1196,7 @@ p.free-paragraph {
     background-color: #fff;
 }
 
+.labelized-ul > li .label,
 .timeline > li .range {
     font-family: "Fira Mono", monospace;
     background-color: #ddd;
@@ -1203,6 +1206,24 @@ p.free-paragraph {
     color: #333;
     margin-right: 8px;
 }
+
+.labelized-ul > li .label {
+    background-color: transparent;
+}
+
+.labelized-ul > li .label {
+    flex: 1;
+}
+
+.labelized-ul > li .content a {
+    color: #444;
+    text-decoration: none;
+}
+
+.labelized-ul > li .content {
+    flex: 2;
+}
+
 
 .timeline > li .label {
     flex: 1;

@@ -28,3 +28,7 @@
   (:duration "120") (:sector "programming")
   (:label "Amélioration de ROE pour préserver le formattage babel de Org")
   (:project "planet"))
+
+((:uuid "81fbbd28-a35c-055c-9e0d-633957f37ac2") (:day "019J20")
+  (:duration "60") (:sector "visual")
+  (:label "Rendu, un peu pauvre, des pages mobiles") (:project "planet"))

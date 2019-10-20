@@ -1,8 +1,14 @@
+SHA=`eval "git rev-parse HEAD"`
+MSG="[Automatic] $(SHA)"
+
 .PHONY: all build clean repl doc fmt install test dev binaries
 
 # Developement's workflow
 
 all: render
+
+init_submodule:
+	git submodule add git@github.com:xvw/xvw.github.io.git deployement
 
 build:
 	dune build @install
@@ -107,3 +113,17 @@ rehydrate: binaries client
 s:
 	./build.exe all
 	stack exec site build
+
+prepublish: render
+
+publish: prepublish
+	git submodule update --remote --merge
+	rsync -avr --delete --exclude-from '.publishignore'  _site/ deployement/
+	cd deployement \
+	  && git checkout master \
+	  && git add . \
+	  && git commit -m $(MSG) \
+	  && git push origin master
+	git add deployement
+	git commit -m $(MSG)
+	git push

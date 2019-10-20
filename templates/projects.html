@@ -3,7 +3,7 @@ $if(published)$
 <a href="$url$" class="project-item">
   <div class="project-picto">
     $if(pictogram)$
-    <img src="picto/$pictogram$.black.svg"/>
+    <img src="picto/$pictogram$.black.svg" alt="logo $displayable_title$"/>
     $endif$
   </div>
   <div class="project-details">
@@ -24,7 +24,7 @@ $if(published)$
 </a>
 $endif$
 $endfor$
-<script type="application/javascript">
+<script>
   planet.suspend(function() {
     planet.common.timeAgo(
       document.querySelectorAll("*[data-planet-ago]")

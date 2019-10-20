@@ -32,3 +32,8 @@
 ((:uuid "81fbbd28-a35c-055c-9e0d-633957f37ac2") (:day "019J20")
   (:duration "60") (:sector "visual")
   (:label "Rendu, un peu pauvre, des pages mobiles") (:project "planet"))
+
+((:uuid "e7c69553-5eeb-1ced-2c39-601911e91175") (:day "019J20")
+  (:duration "30") (:sector "visual")
+  (:label "Modification de la page d'accueil et alignement des blocs")
+  (:project "planet"))

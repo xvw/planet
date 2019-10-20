@@ -96,7 +96,7 @@ src_ocaml{join} pour $\mu$ et src_ocaml{pure} pour $\eta$.
 Dans l'exemple ci-dessous, j'utilise un module pour représenter les opérations
 liées à une monade.
 
-#+BEGIN_SRC ocaml
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet OCaml :data-line-number true :data-file monad.ml
 module type MONAD =
 sig
   (* Le foncteur *)
@@ -175,7 +175,7 @@ Ne retenons donc que la phrase "/A monad is just a monoid in the category of/
 En général, quand on lit des ressources sur les monades, on utilise parfois
 (... oké, souvent) une autre interface :
 
-#+BEGIN_SRC ocaml
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet OCaml :data-line-number true :data-file monad2.ml
 module type MONAD =
 sig
   type 'a t
@@ -183,6 +183,7 @@ sig
   val (>>=) : 'a t -> ('a -> 'b t)  -> 'b t
 end
 #+END_SRC
+
 
 #+BEGIN_QUOTE
 *NB:* Dans certains langages, src_ocaml{>>=} s'appelle parfois
@@ -200,6 +201,7 @@ Qui doit satisfaire ces lois :
 Cette interface permet d'arriver exactement aux mêmes résultats que la précédente
 car il est possible d'implémenter src_ocaml{map} et src_ocaml{join} avec
 src_ocaml{pure} et src_ocaml{>>=} :
+
 
 #+BEGIN_SRC ocaml
 let join x  = x >>= (fun x -> x)
@@ -264,7 +266,7 @@ nouveau module construit sur la base du module paramétré et du module passé
 en argument.
 #+END_QUOTE
 
-#+BEGIN_SRC ocaml
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet OCaml :data-line-number true :data-file monad.mli
 module type BINDABLE =
 sig
   type 'a t
@@ -273,7 +275,8 @@ sig
 end
 #+END_SRC
 
-#+BEGIN_SRC ocaml
+
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet OCaml :data-line-number true :data-file monad.mli :data-line-start 7
 module type JOINABLE =
 sig
   type 'a t
@@ -283,7 +286,7 @@ sig
 end
 #+END_SRC
 
-#+BEGIN_SRC ocaml
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet OCaml :data-line-number true :data-file monad.mli :data-line-start 14
 module type MONAD =
 sig
   type 'a t
@@ -294,7 +297,7 @@ sig
 end
 #+END_SRC
 
-#+BEGIN_SRC ocaml
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet OCaml :data-line-number true :data-file monad.ml
 module With_bind (M : BINDABLE) :
   MONAD with type 'a t = 'a M.t =
 struct
@@ -304,7 +307,7 @@ struct
 end
 #+END_SRC
 
-#+BEGIN_SRC ocaml
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet OCaml :data-line-number true :data-file monad.ml :data-line-start 8
 module With_join (M : JOINABLE) :
   MONAD with type 'a t = 'a M.t =
 struct
@@ -327,7 +330,7 @@ Premièrement, la monade src_ocaml{Option}, qui repose sur le type src_ocaml{'a 
 Ce type est assez simple, il permet de caractériser la présence d'une valeur ou non
 (ce qui permet, au demeurant, d'éviter les src_java{NullPointerException}) :
 
-#+BEGIN_SRC ocaml
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet OCaml :data-line-number true :data-file option.ml
 module OptionM = With_bind(
   struct
     type 'a t = 'a option
@@ -338,13 +341,14 @@ module OptionM = With_bind(
   end)
 #+END_SRC
 
+
 La monade src_ocaml{List}, que l'on appelle aussi parfois, pour des raisons
 discutablement pédagogiques, src_ocaml{Non_Determinist}, repose sur le type
 src_ocaml{'a list}. Cette fois j'ai utilisé le module src_ocaml{With_join} pour
 la construire, car le module src_ocaml{List} expose déjà les fonctions dont
 j'ai besoin pour implémenter les prérequis.
 
-#+BEGIN_SRC ocaml
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet OCaml :data-line-number true :data-file list.ml
 module ListM = With_join(
   struct
     type 'a t = 'a list
@@ -363,7 +367,7 @@ par src_ocaml{b}. Si le diviseur est égal à zéro, la division échoue (et ren
 src_ocaml{None}), si elle réussit, elle emballe le résultat dans src_ocaml{Some}.
 Son type est src_ocaml{int -> int -> int option}.
 
-#+BEGIN_SRC ocaml
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet OCaml :data-file example_div.ml :data-line-number true
 let safe_div b a =
   if b = 0 then None
   else Some (a / b)
@@ -371,14 +375,14 @@ let safe_div b a =
 
 Voici deux valeurs calculées en utilisant notre module fraîchement défini :
 
-#+BEGIN_SRC ocaml
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet OCaml :data-line-number true :data-file example_div.ml :data-line-start 4
 let valueA = let open OptionM in
   pure 1000
   >>= safe_div 10
   >>= safe_div 100
 #+END_SRC
 
-#+BEGIN_SRC ocaml
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet OCaml :data-line-number true :data-file example_div.ml :data-line-start  8
 let valueB = let open OptionM in
   pure 1000
   >>= safe_div 0
@@ -398,7 +402,7 @@ divise par zéro.
 Utilisons maintenant notre monade src_ocaml{List} en implémentant, par exemple,
 le produit cartésien de deux listes :
 
-#+BEGIN_SRC ocaml
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet OCaml :data-line-number true :data-file example_list.ml
 let ( >< ) list_a list_b = let open ListM in
   list_a
   >>= fun a -> list_b
@@ -418,7 +422,7 @@ de simuler le comportement des [[https://fr.wikipedia.org/wiki/Ensemble#D%C3%A9f
 fonction qui nous aidera à formaliser les compréhensions sous forme de construction
 monadique :
 
-#+BEGIN_SRC ocaml
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet OCaml :data-line-number true :data-file example_list.ml :data-line-start 7
 let keep_if predicate x = let open ListM in
   if predicate x then pure x else []
 #+END_SRC
@@ -570,7 +574,7 @@ chaque élément d'une liste d'entiers se comporter ainsi :
 - si le nombre est pair, il est dupliqué ;
 - si le nombre est impair, il est conservé.
 
-#+BEGIN_SRC ocaml
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet OCaml :data-line-number true :data-file  example_list.ml :data-line-start 9
 let f my_integer_list =
   my_integer_list
   >>= (fun x ->
@@ -639,7 +643,7 @@ fonction qui prend un état "courant" et retourne un couple constitué d'une
 valeur de retour intermédiaire et d'un nouvel état. En plus des combinateurs
 classiques, on peut étendre le module avec quelques fonctions utiles :
 
-#+BEGIN_SRC ocaml
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet OCaml :data-line-number true :data-file state.mli
 module State (S : sig type t end) :
 sig
   type state = S.t
@@ -687,7 +691,7 @@ fonctions prend un état initial, qui correspondra à la première valeur du cal
 
 Voici comment implémenter la monade src_ocaml{State} :
 
-#+BEGIN_SRC ocaml
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet OCaml :data-line-number true :data-file state.ml
 module State (S : sig type t end) :
 sig
   type state = S.t
@@ -732,7 +736,7 @@ l'instruction d'initialisation, mais en démarrant l'état à 1. L'état
 courant sera donc égal à src_ocaml{1} mais la valeur intermédiaire, auquel
 on n'a absolument pas touché sera égale à src_ocaml{0}.
 
-#+BEGIN_SRC ocaml
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet OCaml :data-line-number true :data-file example_state.ml
 run (
   pure 0
   >>= fun index -> put (index + 1)
@@ -746,7 +750,7 @@ retour intermédiaire. Le résultat final sera donc le couple src_ocaml{(1, 1)}.
 Le motif src_ocaml{put + get} est récurrent, il correspond à la modification
 de l'état, le passage de l'état courant en valeur intermédiaire.
 
-#+BEGIN_SRC ocaml
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet OCaml :data-line-number true :data-file example_state.ml :data-line-start 7
 run (
   pure 0
   >>= fun index -> put (index + 1)
@@ -840,7 +844,7 @@ notation plus commode pour le traitement des monades.
 
 Haskell a choisi de mettre en place la *do-notation*. Par exemple, on écrira :
 
-#+BEGIN_SRC haskell
+#+BEGIN_SRC haskell :data-roe-kind code :data-pellet Haskell :data-file example_do.hs :data-line-number true
 cartesian_product :: [(String, Int)]
 cartesian_product = do
   x <- ["foo", "bar", "foobar"]
@@ -850,7 +854,7 @@ cartesian_product = do
 
 Plutôt que :
 
-#+BEGIN_SRC haskell
+#+BEGIN_SRC haskell :data-roe-kind code :data-pellet Haskell :data-file example_bind.hs :data-line-number true
 cartesian_product :: [(String, Int)]
 cartesian_product =
   ["foo", "bar", "foobar"]
@@ -868,7 +872,7 @@ mais pas [[https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/c
 que reposent leurs /workflows/ asynchrones et leurs /workflows/ de requêtage
 SQL. Par exemple, pour les *Options* :
 
-#+BEGIN_SRC fsharp
+#+BEGIN_SRC fsharp :data-roe-kind code :data-pellet Fsharp :data-file example_builder.fs :data-line-number true
 // On décrit les opérations valides
 type OptionBuilder () = 
   
@@ -887,7 +891,7 @@ let option = new OptionBuilder()
 On peut maintenant se servir de src_fsharp{option} comme d'une *do-notation*
 spécialisée pour *Option*, par exemple :
 
-#+BEGIN_SRC fsharp
+#+BEGIN_SRC fsharp :data-roe-kind code :data-pellet Fsharp :data-file example_builder.fs :data-line-number true :data-line-start 14
 let safeDivide x y = 
   match y with 
   | 0 -> None 
@@ -903,7 +907,7 @@ let result = option {
 
 Au lieu de :
 
-#+BEGIN_SRC fsharp
+#+BEGIN_SRC fsharp :data-roe-kind code :data-pellet Fsharp :data-file example_bind.fs :data-line-number true
 let safeDivide x y = 
   match y with 
   | 0 -> None 
@@ -928,7 +932,7 @@ monades à une [[https://github.com/janestreet/ppx_let][extension de syntaxe ext
 ce qui permet d'écrire des "programmes monadiques" plus lisibles. Par 
 exemple, en reprenant l'exemple du produit cartésien de deux listes : 
 
-#+BEGIN_SRC haskell
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet OCaml :data-file example_let.ml :data-line-number true
 let (let*) x f = List.(x >>= f)
 let cartesian_product =
   let* x = ["foo"; "bar"; "foobar"] in 
@@ -938,7 +942,7 @@ let cartesian_product =
 
 Au lieu de :
 
-#+BEGIN_SRC haskell
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet OCaml :data-file example_bind.ml :data-line-number true
 let cartesian_product =
   let open List in
   ["foo"; "bar"; "foobar"] >>= fun x ->

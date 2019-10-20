@@ -23,3 +23,8 @@
 
 ((:uuid "5477c557-c924-6539-48cc-aa86ca9d0006") (:day "019J19")
   (:duration "120") (:sector "visual") (:label "Expériences avec Blender"))
+
+((:uuid "47ed7b89-f73e-67fc-704e-4688872d2b7a") (:day "019J20")
+  (:duration "120") (:sector "programming")
+  (:label "Amélioration de ROE pour préserver le formattage babel de Org")
+  (:project "planet"))

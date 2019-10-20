@@ -41,3 +41,8 @@
 ((:uuid "548651cc-d170-c5a5-7139-a7ce4d21ae6e") (:day "019J20")
   (:duration "20") (:sector "programming")
   (:label "Ajout d'un fil de syndication Atom") (:project "planet"))
+
+((:uuid "f9f85b6c-51f1-87f8-ff01-ae1f24335917") (:day "019J20")
+  (:duration "20") (:sector "programming")
+  (:label "Ajout d'un module de chargement pour les widget plus lourds")
+  (:project "planet"))

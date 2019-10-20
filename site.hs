@@ -43,7 +43,6 @@ main = hakyll $ do
     matchMetadata projectsRule isPublished $ do
       route (unseedRoute `composeRoutes` setExtension "html")
       compile $ pandocCompiler
-        >>= saveSnapshot "content"
         >>= loadAndApplyTemplate "templates/project.html" projectContext
         >>= loadAndApplyTemplate "templates/default.html" projectContext
         >>= relativizeUrls
@@ -61,7 +60,6 @@ main = hakyll $ do
     matchMetadata shortsRule isPublished $ do
       route (unseedRoute `composeRoutes` setExtension "html")
       compile $ pandocCompiler
-        >>= saveSnapshot "content"
         >>= loadAndApplyTemplate "templates/post.html" defaultContext
         >>= loadAndApplyTemplate "templates/default.html" defaultContext
         >>= relativizeUrls    
@@ -129,6 +127,15 @@ main = hakyll $ do
           >>= loadAndApplyTemplate "templates/default.html" indexContext
           >>= relativizeUrls
 
+    -- Create Atom Feed
+    create ["atom.xml"] $ do
+      route idRoute
+      compile $ do
+        let f = loadAllSnapshots
+        let feedCtx = defaultContext `mappend` bodyField "description"
+        longs <- fmap (take 15) . recentFirst =<< f longsRule "content"
+        renderAtom myFeedConfiguration feedCtx longs
+
 
 
 -- Remove artifacts in routes
@@ -173,3 +180,14 @@ templatesRule =
 isPublished :: Metadata -> Bool
 isPublished ctx =
   lookupString "published" ctx == Just "true"
+
+-- RSS
+
+myFeedConfiguration :: FeedConfiguration
+myFeedConfiguration = FeedConfiguration
+    { feedTitle       = "xvw - planet"
+    , feedDescription = "Tech blog and time tracker of xvw"
+    , feedAuthorName  = "Xavier Van de Woestyne"
+    , feedAuthorEmail = "xaviervdw@gmail.com"
+    , feedRoot        = "https://xvw.github.io"
+    }

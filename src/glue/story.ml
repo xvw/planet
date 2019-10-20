@@ -63,6 +63,7 @@ let to_hakyll story =
               ; render_string "main_section" "Tentative"
               ; render_string "permaname" story.permaname
               ; render_string "synopsis" story.synopsis
+              ; render_string "description" story.synopsis
               ; render_if "published" story.published
               ; render
                   "date"

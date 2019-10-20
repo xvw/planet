@@ -131,6 +131,11 @@ Il s'agit d'une interface sur une structure pour *naviguer à gauche et à droit
 Bien qu'il existe plusieurs implémentation, nous allons partir d'une variation légère du Zipper
 (qui d'habitude, agit sur un arbre) utilisant deux listes et un élément courant :
 
+#+ATTR_HTML: :data-kind code
+#+ATTR_HTML: :data-pellet Elm
+#+ATTR_HTML: :data-file History.elm
+#+ATTR_HTML: :data-line-number true
+#+BEGIN_roe
 #+BEGIN_SRC haskell
 type alias History a =
     { past : List a
@@ -138,12 +143,19 @@ type alias History a =
     , future : List a
     }
 #+END_SRC
+#+END_roe
 
 Nous pouvons maintenant définir une interface pour utiliser notre historique. La première
 étape étant, simplement, de permettre de construire un nouvel historique. Comme je suppose
 qu'il est impossible de *ne pas avoir d'état initial*, l'implémentation de cette fonction
 est très aisée :
 
+#+ATTR_HTML: :data-kind code
+#+ATTR_HTML: :data-pellet Elm
+#+ATTR_HTML: :data-file History.elm
+#+ATTR_HTML: :data-line-number true
+#+ATTR_HTML: :data-line-start 6
+#+BEGIN_roe
 #+BEGIN_SRC haskell
 new : a -> History a
 new currentState =
@@ -152,6 +164,7 @@ new currentState =
     , future = []
     }
 #+END_SRC
+#+END_roe
 
 Maintenant que nous pouvons créer un nouvel historique, nous pouvons nous intéresser à la
 navigation.
@@ -173,7 +186,12 @@ n'est pas nécéssaire de qualifier l'erreur (en utilisant ~Result~, par exemple
 
 L'implémentation des deux commandes est assez simple (et récurrente) :
 
-
+#+ATTR_HTML: :data-kind code
+#+ATTR_HTML: :data-pellet Elm
+#+ATTR_HTML: :data-file History.elm
+#+ATTR_HTML: :data-line-number true
+#+ATTR_HTML: :data-line-start 12
+#+BEGIN_roe
 #+BEGIN_SRC haskell
 backward : History a -> Maybe (History a)
 backward zipper =
@@ -187,10 +205,17 @@ backward zipper =
                  , future = zipper.present :: zipper.future
                  }
 #+END_SRC
+#+END_roe
 
 Si notre /Zipper/ ne possède pas de passé, on renvoie ~Nothing~, par contre, si c'est le cas,
 notre présent est empilé dans le future, et la tête du passé devient le présent.
 
+#+ATTR_HTML: :data-kind code
+#+ATTR_HTML: :data-pellet Elm
+#+ATTR_HTML: :data-file History.elm
+#+ATTR_HTML: :data-line-number true
+#+ATTR_HTML: :data-line-start 23
+#+BEGIN_roe
 #+BEGIN_SRC haskell
 forward : History a -> Maybe (History a)
 forward zipper =
@@ -204,10 +229,18 @@ forward zipper =
                  , future = xs
                  }
 #+END_SRC
+#+END_roe
+
 La tâche est identique pour /avancer dans le temps/, sauf qu'on agit sur le future et non sur
 le passé. Nous pouvons maintenant très facilement naviguer dans notre /Zipper/. De plus, nous
 pouvons aussi nous servir de nos deux fonctions pour implémenter des combinateurs complémentaires :
 
+#+ATTR_HTML: :data-kind code
+#+ATTR_HTML: :data-pellet Elm
+#+ATTR_HTML: :data-file History.elm
+#+ATTR_HTML: :data-line-number true
+#+ATTR_HTML: :data-line-start 34
+#+BEGIN_roe
 #+BEGIN_SRC haskell
 hasPast : History a -> Bool
 hasPast zipper =
@@ -227,6 +260,7 @@ hasFuture zipper =
       Just _  ->
          True
 #+END_SRC
+#+END_roe
 
 Maintenant que nous avons la navigation dans l'historique, il ne nous reste plus qu'a intégrer
 une fonction pour *visiter* l'historique.
@@ -237,6 +271,12 @@ Comme nous l'avions évoqué dans l'introduction de l'article, l'ajout d'un nouv
 l'historique *nettoie* le futur du /Zipper/, pour garantir que l'on puisse invariablement
 restituer un état cohérent. Son implémentation est très facile :
 
+#+ATTR_HTML: :data-kind code
+#+ATTR_HTML: :data-pellet Elm
+#+ATTR_HTML: :data-file History.elm
+#+ATTR_HTML: :data-line-number true
+#+ATTR_HTML: :data-line-start 51
+#+BEGIN_roe
 #+BEGIN_SRC haskell
 push : History a -> a -> History a
 push zipper newState =
@@ -245,6 +285,7 @@ push zipper newState =
     , future = []
     }
 #+END_SRC
+#+END_roe
 
 Et c'est tout...
 

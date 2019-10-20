@@ -40,6 +40,11 @@ partie du langage OCaml.
 Les types sommes permettent d'unifier plusieurs types de données au sein d'un même type 
 au moyen de *constructeurs*. Par exemple : 
 
+#+ATTR_HTML: :data-kind code
+#+ATTR_HTML: :data-pellet OCaml
+#+ATTR_HTML: :data-file example_sum.ml
+#+ATTR_HTML: :data-line-number true
+#+BEGIN_roe
 #+BEGIN_SRC ocaml
 type color = 
  | Red   
@@ -49,6 +54,7 @@ type color =
 let a_color = Red 
 let a_color_list = [Red; Green; Blue]
 #+END_SRC
+#+END_roe
 
 Dans cet exemple, la variable src_ocaml{red} aura le type src_ocaml{color} et la variable 
 src_ocaml{a_color_list} aura le type src_ocaml{color list}.
@@ -61,6 +67,11 @@ des valeurs qui *appartiennent* au type src_ocaml{color}.
 Grâce aux types sommes, il est possible de construire facilement, au moyen de types 
 récursifs, des structures de données communes. Par exemple, une liste :
 
+#+ATTR_HTML: :data-kind code
+#+ATTR_HTML: :data-pellet OCaml
+#+ATTR_HTML: :data-file my_list.ml
+#+ATTR_HTML: :data-line-number true
+#+BEGIN_roe
 #+BEGIN_SRC ocaml
 type 'a my_list = 
   | Empty
@@ -68,6 +79,7 @@ type 'a my_list =
 
 let a_list = Cons (Red, Cons (Blue, Cons (Green, Empty)))
 #+END_SRC
+#+END_roe
 
 Ici, src_ocaml{a_list} aura le type src_ocaml{color my_list}. Les *constructeurs*
 d'un type src_ocaml{t} construisent des termes de type src_ocaml{t}.
@@ -79,6 +91,11 @@ serait :
 val iterate : ('a -> unit) -> 'a my_list -> unit
 #+END_SRC
 
+#+ATTR_HTML: :data-kind code
+#+ATTR_HTML: :data-pellet OCaml
+#+ATTR_HTML: :data-file my_list.ml
+#+ATTR_HTML: :data-line-number true
+#+BEGIN_roe
 #+BEGIN_SRC ocaml
 let rec iterate f list = 
   match list with 
@@ -87,6 +104,7 @@ let rec iterate f list =
      let () = f head in 
      iterate f tail           
 #+END_SRC
+#+END_roe
 
 
 ** Implémentation de /head/ et /tail/
@@ -103,6 +121,11 @@ on essaye d'avoir la tête ou la queue pour *une liste vide* ? Une approche /cla
 serait de faire comme beaucoup de langages font pour traiter un cas *exceptionnel*, en 
 lançant une exception : 
 
+#+ATTR_HTML: :data-kind code
+#+ATTR_HTML: :data-pellet OCaml
+#+ATTR_HTML: :data-file my_list.ml
+#+ATTR_HTML: :data-line-number true
+#+BEGIN_roe
 #+BEGIN_SRC ocaml
 exception Empty_list of string
 
@@ -117,6 +140,7 @@ let tail list =
   | Cons (_, tail) -> tail
 
 #+END_SRC
+#+END_roe
 
 Cette approche fonctionne, et c'est d'ailleurs le choix qui a été fait pour la 
 [[https://caml.inria.fr/pub/docs/manual-ocaml/libref/List.html][bibliothèque standard de OCaml]]. D'autres langages, comme [[http://package.elm-lang.org/packages/elm-lang/core/latest/List#head][Elm]] ont fait 
@@ -126,6 +150,11 @@ deux fonctions indique directement qu'il faut traiter, /à la main/, le cas des 
 vides et comme Elm interdit une correspondance de motifs non-exhaustive, on est sur, 
 après la compilation, qu'on aura traité les cas où une liste est vide.
 
+#+ATTR_HTML: :data-kind code
+#+ATTR_HTML: :data-pellet OCaml
+#+ATTR_HTML: :data-file my_list.ml
+#+ATTR_HTML: :data-line-number true
+#+BEGIN_roe
 #+BEGIN_SRC ocaml
 let head list = 
   match list with 
@@ -138,6 +167,7 @@ let tail list =
   | Cons (_, tail) -> Some tail
 
 #+END_SRC
+#+END_roe
 
 Pour peu que l'on possède suffisament d'outils pour manipuler les options, je préfère 
 largement cette approche à celle de lancer une exception. En effet, je trouve le code 
@@ -167,6 +197,11 @@ type ('a, 'b) t = 'b my_list
 Dans cet exemple, src_ocaml{'b} sera le type des données de la liste, et on utilisera 
 src_ocaml{'a} pour définir si la liste est vide ou non.
 
+#+ATTR_HTML: :data-kind code
+#+ATTR_HTML: :data-pellet OCaml
+#+ATTR_HTML: :data-file my_list_phantom.ml
+#+ATTR_HTML: :data-line-number true
+#+BEGIN_roe
 #+BEGIN_SRC ocaml
 type empty_t = Empty_t 
 type not_empty_t = Not_empty_t
@@ -185,6 +220,7 @@ let head list =
  (* on ne devrait jamais être ici grâce aux types *)
  | Empty -> assert false
 #+END_SRC
+#+END_roe
 
 L'implémentation générale ne diffère pas réellement de ce que nous avions fait 
 précédemment. les deux types src_ocaml{empty_t} et src_ocaml{not_empty_t} serviront
@@ -192,7 +228,11 @@ uniquement à être le paramètre src_ocaml{'a} de notre type src_ocaml{('a, 'b)
 C'est pour ça qu'ils n'ont pas de forme, la seule chose qui nous intéresse est leur 
 nom. Nous allons pouvoir implémenter l'interface de notre module: 
 
-
+#+ATTR_HTML: :data-kind code
+#+ATTR_HTML: :data-pellet OCaml
+#+ATTR_HTML: :data-file my_list_phantom.mli
+#+ATTR_HTML: :data-line-number true
+#+BEGIN_roe
 #+BEGIN_SRC ocaml
  type empty_t = Empty_t
  type not_empty_t = Not_empty_t
@@ -202,6 +242,7 @@ nom. Nous allons pouvoir implémenter l'interface de notre module:
  val cons : 'b -> ('a, 'b) t -> (not_empty_t, 'b) t
  val head : (not_empty_t, 'a) t -> 'a
 #+END_SRC
+#+END_roe
 
 Dans l'interface, nous n'allons pas exposer le types non nécéssaire, par exemple, 
 src_ocaml{my_list}, comme ça, on peut forcer l'utilisation de nos fonctions src_ocaml{cons}
@@ -254,6 +295,11 @@ val x : (empty_t, 'a) t = Empty
 
 Il devient donc très facile d'implémenter la fonction src_ocaml{head} : 
 
+#+ATTR_HTML: :data-kind code
+#+ATTR_HTML: :data-pellet OCaml
+#+ATTR_HTML: :data-file my_list_gadt.ml
+#+ATTR_HTML: :data-line-number true
+#+BEGIN_roe
 #+BEGIN_SRC ocaml
 let head list = 
   match list with 
@@ -262,6 +308,7 @@ let head list =
 (* ou de manière plus concise *) 
 let head (Cons (x, _)) = x                  
 #+END_SRC
+#+END_roe
 
 Globalement, les GADTs permettent de décrire une *relation* entre un *constructeur* de type et 
 un autre *type*. Ils amènent deux points utiles : 
@@ -300,11 +347,17 @@ Dans un langage de programmation orientée objets, on peut faire une rapide anal
 les types sommes et les *classes unifiés par des liens d'héritage*. Implémentons le type 
 src_ocaml{option} que nous avons utilisé précédemment, en Scala :
 
+#+ATTR_HTML: :data-kind code
+#+ATTR_HTML: :data-pellet Scala
+#+ATTR_HTML: :data-file Option.scala
+#+ATTR_HTML: :data-line-number true
+#+BEGIN_roe
 #+BEGIN_SRC scala
 sealed trait Option[+A]
 case object None extends Option[Nothing]
 case class  Some[A](value: A) extends Option[A]
 #+END_SRC
+#+END_roe
 
 Sans rentrer dans les détails de l'implémentation, on définit deux *cases*, un objet, qui n'aura
 qu'une seule valeur habitante possible (un /Singleton/), et une classe (qui elle pourra avoir 
@@ -327,16 +380,27 @@ def unwrap[A](x : Some[A]) = x.value
 Obserervons maintenant l'implémentation d'une liste, le code ne varie pas beaucoup du 
 type src_scala{Option} : 
 
+#+ATTR_HTML: :data-kind code
+#+ATTR_HTML: :data-pellet Scala
+#+ATTR_HTML: :data-file MyList.scala
+#+ATTR_HTML: :data-line-number true
+#+BEGIN_roe
 #+BEGIN_SRC scala
 sealed trait MyList[+A]
 case object Empty extends MyList[Nothing]
 case class Cons[A](x: A, xs: MyList[A]) extends MyList[A] 
 #+END_SRC
+#+END_roe
 
 Comme pour la fonction src_scala{unwrap}, nous pourrions simplement l'écrire dans un objet 
 quelconque, cependant, comme nous sommes dans un langage orienté objet, considérons maintenant 
 que src_scala{head} est une méthode de notre classe src_scala{Cons} :
 
+#+ATTR_HTML: :data-kind code
+#+ATTR_HTML: :data-pellet Scala
+#+ATTR_HTML: :data-file MyList.scala
+#+ATTR_HTML: :data-line-number true
+#+BEGIN_roe
 #+BEGIN_SRC scala
 sealed trait MyList[+A]
 case object Empty extends MyList[Nothing]
@@ -344,6 +408,7 @@ case class Cons[A](x: A, xs: MyList[A]) extends MyList[A] {
   def head() : A = x
 }
 #+END_SRC
+#+END_roe
 
 Ce qui est très amusant, c'est qu'il ne faut pas spécialement un langage /futuriste/ pour 
 encoder ce genre de types. En effet, on pourrait très facilement transposer ce code en 

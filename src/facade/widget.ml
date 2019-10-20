@@ -79,20 +79,6 @@ module Resume = struct
           let abs_percent = abs_float (percent -. pred_percent) in
           let diff = abs_percent *. !document_size in
           let () =
-            Console.log
-              (object%js
-                 val percent = percent
-
-                 val scroll = scroll
-
-                 val pc = abs_percent
-
-                 val diff = diff
-
-                 val size = !document_size
-              end)
-          in
-          let () =
             if diff > 25.0
             then (
               let () = last_tick := percent in

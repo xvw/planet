@@ -269,15 +269,15 @@ div.code-container .code-underbox:empty {
 div.code-container .code-underbox {
     display: flex;
     flex-direction: row;
-    margin-top: 8px;
+    margin-top: 22px;
     align-items: center;
 }
 
 div.code-container .code-underbox .code-pellet {
     flex: 0;
     margin-right: 10px;
-    background-color: #444;
-    color: #FFF;
+    background-color: #DDD;
+    color: #666;
     padding: 3px 12px;
     font-weight: 700;
     font-size: 80%;

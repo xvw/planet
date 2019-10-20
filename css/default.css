@@ -1230,6 +1230,15 @@ p.free-paragraph {
 }
 
 @media screen and (max-width: 720px) {
+
+    main {
+        margin: 0 12px;
+    }
+
+    .small-refutable {
+        display: none;
+    }
+    
     .main-columns {
         flex-direction: column;
     }
@@ -1237,7 +1246,7 @@ p.free-paragraph {
     .main-columns > div {
         flex: 0;
         margin-left: 0;
-        padding-bottom: 24px;
+        padding: 24px;
         margin-bottom: 32px;
         border-bottom: 1px solid #c0c0c0;
     }
@@ -1268,6 +1277,30 @@ p.free-paragraph {
 
     .project-item:last-child {
         margin-bottom: 0;
+    }
+
+    div.location-box > div > div {
+        flex-direction: column;
+    }
+
+    .content-page .major-content {
+        flex-direction: column;
+    }
+
+    #major-content-bottom .list-of-links {
+        flex-direction: column;
+    }
+
+    .content-page .project-badges {
+        flex-direction: column;
+    }
+
+    .content-page .major-header .major-details span.badge {
+        display: block;
+    }
+
+    header {
+        text-align: center;
     }
     
 }

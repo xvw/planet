@@ -104,6 +104,17 @@ body {
     margin-left: 0;
 }
 
+.tile {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.tile > * {
+    flex: 0 1 50%;
+}
+
 .classic-title,
 .main-columns h2.column-title {
     margin-bottom: 16px;
@@ -330,7 +341,7 @@ main > .container {
 }
 
 header {
-    padding: 48px 12px 22px 12px;
+    padding: 48px 12px 4px 12px;
     background-color: #FFF;
 }
 
@@ -367,9 +378,10 @@ header > div > nav > a {
     text-decoration: none;
     color: #fff;
     display: inline-block;
-    padding: 4px 12px;
+    padding: 2px 12px;
     border-radius: 4px;
     margin-right: 8px;
+    margin-bottom: 12px;
     background-color: #000;
 }
 
@@ -1255,6 +1267,18 @@ p.free-paragraph {
     .main-columns > div:last-child {
         border: 0px solid black;
     }
+
+    .tile {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        width: 100%;
+    }
+
+    .tile > * {
+        flex: 1;
+    }
+
 
     footer > .container {
         flex-direction: column;

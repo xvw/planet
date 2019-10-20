@@ -74,15 +74,49 @@ main = hakyll $ do
         >>= applyAsTemplate defaultContext
         >>= loadAndApplyTemplate "templates/default.html" defaultContext
         >>= relativizeUrls
+
+    -- Projects.html
+    match "projects.html" $ do
+      route idRoute
+      compile $ do
+
+        projects <- recentFirst =<< loadAll projectsRule
+
+        let projectsContext =
+              listField "projects" projectContext (return projects) `mappend`
+              defaultContext
+
+        getResourceBody
+          >>= applyAsTemplate projectsContext
+          >>= loadAndApplyTemplate "templates/default.html" projectsContext
+          >>= relativizeUrls
+
+
+    -- Longs.html
+    match "longs.html" $ do
+      route idRoute
+      compile $ do
+
+        longs <- recentFirst =<< loadAll longsRule
+
+        let longsContext =
+              listField "longs" defaultContext (return longs) `mappend`
+              defaultContext
+
+        getResourceBody
+          >>= applyAsTemplate longsContext
+          >>= loadAndApplyTemplate "templates/default.html" longsContext
+          >>= relativizeUrls
+        
       
     -- Index.html
     match "index.html" $ do
       route idRoute
       compile $ do
         
-        projects <- fmap (take 3) . recentFirst =<< loadAll projectsRule
-        longs <- fmap (take 3) . recentFirst =<< loadAll longsRule
-        shorts <- fmap (take 3) . recentFirst =<< loadAll shortsRule
+        projects <- fmap (take 5) . recentFirst =<< loadAll projectsRule
+        longs <- fmap (take 5) . recentFirst =<< loadAll longsRule
+        shorts <- fmap (take 10) . recentFirst =<< loadAll shortsRule
         
         let indexContext =
               listField "projects" projectContext (return projects) `mappend`

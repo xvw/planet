@@ -37,3 +37,7 @@
   (:duration "30") (:sector "visual")
   (:label "Modification de la page d'accueil et alignement des blocs")
   (:project "planet"))
+
+((:uuid "548651cc-d170-c5a5-7139-a7ce4d21ae6e") (:day "019J20")
+  (:duration "20") (:sector "programming")
+  (:label "Ajout d'un fil de syndication Atom") (:project "planet"))

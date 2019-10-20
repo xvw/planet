@@ -459,7 +459,6 @@ footer a {
 
 a.long-item {
     display: block;
-    margin-bottom: 32px;
 }
 
 .long-item,
@@ -471,10 +470,12 @@ a.long-item {
 
 .long-item p.synopsis {
     margin-top: 12px;
+    margin-bottom: 0;
 }
 
+a.long-item,
 .project-item {
-    margin-bottom: 16px;
+    margin-bottom: 24px;
 }
 
 .content-page .major-header {
@@ -575,10 +576,6 @@ a.long-item {
     padding: 4px 8px;
     margin: 0;
     margin-right: 6px;
-}
-
-.long-item p {
-    margin-bottom: 8px;
 }
 
 .major-details .published::before,

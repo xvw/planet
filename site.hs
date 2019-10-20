@@ -40,7 +40,7 @@ main = hakyll $ do
       compile copyFileCompiler
 
     -- Project seeded (from Planet)
-    match projectsRule $ do
+    matchMetadata projectsRule isPublished $ do
       route (unseedRoute `composeRoutes` setExtension "html")
       compile $ pandocCompiler
         >>= saveSnapshot "content"
@@ -49,7 +49,7 @@ main = hakyll $ do
         >>= relativizeUrls
 
     -- Long Stories seeded (from Planet)
-    match longsRule $ do
+    matchMetadata longsRule isPublished $ do
       route (unseedRoute `composeRoutes` setExtension "html")
       compile $ pandocCompiler
         >>= saveSnapshot "content"
@@ -58,7 +58,7 @@ main = hakyll $ do
         >>= relativizeUrls
 
     -- Short Stories seeded (from Planet)
-    match shortsRule $ do
+    matchMetadata shortsRule isPublished $ do
       route (unseedRoute `composeRoutes` setExtension "html")
       compile $ pandocCompiler
         >>= saveSnapshot "content"
@@ -80,9 +80,9 @@ main = hakyll $ do
       route idRoute
       compile $ do
         
-        projects <- (recentFirst =<< loadAll projectsRule)
-        longs <- (recentFirst =<< loadAll longsRule)
-        shorts <- (recentFirst =<< loadAll shortsRule)
+        projects <- fmap (take 3) . recentFirst =<< loadAll projectsRule
+        longs <- fmap (take 3) . recentFirst =<< loadAll longsRule
+        shorts <- fmap (take 3) . recentFirst =<< loadAll shortsRule
         
         let indexContext =
               listField "projects" projectContext (return projects) `mappend`
@@ -134,3 +134,8 @@ shortsRule =
 templatesRule =
   "templates/*.html"
   .||. "_seeds/partials/*.html"
+
+-- Filters
+isPublished :: Metadata -> Bool
+isPublished ctx =
+  lookupString "published" ctx == Just "true"

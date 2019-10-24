@@ -1,9 +1,10 @@
-<div  class="container">
+<div  class="container base-content">
   <div class="qexp-metadata" id="story-qexp-metadata">
     $partial(qexp_partial)$
   </div>
 
   <div class="content-page">
+    <div id="resume-details"></div>
     <div class="major-header">
       <div class="major-details">
         <h1>$title$</h1>
@@ -49,6 +50,9 @@
       ),
       bottomContainer: document.getElementById(
         "major-content-bottom"
+      ),
+      resumeDetails: document.getElementById(
+        "resume-details"
       )
     });
   });

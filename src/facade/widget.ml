@@ -1,5 +1,6 @@
 open Js_of_ocaml
 open Paperwork
+module U = Util
 module Tyxml = Js_of_ocaml_tyxml.Tyxml_js
 module Svg = Tyxml.Svg
 module Lwt_js_events = Js_of_ocaml_lwt.Lwt_js_events
@@ -35,7 +36,7 @@ module Resume = struct
   ;;
 
   let jump_to elt _ev _ =
-    let offset = max 0 (offset_y elt - 20) in
+    let offset = max 0 (offset_y elt - 80) in
     let () = window##scroll 0 offset in
     Lwt.return_unit
   ;;
@@ -46,21 +47,11 @@ module Resume = struct
     x##.style##.width := Js.string px
   ;;
 
-  let perform_ui key resume jump =
-    match Bedrock.Option.(Storage.Local.get key >>= get_by_id) with
-    | None ->
-      Dom.removeChild resume jump
-    | Some elt ->
-      let _ = Lwt_js_events.(async_loop click jump (jump_to elt)) in
-      ()
-  ;;
-
-  let handle resume progress jump path eof =
+  let handle resume progress path eof =
     let path = Js.to_string path in
     let key = make_storage_key path in
     let last_tick = ref 0. in
     let document_size = ref (get_size eof) in
-    let () = perform_ui key resume jump in
     let () = compute_progress 0.0 progress in
     let _ =
       let open Lwt_js_events in
@@ -706,29 +697,27 @@ module Story = struct
 
       method bottomContainer :
         Dom_html.element Js.t Js.Opt.t Js.readonly_prop
+
+      method resumeDetails :
+        Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
     end
 
   let resume_handler =
     let open Tyxml.Html in
     let progress = div ~a:[ a_class [ "progress" ] ] [] in
-    let jump = a ~a:[ a_class [ "button" ] ] [ txt "Reprendre" ] in
     let b =
       div
         ~a:[ a_class [ "resume-box" ] ]
         [ h3 [ span [ txt "Progression" ] ]
         ; div ~a:[ a_class [ "progress-bar" ] ] [ progress ]
-        ; jump
-        ; a
-            ~a:[ a_class [ "button" ]; a_href "/index.html" ]
-            [ txt "Index" ]
         ]
     in
-    b, progress, jump
+    b, progress
   ;;
 
   let render_summary right_container bottom_container story =
     let open Tyxml.Html in
-    let resume_box, progress, jump = resume_handler in
+    let resume_box, progress = resume_handler in
     let () = clear right_container in
     let () =
       Dom.appendChild
@@ -744,7 +733,7 @@ module Story = struct
     let () =
       Common.render_links bottom_container story.Shapes.Story.links
     in
-    resume_box, progress, jump
+    resume_box, progress
   ;;
 
   let validate_story node =
@@ -759,31 +748,71 @@ module Story = struct
     >>= Shapes.Story.from_qexp
   ;;
 
+  let render_resume path resume_box =
+    let p = Js.to_string path in
+    let key = Resume.make_storage_key p in
+    match
+      Bedrock.Option.(
+        Storage.Local.get key >>= U.get_by_id
+        >>= fun elt ->
+        elt##.textContent |> Js.Opt.to_option
+        >|= fun txt -> elt, Js.to_string txt)
+    with
+    | None ->
+      ()
+    | Some (elt, text) ->
+      let open Tyxml.Html in
+      let link = button [ txt (String.trim text) ] in
+      let obj =
+        div
+          [ h3 [ txt "Reprendre la lecture ?" ]
+          ; p
+              [ txt
+                  "Vous aviez déjà entamé la lecture de cet \
+                   article."
+              ]
+          ; link
+          ]
+      in
+      let _ =
+        Lwt_js_events.(
+          async_loop
+            click
+            (Tyxml.To_dom.of_button link)
+            (Resume.jump_to elt))
+      in
+      Dom.appendChild resume_box (Tyxml.To_dom.of_div obj)
+  ;;
+
   let boot input =
     let open Validation.Infix in
     Lwt.return
       (match
-         (fun x y z -> x, y, z)
+         (fun w x y z -> w, x, y, z)
          <$> validate
                "unable to find right container"
                input##.rightContainer
          <*> validate
                "unable to find bottom container"
                input##.bottomContainer
+         <*> validate
+               "unable to find resume detail container"
+               input##.resumeDetails
          <*> validate_story input##.story
        with
-      | Ok (right_container, bottom_container, story) ->
-        let resume, progress, jump =
+      | Ok (right_container, bottom_container, resume_details, story)
+        ->
+        let resume, progress =
           render_summary right_container bottom_container story
         in
         let tdom = Tyxml.To_dom.of_div in
-        let tdoma = Tyxml.To_dom.of_a in
+        (* let tdoma = Tyxml.To_dom.of_a in *)
         Resume.handle
           (tdom resume)
           (tdom progress)
-          (tdoma jump)
           input##.path
-          (Js.Opt.to_option input##.eof)
+          (Js.Opt.to_option input##.eof);
+        render_resume input##.path resume_details
       | Error errs ->
         Console.render_error errs)
   ;;

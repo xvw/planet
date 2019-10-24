@@ -1,5 +1,5 @@
 @font-face {
-  font-family: 'Inter';
+  font-family: 'Planet Inter';
   font-style:  normal;
   font-weight: 100;
   font-display: swap;
@@ -7,7 +7,7 @@
        url("Inter-Thin-BETA.woff") format("woff");
 }
 @font-face {
-  font-family: 'Inter';
+  font-family: 'Planet Inter';
   font-style:  italic;
   font-weight: 100;
   font-display: swap;
@@ -16,7 +16,7 @@
 }
 
 @font-face {
-  font-family: 'Inter';
+  font-family: 'Planet Inter';
   font-style:  normal;
   font-weight: 200;
   font-display: swap;
@@ -24,7 +24,7 @@
        url("Inter-ExtraLight-BETA.woff") format("woff");
 }
 @font-face {
-  font-family: 'Inter';
+  font-family: 'Planet Inter';
   font-style:  italic;
   font-weight: 200;
   font-display: swap;
@@ -33,7 +33,7 @@
 }
 
 @font-face {
-  font-family: 'Inter';
+  font-family: 'Planet Inter';
   font-style:  normal;
   font-weight: 300;
   font-display: swap;
@@ -41,7 +41,7 @@
        url("Inter-Light-BETA.woff") format("woff");
 }
 @font-face {
-  font-family: 'Inter';
+  font-family: 'Planet Inter';
   font-style:  italic;
   font-weight: 300;
   font-display: swap;
@@ -50,7 +50,7 @@
 }
 
 @font-face {
-  font-family: 'Inter';
+  font-family: 'Planet Inter';
   font-style:  normal;
   font-weight: 400;
   font-display: swap;
@@ -58,7 +58,7 @@
        url("Inter-Regular.woff") format("woff");
 }
 @font-face {
-  font-family: 'Inter';
+  font-family: 'Planet Inter';
   font-style:  italic;
   font-weight: 400;
   font-display: swap;
@@ -67,7 +67,7 @@
 }
 
 @font-face {
-  font-family: 'Inter';
+  font-family: 'Planet Inter';
   font-style:  normal;
   font-weight: 500;
   font-display: swap;
@@ -75,7 +75,7 @@
        url("Inter-Medium.woff") format("woff");
 }
 @font-face {
-  font-family: 'Inter';
+  font-family: 'Planet Inter';
   font-style:  italic;
   font-weight: 500;
   font-display: swap;
@@ -84,7 +84,7 @@
 }
 
 @font-face {
-  font-family: 'Inter';
+  font-family: 'Planet Inter';
   font-style:  normal;
   font-weight: 600;
   font-display: swap;
@@ -92,7 +92,7 @@
        url("Inter-SemiBold.woff") format("woff");
 }
 @font-face {
-  font-family: 'Inter';
+  font-family: 'Planet Inter';
   font-style:  italic;
   font-weight: 600;
   font-display: swap;
@@ -101,7 +101,7 @@
 }
 
 @font-face {
-  font-family: 'Inter';
+  font-family: 'Planet Inter';
   font-style:  normal;
   font-weight: 700;
   font-display: swap;
@@ -109,7 +109,7 @@
        url("Inter-Bold.woff") format("woff");
 }
 @font-face {
-  font-family: 'Inter';
+  font-family: 'Planet Inter';
   font-style:  italic;
   font-weight: 700;
   font-display: swap;
@@ -118,7 +118,7 @@
 }
 
 @font-face {
-  font-family: 'Inter';
+  font-family: 'Planet Inter';
   font-style:  normal;
   font-weight: 800;
   font-display: swap;
@@ -126,7 +126,7 @@
        url("Inter-ExtraBold.woff") format("woff");
 }
 @font-face {
-  font-family: 'Inter';
+  font-family: 'Planet Inter';
   font-style:  italic;
   font-weight: 800;
   font-display: swap;
@@ -135,7 +135,7 @@
 }
 
 @font-face {
-  font-family: 'Inter';
+  font-family: 'Planet Inter';
   font-style:  normal;
   font-weight: 900;
   font-display: swap;
@@ -143,7 +143,7 @@
        url("Inter-Black.woff") format("woff");
 }
 @font-face {
-  font-family: 'Inter';
+  font-family: 'Planet Inter';
   font-style:  italic;
   font-weight: 900;
   font-display: swap;
@@ -155,13 +155,13 @@
 Variable font.
 Usage:
 
-  html { font-family: 'Inter', sans-serif; }
+  html { font-family: 'Planet Inter', sans-serif; }
   @supports (font-variation-settings: normal) {
-    html { font-family: 'Inter var', sans-serif; }
+    html { font-family: 'Planet Inter var', sans-serif; }
   }
 */
 @font-face {
-  font-family: 'Inter var';
+  font-family: 'Planet Inter var';
   font-weight: 100 900;
   font-display: swap;
   font-style: normal;
@@ -169,7 +169,7 @@ Usage:
   src: url("Inter-upright.var.woff2") format("woff2");
 }
 @font-face {
-  font-family: 'Inter var';
+  font-family: 'Planet Inter var';
   font-weight: 100 900;
   font-display: swap;
   font-style: italic;
@@ -192,7 +192,7 @@ explicitly, e.g.
 
 */
 @font-face {
-  font-family: 'Inter var experimental';
+  font-family: 'Planet Inter var experimental';
   font-weight: 100 900;
   font-display: swap;
   font-style: oblique 0deg 10deg;

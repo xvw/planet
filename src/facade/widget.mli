@@ -49,6 +49,9 @@ module Story : sig
 
       method bottomContainer :
         Dom_html.element Js.t Js.Opt.t Js.readonly_prop
+
+      method resumeDetails :
+        Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
     end
 
   val api : < boot : boot_input Js.t -> unit Lwt.t Js.meth > Js.t

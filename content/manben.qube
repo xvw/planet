@@ -2,7 +2,7 @@
 (:kind long)
 (:date #018H19)
 (:permaname "konbini_tac_au_tac_manben")
-(:synopsis "L'article présente quelques émissions que je trouve cool !")
+(:synopsis "Découverte de trois émissions.")
 (:content external #org-mode "content/posts/manben.org")
 (:published true)
 (:category "culture")

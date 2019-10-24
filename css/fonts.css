@@ -1,7 +1,7 @@
 @import '../fonts/inter/inter.css';
 /* fira-mono-regular - latin_greek-ext_cyrillic-ext_latin-ext_cyrillic_greek */
 @font-face {
-  font-family: 'Fira Mono';
+  font-family: 'Planet Fira Mono';
   font-style: normal;
   font-weight: 400;
   src: url('../fonts/fira-mono/fira-mono-v8-latin_greek-ext_cyrillic-ext_latin-ext_cyrillic_greek-regular.eot'); /* IE9 Compat Modes */
@@ -15,7 +15,7 @@
 
 /* fira-mono-500 - latin_greek-ext_cyrillic-ext_latin-ext_cyrillic_greek */
 @font-face {
-  font-family: 'Fira Mono';
+  font-family: 'Planet Fira Mono';
   font-style: normal;
   font-weight: 500;
   src: url('../fonts/fira-mono/fira-mono-v8-latin_greek-ext_cyrillic-ext_latin-ext_cyrillic_greek-500.eot'); /* IE9 Compat Modes */
@@ -29,7 +29,7 @@
 
 /* fira-mono-700 - latin_greek-ext_cyrillic-ext_latin-ext_cyrillic_greek */
 @font-face {
-  font-family: 'Fira Mono';
+  font-family: 'Planet Fira Mono';
   font-style: normal;
   font-weight: 700;
   src: url('../fonts/fira-mono/fira-mono-v8-latin_greek-ext_cyrillic-ext_latin-ext_cyrillic_greek-700.eot'); /* IE9 Compat Modes */
@@ -43,7 +43,7 @@
 
 /* old-standard-tt-regular - latin-ext_latin_cyrillic-ext_cyrillic */
 @font-face {
-  font-family: 'Old Standard TT';
+  font-family: 'Planet Old Standard TT';
   font-style: normal;
   font-weight: 400;
   src: url('../fonts/old-standard/old-standard-tt-v12-latin-ext_latin_cyrillic-ext_cyrillic-regular.eot'); /* IE9 Compat Modes */
@@ -57,7 +57,7 @@
 
 /* old-standard-tt-italic - latin-ext_latin_cyrillic-ext_cyrillic */
 @font-face {
-  font-family: 'Old Standard TT';
+  font-family: 'Planet Old Standard TT';
   font-style: italic;
   font-weight: 400;
   src: url('../fonts/old-standard/old-standard-tt-v12-latin-ext_latin_cyrillic-ext_cyrillic-italic.eot'); /* IE9 Compat Modes */
@@ -71,7 +71,7 @@
 
 /* old-standard-tt-700 - latin-ext_latin_cyrillic-ext_cyrillic */
 @font-face {
-  font-family: 'Old Standard TT';
+  font-family: 'Planet Old Standard TT';
   font-style: normal;
   font-weight: 700;
   src: url('../fonts/old-standard/old-standard-tt-v12-latin-ext_latin_cyrillic-ext_cyrillic-700.eot'); /* IE9 Compat Modes */

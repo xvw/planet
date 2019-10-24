@@ -51,3 +51,7 @@
   (:duration "60") (:sector "visual")
   (:label "Amélioration du layout pour la reprise des articles")
   (:project "planet"))
+
+((:uuid "929f79fa-7f15-462f-072a-a8a2795931b9") (:day "019J24")
+  (:duration "20") (:sector "programming")
+  (:label "Liens des articles cliquables") (:project "planet"))

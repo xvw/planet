@@ -243,8 +243,35 @@ let mount container =
     Console.render_error errs
 ;;
 
+let convert_to_link h =
+  let tc = h##.textContent in
+  let content = Js.Opt.case tc (const "") Js.to_string in
+  let idt = "section-" ^ Js.to_string h##.id in
+  let () = h##.innerHTML := Js.string "" in
+  let a =
+    Tyxml.Html.(a ~a:[ a_href ("#" ^ idt) ] [ txt content ])
+    |> Tyxml.To_dom.of_a
+  in
+  let s =
+    Tyxml.Html.(span ~a:[ a_id idt; a_class [ "hidden-anchor" ] ] [])
+    |> Tyxml.To_dom.of_span
+  in
+  Dom.appendChild h s;
+  Dom.appendChild h a
+;;
+
+let handle_title_links container =
+  let nodes_name = Js.string "h1, h2, h3, h4, h5, h6" in
+  let nodes =
+    container##querySelectorAll nodes_name |> Dom.list_of_nodeList
+  in
+  List.iter convert_to_link nodes
+;;
+
 let api =
   object%js
-    method mount container = mount container
+    method mount container =
+      let () = mount container in
+      handle_title_links container
   end
 ;;

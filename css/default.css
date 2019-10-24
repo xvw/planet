@@ -859,6 +859,20 @@ div.resume-box h3,
     font-weight: 300;
 }
 
+.structured-text h1 > .hidden-anchor,
+.structured-text h2 > .hidden-anchor,
+.structured-text h3 > .hidden-anchor {
+    position: relative;
+    top: -80px;
+}
+
+.structured-text h1 > a,
+.structured-text h2 > a,
+.structured-text h3 > a {
+    color: #000;
+    text-decoration: none;
+}
+
 .structured-text figure {
     display: block;
     text-align: center;

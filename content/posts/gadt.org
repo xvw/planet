@@ -50,7 +50,7 @@ let a_color = Red
 let a_color_list = [Red; Green; Blue]
 #+END_SRC
 
-Dans cet exemple, la variable src_ocaml{red} aura le type src_ocaml{color} et la variable 
+Dans cet exemple, la variable src_ocaml{a_color} aura le type src_ocaml{color} et la variable 
 src_ocaml{a_color_list} aura le type src_ocaml{color list}.
 
 Il est important de préciser que les constructeurs ne sont *pas* des sous-types, ce sont 

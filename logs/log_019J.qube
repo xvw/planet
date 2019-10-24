@@ -46,3 +46,8 @@
   (:duration "20") (:sector "programming")
   (:label "Ajout d'un module de chargement pour les widget plus lourds")
   (:project "planet"))
+
+((:uuid "009e37e8-10f9-3f8a-1cf4-7c36e11c9b13") (:day "019J24")
+  (:duration "60") (:sector "visual")
+  (:label "Amélioration du layout pour la reprise des articles")
+  (:project "planet"))

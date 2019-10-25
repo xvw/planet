@@ -154,8 +154,11 @@ figure > img.image-cover ~ figcaption {
 }
 
 .page-cover {
-    margin: auto;
     padding: 28px 0;
+}
+
+.page-small-cover {
+    padding: 12px 0;
 }
 
 .page-cover img {
@@ -1014,9 +1017,17 @@ div.mozaic img {
     padding: 8px;
 }
 
+#resume-details {
+    color: #fff;
+    margin: auto;
+}
+
+#resume-details:empty {
+    display: none;
+}
+
 #resume-details > div {
     padding: 8px;
-    margin: 8px 0 12px 0;
     font-size: 75%;
 }
 
@@ -1026,9 +1037,11 @@ div.mozaic img {
 
 #resume-details > div > button {
     background-color: transparent;
+    color: #fff;
     border: 0px solid black;
-    border-bottom: 1px dotted black;
+    border-bottom: 1px dotted #fff;
     cursor: pointer;
+    padding: 0;
 }
 
 div.resume-box {

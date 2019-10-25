@@ -765,6 +765,7 @@ module Story = struct
       let link = button [ txt (String.trim text) ] in
       let obj =
         div
+          ~a:[ a_class [ "container" ] ]
           [ h3 [ txt "Reprendre la lecture ?" ]
           ; p
               [ txt

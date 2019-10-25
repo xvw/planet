@@ -1202,7 +1202,11 @@ p.free-paragraph {
 
 .logs-container ul.logs > li > .log-header > *,
 .logs-container ul.logs > li > .log-bottom > * {
-    margin: 0 4px;
+    margin-right: 8px;
+}
+
+.logs-container ul.logs > li > .log-bottom > * {
+    margin-top: 4px;
 }
 
 .logs-container ul.logs > li  .log-project a {

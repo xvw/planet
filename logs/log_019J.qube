@@ -55,3 +55,8 @@
 ((:uuid "929f79fa-7f15-462f-072a-a8a2795931b9") (:day "019J24")
   (:duration "20") (:sector "programming")
   (:label "Liens des articles cliquables") (:project "planet"))
+
+((:uuid "c3cb8fca-c0af-293a-0e91-2a35cf9ab073") (:day "019J27")
+  (:duration "200") (:sector "programming")
+  (:label "Implémentation d'une boucle de feedback pour les erreurs")
+  (:project "rme"))

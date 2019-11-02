@@ -63,3 +63,6 @@
 
 ((:uuid "72c1f185-2ed2-d241-0b23-5c11f023bc73") (:day "019J29")
   (:duration "600") (:sector "research") (:label "Conférence, ScalaIO 2019"))
+
+((:uuid "967681a5-bf1c-cfc8-f34f-03aea6741ee1") (:day "019J30")
+  (:duration "600") (:sector "research") (:label "Conférence, ScalaIO 2019"))

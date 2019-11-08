@@ -3,3 +3,8 @@
   (:duration "200") (:sector "writing")
   (:label "Démarrage de l'article sur le Kata du tennis en OCaml")
   (:project "planet"))
+
+((:uuid "bf603dcc-d361-63a7-5dba-74cdf080f2cf") (:day "019K08")
+  (:duration "120") (:sector "writing")
+  (:label "Ecriture de l'article sur le Kata du tennis appliqué à OCaml")
+  (:project "planet"))

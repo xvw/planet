@@ -1,0 +1,469 @@
+#+BEGIN_QUOTE
+Fin Octobre, j'ai eu le plaisir de me rendre à Lyon pour l'édition 2019 de la
+conférence [[https://scala.io][ScalaIO]]. Pour beaucoup de raisons, il s'agit de ma conférence préférée.
+L'organisation est toujours excellente, j'aime beaucoup la ville de Lyon, 
+les conférences sont très intéressantes et cela me donne l'opportunité de voir
+certaines personnes que je ne vois que là bas.
+
+Bien que ma présence soit toujours un peu paradoxale, le temps passe et je ne 
+pratique toujours pas de Scala, j'apprend chaque fois de nouvelles choses sur
+des sujets directement connectés à mes centres d'intérêts, à mon travail ou
+tout simplement inspirants !
+
+Dans cet article, je vous propose un résumé d'un article qui correspondait
+avec les quatres raisons d'intérêts. Je vais vous parler de 
+"*Introduction au T(ype)DD avec F# et web app réactive avec Fable.io*", 
+présenté par [[https://twitter.com/clem_bouillier][Clément Bouillier]] et [[https://twitter.com/florentpellet][Florent Pellet]] !
+#+END_QUOTE
+
+A *ScalaIO*, il n y a pas que des présentations sur Scala ! Cette année, 
+Clément et Florent ont donné une présentation sur comment diriger son
+implémentation par les types, avec le langage [[https://fsharp.org/][Fsharp]], un cousin proche de
+OCaml. Ayant moi même pratiqué le F# sur quelques projets, je me suis
+rendu à leur présentation dont le résumé évoquait beaucoup de choses que 
+je trouve intéressantes (voir primordiales) en ingénérie logicielle.
+
+La présentation propose d'implémenter un *Kata* spécifique, de manière
+itérative, introduisant à plusieurs concepts :
+
+- l'implémentation dirigée par les types ;
+- la modèlisation de domaines ;
+- la construction d'un contexte testable ;
+- tout en tâchant de rendre *les états impossibles, impossibles* ;
+- en utilisant un langage que je trouve (en toute subjectivité) vraiment très
+  chouette !
+
+Cerise sur le gâteau, une fois le Kata implémenté, une version en ligne, via
+l'excellent transpilateur [[https://fable.io][Fable]] est rapidement développée. Cependant, dans
+cet article, je ne m'occuperai pas de faire une version web du Kata pour me
+focaliser sur l'implémentation de *la logique métier*.
+
+** Le langage F#
+
+Pour rappel, F# est un langage de programmation orienté objets, impératif
+et fonctionnel qui tourne sur la platforme *.NET*. Historiquement, le
+langage était fortement compatible avec la syntaxe OCaml, dont il était 
+conceptuellement dérivé. Depuis, le langage a beaucoup évolué, offrant
+des mécaniques inédites dans un langage ML. De plus, le langage est accessible,
+y comprit pour les développeurs ne possédant pas de machine avec Windows,
+en grande partie grâce à la platforme [[https://dotnet.microsoft.com/download][.NET Core]], une implémentation libre de 
+de .NET. Le langage est fortement inter-opérable avec C#, mais bénéficie, 
+merci les langages ML, d'une syntaxe incroyablement moins verbeuse et d'un
+système de type largement plus expressif. Ceci dit, le langage fait tout
+de même, légèrement, office d'incubateur pour certaines fonctionnalités
+destinées à apparaitre dans C#.
+
+Même si le langage partage beaucoup de choses avec OCaml, il possède tout
+de même quelques points forts qui le différencient de son grand frère. Voici
+une liste (probablement non exhaustive) de ce que j'apprécie particulièrement
+chez F# :
+
+- l'indentation obligatoire, qui permet plus facilement d'imbriquer des blocs
+  de code, par exemple de la correspondance de motifs sans devoir parenthèser
+  les expressions ;
+
+- [[https://docs.microsoft.com/fr-fr/dotnet/fsharp/language-reference/active-patterns][le modèle actif]] qui permet d'écrire du code lisible et explicite ;
+
+- [[https://docs.microsoft.com/fr-fr/dotnet/fsharp/language-reference/units-of-measure][les unités de mesure]], une spécialisation du type flottant pour représenter
+  des unités de mesure et leurs opérations ;
+
+- [[https://docs.microsoft.com/fr-fr/dotnet/fsharp/language-reference/computation-expressions][les expressions de calcul]], dont j'avais déjà parlé dans mon article sur
+  les [[./introduction_aux_monades.html][monades]], qui offre une manière systèmatique de définir un contexte
+  syntaxique pour des constructions classiques en programmation fonctionnelle.
+
+Et un support assez riche dans les éditeurs, une communauté active, les
+excellents travaux de [[https://twitter.com/scottwlaschin][Scott Wlaschin]] qui, en plus d'être incroyablement
+intéressants, sont incroyablement pédagogiques ! Et les travaux de 
+[[https://twitter.com/tomaspetricek][Tomas Petricek]], théoriquement intéressants et souvent à la frontière entre
+la visualisation, l'interactivité et la théorie !
+
+Par contre, en tant que programmeur OCaml, il arrive parfois que certaines
+choses me manquent, même si c'est généralement pour des raisons 
+d'interopérabilité avec le reste de la planète .NET. Par exemple, le 
+sous-typage structurel rendant le modèle objet de F#, à mon sens, moins 
+intéressant que celui d'OCaml. Son langage de module est aussi beaucoup
+moins riche et sur certains aspects, je trouve qu'il manque quelques
+fonctionnalités dans le système de types (par exemple, l'absence de 
+*GADTs*). 
+
+
+** Le Kata de Tennis
+
+Je n'étais pas du tout familier avec la notion de Kata. Il s'agit d'un 
+exercice, généralement bref, qui permet de se familiariser avec un outil et/ou
+une méthodologie. La démarche est très intéressante car, comme l'illustre
+la présentation, elle permet d'offrir un contexte relativement restreint, 
+propice à la décomposition. En effet, durant la présentation, chaque étape
+est décrite et les présentateurs itèrent sur le code pour l'améliorer, le
+rendant plus maintenable.
+
+L'objectif du Kata est assez clair (et décrit sur [[http://codingdojo.org/kata/Tennis/][cette page]]), on cherche
+à modeliser un système de point (pour un jeu) d'un match de tennis. On 
+suppose donc qu'il y a deux joueurs virtuels, et que l'on doit offrir une
+routine capable d'ajouter "un point" à l'un des deux joueurs. 
+
+*** Le calcul des scores
+
+Pour des raisons historiques, le calcul du score durant un jeu est, en tennis,
+assez particulier. Les joueurs peuvent chacun avoir *0*, *15*, *30* ou *40* 
+points. A celà s'ajoute quelques règles : 
+
+- si l'un des joueurs à 40 points et qu'il gagne encore un point, il
+  gagne. Sauf en cas de règles spéciales ;
+
+- si les deux joueurs ont 40 points, ils sont *égalité*. Si l'un des joueurs
+  gagne le point, on dit qu'il a *l'avantage*, si un joueur à l'avantage et
+  qu'il gagne un point, il gagne. Si c'est le joueur qui n'avait pas
+  l'avantage qui gagne, les scores reviennent à *égalité*.
+
+Les règles indiquent des règles complémentaires, cependant, pour des raisons
+de clarté, la présentation n'implémentait que le calcul d'un jeu. Pour être
+raccord avec leur présentation, je n'implémenterai aussi qu'un seul des jeu.
+
+** Une mise en contexte
+
+La présentation commence en montrant deux exemples du Kata implémenté en C#.
+Vous pouvez retrouver le code utilisé lors de la présentation sur 
+[[https://github.com/HackYourJob/introFSharp-TypeDD-Fable/tree/scalaio][le dépôt de source]] relatif.
+
+- [[https://github.com/HackYourJob/introFSharp-TypeDD-Fable/tree/scalaio/csharp1][La première solution]] utilises une *Enumération* pour représenter les 
+  différents score et utilise une grande condition pour exprimer le déroulement
+  du jeu;
+
+- [[https://github.com/HackYourJob/introFSharp-TypeDD-Fable/tree/scalaio/csharp2][la seconde solution]] utilise une approche *orienté objets* et représente, via
+  différents objets, une machine à états.
+
+Les deux solutions sont relativement bonnes car elles évitent un piège assez
+classique, utiliser des types non adaptés pour représenter, par exemple, le
+score. Par contre, la première solution permet, pas construction, de construire
+des scores invalides, par exemple, *avantage*-*15*. La seconde, utilisant
+une machine à états, rend ce genre d'états impossible. Son soucis est que 
+le code est morcelé, que comme généralement en programmation orienté objets,
+on mélange la défintion de la donnée avec sa consommation. 
+
+L'objectif de la présentation est de présenter une implémentation en F# qui 
+repose sur plusieurs gains : 
+
+- utiliser le compilateur pour se faire assister (et avoir une boucle de
+  /feedback/ très rapide) ;
+- réduire la charge cognitive, en se focalisant sur la logique métier ;
+- obtenir une version concise, principalement grâce à F#.
+
+En bref, mettre en lumière les points forts des systèmes de types vérifiés
+statiquement pour obtenir le plus rapidement un /feedback/ sur la cohérence
+d'un programme, au travers de ses types. De plus, couplé avec les environnements
+de développements modernes (les IDE's, Emacs etc.), la boucle de /feedback/
+est encore plus rapide.
+
+** Les types algébriques et leur cardinalité
+
+F# étant un langage de la famille ML, il permet représenter la donnée de
+manière très concise, au moyen de *types algébriques*. C'est un nom qui
+peut sembler effrayant mais qui exprime simplement l'idée que l'on peut
+décrire des structures de données au moyen de deux manières : 
+
+- les disjonctions, qui s'appellent des *types sommes* ;
+- les conjonctions, qui s'appellent des *types produits*.
+
+L'objectif de l'article n'est pas de faire un cours exhaustif sur les types
+algébriques mais de donner suffisamment d'éléments pour comprendre le code.
+Ici, on se focalisera, comme la présentation, de la notion de *cardinalité*
+dans les types algébriques. La cardinalité c'est le nombre de valeur que
+l'on peut exprimer dans un type. Par exemple, les booléens ont une cardinalité
+de deux, il n'est possible de représenter que deux valeurs appartenant au
+type booléen. La cardinalité des chaines de caractères n'est, à priori, pas
+exprimable car il est possible de construire une infinité de chaines de
+caractères.
+
+Un des points essentiels de la présentation était d'insister sur l'importance
+de réduire au maximum, dans la mesure du possible, la cardinalité des types
+que l'on manipule, principalement pour diminuer sa surface de test. Les
+types algébriques sont une manière élégantes d'exprimer des structures de
+données tout en ayant des outils assez simples pour calculer leur cardinalité.
+Vous verrez que le nom "algébrique" fait directement référence à cette notion
+de cardinalité.
+
+*** Les types sommes
+Comme évoqué précédemment, les *types sommes* permettent de représenter une
+disjonction. On unifie plusieurs types que l'on /tag/ avec un constructeur
+unique, par exemple, voici un type pour représenter un dessert, l'exemple
+utilisé dans la présentation :
+
+
+#+BEGIN_SRC fsharp :data-roe-kind code :data-pellet Fsharp :data-file sum.fs :data-line-number true
+type Dessert
+  | Fruit
+  | Fromage
+#+END_SRC
+
+Ici, les valeurs src_fsharp{Fruit} et src_fsharp{Fromage} sont toutes deux de
+type src_fsharp{Dessert}, par exemple, l'expression 
+src_fsharp{[Fruit; Fruit; Fromage; Fromage]} sera de type 
+src_fsharp{List<Dessert>}.
+
+On appelle ces disjonction des types sommes car *on peut calculer leur*
+*cardinalité en additionnant la cardinalité de chacune des branches*. 
+Le type src_fsharp{Dessert} à donc une cardinalité de 2. Il est aussi 
+possible de paramétrer ces constructeurs par des valeurs : 
+
+#+BEGIN_SRC fsharp :data-roe-kind code :data-pellet Fsharp :data-file sum.fs :data-line-number true :data-line-start 4
+type Numeric = 
+  | Integer of int
+  | Float of float
+#+END_SRC
+
+Ce type donne une bonne idée d'un des usages des types sommes, ils permettent
+de regrouper, entre autres, plusieurs types hétérogènes sous un même type.
+Ici, la cardinalité est de src_fsharp{(nombre d'entiers) + (nombre de flottants)}.
+
+*** Les types produits
+
+Par opposition aux types sommes, il est possible de représenter des conjonctions.
+Ces conjonctions sont appelées des *types produits*. Par exemple : 
+
+#+BEGIN_SRC fsharp :data-roe-kind code :data-pellet Fsharp :data-file restaurant-etrange.fs :data-line-number true :data-hl 14
+type Entree = 
+  | Carpaccio
+  | Salade
+
+type Plat = 
+  | Pizza
+  | Steak
+  | Kebab
+
+type Dessert = 
+  | Fromage
+  | Fruit
+
+type menu = Entree * Plat * Dessert 
+#+END_SRC
+
+On défini un src_fsharp{menu} comme la conjonction d'une entrée, d'un plat et
+d'un dessert. Comme pour les types sommes, la cardinalité est relativement
+simple à calculer, il s'agit *de la multiplication de la cardinalité de*
+*tous les membres du type*. Ici, le menu aura une cardinalité de 12 
+(src_fsharp{(Entree = 2) * (Plat = 3) * (Dessert = 2)}). 
+
+Ici, nous avons défini un /n-uplet/ (dont la forme la plus connue est le couple,
+un /n-uplet/ de taille 2). Cependant, au contraire des types sommes qui
+n'offrent qu'une seule manière "standard" de construire des disjonction dans
+les types, il existe, en F# (et en OCaml), plusieurs manière de construire
+des produits : 
+
+- via des /n-uplets/, comme dans  l'exemple ;
+- via des records, comme des /n-uplets/ mais où chaque membre est indexé
+  par une clée;
+- via des objets.
+
+(Il est aussi possible d'exprimer des disjonctions avec des objets et l'héritage
+cependant, c'est une approche peu commune en F#).
+
+** Implémentation du Kata
+
+Maintenant que nous avons tous les ingrédients, nous pouvons commencer
+l'implémentation. J'insiste beaucoup sur le fait que les /speakers/ ont défini
+la collection de types qu'ils manipulent par leur cardinalité, essayant de 
+trouver un domaine restreint et donc, par extension, facile à tester. Je
+trouve que c'est une excellente idée. Il arrive souvent que dès lors que
+l'on parle de programmation fonctionnelle, (moi le premier) on s'éloigne
+fortement du métier pour manipuler des concepts abstraits. Même si le
+fétichisme de la technique et de la théorie est indéniablement une activité
+amusante et stimulante, je trouve ça raffraichissant et intéressant de
+pouvoir assister à des présentations axées autours de l'utilisabilité et de
+la maintenabilité via l'expression d'un domaine métier précis.
+
+*** Définition du métier, dirigé par la cardinalité
+
+Je vais essayer de reproduire le déroulé de la présentation. Tout commence
+avec la représentation du score. Ils nous proposent de commencer par définir
+qu'un score est la conjonction de deux "points", l'un pour le joueur 1, le 
+second, évidemment, pour le joueur 2 :
+
+#+BEGIN_SRC fsharp :data-roe-kind code :data-pellet Fsharp :data-file tennis.fs :data-line-number true
+type Score = ScorePoint * ScorePoint
+#+END_SRC
+
+Cette partie est assez intéressante car elle montre à quel point le compilateur
+assiste le développeur. L'expression que l'on vient d'écrire ne compile pas
+car le compilateur n'a aucune idée de ce qu'est un src_fsharp{ScorePoint}. 
+Tâchons de l'aiguiller :
+
+#+BEGIN_SRC fsharp :data-roe-kind code :data-pellet Fsharp :data-file tennis.fs :data-line-number true
+type Score = ScorePoint * ScorePoint // Cardinality: 36
+and ScorePoint = // Cardinality: 6
+  | Love 
+  | Fifteen
+  | Thirty
+  | Forty
+  | Advantage
+  | Game
+#+END_SRC
+
+Ici la cardinalité de src_fsharp{ScorePoint} est de 6, donc la cardinalité
+de src_fsharp{Score} est de 36. Le problème de cette approche, c'est *qu'elle*
+*permet de représenter des scores impossibles !* Par exemple, le score 
+src_fsharp{(Advantage, Love)}, ce qui n'a formellement aucun sens !
+
+#+BEGIN_QUOTE
+*Le saviez-vous ?*
+
+
+L'utilisation du mot *Love* pour définir zéro est assez particulier. Il existe
+plusieurs justification historique, cependant, j'aime beaucoup celle qui dit 
+que c'est parce que les Français disaient "15 - l'oeuf" pour dire "15 - 0", 
+le zéro ressemblant... physiquement à une oeuf, et ça a été adapté par l'école
+anglaise, anglicisant progressivement le mot pour devenir, de nos jours, "love".
+#+END_QUOTE
+
+Voyons s'il est possible de modifier le domaine pour invalider "par design"
+les cas impossibles tout en réduisant la cardinalité :
+
+#+BEGIN_SRC fsharp :data-roe-kind code :data-pellet Fsharp :data-file tennis.fs :data-line-number true
+type Score = // Cardinality: 20
+  | OtherPoint of ScorePoint * ScorePoint // 16
+  | Advantage of Player // 2
+  | Game of Player // 2
+and ScorePoint = // Cardinality: 4
+  | Love 
+  | Fifteen
+  | Thirty
+  | Forty
+and Player = // Cardinality: 2 
+  | Player1
+  | Player2
+#+END_SRC
+
+Ce que l'on peut observer, c'est que diminuer la cardinalité de 
+src_fsharp{ScorePoint} diminue fortement la cardinalité de src_fsharp{Score}.
+Il nous manque tout de même un cas spécifique du tennis, le *Deuce*.
+
+#+BEGIN_SRC fsharp :data-roe-kind code :data-pellet Fsharp :data-file tennis.fs :data-line-number true
+type Score = // Cardinality: 20
+  | OtherPoint of ScorePoint * ScorePoint // 9
+  | Forty of Player * ScorePoint // 6
+  | Deuce // 1
+  | Advantage of Player // 2
+  | Game of Player // 2
+and ScorePoint = // Cardinality: 3
+  | Love 
+  | Fifteen
+  | Thirty
+and Player = // Cardinality: 2 
+  | Player1
+  | Player2
+#+END_SRC
+
+A ce stade, le domaine semble complet. En effet, la proposition de Florent et
+Clément à réduit la cardinalité du type src_fsharp{Score} de 36 à 20 et 
+beaucoup de cas insensés sont impossible à représenter par construction.
+
+Un énorme point fort de cette approche est qu'elle favorise la collaboration
+avec le métier. L'approche interactive permet de comprendre rapidement comment
+et pourquoi déplacer certains éléments à des différents niveaux du domaines
+et la terminologie mise en oeuvre dans le domaine est proche de la terminologie
+du métier.
+
+*** L'implémentation du calcul d'un point
+
+Maintenant que le domaine est défini, une implémentation est présentée. 
+Elle repose principalement sur la correspondance de motifs, qui permet, à 
+la compilation, de vérifier que toutes les valeurs possibles d'un type 
+auquel on applique une correspondance sont prises en compte.
+
+Je ne vais pas détailler l'implémentation car F# est un langage assez
+lisible et je tâcherai d'être un peu plus expansif quand je présenterai
+mon implémentation en OCaml.
+
+Concrètement, dans l'implémentation de la fonction src_fsharp{scoreAPoint},
+on voudrait qu'elle prenne en argument le joueur qui a marqué et le score
+courant, pour renvoyer le nouveau score. Son type est donc 
+src_fsharp{val scoreAPoint : Player -> Score -> Score}. Et on voudrait
+exprimer ces règles :
+
+- si le joueur qui a marqué avait l'avantage : il gagne ;
+- si le joueur qui a marqué avait 40 : il gagne ;
+- si le joueur qui a marqué passe à 40 alors que l'autre joueur avait déjà 
+  40 : égalité ;
+- Si il y a une égalité, le joueur qui marque prend l'avantage ;
+- si un joueur à déjà gagné et qu'un joueur regagne, le score ne change pas ;
+- sinon, le joueur qui a marqué passe au point suivant.
+
+La première étape serait d'écrire une fonction pour calculer le score dans le
+cas trivial. Soit traiter le cas de src_fsharp{OtherPoint}. La fonction n'est
+pas très compliqué : si le joueur 1 marque, on incrémente son score, si c'est 
+le joueur 2, on incrémente son score. Même s'il serait possible de légèrement
+modifier le code pour le factoriser, l'avantage de cette implémentation est
+qu'elle est très claire et aide à la compréhension :
+
+#+BEGIN_SRC fsharp :data-roe-kind code :data-pellet Fsharp :data-file tennis.fs :data-line-number true :data-line-start 14
+let private scoreWhenOtherPoints (player1Score, player2Score) player =
+    match player with
+    | Player1 ->
+        match player1Score with
+        | Love -> OtherPoints (Fifteen, player2Score)
+        | Fifteen -> OtherPoints (Thirty, player2Score)
+        | Thirty -> Forty (Player1, player2Score)
+    | Player2 ->
+        match player2Score with
+        | Love -> OtherPoints (player1Score, Fifteen)
+        | Fifteen -> OtherPoints (player1Score, Thirty)
+        | Thirty -> Forty (Player2, player1Score)
+#+END_SRC
+
+La seconde étape serait d'implémenter le calcul du score quand un des joueur à 40. 
+Si c'est le joueur qui marque qui est à 40, il gagne, sinon on incrémente
+le score de celui qui n'y est pas encore :
+
+#+BEGIN_SRC fsharp :data-roe-kind code :data-pellet Fsharp :data-file tennis.fs :data-line-number true :data-line-start 26
+let private scoreWhenForty (fortyPlayer, otherPlayerScore) player =
+    match player with
+    | player when player = fortyPlayer -> Game player
+    | _ ->
+        match otherPlayerScore with
+        | Love -> Forty (fortyPlayer, Fifteen)
+        | Fifteen -> Forty (fortyPlayer, Thirty)
+        | Thirty -> Deuce
+#+END_SRC
+
+On peut enchainer sur le calcul dès lors qu'un joueur à l'avantage. 
+L'implémentation ne diffère pas beaucoup de la fonction différentes si ce n'est
+que le cas où le marqueur n'est pas celui qui a l'avantage, les joueurs
+repassent en égalité :
+
+#+BEGIN_SRC fsharp :data-roe-kind code :data-pellet Fsharp :data-file tennis.fs :data-line-number true :data-line-start 26
+let private scoreWhenAdvantage advantagePlayer player =
+    match player with
+    | p when p = advantagePlayer -> Game p
+    | _ -> Deuce
+#+END_SRC
+
+Maintenant que nous avons tous les ingrédients, on peut tout rassembler dans
+une fonction qui délèguera certaines branches à nos fonctions précédemment
+rédigée :
+
+#+BEGIN_SRC fsharp :data-roe-kind code :data-pellet Fsharp :data-file tennis.fs :data-line-number true :data-line-start 30
+let scoreAPoint player previousScore =
+    match previousScore with
+    | OtherPoints (player1Score, player2Score) -> 
+        scoreWhenOtherPoints (player1Score, player2Score) player
+    | Forty (p, otherPlayerScore) -> 
+        scoreWhenForty (p, otherPlayerScore) player
+    | Deuce -> Advantage player
+    | Advantage p -> scoreWhenAdvantage p player
+    | Game _ -> previousScore
+#+END_SRC
+
+La conclusion de cette implémentation, de mon point de vue, est que 
+*les types algébriques et la correspondance de motifs sont deux outils*
+*très puissant pour exprimer des problématiques métiers complexes*.
+
+Je trouve que la présentation, renforcée par le /live-coding/ est particulièrement
+didactique, pose des problématiques pertinentes et offre une solution.
+
+** Implémentation OCaml
+
+OCaml et F# se ressemblent grandement, je pourrais donc simplement convertir
+leur code. Mais ce ne serait pas très intéressant. Je vous propose donc une
+implémentation différente (mais inspirée) pour essayer de tirer partit de
+certaines forces de OCaml. Par contre, je ne garantis absolument qu'il s'agisse
+de la meilleure implémentation, ou même de la plus pertinente.

@@ -1,0 +1,42 @@
+(:title "Le Kata du tennis appliqué à OCaml")
+(:kind long)
+(:date #019K08)
+(:permaname "kata_tennis_ocaml")
+(:synopsis "Retour de ScalaIO 2019")
+(:content external #org-mode "content/posts/tennis.org")
+(:published false)
+(:category "programmation")
+(:tags "programmation" "typage" "DDD" "scalaio" "fsm")
+
+
+(:links
+ (
+  ("Liens"
+   (
+    ("Support de la présentation"
+     "https://docs.google.com/presentation/d/155clcvtJUag5sX0u1poVrMbOsgZfe64xObdH-HAtIS0/edit#slide=id.p")
+    ("La companie de Clément Bouillier" "http://www.devcrafting.com/en/")
+    ("Le site de Florent Pellet" "https://www.florentpellet.fr/")
+    ("Conférence ScalaIO" "https://scala.io")
+    )
+   )
+  ("Ressources"
+   (
+    ("Le site officiel de F#" "https://fsharp.org")
+    ("Le site de Scott Wlaschin" "https://fsharpforfunandprofit.com/")
+    ("La documentation de F#" "https://docs.microsoft.com/fr-fr/dotnet/fsharp/")
+    ("Le livre 'Domain modeling made functional'"
+     "https://pragprog.com/book/swdddf/domain-modeling-made-functional")
+    )
+   )
+  (
+   "Sur les Katas"
+   (
+    ("Code sources de la présentation"
+     "https://github.com/HackYourJob/introFSharp-TypeDD-Fable/tree/scalaio")
+    ("Une liste de Katas en programmation" "http://codingdojo.org/kata/")
+    ("le Kata du tennis" "http://codingdojo.org/kata/Tennis/")
+    )
+   )
+  )
+ )

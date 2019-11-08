@@ -1,0 +1,5 @@
+;; Logs for 019K
+((:uuid "d2a4d3d2-4b89-427c-18a8-4767bb798c63") (:day "019K07")
+  (:duration "200") (:sector "writing")
+  (:label "Démarrage de l'article sur le Kata du tennis en OCaml")
+  (:project "planet"))

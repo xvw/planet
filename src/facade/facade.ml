@@ -1,25 +1,13 @@
 open Js_of_ocaml
 module Lwt_js_events = Js_of_ocaml_lwt.Lwt_js_events
 
-let start _generation_id_node f =
+let start f =
   let open Bedrock.Validation in
-  (* generation_id_node |> Js.Opt.to_option
-   * |> from_option (Of "Unable to find generation-id")
-   * >>= (fun x ->
-   *       Attr.Data.(x.%{"uuid"})
-   *       |> from_option (Of "Unable to find data-uuid"))
-   * |> (function
-   *      | Ok uuid ->
-   *        let () = Console.print ("Planet is started with " ^ uuid) in
-   *        Lwt.return_unit
-   *      | Error errs ->
-   *        Lwt.return (Console.render_error errs))
-   * |> fun promise -> *)
   Lwt.Infix.(
-    Lwt.return (Console.log "Await for planet")
+    Lwt.return (Console.print "Await for planet")
     >>= Lwt_js_events.onload
     >>= (fun _ev -> f ())
-    >|= fun () -> Console.log "Planet launched")
+    >|= fun () -> Console.print "Planet launched")
 ;;
 
 let () =
@@ -39,7 +27,7 @@ let () =
          let _ = self##.internal##.loadTasks##push f in
          ()
 
-       method start nodes =
+       method start =
          let f =
            self##.internal##.loadTasks
            |> Js.to_array
@@ -50,7 +38,7 @@ let () =
                   >|= fun () -> Js.Unsafe.fun_call task [||])
                 (fun () -> Lwt.return_unit)
          in
-         start nodes f
+         start f
 
        val project = Widget.Project.api
 

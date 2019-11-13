@@ -20,3 +20,7 @@
 ((:uuid "06b9c384-5335-ab90-a4ea-56fc2c63b733") (:day "019K10")
   (:duration "320") (:sector "research")
   (:label "Expériences photographiques"))
+
+((:uuid "fcea56c0-3f78-bda0-2249-0bee1f327d78") (:day "019K13")
+  (:duration "60") (:sector "maintenance")
+  (:label "Amélioration de mon Bashprofile"))

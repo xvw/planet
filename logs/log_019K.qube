@@ -12,3 +12,7 @@
 ((:uuid "eb7b1777-af15-64d3-b65d-34406af0a128") (:day "019K08")
   (:duration "200") (:sector "research")
   (:label "Expériences photographiques"))
+
+((:uuid "fa9e1f44-7c17-c43b-7773-c271c98e013d") (:day "019K09")
+  (:duration "320") (:sector "research")
+  (:label "Expériences photographiques"))

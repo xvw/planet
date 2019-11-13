@@ -1,0 +1,6 @@
+(executable
+ (name now)
+ (libraries
+   planet.bedrock
+   planet.paperwork
+   planet.glue))

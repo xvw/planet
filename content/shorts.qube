@@ -1,0 +1,8 @@
+(:title "Ajout des mises à jours sur la page d'accueil")
+(:kind short)
+(:date #019K13)
+(:permaname "shorts_on_top")
+(:synopsis "Mise en lumière des mises à jours de platforme sur l'accueil")
+(:content internal #org-mode "")
+(:published true)
+(:category "planet")

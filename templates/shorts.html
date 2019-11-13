@@ -1,0 +1,10 @@
+<ul class="shorts-list">
+  $for(shorts)$
+  $if(published)$
+  <li>
+    <span class="date">$date$</span>
+    <span class="title">$title$</span>
+  </li>
+  $endif$
+  $endfor$
+</ul>

@@ -219,24 +219,16 @@ let visual_push update log =
     Prompter.prompt_error e
 ;;
 
-let clr () = "\027[2J" |> print_endline
-
 let interactive () =
   ensure_sectors_projects (fun sectors (ctx, projects) ->
       let uuid = Uuid.make () in
-      let () = clr () in
       let a_timecode = when_ () in
-      let () = clr () in
       let a_duration = during () in
-      let () = clr () in
       let a_sector = sector sectors in
-      let () = clr () in
       let some_project =
         project (List.map (fun (x, _, _) -> x) projects)
       in
-      let () = clr () in
       let a_label = label () in
-      let () = clr () in
       let () = Ansi.[ reset ] |> Ansi.to_string |> print_endline in
       let log =
         Shapes.Log.new_log

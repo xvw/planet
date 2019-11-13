@@ -1,0 +1,8 @@
+(:title "Mise en ligne de la première version")
+(:kind short)
+(:date #019J20)
+(:permaname "planet_online")
+(:synopsis "Première mise en ligne de Planet")
+(:content internal #org-mode "")
+(:published true)
+(:category "planet")

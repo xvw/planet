@@ -86,6 +86,21 @@ body {
     font-weight: 600;
 }
 
+.light-button {
+    display: inline-block;
+    padding: 2px 8px;
+    color: #000;
+    border: 1px solid #000;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 300;
+}
+
+.button-white {
+    color: #FFF;
+    border-color: #fff;    
+}
+
 .small-text {
     font-size: 80%;
 }
@@ -146,6 +161,14 @@ figure > img.image-cover ~ figcaption {
     color: #888;
     margin-bottom: 32px;
     
+}
+
+.on-bottom {
+    margin-top: 64px;
+}
+
+.on-bottom .container {
+    margin: 12px auto 8px auto;
 }
 
 .black-block {
@@ -385,6 +408,10 @@ header > div > div > .header-bar {
     margin-top: 64px;
 }
 
+.uniq-content {
+    margin-bottom: 64px;
+}
+
 .navbar {
     background-color: #FFF;
     position: sticky;
@@ -405,6 +432,16 @@ header > div > div > .header-bar {
     margin-right: 8px;
     margin-bottom: 8px;
     background-color: #000;
+}
+
+
+.black-block nav a {
+    text-decoration: none;
+    background-color: #FFF;
+    padding: 4px 8px;
+    font-size: 80%;
+    border-radius: 4px;
+    color: #000;
 }
 
 header h2,
@@ -436,7 +473,6 @@ footer {
     background-color: #ffffff;
     padding: 18px 12px;
     font-size: 80%;
-    margin-top: 64px;
 }
 
 footer > div {
@@ -1308,6 +1344,33 @@ p.free-paragraph {
     flex: 1;
 }
 
+.shorts-list {
+    padding: 0;
+    margin: 32px 0;
+}
+
+.shorts-list > li {
+    list-style: none;
+    font-size: 80%;
+    margin-top: 8px;
+}
+
+.shorts-list > li > span {
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.shorts-list > li > span.date {
+    font-family: "Planet Fira Mono", monospace;
+    color: #000;
+    background-color: #FFF;
+}
+
+.black-block .shorts-list > li > span.date {
+    background-color: #FFF;
+    color: #000;
+}
+
 @media screen and (max-width: 720px) {
 
     main {
@@ -1396,6 +1459,10 @@ p.free-paragraph {
 
     .navbar {
         text-align: center;
+    }
+
+    .black-block {
+        padding: 12px;
     }
     
 }

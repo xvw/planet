@@ -1,0 +1,8 @@
+(:title "Fonctionnalité de reprise de lecture")
+(:kind short)
+(:date #018H27)
+(:permaname "article_resumable")
+(:synopsis "Implémentation de la fonctionnalité de la reprise de la lecture")
+(:content internal #org-mode "")
+(:published true)
+(:category "planet")

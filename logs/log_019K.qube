@@ -24,3 +24,7 @@
 ((:uuid "fcea56c0-3f78-bda0-2249-0bee1f327d78") (:day "019K13")
   (:duration "60") (:sector "maintenance")
   (:label "Amélioration de mon Bashprofile"))
+
+((:uuid "7cafbe25-12ef-aef2-22cc-5d4daa727a45") (:day "019K13")
+  (:duration "60") (:sector "programming")
+  (:label "Ajout des mises à jours de la platforme") (:project "planet"))

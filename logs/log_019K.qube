@@ -32,3 +32,8 @@
 ((:uuid "269288a4-cce3-03b0-9475-fa3008ff5fb6") (:day "019K13")
   (:duration "30") (:sector "visual")
   (:label "Légères modifications de l'UI") (:project "planet"))
+
+((:uuid "a4dabf5c-5f32-c8d8-4208-8e8fcc90cdc0") (:day "019K14")
+  (:duration "10") (:sector "visual")
+  (:label "Légères modifications sur l'interface graphique")
+  (:project "planet"))

@@ -164,7 +164,8 @@ figure > img.image-cover ~ figcaption {
 }
 
 .on-bottom {
-    margin-top: 64px;
+    margin-top: 24px;
+    flex: 1;
 }
 
 .on-bottom .container {
@@ -339,10 +340,19 @@ div.code-container .code-underbox .code-file a {
 
 main {
     flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 main > .container {
     padding: 18px 0;
+    flex: 1;
+}
+
+main .main-block {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 #sticky-header {
@@ -406,6 +416,7 @@ header > div > div > .header-bar {
 
 .base-content {
     margin-top: 64px;
+    flex: 1;
 }
 
 .uniq-content {
@@ -1362,8 +1373,8 @@ p.free-paragraph {
 
 .shorts-list > li > span.date {
     font-family: "Planet Fira Mono", monospace;
-    color: #000;
-    background-color: #FFF;
+    color: #FFF;
+    background-color: #000;
 }
 
 .black-block .shorts-list > li > span.date {

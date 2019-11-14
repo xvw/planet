@@ -76,6 +76,15 @@ body {
     line-height: 1.5;
 }
 
+hr.spacing {
+    margin: 38px 0 42px;
+    height: 1px;
+}
+
+.invisible {
+    color: transparent;
+}
+
 .std-button {
     display: inline-block;
     padding: 2px 6px;

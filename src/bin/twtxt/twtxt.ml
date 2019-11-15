@@ -14,7 +14,7 @@ let rec prompt_feeds () =
         ~answer_style:Ansi.[ fg yellow ]
         ~title:"In which feeds?"
         (function Some x -> `Fixed x | None -> `Unfixed)
-        (function Some x -> x | None -> "New feed")
+        (Option.get_or (fun () -> "New feed"))
         (Array.of_list feeds)
         "Select a feeds")
   >>= function

@@ -127,3 +127,16 @@ publish: prepublish
 	git add deployement
 	git commit -m $(MSG)
 	git push
+
+push:
+	./build.exe all
+	git submodule update --remote --merge
+	rsync -avr --delete --exclude-from '.publishignore'  _site/ deployement/
+	cd deployement \
+	  && git checkout master \
+	  && git add . \
+	  && git commit -m $(MSG) \
+	  && git push origin master
+	git add deployement
+	git commit -m $(MSG)
+	git push

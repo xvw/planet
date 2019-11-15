@@ -29,4 +29,10 @@ let from_qexp qexp =
     Error [ Of "Invalid twtxt" ]
 ;;
 
-let to_string twtxt = Format.asprintf "\t%s" twtxt.message
+let to_string twtxt =
+  Format.asprintf
+    "%a\t%s"
+    Timetable.Moment.pp_twtxt
+    twtxt.date
+    twtxt.message
+;;

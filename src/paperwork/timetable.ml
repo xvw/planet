@@ -278,6 +278,7 @@ module Hour = struct
   ;;
 
   let pp ppf x = Format.fprintf ppf "%s" (to_string x)
+  let ppr ppf (Hour (h, m)) = Format.fprintf ppf "%02d:%02d:00" h m
   let eq (Hour (h, m)) (Hour (h2, m2)) = h = h2 && m = m2
 
   let cmp (Hour (h, m)) (Hour (h2, m2)) =
@@ -293,8 +294,7 @@ module Moment = struct
 
   let make d h = d, h
 
-  let make_with year_value month_value day_value hour_value min_value
-    =
+  let make_with year_value month_value day_value hour_value min_value =
     let open Result.Syntax in
     let* d = Day.make_with year_value month_value day_value in
     let* c = Hour.make hour_value min_value in
@@ -321,6 +321,12 @@ module Moment = struct
 
   let pp ppf x = Format.fprintf ppf "%s" (to_string x)
   let eq (d, h) (d2, h2) = Day.eq d d2 && Hour.eq h h2
+
+  let pp_twtxt ppf (d, h) =
+    let left = Format.asprintf "%a" Day.ppr d in
+    let right = Format.asprintf "%a" Hour.ppr h in
+    Format.fprintf ppf "%sT%s+01:00" left right
+  ;;
 
   let cmp (d, h) (d2, h2) =
     let r = Day.cmp d d2 in

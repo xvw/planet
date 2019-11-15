@@ -188,6 +188,9 @@ module Hour : sig
   (** Pretty printer *)
   val pp : Format.formatter -> t -> unit
 
+  (** Pretty Printer for regular representation *)
+  val ppr : Format.formatter -> t -> unit
+
   (** Equality *)
   val eq : t -> t -> bool
 
@@ -225,6 +228,9 @@ module Moment : sig
 
   (** Pretty printer *)
   val pp : Format.formatter -> t -> unit
+
+  (** Pretty Printer *)
+  val pp_twtxt : Format.formatter -> t -> unit
 
   (** Equality *)
   val eq : t -> t -> bool

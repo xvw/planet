@@ -230,7 +230,7 @@ module Moment : sig
   val pp : Format.formatter -> t -> unit
 
   (** Pretty Printer *)
-  val pp_twtxt : Format.formatter -> t -> unit
+  val pp_twtxt : int -> Format.formatter -> t -> unit
 
   (** Equality *)
   val eq : t -> t -> bool

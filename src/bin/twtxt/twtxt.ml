@@ -1,5 +1,6 @@
 open Baremetal
 open Bedrock
+open Bedrock.Error
 open Bedrock.Util
 
 let database = Glue.Database.twtxt
@@ -14,7 +15,7 @@ let rec prompt_feeds () =
         ~answer_style:Ansi.[ fg yellow ]
         ~title:"In which feeds?"
         (function Some x -> `Fixed x | None -> `Unfixed)
-        (Option.get_or (fun () -> "New feed"))
+        (Option.get_or (fun () -> "New feed (or feed query)"))
         (Array.of_list feeds)
         "Select a feeds")
   >>= function
@@ -24,12 +25,12 @@ let rec prompt_feeds () =
     try_until Prompter.repeat_option (fun () ->
         Prompter.string_opt
           ~answer_style:Ansi.[ fg yellow ]
-          ~title:"feeds?"
+          ~title:"Query?"
           ~f:
             (Option.bind (fun x ->
                  let s = String.trim x in
                  if String.length s = 0 then None else Some s))
-          "Write feed title")
+          "Write feed query")
     |> (function Some x -> Ok x | None -> prompt_feeds ())
 ;;
 
@@ -38,12 +39,25 @@ let collect_file () =
   (if Array.length Sys.argv > 1
   then Ok Sys.argv.(1)
   else prompt_feeds ())
-  >|= fun feed ->
-  if String.has_extension feed "txt" then feed else feed ^ ".txt"
+  >|= String.split_on_char '&'
+  |> Validation.from_result
+  |> Validation.bind (fun feeds ->
+         List.map
+           (fun feed ->
+             let s = String.trim feed in
+             if String.length s = 0
+             then Error [ Of "invalid feed name" ]
+             else
+               Ok
+                 (if String.has_extension s "txt"
+                 then s
+                 else s ^ ".txt"))
+           feeds
+         |> Validation.Applicative.sequence)
 ;;
 
 let () =
-  let open Result.Infix in
-  collect_file () >|= print_endline
-  |> function Ok _ -> () | Error e -> Prompter.prompt_error e
+  let open Validation.Infix in
+  collect_file () >|= List.iter print_endline
+  |> function Ok _ -> () | Error e -> Prompter.prompt_errors e
 ;;

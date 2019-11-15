@@ -60,8 +60,9 @@ let generic
   in
   let () = Format.printf "%a@." Ansi.pp answer_style in
   let result = Stdlib.read_line () in
+  let r = callback result in
   let () = Format.printf "%a" Ansi.pp [ Ansi.reset ] in
-  callback result
+  r
 ;;
 
 let opt = function "" -> None | x -> Some x

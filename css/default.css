@@ -428,6 +428,11 @@ header > div > div > .header-bar {
     flex: 1;
 }
 
+.small-content {
+    margin-top: 12px;
+    flex: 1;
+}
+
 .uniq-content {
     margin-bottom: 64px;
 }

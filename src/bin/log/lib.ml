@@ -28,32 +28,8 @@ let sectors () =
     Prompter.prompt_errors errs
 ;;
 
-let repeat_result = function
-  | Ok _ ->
-    true
-  | Error e ->
-    Prompter.prompt_error e;
-    false
-;;
-
-let repeat_validation = function
-  | Ok _ ->
-    true
-  | Error e ->
-    Prompter.prompt_errors e;
-    false
-;;
-
-let repeat_option = function
-  | None ->
-    Prompter.prompt_error Error.(Invalid_field "input");
-    false
-  | Some _ ->
-    true
-;;
-
 let rec when_ () =
-  try_until repeat_result (fun () ->
+  try_until Prompter.repeat_result (fun () ->
       Prompter.resultable
         ~title:"When"
         ~answer_style:Ansi.[ fg yellow ]
@@ -76,7 +52,7 @@ let rec when_ () =
 ;;
 
 let rec during () =
-  try_until repeat_option (fun () ->
+  try_until Prompter.repeat_option (fun () ->
       Prompter.int_opt
         ~answer_style:Ansi.[ fg yellow ]
         ~title:"During"
@@ -97,7 +73,7 @@ let rec during () =
 ;;
 
 let rec sector sectors =
-  try_until repeat_result (fun () ->
+  try_until Prompter.repeat_result (fun () ->
       Prompter.choose
         ~answer_style:Ansi.[ fg yellow ]
         ~title:"In which sector"
@@ -110,7 +86,7 @@ let rec sector sectors =
 
 let rec project projects =
   let all_projects = None :: List.map (fun x -> Some x) projects in
-  try_until repeat_result (fun () ->
+  try_until Prompter.repeat_result (fun () ->
       Prompter.choose
         ~answer_style:Ansi.[ fg yellow ]
         ~title:"In which project?"
@@ -127,7 +103,7 @@ let rec project projects =
 ;;
 
 let rec label () =
-  try_until repeat_option (fun () ->
+  try_until Prompter.repeat_option (fun () ->
       Prompter.string_opt
         ~answer_style:Ansi.[ fg yellow ]
         ~title:"Label?"
@@ -249,9 +225,7 @@ let check_day = function
     Timetable.Day.from_string x |> Validation.from_result
 ;;
 
-let check_duration =
-  Validation.from_option (Invalid_field "duration")
-;;
+let check_duration = Validation.from_option (Invalid_field "duration")
 
 let check_sector sectors = function
   | None ->

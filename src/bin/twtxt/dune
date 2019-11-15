@@ -1,0 +1,7 @@
+(executable
+ (name twtxt)
+ (libraries
+   planet.bedrock
+   planet.baremetal
+   planet.paperwork
+   planet.glue))

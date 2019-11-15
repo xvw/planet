@@ -145,3 +145,7 @@ val choose
   -> 'a array
   -> answer
   -> ('b, Error.t) result
+
+val repeat_result : 'a Result.t -> bool
+val repeat_validation : 'a Validation.t -> bool
+val repeat_option : 'a Option.t -> bool

@@ -271,3 +271,27 @@ let choose
     ~bottom:st_choices
     real_f
 ;;
+
+let repeat_result = function
+  | Ok _ ->
+    true
+  | Error e ->
+    prompt_error e;
+    false
+;;
+
+let repeat_validation = function
+  | Ok _ ->
+    true
+  | Error e ->
+    prompt_errors e;
+    false
+;;
+
+let repeat_option = function
+  | None ->
+    prompt_error Error.(Invalid_field "input");
+    false
+  | Some _ ->
+    true
+;;

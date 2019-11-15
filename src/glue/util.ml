@@ -8,18 +8,22 @@ let current_year () =
   n.Unix.tm_year + 1900
 ;;
 
-let moment_of timestamp =
+let moment_with_sec_of timestamp =
   let mon = timestamp.Unix.tm_mon + 1 in
   let yea = timestamp.Unix.tm_year - 100 in
   let day = timestamp.Unix.tm_mday in
   let h = timestamp.Unix.tm_hour in
   let m = timestamp.Unix.tm_min in
+  let s = timestamp.Unix.tm_sec in
   let open Result.Infix in
   mon |> Timetable.Month.from_int
-  >>= fun month -> Timetable.Moment.make_with yea month day h m
+  >>= (fun month -> Timetable.Moment.make_with yea month day h m)
+  >|= fun m -> m, s
 ;;
 
+let moment_of ts = ts |> moment_with_sec_of |> Result.map fst
 let moment () = moment_of (now ())
+let moment_with_sec () = now () |> moment_with_sec_of
 
 let hour_of timestamp =
   let open Result.Infix in

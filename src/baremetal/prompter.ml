@@ -20,6 +20,12 @@ let prompt_errors ?(intro = true) errors =
   ()
 ;;
 
+let flush () =
+  let open Ansi in
+  let r = Format.asprintf "%a" Ansi.pp [ reset ] in
+  print_string r
+;;
+
 let prompt_error ?(intro = true) error =
   prompt_errors ~intro [ error ]
 ;;
@@ -60,9 +66,8 @@ let generic
   in
   let () = Format.printf "%a@." Ansi.pp answer_style in
   let result = Stdlib.read_line () in
-  let r = callback result in
-  let () = Format.printf "%a" Ansi.pp [ Ansi.reset ] in
-  r
+  let () = flush () in
+  callback result
 ;;
 
 let opt = function "" -> None | x -> Some x

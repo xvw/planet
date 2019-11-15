@@ -4,10 +4,11 @@ open Bedrock.Error
 open Bedrock.Util
 
 let database = Glue.Database.twtxt
+let path = Glue.Database.path database
 
 let rec prompt_feeds () =
   let open Result.Infix in
-  Dir.children (Glue.Database.path database)
+  Dir.children path
   >|= (fun feeds -> None :: List.map (fun x -> Some x) feeds)
   >>= fun feeds ->
   try_until Prompter.repeat_result (fun () ->
@@ -56,8 +57,30 @@ let collect_file () =
          |> Validation.Applicative.sequence)
 ;;
 
+let rec set_message feeds =
+  let fds = String.concat ", " feeds in
+  try_until Prompter.repeat_option (fun () ->
+      Prompter.string_opt
+        ~answer_style:Ansi.[ fg yellow ]
+        ~title:("Write message in: " ^ fds)
+        ~f:
+          (Option.bind (fun x ->
+               let s = String.trim x in
+               if String.length s = 0 then None else Some s))
+        "Twtxt")
+  |> function Some x -> Ok (feeds, x) | None -> set_message feeds
+;;
+
+let dump_message (feeds, _message) =
+  List.iter
+    (fun feed ->
+      let file = Filename.concat path feed in
+      print_endline ("Process for " ^ file))
+    feeds
+;;
+
 let () =
   let open Validation.Infix in
-  collect_file () >|= List.iter print_endline
+  collect_file () >>= set_message >|= dump_message
   |> function Ok _ -> () | Error e -> Prompter.prompt_errors e
 ;;

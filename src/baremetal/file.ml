@@ -153,6 +153,10 @@ let create ?(binary = false) ?(chmod = 0o777) filename content =
     filename
 ;;
 
+let touch ?(binary = false) ?(chmod = 0o777) filename =
+  if exists filename then Ok () else create ~binary ~chmod filename ""
+;;
+
 let append
     ?(binary = false)
     ?(create = false)
@@ -192,9 +196,7 @@ let overwrite
 ;;
 
 let delete filename =
-  try Ok (Sys.remove filename) with
-  | _ ->
-    Error (Unreadable filename)
+  try Ok (Sys.remove filename) with _ -> Error (Unreadable filename)
 ;;
 
 let rename old_name new_name =

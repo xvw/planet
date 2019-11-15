@@ -102,6 +102,9 @@ val overwrite
   -> string
   -> unit Result.t
 
+(** Create a file if not exists *)
+val touch : ?binary:bool -> ?chmod:chmod -> name -> unit Result.t
+
 (** Delete a file. *)
 val delete : name -> unit Result.t
 

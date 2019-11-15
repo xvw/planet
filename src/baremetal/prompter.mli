@@ -23,6 +23,8 @@ val prompt_error : ?intro:bool -> Error.t -> unit
 
 (** {2 Prompters} *)
 
+val flush : unit -> unit
+
 (** Display a generic prompter. *)
 val generic
   :  ?prefix:Ansi.fragments

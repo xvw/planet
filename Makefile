@@ -130,6 +130,7 @@ publish: prepublish
 
 push:
 	./build.exe all
+	stack exec site build
 	git submodule update --remote --merge
 	rsync -avr --delete --exclude-from '.publishignore'  _site/ deployement/
 	cd deployement \

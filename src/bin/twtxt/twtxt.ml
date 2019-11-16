@@ -71,11 +71,27 @@ let rec set_message feeds =
   |> function Some x -> Ok (feeds, x) | None -> set_message feeds
 ;;
 
-let dump_message (feeds, _message) =
+let dump_message (feeds, message) =
+  let open Result.Infix in
+  Glue.Util.moment_with_sec ()
+  >|= fun (date, offset) ->
+  let tweet = Shapes.Twtxt.make date offset message in
+  let qexp = Paperwork.Qexp.node [ Shapes.Twtxt.to_qexp tweet ] in
+  let str = Paperwork.Qexp.to_string qexp |> String.trim in
   List.iter
     (fun feed ->
       let file = Filename.concat path feed in
-      print_endline ("Process for " ^ file))
+      let () = print_string ("Process for " ^ file ^ "\t") in
+      File.touch file
+      >>= (fun () -> File.append file ("\n" ^ str))
+      |> function
+      | Ok _ ->
+        let s = Ansi.(to_string [ fg green; bold; !"done" ]) in
+        print_endline s
+      | Error e ->
+        let s = Ansi.(to_string [ fg red; bold; !"failed" ]) in
+        let () = print_endline s in
+        Prompter.prompt_error e)
     feeds
 ;;
 

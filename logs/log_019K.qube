@@ -41,3 +41,7 @@
 ((:uuid "3abe1b4d-b239-b2d2-181c-b4d453a5d611") (:day "019K15")
   (:duration "120") (:sector "programming")
   (:label "Initialisation du publieur TWTXT") (:project "planet"))
+
+((:uuid "d7a91529-2491-7e7c-647a-973ff44aaf4f") (:day "019K16")
+  (:duration "200") (:sector "programming")
+  (:label "Finalisation du gestionnaire de TWTXT") (:project "planet"))

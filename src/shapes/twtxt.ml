@@ -14,7 +14,7 @@ let make date seconds message = { date; seconds; message }
 let to_qexp twtxt =
   Qexp.(
     node
-      [ keyword $ Timetable.Moment.to_string twtxt.date
+      [ string $ Timetable.Moment.to_string twtxt.date
       ; keyword $ string_of_int twtxt.seconds
       ; string ~quote:back_tick twtxt.message
       ])
@@ -23,7 +23,7 @@ let to_qexp twtxt =
 let from_qexp qexp =
   let open Qexp in
   match qexp with
-  | Node [ Keyword p_date; Keyword p_sec; String (_, message) ] ->
+  | Node [ String (_, p_date); Keyword p_sec; String (_, message) ] ->
     let open Validation.Infix in
     p_date |> Timetable.Moment.from_string |> Validation.from_result
     >>= (fun date ->
@@ -41,4 +41,9 @@ let to_string twtxt =
     (Timetable.Moment.pp_twtxt twtxt.seconds)
     twtxt.date
     twtxt.message
+;;
+
+let cmp a b =
+  let res = Timetable.Moment.cmp a.date b.date in
+  if res = 0 then compare a.seconds b.seconds else res
 ;;

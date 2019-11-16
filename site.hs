@@ -34,6 +34,11 @@ main = hakyll $ do
       route (unseedRoute `composeRoutes` setExtension "json")
       compile copyFileCompiler
 
+    -- Twtxt
+    match "_seeds/twtxt/*.txt" $ do
+      route (unseedRoute `composeRoutes` setExtension "txt")
+      compile copyFileCompiler
+
     -- JSOO Artifacts
     match "_seeds/*.bc.js" $ do
       route (unseedRoute `composeRoutes` setExtension "js")

@@ -8,6 +8,7 @@ let project_folder = Filename.concat site_folder "projects"
 let seed_partials = Filename.concat site_folder "partials"
 let long_folder = Filename.concat site_folder "longs"
 let short_folder = Filename.concat site_folder "shorts"
+let twtxt_folder = Filename.concat site_folder "twtxt"
 
 let soft_creation folder =
   let open Result.Infix in
@@ -269,6 +270,52 @@ let stories () =
   |> function Error e -> Prompter.prompt_errors e | Ok _ -> ()
 ;;
 
+let twtxt () =
+  let database = Glue.Database.twtxt in
+  let path = Glue.Database.path database in
+  let () = generate () in
+  let () = trace_creation (soft_creation twtxt_folder) in
+  let open Validation.Infix in
+  Dir.children path |> Validation.from_result
+  >>= (fun files ->
+        List.map
+          (fun file ->
+            let f = Filename.concat path file in
+            let rf = Filename.concat twtxt_folder file in
+            File.to_stream (fun _ -> Paperwork.Qexp.from_stream) f
+            |> Result.bind Paperwork.Qexp.extract_root
+            |> Validation.from_result
+            >>= (fun nodes ->
+                  List.map (fun t -> Shapes.Twtxt.from_qexp t) nodes
+                  |> Validation.Applicative.sequence)
+            >|= fun datatxt ->
+            let sorted =
+              List.sort (fun a b -> Shapes.Twtxt.cmp a b * -1) datatxt
+            in
+            rf, List.map Shapes.Twtxt.to_string sorted)
+          files
+        |> Validation.Applicative.sequence)
+  >>= (fun l ->
+        List.fold_left
+          (fun acc (file, data) ->
+            acc
+            >>= fun () ->
+            let () =
+              Ansi.
+                [ fg green
+                ; text $ Format.sprintf "twtxt processed: %s" file
+                ]
+              |> Ansi.to_string |> print_endline
+            in
+            let content = String.concat "\n" data in
+            File.touch file
+            |> Result.bind (fun () -> File.overwrite file content)
+            |> Validation.from_result)
+          (Ok ())
+          l)
+  |> function Error e -> Prompter.prompt_errors e | Ok _ -> ()
+;;
+
 let base_project () = projects ()
 let location () = ()
 
@@ -284,6 +331,7 @@ let all () =
     let* () = Ok (sectors ()) in
     let* () = Ok (stories ()) in
     let* () = Ok (location ()) in
+    let* () = Ok (twtxt ()) in
     Ok ()
   in
   ()

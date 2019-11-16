@@ -37,3 +37,7 @@
   (:duration "10") (:sector "visual")
   (:label "Légères modifications sur l'interface graphique")
   (:project "planet"))
+
+((:uuid "3abe1b4d-b239-b2d2-181c-b4d453a5d611") (:day "019K15")
+  (:duration "120") (:sector "programming")
+  (:label "Initialisation du publieur TWTXT") (:project "planet"))

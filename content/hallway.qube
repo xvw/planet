@@ -1,0 +1,8 @@
+(:title "Ajout de canaux TWTXT")
+(:kind short)
+(:date #019K16)
+(:permaname "twtxt")
+(:synopsis "Ajout d'un microblogging TWTXT")
+(:content internal #org-mode "")
+(:published true)
+(:category "planet")

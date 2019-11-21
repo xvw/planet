@@ -45,3 +45,7 @@
 ((:uuid "d7a91529-2491-7e7c-647a-973ff44aaf4f") (:day "019K16")
   (:duration "200") (:sector "programming")
   (:label "Finalisation du gestionnaire de TWTXT") (:project "planet"))
+
+((:uuid "0e70f52e-383f-5fe9-1926-dd59f5f4752c") (:day "019K19")
+  (:duration "200") (:sector "research")
+  (:label "Types existentiels et GADTs"))

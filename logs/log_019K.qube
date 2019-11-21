@@ -49,3 +49,7 @@
 ((:uuid "0e70f52e-383f-5fe9-1926-dd59f5f4752c") (:day "019K19")
   (:duration "200") (:sector "research")
   (:label "Types existentiels et GADTs"))
+
+((:uuid "847e4a79-47af-40dc-47a4-bc5b2798e3f7") (:day "019K21")
+  (:duration "10") (:sector "maintenance")
+  (:label "Correctifs rapide sur la page d'accueil") (:project "planet"))

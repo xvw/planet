@@ -83,6 +83,7 @@ hr.spacing {
 
 .invisible {
     color: transparent;
+    visibility: hidden;
 }
 
 .std-button {
@@ -1081,6 +1082,7 @@ div.mozaic img {
 #resume-details {
     color: #fff;
     margin: auto;
+    width: 100%;
 }
 
 #resume-details:empty {

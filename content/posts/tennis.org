@@ -269,7 +269,7 @@ l'on parle de programmation fonctionnelle, (moi le premier) on s'éloigne
 fortement du métier pour manipuler des concepts abstraits. Même si le
 fétichisme de la technique et de la théorie est indéniablement une activité
 amusante et stimulante, je trouve ça raffraichissant et intéressant de
-pouvoir assister à des présentations axées autours de l'utilisabilité et de
+pouvoir assister à des présentations axées autour de l'utilisabilité et de
 la maintenabilité via l'expression d'un domaine métier précis.
 
 *** Définition du métier, dirigé par la cardinalité

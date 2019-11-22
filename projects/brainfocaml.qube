@@ -1,7 +1,7 @@
 (:name "brainfocaml")
 (:published true)
 (:title "Brainfocaml")
-(:synopsis "Boite à outils autours de l'interprétation/exécution de Brainfuck")
+(:synopsis "Boite à outils autour de l'interprétation/exécution de Brainfuck")
 (:status "wip")
 (:license "mit")
 (:tags "brainfuck" "ocaml" "parser" "interpreter" "compilation")

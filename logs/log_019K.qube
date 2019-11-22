@@ -53,3 +53,6 @@
 ((:uuid "847e4a79-47af-40dc-47a4-bc5b2798e3f7") (:day "019K21")
   (:duration "10") (:sector "maintenance")
   (:label "Correctifs rapide sur la page d'accueil") (:project "planet"))
+
+((:uuid "dc4f5126-3726-f9eb-50f6-100d0dd093b6") (:day "019K22")
+  (:duration "400") (:sector "visual") (:label "Cartographie vectorielle"))

@@ -64,3 +64,7 @@
 ((:uuid "d5a74ca5-fa4b-bb9b-703a-50e7216e3b31") (:day "019K28")
   (:duration "40") (:sector "research")
   (:label "Relecture des différentes PR") (:project "preface"))
+
+((:uuid "873f1e09-c4a8-0d72-cd89-c7cad2469c2d") (:day "019K29")
+  (:duration "30") (:sector "research")
+  (:label "Relecture des différentes PR") (:project "preface"))

@@ -56,3 +56,7 @@
 
 ((:uuid "dc4f5126-3726-f9eb-50f6-100d0dd093b6") (:day "019K22")
   (:duration "400") (:sector "visual") (:label "Cartographie vectorielle"))
+
+((:uuid "d5607227-3c08-0feb-a9dc-5ed74dd306ad") (:day "019K27")
+  (:duration "30") (:sector "research")
+  (:label "Relecture des différentes PR") (:project "preface"))

@@ -68,3 +68,6 @@
 ((:uuid "873f1e09-c4a8-0d72-cd89-c7cad2469c2d") (:day "019K29")
   (:duration "30") (:sector "research")
   (:label "Relecture des différentes PR") (:project "preface"))
+
+((:uuid "ea1ff422-adfe-e9b5-c4e7-5c57e3faf6dd") (:day "019K29")
+  (:duration "5") (:sector "writing") (:label "Correction d'un article"))

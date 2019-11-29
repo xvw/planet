@@ -1,9 +1,10 @@
 #+BEGIN_QUOTE
 Ce n'est pas très original d'écrire, en 2018, un article sur les monades.
 Cependant, ça présente plusieurs intérêts. Premièrement, ça permet d'ajouter
-relativement facilement un peu de contenu à mon blog. Ensuite, il y a déjà
-énormément de documentation. Pour terminer, ça permet, éventuellement, de
-servir de base à des articles potentiellement originaux.
+relativement facilement un peu de contenu à mon blog. Ensuite, bien qu'il y 
+ait déjà énormément de documentation, je trouve qu'elle est parfois complexe
+à appréhender. Pour terminer, ça permet, éventuellement, de servir de base,
+ou de prérequis de lecture à des articles potentiellement originaux.
 
 L'article suppose que vous ayez ... une vague idée de ce qu'est une monade,
 ou d'avoir au moins trifouillé IO en Haskell. Mais bon, vous pouvez quand

@@ -1,0 +1,5 @@
+;; Logs for 019L
+((:uuid "04232a35-65f2-c5f9-4f10-6ad0208cc732") (:day "019L05")
+  (:duration "45") (:sector "programming")
+  (:label "Reorganisation de l'anatomie de la bibliothèque")
+  (:project "preface"))

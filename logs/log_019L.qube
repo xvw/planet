@@ -3,3 +3,7 @@
   (:duration "45") (:sector "programming")
   (:label "Reorganisation de l'anatomie de la bibliothèque")
   (:project "preface"))
+
+((:uuid "1d920614-f1d8-0075-cdf1-8db70cd1c76b") (:day "019L05")
+  (:duration "30") (:sector "programming")
+  (:label "Modularisation des tests unitaires") (:project "preface"))

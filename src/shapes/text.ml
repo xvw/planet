@@ -50,18 +50,20 @@ let fetch table field =
   match Hashtbl.find_opt table field with
   | None ->
     Error [ Undefined_field field ]
-  | Some (Some Qexp.(Node children)) ->
-    (match children with
+  | Some (Some Qexp.(Node children)) -> (
+    match children with
     | Qexp.
         [ (String (_, flag) | Keyword flag | Tag flag | Atom flag)
         ; (String (_, fmt) | Keyword fmt | Tag fmt | Atom fmt)
         ; String (_, content)
         ] ->
       let open Validation.Infix in
-      Format.from_string fmt |> Validation.from_result
+      Format.from_string fmt
+      |> Validation.from_result
       >>= patch_flag flag content
     | _ ->
-      Error [ Invalid_field field ])
+      Error [ Invalid_field field ]
+  )
   | _ ->
     Error [ Invalid_field field ]
 ;;
@@ -73,23 +75,22 @@ let pp ppf (fmt, content) =
     | File k ->
       Stdlib.Format.sprintf "file://%s" k
     | Plain k ->
-      Stdlib.Format.sprintf "`%s`" k
-  in
+      Stdlib.Format.sprintf "`%s`" k in
   Stdlib.Format.fprintf ppf "Text.%s=%s" ext kind
 ;;
 
 let eq_format left right =
   let open Format in
-  match left, right with
-  | Org, Org | Markdown, Markdown | Raw, Raw ->
+  match (left, right) with
+  | (Org, Org) | (Markdown, Markdown) | (Raw, Raw) ->
     true
   | _ ->
     false
 ;;
 
 let eq_content left right =
-  match left, right with
-  | File x, File y | Plain x, Plain y ->
+  match (left, right) with
+  | (File x, File y) | (Plain x, Plain y) ->
     x = y
   | _ ->
     false

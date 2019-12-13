@@ -1,8 +1,7 @@
 (** Monad
 
-    This implementation is widely inspired by the 
-    {{: http://hackage.haskell.org/} Haskell}'s implementation
-*)
+    This implementation is widely inspired by the {{:
+    http://hackage.haskell.org/} Haskell}'s implementation *)
 
 (** Build a new Monad's module using [REQUIREMENT_JOIN]. *)
 module Make_with_join (M : Sigs.Monad.REQUIREMENT_JOIN) :

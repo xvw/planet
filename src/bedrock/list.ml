@@ -1,7 +1,7 @@
 module L = Stdlib.List
 
 let zip left right =
-  try Some (L.map2 (fun x y -> x, y) left right) with _ -> None
+  (try Some (L.map2 (fun x y -> (x, y)) left right) with _ -> None)
 ;;
 
 let eq f left right =
@@ -49,7 +49,8 @@ module Monad = struct
         | [] ->
           M.return []
         | x :: xs ->
-          f x >>= fun h -> aux f xs >>= fun t -> M.return (Stdlib.List.cons h t)
+          f x
+          >>= (fun h -> aux f xs >>= (fun t -> M.return (Stdlib.List.cons h t)))
       in
       aux
     ;;
@@ -70,8 +71,7 @@ module Applicative = struct
         | [] ->
           A.pure []
         | x :: xs ->
-          Stdlib.List.cons <$> f x <*> aux f xs
-      in
+          Stdlib.List.cons <$> f x <*> aux f xs in
       aux
     ;;
 

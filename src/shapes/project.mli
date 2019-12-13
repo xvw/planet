@@ -6,13 +6,12 @@ open Paperwork
 
 (** Describes the [state] of a project. *)
 type status =
-  | Unceasing (** The project is always in progress; *)
-  | Wip (** the project is in progress; *)
-  | Done (** the project is done; *)
-  | Paused (** the project is in pause; *)
-  | Interrupted (** the project is stopped. *)
+  | Unceasing  (** The project is always in progress; *)
+  | Wip  (** the project is in progress; *)
+  | Done  (** the project is done; *)
+  | Paused  (** the project is in pause; *)
+  | Interrupted  (** the project is stopped. *)
 
-(** Describes a project *)
 type t =
   { name : string
   ; title : string
@@ -29,17 +28,18 @@ type t =
   ; published : bool
   ; subprojects : t list
   }
+(** Describes a project *)
 
 (** {2 Api} *)
 
-(** Produce a Project from a Qexp-reprsentation. *)
 val from_qexp : Paperwork.Qexp.t -> t Bedrock.Validation.t
+(** Produce a Project from a Qexp-reprsentation. *)
 
-(** Produce a [Qexp] from a [Project]. *)
 val to_qexp : t -> Paperwork.Qexp.t
+(** Produce a [Qexp] from a [Project]. *)
 
-(** Render a status to a string. *)
 val status_to_string : status -> string
+(** Render a status to a string. *)
 
 (** {2 Utils} *)
 

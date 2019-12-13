@@ -1,13 +1,8 @@
 (** Read data from [stdin].
-    
-    Display stylizable prompter on stdout : 
-    {[
-      let open Baremetal in 
-      let name = 
-        Prompter.string ~f:String.capitalize_ascii "What's your name?"
-      in print_endline ("Hello " ^  name)
-    ]}
-*)
+
+    Display stylizable prompter on stdout : {[ let open Baremetal in let name =
+    Prompter.string ~f:String.capitalize_ascii "What's your name?" in
+    print_endline ("Hello " ^ name) ]} *)
 
 open Bedrock
 
@@ -25,9 +20,8 @@ val prompt_error : ?intro:bool -> Error.t -> unit
 
 val flush : unit -> unit
 
-(** Display a generic prompter. *)
-val generic
-  :  ?prefix:Ansi.fragments
+val generic :
+     ?prefix:Ansi.fragments
   -> ?box_style:Ansi.fragments
   -> ?title_style:Ansi.fragments
   -> ?text_style:Ansi.fragments
@@ -37,10 +31,10 @@ val generic
   -> (answer -> 'a)
   -> question
   -> 'a
+(** Display a generic prompter. *)
 
-(** Display a string prompter *)
-val string
-  :  ?prefix:Ansi.fragments
+val string :
+     ?prefix:Ansi.fragments
   -> ?box_style:Ansi.fragments
   -> ?title_style:Ansi.fragments
   -> ?text_style:Ansi.fragments
@@ -50,10 +44,10 @@ val string
   -> ?f:(answer -> string)
   -> question
   -> string
+(** Display a string prompter *)
 
-(** Display a non-empty string prompter *)
-val string_opt
-  :  ?prefix:Ansi.fragments
+val string_opt :
+     ?prefix:Ansi.fragments
   -> ?box_style:Ansi.fragments
   -> ?title_style:Ansi.fragments
   -> ?text_style:Ansi.fragments
@@ -63,10 +57,10 @@ val string_opt
   -> ?f:(answer option -> string option)
   -> question
   -> string option
+(** Display a non-empty string prompter *)
 
-(** Display an int prompter *)
-val int
-  :  ?prefix:Ansi.fragments
+val int :
+     ?prefix:Ansi.fragments
   -> ?box_style:Ansi.fragments
   -> ?title_style:Ansi.fragments
   -> ?text_style:Ansi.fragments
@@ -77,10 +71,10 @@ val int
   -> ?default:int
   -> question
   -> int
+(** Display an int prompter *)
 
-(** Display an optional-int prompter *)
-val int_opt
-  :  ?prefix:Ansi.fragments
+val int_opt :
+     ?prefix:Ansi.fragments
   -> ?box_style:Ansi.fragments
   -> ?title_style:Ansi.fragments
   -> ?text_style:Ansi.fragments
@@ -90,10 +84,10 @@ val int_opt
   -> ?f:(int option -> int option)
   -> question
   -> int option
+(** Display an optional-int prompter *)
 
-(** Display an yes-no prompter *)
-val yes_no
-  :  ?prefix:Ansi.fragments
+val yes_no :
+     ?prefix:Ansi.fragments
   -> ?box_style:Ansi.fragments
   -> ?title_style:Ansi.fragments
   -> ?text_style:Ansi.fragments
@@ -103,10 +97,10 @@ val yes_no
   -> ?f:(answer -> bool)
   -> question
   -> bool
+(** Display an yes-no prompter *)
 
-(** Display a prompter which could fail *)
-val resultable
-  :  ?prefix:Ansi.fragments
+val resultable :
+     ?prefix:Ansi.fragments
   -> ?box_style:Ansi.fragments
   -> ?title_style:Ansi.fragments
   -> ?text_style:Ansi.fragments
@@ -116,10 +110,10 @@ val resultable
   -> (string -> 'a Result.t)
   -> question
   -> 'a Result.t
+(** Display a prompter which could fail *)
 
-(** Display a prompter which could fail with a validation *)
-val validable
-  :  ?prefix:Ansi.fragments
+val validable :
+     ?prefix:Ansi.fragments
   -> ?box_style:Ansi.fragments
   -> ?title_style:Ansi.fragments
   -> ?text_style:Ansi.fragments
@@ -129,10 +123,10 @@ val validable
   -> (string -> 'a Validation.t)
   -> question
   -> 'a Validation.t
+(** Display a prompter which could fail with a validation *)
 
-(** Perform a choice in an array *)
-val choose
-  :  ?prefix:Ansi.fragments
+val choose :
+     ?prefix:Ansi.fragments
   -> ?choice_prefix:Ansi.fragment list
   -> ?choice_suffix:Ansi.fragment list
   -> ?choice_style:Ansi.fragment list
@@ -147,6 +141,7 @@ val choose
   -> 'a array
   -> answer
   -> ('b, Error.t) result
+(** Perform a choice in an array *)
 
 val repeat_result : 'a Result.t -> bool
 val repeat_validation : 'a Validation.t -> bool

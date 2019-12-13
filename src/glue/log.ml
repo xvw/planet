@@ -25,11 +25,12 @@ let create_file day =
   let cname = Filename.concat log_folder fname in
   let is_already_created = File.exists cname in
   let open Result.Infix in
-  (if not is_already_created
-  then (
-    let header = Format.asprintf ";; Logs for %a" TT.Month.pp month in
-    File.create cname header)
-  else Ok ())
+  ( if not is_already_created then (
+      let header = Format.asprintf ";; Logs for %a" TT.Month.pp month in
+      File.create cname header
+    ) else
+      Ok ()
+  )
   >> Ok (cname, is_already_created)
 ;;
 
@@ -46,7 +47,9 @@ let create_update_table_projects () = create_artifact_file update_table_project
 
 let read_logs filename =
   let open Validation.Infix in
-  filename |> Filename.concat log_folder |> File.to_string
+  filename
+  |> Filename.concat log_folder
+  |> File.to_string
   |> Result.bind Qexp.from_string
   |> Result.bind Qexp.extract_root
   |> Validation.from_result
@@ -57,9 +60,11 @@ let read_logs filename =
 let read_project_updates () =
   let open Result.Infix in
   create_update_table_projects ()
-  >> (update_table_project |> File.to_string
+  >> (update_table_project
+     |> File.to_string
      |> Result.bind Qexp.from_string
-     |> Result.bind Shapes.Update_table.from_qexp)
+     |> Result.bind Shapes.Update_table.from_qexp
+     )
 ;;
 
 let push_project_updates table =
@@ -87,23 +92,25 @@ let whereami_to_json ?(reverse = true) () =
   |> File.to_stream (fun _ -> Qexp.from_stream)
   >>= Qexp.extract_root
   >|= List.map (function
-          | Qexp.Node
-              [ Qexp.Keyword daypoint
-              ; Qexp.String (_, country)
-              ; Qexp.String (_, city)
-              ] ->
-            daypoint |> TT.Day.from_string >|= fun dp -> dp, country, city
-          | x ->
-            Error (Invalid_field (Qexp.to_string x)))
-  >>= Result.Applicative.sequence >|= List.sort sorter
+        | Qexp.Node
+            [ Qexp.Keyword daypoint
+            ; Qexp.String (_, country)
+            ; Qexp.String (_, city)
+            ] ->
+          daypoint |> TT.Day.from_string >|= (fun dp -> (dp, country, city))
+        | x ->
+          Error (Invalid_field (Qexp.to_string x)))
+  >>= Result.Applicative.sequence
+  >|= List.sort sorter
   >|= List.map (fun (daypoint, country, city) ->
           Json.(
             obj
-              [ "date", string $ Timetable.Day.to_string daypoint
-              ; "country", string country
-              ; "city", string city
+              [ ("date", string $ Timetable.Day.to_string daypoint)
+              ; ("country", string country)
+              ; ("city", string city)
               ]))
-  >|= Json.array |> Validation.from_result
+  >|= Json.array
+  |> Validation.from_result
 ;;
 
 let collect_log_files ?(reverse = true) () =
@@ -125,16 +132,17 @@ let traverse ?(reverse = true) f default =
     (fun potential_acc filename ->
       potential_acc
       >>= fun acc ->
-      filename |> Filename.concat log_folder
+      filename
+      |> Filename.concat log_folder
       |> File.to_stream (fun _ -> Qexp.from_stream)
       |> Result.bind Qexp.extract_root
       |> Validation.from_result
       >>= (fun nodes ->
             List.map (fun x -> Shapes.Log.(from_qexp x)) nodes
-            |> Validation.Applicative.sequence >|= List.sort sorter)
-      >|= fun nodes -> List.fold_left f acc nodes)
-    (Ok default)
-    files
+            |> Validation.Applicative.sequence
+            >|= List.sort sorter)
+      >|= (fun nodes -> List.fold_left f acc nodes))
+    (Ok default) files
 ;;
 
 let collect_all_log_in_json ?(reverse = true) () =

@@ -11,8 +11,7 @@ let render_authors authors =
 let default ?(other_authors = []) name =
   let authors =
     ("xvw", "Xavier Van de Woestyne", Some "xaviervdw@gmail.com")
-    :: other_authors
-  in
+    :: other_authors in
   [ `S Manpage.s_name; `P name; `S Manpage.s_authors ]
   @ render_authors authors
   @ [ `S Manpage.s_bugs

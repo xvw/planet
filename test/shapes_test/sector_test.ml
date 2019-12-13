@@ -21,8 +21,7 @@ let invalid2 () =
       node
         [ node [ tag "name"; string "test" ]
         ; node [ tag "color"; string "#FF0000" ]
-        ])
-  in
+        ]) in
   match Sector.from_qexp qexp with
   | Ok _ ->
     failwith "should be invalid"
@@ -38,8 +37,7 @@ let invalid3 () =
       node
         [ node [ tag "name"; string "test" ]
         ; node [ tag "desc"; string "A description" ]
-        ])
-  in
+        ]) in
   match Sector.from_qexp qexp with
   | Ok _ ->
     failwith "should be invalid"
@@ -56,8 +54,7 @@ let invalid4 () =
         [ node [ tag "name"; string "test" ]
         ; node [ tag "color"; string "#FF" ]
         ; node [ tag "desc"; string "A description" ]
-        ])
-  in
+        ]) in
   match Sector.from_qexp qexp with
   | Ok _ ->
     failwith "should be invalid"
@@ -74,8 +71,7 @@ let valid1 () =
         [ node [ tag "name"; string "test" ]
         ; node [ tag "color"; string "#FFFFFF" ]
         ; node [ tag "desc"; string "A description" ]
-        ])
-  in
+        ]) in
   match Sector.from_qexp qexp with
   | Ok _ ->
     ()
@@ -90,8 +86,7 @@ let valid2 () =
         [ node [ tag "name"; string "test" ]
         ; node [ tag "color"; string "rgba(200, 23, 45, 0.6)" ]
         ; node [ tag "desc"; string "A description" ]
-        ])
-  in
+        ]) in
   match Sector.from_qexp qexp with
   | Ok _ ->
     ()

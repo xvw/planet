@@ -9,19 +9,19 @@ type children = File.name list
 
 (** {2 Functions} *)
 
-(** Check if a directory exists. *)
 val exists : name -> bool
+(** Check if a directory exists. *)
 
-(** Get children of a directory. *)
 val children : ?filter:(File.name -> bool) -> name -> children Result.t
+(** Get children of a directory. *)
 
-(** Get the working directory. *)
 val current : unit -> name
+(** Get the working directory. *)
 
 (** {2 Modify file-system} *)
 
-(** Create new directory. *)
 val make : ?chmod:File.chmod -> name -> unit Result.t
+(** Create new directory. *)
 
-(** Remove a directory. *)
 val delete : name -> unit Result.t
+(** Remove a directory. *)

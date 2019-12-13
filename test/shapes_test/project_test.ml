@@ -45,8 +45,7 @@ let invalid3 () =
         ; node [ string "title"; string "foobar project" ]
         ; node [ string "synopsis"; string "A foobar project" ]
         ; node [ string "status"; tag "wipz" ]
-        ])
-  in
+        ]) in
   match Project.from_qexp q with
   | Ok _ ->
     failwith "Invalid Project"
@@ -65,8 +64,7 @@ let valid1 () =
         ; node [ string "title"; string "foobar project" ]
         ; node [ string "synopsis"; string "A foobar project" ]
         ; node [ string "status"; tag "wip" ]
-        ])
-  in
+        ]) in
   match Project.from_qexp q with
   | Ok _ ->
     ()

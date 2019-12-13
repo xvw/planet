@@ -25,22 +25,22 @@ let from_qexp qexp =
   match qexp with
   | Node [ String (_, p_date); Keyword p_sec; String (_, message) ] ->
     let open Validation.Infix in
-    p_date |> Timetable.Moment.from_string |> Validation.from_result
+    p_date
+    |> Timetable.Moment.from_string
+    |> Validation.from_result
     >>= (fun date ->
           int_of_string_opt p_sec
-          |> Option.map (fun sec -> date, sec)
+          |> Option.map (fun sec -> (date, sec))
           |> Validation.from_option (Of "Invalid seconds"))
-    >|= fun (date, sec) -> make date sec message
+    >|= (fun (date, sec) -> make date sec message)
   | _ ->
     Error [ Of "Invalid twtxt" ]
 ;;
 
 let to_string twtxt =
-  Format.asprintf
-    "%a\t%s"
+  Format.asprintf "%a\t%s"
     (Timetable.Moment.pp_twtxt twtxt.seconds)
-    twtxt.date
-    twtxt.message
+    twtxt.date twtxt.message
 ;;
 
 let cmp a b =

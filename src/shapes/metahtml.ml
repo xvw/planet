@@ -8,7 +8,6 @@ let to_html classes data =
   ^ List.fold_left
       (fun rest (key, value) ->
         Format.asprintf {|%sdata-%s="%s"|} rest key value)
-      ""
-      data
+      "" data
   ^ "><!-- Planet metadata --></span>\n"
 ;;

@@ -12,8 +12,8 @@ end
 
 (** {2 Global API} *)
 
-(** Create an [UUID]. *)
 val make : (module GENERATOR) -> unit -> t
+(** Create an [UUID]. *)
 
 (** {2 Functor} *)
 

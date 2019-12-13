@@ -106,7 +106,8 @@ let from_qexp expr =
             | _ ->
               Error [ Of ("Invalid repo kind " ^ s) ])
           kind
-    <*> Mapper.token sid user <*> Mapper.token sid name
+    <*> Mapper.token sid user
+    <*> Mapper.token sid name
   | Node [ kind; user; name; branch ] ->
     (fun f user name branch -> f branch user name)
     <$> Mapper.token
@@ -117,7 +118,8 @@ let from_qexp expr =
             | _ ->
               Error [ Of ("Invalid repo kind " ^ s) ])
           kind
-    <*> Mapper.token sid user <*> Mapper.token sid name
+    <*> Mapper.token sid user
+    <*> Mapper.token sid name
     <*> Mapper.token sid branch
   | _ ->
     Error [ Unparsable (to_string expr) ]

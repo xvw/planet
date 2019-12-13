@@ -67,12 +67,12 @@ let test_month_builder1 () =
   >>= (fun y -> Month.(make y Jan))
   >|= Month.to_string
   |> function
-  | Ok "018A" ->
-    ()
-  | Ok x ->
-    failwith (x ^ " is not equals to 018A")
-  | Error err ->
-    failwith (Error.to_string err)
+    | Ok "018A" ->
+      ()
+    | Ok x ->
+      failwith (x ^ " is not equals to 018A")
+    | Error err ->
+      failwith (Error.to_string err)
 ;;
 
 let test_month_builder2 () =
@@ -81,12 +81,12 @@ let test_month_builder2 () =
   >>= (fun y -> Month.(make y Nov))
   >|= Month.to_string
   |> function
-  | Ok "216K" ->
-    ()
-  | Ok x ->
-    failwith (x ^ " is not equals to 216K")
-  | Error err ->
-    failwith (Error.to_string err)
+    | Ok "216K" ->
+      ()
+    | Ok x ->
+      failwith (x ^ " is not equals to 216K")
+    | Error err ->
+      failwith (Error.to_string err)
 ;;
 
 let test_month_builder3 () =
@@ -95,12 +95,12 @@ let test_month_builder3 () =
   >>= (fun y -> Month.(make y Nov))
   >|= Month.to_string
   |> function
-  | Error (Invalid_year 1000) ->
-    ()
-  | Ok x ->
-    failwith (x ^ " should not be valid")
-  | Error err ->
-    failwith (Error.to_string err)
+    | Error (Invalid_year 1000) ->
+      ()
+    | Ok x ->
+      failwith (x ^ " should not be valid")
+    | Error err ->
+      failwith (Error.to_string err)
 ;;
 
 let test_is_leap () =
@@ -128,12 +128,12 @@ let test_day_builder1 () =
   >>= (fun m -> Day.make m 12)
   >|= Day.to_string
   |> function
-  | Ok "019C12" ->
-    ()
-  | Ok x ->
-    failwith (x ^ " is not equals to 019C12")
-  | Error err ->
-    failwith (Error.to_string err)
+    | Ok "019C12" ->
+      ()
+    | Ok x ->
+      failwith (x ^ " is not equals to 019C12")
+    | Error err ->
+      failwith (Error.to_string err)
 ;;
 
 let test_day_builder2 () =
@@ -143,12 +143,12 @@ let test_day_builder2 () =
   >>= (fun m -> Day.make m 31)
   >|= Day.to_string
   |> function
-  | Ok "222J31" ->
-    ()
-  | Ok x ->
-    failwith (x ^ " is not equals to 222J31")
-  | Error err ->
-    failwith (Error.to_string err)
+    | Ok "222J31" ->
+      ()
+    | Ok x ->
+      failwith (x ^ " is not equals to 222J31")
+    | Error err ->
+      failwith (Error.to_string err)
 ;;
 
 let test_day_builder3 () =
@@ -158,12 +158,12 @@ let test_day_builder3 () =
   >>= (fun m -> Day.make m 29)
   >|= Day.to_string
   |> function
-  | Ok "004B29" ->
-    ()
-  | Ok x ->
-    failwith (x ^ " is not equals to 004B29")
-  | Error err ->
-    failwith (Error.to_string err)
+    | Ok "004B29" ->
+      ()
+    | Ok x ->
+      failwith (x ^ " is not equals to 004B29")
+    | Error err ->
+      failwith (Error.to_string err)
 ;;
 
 let test_day_builder4 () =
@@ -173,7 +173,7 @@ let test_day_builder4 () =
   >>= (fun m -> Day.make m 31)
   >|= Day.to_string
   |> function
-  | Error (Invalid_day 31) -> () | _ -> failwith "Sould not be valid"
+    | Error (Invalid_day 31) -> () | _ -> failwith "Sould not be valid"
 ;;
 
 let test_day_builder5 () =
@@ -183,7 +183,7 @@ let test_day_builder5 () =
   >>= (fun m -> Day.make m (-31))
   >|= Day.to_string
   |> function
-  | Error (Invalid_day -31) -> () | _ -> failwith "Sould not be valid"
+    | Error (Invalid_day -31) -> () | _ -> failwith "Sould not be valid"
 ;;
 
 let test_day_with1 () =
@@ -338,10 +338,10 @@ let test_year_from_string1 () =
   let output =
     List.bind
       (fun x ->
-        Year.from_string x >|= Year.to_string
-        |> function Ok x -> [ x ] | _ -> [])
-      subject
-  in
+        Year.from_string x
+        >|= Year.to_string
+        |> (function Ok x -> [ x ] | _ -> []))
+      subject in
   check (list string) "same list" subject output
 ;;
 
@@ -351,13 +351,11 @@ let test_year_from_string2 () =
   let output =
     List.bind
       (fun x ->
-        Year.from_string x >|= Year.to_string
-        |> function Error x -> [ Error.to_string x ] | _ -> [])
-      subject
-  in
-  check
-    (list string)
-    "same list"
+        Year.from_string x
+        >|= Year.to_string
+        |> (function Error x -> [ Error.to_string x ] | _ -> []))
+      subject in
+  check (list string) "same list"
     [ Error.to_string $ Unparsable ""
     ; Error.to_string $ Unparsable "foo"
     ; Error.to_string $ Unparsable "-123"
@@ -373,10 +371,10 @@ let test_month_from_string1 () =
   let output =
     List.bind
       (fun x ->
-        Month.from_string x >|= Month.to_string
-        |> function Ok x -> [ x ] | _ -> [])
-      subject
-  in
+        Month.from_string x
+        >|= Month.to_string
+        |> (function Ok x -> [ x ] | _ -> []))
+      subject in
   check (list string) "same list" subject output
 ;;
 
@@ -386,13 +384,11 @@ let test_month_from_string2 () =
   let output =
     List.bind
       (fun x ->
-        Month.from_string x >|= Month.to_string
-        |> function Error x -> [ Error.to_string x ] | _ -> [])
-      subject
-  in
-  check
-    (list string)
-    "same list"
+        Month.from_string x
+        >|= Month.to_string
+        |> (function Error x -> [ Error.to_string x ] | _ -> []))
+      subject in
+  check (list string) "same list"
     [ Error.to_string $ Unparsable ""
     ; Error.to_string $ Unparsable "foo"
     ; Error.to_string $ Invalid_year (-12)
@@ -405,16 +401,14 @@ let test_month_from_string2 () =
 
 let test_day_from_string1 () =
   let open Result.Infix in
-  let subject =
-    [ "000A12"; "001D30"; "123C31"; "156E28"; "999F17"; "004B29" ]
-  in
+  let subject = [ "000A12"; "001D30"; "123C31"; "156E28"; "999F17"; "004B29" ] in
   let output =
     List.bind
       (fun x ->
-        Day.from_string x >|= Day.to_string
-        |> function Ok x -> [ x ] | _ -> [])
-      subject
-  in
+        Day.from_string x
+        >|= Day.to_string
+        |> (function Ok x -> [ x ] | _ -> []))
+      subject in
   check (list string) "same list" subject output
 ;;
 
@@ -424,13 +418,11 @@ let test_day_from_string2 () =
   let output =
     List.bind
       (fun x ->
-        Day.from_string x >|= Day.to_string
-        |> function Error x -> [ Error.to_string x ] | _ -> [])
-      subject
-  in
-  check
-    (list string)
-    "same list"
+        Day.from_string x
+        >|= Day.to_string
+        |> (function Error x -> [ Error.to_string x ] | _ -> []))
+      subject in
+  check (list string) "same list"
     [ Error.to_string $ Unparsable ""
     ; Error.to_string $ Unparsable "foo"
     ; Error.to_string $ Unparsable "-123"
@@ -452,15 +444,14 @@ let test_hour_from_string1 () =
     ; "08PM03"
     ; "11AM12"
     ; "11PM34"
-    ]
-  in
+    ] in
   let output =
     List.bind
       (fun x ->
-        Hour.from_string x >|= Hour.to_string
-        |> function Ok x -> [ x ] | _ -> [])
-      subject
-  in
+        Hour.from_string x
+        >|= Hour.to_string
+        |> (function Ok x -> [ x ] | _ -> []))
+      subject in
   check (list string) "same list" subject output
 ;;
 
@@ -470,13 +461,11 @@ let test_hour_from_string2 () =
   let output =
     List.bind
       (fun x ->
-        Hour.from_string x >|= Hour.to_string
-        |> function Error x -> [ Error.to_string x ] | _ -> [])
-      subject
-  in
-  check
-    (list string)
-    "same list"
+        Hour.from_string x
+        >|= Hour.to_string
+        |> (function Error x -> [ Error.to_string x ] | _ -> []))
+      subject in
+  check (list string) "same list"
     [ Error.to_string $ Unparsable ""
     ; Error.to_string $ Invalid_hour 34
     ; Error.to_string $ Unparsable "-123"

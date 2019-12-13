@@ -1,16 +1,16 @@
 (** Extension of [Stdlib.Array] *)
 
-(** {2 Stdlib} *)
 include module type of Stdlib.Array
+(** {2 Stdlib} *)
 
-(** {2 Functor instance} *)
 module Functor : Sigs.Functor.API with type 'a t = 'a array
+(** {2 Functor instance} *)
 
-(** {2 Monad instance} *)
 module Monad : Sigs.Monad.API with type 'a t = 'a array
+(** {2 Monad instance} *)
 
-(** {2 Applicative instance} *)
 module Applicative : Sigs.Applicative.API with type 'a t = 'a array
+(** {2 Applicative instance} *)
 
 (** {2 Infix operators} *)
 

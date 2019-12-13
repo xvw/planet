@@ -17,7 +17,8 @@ let collect_sectors f = function
     let open Validation in
     potential_sectors
     |> List.map Shapes.Sector.from_qexp
-    |> Applicative.sequence >|= f
+    |> Applicative.sequence
+    >|= f
   | qexp ->
     Error [ No_root_element (Qexp.to_string qexp) ]
 ;;
@@ -25,7 +26,8 @@ let collect_sectors f = function
 let all () =
   let open Validation in
   let hash = Hashtbl.create 2 in
-  database |> Database.path
+  database
+  |> Database.path
   |> File.to_stream (fun _ -> Qexp.from_stream)
   |> from_result
   >>= collect_sectors (fun sectors -> List.fold_left reducer hash sectors)
@@ -33,9 +35,11 @@ let all () =
 
 let to_json () =
   let open Validation in
-  database |> Database.path
+  database
+  |> Database.path
   |> File.to_stream (fun _ -> Qexp.from_stream)
-  |> from_result >>= collect_sectors id
+  |> from_result
+  >>= collect_sectors id
   >|= fun sectors ->
   Json.obj
   $ List.map (fun sector -> Shapes.Sector.(sector.name, to_json sector)) sectors
@@ -44,19 +48,20 @@ let to_json () =
 let compute_html_node acc sector =
   let open Shapes.Sector in
   acc
-  ^ Shapes.Metahtml.to_html
-      [ "sector-data" ]
-      [ "name", sector.name
-      ; "desc", sector.desc
-      ; "color", Paperwork.Color.to_rgb sector.color
+  ^ Shapes.Metahtml.to_html [ "sector-data" ]
+      [ ("name", sector.name)
+      ; ("desc", sector.desc)
+      ; ("color", Paperwork.Color.to_rgb sector.color)
       ]
 ;;
 
 let to_html () =
   let open Validation in
-  database |> Database.path
+  database
+  |> Database.path
   |> File.to_stream (fun _ -> Qexp.from_stream)
-  |> from_result >>= collect_sectors id
+  |> from_result
+  >>= collect_sectors id
   >|= List.fold_left compute_html_node ""
-  |> function Ok x -> x | _ -> ""
+  |> (function Ok x -> x | _ -> "")
 ;;

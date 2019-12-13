@@ -33,13 +33,12 @@ let trace () = console##trace
 let table ?columns obj =
   let opt_columns =
     Js.Optdef.map (Js.Optdef.option columns) (fun columns ->
-        List.map Js.string columns |> Array.of_list |> Js.array)
-  in
+        List.map Js.string columns |> Array.of_list |> Js.array) in
   console##table obj opt_columns
 ;;
 
 let opt_str str_value =
-  str_value |> Js.Optdef.option |> fun x -> Js.Optdef.map x Js.string
+  str_value |> Js.Optdef.option |> (fun x -> Js.Optdef.map x Js.string)
 ;;
 
 let time name = console##time (Js.string name)

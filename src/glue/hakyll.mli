@@ -9,15 +9,11 @@ val render : metadata_key -> ('a -> string) -> 'a -> metadata
 val render_string : metadata_key -> string -> metadata
 val may_render : metadata_key -> ('a -> string) -> 'a option -> metadata
 
-val may_render_with
-  :  metadata_key
-  -> ('a -> string)
-  -> string
-  -> 'a option
-  -> metadata
+val may_render_with :
+  metadata_key -> ('a -> string) -> string -> 'a option -> metadata
 
-val may_render_with_format
-  :  default:string
+val may_render_with_format :
+     default:string
   -> (Format.formatter -> 'a -> unit)
   -> metadata_key
   -> 'a option

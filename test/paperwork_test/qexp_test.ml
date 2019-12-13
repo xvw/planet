@@ -192,8 +192,7 @@ let suite =
   ; test "[from_string] Parse empty node with spaces" parse_empty_data_2
   ; test "[from_string] Parse empty node with new lines" parse_empty_data_3
   ; test "[from_string] Parse empty node with comment" parse_empty_data_4
-  ; test
-      "[from_string] Parse empty node with comment and newlines"
+  ; test "[from_string] Parse empty node with comment and newlines"
       parse_empty_data_5
   ; test "[from_string] Parse simple atom" parse_simple_atom_1
   ; test "[from_string] Parse simple atom with comments" parse_simple_atom_2
@@ -202,8 +201,7 @@ let suite =
   ; test "[from_string] Parse simple keyword" parse_simple_kwd_1
   ; test "[from_string] Parse simple keyword with comments" parse_simple_kwd_2
   ; test "[from_string] Parse complex Qexp" parse_complex_expression
-  ; test
-      "[from_string] Invalid Qexp, closed unopened parenthesis"
+  ; test "[from_string] Invalid Qexp, closed unopened parenthesis"
       parse_failure_1
   ; test "[from_string] Invalid Qexp, unclosed parenthesis 1" parse_failure_2
   ; test "[from_string] Invalid Qexp, unclosed parenthesis 2" parse_failure_3

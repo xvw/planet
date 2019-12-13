@@ -1,40 +1,24 @@
-(** Formatting and printing for ANSI term. 
+(** Formatting and printing for ANSI term.
 
-    This module expose too write "formatted text" in a terminal, using 
-    ANSI and ASCII. For example : 
+    This module expose too write "formatted text" in a terminal, using ANSI and
+    ASCII. For example :
 
-    {[
-      let open Baremetal.Ansi in 
-      let fragment = [
-        background red 
-        ; foreground black 
-        ; text "Hello" 
-        ; reset 
-        ; text ", "
-        ; background black 
-        ; foreground red 
-        ; text "World" ]
-      in
-      fragment 
-      |> to_string 
-      |> print_endline
-    ]}
-*)
+    {[ let open Baremetal.Ansi in let fragment = [ background red ; foreground
+    black ; text "Hello" ; reset ; text ", " ; background black ; foreground red
+    ; text "World" ] in fragment |> to_string |> print_endline ]} *)
 
 (** {2 Types} *)
 
-(** Describe a color *)
 type color
+(** Describe a color *)
 
-(** Describe an ANSI style *)
 type fragment
+(** Describe an ANSI style *)
 
-(** Describe a Sequence of [fragment] *)
 type fragments = fragment list
+(** Describe a Sequence of [fragment] *)
 
-(** {2 Colors} 
-    [Color] is defined to be used with fragments.
-*)
+(** {2 Colors} [Color] is defined to be used with fragments. *)
 
 val default : color
 val black : color
@@ -54,10 +38,8 @@ val bright_magenta : color
 val bright_cyan : color
 val bright_white : color
 
-(** {2 Fragments} 
-    [Fragments] are "piece of formatted" text. They can be 
-    combined.
-*)
+(** {2 Fragments} [Fragments] are "piece of formatted" text. They can be
+    combined. *)
 
 val reset : fragment
 val bold : fragment
@@ -70,72 +52,67 @@ val erase_above : fragment
 val erase_below : fragment
 val erase_screen : fragment
 
-(** Convert a [string] to a [fragments]. *)
 val text : string -> fragment
+(** Convert a [string] to a [fragments]. *)
 
-(** Same of [text]. *)
 val ( ! ) : string -> fragment
+(** Same of [text]. *)
 
-(** Convert a [color] into a [foreground fragments].*)
 val foreground : color -> fragment
+(** Convert a [color] into a [foreground fragments].*)
 
-(** Same of [foreground]. *)
 val fg : color -> fragment
+(** Same of [foreground]. *)
 
-(** Convert a [color] into a [background fragments].*)
 val background : color -> fragment
+(** Convert a [color] into a [background fragments].*)
 
-(** Same of [background]. *)
 val bg : color -> fragment
+(** Same of [background]. *)
 
 (** {2 String generation and Printing} *)
 
-(** Convert [fragments] to [string]. *)
 val to_string : ?scoped:bool -> fragments -> string
+(** Convert [fragments] to [string]. *)
 
-(** [Formatter] allow you to use "ANSI formatting" with [Format/Printf] 
-    module. For example : 
+(** [Formatter] allow you to use "ANSI formatting" with [Format/Printf] module.
+    For example :
 
-    {[
-      let open Baremetal.Ansi in
-      Format.printf 
-        "Formatted text [%a]" 
-        pps [fg magenta; text "Hello world"]
-    ]}
-*)
+    {[ let open Baremetal.Ansi in Format.printf "Formatted text [%a]" pps [fg
+    magenta; text "Hello world"] ]} *)
 
-(** [Pretty printer] to deal with [Fromat] module. *)
 val pp : Format.formatter -> fragments -> unit
+(** [Pretty printer] to deal with [Fromat] module. *)
 
-(** [Pretty printer] to deal with [Fromat] module with scoped fragments. *)
 val pps : Format.formatter -> fragments -> unit
+(** [Pretty printer] to deal with [Fromat] module with scoped fragments. *)
 
 (** {2 Manage fragments} *)
 
-(** Keep only style into a fragment *)
 val only_style : fragments -> fragments
+(** Keep only style into a fragment *)
 
-(** Boxed fragment *)
-val box
-  :  ?prefix:fragments
+val box :
+     ?prefix:fragments
   -> ?box_style:fragments
   -> ?title_style:fragments
   -> string
   -> fragments list
   -> fragments
+(** Boxed fragment *)
 
-(** generic box fragment *)
-val generic_box
-  :  ?prefix:fragments
+val generic_box :
+     ?prefix:fragments
   -> ?box_style:fragments
   -> ?title_style:fragments
   -> ('a -> fragments)
   -> string
   -> 'a list
   -> fragments
+(** generic box fragment *)
 
-val text_box
-  :  ?prefix:fragments
+val text_box :
+     ?prefix:fragments
   -> ?box_style:fragments
   -> ?title_style:fragments
   -> ?text_style:fragments

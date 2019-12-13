@@ -7,12 +7,11 @@ let start f =
     Lwt.return (Console.print "Await for planet")
     >>= Lwt_js_events.onload
     >>= (fun _ev -> f ())
-    >|= fun () -> Console.print "Planet launched")
+    >|= (fun () -> Console.print "Planet launched"))
 ;;
 
 let () =
-  Js.export
-    "planet"
+  Js.export "planet"
     (object%js (self)
        val internal =
          object%js
@@ -34,9 +33,8 @@ let () =
            |> Array.fold_left
                 (fun callback task () ->
                   let open Lwt.Infix in
-                  callback () >|= fun () -> Js.Unsafe.fun_call task [||])
-                (fun () -> Lwt.return_unit)
-         in
+                  callback () >|= (fun () -> Js.Unsafe.fun_call task [||]))
+                (fun () -> Lwt.return_unit) in
          start f
 
        val project = Widget.Project.api

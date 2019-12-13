@@ -20,16 +20,13 @@ let link_box
           ; !">"
           ])
     title
-    list
-  =
+    list =
   let maxlen =
-    List.fold_left (fun acc (x, _) -> max acc $ String.length x) 0 list
-  in
+    List.fold_left (fun acc (x, _) -> max acc $ String.length x) 0 list in
   let nl =
     List.map
-      (fun (a, b) -> a ^ (String.make $ maxlen - String.length a $ ' '), b)
-      list
-  in
+      (fun (a, b) -> (a ^ (String.make $ maxlen - String.length a $ ' '), b))
+      list in
   Ansi.(generic_box ~prefix ~box_style ~title_style) f title nl
 ;;
 
@@ -58,16 +55,13 @@ let dated_link_box
           ; !">"
           ])
     title
-    list
-  =
+    list =
   let maxlen =
-    List.fold_left (fun acc (x, _, _) -> max acc $ String.length x) 0 list
-  in
+    List.fold_left (fun acc (x, _, _) -> max acc $ String.length x) 0 list in
   let nl =
     List.map
       (fun (a, b, c) ->
-        a ^ (String.make $ maxlen - String.length a $ ' '), b, c)
-      list
-  in
+        (a ^ (String.make $ maxlen - String.length a $ ' '), b, c))
+      list in
   Ansi.(generic_box ~prefix ~box_style ~title_style) f title nl
 ;;

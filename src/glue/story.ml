@@ -12,9 +12,11 @@ let collect () =
   >>= fun children ->
   List.map
     (fun filename ->
-      filename |> Filename.concat folder
+      filename
+      |> Filename.concat folder
       |> File.to_stream (fun _ -> Qexp.from_stream)
-      |> from_result >>= Shapes.Story.from_qexp)
+      |> from_result
+      >>= Shapes.Story.from_qexp)
     children
   |> Validation.Applicative.sequence
 ;;
@@ -31,9 +33,9 @@ let fetch_story_content content =
 let fetch_story_text story =
   let open Shapes.Story in
   let open Result.Syntax in
-  let _, text = story.content in
+  let (_, text) = story.content in
   let+ content = fetch_story_content text in
-  Shapes.Text.extension_for story.content, content
+  (Shapes.Text.extension_for story.content, content)
 ;;
 
 let as_textarea =
@@ -46,14 +48,10 @@ let to_hakyll story =
   fetch_story_text story
   >|= (fun (extension, content) ->
         let story_qexp =
-          story |> Shapes.Story.to_qexp |> Paperwork.Qexp.to_string
-        in
+          story |> Shapes.Story.to_qexp |> Paperwork.Qexp.to_string in
         let partial =
-          Format.asprintf
-            "%s.%s.qexp.html"
-            story.permaname
-            (Shapes.Story.kind_to_string story.kind)
-        in
+          Format.asprintf "%s.%s.qexp.html" story.permaname
+            (Shapes.Story.kind_to_string story.kind) in
         let header =
           Hakyll.(
             join
@@ -63,17 +61,19 @@ let to_hakyll story =
               ; render_string "synopsis" story.synopsis
               ; render_string "description" story.synopsis
               ; render_if "published" story.published
-              ; render
-                  "date"
+              ; render "date"
                   (Format.asprintf "%a" Timetable.Day.ppr)
                   story.date
               ; may_render "related_project" Util.id story.related_project
               ; render_string "category" story.category
               ; render "kind" Shapes.Story.kind_to_string story.kind
               ; render_string "qexp_partial" ("_seeds/partials/" ^ partial)
-              ])
-        in
+              ]) in
         let final_content = header ^ content in
-        story, extension, final_content, partial, as_textarea "story" story_qexp)
+        ( story
+        , extension
+        , final_content
+        , partial
+        , as_textarea "story" story_qexp ))
   |> Validation.from_result
 ;;

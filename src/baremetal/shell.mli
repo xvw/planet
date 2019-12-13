@@ -2,11 +2,11 @@
 
 (** {2 Types} *)
 
-(** A shell command fragment *)
 type fragment
+(** A shell command fragment *)
 
-(** A shell command *)
 type command
+(** A shell command *)
 
 (** {2 Utils} *)
 
@@ -25,14 +25,10 @@ val to_string : command -> string
 
 val run : command -> int
 
-val run_to_stream
-  :  (command -> char Stream.t -> 'a)
-  -> command
-  -> Unix.process_status * 'a
+val run_to_stream :
+  (command -> char Stream.t -> 'a) -> command -> Unix.process_status * 'a
 
 val run_to_string : command -> Unix.process_status * string
 
-val capture
-  :  (unit -> 'a Bedrock.Result.t)
-  -> Unix.process_status
-  -> 'a Bedrock.Result.t
+val capture :
+  (unit -> 'a Bedrock.Result.t) -> Unix.process_status -> 'a Bedrock.Result.t

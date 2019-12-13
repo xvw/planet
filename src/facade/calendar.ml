@@ -10,12 +10,12 @@ let now () = new%js Js.date_now
 let time_of date = date##getTime
 
 let from_day day =
-  let y, m, d = Timetable.Day.unfold day in
+  let (y, m, d) = Timetable.Day.unfold day in
   new%js Js.date_day y (m - 1) d
 ;;
 
 let from_month month =
-  let y, m = Timetable.Month.unfold month in
+  let (y, m) = Timetable.Month.unfold month in
   new%js Js.date_month y (m - 1)
 ;;
 
@@ -25,7 +25,7 @@ let from_year year =
 ;;
 
 let from_moment moment =
-  let y, mo, d, h, min = Timetable.Moment.unfold moment in
+  let (y, mo, d, h, min) = Timetable.Moment.unfold moment in
   new%js Js.date_min y (mo - 1) d h min
 ;;
 
@@ -33,7 +33,7 @@ let to_day date =
   let y = date##getFullYear - 2000 in
   let m = Timetable.Month.from_int (date##getMonth + 1) in
   let d = date##getDate in
-  Result.Infix.(m >>= fun m -> Timetable.Day.make_with y m d)
+  Result.Infix.(m >>= (fun m -> Timetable.Day.make_with y m d))
 ;;
 
 let iso_week target =
@@ -43,17 +43,15 @@ let iso_week target =
   let _ = target##setMonth 0 in
   let _ = target##setDate 1 in
   let _ =
-    if target##getDay <> 4
-    then (
+    if target##getDay <> 4 then (
       let _ = target##setMonth 0 in
       let _ =
         let k = 4 - target##getDay in
         let p = k + 7 in
         let m = p mod 7 in
-        target##setDate (1 + m)
-      in
-      ())
-  in
+        target##setDate (1 + m) in
+      ()
+    ) in
   let v = first -. target##valueOf in
   let r = Stdlib.ceil (v /. 604800000.) in
   1 + int_of_float r
@@ -107,27 +105,26 @@ module Ago = struct
     let k = Stdlib.(abs_float) in
     let days = k days_f in
     let res =
-      if days < 2.0
-      then precise_label reference d
-      else if days < 7. || in_day
-      then Days (int_of_float days)
-      else Weeks (int_of_float (k (days_f /. 7.)))
-    in
-    res, direction
+      if days < 2.0 then
+        precise_label reference d
+      else if days < 7. || in_day then
+        Days (int_of_float days)
+      else
+        Weeks (int_of_float (k (days_f /. 7.))) in
+    (res, direction)
   ;;
 
   let in_past = function Past -> true | Future -> false
 
   let stringify ?(since = "il y a") ?(since_f = "dans") = function
-    | Today, _ ->
+    | (Today, _) ->
       "aujourd'hui"
-    | Yesterday, dir ->
+    | (Yesterday, dir) ->
       if in_past dir then "hier" else "demain"
-    | Days i, dir ->
+    | (Days i, dir) ->
       Format.asprintf "%s %d jours" (if in_past dir then since else since_f) i
-    | Weeks i, dir ->
-      Format.asprintf
-        "%s %d semaine%s"
+    | (Weeks i, dir) ->
+      Format.asprintf "%s %d semaine%s"
         (if in_past dir then since else since_f)
         i
         (if i > 1 then "s" else "")

@@ -1,7 +1,7 @@
 (** Extension of [Stdlib.List] *)
 
-(** {2 Stdlib} *)
 include module type of Stdlib.List
+(** {2 Stdlib} *)
 
 (** {2 Extension API} *)
 
@@ -10,8 +10,8 @@ val eq : ('a -> 'a -> bool) -> 'a t -> 'a t -> bool
 val ( @? ) : 'a list -> 'a list option -> 'a list
 val hds : int -> 'a list -> 'a list
 
-(** {2 Functor instance} *)
 module Functor : Sigs.Functor.API with type 'a t = 'a list
+(** {2 Functor instance} *)
 
 (** {2 Monad instance} *)
 module Monad : sig

@@ -12,17 +12,21 @@ let twtxt_folder = Filename.concat site_folder "twtxt"
 
 let soft_creation folder =
   let open Result.Infix in
-  (if not (Dir.exists folder)
-  then Dir.make folder >> Ok (true, folder)
-  else Ok (false, folder))
+  ( if not (Dir.exists folder) then
+      Dir.make folder >> Ok (true, folder)
+  else
+    Ok (false, folder)
+  )
   |> Validation.from_result
 ;;
 
 let soft_deletion_file filename =
   let open Result.Infix in
-  (if File.exists filename
-  then File.delete filename >> Ok (true, filename)
-  else Ok (false, filename))
+  ( if File.exists filename then
+      File.delete filename >> Ok (true, filename)
+  else
+    Ok (false, filename)
+  )
   |> Validation.from_result
 ;;
 
@@ -32,18 +36,19 @@ let trace action message = function
   | Error errs ->
     Prompter.prompt_errors errs
   | Ok (x, filename) ->
-    (if x
-    then
-      Ansi.
-        [ fg green
-        ; text $ Format.sprintf "%s [%s] has been %s" action filename message
-        ]
+    ( if x then
+        Ansi.
+          [ fg green
+          ; text $ Format.sprintf "%s [%s] has been %s" action filename message
+          ]
     else
       Ansi.
         [ fg yellow
         ; text $ Format.sprintf "%s [%s] Nothing to do" action filename
-        ])
-    |> Ansi.to_string |> print_endline
+        ]
+    )
+    |> Ansi.to_string
+    |> print_endline
 ;;
 
 let trace_creation = trace "create" "created"
@@ -75,9 +80,10 @@ let create_file f folder file =
   let target = Filename.concat folder file in
   let () = trace_deletion (soft_deletion_file target) in
   let open Validation.Infix in
-  f () >|= Paperwork.Json.to_string
+  f ()
+  >|= Paperwork.Json.to_string
   >>= (fun str -> File.create target str |> Validation.from_result)
-  >|= (fun () -> true, target)
+  >|= (fun () -> (true, target))
   |> trace_creation
 ;;
 
@@ -96,19 +102,16 @@ let initialize_api_current_position () =
 let initialize_logs () =
   let open Validation.Infix in
   let list =
-    Glue.Log.traverse
-      ~reverse:true
+    Glue.Log.traverse ~reverse:true
       (fun acc log -> acc @ [ Shapes.Log.to_json log ])
-      []
-  in
+      [] in
   let fragment = list >|= List.hds 5 in
   let () =
     create_file (fun () -> list >|= Paperwork.Json.array) api_folder "logs.json"
   in
   create_file
     (fun () -> fragment >|= Paperwork.Json.array)
-    api_folder
-    "last_logs.json"
+    api_folder "last_logs.json"
 ;;
 
 let create_projects_files ?rctx () =
@@ -117,7 +120,7 @@ let create_projects_files ?rctx () =
   >>= (fun (ctx, projects) ->
         Glue.Log.push_project_updates Shapes.Context.Projects.(ctx.updates)
         |> Validation.from_result
-        >|= fun () -> List.map Glue.Project.to_hakyll_string projects)
+        >|= (fun () -> List.map Glue.Project.to_hakyll_string projects))
   >>= Validation.Applicative.sequence
   >>= fun elts ->
   List.map
@@ -130,8 +133,10 @@ let create_projects_files ?rctx () =
       let () = trace_deletion (soft_deletion_file partial) in
       File.create target content
       |> Result.bind (fun () -> File.create partial project_str)
-      |> Result.map (fun () -> true, target ^ " & " ^ partial)
-      |> Validation.from_result |> trace_creation |> Validation.pure)
+      |> Result.map (fun () -> (true, target ^ " & " ^ partial))
+      |> Validation.from_result
+      |> trace_creation
+      |> Validation.pure)
     elts
   |> Validation.Applicative.sequence
 ;;
@@ -161,12 +166,11 @@ let generation_id () =
   let partial = Filename.concat seed_partials "generation_id.meta.html" in
   let () = trace_deletion (soft_deletion_file partial) in
   let str =
-    Shapes.Metahtml.to_html
-      [ "generation-id-data" ]
-      [ ("uuid", Baremetal.Uuid.(make () |> to_string)) ]
-  in
-  File.create partial str |> Validation.from_result
-  >|= (fun () -> true, partial)
+    Shapes.Metahtml.to_html [ "generation-id-data" ]
+      [ ("uuid", Baremetal.Uuid.(make () |> to_string)) ] in
+  File.create partial str
+  |> Validation.from_result
+  >|= (fun () -> (true, partial))
   |> trace_creation
 ;;
 
@@ -176,8 +180,9 @@ let copyright_date () =
   let partial = Filename.concat seed_partials "copyright_end.html" in
   let () = trace_deletion (soft_deletion_file partial) in
   let str = string_of_int (Glue.Util.current_year ()) in
-  File.create partial str |> Validation.from_result
-  >|= (fun () -> true, partial)
+  File.create partial str
+  |> Validation.from_result
+  >|= (fun () -> (true, partial))
   |> trace_creation
 ;;
 
@@ -190,10 +195,10 @@ let context ctx =
     Format.asprintf
       {|<textarea data-planet-qexp="global-context">%s</textarea>|}
       Shapes.Context.(
-        context_to_qexp ctx.global_data |> Paperwork.Qexp.to_string)
-  in
-  File.create partial str |> Validation.from_result
-  >|= (fun () -> true, partial)
+        context_to_qexp ctx.global_data |> Paperwork.Qexp.to_string) in
+  File.create partial str
+  |> Validation.from_result
+  >|= (fun () -> (true, partial))
   |> trace_creation
 ;;
 
@@ -203,8 +208,9 @@ let sectors () =
   let partial = Filename.concat seed_partials "planet_sectors.meta.html" in
   let () = trace_deletion (soft_deletion_file partial) in
   let str = Glue.Sector.to_html () in
-  File.create partial str |> Validation.from_result
-  >|= (fun () -> true, partial)
+  File.create partial str
+  |> Validation.from_result
+  >|= (fun () -> (true, partial))
   |> trace_creation
 ;;
 
@@ -214,8 +220,7 @@ let story_chose_target story filename =
     | Shapes.Story.Long ->
       long_folder
     | Shapes.Story.Short ->
-      short_folder
-  in
+      short_folder in
   Filename.concat folder filename
 ;;
 
@@ -237,11 +242,13 @@ let stories () =
             let () = trace_deletion (soft_deletion_file partial) in
             File.create target content
             |> Result.bind (fun () -> File.create partial partial_content)
-            |> Result.map (fun () -> true, target ^ " & " ^ partial)
-            |> Validation.from_result |> trace_creation |> Validation.pure)
+            |> Result.map (fun () -> (true, target ^ " & " ^ partial))
+            |> Validation.from_result
+            |> trace_creation
+            |> Validation.pure)
           elts
         |> Validation.Applicative.sequence)
-  |> function Error e -> Prompter.prompt_errors e | Ok _ -> ()
+  |> (function Error e -> Prompter.prompt_errors e | Ok _ -> ())
 ;;
 
 let twtxt () =
@@ -250,7 +257,8 @@ let twtxt () =
   let () = generate () in
   let () = trace_creation (soft_creation twtxt_folder) in
   let open Validation.Infix in
-  Dir.children path |> Validation.from_result
+  Dir.children path
+  |> Validation.from_result
   >>= (fun files ->
         List.map
           (fun file ->
@@ -264,9 +272,8 @@ let twtxt () =
                   |> Validation.Applicative.sequence)
             >|= fun datatxt ->
             let sorted =
-              List.sort (fun a b -> Shapes.Twtxt.cmp a b * -1) datatxt
-            in
-            rf, List.map Shapes.Twtxt.to_string sorted)
+              List.sort (fun a b -> Shapes.Twtxt.cmp a b * -1) datatxt in
+            (rf, List.map Shapes.Twtxt.to_string sorted))
           files
         |> Validation.Applicative.sequence)
   >>= (fun l ->
@@ -277,15 +284,14 @@ let twtxt () =
             let () =
               Ansi.
                 [ fg green; text $ Format.sprintf "twtxt processed: %s" file ]
-              |> Ansi.to_string |> print_endline
-            in
+              |> Ansi.to_string
+              |> print_endline in
             let content = String.concat "\n" data in
             File.touch file
             |> Result.bind (fun () -> File.overwrite file content)
             |> Validation.from_result)
-          (Ok ())
-          l)
-  |> function Error e -> Prompter.prompt_errors e | Ok _ -> ()
+          (Ok ()) l)
+  |> (function Error e -> Prompter.prompt_errors e | Ok _ -> ())
 ;;
 
 let base_project () = projects ()
@@ -304,7 +310,6 @@ let all () =
     let* () = Ok (stories ()) in
     let* () = Ok (location ()) in
     let* () = Ok (twtxt ()) in
-    Ok ()
-  in
+    Ok () in
   ()
 ;;

@@ -6,17 +6,14 @@ type answer = string
 
 let prompt_errors ?(intro = true) errors =
   let () =
-    if intro
-    then
+    if intro then
       Ansi.[ foreground red; bold; text "Errors are occured:" ]
       |> Ansi.to_string ~scoped:true
-      |> print_endline
-  in
+      |> print_endline in
   let () =
     List.iter
       (fun error -> Format.printf "  - %s@." (Error.to_string error))
-      errors
-  in
+      errors in
   ()
 ;;
 
@@ -28,38 +25,32 @@ let flush () =
 
 let prompt_error ?(intro = true) error = prompt_errors ~intro [ error ]
 
-let generic
-    : type a.
-      ?prefix:Ansi.fragments
-      -> ?box_style:Ansi.fragments
-      -> ?title_style:Ansi.fragments
-      -> ?text_style:Ansi.fragments
-      -> ?answer_style:Ansi.fragments
-      -> ?title:string
-      -> ?bottom:Ansi.fragments
-      -> (answer -> a)
-      -> question
-      -> a
-  =
- fun ?(prefix = Ansi.[ !"│" ])
-     ?(box_style = Ansi.[ fg cyan ])
-     ?(title_style = Ansi.[ bold ])
-     ?(text_style = [])
-     ?(answer_style = [])
-     ?(title = "prompter")
-     ?(bottom = Ansi.[ !"?" ])
-     callback
-     question ->
-  let () =
-    Ansi.(
-      text_box ~prefix ~box_style ~title_style ~text_style title question
-      @ (reset :: box_style) @ bottom)
-    |> Ansi.to_string |> print_string
-  in
-  let () = Format.printf "%a@." Ansi.pp answer_style in
-  let result = Stdlib.read_line () in
-  let () = flush () in
-  callback result
+let generic :
+    type a.
+       ?prefix:Ansi.fragments
+    -> ?box_style:Ansi.fragments
+    -> ?title_style:Ansi.fragments
+    -> ?text_style:Ansi.fragments
+    -> ?answer_style:Ansi.fragments
+    -> ?title:string
+    -> ?bottom:Ansi.fragments
+    -> (answer -> a)
+    -> question
+    -> a =
+ fun ?(prefix = Ansi.[ !"│" ]) ?(box_style = Ansi.[ fg cyan ])
+     ?(title_style = Ansi.[ bold ]) ?(text_style = []) ?(answer_style = [])
+     ?(title = "prompter") ?(bottom = Ansi.[ !"?" ]) callback question ->
+   let () =
+     Ansi.(
+       text_box ~prefix ~box_style ~title_style ~text_style title question
+       @ (reset :: box_style)
+       @ bottom)
+     |> Ansi.to_string
+     |> print_string in
+   let () = Format.printf "%a@." Ansi.pp answer_style in
+   let result = Stdlib.read_line () in
+   let () = flush () in
+   callback result
 ;;
 
 let opt = function "" -> None | x -> Some x
@@ -72,17 +63,9 @@ let string
     ?(answer_style = [])
     ?(title = "prompter")
     ?(bottom = Ansi.[ !"?" ])
-    ?(f = fun x -> x)
-  =
-  generic
-    ~prefix
-    ~box_style
-    ~title_style
-    ~text_style
-    ~answer_style
-    ~title
-    ~bottom
-    f
+    ?(f = (fun x -> x)) =
+  generic ~prefix ~box_style ~title_style ~text_style ~answer_style ~title
+    ~bottom f
 ;;
 
 let string_opt
@@ -93,17 +76,9 @@ let string_opt
     ?(answer_style = [])
     ?(title = "prompter")
     ?(bottom = Ansi.[ !"?" ])
-    ?(f = fun x -> x)
-  =
-  generic
-    ~prefix
-    ~box_style
-    ~title_style
-    ~text_style
-    ~answer_style
-    ~title
-    ~bottom
-    (opt %> f)
+    ?(f = (fun x -> x)) =
+  generic ~prefix ~box_style ~title_style ~text_style ~answer_style ~title
+    ~bottom (opt %> f)
 ;;
 
 let int
@@ -114,19 +89,11 @@ let int
     ?(answer_style = [])
     ?(title = "prompter")
     ?(bottom = Ansi.[ !"?" ])
-    ?(f = fun x -> x)
-    ?(default = 0)
-  =
-  generic
-    ~prefix
-    ~box_style
-    ~title_style
-    ~text_style
-    ~answer_style
-    ~title
-    ~bottom
-    (fun x ->
-      match int_of_string_opt x with None -> f default | Some x -> f x)
+    ?(f = (fun x -> x))
+    ?(default = 0) =
+  generic ~prefix ~box_style ~title_style ~text_style ~answer_style ~title
+    ~bottom (fun x ->
+      (match int_of_string_opt x with None -> f default | Some x -> f x))
 ;;
 
 let int_opt
@@ -137,17 +104,9 @@ let int_opt
     ?(answer_style = [])
     ?(title = "prompter")
     ?(bottom = Ansi.[ !"?" ])
-    ?(f = fun x -> x)
-  =
-  generic
-    ~prefix
-    ~box_style
-    ~title_style
-    ~text_style
-    ~answer_style
-    ~title
-    ~bottom
-    (int_of_string_opt %> f)
+    ?(f = (fun x -> x)) =
+  generic ~prefix ~box_style ~title_style ~text_style ~answer_style ~title
+    ~bottom (int_of_string_opt %> f)
 ;;
 
 let yes_no
@@ -161,17 +120,9 @@ let yes_no
     ?(f =
       fun x ->
         let res = String.trim (String.lowercase_ascii x) in
-        res = "y" || res = "yes" || res = "1")
-  =
-  generic
-    ~prefix
-    ~box_style
-    ~title_style
-    ~text_style
-    ~answer_style
-    ~title
-    ~bottom
-    f
+        res = "y" || res = "yes" || res = "1") =
+  generic ~prefix ~box_style ~title_style ~text_style ~answer_style ~title
+    ~bottom f
 ;;
 
 let resultable
@@ -182,17 +133,9 @@ let resultable
     ?(answer_style = [])
     ?(title = "prompter")
     ?(bottom = Ansi.[ fg red; !"?" ])
-    f
-  =
-  generic
-    ~prefix
-    ~box_style
-    ~title_style
-    ~text_style
-    ~answer_style
-    ~title
-    ~bottom
-    f
+    f =
+  generic ~prefix ~box_style ~title_style ~text_style ~answer_style ~title
+    ~bottom f
 ;;
 
 let validable
@@ -203,17 +146,9 @@ let validable
     ?(answer_style = [])
     ?(title = "prompter")
     ?(bottom = Ansi.[ fg red; !"?" ])
-    f
-  =
-  generic
-    ~prefix
-    ~box_style
-    ~title_style
-    ~text_style
-    ~answer_style
-    ~title
-    ~bottom
-    f
+    f =
+  generic ~prefix ~box_style ~title_style ~text_style ~answer_style ~title
+    ~bottom f
 ;;
 
 let choose
@@ -229,41 +164,34 @@ let choose
     ?(bottom = Ansi.[ !"?" ])
     f
     g
-    choices
-  =
+    choices =
   let len = Array.length choices in
   let st_choices =
     (List.init len (fun i ->
          let p = if i = 0 then [] else choice_prefix in
          let s =
-           if i = pred len
-           then Ansi.(choice_suffix @ choice_prefix @ [ reset ])
-           else choice_suffix
-         in
-         choice_style @ p
+           if i = pred len then
+             Ansi.(choice_suffix @ choice_prefix @ [ reset ])
+           else
+             choice_suffix in
+         choice_style
+         @ p
          @ Ansi.[ !(Format.sprintf "%d.%s" $ i $ g choices.(i)) ]
          @ s)
-    |> List.flatten)
-    @ bottom
-  in
+    |> List.flatten
+    )
+    @ bottom in
   let real_f answer =
     match int_of_string_opt answer with
     | None ->
       Error (Error.Unknown ("invalid int: " ^ answer))
-    | Some x ->
-      (try Ok (choices.(x) |> f) with
+    | Some x -> (
+      try Ok (choices.(x) |> f) with
       | _ ->
-        Error (Error.Unknown "Invalid index"))
-  in
-  generic
-    ~prefix
-    ~box_style
-    ~title_style
-    ~text_style
-    ~answer_style
-    ~title
-    ~bottom:st_choices
-    real_f
+        Error (Error.Unknown "Invalid index")
+    ) in
+  generic ~prefix ~box_style ~title_style ~text_style ~answer_style ~title
+    ~bottom:st_choices real_f
 ;;
 
 let repeat_result = function

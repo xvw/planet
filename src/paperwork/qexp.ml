@@ -37,8 +37,7 @@ let fpeek stream =
 
 let consume_line stream =
   let rec parse () =
-    match fpeek stream with Some '\n' | None -> () | _ -> parse ()
-  in
+    (match fpeek stream with Some '\n' | None -> () | _ -> parse ()) in
   parse ()
 ;;
 
@@ -66,8 +65,7 @@ let parse_member f stream =
     | Some chr when is_token_char chr ->
       parse $ Format.sprintf "%s%c" acc chr
     | Some chr ->
-      Error (Illegal_character chr)
-  in
+      Error (Illegal_character chr) in
   parse ""
 ;;
 
@@ -77,7 +75,7 @@ let parse_keyword = parse_member keyword
 let parse_atom prefix stream =
   let open Result.Monad in
   parse_member id stream
-  >|= fun (acc, c) -> atom (Format.sprintf "%c%s" prefix acc), c
+  >|= (fun (acc, c) -> (atom (Format.sprintf "%c%s" prefix acc), c))
 ;;
 
 let parse_string stream quote delimiter =
@@ -90,15 +88,14 @@ let parse_string stream quote delimiter =
     | Some chr ->
       parse false (Format.sprintf "%s%c" acc chr)
     | None ->
-      Error (Unclosed_string acc)
-  in
+      Error (Unclosed_string acc) in
   parse false ""
 ;;
 
 let from_stream input =
   let open Result.Monad in
   let rec parse last_char last_bracket acc =
-    let current_char = match last_char with None -> fpeek input | x -> x in
+    let current_char = (match last_char with None -> fpeek input | x -> x) in
     match current_char with
     | Some (' ' | '\t' | '\n') ->
       parse None last_bracket acc
@@ -108,21 +105,23 @@ let from_stream input =
     | Some '(' ->
       let* node = parse None `Parenthesis [] in
       parse None last_bracket (node :: acc)
-    | Some ')' ->
-      (match last_bracket with
+    | Some ')' -> (
+      match last_bracket with
       | `Parenthesis ->
         return (node $ List.rev acc)
       | placeholder ->
-        check_bracket ')' placeholder)
+        check_bracket ')' placeholder
+    )
     | Some '{' ->
       let* node = parse None `Brace [] in
       parse None last_bracket (node :: acc)
-    | Some '}' ->
-      (match last_bracket with
+    | Some '}' -> (
+      match last_bracket with
       | `Brace ->
         return (block $ List.rev acc)
       | placeholder ->
-        check_bracket '}' placeholder)
+        check_bracket '}' placeholder
+    )
     | Some '"' ->
       let* str = parse_string input Double '"' in
       parse None last_bracket (str :: acc)
@@ -130,23 +129,23 @@ let from_stream input =
       let* str = parse_string input Backtick '`' in
       parse None last_bracket (str :: acc)
     | Some ':' ->
-      let* token, chr = parse_tag input in
+      let* (token, chr) = parse_tag input in
       parse chr last_bracket (token :: acc)
     | Some '#' ->
-      let* token, chr = parse_keyword input in
+      let* (token, chr) = parse_keyword input in
       parse chr last_bracket (token :: acc)
     | Some chr when is_token_char chr ->
-      let* token, chr = parse_atom chr input in
+      let* (token, chr) = parse_atom chr input in
       parse chr last_bracket (token :: acc)
     | Some chr ->
       Error (Illegal_character chr)
-    | None ->
-      (match last_bracket with
+    | None -> (
+      match last_bracket with
       | `Void ->
         return (node $ List.rev acc)
       | placeholder ->
-        check_bracket '\n' placeholder)
-  in
+        check_bracket '\n' placeholder
+    ) in
   parse None `Void []
 ;;
 

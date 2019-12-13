@@ -22,7 +22,8 @@ module Project = struct
 
   let get () =
     let open Lwt.Infix in
-    "/api/projects.json" |> Ajax.get
+    "/api/projects.json"
+    |> Ajax.get
     >|= (fun frame -> frame.Ajax.content)
     >|= Js.string
     >|= (fun x -> Js._JSON##parse x)
@@ -73,7 +74,8 @@ module Log = struct
   ;;
 
   let get_by_id uuid =
-    "log-" ^ uuid |> Storage.Local.get
+    "log-" ^ uuid
+    |> Storage.Local.get
     |> Option.map (Js.string %> Json.unsafe_input)
   ;;
 
@@ -85,7 +87,8 @@ module Log = struct
 
   let hydrate () =
     let open Lwt.Infix in
-    "/api/logs.json" |> Ajax.get
+    "/api/logs.json"
+    |> Ajax.get
     >|= (fun frame -> frame.Ajax.content)
     >|= Js.string
     >|= fun x ->
@@ -102,7 +105,8 @@ module Log = struct
 
   let collect () =
     let open Lwt.Infix in
-    "/api/logs.json" |> Ajax.get
+    "/api/logs.json"
+    |> Ajax.get
     >|= (fun frame -> frame.Ajax.content)
     >|= Js.string
     >>= fun x ->
@@ -119,24 +123,25 @@ module Log = struct
             Js.raise_js_error (new%js Js.error_constr (Js.string "Aie Aie"))
           in
           h
-        | Ok log ->
+        | Ok log -> (
           let open Shapes.Log in
           let key = Format.asprintf "%a" Day.ppr log.day in
-          (match Hashtbl.find_opt h key with
+          match Hashtbl.find_opt h key with
           | None ->
             let () = Hashtbl.add h key [ log ] in
             h
           | Some acc ->
             let () = Hashtbl.remove h key in
             let () = Hashtbl.add h key (log :: acc) in
-            h))
-      (Lwt.return hash)
-      parsed
+            h
+        ))
+      (Lwt.return hash) parsed
   ;;
 
   let get_last_logs () =
     let open Lwt.Infix in
-    "/api/last_logs.json" |> Ajax.get
+    "/api/last_logs.json"
+    |> Ajax.get
     >|= (fun frame -> frame.Ajax.content)
     >|= Js.string
     >|= (fun x ->
@@ -150,8 +155,7 @@ module Log = struct
                 acc
               | Ok log ->
                 log :: acc)
-            []
-            r)
+            [] r)
     >|= List.rev
   ;;
 end
@@ -168,7 +172,7 @@ module Location = struct
 
   type t = js Js.t
 
-  let mk date country city = date, country, city
+  let mk date country city = (date, country, city)
 
   let shape obj =
     let open Validation in
@@ -181,11 +185,14 @@ module Location = struct
 
   let get () =
     let open Lwt.Infix in
-    "/api/whereami.json" |> Ajax.get
+    "/api/whereami.json"
+    |> Ajax.get
     >|= (fun frame -> frame.Ajax.content)
     >|= Js.string
     >|= (fun x -> Js._JSON##parse x)
-    >|= Js.to_array %> Array.to_list %> List.map shape
+    >|= Js.to_array
+        %> Array.to_list
+        %> List.map shape
         %> Validation.Applicative.sequence
   ;;
 end

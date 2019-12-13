@@ -1,17 +1,16 @@
-(** Specialization over the type [('a, 'b) result] fixed using 
-    [Error.t] as ['b].
- *)
+(** Specialization over the type [('a, 'b) result] fixed using [Error.t] as
+    ['b]. *)
 
-(** type for a result. *)
 type 'a t = ('a, Error.t) result
+(** type for a result. *)
 
-(** Extract value of a result *)
 val pop : (Error.t -> 'a) -> 'a t -> 'a
+(** Extract value of a result *)
 
 val is_valid : 'a t -> bool
 
-(** {2 Functor instance} *)
 module Functor : Sigs.Functor.API with type 'a t = 'a t
+(** {2 Functor instance} *)
 
 (** {2 Monad instance} *)
 module Monad : sig

@@ -1,24 +1,24 @@
 (** Clock (or effectful-counter) *)
 
-(** Type for a clock. *)
 type 'a t
+(** Type for a clock. *)
 
-(** Make a new clock. *)
 val make : decr:('a -> 'a) -> incr:('a -> 'a) -> 'a -> 'a t
+(** Make a new clock. *)
 
-(** Get the current value of a clock *)
 val current : 'a t -> 'a
+(** Get the current value of a clock *)
 
-(** Get (and set) the next value of a clock. *)
 val next : 'a t -> 'a
+(** Get (and set) the next value of a clock. *)
 
-(** Get (and set) the previous value of a clock. *)
 val previous : 'a t -> 'a
+(** Get (and set) the previous value of a clock. *)
 
-(** Reset a clock. *)
 val reset : 'a t -> unit
+(** Reset a clock. *)
 
 (** {2 Presaved clocks} *)
 
-(** Clock for the integers. *)
 val int : unit -> int t
+(** Clock for the integers. *)

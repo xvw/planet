@@ -127,9 +127,8 @@ let to_string_aux s =
     | Text txt ->
       `S txt
     | F s ->
-      `S s
-  in
-  match aux s with `I i -> string_of_int i | `S i -> i
+      `S s in
+  (match aux s with `I i -> string_of_int i | `S i -> i)
 ;;
 
 let ( ! ) = text
@@ -138,23 +137,25 @@ let seq_to_string = function
   | None ->
     ""
   | Some fragments ->
-    fragments |> List.rev_map to_string_aux |> String.concat ";"
+    fragments
+    |> List.rev_map to_string_aux
+    |> String.concat ";"
     |> Format.sprintf "\027[%sm"
 ;;
 
 let to_string ?(scoped = true) =
   let rec aux sequence acc fragment =
-    match sequence, fragment with
-    | x, [] ->
-      acc ^ seq_to_string x
+    match (sequence, fragment) with
+    | (x, []) ->
+      acc
+      ^ seq_to_string x
       ^ if scoped then seq_to_string (Some [ reset ]) else ""
-    | x, Text str :: xs ->
+    | (x, Text str :: xs) ->
       aux None (acc ^ seq_to_string x ^ str) xs
-    | None, frg :: xs ->
+    | (None, frg :: xs) ->
       aux (Some [ frg ]) acc xs
-    | Some x, frg :: xs ->
-      aux (Some (frg :: x)) acc xs
-  in
+    | (Some x, frg :: xs) ->
+      aux (Some (frg :: x)) acc xs in
   aux None ""
 ;;
 
@@ -167,19 +168,18 @@ let box
     ?(box_style = [ fg cyan ])
     ?(title_style = [ bold ])
     title
-    fragments
-  =
+    fragments =
   let a = (reset :: box_style) @ [ !"┌─["; reset ] in
   let t =
-    title_style @ [ !title ] @ (reset :: box_style)
-    @ [ !"]─→"; reset; !"\n" ]
-  in
+    title_style
+    @ [ !title ]
+    @ (reset :: box_style)
+    @ [ !"]─→"; reset; !"\n" ] in
   let b = (reset :: box_style) @ [ !"└─"; reset ] in
   let l =
     List.map
       (fun x -> (reset :: box_style) @ (prefix @ (reset :: x)) @ [ !"\n" ])
-      fragments
-  in
+      fragments in
   List.flatten (a :: t :: l) @ b
 ;;
 
@@ -189,8 +189,7 @@ let generic_box
     ?(title_style = [ bold ])
     f
     title
-    fragments
-  =
+    fragments =
   let list = List.map f fragments in
   box ~prefix ~box_style ~title_style title list
 ;;
@@ -201,11 +200,11 @@ let text_box
     ?(title_style = [ bold ])
     ?(text_style = [])
     title
-    text
-  =
+    text =
   let l =
-    text |> String.trim |> String.lines
-    |> List.map (fun l -> text_style @ [ !l; reset ])
-  in
+    text
+    |> String.trim
+    |> String.lines
+    |> List.map (fun l -> text_style @ [ !l; reset ]) in
   box ~prefix ~box_style ~title_style title l
 ;;

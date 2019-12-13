@@ -15,7 +15,7 @@ let api =
   let doc = "Initialize the target for API generation" in
   let man = Glue.Man.default call in
   let exits = Term.default_exits in
-  Term.(const Lib.api $ const ()), Term.info "api" ~version ~doc ~exits ~man
+  (Term.(const Lib.api $ const ()), Term.info "api" ~version ~doc ~exits ~man)
 ;;
 
 let projects =
@@ -46,7 +46,7 @@ let all =
   let doc = "Build everything" in
   let man = Glue.Man.default call in
   let exits = Term.default_exits in
-  Term.(const Lib.all $ const ()), Term.info "all" ~version ~doc ~exits ~man
+  (Term.(const Lib.all $ const ()), Term.info "all" ~version ~doc ~exits ~man)
 ;;
 
 let index =

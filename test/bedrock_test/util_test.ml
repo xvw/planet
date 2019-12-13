@@ -7,18 +7,12 @@ let bound_2 () = check int "same ints" 0 (Util.bound (-28) 0 15)
 let bound_3 () = check int "same ints" 15 (Util.bound 28 0 15)
 
 let md5_1 () =
-  check
-    string
-    "same strings"
-    "acbd18db4cc2f85cedef654fccc4a4d8"
+  check string "same strings" "acbd18db4cc2f85cedef654fccc4a4d8"
     (Util.md5 "foo")
 ;;
 
 let md5_2 () =
-  check
-    string
-    "same strings"
-    "cfc0d4d9009e00129baae0678fe6f52c"
+  check string "same strings" "cfc0d4d9009e00129baae0678fe6f52c"
     (Util.md5 "Foo/Bar")
 ;;
 

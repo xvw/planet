@@ -1,25 +1,25 @@
 (** Extension for [Stdlib.String]. *)
 
-(** Alias for type *)
 type t = string
+(** Alias for type *)
 
-(** Produce the md5-hash of a string. *)
 val md5 : string -> string
+(** Produce the md5-hash of a string. *)
 
-(** [start_with x y] checks if [x] start with [y]. *)
 val start_with : string -> string -> bool
+(** [start_with x y] checks if [x] start with [y]. *)
 
-(** [end_with x y] checks if [x] end with [y]. *)
 val end_with : string -> string -> bool
+(** [end_with x y] checks if [x] end with [y]. *)
 
-(** [has_extension x ext] checks if [x] end with [.ext]. *)
 val has_extension : string -> string -> bool
+(** [has_extension x ext] checks if [x] end with [.ext]. *)
 
-(** Produce each lines of a string *)
 val lines : string -> string list
+(** Produce each lines of a string *)
 
-(** Remove all spaces of a string. *)
 val super_trim : string -> string
+(** Remove all spaces of a string. *)
 
 (** {2 Stdlib} *)
 

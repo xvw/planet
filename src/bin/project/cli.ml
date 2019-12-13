@@ -7,7 +7,7 @@ let ls =
   let doc = "Show the list of stored projects" in
   let man = Glue.Man.default call in
   let exits = Term.default_exits in
-  Term.(const Lib.ls $ const ()), Term.info "ls" ~version ~doc ~exits ~man
+  (Term.(const Lib.ls $ const ()), Term.info "ls" ~version ~doc ~exits ~man)
 ;;
 
 let show =

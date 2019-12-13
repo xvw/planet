@@ -44,8 +44,7 @@ let new_story
     category
     tags
     date
-    kind
-  =
+    kind =
   { permaname
   ; title
   ; synopsis
@@ -80,8 +79,7 @@ let from_qexp expr =
     <*> Fetch.list_refutable Table.Mapper.string config "tags"
     <*> Fetch.token
           (Timetable.Day.from_string %> Validation.from_result)
-          config
-          "date"
+          config "date"
     <*> Fetch.token kind_from_string config "kind"
 ;;
 
@@ -104,28 +102,25 @@ let to_qexp story =
 ;;
 
 let pp ppf story =
-  Format.fprintf
-    ppf
-    "Story(%a - %s : %s)"
-    Timetable.Day.pp
-    story.date
+  Format.fprintf ppf "Story(%a - %s : %s)" Timetable.Day.pp story.date
     (kind_to_string story.kind)
     story.title
 ;;
 
 let kind_eq a b =
-  match a, b with Long, Long | Short, Short -> true | _ -> false
+  (match (a, b) with (Long, Long) | (Short, Short) -> true | _ -> false)
 ;;
 
 let eq a b =
-  a.title = b.title && a.synopsis = b.synopsis && a.permaname = b.permaname
+  a.title = b.title
+  && a.synopsis = b.synopsis
+  && a.permaname = b.permaname
   && a.category = b.category
   && Timetable.Day.eq a.date b.date
   && kind_eq a.kind b.kind
   && List.eq
        (fun (k, v) (k2, v2) -> k = k2 && List.eq Link.eq_simple v v2)
-       a.links
-       b.links
+       a.links b.links
   && Text.eq a.content b.content
   && Option.eq ( = ) a.related_project b.related_project
   && a.published = b.published
@@ -135,19 +130,19 @@ let eq a b =
 let to_json story =
   let open Json in
   obj
-    [ "title", string story.title
-    ; "permaname", string story.permaname
-    ; "category", string story.category
-    ; "date", string (Timetable.Day.to_string story.date)
-    ; "kind", string (kind_to_string story.kind)
-    ; "synopsis", string story.synopsis
-    ; "related_project", nullable Option.(story.related_project >|= string)
-    ; "published", bool story.published
-    ; "tags", array $ List.map string story.tags
+    [ ("title", string story.title)
+    ; ("permaname", string story.permaname)
+    ; ("category", string story.category)
+    ; ("date", string (Timetable.Day.to_string story.date))
+    ; ("kind", string (kind_to_string story.kind))
+    ; ("synopsis", string story.synopsis)
+    ; ("related_project", nullable Option.(story.related_project >|= string))
+    ; ("published", bool story.published)
+    ; ("tags", array $ List.map string story.tags)
     ; ( "links"
       , obj
           (List.map
-             (fun (k, v) -> k, array $ List.map Link.simple_to_json v)
+             (fun (k, v) -> (k, array $ List.map Link.simple_to_json v))
              story.links) )
     ]
 ;;

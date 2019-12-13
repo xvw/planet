@@ -70,8 +70,7 @@ let new_project
     indexed
     content
     published
-    subprojects
-  =
+    subprojects =
   { name
   ; title
   ; synopsis
@@ -95,7 +94,8 @@ let rec from_qexp expr =
   match Table.configuration expr with
   | Ok config ->
     let open Validation.Infix in
-    new_project <$> Fetch.string config "name"
+    new_project
+    <$> Fetch.string config "name"
     <*> Fetch.string config "title"
     <*> Fetch.string config "synopsis"
     <*> Fetch.(option (map Repo.from_qexp) config "repo")
@@ -127,7 +127,8 @@ let to_qexp project =
   @ Kv.content project.content
   @ (project.repo
     |> Option.map (fun x -> node [ tag "repo"; Repo.to_qexp x ])
-    |> Option.to_list)
+    |> Option.to_list
+    )
   @ Kv.list "tags" project.tags string
   @ Kv.ziplist "links" project.links Link.simple_to_qexp
   @ Kv.list "releases" project.releases Link.dated_to_qexp
@@ -135,38 +136,37 @@ let to_qexp project =
 ;;
 
 let pp ppf project =
-  Format.fprintf
-    ppf
-    "Project(%s, ...)<%s>"
-    project.name
+  Format.fprintf ppf "Project(%s, ...)<%s>" project.name
     (status_to_string project.status)
 ;;
 
 let status_eq left right =
-  match left, right with
-  | Unceasing, Unceasing
-  | Wip, Wip
-  | Done, Done
-  | Paused, Paused
-  | Interrupted, Interrupted ->
+  match (left, right) with
+  | (Unceasing, Unceasing)
+  | (Wip, Wip)
+  | (Done, Done)
+  | (Paused, Paused)
+  | (Interrupted, Interrupted) ->
     true
   | _ ->
     false
 ;;
 
 let rec eq a b =
-  a.name = b.name && a.title = b.title && a.synopsis = b.synopsis
+  a.name = b.name
+  && a.title = b.title
+  && a.synopsis = b.synopsis
   && Option.eq ( = ) a.repo b.repo
   && Option.eq ( = ) a.license b.license
   && List.eq
        (fun (k, v) (k2, v2) -> k = k2 && List.eq Link.eq_simple v v2)
-       a.links
-       b.links
+       a.links b.links
   && List.eq Link.eq_dated a.releases b.releases
   && status_eq a.status b.status
   && List.eq ( = ) a.tags b.tags
   && Option.eq ( = ) a.picto b.picto
-  && a.indexed = b.indexed && a.published = b.published
+  && a.indexed = b.indexed
+  && a.published = b.published
   && Option.eq Text.eq a.content b.content
   && List.eq eq a.subprojects b.subprojects
 ;;
@@ -174,22 +174,22 @@ let rec eq a b =
 let rec to_json project =
   let open Json in
   obj
-    [ "name", string project.name
-    ; "published", bool project.published
-    ; "title", string project.title
-    ; "synopsis", string project.synopsis
-    ; "repo", nullable Option.(project.repo >|= Repo.base_url %> string)
-    ; "license", nullable Option.(project.license >|= string)
+    [ ("name", string project.name)
+    ; ("published", bool project.published)
+    ; ("title", string project.title)
+    ; ("synopsis", string project.synopsis)
+    ; ("repo", nullable Option.(project.repo >|= Repo.base_url %> string))
+    ; ("license", nullable Option.(project.license >|= string))
     ; ( "links"
       , obj
           (List.map
-             (fun (k, v) -> k, array $ List.map Link.simple_to_json v)
+             (fun (k, v) -> (k, array $ List.map Link.simple_to_json v))
              project.links) )
-    ; "releases", array $ List.map Link.dated_to_json project.releases
-    ; "status", string $ status_to_string project.status
-    ; "tags", array $ List.map string project.tags
-    ; "picto", nullable Option.(project.picto >|= string)
-    ; "indexed", bool project.indexed
-    ; "subprojects", array $ List.map to_json project.subprojects
+    ; ("releases", array $ List.map Link.dated_to_json project.releases)
+    ; ("status", string $ status_to_string project.status)
+    ; ("tags", array $ List.map string project.tags)
+    ; ("picto", nullable Option.(project.picto >|= string))
+    ; ("indexed", bool project.indexed)
+    ; ("subprojects", array $ List.map to_json project.subprojects)
     ]
 ;;

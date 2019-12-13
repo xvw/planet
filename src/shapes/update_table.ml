@@ -30,8 +30,7 @@ let from_qexp = function
         let open Result.Syntax in
         let* hashtable = potential_table in
         store_update hashtable expr)
-      (Ok table)
-      elts
+      (Ok table) elts
   | qexp ->
     Error (No_root_element (Qexp.to_string qexp))
 ;;
@@ -41,8 +40,7 @@ let to_qexp table =
     (fun key value acc ->
       let open Qexp in
       node [ string key; keyword $ D.to_string value ] :: acc)
-    table
-    []
+    table []
   |> Qexp.node
 ;;
 
@@ -54,10 +52,9 @@ let push table key value =
     | None ->
       Hashtbl.add table key value
     | Some x ->
-      if D.cmp x value < 0
-      then (
+      if D.cmp x value < 0 then (
         let () = Hashtbl.remove table key in
-        Hashtbl.add table key value)
-  in
+        Hashtbl.add table key value
+      ) in
   table
 ;;

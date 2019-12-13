@@ -1,7 +1,5 @@
-(** All Errors wrapped into a single module, using Variants. 
-    It is a conveinent approach to have a 1-arity [Result] 
-    type.
-*)
+(** All Errors wrapped into a single module, using Variants. It is a conveinent
+    approach to have a 1-arity [Result] type. *)
 
 (** {2 Types and exception} *)
 
@@ -83,17 +81,17 @@ end
 
 (** {2 Tools to deal with errors} *)
 
-(** Convert error to [Exception] *)
 val to_exception : t -> Exn.t
+(** Convert error to [Exception] *)
 
-(** Convert [Exception] to [Error.t] *)
 val from_exception : Exn.t -> t
+(** Convert [Exception] to [Error.t] *)
 
-(** Convert [Error.t] to [string] *)
 val to_string : t -> string
+(** Convert [Error.t] to [string] *)
 
-(** Raise an [Error.t] as an [Exn.t] *)
 val raise_ : t -> 'a
+(** Raise an [Error.t] as an [Exn.t] *)
 
 (** {2 Tools for testing} *)
 

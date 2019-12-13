@@ -34,7 +34,7 @@ end = struct
 
   let law_3 elt =
     let left = D.M.(elt >>= D.f >>= D.g) in
-    let right = D.M.(elt >>= fun x -> D.f x >>= D.g) in
+    let right = D.M.(elt >>= (fun x -> D.f x >>= D.g)) in
     same left right
   ;;
 
@@ -47,8 +47,10 @@ end = struct
         (sampling_values law_1)
     ; test ("[Law 2: " ^ str ^ "]: (m >>= return) = m") (sampling_monads law_2)
     ; test
-        ("[Law 3: " ^ str
-       ^ "]: ((m >= f) >= g) = (m >= (fun x → f x >= g))")
+        ("[Law 3: "
+        ^ str
+        ^ "]: ((m >= f) >= g) = (m >= (fun x → f x >= g))"
+        )
         (sampling_monads law_3)
     ]
   ;;
@@ -258,6 +260,12 @@ module StringResult = Driver (struct
 end)
 
 let suite =
-  IntList.suite @ IntArray.suite @ StringList.suite @ StringArray.suite
-  @ IntOption.suite @ StringOption.suite @ IntResult.suite @ StringResult.suite
+  IntList.suite
+  @ IntArray.suite
+  @ StringList.suite
+  @ StringArray.suite
+  @ IntOption.suite
+  @ StringOption.suite
+  @ IntResult.suite
+  @ StringResult.suite
 ;;

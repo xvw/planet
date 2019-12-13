@@ -13,7 +13,7 @@ let flag ?(short = true) ?value flag_name = Flag (short, flag_name, value)
 let subcommand cmd = Subcommand cmd
 let string ?(escaped = false) str = String (escaped, str)
 let atom str = Atom str
-let command cmd fragments = cmd, fragments
+let command cmd fragments = (cmd, fragments)
 
 let rec fragment_mapper = function
   | String (e, str) ->
@@ -59,7 +59,7 @@ let run_to_stream f command =
   let stream = Stream.of_channel channel in
   let result = f command stream in
   let status = Unix.close_process_in channel in
-  status, result
+  (status, result)
 ;;
 
 let run_to_string command =
@@ -68,11 +68,10 @@ let run_to_string command =
   let rec aux acc =
     try aux (Format.asprintf "%s%c" acc (input_char channel)) with
     | End_of_file ->
-      acc
-  in
+      acc in
   let result = aux "" in
   let status = Unix.close_process_in channel in
-  status, result
+  (status, result)
 ;;
 
 let capture f = function

@@ -6,9 +6,10 @@ let keep_biggest_date potential_date1 date2 =
   | None ->
     Some date2
   | Some date1 ->
-    if Paperwork.Timetable.Day.cmp date2 date1 > 0
-    then Some date2
-    else Some date1
+    if Paperwork.Timetable.Day.cmp date2 date1 > 0 then
+      Some date2
+    else
+      Some date1
 ;;
 
 let keep_smallest_date potential_date1 date2 =
@@ -16,9 +17,10 @@ let keep_smallest_date potential_date1 date2 =
   | None ->
     Some date2
   | Some date1 ->
-    if Paperwork.Timetable.Day.cmp date1 date2 > 0
-    then Some date2
-    else Some date1
+    if Paperwork.Timetable.Day.cmp date1 date2 > 0 then
+      Some date2
+    else
+      Some date1
 ;;
 
 let add_to_sectors ctx log =
@@ -99,10 +101,11 @@ module Projects = struct
   let project_to_qexp _name value =
     let open Paperwork.Qexp in
     let sectors =
-      value.sectors_counters |> Hashtbl.to_seq |> List.of_seq
+      value.sectors_counters
+      |> Hashtbl.to_seq
+      |> List.of_seq
       |> List.map (fun (k, value) ->
-             node [ string k; atom (string_of_int value) ])
-    in
+             node [ string k; atom (string_of_int value) ]) in
     node
       ([ node [ tag "name"; string value.name ]
        ; node [ tag "logs_counter"; atom (string_of_int value.logs_counter) ]
@@ -128,7 +131,8 @@ module Projects = struct
             [ tag "last_update"
             ; keyword (Paperwork.Timetable.Day.to_string date)
             ]
-        ])
+        ]
+      )
   ;;
 
   let to_qexp ctx =
@@ -138,8 +142,11 @@ module Projects = struct
       ; node
           [ tag "projects"
           ; node
-              (ctx.projects |> Hashtbl.to_seq |> List.of_seq
-              |> List.map (fun (k, v) -> project_to_qexp k v))
+              (ctx.projects
+              |> Hashtbl.to_seq
+              |> List.of_seq
+              |> List.map (fun (k, v) -> project_to_qexp k v)
+              )
           ]
       ]
   ;;
@@ -150,8 +157,7 @@ module Projects = struct
       last_update
       logs_counter
       minuts_counter
-      sectors_counters
-    =
+      sectors_counters =
     { name
     ; start_date
     ; last_update
@@ -174,12 +180,12 @@ module Projects = struct
       <*> Fetch.(int config "minuts_counter")
       <*> Fetch.hashtbl_refutable
             (fun key -> function Paperwork.Qexp.Atom value ->
-                value |> int_of_string_opt
+                value
+                |> int_of_string_opt
                 |> Validation.from_option (Unparsable value)
-                >|= fun v -> key, v | expr ->
+                >|= (fun v -> (key, v)) | expr ->
                 Error [ Unparsable (Paperwork.Qexp.to_string expr) ])
-            config
-            "sectors_counters"
+            config "sectors_counters"
     | Error _ as e ->
       Validation.from_result e
   ;;
@@ -229,10 +235,11 @@ let update ctx log =
 let context_to_qexp value =
   let open Paperwork.Qexp in
   let sectors =
-    value.sectors_counters |> Hashtbl.to_seq |> List.of_seq
+    value.sectors_counters
+    |> Hashtbl.to_seq
+    |> List.of_seq
     |> List.map (fun (k, value) ->
-           node [ string k; atom (string_of_int value) ])
-  in
+           node [ string k; atom (string_of_int value) ]) in
   node
     ([ node [ tag "logs_counter"; atom (string_of_int value.logs_counter) ]
      ; node [ tag "minuts_counter"; atom (string_of_int value.minuts_counter) ]
@@ -256,7 +263,8 @@ let context_to_qexp value =
           [ tag "last_update"
           ; keyword (Paperwork.Timetable.Day.to_string date)
           ]
-      ])
+      ]
+    )
 ;;
 
 let make_context
@@ -264,8 +272,7 @@ let make_context
     last_update
     logs_counter
     minuts_counter
-    sectors_counters
-  =
+    sectors_counters =
   { start_date; last_update; logs_counter; minuts_counter; sectors_counters }
 ;;
 
@@ -281,12 +288,12 @@ let context_from_qexp qexp =
     <*> Fetch.(int config "minuts_counter")
     <*> Fetch.hashtbl_refutable
           (fun key -> function Paperwork.Qexp.Atom value ->
-              value |> int_of_string_opt
+              value
+              |> int_of_string_opt
               |> Validation.from_option (Unparsable value)
-              >|= fun v -> key, v | expr ->
+              >|= (fun v -> (key, v)) | expr ->
               Error [ Unparsable (Paperwork.Qexp.to_string expr) ])
-          config
-          "sectors_counters"
+          config "sectors_counters"
   | Error _ as e ->
     Validation.from_result e
 ;;

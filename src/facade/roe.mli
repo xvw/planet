@@ -1,7 +1,4 @@
-(** Rich Org Extension
-    
-    Extend Org format using JavaScript
-*)
+(** Rich Org Extension Extend Org format using JavaScript *)
 
 open Js_of_ocaml
 

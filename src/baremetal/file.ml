@@ -35,8 +35,9 @@ let close_in = Stdlib.close_in_noerr
 
 let read f filename =
   let open Result.Infix in
-  filename |> in_channel
-  >|= (fun x -> x, f x)
+  filename
+  |> in_channel
+  >|= (fun x -> (x, f x))
   >>= fun (channel, result) ->
   let () = close_in channel in
   result
@@ -79,8 +80,7 @@ let chars filename =
         loop $ char :: acc
       with
       | End_of_file ->
-        Ok (List.rev acc)
-    in
+        Ok (List.rev acc) in
     loop []
   with
   | _ ->
@@ -96,8 +96,7 @@ let lines filename =
         loop $ line :: acc
       with
       | End_of_file ->
-        Ok (List.rev acc)
-    in
+        Ok (List.rev acc) in
     loop []
   with
   | _ ->
@@ -110,8 +109,7 @@ let out_channel
     ?(append = false)
     ?(chmod = 0o777)
     ?(overwrite = false)
-    filename
-  =
+    filename =
   let mode = if binary then Open_binary else Open_text in
   let appd = if append then Open_append else Open_trunc in
   let over = if overwrite then [] else [ Open_excl ] in
@@ -132,21 +130,18 @@ let write
     ?(chmod = 0o777)
     ?(overwrite = false)
     f
-    filename
-  =
+    filename =
   let open Result.Infix in
   filename
   |> out_channel ~flags ~binary ~append ~chmod ~overwrite
-  >|= (fun x -> x, f x)
+  >|= (fun x -> (x, f x))
   >>= fun (channel, result) ->
   let () = close_out channel in
   result
 ;;
 
 let create ?(binary = false) ?(chmod = 0o777) filename content =
-  write
-    ~chmod
-    ~binary
+  write ~chmod ~binary
     (fun channel -> Ok (output_string channel content))
     filename
 ;;
@@ -156,15 +151,11 @@ let touch ?(binary = false) ?(chmod = 0o777) filename =
 ;;
 
 let append ?(binary = false) ?(create = false) ?(chmod = 0o777) filename content
-  =
-  if (not create) && not (exists filename)
-  then Error (Unreadable filename)
+    =
+  if (not create) && not (exists filename) then
+    Error (Unreadable filename)
   else
-    write
-      ~binary
-      ~chmod
-      ~overwrite:true
-      ~append:true
+    write ~binary ~chmod ~overwrite:true ~append:true
       (fun channel -> Ok (output_string channel content))
       filename
 ;;
@@ -174,22 +165,17 @@ let overwrite
     ?(create = false)
     ?(chmod = 0o777)
     filename
-    content
-  =
-  if (not create) && not (exists filename)
-  then Error (Unreadable filename)
+    content =
+  if (not create) && not (exists filename) then
+    Error (Unreadable filename)
   else
-    write
-      ~binary
-      ~chmod
-      ~overwrite:true
-      ~append:false
+    write ~binary ~chmod ~overwrite:true ~append:false
       (fun channel -> Ok (output_string channel content))
       filename
 ;;
 
 let delete filename =
-  try Ok (Sys.remove filename) with _ -> Error (Unreadable filename)
+  (try Ok (Sys.remove filename) with _ -> Error (Unreadable filename))
 ;;
 
 let rename old_name new_name =

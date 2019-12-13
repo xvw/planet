@@ -10,21 +10,19 @@ let from_qexp_gen f qexp =
   | Qexp.Node elts ->
     let table = Hashtbl.create 1 in
     let rec aux = function
-      | Error x, _ ->
+      | (Error x, _) ->
         Error x
-      | table, [] ->
+      | (table, []) ->
         table
-      | Ok table, Qexp.Node (key :: value) :: xs ->
+      | (Ok table, Qexp.Node (key :: value) :: xs) ->
         let open Result.Syntax in
         let new_table =
-          let* k, v = f key value in
+          let* (k, v) = f key value in
           let () = Hashtbl.add table k v in
-          Ok table
-        in
+          Ok table in
         aux (new_table, xs)
-      | _, exp :: _ ->
-        Error (Not_a_valid_node (Qexp.to_string exp))
-    in
+      | (_, exp :: _) ->
+        Error (Not_a_valid_node (Qexp.to_string exp)) in
     aux (Ok table, elts)
   | _ ->
     Error (No_root_element (Qexp.to_string qexp))
@@ -37,8 +35,7 @@ let from_qexp f =
     | Atom key | Tag key | Keyword key | String (_, key) ->
       f key l
     | q ->
-      Error (Not_a_valid_node (to_string q))
-  in
+      Error (Not_a_valid_node (to_string q)) in
   from_qexp_gen rf
 ;;
 
@@ -50,8 +47,7 @@ let configuration =
     | [] ->
       Ok (key, None)
     | list ->
-      Ok (key, Some (node list))
-  in
+      Ok (key, Some (node list)) in
   from_qexp f
 ;;
 
@@ -73,7 +69,7 @@ module Mapper = struct
   let couple f g = function
     | Qexp.Node [ x; y ] ->
       let open Validation.Applicative in
-      (fun x y -> x, y) <$> f x <*> g y
+      (fun x y -> (x, y)) <$> f x <*> g y
     | q ->
       Error [ Mapping_failure ("couple", Qexp.to_string q) ]
   ;;
@@ -81,7 +77,7 @@ module Mapper = struct
   let triple f g h = function
     | Qexp.Node [ x; y; z ] ->
       let open Validation.Applicative in
-      (fun x y z -> x, y, z) <$> f x <*> g y <*> h z
+      (fun x y z -> (x, y, z)) <$> f x <*> g y <*> h z
     | q ->
       Error [ Mapping_failure ("triple", Qexp.to_string q) ]
   ;;
@@ -125,15 +121,17 @@ module Fetch = struct
     match Hashtbl.find_opt table field with
     | None ->
       Ok default
-    | Some (Some x) ->
-      (match x with
+    | Some (Some x) -> (
+      match x with
       | Keyword x | Atom x | Tag x | String (_, x) ->
         let b = String.lowercase_ascii x in
-        if b = "true" || b = "false"
-        then Ok (b = "true")
-        else Error [ Invalid_field field ]
+        if b = "true" || b = "false" then
+          Ok (b = "true")
+        else
+          Error [ Invalid_field field ]
       | _ ->
-        Error [ Invalid_field field ])
+        Error [ Invalid_field field ]
+    )
     | _ ->
       Error [ Invalid_field field ]
   ;;
@@ -143,15 +141,17 @@ module Fetch = struct
     match Hashtbl.find_opt table field with
     | None ->
       Error [ Undefined_field field ]
-    | Some (Some x) ->
-      (match x with
+    | Some (Some x) -> (
+      match x with
       | Keyword x | Atom x | Tag x | String (_, x) ->
         let b = String.lowercase_ascii x in
-        if b = "true" || b = "false"
-        then Ok (b = "true")
-        else Error [ Invalid_field field ]
+        if b = "true" || b = "false" then
+          Ok (b = "true")
+        else
+          Error [ Invalid_field field ]
       | _ ->
-        Error [ Invalid_field field ])
+        Error [ Invalid_field field ]
+    )
     | _ ->
       Error [ Invalid_field field ]
   ;;
@@ -184,7 +184,7 @@ module Fetch = struct
 
   let aux_hashtbl f mapper table field =
     let open Validation.Infix in
-    f Mapper.(couple $ token (fun x -> Ok x) $ fun x -> Ok x) table field
+    f Mapper.(couple $ token (fun x -> Ok x) $ (fun x -> Ok x)) table field
     >>= List.map (fun (x, y) -> mapper x y) %> Validation.Applicative.sequence
     >|= List.to_seq %> Hashtbl.of_seq
   ;;
@@ -202,12 +202,11 @@ module Fetch = struct
         couple
         $ token (fun x -> Ok x)
         $ function
-        | Node elts ->
-          List.map mapper elts |> Validation.Applicative.sequence
-        | _ ->
-          Error [ Invalid_field field ])
-      table
-      field
+          | Node elts ->
+            List.map mapper elts |> Validation.Applicative.sequence
+          | _ ->
+            Error [ Invalid_field field ])
+      table field
   ;;
 
   let ziplist mapper table field = aux_ziplist list mapper table field
@@ -221,12 +220,13 @@ module Fetch = struct
     match Hashtbl.find_opt table field with
     | None ->
       Error [ Undefined_field field ]
-    | Some (Some x) ->
-      (match x with
+    | Some (Some x) -> (
+      match x with
       | Atom str | String (_, str) | Tag str | Keyword str ->
         mapper str
       | _ ->
-        Error [ Invalid_field field ])
+        Error [ Invalid_field field ]
+    )
     | _ ->
       Error [ Invalid_field field ]
   ;;
@@ -234,8 +234,7 @@ module Fetch = struct
   let int table field =
     token
       Validation.(int_of_string_opt %> from_option (Invalid_field field))
-      table
-      field
+      table field
   ;;
 
   module D = Timetable.Day

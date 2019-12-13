@@ -54,7 +54,7 @@ module Location : sig
 
   val shape : t -> (Paperwork.Timetable.Day.t * string * string) Validation.t
 
-  val get
-    :  unit
+  val get :
+       unit
     -> (Paperwork.Timetable.Day.t * string * string) list Validation.t Lwt.t
 end

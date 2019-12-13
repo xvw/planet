@@ -32,12 +32,12 @@ module Applicative = struct
     let pure x = Ok x
 
     let ap af ax =
-      match af, ax with
-      | Ok f, Ok x ->
+      match (af, ax) with
+      | (Ok f, Ok x) ->
         Ok (f x)
-      | Error a, Error b ->
+      | (Error a, Error b) ->
         Error (a @ b)
-      | Error a, _ | _, Error a ->
+      | (Error a, _) | (_, Error a) ->
         Error a
     ;;
   end)

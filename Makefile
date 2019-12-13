@@ -5,7 +5,7 @@ MSG="[Automatic] $(SHA)"
 
 # Developement's workflow
 
-all: render
+all: build binaries client
 
 init_submodule:
 	git submodule add git@github.com:xvw/xvw.github.io.git deployement

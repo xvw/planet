@@ -7,3 +7,7 @@
 ((:uuid "1d920614-f1d8-0075-cdf1-8db70cd1c76b") (:day "019L05")
   (:duration "30") (:sector "programming")
   (:label "Modularisation des tests unitaires") (:project "preface"))
+
+((:uuid "d1193914-87d7-85f6-287f-8f74393ef79f") (:day "019L13")
+  (:duration "30") (:sector "maintenance")
+  (:label "Modification des paramètres de ocamlformat") (:project "planet"))

@@ -1,0 +1,8 @@
+(:title "Intégration des tags interactifs")
+(:kind short)
+(:date #019L14)
+(:permaname "internal_tags")
+(:synopsis "Ajout des tags interactifs")
+(:content internal #org-mode "")
+(:published true)
+(:category "planet")

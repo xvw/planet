@@ -11,3 +11,7 @@
 ((:uuid "d1193914-87d7-85f6-287f-8f74393ef79f") (:day "019L13")
   (:duration "30") (:sector "maintenance")
   (:label "Modification des paramètres de ocamlformat") (:project "planet"))
+
+((:uuid "e9ab00bd-e0d3-6d74-4865-e0ba755d3fbe") (:day "019L13")
+  (:duration "150") (:sector "programming")
+  (:label "Intégration des tags interactifs") (:project "planet"))

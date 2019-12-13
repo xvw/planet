@@ -22,3 +22,14 @@ let rec watch event args f =
   let%lwt _ = watch_once event args f in
   watch event args f
 ;;
+
+let location = window##.location
+
+let get_hash () =
+  let hash = Js.to_string location##.hash in
+  if String.length hash > 1 then
+    Scanf.sscanf hash "#%s" (fun x ->
+        x |> Js.string |> Js.decodeURI |> Js.to_string)
+  else
+    ""
+;;

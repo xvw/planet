@@ -7,14 +7,16 @@ type content =
   ; section : string
   ; id : string
   ; date : Paperwork.Timetable.Day.t
+  ; description : string
   ; tags : t list
   }
 
 type bucket =
-  { tags : t list
+  { all_tags : t list
   ; contents : content list
   }
 
+val new_bucket : unit -> bucket
 val to_qexp : bucket -> Paperwork.Qexp.t
 val to_json : bucket -> Paperwork.Json.t
 val sort : bucket -> bucket
@@ -25,5 +27,6 @@ val add :
   -> string
   -> string
   -> Paperwork.Timetable.Day.t
+  -> string
   -> t list
   -> bucket

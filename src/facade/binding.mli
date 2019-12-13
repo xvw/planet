@@ -58,3 +58,34 @@ module Location : sig
        unit
     -> (Paperwork.Timetable.Day.t * string * string) list Validation.t Lwt.t
 end
+
+module Tags : sig
+  type tags = Js.js_string Js.t Js.js_array Js.t
+
+  class type content =
+    object
+      method title : Js.js_string Js.t Js.readonly_prop
+
+      method section : Js.js_string Js.t Js.readonly_prop
+
+      method id : Js.js_string Js.t Js.readonly_prop
+
+      method date : Js.js_string Js.t Js.readonly_prop
+
+      method description : Js.js_string Js.t Js.readonly_prop
+
+      method tags : tags Js.readonly_prop
+    end
+
+  class type js =
+    object
+      method allTags : tags Js.readonly_prop
+
+      method contents : content Js.t Js.js_array Js.t Js.readonly_prop
+    end
+
+  type t = js Js.t
+
+  val shape : t -> Shapes.Tag.bucket Validation.t
+  val get : unit -> Shapes.Tag.bucket Validation.t Lwt.t
+end

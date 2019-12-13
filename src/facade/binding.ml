@@ -196,3 +196,68 @@ module Location = struct
         %> Validation.Applicative.sequence
   ;;
 end
+
+module Tags = struct
+  type tags = Js.js_string Js.t Js.js_array Js.t
+
+  class type content =
+    object
+      method title : Js.js_string Js.t Js.readonly_prop
+
+      method section : Js.js_string Js.t Js.readonly_prop
+
+      method id : Js.js_string Js.t Js.readonly_prop
+
+      method date : Js.js_string Js.t Js.readonly_prop
+
+      method description : Js.js_string Js.t Js.readonly_prop
+
+      method tags : tags Js.readonly_prop
+    end
+
+  class type js =
+    object
+      method allTags : tags Js.readonly_prop
+
+      method contents : content Js.t Js.js_array Js.t Js.readonly_prop
+    end
+
+  type t = js Js.t
+
+  let shape (obj : t) =
+    let open Validation.Infix in
+    let ftag x =
+      Js.to_array x |> Array.to_seq |> Seq.map Js.to_string |> List.of_seq in
+    let tags = ftag obj##.allTags in
+    let content =
+      Js.to_array obj##.contents
+      |> Array.to_seq
+      |> Seq.map (fun o ->
+             o##.date
+             |> Js.to_string
+             |> Day.from_string
+             |> Validation.from_result
+             >|= fun date ->
+             let open Shapes.Tag in
+             { title = Js.to_string o##.title
+             ; section = Js.to_string o##.section
+             ; id = Js.to_string o##.id
+             ; date
+             ; description = Js.to_string o##.description
+             ; tags = ftag o##.tags
+             })
+      |> List.of_seq
+      |> Validation.Applicative.sequence in
+    content >|= (fun ctn -> Shapes.Tag.{ all_tags = tags; contents = ctn })
+  ;;
+
+  let get () =
+    let open Lwt.Infix in
+    "/api/tags.json"
+    |> Ajax.get
+    >|= (fun frame -> frame.Ajax.content)
+    >|= Js.string
+    >|= (fun x -> Js._JSON##parse x)
+    >|= shape
+  ;;
+end

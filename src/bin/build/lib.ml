@@ -91,6 +91,10 @@ let initialize_api_project () =
   create_file Glue.Project.to_json api_folder "projects.json"
 ;;
 
+let initialize_api_tags () =
+  create_file Glue.Tags.to_json api_folder "tags.json"
+;;
+
 let initialize_api_sectors () =
   create_file Glue.Sector.to_json api_folder "sectors.json"
 ;;
@@ -147,6 +151,7 @@ let api () =
   let () = initialize_api_sectors () in
   let () = initialize_api_current_position () in
   let () = initialize_logs () in
+  let () = initialize_api_tags () in
   ()
 ;;
 

@@ -54,6 +54,20 @@ th {
   text-align: left;
 }
 
+/* Thanks BoubouLeHibou for the !important Hack */
+
+.negative-tag {
+    background-color: #000 !important;
+    color: #FFF !important;
+}
+
+
+.remove-elt {
+    display: none !important;
+}
+
+
+
 .hidden-object,
 planet-metadata {
     display: none;
@@ -824,6 +838,62 @@ div.resume-box h3,
     margin: 4px;
     font-size: 80%;
     border-radius: 4px;
+}
+
+.tag-list ul > li > a {
+    text-decoration: none;
+    color: #fff;
+}
+
+#content-tags > div {
+    margin-bottom: 32px;
+}
+
+#content-pages > div > a.page .tags span,
+#content-tags > div > a {
+    display: inline-block;
+    background-color: #f2f2f2;
+    margin: 4px 0;
+    margin-right: 3px;
+    padding: 2px 8px;
+    font-size: 80%;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #222;
+}
+
+#content-pages > div > a.page {
+    text-decoration: none;
+    color: #000;
+    display: block;
+    margin: 32px 0;
+    padding: 16px 0px;
+}
+
+#content-pages > div > a.page:first-child {
+    margin-top: 0;
+}
+
+
+#content-pages > div > a.page h3 {
+    font-size: 80%;
+}
+
+#content-pages > div > a.page h3 span {
+    display: inline-block;
+    padding: 2px 4px;
+    border-radius: 4px;
+}
+#content-pages > div > a.page h3 span:first-child {
+    background-color: #ccc;
+    color: #333;
+    margin-right: 12px;
+}
+
+#content-pages > div > a.page p {
+    margin: 8px 0;
+    font-size: 80%;
+    color: #222;
 }
 
 #major-content-bottom .link-list ul > li > a {

@@ -47,6 +47,8 @@ let () =
 
        val diary = Widget.Diary.api
 
+       val tags = Widget.Tags.api
+
        val roe = Roe.api
     end)
 ;;

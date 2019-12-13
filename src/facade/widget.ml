@@ -174,7 +174,11 @@ module Common = struct
               [ span [ txt "Tags" ]
               ; span ~a:[ a_class [ "label" ] ] [ txt $ string_of_int len ]
               ]
-          ; ul (List.map (fun tag -> li [ txt tag ]) tags)
+          ; ul
+              (List.map
+                 (fun tag ->
+                   li [ a ~a:[ a_href ("/tags.html#" ^ tag) ] [ txt tag ] ])
+                 tags)
           ]
       ]
   ;;
@@ -948,6 +952,131 @@ module Diary = struct
       render_calendar calendar_box title_box
         (render_logs sectors entry_box projects)
         logs
+    | Error errs ->
+      Lwt.return (Console.render_error errs)
+  ;;
+
+  let api =
+    object%js
+      method boot input = boot input
+    end
+  ;;
+end
+
+module Tags = struct
+  class type boot_input =
+    object
+      method tagsBox : Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
+
+      method contentBox : Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
+    end
+
+  let render_tags container tags =
+    let open Tyxml.Html in
+    let html_tags =
+      List.map
+        (fun x -> a ~a:[ a_href ("#" ^ x); a_user_data "tag" x ] [ txt x ])
+        tags in
+    let block = div html_tags |> Tyxml.To_dom.of_div in
+    let () = clear container in
+    Dom.appendChild container block
+  ;;
+
+  let href_for content =
+    let open Shapes.Tag in
+    match content.section with
+    | "project" ->
+      Format.asprintf "/projects/%s.html" content.id
+    | "long" ->
+      Format.asprintf "/longs/%s.html" content.id
+    | _ ->
+      "#"
+  ;;
+
+  let render_pages container content =
+    let open Tyxml.Html in
+    let html_content =
+      List.map
+        (fun x ->
+          let open Shapes.Tag in
+          let html_tags = List.map (fun x -> span [ txt x ]) x.tags in
+          a
+            ~a:
+              [ a_class [ "page" ]
+              ; a_href (href_for x)
+              ; a_user_data "tag" (String.concat "," x.tags)
+              ; a_user_data "filterable" "true"
+              ]
+            [ h3
+                [ span [ txt (Format.asprintf "%a" Timetable.Day.ppr x.date) ]
+                ; span [ txt x.title ]
+                ]
+            ; p [ txt x.description ]
+            ; div ~a:[ a_class [ "tags" ] ] html_tags
+            ])
+        content in
+    let block = div html_content |> Tyxml.To_dom.of_div in
+    let () = clear container in
+    Dom.appendChild container block
+  ;;
+
+  let handle_anchor tags_container container =
+    let removable = Js.string "remove-elt" in
+    let negative = Js.string "negative-tag" in
+    let hash = String.trim (U.get_hash ()) in
+    let selector = Js.string "a[data-filterable]" in
+    let selector_tags = Js.string (Format.asprintf "a[data-tag]") in
+    let nodes = container##querySelectorAll selector |> Dom.list_of_nodeList in
+    let tags =
+      tags_container##querySelectorAll selector_tags |> Dom.list_of_nodeList
+    in
+    let () =
+      List.iter
+        (fun node ->
+          match Attr.Data.(node.%{"tag"}) with
+          | Some x when String.equal x hash ->
+            node##.classList##add negative
+          | _ ->
+            node##.classList##remove negative)
+        tags in
+
+    let () =
+      List.iter
+        (fun node ->
+          match Attr.Data.(node.%{"tag"}) with
+          | Some data_tags ->
+            let tagslist =
+              String.split_on_char ',' data_tags |> List.map String.trim in
+            if List.exists (String.equal hash) tagslist then
+              node##.classList##remove removable
+            else
+              node##.classList##add removable
+          | None ->
+            node##.classList##add removable)
+        nodes in
+    ()
+  ;;
+
+  let boot input =
+    match
+      Validation.Infix.(
+        (fun a b -> (a, b))
+        <$> validate "unable to find tags container" input##.tagsBox
+        <*> validate "unable to find pages container" input##.contentBox)
+    with
+    | Ok (tags_container, pages_container) -> (
+      let open Lwt.Infix in
+      Binding.Tags.get ()
+      >>= function
+        | Ok bucket ->
+          let () = render_tags tags_container Shapes.Tag.(bucket.all_tags) in
+          let () = render_pages pages_container Shapes.Tag.(bucket.contents) in
+          let () = handle_anchor tags_container pages_container in
+          U.watch Lwt_js_events.onhashchange () (fun _ ->
+              handle_anchor tags_container pages_container)
+        | Error errs ->
+          Lwt.return (Console.render_error errs)
+    )
     | Error errs ->
       Lwt.return (Console.render_error errs)
   ;;

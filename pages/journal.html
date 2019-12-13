@@ -43,18 +43,17 @@ title: Statistiques et suivi
 </div>
 <script>
   planet.suspend(function() {
-   let k =  planet.diary.boot({
+    planet.diary.boot({
       context: document.querySelector(
         "textarea[data-planet-qexp='global-context']"
       ),
-     calendarBox: document.querySelector(".calendar-view"),
-     titleBox: document.querySelector(".entries-title"),
-     statisticBox: document.querySelector(".global-statistics"),
-     entryBox: document.querySelector(".logs-container"),
-     sectors: document.querySelectorAll(
-       "#planet-sectors-metadata > .sector-data"
-     )
-   });
-    console.log(k);
+      calendarBox: document.querySelector(".calendar-view"),
+      titleBox: document.querySelector(".entries-title"),
+      statisticBox: document.querySelector(".global-statistics"),
+      entryBox: document.querySelector(".logs-container"),
+      sectors: document.querySelectorAll(
+        "#planet-sectors-metadata > .sector-data"
+      )
+    });
   });
 </script>

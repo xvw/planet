@@ -9,3 +9,4 @@ val clear : #Dom_html.element Js.t -> unit
 val offset_y : #Dom_html.element Js.t -> int
 val watch_once : ('a -> 'b Lwt.t) -> 'a -> ('b -> unit) -> unit Lwt.t
 val watch : ('a -> 'b Lwt.t) -> 'a -> ('b -> unit) -> unit Lwt.t
+val get_hash : unit -> string

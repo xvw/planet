@@ -74,3 +74,14 @@ module Diary : sig
 
   val api : < boot : boot_input Js.t -> unit Lwt.t Js.meth > Js.t
 end
+
+module Tags : sig
+  class type boot_input =
+    object
+      method tagsBox : Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
+
+      method contentBox : Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
+    end
+
+  val api : < boot : boot_input Js.t -> unit Lwt.t Js.meth > Js.t
+end

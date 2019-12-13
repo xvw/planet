@@ -1,0 +1,26 @@
+---
+title: Recherches et tags
+---
+<div class="container base-content uniq-content">
+  <h2 class="classic-title">Recherche par tags</h2>
+  <div id="content-tags">
+    <div class="loading">
+      <img src="/picto/loader.black.svg" alt="loading..."/>
+    </div>
+  </div>
+  <h2 class="classic-title">Contenu</h2>
+  <div id="content-pages">
+    <div class="loading">
+      <img src="/picto/loader.black.svg" alt="loading..."/>
+    </div>
+  </div>
+</div>
+
+<script>
+  planet.suspend(function() {
+    planet.tags.boot({
+      tagsBox: document.getElementById('content-tags'),
+      contentBox: document.getElementById('content-pages')
+    });
+  });
+</script>

@@ -15,3 +15,7 @@
 ((:uuid "e9ab00bd-e0d3-6d74-4865-e0ba755d3fbe") (:day "019L13")
   (:duration "150") (:sector "programming")
   (:label "Intégration des tags interactifs") (:project "planet"))
+
+((:uuid "bd96e070-0d6a-5fe5-359f-e8bbb79d286a") (:day "019L14")
+  (:duration "120") (:sector "programming")
+  (:label "Finalisation des tags interactifs") (:project "planet"))

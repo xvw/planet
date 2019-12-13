@@ -16,3 +16,13 @@ type bucket =
   }
 
 val to_qexp : bucket -> Paperwork.Qexp.t
+val sort : bucket -> bucket
+
+val add :
+     bucket
+  -> string
+  -> string
+  -> string
+  -> Paperwork.Timetable.Day.t
+  -> t list
+  -> bucket

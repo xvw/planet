@@ -26,11 +26,30 @@ let content_to_qexp content =
     ]
 ;;
 
+let content_to_json content =
+  let open Json in
+  obj
+    [ ("title", string content.title)
+    ; ("section", string content.section)
+    ; ("id", string content.id)
+    ; ("date", string (Timetable.Day.to_string content.date))
+    ; ("tags", array (List.map string content.tags))
+    ]
+;;
+
 let to_qexp bucket =
   let open Qexp in
   node
     [ node [ tag "tags"; node (List.map string bucket.tags) ]
     ; node [ tag "contents"; node (List.map content_to_qexp bucket.contents) ]
+    ]
+;;
+
+let to_json bucket =
+  let open Json in
+  obj
+    [ ("tags", array (List.map string bucket.tags))
+    ; ("contents", array (List.map content_to_json bucket.contents))
     ]
 ;;
 

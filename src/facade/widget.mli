@@ -2,8 +2,7 @@ open Js_of_ocaml
 
 module Common : sig
   val api
-    : < timeAgo : Dom_html.element Dom.nodeList Js.t -> unit Js.meth >
-      Js.t
+    : < timeAgo : Dom_html.element Dom.nodeList Js.t -> unit Js.meth > Js.t
 end
 
 module Sector : sig
@@ -15,20 +14,15 @@ end
 module Project : sig
   class type boot_input =
     object
-      method timedata :
-        Dom_html.textAreaElement Js.t Js.Opt.t Js.readonly_prop
+      method timedata : Dom_html.textAreaElement Js.t Js.Opt.t Js.readonly_prop
 
-      method project :
-        Dom_html.textAreaElement Js.t Js.Opt.t Js.readonly_prop
+      method project : Dom_html.textAreaElement Js.t Js.Opt.t Js.readonly_prop
 
-      method rightContainer :
-        Dom_html.element Js.t Js.Opt.t Js.readonly_prop
+      method rightContainer : Dom_html.element Js.t Js.Opt.t Js.readonly_prop
 
-      method bottomContainer :
-        Dom_html.element Js.t Js.Opt.t Js.readonly_prop
+      method bottomContainer : Dom_html.element Js.t Js.Opt.t Js.readonly_prop
 
-      method sectors :
-        Dom_html.element Dom.nodeList Js.t Js.readonly_prop
+      method sectors : Dom_html.element Dom.nodeList Js.t Js.readonly_prop
     end
 
   val api : < boot : boot_input Js.t -> unit Lwt.t Js.meth > Js.t
@@ -41,17 +35,13 @@ module Story : sig
 
       method eof : Dom_html.element Js.t Js.Opt.t Js.readonly_prop
 
-      method story :
-        Dom_html.textAreaElement Js.t Js.Opt.t Js.readonly_prop
+      method story : Dom_html.textAreaElement Js.t Js.Opt.t Js.readonly_prop
 
-      method rightContainer :
-        Dom_html.element Js.t Js.Opt.t Js.readonly_prop
+      method rightContainer : Dom_html.element Js.t Js.Opt.t Js.readonly_prop
 
-      method bottomContainer :
-        Dom_html.element Js.t Js.Opt.t Js.readonly_prop
+      method bottomContainer : Dom_html.element Js.t Js.Opt.t Js.readonly_prop
 
-      method resumeDetails :
-        Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
+      method resumeDetails : Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
     end
 
   val api : < boot : boot_input Js.t -> unit Lwt.t Js.meth > Js.t
@@ -60,8 +50,7 @@ end
 module Location : sig
   class type boot_input =
     object
-      method locationBox :
-        Dom_html.element Js.t Js.Opt.t Js.readonly_prop
+      method locationBox : Dom_html.element Js.t Js.Opt.t Js.readonly_prop
     end
 
   val api : < boot : boot_input Js.t -> unit Lwt.t Js.meth > Js.t
@@ -70,23 +59,17 @@ end
 module Diary : sig
   class type boot_input =
     object
-      method context :
-        Dom_html.textAreaElement Js.t Js.Opt.t Js.readonly_prop
+      method context : Dom_html.textAreaElement Js.t Js.Opt.t Js.readonly_prop
 
-      method calendarBox :
-        Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
+      method calendarBox : Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
 
-      method titleBox :
-        Dom_html.headingElement Js.t Js.Opt.t Js.readonly_prop
+      method titleBox : Dom_html.headingElement Js.t Js.Opt.t Js.readonly_prop
 
-      method statisticBox :
-        Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
+      method statisticBox : Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
 
-      method entryBox :
-        Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
+      method entryBox : Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
 
-      method sectors :
-        Dom_html.element Dom.nodeList Js.t Js.readonly_prop
+      method sectors : Dom_html.element Dom.nodeList Js.t Js.readonly_prop
     end
 
   val api : < boot : boot_input Js.t -> unit Lwt.t Js.meth > Js.t

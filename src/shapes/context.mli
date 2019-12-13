@@ -20,10 +20,7 @@ module Projects : sig
   val init : Update_table.t -> t
   val to_qexp : t -> Paperwork.Qexp.t
   val project_to_qexp : string -> context -> Paperwork.Qexp.t
-
-  val project_from_qexp
-    :  Paperwork.Qexp.t
-    -> context Bedrock.Validation.t
+  val project_from_qexp : Paperwork.Qexp.t -> context Bedrock.Validation.t
 end
 
 type context =
@@ -42,7 +39,4 @@ type t =
 val init : Update_table.t -> t
 val update : t -> Log.t -> t
 val context_to_qexp : context -> Paperwork.Qexp.t
-
-val context_from_qexp
-  :  Paperwork.Qexp.t
-  -> context Bedrock.Validation.t
+val context_from_qexp : Paperwork.Qexp.t -> context Bedrock.Validation.t

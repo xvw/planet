@@ -13,9 +13,7 @@ module Year = struct
   let to_string (Year n) = Format.sprintf "%03d" n
 
   let from_string str =
-    try Scanf.sscanf str "%03d%!" make with
-    | _ ->
-      Error (Unparsable str)
+    try Scanf.sscanf str "%03d%!" make with _ -> Error (Unparsable str)
   ;;
 
   let is_leap (Year value) =
@@ -135,9 +133,7 @@ module Month = struct
     from_int (c - a + 1)
   ;;
 
-  let make year_value month_value =
-    Ok (Month (year_value, month_value))
-  ;;
+  let make year_value month_value = Ok (Month (year_value, month_value))
 
   let days_in (Month (y, m)) =
     match m with
@@ -334,8 +330,7 @@ module Moment = struct
   ;;
 
   let extract
-      ( Day.Day (Month.Month (Year.Year year, month), day)
-      , Hour.Hour (hour, min) )
+      (Day.Day (Month.Month (Year.Year year, month), day), Hour.Hour (hour, min))
     =
     let yr = Year.Year year in
     let mt = Month.Month (yr, month) in

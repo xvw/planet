@@ -93,11 +93,7 @@ let to_qexp story =
   ]
   @ Kv.ziplist "links" story.links Link.simple_to_qexp
   @ Kv.content (Some story.content)
-  @ [ kv
-        ~v:atom
-        "published"
-        (if story.published then "true" else "false")
-    ]
+  @ [ kv ~v:atom "published" (if story.published then "true" else "false") ]
   @ Kv.option story.related_project "related_project" id
   @ [ kv "category" story.category ]
   @ Kv.list "tags" story.tags string
@@ -122,8 +118,7 @@ let kind_eq a b =
 ;;
 
 let eq a b =
-  a.title = b.title && a.synopsis = b.synopsis
-  && a.permaname = b.permaname
+  a.title = b.title && a.synopsis = b.synopsis && a.permaname = b.permaname
   && a.category = b.category
   && Timetable.Day.eq a.date b.date
   && kind_eq a.kind b.kind
@@ -146,15 +141,13 @@ let to_json story =
     ; "date", string (Timetable.Day.to_string story.date)
     ; "kind", string (kind_to_string story.kind)
     ; "synopsis", string story.synopsis
-    ; ( "related_project"
-      , nullable Option.(story.related_project >|= string) )
+    ; "related_project", nullable Option.(story.related_project >|= string)
     ; "published", bool story.published
     ; "tags", array $ List.map string story.tags
     ; ( "links"
       , obj
           (List.map
-             (fun (k, v) ->
-               k, array $ List.map Link.simple_to_json v)
+             (fun (k, v) -> k, array $ List.map Link.simple_to_json v)
              story.links) )
     ]
 ;;

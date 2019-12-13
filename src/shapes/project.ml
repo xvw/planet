@@ -14,11 +14,7 @@ let status_from_string str =
   match String.lowercase_ascii str with
   | "unceasing" | "continue" ->
     Ok Unceasing
-  | "wip"
-  | "workinprogress"
-  | "work-in-progress"
-  | "progress"
-  | "onprogress" ->
+  | "wip" | "workinprogress" | "work-in-progress" | "progress" | "onprogress" ->
     Ok Wip
   | "done" | "finished" ->
     Ok Done
@@ -99,8 +95,7 @@ let rec from_qexp expr =
   match Table.configuration expr with
   | Ok config ->
     let open Validation.Infix in
-    new_project
-    <$> Fetch.string config "name"
+    new_project <$> Fetch.string config "name"
     <*> Fetch.string config "title"
     <*> Fetch.string config "synopsis"
     <*> Fetch.(option (map Repo.from_qexp) config "repo")
@@ -124,14 +119,8 @@ let to_qexp project =
   ; kv "title" project.title
   ; kv "synopsis" project.synopsis
   ; kv "status" (status_to_string project.status)
-  ; kv
-      ~v:atom
-      "indexed"
-      (if project.indexed then "true" else "false")
-  ; kv
-      ~v:atom
-      "published"
-      (if project.published then "true" else "false")
+  ; kv ~v:atom "indexed" (if project.indexed then "true" else "false")
+  ; kv ~v:atom "published" (if project.published then "true" else "false")
   ]
   @ Kv.option project.license "license" id
   @ Kv.option project.picto "picto" id
@@ -177,8 +166,7 @@ let rec eq a b =
   && status_eq a.status b.status
   && List.eq ( = ) a.tags b.tags
   && Option.eq ( = ) a.picto b.picto
-  && a.indexed = b.indexed
-  && a.published = b.published
+  && a.indexed = b.indexed && a.published = b.published
   && Option.eq Text.eq a.content b.content
   && List.eq eq a.subprojects b.subprojects
 ;;
@@ -190,17 +178,14 @@ let rec to_json project =
     ; "published", bool project.published
     ; "title", string project.title
     ; "synopsis", string project.synopsis
-    ; ( "repo"
-      , nullable Option.(project.repo >|= Repo.base_url %> string) )
+    ; "repo", nullable Option.(project.repo >|= Repo.base_url %> string)
     ; "license", nullable Option.(project.license >|= string)
     ; ( "links"
       , obj
           (List.map
-             (fun (k, v) ->
-               k, array $ List.map Link.simple_to_json v)
+             (fun (k, v) -> k, array $ List.map Link.simple_to_json v)
              project.links) )
-    ; ( "releases"
-      , array $ List.map Link.dated_to_json project.releases )
+    ; "releases", array $ List.map Link.dated_to_json project.releases
     ; "status", string $ status_to_string project.status
     ; "tags", array $ List.map string project.tags
     ; "picto", nullable Option.(project.picto >|= string)

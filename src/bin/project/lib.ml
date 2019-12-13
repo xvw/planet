@@ -10,12 +10,9 @@ let ls_render_valid_project projects =
   List.iter
     (fun (_, x) ->
       let name, status, published =
-        Shapes.Project.(
-          x.name, status_to_string x.status, x.published)
+        Shapes.Project.(x.name, status_to_string x.status, x.published)
       in
-      let color =
-        if published then Ansi.green else Ansi.bright_magenta
-      in
+      let color = if published then Ansi.green else Ansi.bright_magenta in
       Ansi.
         [ bold
         ; foreground color
@@ -98,11 +95,7 @@ let license = function
 ;;
 
 let render_links f title list =
-  match list with
-  | [] ->
-    []
-  | li ->
-    Ansi.[ reset; !"\n\n" ] @ f title li
+  match list with [] -> [] | li -> Ansi.[ reset; !"\n\n" ] @ f title li
 ;;
 
 let render_link_box = render_links Glue.Ui.link_box

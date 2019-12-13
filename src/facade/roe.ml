@@ -39,8 +39,7 @@ let range_each f = function
 let range_of_element element key =
   Attr.Data.(element.%{key})
   |> Option.map
-       (String.split_on_char ';'
-       %> List.map (String.trim %> range_of_string))
+       (String.split_on_char ';' %> List.map (String.trim %> range_of_string))
   |> Option.bind Option.Applicative.sequence
 ;;
 
@@ -84,9 +83,7 @@ module Code = struct
                [ div ~a:[ a_class [ "code-file" ] ] [ attr ] ])
         |> Option.get_or (fun () -> [])
       in
-      let box =
-        div ~a:[ a_class [ "code-underbox" ] ] (pellet @ file)
-      in
+      let box = div ~a:[ a_class [ "code-underbox" ] ] (pellet @ file) in
       let () = Dom.appendChild subparent (Tyxml.To_dom.of_div box) in
       Ok (subparent, node)
     else Ok (subparent, node)
@@ -95,9 +92,7 @@ module Code = struct
   let line_number parent (subparent, node) =
     if Attr.Data.(parent.?{"line-number"})
     then (
-      let l =
-        (parent##querySelectorAll (Js.string ".sourceLine"))##.length
-      in
+      let l = (parent##querySelectorAll (Js.string ".sourceLine"))##.length in
       let open Tyxml.Html in
       let offset =
         Attr.Data.(parent.%{"line-start"})
@@ -112,8 +107,7 @@ module Code = struct
         |> Tyxml.To_dom.of_div
       in
       let receiver =
-        subparent##querySelector
-          (Js.string "div.code-concrete-container")
+        subparent##querySelector (Js.string "div.code-concrete-container")
         |> Js.Opt.to_option
         |> Option.get_or (fun () -> subparent)
       in
@@ -128,9 +122,7 @@ module Code = struct
       |> Option.bind int_of_string_opt
       |> Option.get_or (fun () -> 1)
     in
-    let ranges =
-      range_of_element parent "hl" |> Option.get_or (fun () -> [])
-    in
+    let ranges = range_of_element parent "hl" |> Option.get_or (fun () -> []) in
     let () =
       List.iter
         (range_each (fun i ->
@@ -138,9 +130,7 @@ module Code = struct
              match
                node##querySelector
                  (Js.string
-                 $ Format.asprintf
-                     ".sourceLine[title='%d']"
-                     real_index)
+                 $ Format.asprintf ".sourceLine[title='%d']" real_index)
                |> Js.Opt.to_option
              with
              | None ->
@@ -157,8 +147,8 @@ module Code = struct
     let list = Dom.list_of_nodeList nodes in
     List.map
       (fun node ->
-        node |> prepare parent >>= line_number parent
-        >>= underbox parent >>= highlight_lines parent)
+        node |> prepare parent >>= line_number parent >>= underbox parent
+        >>= highlight_lines parent)
       list
     |> Validation.Applicative.sequence >> Ok ()
   ;;
@@ -194,14 +184,12 @@ module Quote = struct
       []
     | Some author ->
       let open Tyxml.Html in
-      [ div ~a:[ a_class [ "quote-author" ] ] [ span [ txt author ] ]
-      ]
+      [ div ~a:[ a_class [ "quote-author" ] ] [ span [ txt author ] ] ]
   ;;
 
   let deal_with node =
     let () =
-      if Attr.Data.(
-           node.?{"author"} || node.?{"where"} || node.?{"when"})
+      if Attr.Data.(node.?{"author"} || node.?{"where"} || node.?{"when"})
       then
         let open Tyxml.Html in
         let box =
@@ -228,13 +216,11 @@ let mount container =
                 | "code" ->
                   Code.deal_with
                     node
-                    (node##querySelectorAll
-                       (Js.string "pre.sourceCode"))
+                    (node##querySelectorAll (Js.string "pre.sourceCode"))
                 | "quote" ->
                   Quote.deal_with node
                 | kind ->
-                  Error
-                    [ Of (Format.asprintf "Unknown kind [%s]" kind) ]))
+                  Error [ Of (Format.asprintf "Unknown kind [%s]" kind) ]))
   |> Validation.Applicative.sequence
   |> function
   | Ok _ ->
@@ -262,9 +248,7 @@ let convert_to_link h =
 
 let handle_title_links container =
   let nodes_name = Js.string "h1, h2, h3, h4, h5, h6" in
-  let nodes =
-    container##querySelectorAll nodes_name |> Dom.list_of_nodeList
-  in
+  let nodes = container##querySelectorAll nodes_name |> Dom.list_of_nodeList in
   List.iter convert_to_link nodes
 ;;
 

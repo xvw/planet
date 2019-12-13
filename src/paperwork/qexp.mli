@@ -56,12 +56,7 @@ val double_quote : quote
 val back_tick : quote
 
 (** K/V shortcut *)
-val kv
-  :  ?k:(string -> t)
-  -> ?v:(string -> t)
-  -> string
-  -> string
-  -> t
+val kv : ?k:(string -> t) -> ?v:(string -> t) -> string -> string -> t
 
 (** {2 Deserialization} *)
 

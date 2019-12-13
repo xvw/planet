@@ -64,10 +64,7 @@ module Mapper = struct
   ;;
 
   let token f = function
-    | Qexp.String (_, str)
-    | Qexp.Atom str
-    | Qexp.Tag str
-    | Qexp.Keyword str ->
+    | Qexp.String (_, str) | Qexp.Atom str | Qexp.Tag str | Qexp.Keyword str ->
       f str
     | q ->
       Error [ Mapping_failure ("token", Qexp.to_string q) ]
@@ -187,18 +184,12 @@ module Fetch = struct
 
   let aux_hashtbl f mapper table field =
     let open Validation.Infix in
-    f
-      Mapper.(couple $ token (fun x -> Ok x) $ fun x -> Ok x)
-      table
-      field
-    >>= List.map (fun (x, y) -> mapper x y)
-        %> Validation.Applicative.sequence
+    f Mapper.(couple $ token (fun x -> Ok x) $ fun x -> Ok x) table field
+    >>= List.map (fun (x, y) -> mapper x y) %> Validation.Applicative.sequence
     >|= List.to_seq %> Hashtbl.of_seq
   ;;
 
-  let hashtbl mapper table field =
-    aux_hashtbl list mapper table field
-  ;;
+  let hashtbl mapper table field = aux_hashtbl list mapper table field
 
   let hashtbl_refutable mapper table field =
     aux_hashtbl list_refutable mapper table field
@@ -219,9 +210,7 @@ module Fetch = struct
       field
   ;;
 
-  let ziplist mapper table field =
-    aux_ziplist list mapper table field
-  ;;
+  let ziplist mapper table field = aux_ziplist list mapper table field
 
   let ziplist_refutable mapper table field =
     aux_ziplist list_refutable mapper table field
@@ -244,8 +233,7 @@ module Fetch = struct
 
   let int table field =
     token
-      Validation.(
-        int_of_string_opt %> from_option (Invalid_field field))
+      Validation.(int_of_string_opt %> from_option (Invalid_field field))
       table
       field
   ;;

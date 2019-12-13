@@ -12,21 +12,14 @@ let eq f left right =
     L.for_all (fun (x, y) -> f x y) l
 ;;
 
-let ( @? ) left = function
-  | None ->
-    left
-  | Some right ->
-    left @ right
-;;
+let ( @? ) left = function None -> left | Some right -> left @ right
 
 let hds index list =
   let rec aux acc i = function
     | [] ->
       Stdlib.List.rev acc
     | x :: xs ->
-      if i <= 0
-      then Stdlib.List.rev (x :: acc)
-      else aux (x :: acc) (pred i) xs
+      if i <= 0 then Stdlib.List.rev (x :: acc) else aux (x :: acc) (pred i) xs
   in
   aux [] (pred index) list
 ;;
@@ -56,9 +49,7 @@ module Monad = struct
         | [] ->
           M.return []
         | x :: xs ->
-          f x
-          >>= fun h ->
-          aux f xs >>= fun t -> M.return (Stdlib.List.cons h t)
+          f x >>= fun h -> aux f xs >>= fun t -> M.return (Stdlib.List.cons h t)
       in
       aux
     ;;

@@ -25,15 +25,11 @@ let record =
   let exits = Term.default_exits in
   let sector =
     let doc = "The sector of the task" in
-    Arg.(
-      value & opt (some string) None & info [ "s"; "sector" ] ~doc)
+    Arg.(value & opt (some string) None & info [ "s"; "sector" ] ~doc)
   in
   let duration =
     let doc = "The duration of the task" in
-    Arg.(
-      value
-      & opt (some int) (Some 60)
-      & info [ "d"; "duration" ] ~doc)
+    Arg.(value & opt (some int) (Some 60) & info [ "d"; "duration" ] ~doc)
   in
   let timecode =
     let doc = "The moment of the task" in
@@ -41,16 +37,13 @@ let record =
   in
   let project =
     let doc = "The related project of the task" in
-    Arg.(
-      value & opt (some string) None & info [ "p"; "project" ] ~doc)
+    Arg.(value & opt (some string) None & info [ "p"; "project" ] ~doc)
   in
   let label =
     let doc = "The label of the task" in
     Arg.(non_empty & pos_all string [] & info [] ~doc)
   in
-  ( Term.(
-      const Lib.record $ sector $ duration $ timecode $ project
-      $ label)
+  ( Term.(const Lib.record $ sector $ duration $ timecode $ project $ label)
   , Term.info "record" ~version ~doc ~exits ~man )
 ;;
 
@@ -64,8 +57,7 @@ let whereami =
   in
   let country =
     let doc = "The country" in
-    Arg.(
-      value & opt (some string) None & info [ "co"; "country" ] ~doc)
+    Arg.(value & opt (some string) None & info [ "co"; "country" ] ~doc)
   in
   let city =
     let doc = "The city" in
@@ -84,7 +76,5 @@ let index =
 ;;
 
 let invoke () =
-  Term.(
-    exit
-    @@ eval_choice index [ sectors; interactive; record; whereami ])
+  Term.(exit @@ eval_choice index [ sectors; interactive; record; whereami ])
 ;;

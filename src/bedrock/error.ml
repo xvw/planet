@@ -278,9 +278,7 @@ let rec to_string = function
   | Wstopped i ->
     Format.sprintf "[WSTOPPED] [%d]" i
   | List errors ->
-    Format.sprintf
-      "[List] %s"
-      (List.map to_string errors |> String.concat "; ")
+    Format.sprintf "[List] %s" (List.map to_string errors |> String.concat "; ")
 ;;
 
 let raise_ error =

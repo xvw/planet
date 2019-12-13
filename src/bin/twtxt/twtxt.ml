@@ -37,22 +37,15 @@ let rec prompt_feeds () =
 
 let collect_file () =
   let open Result.Infix in
-  (if Array.length Sys.argv > 1
-  then Ok Sys.argv.(1)
-  else prompt_feeds ())
-  >|= String.split_on_char '&'
-  |> Validation.from_result
+  (if Array.length Sys.argv > 1 then Ok Sys.argv.(1) else prompt_feeds ())
+  >|= String.split_on_char '&' |> Validation.from_result
   |> Validation.bind (fun feeds ->
          List.map
            (fun feed ->
              let s = String.trim feed in
              if String.length s = 0
              then Error [ Of "invalid feed name" ]
-             else
-               Ok
-                 (if String.has_extension s "txt"
-                 then s
-                 else s ^ ".txt"))
+             else Ok (if String.has_extension s "txt" then s else s ^ ".txt"))
            feeds
          |> Validation.Applicative.sequence)
 ;;

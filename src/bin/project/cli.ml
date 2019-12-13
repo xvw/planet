@@ -7,23 +7,18 @@ let ls =
   let doc = "Show the list of stored projects" in
   let man = Glue.Man.default call in
   let exits = Term.default_exits in
-  ( Term.(const Lib.ls $ const ())
-  , Term.info "ls" ~version ~doc ~exits ~man )
+  Term.(const Lib.ls $ const ()), Term.info "ls" ~version ~doc ~exits ~man
 ;;
 
 let show =
   let project =
     let doc = "Project to be inspected" in
-    Arg.(
-      required
-      & pos 0 (some string) None
-      & info [] ~docv:"PROJECT" ~doc)
+    Arg.(required & pos 0 (some string) None & info [] ~docv:"PROJECT" ~doc)
   in
   let expand =
     let doc = "Show the article of the project" in
     Arg.(
-      value & flag
-      & info [ "expand"; "show-content"; "e" ] ~docv:"expand" ~doc)
+      value & flag & info [ "expand"; "show-content"; "e" ] ~docv:"expand" ~doc)
   in
   let doc = "Show a specific project" in
   let man = Glue.Man.default call in

@@ -9,12 +9,8 @@ let produce_some_colors () =
     ; Color.create 0 0 0, "rgb(0, 0, 0)", "#000000"
     ; Color.create 13 12 300, "rgb(13, 12, 255)", "#0d0cff"
     ; Color.create (-1000) 12 300, "rgb(0, 12, 255)", "#000cff"
-    ; ( Color.create ~alpha:1.0 (-1000) 12 300
-      , "rgb(0, 12, 255)"
-      , "#000cff" )
-    ; ( Color.create ~alpha:0.6 (-1000) 12 300
-      , "rgba(0, 12, 255, 0.6)"
-      , "#000cff" )
+    ; Color.create ~alpha:1.0 (-1000) 12 300, "rgb(0, 12, 255)", "#000cff"
+    ; Color.create ~alpha:0.6 (-1000) 12 300, "rgba(0, 12, 255, 0.6)", "#000cff"
     ]
   in
   List.iter
@@ -41,11 +37,7 @@ let parse_some_colors () =
     (fun (base, expected) ->
       let parsed = Color.from_string base in
       let open Alcotest in
-      check
-        (result Check.color Check.error)
-        "same color"
-        parsed
-        expected)
+      check (result Check.color Check.error) "same color" parsed expected)
     subject
 ;;
 

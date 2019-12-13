@@ -112,8 +112,7 @@ let test_is_leap () =
         | Ok bool ->
           bool
         | Error err ->
-          failwith
-            ("Invalid year generation : " ^ Error.to_string err))
+          failwith ("Invalid year generation : " ^ Error.to_string err))
       [ 1; 2; 4; 72; 96; 952; 997; 24 ]
   with
   | [ 4; 72; 96; 952; 24 ] ->
@@ -184,10 +183,7 @@ let test_day_builder5 () =
   >>= (fun m -> Day.make m (-31))
   >|= Day.to_string
   |> function
-  | Error (Invalid_day -31) ->
-    ()
-  | _ ->
-    failwith "Sould not be valid"
+  | Error (Invalid_day -31) -> () | _ -> failwith "Sould not be valid"
 ;;
 
 let test_day_with1 () =
@@ -272,9 +268,7 @@ let test_hour4 () =
 
 let test_moment_with1 () =
   let open Result.Infix in
-  match
-    Moment.make_with 4 Month.Feb 29 0 45 >|= Moment.to_string
-  with
+  match Moment.make_with 4 Month.Feb 29 0 45 >|= Moment.to_string with
   | Ok "004B29:12AM45" ->
     ()
   | Ok x ->
@@ -285,9 +279,7 @@ let test_moment_with1 () =
 
 let test_moment_with2 () =
   let open Result.Infix in
-  match
-    Moment.make_with 19 Month.Nov 3 21 58 >|= Moment.to_string
-  with
+  match Moment.make_with 19 Month.Nov 3 21 58 >|= Moment.to_string with
   | Ok "019K03:09PM58" ->
     ()
   | Ok x ->
@@ -298,9 +290,7 @@ let test_moment_with2 () =
 
 let test_moment_with3 () =
   let open Result.Infix in
-  match
-    Moment.make_with (-6) Month.Nov 3 21 58 >|= Moment.to_string
-  with
+  match Moment.make_with (-6) Month.Nov 3 21 58 >|= Moment.to_string with
   | Error (Invalid_year -6) ->
     ()
   | Ok x ->
@@ -311,9 +301,7 @@ let test_moment_with3 () =
 
 let test_moment_with4 () =
   let open Result.Infix in
-  match
-    Moment.make_with 6 Month.Feb 29 21 58 >|= Moment.to_string
-  with
+  match Moment.make_with 6 Month.Feb 29 21 58 >|= Moment.to_string with
   | Error (Invalid_day 29) ->
     ()
   | Ok x ->
@@ -324,9 +312,7 @@ let test_moment_with4 () =
 
 let test_moment_with5 () =
   let open Result.Infix in
-  match
-    Moment.make_with 4 Month.Feb 29 (-12) 58 >|= Moment.to_string
-  with
+  match Moment.make_with 4 Month.Feb 29 (-12) 58 >|= Moment.to_string with
   | Error (Invalid_hour -12) ->
     ()
   | Ok x ->
@@ -337,9 +323,7 @@ let test_moment_with5 () =
 
 let test_moment_with6 () =
   let open Result.Infix in
-  match
-    Moment.make_with 4 Month.Feb 29 5 61 >|= Moment.to_string
-  with
+  match Moment.make_with 4 Month.Feb 29 5 61 >|= Moment.to_string with
   | Error (Invalid_min 61) ->
     ()
   | Ok x ->
@@ -532,20 +516,12 @@ let suite =
   ; test "[moment_with] Build an invalid moment 3" test_moment_with5
   ; test "[moment_with] Build an invalid moment 4" test_moment_with6
   ; test "[Year.from_string] Valid strings 1" test_year_from_string1
-  ; test
-      "[Year.from_string] Invalid strings 1"
-      test_year_from_string2
-  ; test
-      "[Month.from_string] Valid strings 1"
-      test_month_from_string1
-  ; test
-      "[Month.from_string] Invalid strings 2"
-      test_month_from_string2
+  ; test "[Year.from_string] Invalid strings 1" test_year_from_string2
+  ; test "[Month.from_string] Valid strings 1" test_month_from_string1
+  ; test "[Month.from_string] Invalid strings 2" test_month_from_string2
   ; test "[Day.from_string] Valid strings 1" test_day_from_string1
   ; test "[Day.from_string] Invalid strings 2" test_day_from_string2
   ; test "[Hour.from_string] Valid strings 1" test_hour_from_string1
-  ; test
-      "[Hour.from_string] Invalid strings 2"
-      test_hour_from_string2
+  ; test "[Hour.from_string] Invalid strings 2" test_hour_from_string2
   ]
 ;;

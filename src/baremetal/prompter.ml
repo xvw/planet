@@ -26,9 +26,7 @@ let flush () =
   print_string r
 ;;
 
-let prompt_error ?(intro = true) error =
-  prompt_errors ~intro [ error ]
-;;
+let prompt_error ?(intro = true) error = prompt_errors ~intro [ error ]
 
 let generic
     : type a.
@@ -54,13 +52,7 @@ let generic
      question ->
   let () =
     Ansi.(
-      text_box
-        ~prefix
-        ~box_style
-        ~title_style
-        ~text_style
-        title
-        question
+      text_box ~prefix ~box_style ~title_style ~text_style title question
       @ (reset :: box_style) @ bottom)
     |> Ansi.to_string |> print_string
   in
@@ -134,11 +126,7 @@ let int
     ~title
     ~bottom
     (fun x ->
-      match int_of_string_opt x with
-      | None ->
-        f default
-      | Some x ->
-        f x)
+      match int_of_string_opt x with None -> f default | Some x -> f x)
 ;;
 
 let int_opt

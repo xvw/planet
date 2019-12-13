@@ -17,8 +17,7 @@ class type storageEvent =
 
     method url : Js.js_string Js.t Js.readonly_prop
 
-    method storageArea :
-      Dom_html.storage Js.t Js.opt Js.readonly_prop
+    method storageArea : Dom_html.storage Js.t Js.opt Js.readonly_prop
   end
 
 type event = storageEvent Js.t
@@ -101,18 +100,11 @@ end) : STORAGE = struct
   ;;
 
   let is_supported () =
-    match Js.Optdef.to_option R.handler with
-    | Some _ ->
-      true
-    | None ->
-      false
+    match Js.Optdef.to_option R.handler with Some _ -> true | None -> false
   ;;
 
   let handler =
-    Js.Optdef.case
-      R.handler
-      (fun () -> raise Not_supported)
-      (fun x -> x)
+    Js.Optdef.case R.handler (fun () -> raise Not_supported) (fun x -> x)
   ;;
 
   let length () = handler##.length
@@ -130,10 +122,7 @@ end) : STORAGE = struct
 
   let remove key = handler##removeItem (Js.string key)
   let clear () = handler##clear
-
-  let key i =
-    handler##key i |> Js.Opt.to_option |> Option.map Js.to_string
-  ;;
+  let key i = handler##key i |> Js.Opt.to_option |> Option.map Js.to_string
 
   let at i =
     match key i with
@@ -146,11 +135,7 @@ end) : STORAGE = struct
   let iter f =
     let len = length () in
     for i = 0 to pred len do
-      match at i with
-      | None ->
-        raise Not_found
-      | Some (k, v) ->
-        f k v
+      match at i with None -> raise Not_found | Some (k, v) -> f k v
     done
   ;;
 
@@ -183,10 +168,7 @@ end) : STORAGE = struct
   ;;
 
   let is_valid_storage ev = Js.Opt.return handler = ev##.storageArea
-
-  let begin_by prefix str =
-    str##lastIndexOf_from (Js.string prefix) 0 = 0
-  ;;
+  let begin_by prefix str = str##lastIndexOf_from (Js.string prefix) 0 = 0
 
   let make_change k ev =
     let key = Js.to_string k in
@@ -215,34 +197,21 @@ end) : STORAGE = struct
           if begin_by prefix k then f (make_change k ev) url);
       Js._true
     in
-    Dom.addEventListener
-      Dom_html.window
-      event
-      (Dom.handler callback)
-      Js._true
+    Dom.addEventListener Dom_html.window event (Dom.handler callback) Js._true
   ;;
 
   let on_clear f =
-    on_change (fun ev url ->
-        match ev with Clear -> f url | _ -> ())
+    on_change (fun ev url -> match ev with Clear -> f url | _ -> ())
   ;;
 
   let on_insert ?(prefix = "") f =
     on_change ~prefix (fun ev url ->
-        match ev with
-        | Insert (key, value) ->
-          f key value url
-        | _ ->
-          ())
+        match ev with Insert (key, value) -> f key value url | _ -> ())
   ;;
 
   let on_remove ?(prefix = "") f =
     on_change ~prefix (fun ev url ->
-        match ev with
-        | Remove (key, old_value) ->
-          f key old_value url
-        | _ ->
-          ())
+        match ev with Remove (key, old_value) -> f key old_value url | _ -> ())
   ;;
 
   let on_update ?(prefix = "") f =

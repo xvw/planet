@@ -96,9 +96,7 @@ module Ago = struct
     | Past
     | Future
 
-  let precise_label a b =
-    if a##getDate = b##getDate then Today else Yesterday
-  ;;
+  let precise_label a b = if a##getDate = b##getDate then Today else Yesterday
 
   let compute ?(in_day = false) ?(reference = now ()) d =
     let tmin = time_of d in
@@ -126,10 +124,7 @@ module Ago = struct
     | Yesterday, dir ->
       if in_past dir then "hier" else "demain"
     | Days i, dir ->
-      Format.asprintf
-        "%s %d jours"
-        (if in_past dir then since else since_f)
-        i
+      Format.asprintf "%s %d jours" (if in_past dir then since else since_f) i
     | Weeks i, dir ->
       Format.asprintf
         "%s %d semaine%s"

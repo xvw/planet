@@ -88,9 +88,7 @@ module Projects = struct
     | None ->
       ctx
     | Some project ->
-      let new_table =
-        Update_table.push ctx.updates project log.day
-      in
+      let new_table = Update_table.push ctx.updates project log.day in
       { projects = update_project ctx.projects project log
       ; updates = new_table
       }
@@ -107,14 +105,9 @@ module Projects = struct
     in
     node
       ([ node [ tag "name"; string value.name ]
+       ; node [ tag "logs_counter"; atom (string_of_int value.logs_counter) ]
        ; node
-           [ tag "logs_counter"
-           ; atom (string_of_int value.logs_counter)
-           ]
-       ; node
-           [ tag "minuts_counter"
-           ; atom (string_of_int value.minuts_counter)
-           ]
+           [ tag "minuts_counter"; atom (string_of_int value.minuts_counter) ]
        ; node [ tag "sectors_counters"; node sectors ]
        ]
       @ (match value.start_date with
@@ -241,14 +234,8 @@ let context_to_qexp value =
            node [ string k; atom (string_of_int value) ])
   in
   node
-    ([ node
-         [ tag "logs_counter"
-         ; atom (string_of_int value.logs_counter)
-         ]
-     ; node
-         [ tag "minuts_counter"
-         ; atom (string_of_int value.minuts_counter)
-         ]
+    ([ node [ tag "logs_counter"; atom (string_of_int value.logs_counter) ]
+     ; node [ tag "minuts_counter"; atom (string_of_int value.minuts_counter) ]
      ; node [ tag "sectors_counters"; node sectors ]
      ]
     @ (match value.start_date with
@@ -279,12 +266,7 @@ let make_context
     minuts_counter
     sectors_counters
   =
-  { start_date
-  ; last_update
-  ; logs_counter
-  ; minuts_counter
-  ; sectors_counters
-  }
+  { start_date; last_update; logs_counter; minuts_counter; sectors_counters }
 ;;
 
 let context_from_qexp qexp =

@@ -20,11 +20,11 @@ let ( .?{} ) element attribute =
 ;;
 
 module Data = struct
-  let ( .%{} ) element attribute = element.%{("data-" ^ attribute)}
+  let ( .%{} ) element attribute = element.%{"data-" ^ attribute}
 
   let ( .%{}<- ) element attribute value =
-    element.%{("data-" ^ attribute)} <- value
+    element.%{"data-" ^ attribute} <- value
   ;;
 
-  let ( .?{} ) element attribute = element.?{("data-" ^ attribute)}
+  let ( .?{} ) element attribute = element.?{"data-" ^ attribute}
 end

@@ -22,9 +22,7 @@ let create ?alpha red green blue =
 ;;
 
 let to_rgb color =
-  let left =
-    Format.sprintf "%d, %d, %d" color.red color.green color.blue
-  in
+  let left = Format.sprintf "%d, %d, %d" color.red color.green color.blue in
   match color.alpha with
   | None | Some 1.0 ->
     Format.sprintf "rgb(%s)" left

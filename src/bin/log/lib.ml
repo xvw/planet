@@ -16,12 +16,7 @@ let sectors () =
         let open Shapes.Sector in
         let open Ansi in
         text_box sector.name sector.desc
-        @ [ reset
-          ; fg cyan
-          ; !(Color.to_hex sector.color)
-          ; reset
-          ; !"\n"
-          ]
+        @ [ reset; fg cyan; !(Color.to_hex sector.color); reset; !"\n" ]
         |> to_string |> print_endline)
       hashtable
   | Error errs ->
@@ -56,8 +51,7 @@ let rec during () =
       Prompter.int_opt
         ~answer_style:Ansi.[ fg yellow ]
         ~title:"During"
-        ~f:(function
-          | None -> None | Some x when x <= 0 -> None | x -> x)
+        ~f:(function None -> None | Some x when x <= 0 -> None | x -> x)
         "How much time (in minut)")
   |> function
   | Some x ->
@@ -93,8 +87,7 @@ let rec project projects =
         (Option.map (fun x -> Shapes.Project.(x.name)))
         (function
           | Some x ->
-            Shapes.Project.(
-              Format.sprintf "%s - %s" x.title x.synopsis)
+            Shapes.Project.(Format.sprintf "%s - %s" x.title x.synopsis)
           | None ->
             "Not connected")
         (Array.of_list all_projects)
@@ -131,11 +124,7 @@ let push_result log =
           if not created
           then
             Ansi.(
-              [ fg yellow
-              ; text filename
-              ; fg green
-              ; text " has been created"
-              ]
+              [ fg yellow; text filename; fg green; text " has been created" ]
               |> to_string)
             |> print_endline
         in
@@ -201,9 +190,7 @@ let interactive () =
       let a_timecode = when_ () in
       let a_duration = during () in
       let a_sector = sector sectors in
-      let some_project =
-        project (List.map (fun (x, _, _) -> x) projects)
-      in
+      let some_project = project (List.map (fun (x, _, _) -> x) projects) in
       let a_label = label () in
       let () = Ansi.[ reset ] |> Ansi.to_string |> print_endline in
       let log =
@@ -243,9 +230,7 @@ let check_project projects = function
     Ok None
   | Some x ->
     let open Validation.Infix in
-    let flag =
-      List.find_opt (fun p -> p.Shapes.Project.name = x) projects
-    in
+    let flag = List.find_opt (fun p -> p.Shapes.Project.name = x) projects in
     Validation.from_option (Unknown ("project: " ^ x)) flag
     >|= fun x -> Some x.Shapes.Project.name
 ;;
@@ -263,9 +248,7 @@ let record sector duration timecode project label =
         Shapes.Log.new_log (Uuid.make () |> Uuid.to_string)
         <$> check_day timecode <*> check_duration duration
         <*> check_sector sectors sector
-        <*> check_project
-              (List.map (fun (x, _, _) -> x) projects)
-              project
+        <*> check_project (List.map (fun (x, _, _) -> x) projects) project
         <*> check_label (String.concat " " label)
       in
       match potential_log with
@@ -283,11 +266,7 @@ let push_whereami place =
           if not created
           then
             Ansi.(
-              [ fg yellow
-              ; text filename
-              ; fg green
-              ; text " has been created"
-              ]
+              [ fg yellow; text filename; fg green; text " has been created" ]
               |> to_string)
             |> print_endline
         in
@@ -307,8 +286,7 @@ let whereami moment opt_country opt_city =
     let co = String.(lowercase_ascii %> trim $ country) in
     let ci = String.(lowercase_ascii %> trim $ city) in
     let mo =
-      Option.map Timetable.Day.from_string moment
-      |> Option.get_or Glue.Util.day
+      Option.map Timetable.Day.from_string moment |> Option.get_or Glue.Util.day
     in
     (match mo with
     | Error err ->
@@ -327,6 +305,5 @@ let whereami moment opt_country opt_city =
       in
       push_whereami qexp_str)
   | _ ->
-    Prompter.prompt_error
-      (Invalid_field "country or city can not be empty")
+    Prompter.prompt_error (Invalid_field "country or city can not be empty")
 ;;

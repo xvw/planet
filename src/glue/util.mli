@@ -11,11 +11,7 @@ val current_year : unit -> int
 (** {2 Timetable helpers} *)
 
 val moment_of : Unix.tm -> Timetable.Moment.t Result.t
-
-val moment_with_sec_of
-  :  Unix.tm
-  -> (Timetable.Moment.t * int) Result.t
-
+val moment_with_sec_of : Unix.tm -> (Timetable.Moment.t * int) Result.t
 val moment : unit -> Timetable.Moment.t Result.t
 val moment_with_sec : unit -> (Timetable.Moment.t * int) Result.t
 val hour_of : Unix.tm -> Timetable.Hour.t Result.t

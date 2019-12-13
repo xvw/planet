@@ -26,11 +26,7 @@ val configuration : Qexp.t -> configuration Result.t
 
 module Mapper : sig
   val string : Qexp.t -> string Validation.t
-
-  val token
-    :  (string -> 'a Validation.t)
-    -> Qexp.t
-    -> 'a Validation.t
+  val token : (string -> 'a Validation.t) -> Qexp.t -> 'a Validation.t
 
   val couple
     :  (Qexp.t -> 'a Validation.t)
@@ -61,10 +57,7 @@ module Fetch : sig
   val bool : bool t
   val list : (Qexp.t -> 'a Validation.t) -> 'a list t
   val list_refutable : (Qexp.t -> 'a Validation.t) -> 'a list t
-
-  val ziplist
-    :  (Qexp.t -> 'a Validation.t)
-    -> (string * 'a list) list t
+  val ziplist : (Qexp.t -> 'a Validation.t) -> (string * 'a list) list t
 
   val ziplist_refutable
     :  (Qexp.t -> 'a Validation.t)

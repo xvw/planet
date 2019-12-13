@@ -12,8 +12,7 @@ let exists dirname =
 let children ?(filter = const true) dirname =
   if not (exists dirname)
   then Error (Unreadable dirname)
-  else
-    Ok (dirname |> Sys.readdir |> Array.to_list |> List.filter filter)
+  else Ok (dirname |> Sys.readdir |> Array.to_list |> List.filter filter)
 ;;
 
 let current = Sys.getcwd

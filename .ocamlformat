@@ -2,5 +2,5 @@ profile = janestreet
 break-cases = nested
 break-infix = wrap
 type-decl = sparse
-margin = 70
+margin = 80
 version = 0.12

@@ -39,9 +39,7 @@ let ziplist key list f =
   [ node
       [ tag key
       ; node
-          (List.map
-             (fun (k, v) -> node [ string k; node (List.map f v) ])
-             list)
+          (List.map (fun (k, v) -> node [ string k; node (List.map f v) ]) list)
       ]
   ]
 ;;

@@ -36,18 +36,12 @@ let trace action message = function
     then
       Ansi.
         [ fg green
-        ; text
-          $ Format.sprintf
-              "%s [%s] has been %s"
-              action
-              filename
-              message
+        ; text $ Format.sprintf "%s [%s] has been %s" action filename message
         ]
     else
       Ansi.
         [ fg yellow
-        ; text
-          $ Format.sprintf "%s [%s] Nothing to do" action filename
+        ; text $ Format.sprintf "%s [%s] Nothing to do" action filename
         ])
     |> Ansi.to_string |> print_endline
 ;;
@@ -109,10 +103,7 @@ let initialize_logs () =
   in
   let fragment = list >|= List.hds 5 in
   let () =
-    create_file
-      (fun () -> list >|= Paperwork.Json.array)
-      api_folder
-      "logs.json"
+    create_file (fun () -> list >|= Paperwork.Json.array) api_folder "logs.json"
   in
   create_file
     (fun () -> fragment >|= Paperwork.Json.array)
@@ -124,8 +115,7 @@ let create_projects_files ?rctx () =
   let open Validation.Infix in
   Glue.Project.all ?rctx ()
   >>= (fun (ctx, projects) ->
-        Glue.Log.push_project_updates
-          Shapes.Context.Projects.(ctx.updates)
+        Glue.Log.push_project_updates Shapes.Context.Projects.(ctx.updates)
         |> Validation.from_result
         >|= fun () -> List.map Glue.Project.to_hakyll_string projects)
   >>= Validation.Applicative.sequence
@@ -135,9 +125,7 @@ let create_projects_files ?rctx () =
       let open Shapes.Project in
       let filename = project.name ^ "." ^ extension in
       let target = Filename.concat project_folder filename in
-      let partial =
-        Filename.concat seed_partials project.name ^ ".qexp.html"
-      in
+      let partial = Filename.concat seed_partials project.name ^ ".qexp.html" in
       let () = trace_deletion (soft_deletion_file target) in
       let () = trace_deletion (soft_deletion_file partial) in
       File.create target content
@@ -170,9 +158,7 @@ let projects ?rctx () =
 let generation_id () =
   let open Validation.Infix in
   let () = create_partials () in
-  let partial =
-    Filename.concat seed_partials "generation_id.meta.html"
-  in
+  let partial = Filename.concat seed_partials "generation_id.meta.html" in
   let () = trace_deletion (soft_deletion_file partial) in
   let str =
     Shapes.Metahtml.to_html
@@ -198,9 +184,7 @@ let copyright_date () =
 let context ctx =
   let open Validation.Infix in
   let () = create_partials () in
-  let partial =
-    Filename.concat seed_partials "planet_context.meta.html"
-  in
+  let partial = Filename.concat seed_partials "planet_context.meta.html" in
   let () = trace_deletion (soft_deletion_file partial) in
   let str =
     Format.asprintf
@@ -216,9 +200,7 @@ let context ctx =
 let sectors () =
   let open Validation.Infix in
   let () = create_partials () in
-  let partial =
-    Filename.concat seed_partials "planet_sectors.meta.html"
-  in
+  let partial = Filename.concat seed_partials "planet_sectors.meta.html" in
   let () = trace_deletion (soft_deletion_file partial) in
   let str = Glue.Sector.to_html () in
   File.create partial str |> Validation.from_result
@@ -246,25 +228,17 @@ let stories () =
   >>= Validation.Applicative.sequence
   >>= (fun elts ->
         List.map
-          (fun ( story
-               , extension
-               , content
-               , partial_name
-               , partial_content ) ->
+          (fun (story, extension, content, partial_name, partial_content) ->
             let open Shapes.Story in
             let filename = story.permaname ^ "." ^ extension in
             let target = story_chose_target story filename in
-            let partial =
-              Filename.concat seed_partials partial_name
-            in
+            let partial = Filename.concat seed_partials partial_name in
             let () = trace_deletion (soft_deletion_file target) in
             let () = trace_deletion (soft_deletion_file partial) in
             File.create target content
-            |> Result.bind (fun () ->
-                   File.create partial partial_content)
+            |> Result.bind (fun () -> File.create partial partial_content)
             |> Result.map (fun () -> true, target ^ " & " ^ partial)
-            |> Validation.from_result |> trace_creation
-            |> Validation.pure)
+            |> Validation.from_result |> trace_creation |> Validation.pure)
           elts
         |> Validation.Applicative.sequence)
   |> function Error e -> Prompter.prompt_errors e | Ok _ -> ()
@@ -302,9 +276,7 @@ let twtxt () =
             >>= fun () ->
             let () =
               Ansi.
-                [ fg green
-                ; text $ Format.sprintf "twtxt processed: %s" file
-                ]
+                [ fg green; text $ Format.sprintf "twtxt processed: %s" file ]
               |> Ansi.to_string |> print_endline
             in
             let content = String.concat "\n" data in

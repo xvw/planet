@@ -1,11 +1,6 @@
 open Cmdliner
 
-let author_email = function
-  | None ->
-    ""
-  | Some x ->
-    Format.sprintf " (%s)" x
-;;
+let author_email = function None -> "" | Some x -> Format.sprintf " (%s)" x
 
 let render_authors authors =
   authors

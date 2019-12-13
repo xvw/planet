@@ -23,11 +23,7 @@ let md5_2 () =
 ;;
 
 let hds_1 () =
-  check
-    (list int)
-    "same lists"
-    [ 1; 2; 3 ]
-    (List.hds 3 [ 1; 2; 3; 4; 5 ])
+  check (list int) "same lists" [ 1; 2; 3 ] (List.hds 3 [ 1; 2; 3; 4; 5 ])
 ;;
 
 let hds_2 () = check (list int) "same lists" [ 1 ] (List.hds 3 [ 1 ])

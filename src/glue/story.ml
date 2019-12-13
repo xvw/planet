@@ -7,9 +7,7 @@ let folder = Database.path database
 
 let collect () =
   let open Validation in
-  Dir.children
-    ~filter:(fun x -> String.has_extension x "qube")
-    folder
+  Dir.children ~filter:(fun x -> String.has_extension x "qube") folder
   |> from_result
   >>= fun children ->
   List.map
@@ -69,22 +67,13 @@ let to_hakyll story =
                   "date"
                   (Format.asprintf "%a" Timetable.Day.ppr)
                   story.date
-              ; may_render
-                  "related_project"
-                  Util.id
-                  story.related_project
+              ; may_render "related_project" Util.id story.related_project
               ; render_string "category" story.category
               ; render "kind" Shapes.Story.kind_to_string story.kind
-              ; render_string
-                  "qexp_partial"
-                  ("_seeds/partials/" ^ partial)
+              ; render_string "qexp_partial" ("_seeds/partials/" ^ partial)
               ])
         in
         let final_content = header ^ content in
-        ( story
-        , extension
-        , final_content
-        , partial
-        , as_textarea "story" story_qexp ))
+        story, extension, final_content, partial, as_textarea "story" story_qexp)
   |> Validation.from_result
 ;;

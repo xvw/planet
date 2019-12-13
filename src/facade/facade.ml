@@ -34,8 +34,7 @@ let () =
            |> Array.fold_left
                 (fun callback task () ->
                   let open Lwt.Infix in
-                  callback ()
-                  >|= fun () -> Js.Unsafe.fun_call task [||])
+                  callback () >|= fun () -> Js.Unsafe.fun_call task [||])
                 (fun () -> Lwt.return_unit)
          in
          start f

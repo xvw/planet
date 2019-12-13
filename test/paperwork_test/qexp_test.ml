@@ -145,10 +145,7 @@ let parse_complex_expression () =
           ; Node [ String (Backtick, "bar"); String (Double, "baz") ]
           ; Node
               [ Atom "node"
-              ; Block
-                  [ Atom "foo"
-                  ; Node [ Atom "bar"; Node [ Atom "baz" ] ]
-                  ]
+              ; Block [ Atom "foo"; Node [ Atom "bar"; Node [ Atom "baz" ] ] ]
               ]
           ]) ->
     ()
@@ -192,42 +189,24 @@ let parse_failure_4 () =
 
 let suite =
   [ test "[from_string] Parse empty node" parse_empty_data_1
-  ; test
-      "[from_string] Parse empty node with spaces"
-      parse_empty_data_2
-  ; test
-      "[from_string] Parse empty node with new lines"
-      parse_empty_data_3
-  ; test
-      "[from_string] Parse empty node with comment"
-      parse_empty_data_4
+  ; test "[from_string] Parse empty node with spaces" parse_empty_data_2
+  ; test "[from_string] Parse empty node with new lines" parse_empty_data_3
+  ; test "[from_string] Parse empty node with comment" parse_empty_data_4
   ; test
       "[from_string] Parse empty node with comment and newlines"
       parse_empty_data_5
   ; test "[from_string] Parse simple atom" parse_simple_atom_1
-  ; test
-      "[from_string] Parse simple atom with comments"
-      parse_simple_atom_2
+  ; test "[from_string] Parse simple atom with comments" parse_simple_atom_2
   ; test "[from_string] Parse simple tag" parse_simple_tag_1
-  ; test
-      "[from_string] Parse simple tag with comments"
-      parse_simple_tag_2
+  ; test "[from_string] Parse simple tag with comments" parse_simple_tag_2
   ; test "[from_string] Parse simple keyword" parse_simple_kwd_1
-  ; test
-      "[from_string] Parse simple keyword with comments"
-      parse_simple_kwd_2
+  ; test "[from_string] Parse simple keyword with comments" parse_simple_kwd_2
   ; test "[from_string] Parse complex Qexp" parse_complex_expression
   ; test
       "[from_string] Invalid Qexp, closed unopened parenthesis"
       parse_failure_1
-  ; test
-      "[from_string] Invalid Qexp, unclosed parenthesis 1"
-      parse_failure_2
-  ; test
-      "[from_string] Invalid Qexp, unclosed parenthesis 2"
-      parse_failure_3
-  ; test
-      "[from_string] Invalid Qexp, invalid brace/parenthesis"
-      parse_failure_4
+  ; test "[from_string] Invalid Qexp, unclosed parenthesis 1" parse_failure_2
+  ; test "[from_string] Invalid Qexp, unclosed parenthesis 2" parse_failure_3
+  ; test "[from_string] Invalid Qexp, invalid brace/parenthesis" parse_failure_4
   ]
 ;;

@@ -17,8 +17,7 @@ class type storageEvent =
 
     method url : Js.js_string Js.t Js.readonly_prop
 
-    method storageArea :
-      Dom_html.storage Js.t Js.opt Js.readonly_prop
+    method storageArea : Dom_html.storage Js.t Js.opt Js.readonly_prop
   end
 
 type event = storageEvent Js.t

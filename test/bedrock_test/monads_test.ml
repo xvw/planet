@@ -45,9 +45,7 @@ end = struct
     [ test
         ("[Law 1: " ^ str ^ "]: (return x >>= f) = f x")
         (sampling_values law_1)
-    ; test
-        ("[Law 2: " ^ str ^ "]: (m >>= return) = m")
-        (sampling_monads law_2)
+    ; test ("[Law 2: " ^ str ^ "]: (m >>= return) = m") (sampling_monads law_2)
     ; test
         ("[Law 3: " ^ str
        ^ "]: ((m >= f) >= g) = (m >= (fun x → f x >= g))")
@@ -148,10 +146,7 @@ module StringList = Driver (struct
   let f x = [ String.lowercase_ascii x ]
   let g x = [ String.uppercase_ascii x ]
   let sample_values = [ "foo"; ""; "bar"; "baz"; "FOO" ]
-
-  let sample_monad =
-    [ []; [ "foo"; "bar"; "baz" ]; [ ""; ""; "f"; "F" ] ]
-  ;;
+  let sample_monad = [ []; [ "foo"; "bar"; "baz" ]; [ ""; ""; "f"; "F" ] ]
 end)
 
 module StringArray = Driver (struct
@@ -164,10 +159,7 @@ module StringArray = Driver (struct
   let f x = [| String.lowercase_ascii x |]
   let g x = [| String.uppercase_ascii x |]
   let sample_values = [ "foo"; ""; "bar"; "baz"; "FOO" ]
-
-  let sample_monad =
-    [ [||]; [| "foo"; "bar"; "baz" |]; [| ""; ""; "f"; "F" |] ]
-  ;;
+  let sample_monad = [ [||]; [| "foo"; "bar"; "baz" |]; [| ""; ""; "f"; "F" |] ]
 end)
 
 module IntOption = Driver (struct
@@ -200,9 +192,7 @@ module IntOption = Driver (struct
     ]
   ;;
 
-  let sample_monad =
-    [ None; Some 10; Some (-23); Some 0; None; Some (-7890) ]
-  ;;
+  let sample_monad = [ None; Some 10; Some (-23); Some 0; None; Some (-7890) ]
 end)
 
 module StringOption = Driver (struct
@@ -215,10 +205,7 @@ module StringOption = Driver (struct
   let f x = Some (String.lowercase_ascii x)
   let g _ = None
   let sample_values = [ "foo"; ""; "bar"; "baz"; "FOO" ]
-
-  let sample_monad =
-    [ None; Some "foo"; Some "bar"; Some "baz"; Some "F" ]
-  ;;
+  let sample_monad = [ None; Some "foo"; Some "bar"; Some "baz"; Some "F" ]
 end)
 
 module IntResult = Driver (struct
@@ -271,7 +258,6 @@ module StringResult = Driver (struct
 end)
 
 let suite =
-  IntList.suite @ IntArray.suite @ StringList.suite
-  @ StringArray.suite @ IntOption.suite @ StringOption.suite
-  @ IntResult.suite @ StringResult.suite
+  IntList.suite @ IntArray.suite @ StringList.suite @ StringArray.suite
+  @ IntOption.suite @ StringOption.suite @ IntResult.suite @ StringResult.suite
 ;;

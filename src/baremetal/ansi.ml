@@ -138,9 +138,7 @@ let seq_to_string = function
   | None ->
     ""
   | Some fragments ->
-    fragments
-    |> List.rev_map to_string_aux
-    |> String.concat ";"
+    fragments |> List.rev_map to_string_aux |> String.concat ";"
     |> Format.sprintf "\027[%sm"
 ;;
 
@@ -160,14 +158,8 @@ let to_string ?(scoped = true) =
   aux None ""
 ;;
 
-let pp ppf fragment =
-  Format.fprintf ppf "%s" (to_string ~scoped:false fragment)
-;;
-
-let pps ppf fragment =
-  Format.fprintf ppf "%s" (to_string ~scoped:true fragment)
-;;
-
+let pp ppf fragment = Format.fprintf ppf "%s" (to_string ~scoped:false fragment)
+let pps ppf fragment = Format.fprintf ppf "%s" (to_string ~scoped:true fragment)
 let only_style = List.filter (function Text _ -> false | _ -> true)
 
 let box
@@ -185,8 +177,7 @@ let box
   let b = (reset :: box_style) @ [ !"└─"; reset ] in
   let l =
     List.map
-      (fun x ->
-        (reset :: box_style) @ (prefix @ (reset :: x)) @ [ !"\n" ])
+      (fun x -> (reset :: box_style) @ (prefix @ (reset :: x)) @ [ !"\n" ])
       fragments
   in
   List.flatten (a :: t :: l) @ b

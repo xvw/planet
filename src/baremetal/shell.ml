@@ -9,10 +9,7 @@ type fragment =
 
 type command = string * fragment list
 
-let flag ?(short = true) ?value flag_name =
-  Flag (short, flag_name, value)
-;;
-
+let flag ?(short = true) ?value flag_name = Flag (short, flag_name, value)
 let subcommand cmd = Subcommand cmd
 let string ?(escaped = false) str = String (escaped, str)
 let atom str = Atom str

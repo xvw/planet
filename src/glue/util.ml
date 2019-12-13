@@ -27,32 +27,28 @@ let moment_with_sec () = now () |> moment_with_sec_of
 
 let hour_of timestamp =
   let open Result.Infix in
-  timestamp |> moment_of >|= Timetable.Moment.extract
-  >|= fun (_, _, _, h) -> h
+  timestamp |> moment_of >|= Timetable.Moment.extract >|= fun (_, _, _, h) -> h
 ;;
 
 let hour () = hour_of (now ())
 
 let day_of timestamp =
   let open Result.Infix in
-  timestamp |> moment_of >|= Timetable.Moment.extract
-  >|= fun (_, _, d, _) -> d
+  timestamp |> moment_of >|= Timetable.Moment.extract >|= fun (_, _, d, _) -> d
 ;;
 
 let day () = day_of (now ())
 
 let month_of timestamp =
   let open Result.Infix in
-  timestamp |> moment_of >|= Timetable.Moment.extract
-  >|= fun (_, m, _, _) -> m
+  timestamp |> moment_of >|= Timetable.Moment.extract >|= fun (_, m, _, _) -> m
 ;;
 
 let month () = month_of (now ())
 
 let year_of timestamp =
   let open Result.Infix in
-  timestamp |> moment_of >|= Timetable.Moment.extract
-  >|= fun (y, _, _, _) -> y
+  timestamp |> moment_of >|= Timetable.Moment.extract >|= fun (y, _, _, _) -> y
 ;;
 
 let year () = year_of (now ())

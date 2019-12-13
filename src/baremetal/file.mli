@@ -33,10 +33,7 @@ val close_in : in_channel -> unit
 val read : (in_channel -> 'a Result.t) -> name -> 'a Result.t
 
 (** Read file into a stream. *)
-val to_stream
-  :  (name -> char Stream.t -> 'a Result.t)
-  -> name
-  -> 'a Result.t
+val to_stream : (name -> char Stream.t -> 'a Result.t) -> name -> 'a Result.t
 
 (** Read file into a bytes squences. *)
 val to_bytes : name -> bytes Result.t
@@ -77,12 +74,7 @@ val write
   -> 'a Result.t
 
 (** Create a file. *)
-val create
-  :  ?binary:bool
-  -> ?chmod:chmod
-  -> name
-  -> string
-  -> unit Result.t
+val create : ?binary:bool -> ?chmod:chmod -> name -> string -> unit Result.t
 
 (** Append [content] to a file. *)
 val append

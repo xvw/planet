@@ -7,12 +7,7 @@ type metadata = string
 
 val render : metadata_key -> ('a -> string) -> 'a -> metadata
 val render_string : metadata_key -> string -> metadata
-
-val may_render
-  :  metadata_key
-  -> ('a -> string)
-  -> 'a option
-  -> metadata
+val may_render : metadata_key -> ('a -> string) -> 'a option -> metadata
 
 val may_render_with
   :  metadata_key

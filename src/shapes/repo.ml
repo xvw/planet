@@ -12,13 +12,7 @@ type t =
   | Github of git_repo
   | Gitlab of git_repo * string
 
-let t_to_string = function
-  | Github _ ->
-    "github"
-  | Gitlab _ ->
-    "gitlab"
-;;
-
+let t_to_string = function Github _ -> "github" | Gitlab _ -> "gitlab"
 let ftrim = String.trim %> String.lowercase_ascii
 
 let github user project_name =
@@ -26,23 +20,14 @@ let github user project_name =
 ;;
 
 let gitlab user branch project_name =
-  Gitlab
-    ( { username = ftrim user; name = ftrim project_name }
-    , ftrim branch )
+  Gitlab ({ username = ftrim user; name = ftrim project_name }, ftrim branch)
 ;;
 
-let domain = function
-  | Github _ ->
-    "github.com"
-  | Gitlab _ ->
-    "gitlab.com"
-;;
-
+let domain = function Github _ -> "github.com" | Gitlab _ -> "gitlab.com"
 let scheme = function Github _ | Gitlab _ -> "https"
 
 let repr = function
-  | (Github { username; name } | Gitlab ({ username; name }, _)) as
-    repo ->
+  | (Github { username; name } | Gitlab ({ username; name }, _)) as repo ->
     let base = t_to_string repo in
     Format.asprintf "%s/%s/%s" base username name
 ;;
@@ -50,8 +35,7 @@ let repr = function
 let kind = t_to_string
 
 let base_url = function
-  | (Github { username; name } | Gitlab ({ username; name }, _)) as
-    repo ->
+  | (Github { username; name } | Gitlab ({ username; name }, _)) as repo ->
     let protocol = scheme repo in
     let base = domain repo in
     Format.asprintf "%s://%s/%s/%s" protocol base username name
@@ -64,8 +48,7 @@ let https_reference = function
 ;;
 
 let ssh_reference = function
-  | (Github { username; name } | Gitlab ({ username; name }, _)) as
-    repo ->
+  | (Github { username; name } | Gitlab ({ username; name }, _)) as repo ->
     let left = domain repo in
     Format.asprintf "git@%s:%s/%s.git" left username name
 ;;

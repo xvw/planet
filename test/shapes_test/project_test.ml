@@ -21,9 +21,7 @@ let invalid1 () =
 ;;
 
 let invalid2 () =
-  let q =
-    Qexp.(node [ node [ string "name"; node [ string "foobar" ] ] ])
-  in
+  let q = Qexp.(node [ node [ string "name"; node [ string "foobar" ] ] ]) in
   match Project.from_qexp q with
   | Ok _ ->
     failwith "Invalid Project"

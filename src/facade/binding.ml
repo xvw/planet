@@ -57,13 +57,11 @@ module Log = struct
     let open Validation in
     mk
     <$> (Js.to_string %> pure) obj##.uuid
-    <*> (Js.to_string %> Paperwork.Timetable.Day.from_string
-       %> from_result)
+    <*> (Js.to_string %> Paperwork.Timetable.Day.from_string %> from_result)
           obj##.date
     <*> pure obj##.duration
     <*> (Js.to_string %> pure) obj##.sector
-    <*> (Js.Opt.to_option %> Option.map Js.to_string %> pure)
-          obj##.project
+    <*> (Js.Opt.to_option %> Option.map Js.to_string %> pure) obj##.project
     <*> (Js.to_string %> pure) obj##.label
   ;;
 
@@ -118,8 +116,7 @@ module Log = struct
         | Error errs ->
           let () = Console.dump_errors obj errs in
           let () =
-            Js.raise_js_error
-              (new%js Js.error_constr (Js.string "Aie Aie"))
+            Js.raise_js_error (new%js Js.error_constr (Js.string "Aie Aie"))
           in
           h
         | Ok log ->
@@ -176,11 +173,9 @@ module Location = struct
   let shape obj =
     let open Validation in
     mk
-    <$> (Js.to_string %> Paperwork.Timetable.Day.from_string
-       %> from_result)
+    <$> (Js.to_string %> Paperwork.Timetable.Day.from_string %> from_result)
           obj##.date
-    <*> (Js.to_string %> String.capitalize_ascii %> pure)
-          obj##.country
+    <*> (Js.to_string %> String.capitalize_ascii %> pure) obj##.country
     <*> (Js.to_string %> String.capitalize_ascii %> pure) obj##.city
   ;;
 

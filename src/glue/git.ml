@@ -24,9 +24,7 @@ let commit ?desc message =
     |> Option.get_or (const [])
   in
   let cmd =
-    Shell.(
-      git
-      $ subcommand "commit" :: flag ~value:(string message) "m" :: d)
+    Shell.(git $ subcommand "commit" :: flag ~value:(string message) "m" :: d)
   in
   Result.Infix.(run ok cmd >> Ok ())
 ;;

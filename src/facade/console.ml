@@ -15,8 +15,7 @@ class type hook =
     method timeLog : 'a. Js.js_string Js.t -> 'a -> unit Js.meth
 
     method table :
-      'b. 'b -> Js.js_string Js.t Js.js_array Js.t Js.Optdef.t
-      -> unit Js.meth
+      'b. 'b -> Js.js_string Js.t Js.js_array Js.t Js.Optdef.t -> unit Js.meth
   end
 
 external get_console : unit -> hook Js.t = "caml_js_get_console"
@@ -52,9 +51,7 @@ let count_reset ?label () = console##countReset (opt_str label)
 let timetrack timer_name actions =
   let name = Js.string timer_name in
   let () = console##time name in
-  let () =
-    List.iter (fun f -> f (fun x -> console##timeLog name x)) actions
-  in
+  let () = List.iter (fun f -> f (fun x -> console##timeLog name x)) actions in
   console##timeEnd name
 ;;
 
@@ -69,9 +66,7 @@ let dump_errors obj errs =
   error
   $ object%js
       val messages =
-        Js.array
-          (List.map (Error.to_string %> Js.string) errs
-          |> Array.of_list)
+        Js.array (List.map (Error.to_string %> Js.string) errs |> Array.of_list)
 
       val reference = obj
     end

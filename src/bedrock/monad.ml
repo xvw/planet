@@ -5,23 +5,22 @@ module type REQ = sig
   include Sigs.Monad.REQUIREMENT_JOIN with type 'a t := 'a t
 end
 
-module Join (M : Sigs.Monad.REQUIREMENT_JOIN) :
-  REQ with type 'a t = 'a M.t = struct
+module Join (M : Sigs.Monad.REQUIREMENT_JOIN) : REQ with type 'a t = 'a M.t =
+struct
   include M
 
   let bind f m = join (map f m)
 end
 
-module Bind (M : Sigs.Monad.REQUIREMENT_BIND) :
-  REQ with type 'a t = 'a M.t = struct
+module Bind (M : Sigs.Monad.REQUIREMENT_BIND) : REQ with type 'a t = 'a M.t =
+struct
   include M
 
   let join m = bind id m
   let map f m = bind (return % f) m
 end
 
-module WithReq (M : REQ) : Sigs.Monad.API with type 'a t = 'a M.t =
-struct
+module WithReq (M : REQ) : Sigs.Monad.API with type 'a t = 'a M.t = struct
   module Api = struct
     include M
 

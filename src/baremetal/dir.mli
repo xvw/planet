@@ -13,10 +13,7 @@ type children = File.name list
 val exists : name -> bool
 
 (** Get children of a directory. *)
-val children
-  :  ?filter:(File.name -> bool)
-  -> name
-  -> children Result.t
+val children : ?filter:(File.name -> bool) -> name -> children Result.t
 
 (** Get the working directory. *)
 val current : unit -> name

@@ -28,8 +28,7 @@ let all () =
   database |> Database.path
   |> File.to_stream (fun _ -> Qexp.from_stream)
   |> from_result
-  >>= collect_sectors (fun sectors ->
-          List.fold_left reducer hash sectors)
+  >>= collect_sectors (fun sectors -> List.fold_left reducer hash sectors)
 ;;
 
 let to_json () =
@@ -39,9 +38,7 @@ let to_json () =
   |> from_result >>= collect_sectors id
   >|= fun sectors ->
   Json.obj
-  $ List.map
-      (fun sector -> Shapes.Sector.(sector.name, to_json sector))
-      sectors
+  $ List.map (fun sector -> Shapes.Sector.(sector.name, to_json sector)) sectors
 ;;
 
 let compute_html_node acc sector =

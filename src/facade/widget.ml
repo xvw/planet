@@ -26,9 +26,7 @@ module Resume = struct
 
   let find_pred_h offset =
     let h = Js.string "h1, h2, h3, h4, h5, h6" in
-    let nodes =
-      document##querySelectorAll h |> Dom.list_of_nodeList
-    in
+    let nodes = document##querySelectorAll h |> Dom.list_of_nodeList in
     nodes
     |> List.filter (fun node -> offset_y node < offset)
     |> List.sort (fun a b -> compare (offset_y b) (offset_y a))
@@ -64,9 +62,7 @@ module Resume = struct
           let real_scroll = scroll_y () in
           let scroll = float_of_int real_scroll in
           let raw_percent = scroll /. !document_size in
-          let percent =
-            if raw_percent >= 95.0 then 100.0 else raw_percent
-          in
+          let percent = if raw_percent >= 95.0 then 100.0 else raw_percent in
           let pred_percent = !last_tick in
           let abs_percent = abs_float (percent -. pred_percent) in
           let diff = abs_percent *. !document_size in
@@ -94,8 +90,7 @@ open Error
 open Util
 
 let validate str optional_node =
-  optional_node |> Js.Opt.to_option
-  |> Validation.from_option (Of str)
+  optional_node |> Js.Opt.to_option |> Validation.from_option (Of str)
 ;;
 
 let get_data f elt key =
@@ -134,9 +129,7 @@ module Common = struct
       Dom.appendChild node content
   ;;
 
-  let time_ago_for =
-    Dom.list_of_nodeList %> List.iter compute_time_ago
-  ;;
+  let time_ago_for = Dom.list_of_nodeList %> List.iter compute_time_ago
 
   let render_links_subsection links =
     List.fold_left
@@ -185,9 +178,7 @@ module Common = struct
           ~a:[ a_class [ "project-block"; "tag-list" ] ]
           [ h3
               [ span [ txt "Tags" ]
-              ; span
-                  ~a:[ a_class [ "label" ] ]
-                  [ txt $ string_of_int len ]
+              ; span ~a:[ a_class [ "label" ] ] [ txt $ string_of_int len ]
               ]
           ; ul (List.map (fun tag -> li [ txt tag ]) tags)
           ]
@@ -218,9 +209,7 @@ module Graph = struct
     let _ = end_date##setHours 23 in
     let _ = end_date##setMinutes 59 in
     let _ = end_date##setSeconds 59 in
-    let nb_weeks =
-      float_of_int (Calendar.weeks_between end_date start_date)
-    in
+    let nb_weeks = float_of_int (Calendar.weeks_between end_date start_date) in
     let cell_w = (w -. (nb_weeks *. g)) /. (nb_weeks +. 1.0) in
     let h = (cell_w *. 7.0) +. (7.0 *. g) in
     let ms = end_date##valueOf in
@@ -249,16 +238,12 @@ module Graph = struct
                 ; a_onclick (fun _ ->
                       let () = render_logs current_logs in
                       let suffix =
-                        if List.length current_logs > 1
-                        then "s"
-                        else ""
+                        if List.length current_logs > 1 then "s" else ""
                       in
                       let label =
                         Format.asprintf "Entrée%s du %s" suffix key
                       in
-                      let () =
-                        title_box##.innerHTML := Js.string label
-                      in
+                      let () = title_box##.innerHTML := Js.string label in
                       true)
                 ]
           in
@@ -330,10 +315,7 @@ module Stats = struct
       []
     | Some start_date ->
       [ Common.create_data_block "Démarrage"
-        $ Format.asprintf
-            "~%a"
-            Paperwork.Timetable.Day.ppr
-            start_date
+        $ Format.asprintf "~%a" Paperwork.Timetable.Day.ppr start_date
       ]
   ;;
 
@@ -343,9 +325,7 @@ module Stats = struct
     | Some update ->
       let ts = Calendar.from_day update in
       let r = Calendar.Ago.compute ts in
-      [ Common.create_data_block
-          ~classes:[ "capitalized" ]
-          "Mise à jour"
+      [ Common.create_data_block ~classes:[ "capitalized" ] "Mise à jour"
         $ Format.asprintf "%s" (Calendar.Ago.stringify r)
       ]
   ;;
@@ -364,9 +344,7 @@ module Stats = struct
           |> Option.map (fun x -> Shapes.Sector.(x.color))
           |> Option.get_or (fun () -> Color.create 255 0 0)
         in
-        let pc =
-          float_of_int duration /. float_of_int total *. 100.
-        in
+        let pc = float_of_int duration /. float_of_int total *. 100. in
         sector_name, c, pc)
       counters
   ;;
@@ -394,13 +372,7 @@ module Stats = struct
               ; a_y_list [ d $ margin +. ((size +. 2.) *. i) +. 10. ]
               ; a_text_anchor `Start
               ]
-            [ txt
-              $ Format.asprintf
-                  "%s (%03.2f%s)"
-                  sector_name
-                  percent
-                  "%"
-            ]
+            [ txt $ Format.asprintf "%s (%03.2f%s)" sector_name percent "%" ]
         ])
       counters
     |> List.flatten
@@ -504,20 +476,15 @@ end
 module Project = struct
   class type boot_input =
     object
-      method timedata :
-        Dom_html.textAreaElement Js.t Js.Opt.t Js.readonly_prop
+      method timedata : Dom_html.textAreaElement Js.t Js.Opt.t Js.readonly_prop
 
-      method project :
-        Dom_html.textAreaElement Js.t Js.Opt.t Js.readonly_prop
+      method project : Dom_html.textAreaElement Js.t Js.Opt.t Js.readonly_prop
 
-      method rightContainer :
-        Dom_html.element Js.t Js.Opt.t Js.readonly_prop
+      method rightContainer : Dom_html.element Js.t Js.Opt.t Js.readonly_prop
 
-      method bottomContainer :
-        Dom_html.element Js.t Js.Opt.t Js.readonly_prop
+      method bottomContainer : Dom_html.element Js.t Js.Opt.t Js.readonly_prop
 
-      method sectors :
-        Dom_html.element Dom.nodeList Js.t Js.readonly_prop
+      method sectors : Dom_html.element Dom.nodeList Js.t Js.readonly_prop
     end
 
   let cut = function a :: b :: c :: _ -> [ a; b; c ] | xs -> xs
@@ -533,9 +500,7 @@ module Project = struct
           ~a:[ a_class [ "project-block"; "release-list" ] ]
           ([ h3
                [ span [ txt "Releases" ]
-               ; span
-                   ~a:[ a_class [ "label" ] ]
-                   [ txt $ string_of_int len ]
+               ; span ~a:[ a_class [ "label" ] ] [ txt $ string_of_int len ]
                ]
            ; ul
                (List.map
@@ -573,8 +538,7 @@ module Project = struct
     textarea##.textContent
     |> validate "Content of textarea is malformed"
     >>= fun text ->
-    Js.to_string text |> Paperwork.Qexp.from_string
-    |> Validation.from_result
+    Js.to_string text |> Paperwork.Qexp.from_string |> Validation.from_result
     >>= Shapes.Context.Projects.project_from_qexp
   ;;
 
@@ -592,13 +556,7 @@ module Project = struct
     @ project.links
   ;;
 
-  let render_summary
-      right_container
-      bottom_container
-      project
-      timedata
-      sectors
-    =
+  let render_summary right_container bottom_container project timedata sectors =
     let open Tyxml.Html in
     let ctn =
       match collect_data timedata with
@@ -617,9 +575,7 @@ module Project = struct
             sectors
             ctx.sectors_counters
         in
-        let tags =
-          Common.render_tags Shapes.Project.(project.tags)
-        in
+        let tags = Common.render_tags Shapes.Project.(project.tags) in
         let releases =
           render_releases
             project.repo
@@ -630,9 +586,7 @@ module Project = struct
           (title :: (graph @ tags @ releases))
     in
     let () = clear right_container in
-    let () =
-      Dom.appendChild right_container (Tyxml.To_dom.of_element ctn)
-    in
+    let () = Dom.appendChild right_container (Tyxml.To_dom.of_element ctn) in
     let links = compute_links project in
     let () = clear bottom_container in
     Common.render_links bottom_container links
@@ -655,12 +609,8 @@ module Project = struct
     Lwt.return
       (match
          (fun x y z a -> x, y, z, a)
-         <$> validate
-               "unable to find right container"
-               input##.rightContainer
-         <*> validate
-               "unable to find bottom container"
-               input##.bottomContainer
+         <$> validate "unable to find right container" input##.rightContainer
+         <*> validate "unable to find bottom container" input##.bottomContainer
          <*> validate_project input##.project
          <*> Sector.nodelist_to_hashtbl input##.sectors
        with
@@ -689,17 +639,13 @@ module Story = struct
 
       method eof : Dom_html.element Js.t Js.Opt.t Js.readonly_prop
 
-      method story :
-        Dom_html.textAreaElement Js.t Js.Opt.t Js.readonly_prop
+      method story : Dom_html.textAreaElement Js.t Js.Opt.t Js.readonly_prop
 
-      method rightContainer :
-        Dom_html.element Js.t Js.Opt.t Js.readonly_prop
+      method rightContainer : Dom_html.element Js.t Js.Opt.t Js.readonly_prop
 
-      method bottomContainer :
-        Dom_html.element Js.t Js.Opt.t Js.readonly_prop
+      method bottomContainer : Dom_html.element Js.t Js.Opt.t Js.readonly_prop
 
-      method resumeDetails :
-        Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
+      method resumeDetails : Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
     end
 
   let resume_handler =
@@ -719,20 +665,13 @@ module Story = struct
     let open Tyxml.Html in
     let resume_box, progress = resume_handler in
     let () = clear right_container in
-    let () =
-      Dom.appendChild
-        right_container
-        (Tyxml.To_dom.of_div resume_box)
-    in
+    let () = Dom.appendChild right_container (Tyxml.To_dom.of_div resume_box) in
     let right_content =
-      div (Common.render_tags story.Shapes.Story.tags)
-      |> Tyxml.To_dom.of_div
+      div (Common.render_tags story.Shapes.Story.tags) |> Tyxml.To_dom.of_div
     in
     let () = Dom.appendChild right_container right_content in
     let () = clear bottom_container in
-    let () =
-      Common.render_links bottom_container story.Shapes.Story.links
-    in
+    let () = Common.render_links bottom_container story.Shapes.Story.links in
     resume_box, progress
   ;;
 
@@ -767,20 +706,13 @@ module Story = struct
         div
           ~a:[ a_class [ "container" ] ]
           [ h3 [ txt "Reprendre la lecture ?" ]
-          ; p
-              [ txt
-                  "Vous aviez déjà entamé la lecture de cet \
-                   article."
-              ]
+          ; p [ txt "Vous aviez déjà entamé la lecture de cet article." ]
           ; link
           ]
       in
       let _ =
         Lwt_js_events.(
-          async_loop
-            click
-            (Tyxml.To_dom.of_button link)
-            (Resume.jump_to elt))
+          async_loop click (Tyxml.To_dom.of_button link) (Resume.jump_to elt))
       in
       Dom.appendChild resume_box (Tyxml.To_dom.of_div obj)
   ;;
@@ -790,19 +722,14 @@ module Story = struct
     Lwt.return
       (match
          (fun w x y z -> w, x, y, z)
-         <$> validate
-               "unable to find right container"
-               input##.rightContainer
-         <*> validate
-               "unable to find bottom container"
-               input##.bottomContainer
+         <$> validate "unable to find right container" input##.rightContainer
+         <*> validate "unable to find bottom container" input##.bottomContainer
          <*> validate
                "unable to find resume detail container"
                input##.resumeDetails
          <*> validate_story input##.story
        with
-      | Ok (right_container, bottom_container, resume_details, story)
-        ->
+      | Ok (right_container, bottom_container, resume_details, story) ->
         let resume, progress =
           render_summary right_container bottom_container story
         in
@@ -828,8 +755,7 @@ end
 module Location = struct
   class type boot_input =
     object
-      method locationBox :
-        Dom_html.element Js.t Js.Opt.t Js.readonly_prop
+      method locationBox : Dom_html.element Js.t Js.Opt.t Js.readonly_prop
     end
 
   let walk_logs (now, current, logs) =
@@ -837,9 +763,7 @@ module Location = struct
     div
       (List.map
          (fun (log, country, city) ->
-           let dt =
-             Calendar.(Ago.compute ~in_day:true (from_day log))
-           in
+           let dt = Calendar.(Ago.compute ~in_day:true (from_day log)) in
            let st = Calendar.Ago.stringify dt in
            let chead =
              if Timetable.Day.cmp now log < 0
@@ -854,10 +778,7 @@ module Location = struct
                [ a_class [ chead ] ]
              | Some x ->
                if Timetable.Day.eq log x
-               then
-                 [ a_class [ "current"; chead ]
-                 ; a_id "current-location"
-                 ]
+               then [ a_class [ "current"; chead ]; a_id "current-location" ]
                else [ a_class [ chead ] ]
            in
            div
@@ -902,10 +823,7 @@ module Location = struct
   let boot input =
     match
       Validation.Infix.(
-        id
-        <$> validate
-              "unable to find location container"
-              input##.locationBox)
+        id <$> validate "unable to find location container" input##.locationBox)
     with
     | Ok location_box ->
       let open Lwt.Infix in
@@ -927,23 +845,17 @@ end
 module Diary = struct
   class type boot_input =
     object
-      method context :
-        Dom_html.textAreaElement Js.t Js.Opt.t Js.readonly_prop
+      method context : Dom_html.textAreaElement Js.t Js.Opt.t Js.readonly_prop
 
-      method calendarBox :
-        Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
+      method calendarBox : Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
 
-      method titleBox :
-        Dom_html.headingElement Js.t Js.Opt.t Js.readonly_prop
+      method titleBox : Dom_html.headingElement Js.t Js.Opt.t Js.readonly_prop
 
-      method statisticBox :
-        Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
+      method statisticBox : Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
 
-      method entryBox :
-        Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
+      method entryBox : Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
 
-      method sectors :
-        Dom_html.element Dom.nodeList Js.t Js.readonly_prop
+      method sectors : Dom_html.element Dom.nodeList Js.t Js.readonly_prop
     end
 
   let validate_context node =
@@ -1004,8 +916,7 @@ module Diary = struct
                match
                  log.project
                  >>= fun key ->
-                 Hashtbl.find_opt projects key
-                 >|= fun value -> key, value
+                 Hashtbl.find_opt projects key >|= fun value -> key, value
                with
                | None ->
                  []
@@ -1016,10 +927,7 @@ module Diary = struct
                        then
                          a
                            ~a:
-                             [ a_href
-                               $ Format.asprintf
-                                   "/projects/%s.html"
-                                   key
+                             [ a_href $ Format.asprintf "/projects/%s.html" key
                              ]
                            [ txt key ]
                        else span [ txt key ])
@@ -1032,12 +940,7 @@ module Diary = struct
                    ~a:[ a_class [ "log-header" ] ]
                    (div
                       ~a:[ a_class [ "log-date" ] ]
-                      [ txt
-                        $ Format.asprintf
-                            "%a"
-                            Timetable.Day.ppr
-                            log.day
-                      ]
+                      [ txt $ Format.asprintf "%a" Timetable.Day.ppr log.day ]
                    :: proj)
                ; div ~a:[ a_class [ "log-label" ] ] [ txt log.label ]
                ; div
@@ -1070,28 +973,14 @@ module Diary = struct
     match
       Validation.Infix.(
         (fun u v w x y z -> u, v, w, x, y, z)
-        <$> validate
-              "unable to find calendar container"
-              input##.calendarBox
-        <*> validate
-              "unable to find statistic container"
-              input##.statisticBox
-        <*> validate
-              "unable to find entry container"
-              input##.entryBox
-        <*> validate
-              "Unable to find title container"
-              input##.titleBox
+        <$> validate "unable to find calendar container" input##.calendarBox
+        <*> validate "unable to find statistic container" input##.statisticBox
+        <*> validate "unable to find entry container" input##.entryBox
+        <*> validate "Unable to find title container" input##.titleBox
         <*> Sector.nodelist_to_hashtbl input##.sectors
         <*> validate_context input##.context)
     with
-    | Ok
-        ( calendar_box
-        , statistic_box
-        , entry_box
-        , title_box
-        , sectors
-        , ctx ) ->
+    | Ok (calendar_box, statistic_box, entry_box, title_box, sectors, ctx) ->
       let open Lwt.Infix in
       Binding.Log.get_last_logs ()
       >>= (fun logs ->

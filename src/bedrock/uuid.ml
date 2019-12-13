@@ -11,10 +11,7 @@ module type GENERATOR = sig
 end
 
 let dashify hashed_str =
-  Scanf.sscanf
-    hashed_str
-    "%8s%4s%4s%4s%12s"
-    (Printf.sprintf "%s-%s-%s-%s-%s")
+  Scanf.sscanf hashed_str "%8s%4s%4s%4s%12s" (Printf.sprintf "%s-%s-%s-%s-%s")
 ;;
 
 let _make clock hname pid time =

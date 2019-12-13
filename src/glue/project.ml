@@ -111,9 +111,7 @@ let to_hakyll_string_aux day project_opt project =
   let open Shapes.Project in
   let open Result.Syntax in
   let+ ext, body = fetch_project_text project in
-  let pstring =
-    project |> Shapes.Project.to_qexp |> Paperwork.Qexp.to_string
-  in
+  let pstring = project |> Shapes.Project.to_qexp |> Paperwork.Qexp.to_string in
   let render_picto = function
     | None ->
       Hakyll.render_string "pictogram" "unknown"
@@ -138,10 +136,7 @@ let to_hakyll_string_aux day project_opt project =
             Timetable.Day.pp
             "date_planet"
             day
-        ; render
-            "status"
-            Shapes.Project.status_to_string
-            project.status
+        ; render "status" Shapes.Project.status_to_string project.status
         ; render_picto project.picto
         ; may_render "repo" Shapes.Repo.repr project.repo
         ; may_render "repo_url" Shapes.Repo.base_url project.repo
@@ -150,9 +145,7 @@ let to_hakyll_string_aux day project_opt project =
         ; render_if "published" project.published
         ; render_string
             "qexp_partial"
-            (Format.asprintf
-               "_seeds/partials/%s.qexp.html"
-               project.name)
+            (Format.asprintf "_seeds/partials/%s.qexp.html" project.name)
         ])
   in
   let content = header ^ body in
@@ -173,7 +166,5 @@ let to_hakyll_string_aux day project_opt project =
 ;;
 
 let to_hakyll_string (project, day, project_opt) =
-  project
-  |> to_hakyll_string_aux day project_opt
-  |> Validation.from_result
+  project |> to_hakyll_string_aux day project_opt |> Validation.from_result
 ;;

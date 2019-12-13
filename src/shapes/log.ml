@@ -11,12 +11,7 @@ type t =
   ; label : string
   }
 
-let qexp_project = function
-  | None ->
-    []
-  | Some x ->
-    [ Qexp.kv "project" x ]
-;;
+let qexp_project = function None -> [] | Some x -> [ Qexp.kv "project" x ]
 
 let to_qexp t =
   let open Qexp in
@@ -53,11 +48,7 @@ let from_qexp expr =
 
 let pp ppf log =
   let project =
-    match log.project with
-    | None ->
-      ""
-    | Some x ->
-      Format.sprintf " (%s)" x
+    match log.project with None -> "" | Some x -> Format.sprintf " (%s)" x
   in
   Format.fprintf
     ppf

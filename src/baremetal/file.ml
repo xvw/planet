@@ -12,9 +12,7 @@ type new_name = string
 let exists = Sys.file_exists
 
 let is_directory name =
-  if exists name
-  then Ok (Sys.is_directory name)
-  else Error (Unreadable name)
+  if exists name then Ok (Sys.is_directory name) else Error (Unreadable name)
 ;;
 
 let bytes_of_in_channel channel =
@@ -157,12 +155,7 @@ let touch ?(binary = false) ?(chmod = 0o777) filename =
   if exists filename then Ok () else create ~binary ~chmod filename ""
 ;;
 
-let append
-    ?(binary = false)
-    ?(create = false)
-    ?(chmod = 0o777)
-    filename
-    content
+let append ?(binary = false) ?(create = false) ?(chmod = 0o777) filename content
   =
   if (not create) && not (exists filename)
   then Error (Unreadable filename)

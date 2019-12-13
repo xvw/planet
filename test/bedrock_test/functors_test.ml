@@ -174,7 +174,6 @@ module IntResult = Driver (struct
 end)
 
 let suite =
-  IntList.suite @ StringList.suite @ StringOption.suite
-  @ IntOption.suite @ IntArray.suite @ StringArray.suite
-  @ StringResult.suite @ IntResult.suite
+  IntList.suite @ StringList.suite @ StringOption.suite @ IntOption.suite
+  @ IntArray.suite @ StringArray.suite @ StringResult.suite @ IntResult.suite
 ;;

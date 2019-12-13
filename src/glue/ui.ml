@@ -23,15 +23,11 @@ let link_box
     list
   =
   let maxlen =
-    List.fold_left
-      (fun acc (x, _) -> max acc $ String.length x)
-      0
-      list
+    List.fold_left (fun acc (x, _) -> max acc $ String.length x) 0 list
   in
   let nl =
     List.map
-      (fun (a, b) ->
-        a ^ (String.make $ maxlen - String.length a $ ' '), b)
+      (fun (a, b) -> a ^ (String.make $ maxlen - String.length a $ ' '), b)
       list
   in
   Ansi.(generic_box ~prefix ~box_style ~title_style) f title nl
@@ -65,10 +61,7 @@ let dated_link_box
     list
   =
   let maxlen =
-    List.fold_left
-      (fun acc (x, _, _) -> max acc $ String.length x)
-      0
-      list
+    List.fold_left (fun acc (x, _, _) -> max acc $ String.length x) 0 list
   in
   let nl =
     List.map

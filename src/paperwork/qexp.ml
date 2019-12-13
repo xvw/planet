@@ -43,15 +43,7 @@ let consume_line stream =
 ;;
 
 let is_token_char = function
-  | '-'
-  | '_'
-  | '['
-  | ']'
-  | '`'
-  | '\''
-  | '0' .. '9'
-  | 'A' .. 'Z'
-  | 'a' .. 'z' ->
+  | '-' | '_' | '[' | ']' | '`' | '\'' | '0' .. '9' | 'A' .. 'Z' | 'a' .. 'z' ->
     true
   | _ ->
     false
@@ -69,8 +61,7 @@ let check_bracket char = function
 let parse_member f stream =
   let rec parse acc =
     match fpeek stream with
-    | (Some (' ' | '\t' | '\n' | ')' | '(' | ';' | '{' | '}') | None)
-      as chr ->
+    | (Some (' ' | '\t' | '\n' | ')' | '(' | ';' | '{' | '}') | None) as chr ->
       Ok (f acc, chr)
     | Some chr when is_token_char chr ->
       parse $ Format.sprintf "%s%c" acc chr
@@ -107,9 +98,7 @@ let parse_string stream quote delimiter =
 let from_stream input =
   let open Result.Monad in
   let rec parse last_char last_bracket acc =
-    let current_char =
-      match last_char with None -> fpeek input | x -> x
-    in
+    let current_char = match last_char with None -> fpeek input | x -> x in
     match current_char with
     | Some (' ' | '\t' | '\n') ->
       parse None last_bracket acc
@@ -161,10 +150,7 @@ let from_stream input =
   parse None `Void []
 ;;
 
-let from_string str_value =
-  str_value |> Stream.of_string |> from_stream
-;;
-
+let from_string str_value = str_value |> Stream.of_string |> from_stream
 let from_bytes bytes = bytes |> Stream.of_bytes |> from_stream
 
 let rec pp ppf = function

@@ -51,9 +51,7 @@ module Has_extension = struct
     ; "with invalid suffix", false, "foobar.zip", "rar"
     ]
     |> List.map (fun (message, result, left, right) ->
-           test
-             (Format.sprintf "[has_extension] %s" message)
-             (fun () ->
+           test (Format.sprintf "[has_extension] %s" message) (fun () ->
                check
                  bool
                  ("Should be " ^ string_of_bool result)
@@ -79,6 +77,5 @@ module Super_trim = struct
 end
 
 let suite =
-  Start_with.suite @ End_with.suite @ Has_extension.suite
-  @ Super_trim.suite
+  Start_with.suite @ End_with.suite @ Has_extension.suite @ Super_trim.suite
 ;;

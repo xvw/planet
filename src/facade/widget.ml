@@ -177,7 +177,13 @@ module Common = struct
           ; ul
               (List.map
                  (fun tag ->
-                   li [ a ~a:[ a_href ("/tags.html#" ^ tag) ] [ txt tag ] ])
+                   li
+                     [ a
+                         ~a:
+                           [ a_href ("/tags.html#" ^ String.lowercase_ascii tag)
+                           ]
+                         [ txt tag ]
+                     ])
                  tags)
           ]
       ]

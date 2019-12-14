@@ -983,7 +983,10 @@ module Tags = struct
       List.map
         (fun x -> a ~a:[ a_href ("#" ^ x); a_user_data "tag" x ] [ txt x ])
         tags in
-    let block = div html_tags |> Tyxml.To_dom.of_div in
+    let wildcard =
+      a ~a:[ a_href "#*"; a_user_data "tag" "*" ] [ txt "toutes les entrées" ]
+    in
+    let block = div (wildcard :: html_tags) |> Tyxml.To_dom.of_div in
     let () = clear container in
     Dom.appendChild container block
   ;;
@@ -1054,6 +1057,8 @@ module Tags = struct
             let tagslist =
               String.split_on_char ',' data_tags |> List.map String.trim in
             if List.exists (String.equal hash) tagslist then
+              node##.classList##remove removable
+            else if String.length hash = 0 || String.equal hash "*" then
               node##.classList##remove removable
             else
               node##.classList##add removable

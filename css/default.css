@@ -57,8 +57,8 @@ th {
 /* Thanks BoubouLeHibou for the !important Hack */
 
 .negative-tag {
-    background-color: #000 !important;
-    color: #FFF !important;
+    background-color: #BBB !important;
+    color: #111 !important;
 }
 
 

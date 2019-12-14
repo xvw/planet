@@ -19,3 +19,7 @@
 ((:uuid "bd96e070-0d6a-5fe5-359f-e8bbb79d286a") (:day "019L14")
   (:duration "120") (:sector "programming")
   (:label "Finalisation des tags interactifs") (:project "planet"))
+
+((:uuid "6f47b9fc-a159-1778-74fb-bc0bf9a39d20") (:day "019L14")
+  (:duration "5") (:sector "programming")
+  (:label "Ajout d'un wildcard pour les tags") (:project "planet"))

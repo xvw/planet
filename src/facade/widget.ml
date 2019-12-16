@@ -977,6 +977,11 @@ module Tags = struct
       method contentBox : Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
     end
 
+  class type random_input =
+    object
+      method button : Dom_html.buttonElement Js.t Js.Opt.t Js.readonly_prop
+    end
+
   let render_tags container tags =
     let open Tyxml.Html in
     let html_tags =
@@ -1092,9 +1097,34 @@ module Tags = struct
       Lwt.return (Console.render_error errs)
   ;;
 
+  let random input =
+    match
+      Validation.Infix.(
+        (fun x -> x) <$> validate "unable to find random button" input##.button)
+    with
+    | Ok btn ->
+      Lwt_js_events.(
+        async_loop click btn (fun _ _ ->
+            let open Lwt.Infix in
+            Binding.Tags.get ()
+            >>= function
+              | Ok bucket ->
+                let pages = Shapes.Tag.(bucket.contents) in
+                let index = Random.int (List.length pages) in
+                let sample = List.nth pages index in
+                Lwt.return (Js.string Shapes.Tag.(href_for sample))
+                >|= (fun loc -> Dom_html.window##.location##.href := loc)
+              | Error errs ->
+                Lwt.return (Console.render_error errs)))
+    | Error errs ->
+      Lwt.return (Console.render_error errs)
+  ;;
+
   let api =
     object%js
       method boot input = boot input
+
+      method random input = random input
     end
   ;;
 end

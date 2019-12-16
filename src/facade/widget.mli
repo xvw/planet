@@ -83,5 +83,13 @@ module Tags : sig
       method contentBox : Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
     end
 
-  val api : < boot : boot_input Js.t -> unit Lwt.t Js.meth > Js.t
+  class type random_input =
+    object
+      method button : Dom_html.buttonElement Js.t Js.Opt.t Js.readonly_prop
+    end
+
+  val api :
+    < boot : boot_input Js.t -> unit Lwt.t Js.meth
+    ; random : random_input Js.t -> unit Lwt.t Js.meth >
+    Js.t
 end

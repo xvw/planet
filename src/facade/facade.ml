@@ -3,6 +3,8 @@ module Lwt_js_events = Js_of_ocaml_lwt.Lwt_js_events
 
 let start f =
   let open Bedrock.Validation in
+  let seed = (new%js Js.date_now)##getTime |> int_of_float in
+  let () = Random.init seed in
   Lwt.Infix.(
     Lwt.return (Console.print "Await for planet")
     >>= Lwt_js_events.onload

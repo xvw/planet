@@ -849,6 +849,7 @@ div.resume-box h3,
     margin-bottom: 32px;
 }
 
+.small-button-gray,
 #content-pages > div > a.page .tags span,
 #content-tags > div > a {
     display: inline-block;
@@ -860,6 +861,18 @@ div.resume-box h3,
     border-radius: 4px;
     text-decoration: none;
     color: #222;
+    border: 0 solid red;
+    cursor: pointer;
+}
+
+.small-button-gray:focus,
+#content-tags > div > a:focus {
+    outline: none; 
+}
+
+.small-button-gray::-moz-focus-inner,
+#content-tags > div > a::-moz-focus-inner {
+    border: 0;
 }
 
 #content-pages > div > a.page {

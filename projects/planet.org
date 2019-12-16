@@ -8,7 +8,7 @@ générateur de générateurs de sites statiques très permissif.
 
 
 #+ATTR_HTML: :class image-cover
-#+CAPTION: Une petite planète, qui se construit lentement
+#+CAPTION: C'est un dessin
 [[../images/planet-lore-1.png]]
 
 

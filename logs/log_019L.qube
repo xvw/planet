@@ -28,3 +28,7 @@
   (:duration "60") (:sector "programming")
   (:label "Implémentation, documentation et test du module Option")
   (:project "preface"))
+
+((:uuid "f3c9d983-8dc1-6be6-88e4-0b6cf7fdb858") (:day "019L16")
+  (:duration "30") (:sector "programming")
+  (:label "Page aléatoire dans le footer") (:project "planet"))

@@ -23,3 +23,8 @@
 ((:uuid "6f47b9fc-a159-1778-74fb-bc0bf9a39d20") (:day "019L14")
   (:duration "5") (:sector "programming")
   (:label "Ajout d'un wildcard pour les tags") (:project "planet"))
+
+((:uuid "885accc4-c4a1-da27-2f67-e746ef1ed28a") (:day "019L16")
+  (:duration "60") (:sector "programming")
+  (:label "Implémentation, documentation et test du module Option")
+  (:project "preface"))

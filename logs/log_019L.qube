@@ -42,3 +42,7 @@
   (:duration "60") (:sector "programming")
   (:label "Sérialisation, désérialisation des tâches")
   (:project "planet"))
+
+((:uuid "4c4d7c4a-85f5-9630-d8fd-efcacef39a34") (:day "019L19")
+  (:duration "200") (:sector "programming")
+  (:label "Implémentation des tâches (Json et glue)") (:project "planet"))

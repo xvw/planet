@@ -32,3 +32,8 @@
 ((:uuid "f3c9d983-8dc1-6be6-88e4-0b6cf7fdb858") (:day "019L16")
   (:duration "30") (:sector "programming")
   (:label "Page aléatoire dans le footer") (:project "planet"))
+
+((:uuid "a86782bc-c5c2-8017-6dcb-227f91dd16d1") (:day "019L19")
+  (:duration "120") (:sector "research")
+  (:label "Recherche et correctifs pour la hauteur de viewport sur Safari")
+  (:project "planet"))

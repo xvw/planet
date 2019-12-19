@@ -161,3 +161,38 @@ let from_qexp expr =
   | Error _ as e ->
     Validation.from_result e
 ;;
+
+let pp ppf task =
+  let qexp = to_qexp task in
+  Format.fprintf ppf "%a" Qexp.pp qexp
+;;
+
+let eq_state a b =
+  match (a, b) with
+  | (Backlog, Backlog)
+  | (Opened, Opened)
+  | (InProgress, InProgress)
+  | (Done, Done)
+  | (Blocked, Blocked) ->
+    true
+  | _ ->
+    false
+;;
+
+let eq left right =
+  eq_state left.state right.state
+  && String.equal left.uuid right.uuid
+  && Option.eq String.equal left.project right.project
+  && List.eq String.equal left.sectors right.sectors
+  && String.equal left.name right.name
+  && String.equal left.description right.description
+  && List.eq
+       (fun (flag_a, label_a) (flag_b, label_b) ->
+         flag_a = flag_b && String.equal label_a label_b)
+       left.checklist right.checklist
+  && List.eq String.equal left.tags right.tags
+  && Timetable.Day.eq left.date right.date
+  && Option.eq Timetable.Day.eq left.opening_date right.opening_date
+  && Option.eq Timetable.Day.eq left.closing_date right.closing_date
+  && Option.eq Timetable.Day.eq left.engagement_date right.engagement_date
+;;

@@ -196,3 +196,38 @@ let eq left right =
   && Option.eq Timetable.Day.eq left.closing_date right.closing_date
   && Option.eq Timetable.Day.eq left.engagement_date right.engagement_date
 ;;
+
+let to_json task =
+  let dts = Timetable.Day.to_string in
+  let open Json in
+  obj
+    ([ ("state", string $ state_to_string task.state)
+     ; ("uuid", string task.uuid)
+     ]
+    @ Option.(task.project >|= (fun k -> ("project", string k)) |> to_list)
+    @ [ ("sectors", array $ List.map string task.sectors)
+      ; ("name", string task.name)
+      ; ("description", string task.description)
+      ; ( "checklist"
+        , array
+          $ List.map
+              (fun (flag, label) ->
+                obj [ ("checked", bool flag); ("label", string label) ])
+              task.checklist )
+      ; ("tags", array $ List.map string task.tags)
+      ; ("date", string $ dts task.date)
+      ]
+    @ Option.(
+        task.opening_date
+        >|= (fun d -> ("opening_date", string $ dts d))
+        |> to_list)
+    @ Option.(
+        task.closing_date
+        >|= (fun d -> ("closing_date", string $ dts d))
+        |> to_list)
+    @ Option.(
+        task.engagement_date
+        >|= (fun d -> ("engagement_date", string $ dts d))
+        |> to_list)
+    )
+;;

@@ -82,6 +82,7 @@ body {
     margin: 0;
     background-color: #f9f9f9;
     height: 100vh;
+    height: -webkit-calc(100% - 0px);
     display: flex;
     flex-direction: column;
     font-family: 'Planet Inter var', system-ui, sans-serif;

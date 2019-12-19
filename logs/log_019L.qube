@@ -37,3 +37,8 @@
   (:duration "120") (:sector "research")
   (:label "Recherche et correctifs pour la hauteur de viewport sur Safari")
   (:project "planet"))
+
+((:uuid "7f034cb9-d198-90a8-896f-27d29276b7ec") (:day "019L19")
+  (:duration "60") (:sector "programming")
+  (:label "Sérialisation, désérialisation des tâches")
+  (:project "planet"))

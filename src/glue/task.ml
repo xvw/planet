@@ -1,3 +1,4 @@
+module U = Util
 open Bedrock
 open Baremetal
 open Error
@@ -37,4 +38,28 @@ let tasks () =
           |> Validation.from_result
           >>= Shapes.Task.from_qexp)
   >>= Validation.Applicative.sequence
+;;
+
+let init project sectors name description checklist tags engagement_date =
+  let open Result.Syntax in
+  let* id = fresh_id () in
+  let* date = U.day () in
+  let+ result =
+    Ok
+      Shapes.Task.
+        { state = Backlog
+        ; uuid = id
+        ; project
+        ; sectors
+        ; name
+        ; description
+        ; checklist = List.map (fun x -> (false, x)) checklist
+        ; tags
+        ; date
+        ; opening_date = None
+        ; closing_date = None
+        ; engagement_date
+        }
+  in
+  result
 ;;

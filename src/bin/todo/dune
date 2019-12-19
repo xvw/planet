@@ -1,0 +1,9 @@
+(executable
+ (name todo)
+ (libraries
+   planet.bedrock
+   planet.paperwork
+   planet.shapes
+   planet.baremetal
+   planet.glue
+   cmdliner))

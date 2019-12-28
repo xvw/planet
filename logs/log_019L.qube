@@ -74,3 +74,7 @@
 ((:uuid "4d374625-4437-0fc1-1182-8483cc35b622") (:day "019L28")
   (:duration "5") (:sector "maintenance")
   (:label "Mise à jours des dépendances") (:project "planet"))
+
+((:uuid "29724761-929a-0b89-f668-4cf1fbfa5ed0") (:day "019L28")
+  (:duration "80") (:sector "programming")
+  (:label "Progression dans la construction de tâches") (:project "planet"))

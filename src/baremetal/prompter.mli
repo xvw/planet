@@ -143,6 +143,24 @@ val choose :
   -> ('b, Error.t) result
 (** Perform a choice in an array *)
 
+val choose_multiple :
+     ?prefix:Ansi.fragments
+  -> ?choice_prefix:Ansi.fragment list
+  -> ?choice_suffix:Ansi.fragment list
+  -> ?choice_style:Ansi.fragment list
+  -> ?box_style:Ansi.fragments
+  -> ?title_style:Ansi.fragments
+  -> ?text_style:Ansi.fragments
+  -> ?answer_style:Ansi.fragments
+  -> ?title:answer
+  -> ?bottom:Ansi.fragment list
+  -> ('a -> 'b)
+  -> ('a -> answer)
+  -> 'a array
+  -> answer
+  -> ('b list, Error.t) result
+(** Perform a choice in an array *)
+
 val repeat_result : 'a Result.t -> bool
 val repeat_validation : 'a Validation.t -> bool
 val repeat_option : 'a Option.t -> bool

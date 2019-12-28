@@ -4,6 +4,7 @@ type 'a t = 'a option
 (** Type for option. *)
 
 val eq : ('a -> 'a -> bool) -> 'a option -> 'a option -> bool
+val pp : (Format.formatter -> 'a -> unit) -> Format.formatter -> 'a t -> unit
 val is_valid : 'a t -> bool
 val get_or : (unit -> 'a) -> 'a t -> 'a
 val to_list : 'a option -> 'a list

@@ -12,3 +12,6 @@ val ensure_sectors_projects :
   -> unit
 
 val may_project : Shapes.Project.t list -> Shapes.Project.t option
+val select_sectors : (string, Shapes.Sector.t) Hashtbl.t -> string list
+val get_string : string -> string -> string
+val get_string_opt : string -> string -> string option

@@ -21,6 +21,8 @@ val lines : string -> string list
 val super_trim : string -> string
 (** Remove all spaces of a string. *)
 
+val tokenize : char -> string -> string list
+
 (** {2 Stdlib} *)
 
 include module type of Stdlib.String with type t := t

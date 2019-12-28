@@ -59,4 +59,6 @@ let super_trim x =
   aux "" 0
 ;;
 
+let tokenize c subject = subject |> S.split_on_char c |> List.map S.trim
+
 include S

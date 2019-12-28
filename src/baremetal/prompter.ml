@@ -194,6 +194,61 @@ let choose
     ~bottom:st_choices real_f
 ;;
 
+let choose_multiple
+    ?(prefix = Ansi.[ !"│" ])
+    ?(choice_prefix = Ansi.[ fg cyan; !"└─" ])
+    ?(choice_suffix = Ansi.[ reset; !"\n" ])
+    ?(choice_style = Ansi.[ fg cyan ])
+    ?(box_style = Ansi.[ fg cyan ])
+    ?(title_style = Ansi.[ bold ])
+    ?(text_style = [])
+    ?(answer_style = [])
+    ?(title = "prompter")
+    ?(bottom = Ansi.[ !"?" ])
+    f
+    g
+    choices =
+  let len = Array.length choices in
+  let st_choices =
+    (List.init len (fun i ->
+         let p = if i = 0 then [] else choice_prefix in
+         let s =
+           if i = pred len then
+             Ansi.(choice_suffix @ choice_prefix @ [ reset ])
+           else
+             choice_suffix in
+         choice_style
+         @ p
+         @ Ansi.[ !(Format.sprintf "%d.%s" $ i $ g choices.(i)) ]
+         @ s)
+    |> List.flatten
+    )
+    @ bottom in
+  let real_f answer =
+    let l =
+      String.split_on_char ',' answer
+      |> List.map String.trim
+      |> List.sort_uniq String.compare
+      |> List.map int_of_string_opt
+      |> Option.Applicative.sequence in
+    match l with
+    | None ->
+      Error (Error.Unknown ("invalid int sequence: " ^ answer))
+    | Some list ->
+      let final_list =
+        List.map
+          (fun x ->
+            try Ok (choices.(x) |> f) with
+            | _ ->
+              Error (Error.Of (Format.asprintf "Unknown index %d" x)))
+          list
+        |> Result.Applicative.sequence in
+      final_list in
+
+  generic ~prefix ~box_style ~title_style ~text_style ~answer_style ~title
+    ~bottom:st_choices real_f
+;;
+
 let repeat_result = function
   | Ok _ ->
     true

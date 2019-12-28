@@ -1,4 +1,6 @@
 open Baremetal
+open Bedrock
+open Bedrock.Util
 
 let ensure_sectors_projects f =
   match (Sector.all (), Project.all ()) with
@@ -12,7 +14,7 @@ let ensure_sectors_projects f =
 
 let rec may_project projects =
   let all_projects = None :: List.map (fun x -> Some x) projects in
-  Bedrock.Util.try_until Prompter.repeat_result (fun () ->
+  try_until Prompter.repeat_result (fun () ->
       Prompter.choose
         ~answer_style:Ansi.[ fg yellow ]
         ~title:"In which project?"
@@ -25,4 +27,34 @@ let rec may_project projects =
         (Array.of_list all_projects)
         "Related project")
   |> (function Ok x -> x | _ -> may_project projects)
+;;
+
+let rec select_sectors sectors =
+  let all_sectors =
+    None
+    :: (sectors
+       |> Hashtbl.to_seq_keys
+       |> Seq.map (fun x -> Some x)
+       |> List.of_seq
+       ) in
+  try_until Prompter.repeat_result (fun () ->
+      Prompter.choose_multiple
+        ~answer_style:Ansi.[ fg yellow ]
+        ~title:"In which sector" Option.to_list
+        (function Some x -> x | None -> "Not connected")
+        (Array.of_list all_sectors)
+        "Related sector")
+  |> Result.map List.flatten
+  |> (function Ok x -> x | _ -> select_sectors sectors)
+;;
+
+let rec get_string a b =
+  Util.try_until Prompter.repeat_option (fun () ->
+      Prompter.string_opt ~answer_style:Ansi.[ fg yellow ] ~title:a b)
+  |> (function Some x -> x | _ -> get_string a b)
+;;
+
+let get_string_opt a b =
+  Util.try_until Prompter.repeat_option (fun () ->
+      Prompter.string_opt ~answer_style:Ansi.[ fg yellow ] ~title:a b)
 ;;

@@ -60,3 +60,8 @@
   (:duration "200") (:sector "research")
   (:label
     "Recherches sur l'analyse structurale du récit, lecture de 'Communication 8'"))
+
+((:uuid "90e842ad-3117-4dfb-82e8-5aa2bc611ddf") (:day "019L25")
+  (:duration "200") (:sector "research")
+  (:label
+    "Recherches sur l'analyse structurale du récit, lecture de 'Communication 8'"))

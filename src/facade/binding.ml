@@ -3,7 +3,7 @@ open Bedrock
 open Util
 open Error
 open Paperwork.Timetable
-module Ajax = Lwt_xmlHttpRequest
+module Ajax = Js_of_ocaml_lwt.XmlHttpRequest
 
 module Project = struct
   class type short_js =

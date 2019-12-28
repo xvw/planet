@@ -75,21 +75,9 @@ let rec sector sectors =
   |> (function Ok x -> x | _ -> sector sectors)
 ;;
 
-let rec project projects =
-  let all_projects = None :: List.map (fun x -> Some x) projects in
-  try_until Prompter.repeat_result (fun () ->
-      Prompter.choose
-        ~answer_style:Ansi.[ fg yellow ]
-        ~title:"In which project?"
-        (Option.map (fun x -> Shapes.Project.(x.name)))
-        (function
-            | Some x ->
-              Shapes.Project.(Format.sprintf "%s - %s" x.title x.synopsis)
-            | None ->
-              "Not connected")
-        (Array.of_list all_projects)
-        "Related project")
-  |> (function Ok x -> x | _ -> project projects)
+let project projects =
+  Glue.Binutil.may_project projects
+  |> Option.map (fun x -> Shapes.Project.(x.name))
 ;;
 
 let rec label () =
@@ -132,16 +120,6 @@ let push_result log =
   >> Ok (filename, str_log)
 ;;
 
-let ensure_sectors_projects f =
-  match (Glue.Sector.all (), Glue.Project.all ()) with
-  | (Error x, Error y) ->
-    Prompter.prompt_errors (x @ y)
-  | (Error x, _) | (_, Error x) ->
-    Prompter.prompt_errors x
-  | (Ok sectors, Ok ctx) ->
-    f sectors ctx
-;;
-
 let push_feedback = function
   | Ok (filename, str_log) ->
     Ansi.(
@@ -177,7 +155,7 @@ let visual_push update log =
 ;;
 
 let interactive () =
-  ensure_sectors_projects (fun sectors (ctx, projects) ->
+  Glue.Binutil.ensure_sectors_projects (fun sectors (ctx, projects) ->
       let uuid = Uuid.make () in
       let a_timecode = when_ () in
       let a_duration = during () in
@@ -229,7 +207,7 @@ let check_label x =
 ;;
 
 let record sector duration timecode project label =
-  ensure_sectors_projects (fun sectors (ctx, projects) ->
+  Glue.Binutil.ensure_sectors_projects (fun sectors (ctx, projects) ->
       let open Validation.Infix in
       let potential_log =
         Shapes.Log.new_log (Uuid.make () |> Uuid.to_string)

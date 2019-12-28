@@ -70,3 +70,7 @@
   (:duration "200") (:sector "research")
   (:label
     "Recherches sur l'analyse structurale du récit, lecture de 'Communication 8'"))
+
+((:uuid "4d374625-4437-0fc1-1182-8483cc35b622") (:day "019L28")
+  (:duration "5") (:sector "maintenance")
+  (:label "Mise à jours des dépendances") (:project "planet"))

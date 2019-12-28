@@ -55,6 +55,16 @@ let rec get_string a b =
 ;;
 
 let get_string_opt a b =
-  Util.try_until Prompter.repeat_option (fun () ->
-      Prompter.string_opt ~answer_style:Ansi.[ fg yellow ] ~title:a b)
+  Prompter.string_opt ~answer_style:Ansi.[ fg yellow ] ~title:a b
+;;
+
+let rec get_day_opt a b =
+  try_until Prompter.repeat_result (fun () ->
+      Prompter.string_opt ~answer_style:Ansi.[ fg yellow ] ~title:a b
+      |> function
+        | None ->
+          Ok None
+        | Some x ->
+          Paperwork.Timetable.Day.from_string x |> Result.map (fun x -> Some x))
+  |> (function Ok x -> x | _ -> get_day_opt a b)
 ;;

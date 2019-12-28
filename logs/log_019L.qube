@@ -50,3 +50,8 @@
 ((:uuid "df3b2071-d81f-0b1c-6f47-da7b24a4c73a") (:day "019L20")
   (:duration "30") (:sector "programming")
   (:label "Implémentation de la saisie de tâches") (:project "planet"))
+
+((:uuid "a731574b-343b-b5df-edd0-f075e6b5c087") (:day "019L23")
+  (:duration "120") (:sector "research")
+  (:label
+    "Recherches sur l'analyse structurale du récit, lecture de 'Communication 8'"))

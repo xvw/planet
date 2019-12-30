@@ -1,99 +1,91 @@
 open Bedrock
 open Baremetal
-module Binutil = Glue.Binutil
+
+let ansi_header task =
+  let open Shapes.Task in
+  Ansi.[ !"\n" ]
+  @ Ansi.(box task.name [ [ fg cyan; !(task.description) ] ])
+  @ Ansi.[ fg magenta; !(task.uuid ^ " ~> " ^ state_to_string task.state) ]
+  @ Ansi.[ reset; !"\n" ]
+  @
+  match task.project with
+  | None ->
+    []
+  | Some x ->
+    Ansi.[ bold; !"Project: "; reset; fg yellow; !x; reset; !"\n" ]
+;;
+
+let ansi_list title elements =
+  match elements with
+  | [] ->
+    []
+  | _ ->
+    Ansi.
+      [ bold
+      ; !(title ^ ": ")
+      ; reset
+      ; fg yellow
+      ; !(String.concat ", " elements)
+      ; reset
+      ; !"\n"
+      ]
+;;
+
+let ansi_sectors task = ansi_list "Sectors" Shapes.Task.(task.sectors)
+let ansi_tags task = ansi_list "Tags" Shapes.Task.(task.tags)
+
+let ansi_checklist task =
+  let open Shapes.Task in
+  match task.checklist with
+  | [] ->
+    []
+  | _ ->
+    Ansi.(
+      box "Checklist"
+        (List.mapi
+           (fun i (flag, label) ->
+             [ bold; fg magenta; !(Format.asprintf "%03d:" (succ i)); reset ]
+             @ ( if flag then
+                   [ fg blue; !"["; fg green; bold; !"X"; reset; fg blue; !"]" ]
+               else
+                 [ fg blue; !"[ ]" ]
+               )
+             @ [ reset; !" "; !label; reset ])
+           task.checklist))
+;;
 
 let display task =
-  let open Shapes.Task in
   let fragment =
-    Ansi.[ !"\n" ]
-    @ Ansi.(box task.name [ [ fg cyan; !(task.description) ] ])
-    @ Ansi.[ fg magenta; !(task.uuid ^ " ~> " ^ state_to_string task.state) ]
-    @ Ansi.[ reset; !"\n" ]
-    @ (match task.project with
-      | None ->
-        []
-      | Some x ->
-        Ansi.[ bold; !"Project: "; reset; fg yellow; !x; reset; !"\n" ])
-    @ (match task.sectors with
-      | [] ->
-        []
-      | _ ->
-        Ansi.
-          [ bold
-          ; !"Sectors: "
-          ; reset
-          ; fg yellow
-          ; !(String.concat ", " task.sectors)
-          ; reset
-          ; !"\n"
-          ])
-    @ (match task.tags with
-      | [] ->
-        []
-      | _ ->
-        Ansi.
-          [ bold
-          ; !"Tags: "
-          ; reset
-          ; fg yellow
-          ; !(String.concat ", " task.tags)
-          ; reset
-          ; !"\n"
-          ])
-    @ (match task.checklist with
-      | [] ->
-        []
-      | _ ->
-        Ansi.(
-          box "Checklist"
-            (List.mapi
-               (fun i (flag, label) ->
-                 [ bold
-                 ; fg magenta
-                 ; !(Format.asprintf "%03d:" (succ i))
-                 ; reset
-                 ]
-                 @ ( if flag then
-                       [ fg blue
-                       ; !"["
-                       ; fg green
-                       ; bold
-                       ; !"X"
-                       ; reset
-                       ; fg blue
-                       ; !"]"
-                       ]
-                   else
-                     [ fg blue; !"[ ]" ]
-                   )
-                 @ [ reset; !" "; !label; reset ])
-               task.checklist)))
+    ansi_header task
+    @ ansi_sectors task
+    @ ansi_tags task
+    @ ansi_checklist task
     @ Ansi.[ !"\n" ] in
   fragment |> Ansi.to_string ~scoped:true |> print_endline
 ;;
 
 let create () =
-  Binutil.ensure_sectors_projects (fun sectors (_ctx, projects) ->
-      let name = Binutil.get_string "Title?" "Title of the task" in
+  Glue.Ui.ensure_sectors_projects (fun sectors (_ctx, projects) ->
+      let name = Glue.Ui.get_string "Title?" "Title of the task" in
 
-      let description = Binutil.get_string "Description?" "Describe the task" in
+      let description = Glue.Ui.get_string "Description?" "Describe the task" in
 
       let some_project =
-        Binutil.may_project (List.map (fun (x, _, _) -> x) projects)
+        Glue.Ui.may_project (List.map (fun (x, _, _) -> x) projects)
         |> Option.map (fun x -> Shapes.Project.(x.name)) in
 
-      let sectors = Binutil.select_sectors sectors in
+      let sectors = Glue.Ui.select_sectors sectors in
 
       let checklist =
-        Binutil.get_string_opt "Tasks?" "Checklist"
+        Glue.Ui.get_string_opt "Tasks?" "Checklist"
         |> Option.to_list
         |> List.bind (String.tokenize ',') in
       let tags =
-        Binutil.get_string_opt "Tags?" "Tags of the task"
+        Glue.Ui.get_string_opt "Tags?" "Tags of the task"
         |> Option.to_list
         |> List.bind (String.tokenize ',') in
 
-      let engagement = Binutil.get_day_opt "Engagement?" "Potential due date" in
+      let engagement = Glue.Ui.get_day_opt "Engagement?" "Potential due date" in
 
       let task =
         Glue.Task.init some_project sectors name description checklist tags

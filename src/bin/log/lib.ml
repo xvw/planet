@@ -76,8 +76,7 @@ let rec sector sectors =
 ;;
 
 let project projects =
-  Glue.Binutil.may_project projects
-  |> Option.map (fun x -> Shapes.Project.(x.name))
+  Glue.Ui.may_project projects |> Option.map (fun x -> Shapes.Project.(x.name))
 ;;
 
 let rec label () =
@@ -155,7 +154,7 @@ let visual_push update log =
 ;;
 
 let interactive () =
-  Glue.Binutil.ensure_sectors_projects (fun sectors (ctx, projects) ->
+  Glue.Ui.ensure_sectors_projects (fun sectors (ctx, projects) ->
       let uuid = Uuid.make () in
       let a_timecode = when_ () in
       let a_duration = during () in
@@ -207,7 +206,7 @@ let check_label x =
 ;;
 
 let record sector duration timecode project label =
-  Glue.Binutil.ensure_sectors_projects (fun sectors (ctx, projects) ->
+  Glue.Ui.ensure_sectors_projects (fun sectors (ctx, projects) ->
       let open Validation.Infix in
       let potential_log =
         Shapes.Log.new_log (Uuid.make () |> Uuid.to_string)

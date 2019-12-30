@@ -78,3 +78,7 @@
 ((:uuid "29724761-929a-0b89-f668-4cf1fbfa5ed0") (:day "019L28")
   (:duration "80") (:sector "programming")
   (:label "Progression dans la construction de tâches") (:project "planet"))
+
+((:uuid "c37b5bab-adeb-65b5-a426-196893e03fb1") (:day "019L30")
+  (:duration "200") (:sector "programming")
+  (:label "Mise à jours des tâches (création)") (:project "planet"))

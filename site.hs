@@ -133,8 +133,8 @@ main = hakyll $ do
       route idRoute
       compile $ do
         
-        projects <- fmap (take 5) . recentFirst =<< loadAll projectsRule
-        longs <- fmap (take 5) . recentFirst =<< loadAll longsRule
+        projects <- fmap (take 4) . recentFirst =<< loadAll projectsRule
+        longs <- fmap (take 4) . recentFirst =<< loadAll longsRule
         shorts <- fmap (take 8) . recentFirst =<< loadAll shortsRule
         
         let indexContext =

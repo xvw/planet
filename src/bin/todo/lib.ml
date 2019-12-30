@@ -54,12 +54,35 @@ let ansi_checklist task =
            task.checklist))
 ;;
 
+let ansi_dates task =
+  let open Shapes.Task in
+  let open Ansi in
+  let dates =
+    [ ("Creation date", Some task.date)
+    ; ("Engagement date", task.engagement_date)
+    ; ("Opening date", task.opening_date)
+    ; ("Closing date", task.closing_date)
+    ]
+    |> List.bind (function
+         | (label, Some date) ->
+           [ [ bold
+             ; !(label ^ ": ")
+             ; reset
+             ; !(Paperwork.Timetable.Day.to_string date)
+             ]
+           ]
+         | _ ->
+           []) in
+  [ !"\n" ] @ box "Dates" dates
+;;
+
 let display task =
   let fragment =
     ansi_header task
     @ ansi_sectors task
     @ ansi_tags task
     @ ansi_checklist task
+    @ ansi_dates task
     @ Ansi.[ !"\n" ] in
   fragment |> Ansi.to_string ~scoped:true |> print_endline
 ;;

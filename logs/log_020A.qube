@@ -1,0 +1,4 @@
+;; Logs for 020A
+((:uuid "e9f9a870-e9f3-1c78-f97b-749c5a3865ef") (:day "020A01")
+  (:duration "200") (:sector "programming")
+  (:label "Initiation des tâches de la todo-list") (:project "planet"))

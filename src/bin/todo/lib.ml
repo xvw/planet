@@ -110,8 +110,40 @@ let create () =
 
       let engagement = Glue.Ui.get_day_opt "Engagement?" "Potential due date" in
 
-      let task =
-        Glue.Task.init some_project sectors name description checklist tags
-          engagement in
-      (match task with Error e -> Prompter.prompt_error e | Ok x -> display x))
+      let open Result.Infix in
+      Glue.Task.init some_project sectors name description checklist tags
+        engagement
+      >|= (fun task ->
+            let () = display task in
+            task)
+      >>= (fun task ->
+            let qexp = Shapes.Task.to_qexp task in
+            let filename =
+              Filename.concat
+                Glue.(Database.path Task.database)
+                (Shapes.Task.(task.uuid) ^ ".qube") in
+            let task_str = Paperwork.Qexp.to_string qexp in
+            let valid =
+              Prompter.yes_no
+                ~answer_style:Ansi.[ fg yellow ]
+                ~title:"Confirm?" task_str in
+            if valid then
+              File.create filename task_str
+              >|= fun () ->
+              Ansi.
+                [ bold
+                ; fg green
+                ; !filename
+                ; reset
+                ; !" has been dumped\n"
+                ; fg yellow
+                ; !task_str
+                ; reset
+                ; !"\n"
+                ]
+              |> Ansi.to_string ~scoped:true
+              |> print_endline
+            else
+              Ok ())
+      |> (function Ok _ -> () | Error e -> Prompter.prompt_error e))
 ;;

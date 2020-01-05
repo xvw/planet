@@ -6,3 +6,7 @@
 ((:uuid "714bd325-4365-5abc-3a86-ec3724538e92") (:day "020A05")
   (:duration "120") (:sector "programming")
   (:label "Progrès sur le gestionnaire de tâches") (:project "planet"))
+
+((:uuid "a373582c-88f0-c9b0-dd2e-6ded2647b8d8") (:day "020A05")
+  (:duration "320") (:sector "research")
+  (:label "Réunion de matériel pour 'la chimère fragile'"))

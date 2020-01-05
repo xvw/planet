@@ -15,24 +15,27 @@ let rec prompt_feeds () =
       Prompter.choose
         ~answer_style:Ansi.[ fg yellow ]
         ~title:"In which feeds?"
-        (function Some x -> `Fixed x | None -> `Unfixed)
+        (function
+          | Some x -> `Fixed x
+          | None -> `Unfixed)
         (Option.get_or (fun () -> "New feed (or feed query)"))
-        (Array.of_list feeds) "Select a feeds")
+        (Array.of_list feeds)
+        "Select a feeds")
   >>= function
-    | `Fixed x ->
-      Ok x
-    | `Unfixed -> (
-      try_until Prompter.repeat_option (fun () ->
-          Prompter.string_opt
-            ~answer_style:Ansi.[ fg yellow ]
-            ~title:"Query?"
-            ~f:
-              (Option.bind (fun x ->
-                   let s = String.trim x in
-                   if String.length s = 0 then None else Some s))
-            "Write feed query")
-      |> (function Some x -> Ok x | None -> prompt_feeds ())
-    )
+  | `Fixed x -> Ok x
+  | `Unfixed ->
+    try_until Prompter.repeat_option (fun () ->
+        Prompter.string_opt
+          ~answer_style:Ansi.[ fg yellow ]
+          ~title:"Query?"
+          ~f:
+            (Option.bind (fun x ->
+                 let s = String.trim x in
+                 if String.length s = 0 then None else Some s))
+          "Write feed query")
+    |> (function
+    | Some x -> Ok x
+    | None -> prompt_feeds ())
 ;;
 
 let collect_file () =
@@ -44,10 +47,9 @@ let collect_file () =
          List.map
            (fun feed ->
              let s = String.trim feed in
-             if String.length s = 0 then
-               Error [ Of "invalid feed name" ]
-             else
-               Ok (if String.has_extension s "txt" then s else s ^ ".txt"))
+             if String.length s = 0
+             then Error [ Of "invalid feed name" ]
+             else Ok (if String.has_extension s "txt" then s else s ^ ".txt"))
            feeds
          |> Validation.Applicative.sequence)
 ;;
@@ -63,7 +65,9 @@ let rec set_message feeds =
                let s = String.trim x in
                if String.length s = 0 then None else Some s))
         "Twtxt")
-  |> (function Some x -> Ok (feeds, x) | None -> set_message feeds)
+  |> function
+  | Some x -> Ok (feeds, x)
+  | None -> set_message feeds
 ;;
 
 let dump_message (feeds, message) =
@@ -80,13 +84,13 @@ let dump_message (feeds, message) =
       File.touch file
       >>= (fun () -> File.append file ("\n" ^ str))
       |> function
-        | Ok _ ->
-          let s = Ansi.(to_string [ fg green; bold; !"done" ]) in
-          print_endline s
-        | Error e ->
-          let s = Ansi.(to_string [ fg red; bold; !"failed" ]) in
-          let () = print_endline s in
-          Prompter.prompt_error e)
+      | Ok _ ->
+        let s = Ansi.(to_string [ fg green; bold; !"done" ]) in
+        print_endline s
+      | Error e ->
+        let s = Ansi.(to_string [ fg red; bold; !"failed" ]) in
+        let () = print_endline s in
+        Prompter.prompt_error e)
     feeds
 ;;
 
@@ -95,5 +99,7 @@ let () =
   collect_file ()
   >>= set_message
   >|= dump_message
-  |> (function Ok _ -> () | Error e -> Prompter.prompt_errors e)
+  |> function
+  | Ok _ -> ()
+  | Error e -> Prompter.prompt_errors e
 ;;

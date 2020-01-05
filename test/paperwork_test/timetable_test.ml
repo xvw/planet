@@ -9,56 +9,41 @@ open Alcotest
 let test_year_builder1 () =
   let open Result.Infix in
   match Year.make 18 >|= Year.to_string with
-  | Ok "018" ->
-    ()
-  | Ok x ->
-    failwith (x ^ " is not equals to 018")
-  | Error err ->
-    failwith (Error.to_string err)
+  | Ok "018" -> ()
+  | Ok x -> failwith (x ^ " is not equals to 018")
+  | Error err -> failwith (Error.to_string err)
 ;;
 
 let test_year_builder2 () =
   let open Result.Infix in
   match Year.make 0 >|= Year.to_string with
-  | Ok "000" ->
-    ()
-  | Ok x ->
-    failwith (x ^ " is not equals to 000")
-  | Error err ->
-    failwith (Error.to_string err)
+  | Ok "000" -> ()
+  | Ok x -> failwith (x ^ " is not equals to 000")
+  | Error err -> failwith (Error.to_string err)
 ;;
 
 let test_year_builder3 () =
   let open Result.Infix in
   match Year.make 999 >|= Year.to_string with
-  | Ok "999" ->
-    ()
-  | Ok x ->
-    failwith (x ^ " is not equals to 999")
-  | Error err ->
-    failwith (Error.to_string err)
+  | Ok "999" -> ()
+  | Ok x -> failwith (x ^ " is not equals to 999")
+  | Error err -> failwith (Error.to_string err)
 ;;
 
 let test_year_builder4 () =
   let open Result.Infix in
   match Year.make (-87) >|= Year.to_string with
-  | Error (Invalid_year -87) ->
-    ()
-  | Ok x ->
-    failwith (x ^ " shoud fail")
-  | Error err ->
-    failwith (Error.to_string err)
+  | Error (Invalid_year -87) -> ()
+  | Ok x -> failwith (x ^ " shoud fail")
+  | Error err -> failwith (Error.to_string err)
 ;;
 
 let test_year_builder5 () =
   let open Result.Infix in
   match Year.make 1000 >|= Year.to_string with
-  | Error (Invalid_year 1000) ->
-    ()
-  | Ok x ->
-    failwith (x ^ " shoud fail")
-  | Error err ->
-    failwith (Error.to_string err)
+  | Error (Invalid_year 1000) -> ()
+  | Ok x -> failwith (x ^ " shoud fail")
+  | Error err -> failwith (Error.to_string err)
 ;;
 
 let test_month_builder1 () =
@@ -67,12 +52,9 @@ let test_month_builder1 () =
   >>= (fun y -> Month.(make y Jan))
   >|= Month.to_string
   |> function
-    | Ok "018A" ->
-      ()
-    | Ok x ->
-      failwith (x ^ " is not equals to 018A")
-    | Error err ->
-      failwith (Error.to_string err)
+  | Ok "018A" -> ()
+  | Ok x -> failwith (x ^ " is not equals to 018A")
+  | Error err -> failwith (Error.to_string err)
 ;;
 
 let test_month_builder2 () =
@@ -81,12 +63,9 @@ let test_month_builder2 () =
   >>= (fun y -> Month.(make y Nov))
   >|= Month.to_string
   |> function
-    | Ok "216K" ->
-      ()
-    | Ok x ->
-      failwith (x ^ " is not equals to 216K")
-    | Error err ->
-      failwith (Error.to_string err)
+  | Ok "216K" -> ()
+  | Ok x -> failwith (x ^ " is not equals to 216K")
+  | Error err -> failwith (Error.to_string err)
 ;;
 
 let test_month_builder3 () =
@@ -95,12 +74,9 @@ let test_month_builder3 () =
   >>= (fun y -> Month.(make y Nov))
   >|= Month.to_string
   |> function
-    | Error (Invalid_year 1000) ->
-      ()
-    | Ok x ->
-      failwith (x ^ " should not be valid")
-    | Error err ->
-      failwith (Error.to_string err)
+  | Error (Invalid_year 1000) -> ()
+  | Ok x -> failwith (x ^ " should not be valid")
+  | Error err -> failwith (Error.to_string err)
 ;;
 
 let test_is_leap () =
@@ -109,16 +85,12 @@ let test_is_leap () =
     List.filter
       (fun x ->
         match Year.make x >|= Year.is_leap with
-        | Ok bool ->
-          bool
-        | Error err ->
-          failwith ("Invalid year generation : " ^ Error.to_string err))
+        | Ok bool -> bool
+        | Error err -> failwith ("Invalid year generation : " ^ Error.to_string err))
       [ 1; 2; 4; 72; 96; 952; 997; 24 ]
   with
-  | [ 4; 72; 96; 952; 24 ] ->
-    ()
-  | _ ->
-    failwith "Invalid result"
+  | [ 4; 72; 96; 952; 24 ] -> ()
+  | _ -> failwith "Invalid result"
 ;;
 
 let test_day_builder1 () =
@@ -128,12 +100,9 @@ let test_day_builder1 () =
   >>= (fun m -> Day.make m 12)
   >|= Day.to_string
   |> function
-    | Ok "019C12" ->
-      ()
-    | Ok x ->
-      failwith (x ^ " is not equals to 019C12")
-    | Error err ->
-      failwith (Error.to_string err)
+  | Ok "019C12" -> ()
+  | Ok x -> failwith (x ^ " is not equals to 019C12")
+  | Error err -> failwith (Error.to_string err)
 ;;
 
 let test_day_builder2 () =
@@ -143,12 +112,9 @@ let test_day_builder2 () =
   >>= (fun m -> Day.make m 31)
   >|= Day.to_string
   |> function
-    | Ok "222J31" ->
-      ()
-    | Ok x ->
-      failwith (x ^ " is not equals to 222J31")
-    | Error err ->
-      failwith (Error.to_string err)
+  | Ok "222J31" -> ()
+  | Ok x -> failwith (x ^ " is not equals to 222J31")
+  | Error err -> failwith (Error.to_string err)
 ;;
 
 let test_day_builder3 () =
@@ -158,12 +124,9 @@ let test_day_builder3 () =
   >>= (fun m -> Day.make m 29)
   >|= Day.to_string
   |> function
-    | Ok "004B29" ->
-      ()
-    | Ok x ->
-      failwith (x ^ " is not equals to 004B29")
-    | Error err ->
-      failwith (Error.to_string err)
+  | Ok "004B29" -> ()
+  | Ok x -> failwith (x ^ " is not equals to 004B29")
+  | Error err -> failwith (Error.to_string err)
 ;;
 
 let test_day_builder4 () =
@@ -173,7 +136,8 @@ let test_day_builder4 () =
   >>= (fun m -> Day.make m 31)
   >|= Day.to_string
   |> function
-    | Error (Invalid_day 31) -> () | _ -> failwith "Sould not be valid"
+  | Error (Invalid_day 31) -> ()
+  | _ -> failwith "Sould not be valid"
 ;;
 
 let test_day_builder5 () =
@@ -183,153 +147,116 @@ let test_day_builder5 () =
   >>= (fun m -> Day.make m (-31))
   >|= Day.to_string
   |> function
-    | Error (Invalid_day -31) -> () | _ -> failwith "Sould not be valid"
+  | Error (Invalid_day -31) -> ()
+  | _ -> failwith "Sould not be valid"
 ;;
 
 let test_day_with1 () =
   let open Result.Infix in
   match Day.make_with 18 Month.May 31 >|= Day.to_string with
-  | Ok "018E31" ->
-    ()
-  | _ ->
-    failwith "should be valid"
+  | Ok "018E31" -> ()
+  | _ -> failwith "should be valid"
 ;;
 
 let test_day_with2 () =
   let open Result.Infix in
   match Day.make_with 4 Month.Feb 29 >|= Day.to_string with
-  | Ok "004B29" ->
-    ()
-  | _ ->
-    failwith "should be valid"
+  | Ok "004B29" -> ()
+  | _ -> failwith "should be valid"
 ;;
 
 let test_day_with3 () =
   let open Result.Infix in
   match Day.make_with 3 Month.Feb 29 >|= Day.to_string with
-  | Error (Invalid_day 29) ->
-    ()
-  | _ ->
-    failwith "should be invalid"
+  | Error (Invalid_day 29) -> ()
+  | _ -> failwith "should be invalid"
 ;;
 
 let test_day_with4 () =
   let open Result.Infix in
   match Day.make_with 1929 Month.Feb 1 >|= Day.to_string with
-  | Error (Invalid_year 1929) ->
-    ()
-  | _ ->
-    failwith "should be invalid"
+  | Error (Invalid_year 1929) -> ()
+  | _ -> failwith "should be invalid"
 ;;
 
 let test_hour1 () =
   let open Result.Infix in
   match Hour.make 22 59 >|= Hour.to_string with
-  | Ok "10PM59" ->
-    ()
-  | Ok x ->
-    failwith x
-  | _ ->
-    failwith "should be valid"
+  | Ok "10PM59" -> ()
+  | Ok x -> failwith x
+  | _ -> failwith "should be valid"
 ;;
 
 let test_hour2 () =
   let open Result.Infix in
   match Hour.make 7 35 >|= Hour.to_string with
-  | Ok "07AM35" ->
-    ()
-  | Ok x ->
-    failwith x
-  | _ ->
-    failwith "should be valid"
+  | Ok "07AM35" -> ()
+  | Ok x -> failwith x
+  | _ -> failwith "should be valid"
 ;;
 
 let test_hour3 () =
   let open Result.Infix in
   match Hour.make 12 12 >|= Hour.to_string with
-  | Ok "12PM12" ->
-    ()
-  | Ok x ->
-    failwith x
-  | _ ->
-    failwith "should be valid"
+  | Ok "12PM12" -> ()
+  | Ok x -> failwith x
+  | _ -> failwith "should be valid"
 ;;
 
 let test_hour4 () =
   let open Result.Infix in
   match Hour.make 0 5 >|= Hour.to_string with
-  | Ok "12AM05" ->
-    ()
-  | Ok x ->
-    failwith x
-  | _ ->
-    failwith "should be valid"
+  | Ok "12AM05" -> ()
+  | Ok x -> failwith x
+  | _ -> failwith "should be valid"
 ;;
 
 let test_moment_with1 () =
   let open Result.Infix in
   match Moment.make_with 4 Month.Feb 29 0 45 >|= Moment.to_string with
-  | Ok "004B29:12AM45" ->
-    ()
-  | Ok x ->
-    failwith ("ok: " ^ x)
-  | Error err ->
-    failwith ("error: " ^ Error.to_string err)
+  | Ok "004B29:12AM45" -> ()
+  | Ok x -> failwith ("ok: " ^ x)
+  | Error err -> failwith ("error: " ^ Error.to_string err)
 ;;
 
 let test_moment_with2 () =
   let open Result.Infix in
   match Moment.make_with 19 Month.Nov 3 21 58 >|= Moment.to_string with
-  | Ok "019K03:09PM58" ->
-    ()
-  | Ok x ->
-    failwith ("ok: " ^ x)
-  | Error err ->
-    failwith ("error: " ^ Error.to_string err)
+  | Ok "019K03:09PM58" -> ()
+  | Ok x -> failwith ("ok: " ^ x)
+  | Error err -> failwith ("error: " ^ Error.to_string err)
 ;;
 
 let test_moment_with3 () =
   let open Result.Infix in
   match Moment.make_with (-6) Month.Nov 3 21 58 >|= Moment.to_string with
-  | Error (Invalid_year -6) ->
-    ()
-  | Ok x ->
-    failwith ("ok: " ^ x)
-  | Error err ->
-    failwith ("error: " ^ Error.to_string err)
+  | Error (Invalid_year -6) -> ()
+  | Ok x -> failwith ("ok: " ^ x)
+  | Error err -> failwith ("error: " ^ Error.to_string err)
 ;;
 
 let test_moment_with4 () =
   let open Result.Infix in
   match Moment.make_with 6 Month.Feb 29 21 58 >|= Moment.to_string with
-  | Error (Invalid_day 29) ->
-    ()
-  | Ok x ->
-    failwith ("ok: " ^ x)
-  | Error err ->
-    failwith ("error: " ^ Error.to_string err)
+  | Error (Invalid_day 29) -> ()
+  | Ok x -> failwith ("ok: " ^ x)
+  | Error err -> failwith ("error: " ^ Error.to_string err)
 ;;
 
 let test_moment_with5 () =
   let open Result.Infix in
   match Moment.make_with 4 Month.Feb 29 (-12) 58 >|= Moment.to_string with
-  | Error (Invalid_hour -12) ->
-    ()
-  | Ok x ->
-    failwith ("ok: " ^ x)
-  | Error err ->
-    failwith ("error: " ^ Error.to_string err)
+  | Error (Invalid_hour -12) -> ()
+  | Ok x -> failwith ("ok: " ^ x)
+  | Error err -> failwith ("error: " ^ Error.to_string err)
 ;;
 
 let test_moment_with6 () =
   let open Result.Infix in
   match Moment.make_with 4 Month.Feb 29 5 61 >|= Moment.to_string with
-  | Error (Invalid_min 61) ->
-    ()
-  | Ok x ->
-    failwith ("ok: " ^ x)
-  | Error err ->
-    failwith ("error: " ^ Error.to_string err)
+  | Error (Invalid_min 61) -> ()
+  | Ok x -> failwith ("ok: " ^ x)
+  | Error err -> failwith ("error: " ^ Error.to_string err)
 ;;
 
 let test_year_from_string1 () =
@@ -340,8 +267,11 @@ let test_year_from_string1 () =
       (fun x ->
         Year.from_string x
         >|= Year.to_string
-        |> (function Ok x -> [ x ] | _ -> []))
-      subject in
+        |> function
+        | Ok x -> [ x ]
+        | _ -> [])
+      subject
+  in
   check (list string) "same list" subject output
 ;;
 
@@ -353,9 +283,14 @@ let test_year_from_string2 () =
       (fun x ->
         Year.from_string x
         >|= Year.to_string
-        |> (function Error x -> [ Error.to_string x ] | _ -> []))
-      subject in
-  check (list string) "same list"
+        |> function
+        | Error x -> [ Error.to_string x ]
+        | _ -> [])
+      subject
+  in
+  check
+    (list string)
+    "same list"
     [ Error.to_string $ Unparsable ""
     ; Error.to_string $ Unparsable "foo"
     ; Error.to_string $ Unparsable "-123"
@@ -373,8 +308,11 @@ let test_month_from_string1 () =
       (fun x ->
         Month.from_string x
         >|= Month.to_string
-        |> (function Ok x -> [ x ] | _ -> []))
-      subject in
+        |> function
+        | Ok x -> [ x ]
+        | _ -> [])
+      subject
+  in
   check (list string) "same list" subject output
 ;;
 
@@ -386,9 +324,14 @@ let test_month_from_string2 () =
       (fun x ->
         Month.from_string x
         >|= Month.to_string
-        |> (function Error x -> [ Error.to_string x ] | _ -> []))
-      subject in
-  check (list string) "same list"
+        |> function
+        | Error x -> [ Error.to_string x ]
+        | _ -> [])
+      subject
+  in
+  check
+    (list string)
+    "same list"
     [ Error.to_string $ Unparsable ""
     ; Error.to_string $ Unparsable "foo"
     ; Error.to_string $ Invalid_year (-12)
@@ -407,8 +350,11 @@ let test_day_from_string1 () =
       (fun x ->
         Day.from_string x
         >|= Day.to_string
-        |> (function Ok x -> [ x ] | _ -> []))
-      subject in
+        |> function
+        | Ok x -> [ x ]
+        | _ -> [])
+      subject
+  in
   check (list string) "same list" subject output
 ;;
 
@@ -420,9 +366,14 @@ let test_day_from_string2 () =
       (fun x ->
         Day.from_string x
         >|= Day.to_string
-        |> (function Error x -> [ Error.to_string x ] | _ -> []))
-      subject in
-  check (list string) "same list"
+        |> function
+        | Error x -> [ Error.to_string x ]
+        | _ -> [])
+      subject
+  in
+  check
+    (list string)
+    "same list"
     [ Error.to_string $ Unparsable ""
     ; Error.to_string $ Unparsable "foo"
     ; Error.to_string $ Unparsable "-123"
@@ -436,22 +387,18 @@ let test_day_from_string2 () =
 let test_hour_from_string1 () =
   let open Result.Infix in
   let subject =
-    [ "10PM59"
-    ; "07AM36"
-    ; "12AM25"
-    ; "12PM52"
-    ; "06AM31"
-    ; "08PM03"
-    ; "11AM12"
-    ; "11PM34"
-    ] in
+    [ "10PM59"; "07AM36"; "12AM25"; "12PM52"; "06AM31"; "08PM03"; "11AM12"; "11PM34" ]
+  in
   let output =
     List.bind
       (fun x ->
         Hour.from_string x
         >|= Hour.to_string
-        |> (function Ok x -> [ x ] | _ -> []))
-      subject in
+        |> function
+        | Ok x -> [ x ]
+        | _ -> [])
+      subject
+  in
   check (list string) "same list" subject output
 ;;
 
@@ -463,9 +410,14 @@ let test_hour_from_string2 () =
       (fun x ->
         Hour.from_string x
         >|= Hour.to_string
-        |> (function Error x -> [ Error.to_string x ] | _ -> []))
-      subject in
-  check (list string) "same list"
+        |> function
+        | Error x -> [ Error.to_string x ]
+        | _ -> [])
+      subject
+  in
+  check
+    (list string)
+    "same list"
     [ Error.to_string $ Unparsable ""
     ; Error.to_string $ Invalid_hour 34
     ; Error.to_string $ Unparsable "-123"

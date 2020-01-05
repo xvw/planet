@@ -8,13 +8,14 @@ let render key f value = Format.asprintf "%s: %s\n" key (f value)
 let render_string key value = render key id value
 
 let may_render_with key f default = function
-  | None ->
-    render_string key default
-  | Some value ->
-    render key f value
+  | None -> render_string key default
+  | Some value -> render key f value
 ;;
 
-let may_render key f = function None -> "" | Some value -> render key f value
+let may_render key f = function
+  | None -> ""
+  | Some value -> render key f value
+;;
 
 let may_render_with_format ~default f key value =
   may_render_with key (fun x -> Format.asprintf "%a" f x) default value

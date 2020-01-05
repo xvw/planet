@@ -53,10 +53,7 @@ module Location : sig
   type t = js Js.t
 
   val shape : t -> (Paperwork.Timetable.Day.t * string * string) Validation.t
-
-  val get :
-       unit
-    -> (Paperwork.Timetable.Day.t * string * string) list Validation.t Lwt.t
+  val get : unit -> (Paperwork.Timetable.Day.t * string * string) list Validation.t Lwt.t
 end
 
 module Tags : sig

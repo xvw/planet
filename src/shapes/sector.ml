@@ -29,8 +29,7 @@ let from_qexp expr =
     <$> Fetch.token (fun x -> Ok x) config "name"
     <*> Fetch.string config "desc"
     <*> Fetch.color config "color"
-  | Error _ as e ->
-    Validation.from_result e
+  | Error _ as e -> Validation.from_result e
 ;;
 
 let pp ppf sector =
@@ -43,8 +42,8 @@ let eq a b = a.name = b.name && a.desc = b.desc && Color.eq a.color b.color
 let to_json sector =
   let open Json in
   obj
-    [ ("name", string sector.name)
-    ; ("desc", string sector.desc)
-    ; ("color", string $ Color.to_hex sector.color)
+    [ "name", string sector.name
+    ; "desc", string sector.desc
+    ; "color", string $ Color.to_hex sector.color
     ]
 ;;

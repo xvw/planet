@@ -68,74 +68,49 @@ let erase_below = F "0J"
 let erase_screen = F "2J"
 
 let to_int_fg = function
-  | Default ->
-    39
-  | Black ->
-    30
-  | Red ->
-    31
-  | Green ->
-    32
-  | Yellow ->
-    33
-  | Blue ->
-    34
-  | Magenta ->
-    35
-  | Cyan ->
-    36
-  | White ->
-    37
-  | Bright_black ->
-    90
-  | Bright_red ->
-    91
-  | Bright_green ->
-    92
-  | Bright_yellow ->
-    93
-  | Bright_blue ->
-    94
-  | Bright_magenta ->
-    95
-  | Bright_cyan ->
-    96
-  | Bright_white ->
-    97
+  | Default -> 39
+  | Black -> 30
+  | Red -> 31
+  | Green -> 32
+  | Yellow -> 33
+  | Blue -> 34
+  | Magenta -> 35
+  | Cyan -> 36
+  | White -> 37
+  | Bright_black -> 90
+  | Bright_red -> 91
+  | Bright_green -> 92
+  | Bright_yellow -> 93
+  | Bright_blue -> 94
+  | Bright_magenta -> 95
+  | Bright_cyan -> 96
+  | Bright_white -> 97
 ;;
 
 let to_int_bg color = 10 + to_int_fg color
 
 let to_string_aux s =
   let aux = function
-    | Reset ->
-      `I 0
-    | Bold ->
-      `I 1
-    | Underline ->
-      `I 4
-    | Blink ->
-      `I 5
-    | Inverse ->
-      `I 7
-    | Hidden ->
-      `I 8
-    | Foreground c ->
-      `I (to_int_fg c)
-    | Background c ->
-      `I (to_int_bg c)
-    | Text txt ->
-      `S txt
-    | F s ->
-      `S s in
-  (match aux s with `I i -> string_of_int i | `S i -> i)
+    | Reset -> `I 0
+    | Bold -> `I 1
+    | Underline -> `I 4
+    | Blink -> `I 5
+    | Inverse -> `I 7
+    | Hidden -> `I 8
+    | Foreground c -> `I (to_int_fg c)
+    | Background c -> `I (to_int_bg c)
+    | Text txt -> `S txt
+    | F s -> `S s
+  in
+  match aux s with
+  | `I i -> string_of_int i
+  | `S i -> i
 ;;
 
 let ( ! ) = text
 
 let seq_to_string = function
-  | None ->
-    ""
+  | None -> ""
   | Some fragments ->
     fragments
     |> List.rev_map to_string_aux
@@ -145,41 +120,42 @@ let seq_to_string = function
 
 let to_string ?(scoped = true) =
   let rec aux sequence acc fragment =
-    match (sequence, fragment) with
-    | (x, []) ->
-      acc
-      ^ seq_to_string x
-      ^ if scoped then seq_to_string (Some [ reset ]) else ""
-    | (x, Text str :: xs) ->
-      aux None (acc ^ seq_to_string x ^ str) xs
-    | (None, frg :: xs) ->
-      aux (Some [ frg ]) acc xs
-    | (Some x, frg :: xs) ->
-      aux (Some (frg :: x)) acc xs in
+    match sequence, fragment with
+    | x, [] ->
+      acc ^ seq_to_string x ^ if scoped then seq_to_string (Some [ reset ]) else ""
+    | x, Text str :: xs -> aux None (acc ^ seq_to_string x ^ str) xs
+    | None, frg :: xs -> aux (Some [ frg ]) acc xs
+    | Some x, frg :: xs -> aux (Some (frg :: x)) acc xs
+  in
   aux None ""
 ;;
 
 let pp ppf fragment = Format.fprintf ppf "%s" (to_string ~scoped:false fragment)
 let pps ppf fragment = Format.fprintf ppf "%s" (to_string ~scoped:true fragment)
-let only_style = List.filter (function Text _ -> false | _ -> true)
+
+let only_style =
+  List.filter (function
+      | Text _ -> false
+      | _ -> true)
+;;
 
 let box
     ?(prefix = [ !"│" ])
     ?(box_style = [ fg cyan ])
     ?(title_style = [ bold ])
     title
-    fragments =
+    fragments
+  =
   let a = (reset :: box_style) @ [ !"┌─["; reset ] in
   let t =
-    title_style
-    @ [ !title ]
-    @ (reset :: box_style)
-    @ [ !"]─→"; reset; !"\n" ] in
+    title_style @ [ !title ] @ (reset :: box_style) @ [ !"]─→"; reset; !"\n" ]
+  in
   let b = (reset :: box_style) @ [ !"└─"; reset ] in
   let l =
     List.map
       (fun x -> (reset :: box_style) @ (prefix @ (reset :: x)) @ [ !"\n" ])
-      fragments in
+      fragments
+  in
   List.flatten (a :: t :: l) @ b
 ;;
 
@@ -189,7 +165,8 @@ let generic_box
     ?(title_style = [ bold ])
     f
     title
-    fragments =
+    fragments
+  =
   let list = List.map f fragments in
   box ~prefix ~box_style ~title_style title list
 ;;
@@ -200,11 +177,10 @@ let text_box
     ?(title_style = [ bold ])
     ?(text_style = [])
     title
-    text =
-  let l =
     text
-    |> String.trim
-    |> String.lines
-    |> List.map (fun l -> text_style @ [ !l; reset ]) in
+  =
+  let l =
+    text |> String.trim |> String.lines |> List.map (fun l -> text_style @ [ !l; reset ])
+  in
   box ~prefix ~box_style ~title_style title l
 ;;

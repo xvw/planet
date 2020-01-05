@@ -5,16 +5,14 @@ module Year = struct
   type t = Year of int
 
   let make value =
-    if value < 0 || value > 999 then
-      Error (Invalid_year value)
-    else
-      Ok (Year value)
+    if value < 0 || value > 999 then Error (Invalid_year value) else Ok (Year value)
   ;;
 
   let to_string (Year n) = Format.sprintf "%03d" n
 
   let from_string str =
-    (try Scanf.sscanf str "%03d%!" make with _ -> Error (Unparsable str))
+    try Scanf.sscanf str "%03d%!" make with
+    | _ -> Error (Unparsable str)
   ;;
 
   let is_leap (Year value) =
@@ -46,86 +44,49 @@ module Month = struct
   type t = Month of (Year.t * month)
 
   let from_int = function
-    | 1 ->
-      Ok Jan
-    | 2 ->
-      Ok Feb
-    | 3 ->
-      Ok Mar
-    | 4 ->
-      Ok Apr
-    | 5 ->
-      Ok May
-    | 6 ->
-      Ok Jun
-    | 7 ->
-      Ok Jul
-    | 8 ->
-      Ok Aug
-    | 9 ->
-      Ok Sep
-    | 10 ->
-      Ok Oct
-    | 11 ->
-      Ok Nov
-    | 12 ->
-      Ok Dec
-    | n ->
-      Error (Invalid_month n)
+    | 1 -> Ok Jan
+    | 2 -> Ok Feb
+    | 3 -> Ok Mar
+    | 4 -> Ok Apr
+    | 5 -> Ok May
+    | 6 -> Ok Jun
+    | 7 -> Ok Jul
+    | 8 -> Ok Aug
+    | 9 -> Ok Sep
+    | 10 -> Ok Oct
+    | 11 -> Ok Nov
+    | 12 -> Ok Dec
+    | n -> Error (Invalid_month n)
   ;;
 
   let to_char = function
-    | Jan ->
-      'a'
-    | Feb ->
-      'b'
-    | Mar ->
-      'c'
-    | Apr ->
-      'd'
-    | May ->
-      'e'
-    | Jun ->
-      'f'
-    | Jul ->
-      'g'
-    | Aug ->
-      'h'
-    | Sep ->
-      'i'
-    | Oct ->
-      'j'
-    | Nov ->
-      'k'
-    | Dec ->
-      'l'
+    | Jan -> 'a'
+    | Feb -> 'b'
+    | Mar -> 'c'
+    | Apr -> 'd'
+    | May -> 'e'
+    | Jun -> 'f'
+    | Jul -> 'g'
+    | Aug -> 'h'
+    | Sep -> 'i'
+    | Oct -> 'j'
+    | Nov -> 'k'
+    | Dec -> 'l'
   ;;
 
   let to_int = function
-    | Jan ->
-      1
-    | Feb ->
-      2
-    | Mar ->
-      3
-    | Apr ->
-      4
-    | May ->
-      5
-    | Jun ->
-      6
-    | Jul ->
-      7
-    | Aug ->
-      8
-    | Sep ->
-      9
-    | Oct ->
-      10
-    | Nov ->
-      11
-    | Dec ->
-      12
+    | Jan -> 1
+    | Feb -> 2
+    | Mar -> 3
+    | Apr -> 4
+    | May -> 5
+    | Jun -> 6
+    | Jul -> 7
+    | Aug -> 8
+    | Sep -> 9
+    | Oct -> 10
+    | Nov -> 11
+    | Dec -> 12
   ;;
 
   let from_char char =
@@ -138,12 +99,9 @@ module Month = struct
 
   let days_in (Month (y, m)) =
     match m with
-    | Jan | Mar | May | Jul | Aug | Oct | Dec ->
-      31
-    | Feb ->
-      if Year.is_leap y then 29 else 28
-    | _ ->
-      30
+    | Jan | Mar | May | Jul | Aug | Oct | Dec -> 31
+    | Feb -> if Year.is_leap y then 29 else 28
+    | _ -> 30
   ;;
 
   let to_string (Month (y, m)) =
@@ -159,15 +117,11 @@ module Month = struct
           let* m = from_char char in
           make y m)
     with
-    | _ ->
-      Error (Unparsable str)
+    | _ -> Error (Unparsable str)
   ;;
 
   let pp ppf x = Format.fprintf ppf "%s" (to_string x)
-
-  let eq (Month (y, m)) (Month (y2, m2)) =
-    Year.eq y y2 && to_char m = to_char m2
-  ;;
+  let eq (Month (y, m)) (Month (y2, m2)) = Year.eq y y2 && to_char m = to_char m2
 
   let cmp (Month (y, m)) (Month (y2, m2)) =
     let r = Year.cmp y y2 in
@@ -175,7 +129,7 @@ module Month = struct
   ;;
 
   let to_year (Month (y, _)) = y
-  let unfold (Month (y, n)) = (Year.unfold y, to_int n)
+  let unfold (Month (y, n)) = Year.unfold y, to_int n
 end
 
 module Day = struct
@@ -183,10 +137,9 @@ module Day = struct
 
   let make month_value day_value =
     let d = Month.days_in month_value in
-    if day_value < 1 || day_value > d then
-      Error (Invalid_day day_value)
-    else
-      Ok (Day (month_value, day_value))
+    if day_value < 1 || day_value > d
+    then Error (Invalid_day day_value)
+    else Ok (Day (month_value, day_value))
   ;;
 
   let make_with year_value month_value day_value =
@@ -210,8 +163,7 @@ module Day = struct
           let* m = Month.make y c in
           make m dv)
     with
-    | _ ->
-      Error (Unparsable str)
+    | _ -> Error (Unparsable str)
   ;;
 
   let pp ppf x = Format.fprintf ppf "%s" (to_string x)
@@ -232,8 +184,8 @@ module Day = struct
   let to_year x = Month.to_year (to_month x)
 
   let unfold (Day (m, n)) =
-    let (y, m) = Month.unfold m in
-    (y, m, n)
+    let y, m = Month.unfold m in
+    y, m, n
   ;;
 end
 
@@ -241,12 +193,11 @@ module Hour = struct
   type t = Hour of (int * int)
 
   let make h m =
-    if h < 0 || h > 23 then
-      Error (Invalid_hour h)
-    else if m < 0 || m > 59 then
-      Error (Invalid_min m)
-    else
-      Ok (Hour (h, m))
+    if h < 0 || h > 23
+    then Error (Invalid_hour h)
+    else if m < 0 || m > 59
+    then Error (Invalid_min m)
+    else Ok (Hour (h, m))
   ;;
 
   let to_string (Hour (h, m)) =
@@ -262,17 +213,14 @@ module Hour = struct
       Scanf.sscanf str "%2d%2s%2d%!" (fun h flag m ->
           let hr =
             match String.lowercase_ascii flag with
-            | "am" ->
-              Ok (if h = 12 then 0 else h)
-            | "pm" ->
-              Ok (if h = 12 then h else h + 12)
-            | _ ->
-              Error (Unparsable (str ^ ": unknown " ^ flag)) in
+            | "am" -> Ok (if h = 12 then 0 else h)
+            | "pm" -> Ok (if h = 12 then h else h + 12)
+            | _ -> Error (Unparsable (str ^ ": unknown " ^ flag))
+          in
           let* h = hr in
           make h m)
     with
-    | _ ->
-      Error (Unparsable str)
+    | _ -> Error (Unparsable str)
   ;;
 
   let pp ppf x = Format.fprintf ppf "%s" (to_string x)
@@ -290,7 +238,7 @@ end
 module Moment = struct
   type t = Day.t * Hour.t
 
-  let make d h = (d, h)
+  let make d h = d, h
 
   let make_with year_value month_value day_value hour_value min_value =
     let open Result.Syntax in
@@ -313,8 +261,7 @@ module Moment = struct
           let* right = Hour.from_string h in
           Ok (make left right))
     with
-    | _ ->
-      Error (Unparsable str)
+    | _ -> Error (Unparsable str)
   ;;
 
   let pp ppf x = Format.fprintf ppf "%s" (to_string x)
@@ -331,19 +278,17 @@ module Moment = struct
     if r = 0 then Hour.cmp h h2 else r
   ;;
 
-  let extract
-      (Day.Day (Month.Month (Year.Year year, month), day), Hour.Hour (hour, min))
-      =
+  let extract (Day.Day (Month.Month (Year.Year year, month), day), Hour.Hour (hour, min)) =
     let yr = Year.Year year in
     let mt = Month.Month (yr, month) in
     let dy = Day.Day (mt, day) in
     let hr = Hour.Hour (hour, min) in
-    (yr, mt, dy, hr)
+    yr, mt, dy, hr
   ;;
 
   let unfold (dp, hp) =
-    let (y, m, d) = Day.unfold dp
-    and (h, mn) = Hour.unfold hp in
-    (y, m, d, h, mn)
+    let y, m, d = Day.unfold dp
+    and h, mn = Hour.unfold hp in
+    y, m, d, h, mn
   ;;
 end

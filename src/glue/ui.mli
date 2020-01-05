@@ -4,21 +4,20 @@ open Baremetal
 
 (** {2 Lock} *)
 
-val ensure_sectors_projects :
-     (   (string, Shapes.Sector.t) Hashtbl.t
+val ensure_sectors_projects
+  :  ((string, Shapes.Sector.t) Hashtbl.t
       -> Shapes.Context.Projects.t
-         * ( Shapes.Project.t
+         * (Shapes.Project.t
            * Paperwork.Timetable.Day.t option
-           * Shapes.Context.Projects.context option
-           )
+           * Shapes.Context.Projects.context option)
            list
       -> unit)
   -> unit
 
 (** {2 Boxes and Tables} *)
 
-val link_box :
-     ?prefix:Ansi.fragments
+val link_box
+  :  ?prefix:Ansi.fragments
   -> ?box_style:Ansi.fragments
   -> ?title_style:Ansi.fragments
   -> ?f:(Shapes.Link.simple -> Ansi.fragments)
@@ -26,8 +25,8 @@ val link_box :
   -> Shapes.Link.simple list
   -> Ansi.fragments
 
-val dated_link_box :
-     ?prefix:Ansi.fragments
+val dated_link_box
+  :  ?prefix:Ansi.fragments
   -> ?box_style:Ansi.fragments
   -> ?title_style:Ansi.fragments
   -> ?f:(Shapes.Link.dated -> Ansi.fragments)

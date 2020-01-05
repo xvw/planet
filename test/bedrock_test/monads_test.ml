@@ -34,7 +34,7 @@ end = struct
 
   let law_3 elt =
     let left = D.M.(elt >>= D.f >>= D.g) in
-    let right = D.M.(elt >>= (fun x -> D.f x >>= D.g)) in
+    let right = D.M.(elt >>= fun x -> D.f x >>= D.g) in
     same left right
   ;;
 
@@ -42,15 +42,10 @@ end = struct
   let sampling_monads f () = List.iter f D.sample_monad
 
   let suite =
-    [ test
-        ("[Law 1: " ^ str ^ "]: (return x >>= f) = f x")
-        (sampling_values law_1)
+    [ test ("[Law 1: " ^ str ^ "]: (return x >>= f) = f x") (sampling_values law_1)
     ; test ("[Law 2: " ^ str ^ "]: (m >>= return) = m") (sampling_monads law_2)
     ; test
-        ("[Law 3: "
-        ^ str
-        ^ "]: ((m >= f) >= g) = (m >= (fun x → f x >= g))"
-        )
+        ("[Law 3: " ^ str ^ "]: ((m >= f) >= g) = (m >= (fun x → f x >= g))")
         (sampling_monads law_3)
     ]
   ;;
@@ -67,23 +62,7 @@ module IntList = Driver (struct
   let g x = [ x + 3456 ]
 
   let sample_values =
-    [ 1
-    ; 2
-    ; 3
-    ; 4
-    ; 0
-    ; -1
-    ; 12
-    ; 24
-    ; 37890
-    ; 123
-    ; 79
-    ; -456789
-    ; 3456789
-    ; 567
-    ; 56789
-    ; -45678
-    ]
+    [ 1; 2; 3; 4; 0; -1; 12; 24; 37890; 123; 79; -456789; 3456789; 567; 56789; -45678 ]
   ;;
 
   let sample_monad =
@@ -108,23 +87,7 @@ module IntArray = Driver (struct
   let g x = [| x + 3456 |]
 
   let sample_values =
-    [ 1
-    ; 2
-    ; 3
-    ; 4
-    ; 0
-    ; -1
-    ; 12
-    ; 24
-    ; 37890
-    ; 123
-    ; 79
-    ; -456789
-    ; 3456789
-    ; 567
-    ; 56789
-    ; -45678
-    ]
+    [ 1; 2; 3; 4; 0; -1; 12; 24; 37890; 123; 79; -456789; 3456789; 567; 56789; -45678 ]
   ;;
 
   let sample_monad =
@@ -175,23 +138,7 @@ module IntOption = Driver (struct
   let g _ = None
 
   let sample_values =
-    [ 1
-    ; 2
-    ; 3
-    ; 4
-    ; 0
-    ; -1
-    ; 12
-    ; 24
-    ; 37890
-    ; 123
-    ; 79
-    ; -456789
-    ; 3456789
-    ; 567
-    ; 56789
-    ; -45678
-    ]
+    [ 1; 2; 3; 4; 0; -1; 12; 24; 37890; 123; 79; -456789; 3456789; 567; 56789; -45678 ]
   ;;
 
   let sample_monad = [ None; Some 10; Some (-23); Some 0; None; Some (-7890) ]
@@ -221,23 +168,7 @@ module IntResult = Driver (struct
   let g _ = Error (Error.Unknown "")
 
   let sample_values =
-    [ 1
-    ; 2
-    ; 3
-    ; 4
-    ; 0
-    ; -1
-    ; 12
-    ; 24
-    ; 37890
-    ; 123
-    ; 79
-    ; -456789
-    ; 3456789
-    ; 567
-    ; 56789
-    ; -45678
-    ]
+    [ 1; 2; 3; 4; 0; -1; 12; 24; 37890; 123; 79; -456789; 3456789; 567; 56789; -45678 ]
   ;;
 
   let sample_monad = [ g (); Ok 10; Ok (-23); Ok 0; g (); Ok (-7890) ]
@@ -253,10 +184,7 @@ module StringResult = Driver (struct
   let f x = Ok (String.lowercase_ascii x)
   let g _ = Ok "foo"
   let sample_values = [ "foo"; ""; "bar"; "baz"; "FOO" ]
-
-  let sample_monad =
-    [ Error (Error.Unknown ""); Ok "foo"; Ok "bar"; Ok "baz"; Ok "F" ]
-  ;;
+  let sample_monad = [ Error (Error.Unknown ""); Ok "foo"; Ok "bar"; Ok "baz"; Ok "F" ]
 end)
 
 let suite =

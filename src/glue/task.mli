@@ -7,8 +7,8 @@ val files : unit -> File.name list Result.t
 val fresh_id : unit -> string Result.t
 val tasks : unit -> Shapes.Task.t list Validation.t
 
-val init :
-     string option
+val init
+  :  string option
   -> string list
   -> string
   -> string

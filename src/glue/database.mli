@@ -6,8 +6,8 @@ open Baremetal
 
 type _ t
 
-val path : _ t -> File.name
 (** Fetch the path of a database. *)
+val path : _ t -> File.name
 
 (** {2 Static databases} *)
 

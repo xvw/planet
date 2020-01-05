@@ -1,25 +1,25 @@
 module L = Stdlib.List
 
 let zip left right =
-  (try Some (L.map2 (fun x y -> (x, y)) left right) with _ -> None)
+  try Some (L.map2 (fun x y -> x, y) left right) with
+  | _ -> None
 ;;
 
 let eq f left right =
   match zip left right with
-  | None ->
-    false
-  | Some l ->
-    L.for_all (fun (x, y) -> f x y) l
+  | None -> false
+  | Some l -> L.for_all (fun (x, y) -> f x y) l
 ;;
 
-let ( @? ) left = function None -> left | Some right -> left @ right
+let ( @? ) left = function
+  | None -> left
+  | Some right -> left @ right
+;;
 
 let hds index list =
   let rec aux acc i = function
-    | [] ->
-      Stdlib.List.rev acc
-    | x :: xs ->
-      if i <= 0 then Stdlib.List.rev (x :: acc) else aux (x :: acc) (pred i) xs
+    | [] -> Stdlib.List.rev acc
+    | x :: xs -> if i <= 0 then Stdlib.List.rev (x :: acc) else aux (x :: acc) (pred i) xs
   in
   aux [] (pred index) list
 ;;
@@ -46,11 +46,9 @@ module Monad = struct
     let traverse =
       let open M.Infix in
       let rec aux f = function
-        | [] ->
-          M.return []
+        | [] -> M.return []
         | x :: xs ->
-          f x
-          >>= (fun h -> aux f xs >>= (fun t -> M.return (Stdlib.List.cons h t)))
+          f x >>= fun h -> aux f xs >>= fun t -> M.return (Stdlib.List.cons h t)
       in
       aux
     ;;
@@ -68,10 +66,9 @@ module Applicative = struct
     let traverse =
       let open A.Infix in
       let rec aux f = function
-        | [] ->
-          A.pure []
-        | x :: xs ->
-          Stdlib.List.cons <$> f x <*> aux f xs in
+        | [] -> A.pure []
+        | x :: xs -> Stdlib.List.cons <$> f x <*> aux f xs
+      in
       aux
     ;;
 

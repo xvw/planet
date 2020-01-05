@@ -6,11 +6,11 @@ open Paperwork
 type uri = string
 type name = string
 
-type simple = name * uri
 (** Describe a simple link. *)
+type simple = name * uri
 
-type dated = name * Timetable.Day.t * uri
 (** Dated link. *)
+type dated = name * Timetable.Day.t * uri
 
 (** {2 Mappers} *)
 

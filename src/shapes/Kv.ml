@@ -7,8 +7,7 @@ let option obj k f =
 ;;
 
 let content = function
-  | None ->
-    []
+  | None -> []
   | Some (format, Text.File str) ->
     Qexp.
       [ node
@@ -38,8 +37,7 @@ let ziplist key list f =
   let open Qexp in
   [ node
       [ tag key
-      ; node
-          (List.map (fun (k, v) -> node [ string k; node (List.map f v) ]) list)
+      ; node (List.map (fun (k, v) -> node [ string k; node (List.map f v) ]) list)
       ]
   ]
 ;;

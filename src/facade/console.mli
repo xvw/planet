@@ -6,43 +6,43 @@ open Bedrock
 
 (** {3 Log/Print} *)
 
-val log : 'a -> unit
 (** Log value on [console]. *)
+val log : 'a -> unit
 
-val print : string -> unit
 (** Print [string] on [console]. *)
+val print : string -> unit
 
-val clear : unit -> unit
 (** Clear [console]. *)
+val clear : unit -> unit
 
-val info : 'a -> unit
 (** Log info on [console]. *)
+val info : 'a -> unit
 
-val error : 'a -> unit
 (** Log error on [console]. *)
+val error : 'a -> unit
 
-val warning : 'a -> unit
 (** Log warning on [console]. *)
+val warning : 'a -> unit
 
-val dir : 'a -> unit
 (** Display a JavaScript object whose properties should be output. *)
+val dir : 'a -> unit
 
-val trace : unit -> unit
 (** Outputs a stack trace. *)
+val trace : unit -> unit
 
-val table : ?columns:string list -> 'a -> unit
 (** Display a table on the [console]. *)
+val table : ?columns:string list -> 'a -> unit
 
 (** {3 Counters} *)
 
-val count : ?label:string -> unit -> unit
 (** If supplied, [Console.count ~label ()] outputs the number of times it has
     been called with that label. If omitted, [count] behaves as though it was
     called with the ["default"] label. *)
+val count : ?label:string -> unit -> unit
 
-val count_reset : ?label:string -> unit -> unit
 (** If supplied, [count_reset] resets the count for that [label] to 0. If
     omitted, [count_reset] resets the ["default"] counter to 0. *)
+val count_reset : ?label:string -> unit -> unit
 
 (** {3 Timers} Timers are used to calculate the procedure execution time. - We
     instantiate a timer with: [Console.time name], where [name] is a unique
@@ -54,12 +54,12 @@ val time : string -> unit
 val time_log : string -> 'a -> unit
 val time_end : string -> unit
 
-val timetrack : string -> (('a -> unit) -> unit) list -> unit
 (** [Console.timetrack name actions] is a shortcut, for example: {[ let () =
     Console.timetrack "answer time" [ (fun logger -> logger (); Console.print
     "Hello") ; (fun logger -> logger (); Console.print "World") ] ;; ]} Where
     [logger] is a [Console.time_log]. This shortcut avoid the to instanciate and
     closed a timer. *)
+val timetrack : string -> (('a -> unit) -> unit) list -> unit
 
 (** {3 Groups} You can use nested groups to help organize your output by
     visually combining related material. To create a new nested block, call
@@ -67,14 +67,14 @@ val timetrack : string -> (('a -> unit) -> unit) list -> unit
 
     To exit the current group, simply call [Console.group_end ()]. *)
 
-val group : ?label:'a -> unit -> unit
 (** Creates a new inline group in the [console]. *)
+val group : ?label:'a -> unit -> unit
 
-val group_end : unit -> unit
 (** Exits the current inline group in the [console]. *)
+val group_end : unit -> unit
 
-val render_error : Error.t list -> unit
 (** render errors *)
+val render_error : Error.t list -> unit
 
-val dump_errors : 'a -> Error.t list -> unit
 (** Generic printer *)
+val dump_errors : 'a -> Error.t list -> unit

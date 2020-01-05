@@ -16,8 +16,7 @@ module Project = struct
   type short = short_js Js.t
 
   let short_shape obj =
-    ( Js.to_string obj##.name
-    , Js.Optdef.case obj##.published (fun () -> true) Js.to_bool )
+    Js.to_string obj##.name, Js.Optdef.case obj##.published (fun () -> true) Js.to_bool
   ;;
 
   let get () =
@@ -58,8 +57,7 @@ module Log = struct
     let open Validation in
     mk
     <$> (Js.to_string %> pure) obj##.uuid
-    <*> (Js.to_string %> Paperwork.Timetable.Day.from_string %> from_result)
-          obj##.date
+    <*> (Js.to_string %> Paperwork.Timetable.Day.from_string %> from_result) obj##.date
     <*> pure obj##.duration
     <*> (Js.to_string %> pure) obj##.sector
     <*> (Js.Opt.to_option %> Option.map Js.to_string %> pure) obj##.project
@@ -74,9 +72,7 @@ module Log = struct
   ;;
 
   let get_by_id uuid =
-    "log-" ^ uuid
-    |> Storage.Local.get
-    |> Option.map (Js.string %> Json.unsafe_input)
+    "log-" ^ uuid |> Storage.Local.get |> Option.map (Js.string %> Json.unsafe_input)
   ;;
 
   let reduce_log acc log _i =
@@ -98,8 +94,7 @@ module Log = struct
            | Error errs ->
              let () = Console.dump_errors obj errs in
              acc
-           | Ok log ->
-             reduce_log acc log i))
+           | Ok log -> reduce_log acc log i))
       ()
   ;;
 
@@ -119,23 +114,21 @@ module Log = struct
         match shape obj with
         | Error errs ->
           let () = Console.dump_errors obj errs in
-          let () =
-            Js.raise_js_error (new%js Js.error_constr (Js.string "Aie Aie"))
-          in
+          let () = Js.raise_js_error (new%js Js.error_constr (Js.string "Aie Aie")) in
           h
-        | Ok log -> (
+        | Ok log ->
           let open Shapes.Log in
           let key = Format.asprintf "%a" Day.ppr log.day in
-          match Hashtbl.find_opt h key with
+          (match Hashtbl.find_opt h key with
           | None ->
             let () = Hashtbl.add h key [ log ] in
             h
           | Some acc ->
             let () = Hashtbl.remove h key in
             let () = Hashtbl.add h key (log :: acc) in
-            h
-        ))
-      (Lwt.return hash) parsed
+            h))
+      (Lwt.return hash)
+      parsed
   ;;
 
   let get_last_logs () =
@@ -153,9 +146,9 @@ module Log = struct
               | Error errs ->
                 let () = Console.dump_errors obj errs in
                 acc
-              | Ok log ->
-                log :: acc)
-            [] r)
+              | Ok log -> log :: acc)
+            []
+            r)
     >|= List.rev
   ;;
 end
@@ -172,13 +165,12 @@ module Location = struct
 
   type t = js Js.t
 
-  let mk date country city = (date, country, city)
+  let mk date country city = date, country, city
 
   let shape obj =
     let open Validation in
     mk
-    <$> (Js.to_string %> Paperwork.Timetable.Day.from_string %> from_result)
-          obj##.date
+    <$> (Js.to_string %> Paperwork.Timetable.Day.from_string %> from_result) obj##.date
     <*> (Js.to_string %> String.capitalize_ascii %> pure) obj##.country
     <*> (Js.to_string %> String.capitalize_ascii %> pure) obj##.city
   ;;
@@ -190,10 +182,7 @@ module Location = struct
     >|= (fun frame -> frame.Ajax.content)
     >|= Js.string
     >|= (fun x -> Js._JSON##parse x)
-    >|= Js.to_array
-        %> Array.to_list
-        %> List.map shape
-        %> Validation.Applicative.sequence
+    >|= Js.to_array %> Array.to_list %> List.map shape %> Validation.Applicative.sequence
   ;;
 end
 
@@ -226,8 +215,7 @@ module Tags = struct
 
   let shape (obj : t) =
     let open Validation.Infix in
-    let ftag x =
-      Js.to_array x |> Array.to_seq |> Seq.map Js.to_string |> List.of_seq in
+    let ftag x = Js.to_array x |> Array.to_seq |> Seq.map Js.to_string |> List.of_seq in
     let tags = ftag obj##.allTags in
     let content =
       Js.to_array obj##.contents
@@ -247,8 +235,9 @@ module Tags = struct
              ; tags = ftag o##.tags
              })
       |> List.of_seq
-      |> Validation.Applicative.sequence in
-    content >|= (fun ctn -> Shapes.Tag.{ all_tags = tags; contents = ctn })
+      |> Validation.Applicative.sequence
+    in
+    content >|= fun ctn -> Shapes.Tag.{ all_tags = tags; contents = ctn }
   ;;
 
   let get () =

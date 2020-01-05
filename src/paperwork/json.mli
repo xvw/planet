@@ -21,8 +21,8 @@ val obj : (string * t) list -> t
 
 (** {2 Serialization} *)
 
-val pp : Format.formatter -> t -> unit
 (** Format for [printf] *)
+val pp : Format.formatter -> t -> unit
 
-val to_string : t -> string
 (** From [Json.t] to [string] *)
+val to_string : t -> string

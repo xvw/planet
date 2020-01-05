@@ -1,13 +1,12 @@
 open Js_of_ocaml
 
 module Common : sig
-  val api :
-    < timeAgo : Dom_html.element Dom.nodeList Js.t -> unit Js.meth > Js.t
+  val api : < timeAgo : Dom_html.element Dom.nodeList Js.t -> unit Js.meth > Js.t
 end
 
 module Sector : sig
-  val nodelist_to_hashtbl :
-       Dom_html.element Dom.nodeList Js.t
+  val nodelist_to_hashtbl
+    :  Dom_html.element Dom.nodeList Js.t
     -> (string, Shapes.Sector.t) Hashtbl.t Bedrock.Validation.t
 end
 
@@ -88,8 +87,8 @@ module Tags : sig
       method button : Dom_html.buttonElement Js.t Js.Opt.t Js.readonly_prop
     end
 
-  val api :
-    < boot : boot_input Js.t -> unit Lwt.t Js.meth
-    ; random : random_input Js.t -> unit Lwt.t Js.meth >
-    Js.t
+  val api
+    : < boot : boot_input Js.t -> unit Lwt.t Js.meth
+      ; random : random_input Js.t -> unit Lwt.t Js.meth >
+      Js.t
 end

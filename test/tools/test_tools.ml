@@ -1,18 +1,17 @@
-let test name callback = (name, `Quick, callback)
+let test name callback = name, `Quick, callback
 let round_trip f g x = x |> f |> g
 
 let is_uniq_element elements base =
   elements
   |> List.fold_left (fun i elt -> if elt = base then succ i else i) 0
-  |> (fun x -> x = 1)
+  |> fun x -> x = 1
 ;;
 
 let all_are_uniq li =
   let rec aux = function
-    | [] ->
-      true
-    | x :: xs ->
-      if is_uniq_element li x then aux xs else false in
+    | [] -> true
+    | x :: xs -> if is_uniq_element li x then aux xs else false
+  in
   aux li
 ;;
 
@@ -26,10 +25,9 @@ module Testable = struct
   let check_result ty message a b =
     let r okt =
       match okt with
-      | Ok x ->
-        Ok x
-      | Error y ->
-        Error (Bedrock.Error.to_string y) in
+      | Ok x -> Ok x
+      | Error y -> Error (Bedrock.Error.to_string y)
+    in
     Alcotest.(check (result ty string) message (r a) (r b))
   ;;
 end

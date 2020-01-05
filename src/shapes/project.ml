@@ -12,31 +12,20 @@ type status =
 
 let status_from_string str =
   match String.lowercase_ascii str with
-  | "unceasing" | "continue" ->
-    Ok Unceasing
-  | "wip" | "workinprogress" | "work-in-progress" | "progress" | "onprogress" ->
-    Ok Wip
-  | "done" | "finished" ->
-    Ok Done
-  | "paused" | "pause" ->
-    Ok Paused
-  | "interrupted" | "stopped" | "abandonned" ->
-    Ok Interrupted
-  | _ ->
-    Error [ Unknown_status str ]
+  | "unceasing" | "continue" -> Ok Unceasing
+  | "wip" | "workinprogress" | "work-in-progress" | "progress" | "onprogress" -> Ok Wip
+  | "done" | "finished" -> Ok Done
+  | "paused" | "pause" -> Ok Paused
+  | "interrupted" | "stopped" | "abandonned" -> Ok Interrupted
+  | _ -> Error [ Unknown_status str ]
 ;;
 
 let status_to_string = function
-  | Unceasing ->
-    "unceasing"
-  | Wip ->
-    "wip"
-  | Done ->
-    "done"
-  | Paused ->
-    "paused"
-  | Interrupted ->
-    "interrupted"
+  | Unceasing -> "unceasing"
+  | Wip -> "wip"
+  | Done -> "done"
+  | Paused -> "paused"
+  | Interrupted -> "interrupted"
 ;;
 
 type t =
@@ -70,7 +59,8 @@ let new_project
     indexed
     content
     published
-    subprojects =
+    subprojects
+  =
   { name
   ; title
   ; synopsis
@@ -81,7 +71,10 @@ let new_project
   ; status
   ; tags
   ; picto
-  ; indexed = (match indexed with None -> true | Some x -> x)
+  ; indexed =
+      (match indexed with
+      | None -> true
+      | Some x -> x)
   ; content
   ; published
   ; subprojects
@@ -109,8 +102,7 @@ let rec from_qexp expr =
     <*> Fetch.(option Text.fetch config "content")
     <*> Fetch.(bool_refutable config "published")
     <*> Fetch.list_refutable from_qexp config "subprojects"
-  | Error _ as e ->
-    Validation.from_result e
+  | Error _ as e -> Validation.from_result e
 ;;
 
 let to_qexp project =
@@ -127,8 +119,7 @@ let to_qexp project =
   @ Kv.content project.content
   @ (project.repo
     |> Option.map (fun x -> node [ tag "repo"; Repo.to_qexp x ])
-    |> Option.to_list
-    )
+    |> Option.to_list)
   @ Kv.list "tags" project.tags string
   @ Kv.ziplist "links" project.links Link.simple_to_qexp
   @ Kv.list "releases" project.releases Link.dated_to_qexp
@@ -136,20 +127,17 @@ let to_qexp project =
 ;;
 
 let pp ppf project =
-  Format.fprintf ppf "Project(%s, ...)<%s>" project.name
-    (status_to_string project.status)
+  Format.fprintf ppf "Project(%s, ...)<%s>" project.name (status_to_string project.status)
 ;;
 
 let status_eq left right =
-  match (left, right) with
-  | (Unceasing, Unceasing)
-  | (Wip, Wip)
-  | (Done, Done)
-  | (Paused, Paused)
-  | (Interrupted, Interrupted) ->
-    true
-  | _ ->
-    false
+  match left, right with
+  | Unceasing, Unceasing
+  | Wip, Wip
+  | Done, Done
+  | Paused, Paused
+  | Interrupted, Interrupted -> true
+  | _ -> false
 ;;
 
 let rec eq a b =
@@ -160,7 +148,8 @@ let rec eq a b =
   && Option.eq ( = ) a.license b.license
   && List.eq
        (fun (k, v) (k2, v2) -> k = k2 && List.eq Link.eq_simple v v2)
-       a.links b.links
+       a.links
+       b.links
   && List.eq Link.eq_dated a.releases b.releases
   && status_eq a.status b.status
   && List.eq ( = ) a.tags b.tags
@@ -174,22 +163,22 @@ let rec eq a b =
 let rec to_json project =
   let open Json in
   obj
-    [ ("name", string project.name)
-    ; ("published", bool project.published)
-    ; ("title", string project.title)
-    ; ("synopsis", string project.synopsis)
-    ; ("repo", nullable Option.(project.repo >|= Repo.base_url %> string))
-    ; ("license", nullable Option.(project.license >|= string))
+    [ "name", string project.name
+    ; "published", bool project.published
+    ; "title", string project.title
+    ; "synopsis", string project.synopsis
+    ; "repo", nullable Option.(project.repo >|= Repo.base_url %> string)
+    ; "license", nullable Option.(project.license >|= string)
     ; ( "links"
       , obj
           (List.map
-             (fun (k, v) -> (k, array $ List.map Link.simple_to_json v))
+             (fun (k, v) -> k, array $ List.map Link.simple_to_json v)
              project.links) )
-    ; ("releases", array $ List.map Link.dated_to_json project.releases)
-    ; ("status", string $ status_to_string project.status)
-    ; ("tags", array $ List.map string project.tags)
-    ; ("picto", nullable Option.(project.picto >|= string))
-    ; ("indexed", bool project.indexed)
-    ; ("subprojects", array $ List.map to_json project.subprojects)
+    ; "releases", array $ List.map Link.dated_to_json project.releases
+    ; "status", string $ status_to_string project.status
+    ; "tags", array $ List.map string project.tags
+    ; "picto", nullable Option.(project.picto >|= string)
+    ; "indexed", bool project.indexed
+    ; "subprojects", array $ List.map to_json project.subprojects
     ]
 ;;

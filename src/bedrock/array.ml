@@ -13,9 +13,7 @@ module Monad = Monad.Make_with_bind (struct
   let return x = [| x |]
 
   let bind f x =
-    Stdlib.Array.fold_right
-      (fun x acc -> Stdlib.Array.concat [ f x; acc ])
-      x [||]
+    Stdlib.Array.fold_right (fun x acc -> Stdlib.Array.concat [ f x; acc ]) x [||]
   ;;
 end)
 

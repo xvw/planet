@@ -34,7 +34,7 @@ module Make (A : Sigs.Applicative.REQUIREMENT) :
 
   module Syntax = struct
     let ( let+ ) x f = map f x
-    let ( and+ ) xa ya = pure (fun x y -> (x, y)) <*> xa <*> ya
+    let ( and+ ) xa ya = pure (fun x y -> x, y) <*> xa <*> ya
   end
 end
 

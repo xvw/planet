@@ -1,24 +1,24 @@
 (** Clock (or effectful-counter) *)
 
-type 'a t
 (** Type for a clock. *)
+type 'a t
 
-val make : decr:('a -> 'a) -> incr:('a -> 'a) -> 'a -> 'a t
 (** Make a new clock. *)
+val make : decr:('a -> 'a) -> incr:('a -> 'a) -> 'a -> 'a t
 
-val current : 'a t -> 'a
 (** Get the current value of a clock *)
+val current : 'a t -> 'a
 
-val next : 'a t -> 'a
 (** Get (and set) the next value of a clock. *)
+val next : 'a t -> 'a
 
-val previous : 'a t -> 'a
 (** Get (and set) the previous value of a clock. *)
+val previous : 'a t -> 'a
 
-val reset : 'a t -> unit
 (** Reset a clock. *)
+val reset : 'a t -> unit
 
 (** {2 Presaved clocks} *)
 
-val int : unit -> int t
 (** Clock for the integers. *)
+val int : unit -> int t

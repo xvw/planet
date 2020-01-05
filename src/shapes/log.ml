@@ -11,7 +11,10 @@ type t =
   ; label : string
   }
 
-let qexp_project = function None -> [] | Some x -> [ Qexp.kv "project" x ]
+let qexp_project = function
+  | None -> []
+  | Some x -> [ Qexp.kv "project" x ]
+;;
 
 let to_qexp t =
   let open Qexp in
@@ -42,17 +45,24 @@ let from_qexp expr =
     and+ project = Fetch.(option string config "project")
     and+ label = Fetch.string config "label" in
     new_log uuid day duration sector project label
-  | Error _ as e ->
-    Validation.from_result e
+  | Error _ as e -> Validation.from_result e
 ;;
 
 let pp ppf log =
   let project =
-    (match log.project with None -> "" | Some x -> Format.sprintf " (%s)" x)
+    match log.project with
+    | None -> ""
+    | Some x -> Format.sprintf " (%s)" x
   in
-  Format.fprintf ppf "Log[%s][%s][%s+%dm] - %s%s" log.uuid log.sector
+  Format.fprintf
+    ppf
+    "Log[%s][%s][%s+%dm] - %s%s"
+    log.uuid
+    log.sector
     (Timetable.Day.to_string log.day)
-    log.duration log.label project
+    log.duration
+    log.label
+    project
 ;;
 
 let eq left right =
@@ -67,11 +77,11 @@ let eq left right =
 let to_json log =
   let open Json in
   obj
-    [ ("uuid", string log.uuid)
-    ; ("date", string $ Timetable.Day.to_string log.day)
-    ; ("duration", int log.duration)
-    ; ("sector", string log.sector)
-    ; ("project", nullable Option.(log.project >|= string))
-    ; ("label", string log.label)
+    [ "uuid", string log.uuid
+    ; "date", string $ Timetable.Day.to_string log.day
+    ; "duration", int log.duration
+    ; "sector", string log.sector
+    ; "project", nullable Option.(log.project >|= string)
+    ; "label", string log.label
     ]
 ;;

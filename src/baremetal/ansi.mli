@@ -9,14 +9,14 @@
 
 (** {2 Types} *)
 
-type color
 (** Describe a color *)
+type color
 
-type fragment
 (** Describe an ANSI style *)
+type fragment
 
-type fragments = fragment list
 (** Describe a Sequence of [fragment] *)
+type fragments = fragment list
 
 (** {2 Colors} [Color] is defined to be used with fragments. *)
 
@@ -52,28 +52,28 @@ val erase_above : fragment
 val erase_below : fragment
 val erase_screen : fragment
 
-val text : string -> fragment
 (** Convert a [string] to a [fragments]. *)
+val text : string -> fragment
 
-val ( ! ) : string -> fragment
 (** Same of [text]. *)
+val ( ! ) : string -> fragment
 
-val foreground : color -> fragment
 (** Convert a [color] into a [foreground fragments].*)
+val foreground : color -> fragment
 
-val fg : color -> fragment
 (** Same of [foreground]. *)
+val fg : color -> fragment
 
-val background : color -> fragment
 (** Convert a [color] into a [background fragments].*)
+val background : color -> fragment
 
-val bg : color -> fragment
 (** Same of [background]. *)
+val bg : color -> fragment
 
 (** {2 String generation and Printing} *)
 
-val to_string : ?scoped:bool -> fragments -> string
 (** Convert [fragments] to [string]. *)
+val to_string : ?scoped:bool -> fragments -> string
 
 (** [Formatter] allow you to use "ANSI formatting" with [Format/Printf] module.
     For example :
@@ -81,38 +81,38 @@ val to_string : ?scoped:bool -> fragments -> string
     {[ let open Baremetal.Ansi in Format.printf "Formatted text [%a]" pps [fg
     magenta; text "Hello world"] ]} *)
 
-val pp : Format.formatter -> fragments -> unit
 (** [Pretty printer] to deal with [Fromat] module. *)
+val pp : Format.formatter -> fragments -> unit
 
-val pps : Format.formatter -> fragments -> unit
 (** [Pretty printer] to deal with [Fromat] module with scoped fragments. *)
+val pps : Format.formatter -> fragments -> unit
 
 (** {2 Manage fragments} *)
 
-val only_style : fragments -> fragments
 (** Keep only style into a fragment *)
+val only_style : fragments -> fragments
 
-val box :
-     ?prefix:fragments
+(** Boxed fragment *)
+val box
+  :  ?prefix:fragments
   -> ?box_style:fragments
   -> ?title_style:fragments
   -> string
   -> fragments list
   -> fragments
-(** Boxed fragment *)
 
-val generic_box :
-     ?prefix:fragments
+(** generic box fragment *)
+val generic_box
+  :  ?prefix:fragments
   -> ?box_style:fragments
   -> ?title_style:fragments
   -> ('a -> fragments)
   -> string
   -> 'a list
   -> fragments
-(** generic box fragment *)
 
-val text_box :
-     ?prefix:fragments
+val text_box
+  :  ?prefix:fragments
   -> ?box_style:fragments
   -> ?title_style:fragments
   -> ?text_style:fragments

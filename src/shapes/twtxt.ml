@@ -30,17 +30,18 @@ let from_qexp qexp =
     |> Validation.from_result
     >>= (fun date ->
           int_of_string_opt p_sec
-          |> Option.map (fun sec -> (date, sec))
+          |> Option.map (fun sec -> date, sec)
           |> Validation.from_option (Of "Invalid seconds"))
-    >|= (fun (date, sec) -> make date sec message)
-  | _ ->
-    Error [ Of "Invalid twtxt" ]
+    >|= fun (date, sec) -> make date sec message
+  | _ -> Error [ Of "Invalid twtxt" ]
 ;;
 
 let to_string twtxt =
-  Format.asprintf "%a\t%s"
+  Format.asprintf
+    "%a\t%s"
     (Timetable.Moment.pp_twtxt twtxt.seconds)
-    twtxt.date twtxt.message
+    twtxt.date
+    twtxt.message
 ;;
 
 let cmp a b =

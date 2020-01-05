@@ -5,15 +5,13 @@ module type REQ = sig
   include Sigs.Monad.REQUIREMENT_JOIN with type 'a t := 'a t
 end
 
-module Join (M : Sigs.Monad.REQUIREMENT_JOIN) : REQ with type 'a t = 'a M.t =
-struct
+module Join (M : Sigs.Monad.REQUIREMENT_JOIN) : REQ with type 'a t = 'a M.t = struct
   include M
 
   let bind f m = join (map f m)
 end
 
-module Bind (M : Sigs.Monad.REQUIREMENT_BIND) : REQ with type 'a t = 'a M.t =
-struct
+module Bind (M : Sigs.Monad.REQUIREMENT_BIND) : REQ with type 'a t = 'a M.t = struct
   include M
 
   let join m = bind id m
@@ -26,16 +24,11 @@ module WithReq (M : REQ) : Sigs.Monad.API with type 'a t = 'a M.t = struct
 
     let ( >>= ) x f = bind f x
     let lift = map
-    let lift2 f a b = a >>= (fun x -> b >>= (fun y -> return (f x y)))
-
-    let lift3 f a b c =
-      a >>= (fun x -> b >>= (fun y -> c >>= (fun z -> return (f x y z))))
-    ;;
+    let lift2 f a b = a >>= fun x -> b >>= fun y -> return (f x y)
+    let lift3 f a b c = a >>= fun x -> b >>= fun y -> c >>= fun z -> return (f x y z)
 
     let lift4 f a b c d =
-      a
-      >>= fun w ->
-      b >>= (fun x -> c >>= (fun y -> d >>= (fun z -> return (f w x y z))))
+      a >>= fun w -> b >>= fun x -> c >>= fun y -> d >>= fun z -> return (f w x y z)
     ;;
 
     let void _ = return ()
@@ -46,7 +39,7 @@ module WithReq (M : REQ) : Sigs.Monad.API with type 'a t = 'a M.t = struct
   module Infix = struct
     let ( >>= ) x f = M.bind f x
     let ( >|= ) x f = M.map f x
-    let ( >> ) m n = m >>= (fun _ -> n)
+    let ( >> ) m n = m >>= fun _ -> n
     let ( <=< ) f g x = g x >>= f
     let ( >=> ) f g = flip ( <=< ) f g
     let ( =<< ) = M.bind

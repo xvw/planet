@@ -1,14 +1,25 @@
 type 'a t = ('a, Error.t) result
 type 'a st = 'a t
 
-let pop f = function Ok x -> x | Error err -> f err
-let is_valid = function Ok _ -> true | Error _ -> false
+let pop f = function
+  | Ok x -> x
+  | Error err -> f err
+;;
+
+let is_valid = function
+  | Ok _ -> true
+  | Error _ -> false
+;;
 
 module Functor = Functor.Make (struct
   type 'a t = 'a st
 
   let pure x = Ok x
-  let map f = function Error x -> Error x | Ok x -> Ok (f x)
+
+  let map f = function
+    | Error x -> Error x
+    | Ok x -> Ok (f x)
+  ;;
 end)
 
 module Monad = struct
@@ -16,7 +27,11 @@ module Monad = struct
     type 'a t = 'a st
 
     let return x = Ok x
-    let bind f = function Error x -> Error x | Ok x -> f x
+
+    let bind f = function
+      | Error x -> Error x
+      | Ok x -> f x
+    ;;
   end)
 
   include M
@@ -26,9 +41,7 @@ end
 module Applicative = struct
   module A = Applicative.Make_from_monad (Monad)
   include A
-
-  include (
-    List.Applicative.Traversable (A) : Sigs.TRAVERSABLE with type 'a t := 'a t)
+  include (List.Applicative.Traversable (A) : Sigs.TRAVERSABLE with type 'a t := 'a t)
 end
 
 module Infix = struct

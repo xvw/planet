@@ -1,7 +1,7 @@
 open Util
 
-module Make (F : Sigs.Functor.REQUIREMENT) :
-  Sigs.Functor.API with type 'a t = 'a F.t = struct
+module Make (F : Sigs.Functor.REQUIREMENT) : Sigs.Functor.API with type 'a t = 'a F.t =
+struct
   module Api = struct
     include F
 

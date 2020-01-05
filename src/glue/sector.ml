@@ -15,12 +15,8 @@ let reducer hashtable sector =
 let collect_sectors f = function
   | Qexp.Node potential_sectors ->
     let open Validation in
-    potential_sectors
-    |> List.map Shapes.Sector.from_qexp
-    |> Applicative.sequence
-    >|= f
-  | qexp ->
-    Error [ No_root_element (Qexp.to_string qexp) ]
+    potential_sectors |> List.map Shapes.Sector.from_qexp |> Applicative.sequence >|= f
+  | qexp -> Error [ No_root_element (Qexp.to_string qexp) ]
 ;;
 
 let all () =
@@ -41,17 +37,17 @@ let to_json () =
   |> from_result
   >>= collect_sectors id
   >|= fun sectors ->
-  Json.obj
-  $ List.map (fun sector -> Shapes.Sector.(sector.name, to_json sector)) sectors
+  Json.obj $ List.map (fun sector -> Shapes.Sector.(sector.name, to_json sector)) sectors
 ;;
 
 let compute_html_node acc sector =
   let open Shapes.Sector in
   acc
-  ^ Shapes.Metahtml.to_html [ "sector-data" ]
-      [ ("name", sector.name)
-      ; ("desc", sector.desc)
-      ; ("color", Paperwork.Color.to_rgb sector.color)
+  ^ Shapes.Metahtml.to_html
+      [ "sector-data" ]
+      [ "name", sector.name
+      ; "desc", sector.desc
+      ; "color", Paperwork.Color.to_rgb sector.color
       ]
 ;;
 
@@ -63,5 +59,7 @@ let to_html () =
   |> from_result
   >>= collect_sectors id
   >|= List.fold_left compute_html_node ""
-  |> (function Ok x -> x | _ -> "")
+  |> function
+  | Ok x -> x
+  | _ -> ""
 ;;

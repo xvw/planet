@@ -5,5 +5,4 @@
     http://hackage.haskell.org/} Haskell}'s implementation *)
 
 (** Build a new Functor's module using [REQUIREMENT]. *)
-module Make (F : Sigs.Functor.REQUIREMENT) :
-  Sigs.Functor.API with type 'a t = 'a F.t
+module Make (F : Sigs.Functor.REQUIREMENT) : Sigs.Functor.API with type 'a t = 'a F.t

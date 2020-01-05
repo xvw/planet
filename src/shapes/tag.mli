@@ -21,8 +21,8 @@ val to_qexp : bucket -> Paperwork.Qexp.t
 val to_json : bucket -> Paperwork.Json.t
 val sort : bucket -> bucket
 
-val add :
-     bucket
+val add
+  :  bucket
   -> string
   -> string
   -> string

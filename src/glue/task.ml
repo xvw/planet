@@ -12,21 +12,18 @@ let fresh_id () =
   let open Result.Infix in
   files ()
   >>= function
-    | [] ->
-      Ok "TASK-1"
-    | list -> (
-      try
-        list
-        |> List.map (fun x -> Scanf.sscanf x "TASK-%d.qube" (fun x -> x))
-        |> List.sort (fun a b -> Int.compare b a)
-        |> List.hd
-        |> succ
-        |> Format.asprintf "TASK-%d"
-        |> (fun x -> Ok x)
-      with
-      | _ ->
-        Error (Of "unable to find task id")
-    )
+  | [] -> Ok "TASK-1"
+  | list ->
+    (try
+       list
+       |> List.map (fun x -> Scanf.sscanf x "TASK-%d.qube" (fun x -> x))
+       |> List.sort (fun a b -> Int.compare b a)
+       |> List.hd
+       |> succ
+       |> Format.asprintf "TASK-%d"
+       |> fun x -> Ok x
+     with
+    | _ -> Error (Of "unable to find task id"))
 ;;
 
 let tasks () =
@@ -53,7 +50,7 @@ let init project sectors name description checklist tags engagement_date =
         ; sectors
         ; name
         ; description
-        ; checklist = List.map (fun x -> (false, x)) checklist
+        ; checklist = List.map (fun x -> false, x) checklist
         ; tags
         ; date
         ; opening_date = None

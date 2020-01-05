@@ -9,6 +9,7 @@ type kind =
   | Long
   | Short
 
+(** A Story *)
 type t =
   { permaname : string
   ; title : string
@@ -22,18 +23,17 @@ type t =
   ; date : Timetable.Day.t
   ; kind : kind
   }
-(** A Story *)
 
 (** {2 Api} *)
 
-val from_qexp : Paperwork.Qexp.t -> t Bedrock.Validation.t
 (** Produce a Story from a Qexp-reprsentation. *)
+val from_qexp : Paperwork.Qexp.t -> t Bedrock.Validation.t
 
-val to_qexp : t -> Paperwork.Qexp.t
 (** Produce a [Qexp] from a [Story]. *)
+val to_qexp : t -> Paperwork.Qexp.t
 
-val kind_to_string : kind -> string
 (** Render a kind to a string. *)
+val kind_to_string : kind -> string
 
 (** {2 Utils} *)
 

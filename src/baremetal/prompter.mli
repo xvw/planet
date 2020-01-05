@@ -20,8 +20,9 @@ val prompt_error : ?intro:bool -> Error.t -> unit
 
 val flush : unit -> unit
 
-val generic :
-     ?prefix:Ansi.fragments
+(** Display a generic prompter. *)
+val generic
+  :  ?prefix:Ansi.fragments
   -> ?box_style:Ansi.fragments
   -> ?title_style:Ansi.fragments
   -> ?text_style:Ansi.fragments
@@ -31,10 +32,10 @@ val generic :
   -> (answer -> 'a)
   -> question
   -> 'a
-(** Display a generic prompter. *)
 
-val string :
-     ?prefix:Ansi.fragments
+(** Display a string prompter *)
+val string
+  :  ?prefix:Ansi.fragments
   -> ?box_style:Ansi.fragments
   -> ?title_style:Ansi.fragments
   -> ?text_style:Ansi.fragments
@@ -44,10 +45,10 @@ val string :
   -> ?f:(answer -> string)
   -> question
   -> string
-(** Display a string prompter *)
 
-val string_opt :
-     ?prefix:Ansi.fragments
+(** Display a non-empty string prompter *)
+val string_opt
+  :  ?prefix:Ansi.fragments
   -> ?box_style:Ansi.fragments
   -> ?title_style:Ansi.fragments
   -> ?text_style:Ansi.fragments
@@ -57,10 +58,10 @@ val string_opt :
   -> ?f:(answer option -> string option)
   -> question
   -> string option
-(** Display a non-empty string prompter *)
 
-val int :
-     ?prefix:Ansi.fragments
+(** Display an int prompter *)
+val int
+  :  ?prefix:Ansi.fragments
   -> ?box_style:Ansi.fragments
   -> ?title_style:Ansi.fragments
   -> ?text_style:Ansi.fragments
@@ -71,10 +72,10 @@ val int :
   -> ?default:int
   -> question
   -> int
-(** Display an int prompter *)
 
-val int_opt :
-     ?prefix:Ansi.fragments
+(** Display an optional-int prompter *)
+val int_opt
+  :  ?prefix:Ansi.fragments
   -> ?box_style:Ansi.fragments
   -> ?title_style:Ansi.fragments
   -> ?text_style:Ansi.fragments
@@ -84,10 +85,10 @@ val int_opt :
   -> ?f:(int option -> int option)
   -> question
   -> int option
-(** Display an optional-int prompter *)
 
-val yes_no :
-     ?prefix:Ansi.fragments
+(** Display an yes-no prompter *)
+val yes_no
+  :  ?prefix:Ansi.fragments
   -> ?box_style:Ansi.fragments
   -> ?title_style:Ansi.fragments
   -> ?text_style:Ansi.fragments
@@ -97,10 +98,10 @@ val yes_no :
   -> ?f:(answer -> bool)
   -> question
   -> bool
-(** Display an yes-no prompter *)
 
-val resultable :
-     ?prefix:Ansi.fragments
+(** Display a prompter which could fail *)
+val resultable
+  :  ?prefix:Ansi.fragments
   -> ?box_style:Ansi.fragments
   -> ?title_style:Ansi.fragments
   -> ?text_style:Ansi.fragments
@@ -110,10 +111,10 @@ val resultable :
   -> (string -> 'a Result.t)
   -> question
   -> 'a Result.t
-(** Display a prompter which could fail *)
 
-val validable :
-     ?prefix:Ansi.fragments
+(** Display a prompter which could fail with a validation *)
+val validable
+  :  ?prefix:Ansi.fragments
   -> ?box_style:Ansi.fragments
   -> ?title_style:Ansi.fragments
   -> ?text_style:Ansi.fragments
@@ -123,10 +124,10 @@ val validable :
   -> (string -> 'a Validation.t)
   -> question
   -> 'a Validation.t
-(** Display a prompter which could fail with a validation *)
 
-val choose :
-     ?prefix:Ansi.fragments
+(** Perform a choice in an array *)
+val choose
+  :  ?prefix:Ansi.fragments
   -> ?choice_prefix:Ansi.fragment list
   -> ?choice_suffix:Ansi.fragment list
   -> ?choice_style:Ansi.fragment list
@@ -141,10 +142,10 @@ val choose :
   -> 'a array
   -> answer
   -> ('b, Error.t) result
-(** Perform a choice in an array *)
 
-val choose_multiple :
-     ?prefix:Ansi.fragments
+(** Perform a choice in an array *)
+val choose_multiple
+  :  ?prefix:Ansi.fragments
   -> ?choice_prefix:Ansi.fragment list
   -> ?choice_suffix:Ansi.fragment list
   -> ?choice_style:Ansi.fragment list
@@ -159,7 +160,6 @@ val choose_multiple :
   -> 'a array
   -> answer
   -> ('b list, Error.t) result
-(** Perform a choice in an array *)
 
 val repeat_result : 'a Result.t -> bool
 val repeat_validation : 'a Validation.t -> bool

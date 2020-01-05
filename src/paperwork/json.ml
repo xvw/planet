@@ -16,24 +16,15 @@ let array x = Array x
 let obj x = Object x
 
 let rec pp ppf = function
-  | String value ->
-    Format.fprintf ppf "\"%s\"" value
-  | Bool true ->
-    Format.fprintf ppf "true"
-  | Bool false ->
-    Format.fprintf ppf "false"
-  | Int value ->
-    Format.fprintf ppf "%d" value
-  | Float value ->
-    Format.fprintf ppf "%f" value
-  | Nullable (Some x) ->
-    Format.fprintf ppf "%a" pp x
-  | Nullable None ->
-    Format.fprintf ppf "null"
-  | Array x ->
-    Format.fprintf ppf "[@[<hov 1>%a@]]" ppa x
-  | Object x ->
-    Format.fprintf ppf "{@[<hov 1>%a@]}" ppo x
+  | String value -> Format.fprintf ppf "\"%s\"" value
+  | Bool true -> Format.fprintf ppf "true"
+  | Bool false -> Format.fprintf ppf "false"
+  | Int value -> Format.fprintf ppf "%d" value
+  | Float value -> Format.fprintf ppf "%f" value
+  | Nullable (Some x) -> Format.fprintf ppf "%a" pp x
+  | Nullable None -> Format.fprintf ppf "null"
+  | Array x -> Format.fprintf ppf "[@[<hov 1>%a@]]" ppa x
+  | Object x -> Format.fprintf ppf "{@[<hov 1>%a@]}" ppo x
 
 and ppa ppf = function
   | x :: (_ :: _ as xs) ->
@@ -42,8 +33,7 @@ and ppa ppf = function
   | x :: xs ->
     let () = Format.fprintf ppf "%a" pp x in
     ppa ppf xs
-  | [] ->
-    ()
+  | [] -> ()
 
 and ppo ppf = function
   | (key, x) :: (_ :: _ as xs) ->
@@ -52,8 +42,7 @@ and ppo ppf = function
   | (key, x) :: xs ->
     let () = Format.fprintf ppf "\"%s\": %a" key pp x in
     ppo ppf xs
-  | [] ->
-    ()
+  | [] -> ()
 ;;
 
 let to_string = Format.asprintf "%a" pp

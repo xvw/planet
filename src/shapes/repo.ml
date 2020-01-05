@@ -12,19 +12,26 @@ type t =
   | Github of git_repo
   | Gitlab of git_repo * string
 
-let t_to_string = function Github _ -> "github" | Gitlab _ -> "gitlab"
-let ftrim = String.trim %> String.lowercase_ascii
-
-let github user project_name =
-  Github { username = ftrim user; name = ftrim project_name }
+let t_to_string = function
+  | Github _ -> "github"
+  | Gitlab _ -> "gitlab"
 ;;
+
+let ftrim = String.trim %> String.lowercase_ascii
+let github user project_name = Github { username = ftrim user; name = ftrim project_name }
 
 let gitlab user branch project_name =
   Gitlab ({ username = ftrim user; name = ftrim project_name }, ftrim branch)
 ;;
 
-let domain = function Github _ -> "github.com" | Gitlab _ -> "gitlab.com"
-let scheme = function Github _ | Gitlab _ -> "https"
+let domain = function
+  | Github _ -> "github.com"
+  | Gitlab _ -> "gitlab.com"
+;;
+
+let scheme = function
+  | Github _ | Gitlab _ -> "https"
+;;
 
 let repr = function
   | (Github { username; name } | Gitlab ({ username; name }, _)) as repo ->
@@ -99,12 +106,9 @@ let from_qexp expr =
     <$> Mapper.token
           (fun s ->
             match ftrim s with
-            | "github" ->
-              Ok github
-            | "gitlab" ->
-              Ok (gitlab "master")
-            | _ ->
-              Error [ Of ("Invalid repo kind " ^ s) ])
+            | "github" -> Ok github
+            | "gitlab" -> Ok (gitlab "master")
+            | _ -> Error [ Of ("Invalid repo kind " ^ s) ])
           kind
     <*> Mapper.token sid user
     <*> Mapper.token sid name
@@ -113,14 +117,11 @@ let from_qexp expr =
     <$> Mapper.token
           (fun s ->
             match ftrim s with
-            | "gitlab" ->
-              Ok gitlab
-            | _ ->
-              Error [ Of ("Invalid repo kind " ^ s) ])
+            | "gitlab" -> Ok gitlab
+            | _ -> Error [ Of ("Invalid repo kind " ^ s) ])
           kind
     <*> Mapper.token sid user
     <*> Mapper.token sid name
     <*> Mapper.token sid branch
-  | _ ->
-    Error [ Unparsable (to_string expr) ]
+  | _ -> Error [ Unparsable (to_string expr) ]
 ;;

@@ -14,10 +14,7 @@ let database = Database.logs
 let log_folder = Database.path database
 let whereami_file = Filename.concat log_folder "whereami.qube"
 let update_table_project = Filename.concat log_folder "projects.qube"
-
-let log_pattern =
-  [ Filename.concat log_folder "log_*.qube"; update_table_project ]
-;;
+let log_pattern = [ Filename.concat log_folder "log_*.qube"; update_table_project ]
 
 let create_file day =
   let month = TT.Day.to_month day in
@@ -25,12 +22,11 @@ let create_file day =
   let cname = Filename.concat log_folder fname in
   let is_already_created = File.exists cname in
   let open Result.Infix in
-  ( if not is_already_created then (
-      let header = Format.asprintf ";; Logs for %a" TT.Month.pp month in
-      File.create cname header
-    ) else
-      Ok ()
-  )
+  (if not is_already_created
+  then (
+    let header = Format.asprintf ";; Logs for %a" TT.Month.pp month in
+    File.create cname header)
+  else Ok ())
   >> Ok (cname, is_already_created)
 ;;
 
@@ -63,8 +59,7 @@ let read_project_updates () =
   >> (update_table_project
      |> File.to_string
      |> Result.bind Qexp.from_string
-     |> Result.bind Shapes.Update_table.from_qexp
-     )
+     |> Result.bind Shapes.Update_table.from_qexp)
 ;;
 
 let push_project_updates table =
@@ -92,22 +87,18 @@ let whereami_to_json ?(reverse = true) () =
   |> File.to_stream (fun _ -> Qexp.from_stream)
   >>= Qexp.extract_root
   >|= List.map (function
-        | Qexp.Node
-            [ Qexp.Keyword daypoint
-            ; Qexp.String (_, country)
-            ; Qexp.String (_, city)
-            ] ->
-          daypoint |> TT.Day.from_string >|= (fun dp -> (dp, country, city))
-        | x ->
-          Error (Invalid_field (Qexp.to_string x)))
+          | Qexp.Node
+              [ Qexp.Keyword daypoint; Qexp.String (_, country); Qexp.String (_, city) ]
+            -> daypoint |> TT.Day.from_string >|= fun dp -> dp, country, city
+          | x -> Error (Invalid_field (Qexp.to_string x)))
   >>= Result.Applicative.sequence
   >|= List.sort sorter
   >|= List.map (fun (daypoint, country, city) ->
           Json.(
             obj
-              [ ("date", string $ Timetable.Day.to_string daypoint)
-              ; ("country", string country)
-              ; ("city", string city)
+              [ "date", string $ Timetable.Day.to_string daypoint
+              ; "country", string country
+              ; "city", string city
               ]))
   >|= Json.array
   |> Validation.from_result
@@ -141,14 +132,14 @@ let traverse ?(reverse = true) f default =
             List.map (fun x -> Shapes.Log.(from_qexp x)) nodes
             |> Validation.Applicative.sequence
             >|= List.sort sorter)
-      >|= (fun nodes -> List.fold_left f acc nodes))
-    (Ok default) files
+      >|= fun nodes -> List.fold_left f acc nodes)
+    (Ok default)
+    files
 ;;
 
 let collect_all_log_in_json ?(reverse = true) () =
   let open Validation.Infix in
-  traverse ~reverse (fun acc log -> acc @ [ Shapes.Log.to_json log ]) []
-  >|= Json.array
+  traverse ~reverse (fun acc log -> acc @ [ Shapes.Log.to_json log ]) [] >|= Json.array
 ;;
 
 let context () =

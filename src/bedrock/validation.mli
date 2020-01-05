@@ -1,21 +1,21 @@
 (** Specialization over the type [('a, 'b) result] fixed using [Error.t list] as
     ['b]. *)
 
-type 'a t = ('a, Error.t list) result
 (** type for a validation. *)
+type 'a t = ('a, Error.t list) result
 
-val pop : (Error.t list -> 'a) -> 'a t -> 'a
 (** Extract value of a result *)
+val pop : (Error.t list -> 'a) -> 'a t -> 'a
 
 val is_valid : 'a t -> bool
 
 (** {2 Promotion's function} *)
 
-val from_result : 'a Result.t -> 'a t
 (** Promote ['a Result.t] to ['a Validation.t] *)
+val from_result : 'a Result.t -> 'a t
 
-val from_option : Error.t -> 'a Option.t -> 'a t
 (** Promote ['a Option.t] to ['a Validation.t] *)
+val from_option : Error.t -> 'a Option.t -> 'a t
 
 (** {2 Functor instance} *)
 

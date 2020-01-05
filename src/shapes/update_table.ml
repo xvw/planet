@@ -18,8 +18,7 @@ let store_update table = function
       return table
     in
     final_table
-  | qexp ->
-    Error (Not_a_valid_node (Qexp.to_string qexp))
+  | qexp -> Error (Not_a_valid_node (Qexp.to_string qexp))
 ;;
 
 let from_qexp = function
@@ -30,9 +29,9 @@ let from_qexp = function
         let open Result.Syntax in
         let* hashtable = potential_table in
         store_update hashtable expr)
-      (Ok table) elts
-  | qexp ->
-    Error (No_root_element (Qexp.to_string qexp))
+      (Ok table)
+      elts
+  | qexp -> Error (No_root_element (Qexp.to_string qexp))
 ;;
 
 let to_qexp table =
@@ -40,7 +39,8 @@ let to_qexp table =
     (fun key value acc ->
       let open Qexp in
       node [ string key; keyword $ D.to_string value ] :: acc)
-    table []
+    table
+    []
   |> Qexp.node
 ;;
 
@@ -49,12 +49,12 @@ let fetch table key = Hashtbl.find_opt table key
 let push table key value =
   let () =
     match fetch table key with
-    | None ->
-      Hashtbl.add table key value
+    | None -> Hashtbl.add table key value
     | Some x ->
-      if D.cmp x value < 0 then (
+      if D.cmp x value < 0
+      then (
         let () = Hashtbl.remove table key in
-        Hashtbl.add table key value
-      ) in
+        Hashtbl.add table key value)
+  in
   table
 ;;

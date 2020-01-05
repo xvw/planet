@@ -7,28 +7,20 @@ open Error
 let invalid1 () =
   let qexp = Qexp.(node [ node [ tag "name"; string "test" ] ]) in
   match Sector.from_qexp qexp with
-  | Ok _ ->
-    failwith "should be invalid"
-  | Error [ Undefined_field "desc"; Undefined_field "color" ] ->
-    ()
-  | _ ->
-    failwith "Invalid error"
+  | Ok _ -> failwith "should be invalid"
+  | Error [ Undefined_field "desc"; Undefined_field "color" ] -> ()
+  | _ -> failwith "Invalid error"
 ;;
 
 let invalid2 () =
   let qexp =
     Qexp.(
-      node
-        [ node [ tag "name"; string "test" ]
-        ; node [ tag "color"; string "#FF0000" ]
-        ]) in
+      node [ node [ tag "name"; string "test" ]; node [ tag "color"; string "#FF0000" ] ])
+  in
   match Sector.from_qexp qexp with
-  | Ok _ ->
-    failwith "should be invalid"
-  | Error [ Undefined_field "desc" ] ->
-    ()
-  | _ ->
-    failwith "Invalid error"
+  | Ok _ -> failwith "should be invalid"
+  | Error [ Undefined_field "desc" ] -> ()
+  | _ -> failwith "Invalid error"
 ;;
 
 let invalid3 () =
@@ -37,14 +29,12 @@ let invalid3 () =
       node
         [ node [ tag "name"; string "test" ]
         ; node [ tag "desc"; string "A description" ]
-        ]) in
+        ])
+  in
   match Sector.from_qexp qexp with
-  | Ok _ ->
-    failwith "should be invalid"
-  | Error [ Undefined_field "color" ] ->
-    ()
-  | _ ->
-    failwith "Invalid error"
+  | Ok _ -> failwith "should be invalid"
+  | Error [ Undefined_field "color" ] -> ()
+  | _ -> failwith "Invalid error"
 ;;
 
 let invalid4 () =
@@ -54,14 +44,12 @@ let invalid4 () =
         [ node [ tag "name"; string "test" ]
         ; node [ tag "color"; string "#FF" ]
         ; node [ tag "desc"; string "A description" ]
-        ]) in
+        ])
+  in
   match Sector.from_qexp qexp with
-  | Ok _ ->
-    failwith "should be invalid"
-  | Error [ Unparsable_color "#FF" ] ->
-    ()
-  | _ ->
-    failwith "Invalid error"
+  | Ok _ -> failwith "should be invalid"
+  | Error [ Unparsable_color "#FF" ] -> ()
+  | _ -> failwith "Invalid error"
 ;;
 
 let valid1 () =
@@ -71,12 +59,11 @@ let valid1 () =
         [ node [ tag "name"; string "test" ]
         ; node [ tag "color"; string "#FFFFFF" ]
         ; node [ tag "desc"; string "A description" ]
-        ]) in
+        ])
+  in
   match Sector.from_qexp qexp with
-  | Ok _ ->
-    ()
-  | _ ->
-    failwith "Should be valid"
+  | Ok _ -> ()
+  | _ -> failwith "Should be valid"
 ;;
 
 let valid2 () =
@@ -86,12 +73,11 @@ let valid2 () =
         [ node [ tag "name"; string "test" ]
         ; node [ tag "color"; string "rgba(200, 23, 45, 0.6)" ]
         ; node [ tag "desc"; string "A description" ]
-        ]) in
+        ])
+  in
   match Sector.from_qexp qexp with
-  | Ok _ ->
-    ()
-  | _ ->
-    failwith "Should be valid"
+  | Ok _ -> ()
+  | _ -> failwith "Should be valid"
 ;;
 
 let suite =

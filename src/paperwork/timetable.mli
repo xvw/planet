@@ -31,41 +31,41 @@
 open Bedrock
 
 module Year : sig
-  type t
   (** Refences a year, between [2000] and [2999] and uses 3 digits : [000] for
       [2000], [999] for [2999]. For example, [167] references [2167]. *)
+  type t
 
-  val make : int -> t Result.t
   (** Try to build a [Year.t]. *)
+  val make : int -> t Result.t
 
-  val is_leap : t -> bool
   (** Check if a year is Leap or not *)
+  val is_leap : t -> bool
 
-  val to_string : t -> string
   (** Serialize a [Year.t]. *)
+  val to_string : t -> string
 
-  val from_string : string -> t Result.t
   (** Unserialize a [Year.t]. *)
+  val from_string : string -> t Result.t
 
-  val pp : Format.formatter -> t -> unit
   (** Pretty printer *)
+  val pp : Format.formatter -> t -> unit
 
-  val eq : t -> t -> bool
   (** Equality *)
+  val eq : t -> t -> bool
 
-  val cmp : t -> t -> int
   (** Compare *)
+  val cmp : t -> t -> int
 
-  val unfold : t -> int
   (** Convert to an unabstract representation *)
+  val unfold : t -> int
 end
 
 module Month : sig
-  type t
   (** [month] : is the conjunction of a [year] and a [month], referenced in
       [Month.t]. A month, in [string] is an Upcase character from [A] to [L],
       [A] for {b January}, and [L] for {b December}. For example, [019B]
       references [February 2019]. *)
+  type t
 
   (** Month representation *)
   type month =
@@ -82,144 +82,144 @@ module Month : sig
     | Nov
     | Dec
 
-  val make : Year.t -> month -> t Result.t
   (** Try to build a [Month.t]. *)
+  val make : Year.t -> month -> t Result.t
 
-  val days_in : t -> int
   (** Get the number of days in a month. *)
+  val days_in : t -> int
 
-  val to_string : t -> string
   (** Serialize a [Month.t]. *)
+  val to_string : t -> string
 
-  val from_string : string -> t Result.t
   (** Unserialize a [Month.t]. *)
+  val from_string : string -> t Result.t
 
-  val from_int : int -> month Result.t
   (** Get [Month.month] from int. *)
+  val from_int : int -> month Result.t
 
-  val pp : Format.formatter -> t -> unit
   (** Pretty printer *)
+  val pp : Format.formatter -> t -> unit
 
-  val eq : t -> t -> bool
   (** Equality *)
+  val eq : t -> t -> bool
 
-  val cmp : t -> t -> int
   (** Compare *)
+  val cmp : t -> t -> int
 
-  val to_year : t -> Year.t
   (** Convert to year *)
+  val to_year : t -> Year.t
 
-  val to_int : month -> int
   (** Convert month to int *)
+  val to_int : month -> int
 
-  val unfold : t -> int * int
   (** Convert to an unabstract representation *)
+  val unfold : t -> int * int
 end
 
 module Day : sig
-  type t
   (** Is the conjunction of a [month] and a [day], from [1] to [28], [29], [30]
       or [31] (depending on the [month] and the [year]). For example : [019B22]
       references [2019 February 22th]. *)
+  type t
 
-  val make : Month.t -> int -> t Result.t
   (** Try to build a [Day.t]. *)
+  val make : Month.t -> int -> t Result.t
 
-  val make_with : int -> Month.month -> int -> t Result.t
   (** Try to build a [Day.t] with all values. *)
+  val make_with : int -> Month.month -> int -> t Result.t
 
-  val to_string : t -> string
   (** Serialize a [Day.t]. *)
+  val to_string : t -> string
 
-  val from_string : string -> t Result.t
   (** Unserialize a [Day.t]. *)
+  val from_string : string -> t Result.t
 
-  val pp : Format.formatter -> t -> unit
   (** Pretty printer *)
+  val pp : Format.formatter -> t -> unit
 
-  val ppr : Format.formatter -> t -> unit
   (** Pretty printer for regular date *)
+  val ppr : Format.formatter -> t -> unit
 
-  val eq : t -> t -> bool
   (** Equality *)
+  val eq : t -> t -> bool
 
-  val cmp : t -> t -> int
   (** Compare *)
+  val cmp : t -> t -> int
 
-  val to_year : t -> Year.t
   (** Convert to year *)
+  val to_year : t -> Year.t
 
-  val to_month : t -> Month.t
   (** Convert to month *)
+  val to_month : t -> Month.t
 
-  val unfold : t -> int * int * int
   (** Convert to an unabstract representation *)
+  val unfold : t -> int * int * int
 end
 
 module Hour : sig
-  type t
   (** Is a tuple of the hour (from [0] to [23]) and the minuts (from [0] to
       [59]). The representation in string encodes the Hour from [1] to [12] with
       a suffix : [AM] or [PM]. For example, [11PM03] references [23:03], and
       [07AM12] references [7:12]. *)
+  type t
 
-  val make : int -> int -> t Result.t
   (** Try to build an [Hour.t] *)
+  val make : int -> int -> t Result.t
 
-  val to_string : t -> string
   (** Serialize an [Hour.t]. *)
+  val to_string : t -> string
 
-  val from_string : string -> t Result.t
   (** Unserialize an [Hour.t]. *)
+  val from_string : string -> t Result.t
 
-  val pp : Format.formatter -> t -> unit
   (** Pretty printer *)
+  val pp : Format.formatter -> t -> unit
 
-  val ppr : Format.formatter -> t -> unit
   (** Pretty Printer for regular representation *)
+  val ppr : Format.formatter -> t -> unit
 
-  val eq : t -> t -> bool
   (** Equality *)
+  val eq : t -> t -> bool
 
-  val cmp : t -> t -> int
   (** Compare *)
+  val cmp : t -> t -> int
 
-  val unfold : t -> int * int
   (** Convert to an unabstract representation *)
+  val unfold : t -> int * int
 end
 
 module Moment : sig
-  type t
   (** Is a tuple of a [day] and an [hour]. For example, the [string]
       [019C07:06PM23] references the point : [2019 February 07th, at 18:23]. *)
+  type t
 
-  val make : Day.t -> Hour.t -> t
   (** Build a [Moment.t]. *)
+  val make : Day.t -> Hour.t -> t
 
-  val make_with : int -> Month.month -> int -> int -> int -> t Result.t
   (** Build a [Moment.t] with all values. *)
+  val make_with : int -> Month.month -> int -> int -> int -> t Result.t
 
-  val to_string : t -> string
   (** Serialize a [Moment.t]. *)
+  val to_string : t -> string
 
-  val from_string : string -> t Result.t
   (** Unserialize a [Moment.t]. *)
+  val from_string : string -> t Result.t
 
-  val pp : Format.formatter -> t -> unit
   (** Pretty printer *)
+  val pp : Format.formatter -> t -> unit
 
-  val pp_twtxt : int -> Format.formatter -> t -> unit
   (** Pretty Printer *)
+  val pp_twtxt : int -> Format.formatter -> t -> unit
 
-  val eq : t -> t -> bool
   (** Equality *)
+  val eq : t -> t -> bool
 
-  val cmp : t -> t -> int
   (** Compare *)
+  val cmp : t -> t -> int
 
-  val extract : t -> Year.t * Month.t * Day.t * Hour.t
   (** Extract info *)
+  val extract : t -> Year.t * Month.t * Day.t * Hour.t
 
-  val unfold : t -> int * int * int * int * int
   (** Convert to an unabstract representation *)
+  val unfold : t -> int * int * int * int * int
 end

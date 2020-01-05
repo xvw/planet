@@ -33,12 +33,13 @@ let trace () = console##trace
 let table ?columns obj =
   let opt_columns =
     Js.Optdef.map (Js.Optdef.option columns) (fun columns ->
-        List.map Js.string columns |> Array.of_list |> Js.array) in
+        List.map Js.string columns |> Array.of_list |> Js.array)
+  in
   console##table obj opt_columns
 ;;
 
 let opt_str str_value =
-  str_value |> Js.Optdef.option |> (fun x -> Js.Optdef.map x Js.string)
+  str_value |> Js.Optdef.option |> fun x -> Js.Optdef.map x Js.string
 ;;
 
 let time name = console##time (Js.string name)
@@ -56,10 +57,7 @@ let timetrack timer_name actions =
 
 let group ?label () = console##group (Js.Optdef.option label)
 let group_end () = console##groupEnd
-
-let render_error errors =
-  errors |> List.iter (Error.to_string %> Js.string %> error)
-;;
+let render_error errors = errors |> List.iter (Error.to_string %> Js.string %> error)
 
 let dump_errors obj errs =
   error

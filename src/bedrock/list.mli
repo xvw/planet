@@ -18,7 +18,8 @@ module Monad : sig
   include Sigs.Monad.API with type 'a t = 'a list
 
   (** Produce a List Traversable from a Monad *)
-  module Traversable (M : Sigs.Monad.API) : Sigs.TRAVERSABLE with type 'a t = 'a M.t
+  module Traversable (M : Sigs.Monad.API) :
+    Sigs.TRAVERSABLE with type 'a t = 'a M.t
 end
 
 (** {2 Applicative instance} *)
@@ -26,7 +27,8 @@ module Applicative : sig
   include Sigs.Applicative.API with type 'a t = 'a list
 
   (** Produce a List Traversable from an Applicative *)
-  module Traversable (A : Sigs.Applicative.API) : Sigs.TRAVERSABLE with type 'a t = 'a A.t
+  module Traversable (A : Sigs.Applicative.API) :
+    Sigs.TRAVERSABLE with type 'a t = 'a A.t
 end
 
 (** {2 Infix operators} *)

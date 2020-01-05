@@ -31,4 +31,8 @@ val run_to_stream
   -> Unix.process_status * 'a
 
 val run_to_string : command -> Unix.process_status * string
-val capture : (unit -> 'a Bedrock.Result.t) -> Unix.process_status -> 'a Bedrock.Result.t
+
+val capture
+  :  (unit -> 'a Bedrock.Result.t)
+  -> Unix.process_status
+  -> 'a Bedrock.Result.t

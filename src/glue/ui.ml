@@ -15,13 +15,27 @@ let link_box
     ?(title_style = Ansi.[ bold ])
     ?(f =
       fun (name, url) ->
-        Ansi.[ fg green; !name; reset; !"  <"; fg yellow; underline; !url; reset; !">" ])
+        Ansi.
+          [ fg green
+          ; !name
+          ; reset
+          ; !"  <"
+          ; fg yellow
+          ; underline
+          ; !url
+          ; reset
+          ; !">"
+          ])
     title
     list
   =
-  let maxlen = List.fold_left (fun acc (x, _) -> max acc $ String.length x) 0 list in
+  let maxlen =
+    List.fold_left (fun acc (x, _) -> max acc $ String.length x) 0 list
+  in
   let nl =
-    List.map (fun (a, b) -> a ^ (String.make $ maxlen - String.length a $ ' '), b) list
+    List.map
+      (fun (a, b) -> a ^ (String.make $ maxlen - String.length a $ ' '), b)
+      list
   in
   Ansi.(generic_box ~prefix ~box_style ~title_style) f title nl
 ;;
@@ -53,10 +67,13 @@ let dated_link_box
     title
     list
   =
-  let maxlen = List.fold_left (fun acc (x, _, _) -> max acc $ String.length x) 0 list in
+  let maxlen =
+    List.fold_left (fun acc (x, _, _) -> max acc $ String.length x) 0 list
+  in
   let nl =
     List.map
-      (fun (a, b, c) -> a ^ (String.make $ maxlen - String.length a $ ' '), b, c)
+      (fun (a, b, c) ->
+        a ^ (String.make $ maxlen - String.length a $ ' '), b, c)
       list
   in
   Ansi.(generic_box ~prefix ~box_style ~title_style) f title nl
@@ -70,7 +87,8 @@ let rec may_project projects =
         ~title:"In which project?"
         (fun x -> x)
         (function
-          | Some x -> Shapes.Project.(Format.sprintf "%s - %s" x.title x.synopsis)
+          | Some x ->
+            Shapes.Project.(Format.sprintf "%s - %s" x.title x.synopsis)
           | None -> "Not connected")
         (Array.of_list all_projects)
         "Related project")
@@ -81,7 +99,11 @@ let rec may_project projects =
 
 let rec select_sectors sectors =
   let all_sectors =
-    None :: (sectors |> Hashtbl.to_seq_keys |> Seq.map (fun x -> Some x) |> List.of_seq)
+    None
+    :: (sectors
+       |> Hashtbl.to_seq_keys
+       |> Seq.map (fun x -> Some x)
+       |> List.of_seq)
   in
   try_until Prompter.repeat_result (fun () ->
       Prompter.choose_multiple
@@ -107,14 +129,17 @@ let rec get_string a b =
   | _ -> get_string a b
 ;;
 
-let get_string_opt a b = Prompter.string_opt ~answer_style:Ansi.[ fg yellow ] ~title:a b
+let get_string_opt a b =
+  Prompter.string_opt ~answer_style:Ansi.[ fg yellow ] ~title:a b
+;;
 
 let rec get_day_opt a b =
   try_until Prompter.repeat_result (fun () ->
       Prompter.string_opt ~answer_style:Ansi.[ fg yellow ] ~title:a b
       |> function
       | None -> Ok None
-      | Some x -> Paperwork.Timetable.Day.from_string x |> Result.map (fun x -> Some x))
+      | Some x ->
+        Paperwork.Timetable.Day.from_string x |> Result.map (fun x -> Some x))
   |> function
   | Ok x -> x
   | _ -> get_day_opt a b

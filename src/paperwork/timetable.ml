@@ -5,7 +5,9 @@ module Year = struct
   type t = Year of int
 
   let make value =
-    if value < 0 || value > 999 then Error (Invalid_year value) else Ok (Year value)
+    if value < 0 || value > 999
+    then Error (Invalid_year value)
+    else Ok (Year value)
   ;;
 
   let to_string (Year n) = Format.sprintf "%03d" n
@@ -121,7 +123,10 @@ module Month = struct
   ;;
 
   let pp ppf x = Format.fprintf ppf "%s" (to_string x)
-  let eq (Month (y, m)) (Month (y2, m2)) = Year.eq y y2 && to_char m = to_char m2
+
+  let eq (Month (y, m)) (Month (y2, m2)) =
+    Year.eq y y2 && to_char m = to_char m2
+  ;;
 
   let cmp (Month (y, m)) (Month (y2, m2)) =
     let r = Year.cmp y y2 in
@@ -278,7 +283,9 @@ module Moment = struct
     if r = 0 then Hour.cmp h h2 else r
   ;;
 
-  let extract (Day.Day (Month.Month (Year.Year year, month), day), Hour.Hour (hour, min)) =
+  let extract
+      (Day.Day (Month.Month (Year.Year year, month), day), Hour.Hour (hour, min))
+    =
     let yr = Year.Year year in
     let mt = Month.Month (yr, month) in
     let dy = Day.Day (mt, day) in

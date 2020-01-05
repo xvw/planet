@@ -19,7 +19,8 @@ let ( @? ) left = function
 let hds index list =
   let rec aux acc i = function
     | [] -> Stdlib.List.rev acc
-    | x :: xs -> if i <= 0 then Stdlib.List.rev (x :: acc) else aux (x :: acc) (pred i) xs
+    | x :: xs ->
+      if i <= 0 then Stdlib.List.rev (x :: acc) else aux (x :: acc) (pred i) xs
   in
   aux [] (pred index) list
 ;;

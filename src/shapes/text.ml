@@ -47,7 +47,9 @@ let fetch table field =
         ; String (_, content)
         ] ->
       let open Validation.Infix in
-      Format.from_string fmt |> Validation.from_result >>= patch_flag flag content
+      Format.from_string fmt
+      |> Validation.from_result
+      >>= patch_flag flag content
     | _ -> Error [ Invalid_field field ])
   | _ -> Error [ Invalid_field field ]
 ;;

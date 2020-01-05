@@ -9,8 +9,10 @@ let invalid1 () =
   match Project.from_qexp q with
   | Ok _ -> failwith "Invalid Project"
   | Error
-      [ Undefined_field "title"; Undefined_field "synopsis"; Undefined_field "status" ] ->
-    ()
+      [ Undefined_field "title"
+      ; Undefined_field "synopsis"
+      ; Undefined_field "status"
+      ] -> ()
   | Error xs ->
     let s = String.concat "\n" (List.map to_string xs) in
     failwith s

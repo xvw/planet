@@ -8,7 +8,9 @@ let sectors () =
   match Glue.Sector.all () with
   | Ok hashtable ->
     let () =
-      Ansi.[ bold; fg cyan; !"Available sectors\n" ] |> Ansi.to_string |> print_endline
+      Ansi.[ bold; fg cyan; !"Available sectors\n" ]
+      |> Ansi.to_string
+      |> print_endline
     in
     Hashtbl.iter
       (fun _ sector ->
@@ -190,7 +192,9 @@ let check_sector sectors = function
   | None -> Error [ Invalid_field "sector" ]
   | Some x ->
     let open Validation.Infix in
-    Validation.from_option (Unknown ("sector: " ^ x)) (Hashtbl.find_opt sectors x)
+    Validation.from_option
+      (Unknown ("sector: " ^ x))
+      (Hashtbl.find_opt sectors x)
     >|= fun x -> x.Shapes.Sector.name
 ;;
 
@@ -204,7 +208,9 @@ let check_project projects = function
 ;;
 
 let check_label x =
-  if String.length (String.trim x) = 0 then Error [ Invalid_field "label" ] else Ok x
+  if String.length (String.trim x) = 0
+  then Error [ Invalid_field "label" ]
+  else Ok x
 ;;
 
 let record sector duration timecode project label =
@@ -236,7 +242,8 @@ let push_whereami place =
             |> print_endline
         in
         filename)
-  >>= (fun filename -> File.append filename ("\n" ^ place) >> Ok (filename, place))
+  >>= (fun filename ->
+        File.append filename ("\n" ^ place) >> Ok (filename, place))
   >>= (fun result ->
         Glue.Git.stage [ Glue.Log.whereami_file ]
         >>= (fun () -> Glue.Git.commit $ "update location: " ^ place)
@@ -249,16 +256,24 @@ let whereami moment opt_country opt_city =
   | Some country, Some city ->
     let co = String.(lowercase_ascii %> trim $ country) in
     let ci = String.(lowercase_ascii %> trim $ city) in
-    let mo = Option.map Timetable.Day.from_string moment |> Option.get_or Glue.Util.day in
+    let mo =
+      Option.map Timetable.Day.from_string moment |> Option.get_or Glue.Util.day
+    in
     (match mo with
     | Error err -> Prompter.prompt_error err
     | Ok timecode ->
       let qexp_str =
         Qexp.(
           node
-            [ node [ keyword (Timetable.Day.to_string timecode); string co; string ci ] ])
+            [ node
+                [ keyword (Timetable.Day.to_string timecode)
+                ; string co
+                ; string ci
+                ]
+            ])
         |> Qexp.to_string
       in
       push_whereami qexp_str)
-  | _ -> Prompter.prompt_error (Invalid_field "country or city can not be empty")
+  | _ ->
+    Prompter.prompt_error (Invalid_field "country or city can not be empty")
 ;;

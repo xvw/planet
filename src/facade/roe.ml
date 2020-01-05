@@ -11,7 +11,12 @@ type range =
 let range_of_string obj =
   try
     Scanf.sscanf obj "%d..%d" (fun a b ->
-        Some (if a < b then Range (a, b) else if a > b then Range (b, a) else Single a))
+        Some
+          (if a < b
+          then Range (a, b)
+          else if a > b
+          then Range (b, a)
+          else Single a))
   with
   | _ -> obj |> int_of_string_opt |> Option.map (fun x -> Single x)
 ;;
@@ -31,7 +36,8 @@ let range_each f = function
 
 let range_of_element element key =
   Attr.Data.(element.%{key})
-  |> Option.map (String.split_on_char ';' %> List.map (String.trim %> range_of_string))
+  |> Option.map
+       (String.split_on_char ';' %> List.map (String.trim %> range_of_string))
   |> Option.bind Option.Applicative.sequence
 ;;
 
@@ -42,7 +48,10 @@ module Code = struct
     let subparent =
       div
         ~a:[ a_class [ "code-container" ] ]
-        [ div ~a:[ a_class [ "code-concrete-container" ] ] [ Tyxml.Of_dom.of_div node ] ]
+        [ div
+            ~a:[ a_class [ "code-concrete-container" ] ]
+            [ Tyxml.Of_dom.of_div node ]
+        ]
       |> Tyxml.To_dom.of_div
     in
     let () = Dom.appendChild parent subparent in
@@ -89,7 +98,8 @@ module Code = struct
       let box =
         div
           ~a:[ a_class [ "code-line-number" ] ]
-          (List.init l (fun i -> div [ txt $ Format.asprintf "%d" (offset + i) ]))
+          (List.init l (fun i ->
+               div [ txt $ Format.asprintf "%d" (offset + i) ]))
         |> Tyxml.To_dom.of_div
       in
       let receiver =
@@ -115,7 +125,8 @@ module Code = struct
              let real_index = i - offset + 1 in
              match
                node##querySelector
-                 (Js.string $ Format.asprintf ".sourceLine[title='%d']" real_index)
+                 (Js.string
+                 $ Format.asprintf ".sourceLine[title='%d']" real_index)
                |> Js.Opt.to_option
              with
              | None -> ()
@@ -200,7 +211,8 @@ let mount container =
                     node
                     (node##querySelectorAll (Js.string "pre.sourceCode"))
                 | "quote" -> Quote.deal_with node
-                | kind -> Error [ Of (Format.asprintf "Unknown kind [%s]" kind) ]))
+                | kind ->
+                  Error [ Of (Format.asprintf "Unknown kind [%s]" kind) ]))
   |> Validation.Applicative.sequence
   |> function
   | Ok _ -> Console.print "ROE is mounted"
@@ -212,7 +224,10 @@ let convert_to_link h =
   let content = Js.Opt.case tc (const "") Js.to_string in
   let idt = "section-" ^ Js.to_string h##.id in
   let () = h##.innerHTML := Js.string "" in
-  let a = Tyxml.Html.(a ~a:[ a_href ("#" ^ idt) ] [ txt content ]) |> Tyxml.To_dom.of_a in
+  let a =
+    Tyxml.Html.(a ~a:[ a_href ("#" ^ idt) ] [ txt content ])
+    |> Tyxml.To_dom.of_a
+  in
   let s =
     Tyxml.Html.(span ~a:[ a_id idt; a_class [ "hidden-anchor" ] ] [])
     |> Tyxml.To_dom.of_span

@@ -23,6 +23,8 @@ let commit ?desc message =
     >|= (fun x -> Shell.[ flag ~value:(string $ "\n" ^ x) "m" ])
     |> Option.get_or (const [])
   in
-  let cmd = Shell.(git $ subcommand "commit" :: flag ~value:(string message) "m" :: d) in
+  let cmd =
+    Shell.(git $ subcommand "commit" :: flag ~value:(string message) "m" :: d)
+  in
   Result.Infix.(run ok cmd >> Ok ())
 ;;

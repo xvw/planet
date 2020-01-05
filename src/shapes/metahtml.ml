@@ -9,7 +9,8 @@ let classify = function
 let to_html classes data =
   Format.asprintf {|<span class="planet-metadata%s"|} (classify classes)
   ^ List.fold_left
-      (fun rest (key, value) -> Format.asprintf {|%sdata-%s="%s"|} rest key value)
+      (fun rest (key, value) ->
+        Format.asprintf {|%sdata-%s="%s"|} rest key value)
       ""
       data
   ^ "><!-- Planet metadata --></span>\n"

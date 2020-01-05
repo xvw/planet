@@ -50,9 +50,18 @@ module type STORAGE = sig
   val iter : (key -> value -> unit) -> unit
   val find : (key -> value -> bool) -> (key * value) option
   val select : (key -> value -> bool) -> (key, value) Hashtbl.t
-  val on_change : ?prefix:string -> (change_state -> url -> unit) -> Dom.event_listener_id
+
+  val on_change
+    :  ?prefix:string
+    -> (change_state -> url -> unit)
+    -> Dom.event_listener_id
+
   val on_clear : (url -> unit) -> Dom.event_listener_id
-  val on_insert : ?prefix:string -> (key -> value -> url -> unit) -> Dom.event_listener_id
+
+  val on_insert
+    :  ?prefix:string
+    -> (key -> value -> url -> unit)
+    -> Dom.event_listener_id
 
   val on_remove
     :  ?prefix:string
@@ -92,11 +101,16 @@ end) : STORAGE = struct
     | None -> false
   ;;
 
-  let handler = Js.Optdef.case R.handler (fun () -> raise Not_supported) (fun x -> x)
+  let handler =
+    Js.Optdef.case R.handler (fun () -> raise Not_supported) (fun x -> x)
+  ;;
+
   let length () = handler##.length
 
   let get key =
-    handler##getItem (Js.string key) |> Js.Opt.to_option |> Option.map Js.to_string
+    handler##getItem (Js.string key)
+    |> Js.Opt.to_option
+    |> Option.map Js.to_string
   ;;
 
   let set key value =

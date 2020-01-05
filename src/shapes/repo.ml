@@ -18,7 +18,10 @@ let t_to_string = function
 ;;
 
 let ftrim = String.trim %> String.lowercase_ascii
-let github user project_name = Github { username = ftrim user; name = ftrim project_name }
+
+let github user project_name =
+  Github { username = ftrim user; name = ftrim project_name }
+;;
 
 let gitlab user branch project_name =
   Gitlab ({ username = ftrim user; name = ftrim project_name }, ftrim branch)

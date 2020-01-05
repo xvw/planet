@@ -111,7 +111,10 @@ module Common = struct
   let compute_time_ago node =
     let open Validation.Infix in
     match
-      get_data (Timetable.Day.from_string %> Validation.from_result) node "planet-ago"
+      get_data
+        (Timetable.Day.from_string %> Validation.from_result)
+        node
+        "planet-ago"
     with
     | Error errs ->
       let () = node##.classList##add (Js.string "hidden-object") in
@@ -120,7 +123,10 @@ module Common = struct
       let d = Calendar.from_day min_date in
       let txt_content = Calendar.Ago.compute d in
       let content =
-        txt_content |> Calendar.Ago.stringify |> Tyxml.Html.txt |> Tyxml.To_dom.of_pcdata
+        txt_content
+        |> Calendar.Ago.stringify
+        |> Tyxml.Html.txt
+        |> Tyxml.To_dom.of_pcdata
       in
       Dom.appendChild node content
   ;;
@@ -140,7 +146,8 @@ module Common = struct
                 [ h3 [ span [ txt section_name ] ]
                 ; ul
                     (List.map
-                       (fun (name, url) -> li [ a ~a:[ a_href url ] [ txt name ] ])
+                       (fun (name, url) ->
+                         li [ a ~a:[ a_href url ] [ txt name ] ])
                        links)
                 ]
             ])
@@ -153,7 +160,9 @@ module Common = struct
     | _ :: _ as links ->
       let open Tyxml.Html in
       let bottom_content =
-        div ~a:[ a_class ("list-of-links" :: classes) ] (render_links_subsection links)
+        div
+          ~a:[ a_class ("list-of-links" :: classes) ]
+          (render_links_subsection links)
         |> Tyxml.To_dom.of_div
       in
       Dom.appendChild container bottom_content
@@ -175,7 +184,9 @@ module Common = struct
                  (fun tag ->
                    li
                      [ a
-                         ~a:[ a_href ("/tags.html#" ^ String.lowercase_ascii tag) ]
+                         ~a:
+                           [ a_href ("/tags.html#" ^ String.lowercase_ascii tag)
+                           ]
                          [ txt tag ]
                      ])
                  tags)
@@ -234,8 +245,12 @@ module Graph = struct
                 [ a_class [ "day-box"; "non-empty" ]
                 ; a_onclick (fun _ ->
                       let () = render_logs current_logs in
-                      let suffix = if List.length current_logs > 1 then "s" else "" in
-                      let label = Format.asprintf "Entrée%s du %s" suffix key in
+                      let suffix =
+                        if List.length current_logs > 1 then "s" else ""
+                      in
+                      let label =
+                        Format.asprintf "Entrée%s du %s" suffix key
+                      in
                       let () = title_box##.innerHTML := Js.string label in
                       true)
                 ]
@@ -293,7 +308,10 @@ module Sector = struct
            Shapes.Sector.make
            <$> get_data (fun x -> Ok x) node "name"
            <*> get_data (fun x -> Ok x) node "desc"
-           <*> get_data (Color.from_string %> Validation.from_result) node "color"
+           <*> get_data
+                 (Color.from_string %> Validation.from_result)
+                 node
+                 "color"
            >|= fun sector -> sector.name, sector)
     |> Validation.Applicative.sequence
     |> Validation.map (List.to_seq %> Hashtbl.of_seq)
@@ -420,7 +438,8 @@ module Stats = struct
           ; a_height $ d ~u:`Pt height
           ; a_class [ "tracking-graph" ]
           ]
-      (sectors_charts width counters @ sectors_legend computed_height_charts counters)
+      (sectors_charts width counters
+      @ sectors_legend computed_height_charts counters)
   ;;
 
   let render_timedata
@@ -448,9 +467,16 @@ module Stats = struct
                 logs_counter
                 (if logs_counter > 1 then "s" else "")
           ; Common.create_data_block "Durée"
-            $ Format.asprintf "~%0.1f heure%s" hours (if hours >= 2.0 then "s" else "")
+            $ Format.asprintf
+                "~%0.1f heure%s"
+                hours
+                (if hours >= 2.0 then "s" else "")
           ])
-    ; render_sector_graph (float_of_int width) minuts_counter sectors sectors_counter
+    ; render_sector_graph
+        (float_of_int width)
+        minuts_counter
+        sectors
+        sectors_counter
     ]
   ;;
 end
@@ -492,7 +518,12 @@ module Project = struct
                     li
                       [ span
                           ~a:[ a_class [ "date" ] ]
-                          [ txt $ Format.asprintf "%a" Paperwork.Timetable.Day.ppr date ]
+                          [ txt
+                            $ Format.asprintf
+                                "%a"
+                                Paperwork.Timetable.Day.ppr
+                                date
+                          ]
                       ; a ~a:[ a_href url ] [ txt name ]
                       ])
                   cutted)
@@ -559,7 +590,9 @@ module Project = struct
         in
         let tags = Common.render_tags Shapes.Project.(project.tags) in
         let releases =
-          render_releases project.repo Shapes.Project.(List.rev project.releases)
+          render_releases
+            project.repo
+            Shapes.Project.(List.rev project.releases)
         in
         div
           ~a:[ a_class [ "project-block"; "tracking" ] ]
@@ -577,7 +610,8 @@ module Project = struct
     node
     |> validate "unable to find project metadata"
     >>= (fun textarea ->
-          textarea##.textContent |> validate "unable to find meta data for project")
+          textarea##.textContent
+          |> validate "unable to find meta data for project")
     >|= Js.to_string
     >>= Qexp.from_string %> Validation.from_result
     >>= Shapes.Project.from_qexp
@@ -594,7 +628,12 @@ module Project = struct
          <*> Sector.nodelist_to_hashtbl input##.sectors
        with
       | Ok (right_container, bottom_container, project, sectors) ->
-        render_summary right_container bottom_container project input##.timedata sectors
+        render_summary
+          right_container
+          bottom_container
+          project
+          input##.timedata
+          sectors
       | Error errs -> Console.render_error errs)
   ;;
 
@@ -653,7 +692,8 @@ module Story = struct
     node
     |> validate "unable to find story metadata"
     >>= (fun textarea ->
-          textarea##.textContent |> validate "unable to find meta data for story")
+          textarea##.textContent
+          |> validate "unable to find meta data for story")
     >|= Js.to_string
     >>= Qexp.from_string %> Validation.from_result
     >>= Shapes.Story.from_qexp
@@ -667,7 +707,9 @@ module Story = struct
         Storage.Local.get key
         >>= U.get_by_id
         >>= fun elt ->
-        elt##.textContent |> Js.Opt.to_option >|= fun txt -> elt, Js.to_string txt)
+        elt##.textContent
+        |> Js.Opt.to_option
+        >|= fun txt -> elt, Js.to_string txt)
     with
     | None -> ()
     | Some (elt, text) ->
@@ -695,11 +737,15 @@ module Story = struct
          (fun w x y z -> w, x, y, z)
          <$> validate "unable to find right container" input##.rightContainer
          <*> validate "unable to find bottom container" input##.bottomContainer
-         <*> validate "unable to find resume detail container" input##.resumeDetails
+         <*> validate
+               "unable to find resume detail container"
+               input##.resumeDetails
          <*> validate_story input##.story
        with
       | Ok (right_container, bottom_container, resume_details, story) ->
-        let resume, progress = render_summary right_container bottom_container story in
+        let resume, progress =
+          render_summary right_container bottom_container story
+        in
         let tdom = Tyxml.To_dom.of_div in
         (* let tdoma = Tyxml.To_dom.of_a in *)
         Resume.handle
@@ -825,7 +871,8 @@ module Diary = struct
     let open Validation.Infix in
     node
     |> validate "unable to find context metadata"
-    >>= (fun textarea -> textarea##.textContent |> validate "unable to find context")
+    >>= (fun textarea ->
+          textarea##.textContent |> validate "unable to find context")
     >|= Js.to_string
     >>= Qexp.from_string %> Validation.from_result
     >>= Shapes.Context.context_from_qexp
@@ -875,7 +922,8 @@ module Diary = struct
                let open Option.Infix in
                match
                  log.project
-                 >>= fun key -> Hashtbl.find_opt projects key >|= fun value -> key, value
+                 >>= fun key ->
+                 Hashtbl.find_opt projects key >|= fun value -> key, value
                with
                | None -> []
                | Some (key, value) ->
@@ -884,7 +932,9 @@ module Diary = struct
                      [ (if value
                        then
                          a
-                           ~a:[ a_href $ Format.asprintf "/projects/%s.html" key ]
+                           ~a:
+                             [ a_href $ Format.asprintf "/projects/%s.html" key
+                             ]
                            [ txt key ]
                        else span [ txt key ])
                      ]
@@ -939,16 +989,22 @@ module Diary = struct
     | Ok (calendar_box, statistic_box, entry_box, title_box, sectors, ctx) ->
       let open Lwt.Infix in
       Binding.Log.get_last_logs ()
-      >>= (fun logs -> Binding.Project.get () >|= fun projects -> logs, projects)
+      >>= (fun logs ->
+            Binding.Project.get () >|= fun projects -> logs, projects)
       >|= (fun (logs, projects) ->
             let () = render_logs sectors entry_box projects logs in
             projects)
       >|= (fun projects ->
             let () = render_stats ctx sectors statistic_box in
             projects)
-      >>= (fun projects -> Binding.Log.collect () >|= fun logs -> logs, projects)
+      >>= (fun projects ->
+            Binding.Log.collect () >|= fun logs -> logs, projects)
       >|= fun (logs, projects) ->
-      render_calendar calendar_box title_box (render_logs sectors entry_box projects) logs
+      render_calendar
+        calendar_box
+        title_box
+        (render_logs sectors entry_box projects)
+        logs
     | Error errs -> Lwt.return (Console.render_error errs)
   ;;
 
@@ -975,7 +1031,9 @@ module Tags = struct
   let render_tags container tags =
     let open Tyxml.Html in
     let html_tags =
-      List.map (fun x -> a ~a:[ a_href ("#" ^ x); a_user_data "tag" x ] [ txt x ]) tags
+      List.map
+        (fun x -> a ~a:[ a_href ("#" ^ x); a_user_data "tag" x ] [ txt x ])
+        tags
     in
     let wildcard =
       a ~a:[ a_href "#*"; a_user_data "tag" "*" ] [ txt "toutes les entrées" ]
@@ -1028,7 +1086,9 @@ module Tags = struct
     let selector = Js.string "a[data-filterable]" in
     let selector_tags = Js.string (Format.asprintf "a[data-tag]") in
     let nodes = container##querySelectorAll selector |> Dom.list_of_nodeList in
-    let tags = tags_container##querySelectorAll selector_tags |> Dom.list_of_nodeList in
+    let tags =
+      tags_container##querySelectorAll selector_tags |> Dom.list_of_nodeList
+    in
     let () =
       List.iter
         (fun node ->
@@ -1042,7 +1102,9 @@ module Tags = struct
         (fun node ->
           match Attr.Data.(node.%{"tag"}) with
           | Some data_tags ->
-            let tagslist = String.split_on_char ',' data_tags |> List.map String.trim in
+            let tagslist =
+              String.split_on_char ',' data_tags |> List.map String.trim
+            in
             if List.exists (String.equal hash) tagslist
             then node##.classList##remove removable
             else if String.length hash = 0 || String.equal hash "*"

@@ -41,7 +41,9 @@ end
 module Applicative = struct
   module A = Applicative.Make_from_monad (Monad)
   include A
-  include (List.Applicative.Traversable (A) : Sigs.TRAVERSABLE with type 'a t := 'a t)
+
+  include (
+    List.Applicative.Traversable (A) : Sigs.TRAVERSABLE with type 'a t := 'a t)
 end
 
 module Infix = struct

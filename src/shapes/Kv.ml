@@ -37,7 +37,8 @@ let ziplist key list f =
   let open Qexp in
   [ node
       [ tag key
-      ; node (List.map (fun (k, v) -> node [ string k; node (List.map f v) ]) list)
+      ; node
+          (List.map (fun (k, v) -> node [ string k; node (List.map f v) ]) list)
       ]
   ]
 ;;

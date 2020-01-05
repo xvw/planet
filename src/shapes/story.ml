@@ -80,13 +80,19 @@ let from_qexp expr =
     <*> Fetch.(option string config "related_project")
     <*> Fetch.string config "category"
     <*> Fetch.list_refutable Table.Mapper.string config "tags"
-    <*> Fetch.token (Timetable.Day.from_string %> Validation.from_result) config "date"
+    <*> Fetch.token
+          (Timetable.Day.from_string %> Validation.from_result)
+          config
+          "date"
     <*> Fetch.token kind_from_string config "kind"
 ;;
 
 let to_qexp story =
   let open Qexp in
-  [ kv "permaname" story.permaname; kv "title" story.title; kv "synopsis" story.synopsis ]
+  [ kv "permaname" story.permaname
+  ; kv "title" story.title
+  ; kv "synopsis" story.synopsis
+  ]
   @ Kv.ziplist "links" story.links Link.simple_to_qexp
   @ Kv.content (Some story.content)
   @ [ kv ~v:atom "published" (if story.published then "true" else "false") ]
@@ -146,7 +152,8 @@ let to_json story =
     ; "tags", array $ List.map string story.tags
     ; ( "links"
       , obj
-          (List.map (fun (k, v) -> k, array $ List.map Link.simple_to_json v) story.links)
-      )
+          (List.map
+             (fun (k, v) -> k, array $ List.map Link.simple_to_json v)
+             story.links) )
     ]
 ;;

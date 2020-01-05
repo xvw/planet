@@ -22,7 +22,10 @@ let node children = Node children
 let block children = Block children
 let double_quote = Double
 let back_tick = Backtick
-let kv ?(k = tag) ?(v = string ~quote:double_quote) key value = node [ k key; v value ]
+
+let kv ?(k = tag) ?(v = string ~quote:double_quote) key value =
+  node [ k key; v value ]
+;;
 
 let fpeek stream =
   match Stream.next stream with
@@ -40,7 +43,8 @@ let consume_line stream =
 ;;
 
 let is_token_char = function
-  | '-' | '_' | '[' | ']' | '`' | '\'' | '0' .. '9' | 'A' .. 'Z' | 'a' .. 'z' -> true
+  | '-' | '_' | '[' | ']' | '`' | '\'' | '0' .. '9' | 'A' .. 'Z' | 'a' .. 'z' ->
+    true
   | _ -> false
 ;;
 
@@ -66,7 +70,8 @@ let parse_keyword = parse_member keyword
 
 let parse_atom prefix stream =
   let open Result.Monad in
-  parse_member id stream >|= fun (acc, c) -> atom (Format.sprintf "%c%s" prefix acc), c
+  parse_member id stream
+  >|= fun (acc, c) -> atom (Format.sprintf "%c%s" prefix acc), c
 ;;
 
 let parse_string stream quote delimiter =

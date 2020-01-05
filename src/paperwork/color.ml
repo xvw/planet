@@ -28,7 +28,10 @@ let to_rgb color =
   | Some right -> Format.sprintf "rgba(%s, %g)" left right
 ;;
 
-let to_hex color = Format.sprintf "#%02x%02x%02x" color.red color.green color.blue
+let to_hex color =
+  Format.sprintf "#%02x%02x%02x" color.red color.green color.blue
+;;
+
 let to_string = to_rgb
 
 let pp ppf color =
@@ -37,7 +40,13 @@ let pp ppf color =
     | None | Some 1.0 -> ""
     | Some x -> Format.sprintf " ,a:%g" x
   in
-  Format.fprintf ppf "Color(r:%d, g:%d, b:%d%s)" color.red color.green color.blue alpha
+  Format.fprintf
+    ppf
+    "Color(r:%d, g:%d, b:%d%s)"
+    color.red
+    color.green
+    color.blue
+    alpha
 ;;
 
 let eq a b =

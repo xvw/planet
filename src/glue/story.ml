@@ -36,14 +36,18 @@ let fetch_story_text story =
   Shapes.Text.extension_for story.content, content
 ;;
 
-let as_textarea = Format.asprintf {|<textarea data-planet-qexp="%s">%s</textarea>|}
+let as_textarea =
+  Format.asprintf {|<textarea data-planet-qexp="%s">%s</textarea>|}
+;;
 
 let to_hakyll story =
   let open Shapes.Story in
   let open Result.Infix in
   fetch_story_text story
   >|= (fun (extension, content) ->
-        let story_qexp = story |> Shapes.Story.to_qexp |> Paperwork.Qexp.to_string in
+        let story_qexp =
+          story |> Shapes.Story.to_qexp |> Paperwork.Qexp.to_string
+        in
         let partial =
           Format.asprintf
             "%s.%s.qexp.html"
@@ -59,7 +63,10 @@ let to_hakyll story =
               ; render_string "synopsis" story.synopsis
               ; render_string "description" story.synopsis
               ; render_if "published" story.published
-              ; render "date" (Format.asprintf "%a" Timetable.Day.ppr) story.date
+              ; render
+                  "date"
+                  (Format.asprintf "%a" Timetable.Day.ppr)
+                  story.date
               ; may_render "related_project" Util.id story.related_project
               ; render_string "category" story.category
               ; render "kind" Shapes.Story.kind_to_string story.kind

@@ -42,7 +42,9 @@ let parse_some_colors () =
 ;;
 
 let suite =
-  [ test "[color creation and serialization] some random cases" produce_some_colors
+  [ test
+      "[color creation and serialization] some random cases"
+      produce_some_colors
   ; test "[color parsing] some random cases" parse_some_colors
   ]
 ;;

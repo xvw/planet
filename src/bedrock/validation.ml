@@ -63,7 +63,9 @@ module Applicative = struct
   end)
 
   include A
-  include (List.Applicative.Traversable (A) : Sigs.TRAVERSABLE with type 'a t := 'a t)
+
+  include (
+    List.Applicative.Traversable (A) : Sigs.TRAVERSABLE with type 'a t := 'a t)
 end
 
 module Infix = struct

@@ -36,11 +36,15 @@ let fragments_to_string fragments =
 ;;
 
 let pp_fragments ppf = function
-  | _ :: _ as fragments -> Format.fprintf ppf " %s" (fragments_to_string fragments)
+  | _ :: _ as fragments ->
+    Format.fprintf ppf " %s" (fragments_to_string fragments)
   | [] -> ()
 ;;
 
-let pp ppf (cmd, fragments) = Format.fprintf ppf "%s%a" cmd pp_fragments fragments
+let pp ppf (cmd, fragments) =
+  Format.fprintf ppf "%s%a" cmd pp_fragments fragments
+;;
+
 let to_string = Format.asprintf "%a" pp
 let run command = command |> to_string |> Sys.command
 

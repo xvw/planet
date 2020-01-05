@@ -13,7 +13,8 @@ type status =
 let status_from_string str =
   match String.lowercase_ascii str with
   | "unceasing" | "continue" -> Ok Unceasing
-  | "wip" | "workinprogress" | "work-in-progress" | "progress" | "onprogress" -> Ok Wip
+  | "wip" | "workinprogress" | "work-in-progress" | "progress" | "onprogress" ->
+    Ok Wip
   | "done" | "finished" -> Ok Done
   | "paused" | "pause" -> Ok Paused
   | "interrupted" | "stopped" | "abandonned" -> Ok Interrupted
@@ -127,7 +128,11 @@ let to_qexp project =
 ;;
 
 let pp ppf project =
-  Format.fprintf ppf "Project(%s, ...)<%s>" project.name (status_to_string project.status)
+  Format.fprintf
+    ppf
+    "Project(%s, ...)<%s>"
+    project.name
+    (status_to_string project.status)
 ;;
 
 let status_eq left right =

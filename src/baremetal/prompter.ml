@@ -13,7 +13,9 @@ let prompt_errors ?(intro = true) errors =
       |> print_endline
   in
   let () =
-    List.iter (fun error -> Format.printf "  - %s@." (Error.to_string error)) errors
+    List.iter
+      (fun error -> Format.printf "  - %s@." (Error.to_string error))
+      errors
   in
   ()
 ;;
@@ -77,7 +79,15 @@ let string
     ?(bottom = Ansi.[ !"?" ])
     ?(f = fun x -> x)
   =
-  generic ~prefix ~box_style ~title_style ~text_style ~answer_style ~title ~bottom f
+  generic
+    ~prefix
+    ~box_style
+    ~title_style
+    ~text_style
+    ~answer_style
+    ~title
+    ~bottom
+    f
 ;;
 
 let string_opt
@@ -160,7 +170,15 @@ let yes_no
         let res = String.trim (String.lowercase_ascii x) in
         res = "y" || res = "yes" || res = "1")
   =
-  generic ~prefix ~box_style ~title_style ~text_style ~answer_style ~title ~bottom f
+  generic
+    ~prefix
+    ~box_style
+    ~title_style
+    ~text_style
+    ~answer_style
+    ~title
+    ~bottom
+    f
 ;;
 
 let resultable
@@ -173,7 +191,15 @@ let resultable
     ?(bottom = Ansi.[ fg red; !"?" ])
     f
   =
-  generic ~prefix ~box_style ~title_style ~text_style ~answer_style ~title ~bottom f
+  generic
+    ~prefix
+    ~box_style
+    ~title_style
+    ~text_style
+    ~answer_style
+    ~title
+    ~bottom
+    f
 ;;
 
 let validable
@@ -186,7 +212,15 @@ let validable
     ?(bottom = Ansi.[ fg red; !"?" ])
     f
   =
-  generic ~prefix ~box_style ~title_style ~text_style ~answer_style ~title ~bottom f
+  generic
+    ~prefix
+    ~box_style
+    ~title_style
+    ~text_style
+    ~answer_style
+    ~title
+    ~bottom
+    f
 ;;
 
 let choose
@@ -213,7 +247,10 @@ let choose
            then Ansi.(choice_suffix @ choice_prefix @ [ reset ])
            else choice_suffix
          in
-         choice_style @ p @ Ansi.[ !(Format.sprintf "%d.%s" $ i $ g choices.(i)) ] @ s)
+         choice_style
+         @ p
+         @ Ansi.[ !(Format.sprintf "%d.%s" $ i $ g choices.(i)) ]
+         @ s)
     |> List.flatten)
     @ bottom
   in
@@ -259,7 +296,10 @@ let choose_multiple
            then Ansi.(choice_suffix @ choice_prefix @ [ reset ])
            else choice_suffix
          in
-         choice_style @ p @ Ansi.[ !(Format.sprintf "%d.%s" $ i $ g choices.(i)) ] @ s)
+         choice_style
+         @ p
+         @ Ansi.[ !(Format.sprintf "%d.%s" $ i $ g choices.(i)) ]
+         @ s)
     |> List.flatten)
     @ bottom
   in

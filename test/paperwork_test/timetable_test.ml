@@ -86,7 +86,8 @@ let test_is_leap () =
       (fun x ->
         match Year.make x >|= Year.is_leap with
         | Ok bool -> bool
-        | Error err -> failwith ("Invalid year generation : " ^ Error.to_string err))
+        | Error err ->
+          failwith ("Invalid year generation : " ^ Error.to_string err))
       [ 1; 2; 4; 72; 96; 952; 997; 24 ]
   with
   | [ 4; 72; 96; 952; 24 ] -> ()
@@ -344,7 +345,9 @@ let test_month_from_string2 () =
 
 let test_day_from_string1 () =
   let open Result.Infix in
-  let subject = [ "000A12"; "001D30"; "123C31"; "156E28"; "999F17"; "004B29" ] in
+  let subject =
+    [ "000A12"; "001D30"; "123C31"; "156E28"; "999F17"; "004B29" ]
+  in
   let output =
     List.bind
       (fun x ->
@@ -387,7 +390,15 @@ let test_day_from_string2 () =
 let test_hour_from_string1 () =
   let open Result.Infix in
   let subject =
-    [ "10PM59"; "07AM36"; "12AM25"; "12PM52"; "06AM31"; "08PM03"; "11AM12"; "11PM34" ]
+    [ "10PM59"
+    ; "07AM36"
+    ; "12AM25"
+    ; "12PM52"
+    ; "06AM31"
+    ; "08PM03"
+    ; "11AM12"
+    ; "11PM34"
+    ]
   in
   let output =
     List.bind

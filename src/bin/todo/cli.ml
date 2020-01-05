@@ -44,14 +44,16 @@ let move =
     let doc = "New state of the task" in
     Arg.(required & pos 1 (some string) None & info [] ~docv:"TASKSTATE" ~doc)
   in
-  Term.(const Lib.move $ taskname $ state), Term.info "move" ~version ~doc ~exits ~man
+  ( Term.(const Lib.move $ taskname $ state)
+  , Term.info "move" ~version ~doc ~exits ~man )
 ;;
 
 let index =
   let doc = "Manage build process of Planet" in
   let man = Glue.Man.default call in
   let exits = Term.default_exits in
-  Term.(ret (const (`Help (`Pager, None)))), Term.info call ~version ~doc ~exits ~man
+  ( Term.(ret (const (`Help (`Pager, None))))
+  , Term.info call ~version ~doc ~exits ~man )
 ;;
 
 let invoke () = Term.(exit @@ eval_choice index [ create; show; move; check ])

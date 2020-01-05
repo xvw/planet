@@ -111,7 +111,8 @@ let out_channel
   let over = if overwrite then [] else [ Open_excl ] in
   let f = mode :: appd :: (flags @ over) in
   try Ok (open_out_gen f chmod filename) with
-  | Sys_error str when str = filename ^ ": File exists" -> Error (Already_exists filename)
+  | Sys_error str when str = filename ^ ": File exists" ->
+    Error (Already_exists filename)
   | _ -> Error (Unreadable filename)
 ;;
 
@@ -136,14 +137,19 @@ let write
 ;;
 
 let create ?(binary = false) ?(chmod = 0o777) filename content =
-  write ~chmod ~binary (fun channel -> Ok (output_string channel content)) filename
+  write
+    ~chmod
+    ~binary
+    (fun channel -> Ok (output_string channel content))
+    filename
 ;;
 
 let touch ?(binary = false) ?(chmod = 0o777) filename =
   if exists filename then Ok () else create ~binary ~chmod filename ""
 ;;
 
-let append ?(binary = false) ?(create = false) ?(chmod = 0o777) filename content =
+let append ?(binary = false) ?(create = false) ?(chmod = 0o777) filename content
+  =
   if (not create) && not (exists filename)
   then Error (Unreadable filename)
   else
@@ -156,7 +162,13 @@ let append ?(binary = false) ?(create = false) ?(chmod = 0o777) filename content
       filename
 ;;
 
-let overwrite ?(binary = false) ?(create = false) ?(chmod = 0o777) filename content =
+let overwrite
+    ?(binary = false)
+    ?(create = false)
+    ?(chmod = 0o777)
+    filename
+    content
+  =
   if (not create) && not (exists filename)
   then Error (Unreadable filename)
   else

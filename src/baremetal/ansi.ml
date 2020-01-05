@@ -122,7 +122,9 @@ let to_string ?(scoped = true) =
   let rec aux sequence acc fragment =
     match sequence, fragment with
     | x, [] ->
-      acc ^ seq_to_string x ^ if scoped then seq_to_string (Some [ reset ]) else ""
+      acc
+      ^ seq_to_string x
+      ^ if scoped then seq_to_string (Some [ reset ]) else ""
     | x, Text str :: xs -> aux None (acc ^ seq_to_string x ^ str) xs
     | None, frg :: xs -> aux (Some [ frg ]) acc xs
     | Some x, frg :: xs -> aux (Some (frg :: x)) acc xs
@@ -148,7 +150,10 @@ let box
   =
   let a = (reset :: box_style) @ [ !"┌─["; reset ] in
   let t =
-    title_style @ [ !title ] @ (reset :: box_style) @ [ !"]─→"; reset; !"\n" ]
+    title_style
+    @ [ !title ]
+    @ (reset :: box_style)
+    @ [ !"]─→"; reset; !"\n" ]
   in
   let b = (reset :: box_style) @ [ !"└─"; reset ] in
   let l =
@@ -180,7 +185,10 @@ let text_box
     text
   =
   let l =
-    text |> String.trim |> String.lines |> List.map (fun l -> text_style @ [ !l; reset ])
+    text
+    |> String.trim
+    |> String.lines
+    |> List.map (fun l -> text_style @ [ !l; reset ])
   in
   box ~prefix ~box_style ~title_style title l
 ;;

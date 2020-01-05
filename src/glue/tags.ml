@@ -2,7 +2,8 @@ open Bedrock
 
 let date_or = function
   | Some x -> Ok x
-  | None -> Paperwork.Timetable.Day.from_string "019A01" |> Validation.from_result
+  | None ->
+    Paperwork.Timetable.Day.from_string "019A01" |> Validation.from_result
 ;;
 
 let stories bucket =

@@ -60,7 +60,8 @@ let to_json bucket =
 
 let sort bucket =
   { all_tags = List.sort_uniq String.compare bucket.all_tags
-  ; contents = List.sort (fun x y -> Timetable.Day.cmp y.date x.date) bucket.contents
+  ; contents =
+      List.sort (fun x y -> Timetable.Day.cmp y.date x.date) bucket.contents
   }
 ;;
 
@@ -68,6 +69,7 @@ let add bucket title section id date desc tags =
   let t = List.map String.lowercase_ascii tags in
   { all_tags = List.append bucket.all_tags t
   ; contents =
-      { title; section; id; date; description = desc; tags = t } :: bucket.contents
+      { title; section; id; date; description = desc; tags = t }
+      :: bucket.contents
   }
 ;;

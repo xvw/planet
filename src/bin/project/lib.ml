@@ -13,7 +13,16 @@ let ls_render_valid_project projects =
         Shapes.Project.(x.name, status_to_string x.status, x.published)
       in
       let color = if published then Ansi.green else Ansi.bright_magenta in
-      Ansi.[ bold; foreground color; text " - "; !name; reset; !" ("; !status; !")" ]
+      Ansi.
+        [ bold
+        ; foreground color
+        ; text " - "
+        ; !name
+        ; reset
+        ; !" ("
+        ; !status
+        ; !")"
+        ]
       |> Ansi.to_string ~scoped:true
       |> print_endline)
     projects
@@ -66,7 +75,18 @@ let ls () =
 let license = function
   | None -> []
   | Some x ->
-    Ansi.[ reset; fg cyan; !"─"; bg green; fg black; bold; !" "; !x; !" "; reset ]
+    Ansi.
+      [ reset
+      ; fg cyan
+      ; !"─"
+      ; bg green
+      ; fg black
+      ; bold
+      ; !" "
+      ; !x
+      ; !" "
+      ; reset
+      ]
 ;;
 
 let render_links f title list =
@@ -90,7 +110,8 @@ let render_content expanded content =
         | Error _ -> x, "unreadable"
         | Ok txt -> x, txt)
     in
-    Ansi.[ reset; !"\n\n" ] @ Ansi.text_box ~text_style:Ansi.[ fg bright_blue ] label text
+    Ansi.[ reset; !"\n\n" ]
+    @ Ansi.text_box ~text_style:Ansi.[ fg bright_blue ] label text
 ;;
 
 let show_project expanded project =
@@ -122,7 +143,8 @@ let show project_name expanded =
     Glue.Log.read_project_updates ()
     |> Validation.from_result
     |> Validation.map Shapes.Context.Projects.init
-    |> Validation.bind (fun t -> fst (Glue.Project.read t (project_name ^ ".qube")))
+    |> Validation.bind (fun t ->
+           fst (Glue.Project.read t (project_name ^ ".qube")))
   in
   match r with
   | Error err -> Prompter.prompt_errors err

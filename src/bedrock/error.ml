@@ -147,11 +147,13 @@ let rec from_exception = function
 let rec to_string = function
   | Of message -> Format.sprintf "[Error] %s" message
   | Unknown message -> Format.sprintf "[Unknown] %s" message
-  | Unmatched_character char -> Format.sprintf "[Unmatched_character] for \"%c\"" char
+  | Unmatched_character char ->
+    Format.sprintf "[Unmatched_character] for \"%c\"" char
   | Illegal_character char -> Format.sprintf "[Illegal_character] [%c]" char
   | Unclosed_string string -> Format.sprintf "[Unclosed_string] [%s]" string
   | No_root_element string -> Format.sprintf "[No_root_element] for [%s]" string
-  | Invalid_attribute string -> Format.sprintf "[Invalid_attribute] for [%s]" string
+  | Invalid_attribute string ->
+    Format.sprintf "[Invalid_attribute] for [%s]" string
   | Already_exists string -> Format.sprintf "[Already_exists] [%s]" string
   | Unreadable string -> Format.sprintf "[Unreadable] [%s]" string
   | Invalid_year int -> Format.sprintf "[Invalid_year] [%d]" int

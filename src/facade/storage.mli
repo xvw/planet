@@ -50,9 +50,18 @@ module type STORAGE = sig
   val iter : (key -> value -> unit) -> unit
   val find : (key -> value -> bool) -> (key * value) option
   val select : (key -> value -> bool) -> (key, value) Hashtbl.t
-  val on_change : ?prefix:string -> (change_state -> url -> unit) -> Dom.event_listener_id
+
+  val on_change
+    :  ?prefix:string
+    -> (change_state -> url -> unit)
+    -> Dom.event_listener_id
+
   val on_clear : (url -> unit) -> Dom.event_listener_id
-  val on_insert : ?prefix:string -> (key -> value -> url -> unit) -> Dom.event_listener_id
+
+  val on_insert
+    :  ?prefix:string
+    -> (key -> value -> url -> unit)
+    -> Dom.event_listener_id
 
   val on_remove
     :  ?prefix:string

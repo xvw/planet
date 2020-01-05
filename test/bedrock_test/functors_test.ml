@@ -36,7 +36,9 @@ end = struct
 
   let suite =
     [ test ("[Law 1: " ^ str ^ "]: (map id x) = x") (sampling law_1)
-    ; test ("[Law 2: " ^ str ^ "]: (map (f . g)) = ((map f) . (map g))") (sampling law_2)
+    ; test
+        ("[Law 2: " ^ str ^ "]: (map (f . g)) = ((map f) . (map g))")
+        (sampling law_2)
     ]
   ;;
 end

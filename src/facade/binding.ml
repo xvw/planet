@@ -16,7 +16,8 @@ module Project = struct
   type short = short_js Js.t
 
   let short_shape obj =
-    Js.to_string obj##.name, Js.Optdef.case obj##.published (fun () -> true) Js.to_bool
+    ( Js.to_string obj##.name
+    , Js.Optdef.case obj##.published (fun () -> true) Js.to_bool )
   ;;
 
   let get () =
@@ -57,7 +58,8 @@ module Log = struct
     let open Validation in
     mk
     <$> (Js.to_string %> pure) obj##.uuid
-    <*> (Js.to_string %> Paperwork.Timetable.Day.from_string %> from_result) obj##.date
+    <*> (Js.to_string %> Paperwork.Timetable.Day.from_string %> from_result)
+          obj##.date
     <*> pure obj##.duration
     <*> (Js.to_string %> pure) obj##.sector
     <*> (Js.Opt.to_option %> Option.map Js.to_string %> pure) obj##.project
@@ -72,7 +74,9 @@ module Log = struct
   ;;
 
   let get_by_id uuid =
-    "log-" ^ uuid |> Storage.Local.get |> Option.map (Js.string %> Json.unsafe_input)
+    "log-" ^ uuid
+    |> Storage.Local.get
+    |> Option.map (Js.string %> Json.unsafe_input)
   ;;
 
   let reduce_log acc log _i =
@@ -114,7 +118,9 @@ module Log = struct
         match shape obj with
         | Error errs ->
           let () = Console.dump_errors obj errs in
-          let () = Js.raise_js_error (new%js Js.error_constr (Js.string "Aie Aie")) in
+          let () =
+            Js.raise_js_error (new%js Js.error_constr (Js.string "Aie Aie"))
+          in
           h
         | Ok log ->
           let open Shapes.Log in
@@ -170,7 +176,8 @@ module Location = struct
   let shape obj =
     let open Validation in
     mk
-    <$> (Js.to_string %> Paperwork.Timetable.Day.from_string %> from_result) obj##.date
+    <$> (Js.to_string %> Paperwork.Timetable.Day.from_string %> from_result)
+          obj##.date
     <*> (Js.to_string %> String.capitalize_ascii %> pure) obj##.country
     <*> (Js.to_string %> String.capitalize_ascii %> pure) obj##.city
   ;;
@@ -182,7 +189,10 @@ module Location = struct
     >|= (fun frame -> frame.Ajax.content)
     >|= Js.string
     >|= (fun x -> Js._JSON##parse x)
-    >|= Js.to_array %> Array.to_list %> List.map shape %> Validation.Applicative.sequence
+    >|= Js.to_array
+        %> Array.to_list
+        %> List.map shape
+        %> Validation.Applicative.sequence
   ;;
 end
 
@@ -215,7 +225,9 @@ module Tags = struct
 
   let shape (obj : t) =
     let open Validation.Infix in
-    let ftag x = Js.to_array x |> Array.to_seq |> Seq.map Js.to_string |> List.of_seq in
+    let ftag x =
+      Js.to_array x |> Array.to_seq |> Seq.map Js.to_string |> List.of_seq
+    in
     let tags = ftag obj##.allTags in
     let content =
       Js.to_array obj##.contents

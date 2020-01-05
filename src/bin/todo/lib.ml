@@ -40,7 +40,10 @@ let ansi_list title elements =
       ]
 ;;
 
-let ansi_project task = ansi_list "Project" (Option.to_list Shapes.Task.(task.project))
+let ansi_project task =
+  ansi_list "Project" (Option.to_list Shapes.Task.(task.project))
+;;
+
 let ansi_sectors task = ansi_list "Sectors" Shapes.Task.(task.sectors)
 let ansi_tags task = ansi_list "Tags" Shapes.Task.(task.tags)
 
@@ -56,7 +59,8 @@ let ansi_checklist task =
            (fun i (flag, label) ->
              [ bold; fg magenta; !(Format.asprintf "%03d:" (succ i)); reset ]
              @ (if flag
-               then [ fg blue; !"["; fg green; bold; !"X"; reset; fg blue; !"]" ]
+               then
+                 [ fg blue; !"["; fg green; bold; !"X"; reset; fg blue; !"]" ]
                else [ fg blue; !"[ ]" ])
              @ [ reset; !" "; !label; reset ])
            task.checklist))
@@ -73,7 +77,11 @@ let ansi_dates task =
     ]
     |> List.bind (function
            | label, Some date ->
-             [ [ bold; !(label ^ ": "); reset; !(Paperwork.Timetable.Day.to_string date) ]
+             [ [ bold
+               ; !(label ^ ": ")
+               ; reset
+               ; !(Paperwork.Timetable.Day.to_string date)
+               ]
              ]
            | _ -> [])
   in
@@ -141,7 +149,14 @@ let create () =
       in
       let engagement = Glue.Ui.get_day_opt "Engagement?" "Potential due date" in
       let open Result.Infix in
-      Glue.Task.init some_project sectors name description checklist tags engagement
+      Glue.Task.init
+        some_project
+        sectors
+        name
+        description
+        checklist
+        tags
+        engagement
       >|= (fun task ->
             let () = display task in
             task)
@@ -154,7 +169,10 @@ let create () =
             in
             let task_str = Paperwork.Qexp.to_string qexp in
             let valid =
-              Prompter.yes_no ~answer_style:Ansi.[ fg yellow ] ~title:"Confirm?" task_str
+              Prompter.yes_no
+                ~answer_style:Ansi.[ fg yellow ]
+                ~title:"Confirm?"
+                task_str
             in
             if valid
             then

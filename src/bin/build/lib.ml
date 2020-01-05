@@ -34,8 +34,14 @@ let trace action message = function
     (if x
     then
       Ansi.
-        [ fg green; text $ Format.sprintf "%s [%s] has been %s" action filename message ]
-    else Ansi.[ fg yellow; text $ Format.sprintf "%s [%s] Nothing to do" action filename ])
+        [ fg green
+        ; text $ Format.sprintf "%s [%s] has been %s" action filename message
+        ]
+    else
+      Ansi.
+        [ fg yellow
+        ; text $ Format.sprintf "%s [%s] Nothing to do" action filename
+        ])
     |> Ansi.to_string
     |> print_endline
 ;;
@@ -80,8 +86,13 @@ let initialize_api_project () =
   create_file Glue.Project.to_json api_folder "projects.json"
 ;;
 
-let initialize_api_tags () = create_file Glue.Tags.to_json api_folder "tags.json"
-let initialize_api_sectors () = create_file Glue.Sector.to_json api_folder "sectors.json"
+let initialize_api_tags () =
+  create_file Glue.Tags.to_json api_folder "tags.json"
+;;
+
+let initialize_api_sectors () =
+  create_file Glue.Sector.to_json api_folder "sectors.json"
+;;
 
 let initialize_api_current_position () =
   create_file Glue.Log.whereami_to_json api_folder "whereami.json"
@@ -90,11 +101,19 @@ let initialize_api_current_position () =
 let initialize_logs () =
   let open Validation.Infix in
   let list =
-    Glue.Log.traverse ~reverse:true (fun acc log -> acc @ [ Shapes.Log.to_json log ]) []
+    Glue.Log.traverse
+      ~reverse:true
+      (fun acc log -> acc @ [ Shapes.Log.to_json log ])
+      []
   in
   let fragment = list >|= List.hds 5 in
-  let () = create_file (fun () -> list >|= Paperwork.Json.array) api_folder "logs.json" in
-  create_file (fun () -> fragment >|= Paperwork.Json.array) api_folder "last_logs.json"
+  let () =
+    create_file (fun () -> list >|= Paperwork.Json.array) api_folder "logs.json"
+  in
+  create_file
+    (fun () -> fragment >|= Paperwork.Json.array)
+    api_folder
+    "last_logs.json"
 ;;
 
 let create_projects_files ?rctx () =
@@ -178,7 +197,8 @@ let context ctx =
   let str =
     Format.asprintf
       {|<textarea data-planet-qexp="global-context">%s</textarea>|}
-      Shapes.Context.(context_to_qexp ctx.global_data |> Paperwork.Qexp.to_string)
+      Shapes.Context.(
+        context_to_qexp ctx.global_data |> Paperwork.Qexp.to_string)
   in
   File.create partial str
   |> Validation.from_result
@@ -256,7 +276,9 @@ let twtxt () =
                   List.map (fun t -> Shapes.Twtxt.from_qexp t) nodes
                   |> Validation.Applicative.sequence)
             >|= fun datatxt ->
-            let sorted = List.sort (fun a b -> Shapes.Twtxt.cmp a b * -1) datatxt in
+            let sorted =
+              List.sort (fun a b -> Shapes.Twtxt.cmp a b * -1) datatxt
+            in
             rf, List.map Shapes.Twtxt.to_string sorted)
           files
         |> Validation.Applicative.sequence)
@@ -266,7 +288,8 @@ let twtxt () =
             acc
             >>= fun () ->
             let () =
-              Ansi.[ fg green; text $ Format.sprintf "twtxt processed: %s" file ]
+              Ansi.
+                [ fg green; text $ Format.sprintf "twtxt processed: %s" file ]
               |> Ansi.to_string
               |> print_endline
             in

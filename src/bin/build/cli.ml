@@ -7,7 +7,8 @@ let init =
   let doc = "Initialize the target for generation" in
   let man = Glue.Man.default call in
   let exits = Term.default_exits in
-  Term.(const Lib.generate $ const ()), Term.info "init" ~version ~doc ~exits ~man
+  ( Term.(const Lib.generate $ const ())
+  , Term.info "init" ~version ~doc ~exits ~man )
 ;;
 
 let api =
@@ -21,21 +22,24 @@ let projects =
   let doc = "Initialize the target for Project generation" in
   let man = Glue.Man.default call in
   let exits = Term.default_exits in
-  Term.(const Lib.base_project $ const ()), Term.info "projects" ~version ~doc ~exits ~man
+  ( Term.(const Lib.base_project $ const ())
+  , Term.info "projects" ~version ~doc ~exits ~man )
 ;;
 
 let stories =
   let doc = "Build stories from Planet" in
   let man = Glue.Man.default call in
   let exits = Term.default_exits in
-  Term.(const Lib.stories $ const ()), Term.info "stories" ~version ~doc ~exits ~man
+  ( Term.(const Lib.stories $ const ())
+  , Term.info "stories" ~version ~doc ~exits ~man )
 ;;
 
 let location =
   let doc = "Build location from Planet" in
   let man = Glue.Man.default call in
   let exits = Term.default_exits in
-  Term.(const Lib.location $ const ()), Term.info "location" ~version ~doc ~exits ~man
+  ( Term.(const Lib.location $ const ())
+  , Term.info "location" ~version ~doc ~exits ~man )
 ;;
 
 let all =
@@ -56,7 +60,8 @@ let index =
   let doc = "Manage build process of Planet" in
   let man = Glue.Man.default call in
   let exits = Term.default_exits in
-  Term.(ret (const (`Help (`Pager, None)))), Term.info call ~version ~doc ~exits ~man
+  ( Term.(ret (const (`Help (`Pager, None))))
+  , Term.info call ~version ~doc ~exits ~man )
 ;;
 
 let invoke () =

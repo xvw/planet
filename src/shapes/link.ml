@@ -20,10 +20,17 @@ let mapper_dated =
   $ string
 ;;
 
-let pp_simple ppf (name, uri) = Format.fprintf ppf "<a href='%s'>%s</a>" uri name
+let pp_simple ppf (name, uri) =
+  Format.fprintf ppf "<a href='%s'>%s</a>" uri name
+;;
 
 let pp_dated ppf (name, time, uri) =
-  Format.fprintf ppf "<a href='%s'>[%s] %s</a>" uri (Timetable.Day.to_string time) name
+  Format.fprintf
+    ppf
+    "<a href='%s'>[%s] %s</a>"
+    uri
+    (Timetable.Day.to_string time)
+    name
 ;;
 
 let eq_simple (a, b) (x, y) = a = x && b = y

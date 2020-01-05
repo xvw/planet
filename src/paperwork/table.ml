@@ -53,7 +53,8 @@ module Mapper = struct
   ;;
 
   let token f = function
-    | Qexp.String (_, str) | Qexp.Atom str | Qexp.Tag str | Qexp.Keyword str -> f str
+    | Qexp.String (_, str) | Qexp.Atom str | Qexp.Tag str | Qexp.Keyword str ->
+      f str
     | q -> Error [ Mapping_failure ("token", Qexp.to_string q) ]
   ;;
 
@@ -132,7 +133,8 @@ module Fetch = struct
     | None -> Error [ Undefined_field field ]
     | Some (Some (Block elts)) | Some (Some (Node elts)) ->
       List.map mapper elts |> Validation.Applicative.sequence
-    | Some (Some elt) -> List.map mapper [ elt ] |> Validation.Applicative.sequence
+    | Some (Some elt) ->
+      List.map mapper [ elt ] |> Validation.Applicative.sequence
     | _ -> Error [ Invalid_field field ]
   ;;
 
@@ -142,7 +144,8 @@ module Fetch = struct
     | None -> Ok []
     | Some (Some (Block elts)) | Some (Some (Node elts)) ->
       List.map mapper elts |> Validation.Applicative.sequence
-    | Some (Some elt) -> List.map mapper [ elt ] |> Validation.Applicative.sequence
+    | Some (Some elt) ->
+      List.map mapper [ elt ] |> Validation.Applicative.sequence
     | _ -> Error [ Invalid_field field ]
   ;;
 
@@ -154,7 +157,10 @@ module Fetch = struct
   ;;
 
   let hashtbl mapper table field = aux_hashtbl list mapper table field
-  let hashtbl_refutable mapper table field = aux_hashtbl list_refutable mapper table field
+
+  let hashtbl_refutable mapper table field =
+    aux_hashtbl list_refutable mapper table field
+  ;;
 
   let aux_ziplist f mapper table field =
     let open Qexp in
@@ -170,7 +176,10 @@ module Fetch = struct
   ;;
 
   let ziplist mapper table field = aux_ziplist list mapper table field
-  let ziplist_refutable mapper table field = aux_ziplist list_refutable mapper table field
+
+  let ziplist_refutable mapper table field =
+    aux_ziplist list_refutable mapper table field
+  ;;
 
   let token mapper table field =
     let open Qexp in
@@ -184,7 +193,10 @@ module Fetch = struct
   ;;
 
   let int table field =
-    token Validation.(int_of_string_opt %> from_option (Invalid_field field)) table field
+    token
+      Validation.(int_of_string_opt %> from_option (Invalid_field field))
+      table
+      field
   ;;
 
   module D = Timetable.Day

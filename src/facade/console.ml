@@ -57,7 +57,10 @@ let timetrack timer_name actions =
 
 let group ?label () = console##group (Js.Optdef.option label)
 let group_end () = console##groupEnd
-let render_error errors = errors |> List.iter (Error.to_string %> Js.string %> error)
+
+let render_error errors =
+  errors |> List.iter (Error.to_string %> Js.string %> error)
+;;
 
 let dump_errors obj errs =
   error

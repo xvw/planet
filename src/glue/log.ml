@@ -14,7 +14,10 @@ let database = Database.logs
 let log_folder = Database.path database
 let whereami_file = Filename.concat log_folder "whereami.qube"
 let update_table_project = Filename.concat log_folder "projects.qube"
-let log_pattern = [ Filename.concat log_folder "log_*.qube"; update_table_project ]
+
+let log_pattern =
+  [ Filename.concat log_folder "log_*.qube"; update_table_project ]
+;;
 
 let create_file day =
   let month = TT.Day.to_month day in
@@ -88,8 +91,11 @@ let whereami_to_json ?(reverse = true) () =
   >>= Qexp.extract_root
   >|= List.map (function
           | Qexp.Node
-              [ Qexp.Keyword daypoint; Qexp.String (_, country); Qexp.String (_, city) ]
-            -> daypoint |> TT.Day.from_string >|= fun dp -> dp, country, city
+              [ Qexp.Keyword daypoint
+              ; Qexp.String (_, country)
+              ; Qexp.String (_, city)
+              ] ->
+            daypoint |> TT.Day.from_string >|= fun dp -> dp, country, city
           | x -> Error (Invalid_field (Qexp.to_string x)))
   >>= Result.Applicative.sequence
   >|= List.sort sorter
@@ -139,7 +145,8 @@ let traverse ?(reverse = true) f default =
 
 let collect_all_log_in_json ?(reverse = true) () =
   let open Validation.Infix in
-  traverse ~reverse (fun acc log -> acc @ [ Shapes.Log.to_json log ]) [] >|= Json.array
+  traverse ~reverse (fun acc log -> acc @ [ Shapes.Log.to_json log ]) []
+  >|= Json.array
 ;;
 
 let context () =

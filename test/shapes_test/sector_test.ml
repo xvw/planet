@@ -15,7 +15,10 @@ let invalid1 () =
 let invalid2 () =
   let qexp =
     Qexp.(
-      node [ node [ tag "name"; string "test" ]; node [ tag "color"; string "#FF0000" ] ])
+      node
+        [ node [ tag "name"; string "test" ]
+        ; node [ tag "color"; string "#FF0000" ]
+        ])
   in
   match Sector.from_qexp qexp with
   | Ok _ -> failwith "should be invalid"

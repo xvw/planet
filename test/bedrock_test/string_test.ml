@@ -68,10 +68,14 @@ module Super_trim = struct
     ; "f o o\tb\ta r", "foobar"
     ]
     |> List.map (fun (base, expected) ->
-           test (Format.sprintf "[super_trim] %s -> %s" base expected) (fun () ->
+           test
+             (Format.sprintf "[super_trim] %s -> %s" base expected)
+             (fun () ->
                let result = String.super_trim base in
                check string "same strings" expected result))
   ;;
 end
 
-let suite = Start_with.suite @ End_with.suite @ Has_extension.suite @ Super_trim.suite
+let suite =
+  Start_with.suite @ End_with.suite @ Has_extension.suite @ Super_trim.suite
+;;

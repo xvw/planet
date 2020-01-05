@@ -61,13 +61,18 @@ let checklist_to_qexp checks =
         ; node
           $ List.map
               (fun (flag, label) ->
-                node [ (tag $ if flag then "checked" else "unchecked"); string label ])
+                node
+                  [ (tag $ if flag then "checked" else "unchecked")
+                  ; string label
+                  ])
               checks
         ]
     ]
 ;;
 
-let tags_to_qexp tags = Qexp.[ node [ tag "tags"; node $ List.map string tags ] ]
+let tags_to_qexp tags =
+  Qexp.[ node [ tag "tags"; node $ List.map string tags ] ]
+;;
 
 let refutable_date_to_qexp key = function
   | None -> []
@@ -134,7 +139,8 @@ let from_qexp expr =
     <*> Fetch.string config "description"
     <*> Fetch.list_refutable
           (Mapper.couple
-             (Mapper.token (fun flag -> Ok (String.lowercase_ascii flag = "checked")))
+             (Mapper.token (fun flag ->
+                  Ok (String.lowercase_ascii flag = "checked")))
              Mapper.string)
           config
           "checklist"
@@ -158,16 +164,24 @@ let to_json task =
       ; ( "checklist"
         , array
           $ List.map
-              (fun (flag, label) -> obj [ "checked", bool flag; "label", string label ])
+              (fun (flag, label) ->
+                obj [ "checked", bool flag; "label", string label ])
               task.checklist )
       ; "tags", array $ List.map string task.tags
       ; "date", string $ dts task.date
       ]
-    @ Option.(task.opening_date >|= (fun d -> "opening_date", string $ dts d) |> to_list)
-    @ Option.(task.closing_date >|= (fun d -> "closing_date", string $ dts d) |> to_list)
     @ Option.(
-        task.engagement_date >|= (fun d -> "engagement_date", string $ dts d) |> to_list)
-    )
+        task.opening_date
+        >|= (fun d -> "opening_date", string $ dts d)
+        |> to_list)
+    @ Option.(
+        task.closing_date
+        >|= (fun d -> "closing_date", string $ dts d)
+        |> to_list)
+    @ Option.(
+        task.engagement_date
+        >|= (fun d -> "engagement_date", string $ dts d)
+        |> to_list))
 ;;
 
 let pp ppf task =

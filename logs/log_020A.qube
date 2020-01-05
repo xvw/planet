@@ -2,3 +2,7 @@
 ((:uuid "e9f9a870-e9f3-1c78-f97b-749c5a3865ef") (:day "020A01")
   (:duration "200") (:sector "programming")
   (:label "Initiation des tâches de la todo-list") (:project "planet"))
+
+((:uuid "714bd325-4365-5abc-3a86-ec3724538e92") (:day "020A05")
+  (:duration "120") (:sector "programming")
+  (:label "Progrès sur le gestionnaire de tâches") (:project "planet"))

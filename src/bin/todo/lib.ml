@@ -106,6 +106,27 @@ let display task =
 
 let show taskname = ensure_task taskname display
 
+let move taskname new_state =
+  match Shapes.Task.state_from_string new_state with
+  | Error errs ->
+    Prompter.prompt_errors errs
+  | Ok state ->
+    ensure_task taskname (fun task ->
+        let open Shapes.Task in
+        let filename =
+          Filename.concat
+            Glue.(Database.path Task.database)
+            (Shapes.Task.(task.uuid) ^ ".qube") in
+        let new_task = { task with state } in
+        let qexp = to_qexp new_task in
+        let str = Paperwork.Qexp.to_string qexp in
+        match File.overwrite filename str with
+        | Ok () ->
+          display new_task
+        | Error err ->
+          Prompter.prompt_error err)
+;;
+
 let create () =
   Glue.Ui.ensure_sectors_projects (fun sectors (_ctx, projects) ->
       let name = Glue.Ui.get_string "Title?" "Title of the task" in

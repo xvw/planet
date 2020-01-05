@@ -21,6 +21,22 @@ let show =
   (Term.(const Lib.show $ taskname), Term.info "show" ~version ~doc ~exits ~man)
 ;;
 
+let move =
+  let doc = "Move a task" in
+  let man = Glue.Man.default call in
+  let exits = Term.default_exits in
+  let taskname =
+    let doc = "Task to be moved" in
+    Arg.(required & pos 0 (some string) None & info [] ~docv:"TASKNAME" ~doc)
+  in
+  let state =
+    let doc = "New state of the task" in
+    Arg.(required & pos 1 (some string) None & info [] ~docv:"TASKSTATE" ~doc)
+  in
+  ( Term.(const Lib.move $ taskname $ state)
+  , Term.info "move" ~version ~doc ~exits ~man )
+;;
+
 let index =
   let doc = "Manage build process of Planet" in
   let man = Glue.Man.default call in
@@ -29,4 +45,4 @@ let index =
   , Term.info call ~version ~doc ~exits ~man )
 ;;
 
-let invoke () = Term.(exit @@ eval_choice index [ create; show ])
+let invoke () = Term.(exit @@ eval_choice index [ create; show; move ])

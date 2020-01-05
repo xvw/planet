@@ -1,7 +1,7 @@
 (:name "Intégration des tâches")
 (:description
   "Développement d'une TODO Liste pour le suivi des tâches dans Planet")
-(:state "backlog") (:uuid "TASK-1") (:date "020A01") (:project "planet")
+(:state "opened") (:uuid "TASK-1") (:date "020A01") (:project "planet")
 (:sectors (visual programming))
 (:checklist
   ((:unchecked "Création statique des tâches")

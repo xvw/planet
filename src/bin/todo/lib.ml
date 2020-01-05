@@ -1,6 +1,23 @@
 open Bedrock
 open Baremetal
 
+let ensure_task taskname f =
+  let filename =
+    Filename.concat
+      Glue.(Database.path Task.database)
+      (String.uppercase_ascii taskname ^ ".qube") in
+  match
+    filename
+    |> File.to_stream (fun _ -> Paperwork.Qexp.from_stream)
+    |> Validation.from_result
+    |> Validation.bind Shapes.Task.from_qexp
+  with
+  | Error errs ->
+    Prompter.prompt_errors errs
+  | Ok task ->
+    f task
+;;
+
 let ansi_header task =
   let open Shapes.Task in
   Ansi.[ !"\n" ]
@@ -86,6 +103,8 @@ let display task =
     @ Ansi.[ !"\n" ] in
   fragment |> Ansi.to_string ~scoped:true |> print_endline
 ;;
+
+let show taskname = ensure_task taskname display
 
 let create () =
   Glue.Ui.ensure_sectors_projects (fun sectors (_ctx, projects) ->

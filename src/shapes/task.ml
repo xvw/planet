@@ -144,7 +144,7 @@ let from_qexp expr =
     <$> Fetch.token state_from_string config "state"
     <*> Fetch.string config "uuid"
     <*> Fetch.(option string config "project")
-    <*> Fetch.list Mapper.string config "sectors"
+    <*> Fetch.list (Mapper.token (fun x -> Ok x)) config "sectors"
     <*> Fetch.string config "name"
     <*> Fetch.string config "description"
     <*> Fetch.list_refutable

@@ -1109,10 +1109,16 @@ module Tags = struct
             Binding.Tags.get ()
             >>= function
               | Ok bucket ->
-                let pages = Shapes.Tag.(bucket.contents) in
+                let pages =
+                  "/"
+                  :: "/tags.html"
+                  :: "/journal.html"
+                  :: "/location.html"
+                  :: "/xavier.html"
+                  :: (Shapes.Tag.(bucket.contents) |> List.map href_for) in
                 let index = Random.int (List.length pages) in
                 let sample = List.nth pages index in
-                Lwt.return (Js.string Shapes.Tag.(href_for sample))
+                Lwt.return (Js.string sample)
                 >|= (fun loc -> Dom_html.window##.location##.href := loc)
               | Error errs ->
                 Lwt.return (Console.render_error errs)))

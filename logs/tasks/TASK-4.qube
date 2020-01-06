@@ -1,7 +1,7 @@
 (:name "Wiki")
 (:description
   "Implémentation d'un Wiki pour écrire de manière plus étendue sur certains sujets")
-(:state "backlog") (:uuid "TASK-4") (:date "020A06") (:project "planet")
+(:state "opened") (:uuid "TASK-4") (:date "020A06") (:project "planet")
 (:sectors (visual programming writing))
 (:checklist
   ((:unchecked "Formaliser la représentation de rubrique du Wiki")

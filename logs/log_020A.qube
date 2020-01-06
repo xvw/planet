@@ -14,3 +14,8 @@
 ((:uuid "33726ef3-2df0-8391-109a-31f5d0b039cc") (:day "020A06")
   (:duration "300") (:sector "programming")
   (:label "Checklist de la todo-list modifiable") (:project "planet"))
+
+((:uuid "34ce642c-878b-0e3a-8462-39577fe46b1a") (:day "020A06")
+  (:duration "30") (:sector "visual")
+  (:label "Légère réorganisation des pages (localisation/activité)")
+  (:project "planet"))

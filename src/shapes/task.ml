@@ -259,8 +259,7 @@ let need_state_changement day task =
     then (Some Backlog, None, None), true
     else if has_checked task
     then
-      ( (Some InProgress, Option.unless task.opening_date (Some day), Some day)
-      , true )
+      (Some InProgress, Option.unless task.opening_date (Some day), None), true
     else (None, task.opening_date, task.closing_date), false
   | InProgress ->
     if all_checked task

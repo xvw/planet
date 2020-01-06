@@ -9,5 +9,4 @@
     (:checked "Modification de la checklist")
     (:unchecked "Rendu dans l'application web")))
 (:tags ("todo" "task" "board" "trello")) (:opening_date "020A06")
-(:closing_date "020A06")
 (:engagement_date "020B01")

@@ -88,6 +88,45 @@ let ansi_dates task =
   [ !"\n" ] @ box "Dates" dates
 ;;
 
+let display_patch new_state new_opening_date new_closing_date =
+  let open Ansi in
+  ((match new_state with
+   | None -> []
+   | Some x ->
+     [ bold
+     ; fg blue
+     ; !"New state: "
+     ; reset
+     ; fg yellow
+     ; !(Shapes.Task.state_to_string x)
+     ; !"\n"
+     ])
+  @ (match new_opening_date with
+    | None -> []
+    | Some x ->
+      [ bold
+      ; fg blue
+      ; !"New Opening Date: "
+      ; reset
+      ; fg yellow
+      ; !(Paperwork.Timetable.Day.to_string x)
+      ; !"\n"
+      ])
+  @
+  match new_closing_date with
+  | None -> []
+  | Some x ->
+    [ bold
+    ; fg blue
+    ; !"New Closing Date: "
+    ; reset
+    ; fg yellow
+    ; !(Paperwork.Timetable.Day.to_string x)
+    ; !"\n"
+    ])
+  |> Ansi.to_string
+;;
+
 let display task =
   let fragment =
     ansi_header task
@@ -122,10 +161,74 @@ let move taskname new_state =
         | Error err -> Prompter.prompt_error err)
 ;;
 
+let may_update_state task =
+  let open Shapes.Task in
+  let open Result.Syntax in
+  let* day = Glue.Util.day () in
+  let (new_state, new_opening_date, new_closing_date), need_changement =
+    need_state_changement day task
+  in
+  if need_changement
+  then (
+    let valid =
+      Prompter.yes_no
+        ~answer_style:Ansi.[ fg yellow ]
+        ~title:"Apply patch"
+        (display_patch new_state new_opening_date new_closing_date)
+    in
+    if valid
+    then (
+      match new_state with
+      | None -> Ok task
+      | Some nstate ->
+        Ok
+          { task with
+            state = nstate
+          ; opening_date = new_opening_date
+          ; closing_date = new_closing_date
+          })
+    else Ok task)
+  else Ok task
+;;
+
 let check taskname =
   ensure_task taskname (fun task ->
       let () = Ansi.(ansi_header task |> to_string |> print_endline) in
-      ())
+      let open Shapes.Task in
+      let open Result.Infix in
+      Util.try_until Prompter.repeat_result (fun () ->
+          Prompter.choose_multiple
+            ~answer_style:Ansi.[ fg yellow ]
+            ~title:"Which task"
+            (fun (i, _, _) -> i)
+            (fun (_, flag, label) ->
+              let f = if flag then "x" else " " in
+              Format.asprintf "[%s] %s" f label)
+            (Array.of_list (List.mapi (fun i (f, g) -> i, f, g) task.checklist))
+            "Toggle task")
+      >|= (fun indexes ->
+            let new_check =
+              List.mapi
+                (fun i (f, l) -> if List.mem i indexes then not f, l else f, l)
+                task.checklist
+            in
+            { task with checklist = new_check })
+      >>= may_update_state
+      >|= (fun task ->
+            let () = ansi_checklist task |> Ansi.to_string |> print_endline in
+            task)
+      >>= (fun task ->
+            let qexp = Shapes.Task.to_qexp task in
+            let filename =
+              Filename.concat
+                Glue.(Database.path Task.database)
+                (Shapes.Task.(task.uuid) ^ ".qube")
+            in
+            let task_str = Paperwork.Qexp.to_string qexp in
+            File.overwrite filename task_str >|= fun () -> task)
+      |> function
+      | Error err -> Prompter.prompt_error err
+      | Ok new_task -> display new_task)
 ;;
 
 let create () =

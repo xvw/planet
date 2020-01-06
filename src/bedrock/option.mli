@@ -8,6 +8,7 @@ val pp : (Format.formatter -> 'a -> unit) -> Format.formatter -> 'a t -> unit
 val is_valid : 'a t -> bool
 val get_or : (unit -> 'a) -> 'a t -> 'a
 val to_list : 'a option -> 'a list
+val unless : 'a option -> 'a option -> 'a option
 
 (** {2 Functor instance} *)
 module Functor : Sigs.Functor.API with type 'a t = 'a option

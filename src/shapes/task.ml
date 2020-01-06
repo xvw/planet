@@ -217,3 +217,63 @@ let eq left right =
   && Option.eq Timetable.Day.eq left.closing_date right.closing_date
   && Option.eq Timetable.Day.eq left.engagement_date right.engagement_date
 ;;
+
+let all_checked task = List.for_all (fun (f, _) -> f) task.checklist
+let all_unchecked task = List.for_all (fun (f, _) -> not f) task.checklist
+let has_checked task = List.exists (fun (f, _) -> f) task.checklist
+
+let need_opening_date task =
+  if has_checked task
+  then (
+    match task.opening_date with
+    | None -> true
+    | Some _ -> false)
+  else false
+;;
+
+let need_closing_date task =
+  if all_checked task
+  then (
+    match task.closing_date with
+    | None -> true
+    | Some _ -> false)
+  else false
+;;
+
+let need_state_changement day task =
+  match task.state with
+  | Backlog ->
+    if all_checked task
+    then (Some Done, Option.unless task.opening_date (Some day), Some day), true
+    else if has_checked task
+    then
+      ( ( Some InProgress
+        , Option.unless task.opening_date (Some day)
+        , task.closing_date )
+      , true )
+    else (None, task.opening_date, task.closing_date), false
+  | Opened ->
+    if all_checked task
+    then (Some Done, Option.unless task.opening_date (Some day), Some day), true
+    else if all_unchecked task
+    then (Some Backlog, None, None), true
+    else if has_checked task
+    then
+      ( (Some InProgress, Option.unless task.opening_date (Some day), Some day)
+      , true )
+    else (None, task.opening_date, task.closing_date), false
+  | InProgress ->
+    if all_checked task
+    then (Some Done, Option.unless task.opening_date (Some day), Some day), true
+    else if all_unchecked task
+    then (Some Opened, Option.unless task.opening_date (Some day), None), true
+    else (None, task.opening_date, task.closing_date), false
+  | Done ->
+    if all_unchecked task
+    then (Some Opened, Some day, None), true
+    else if not (all_checked task)
+    then
+      (Some InProgress, Option.unless task.opening_date (Some day), None), true
+    else (None, task.opening_date, task.closing_date), false
+  | _ -> (None, task.opening_date, task.closing_date), false
+;;

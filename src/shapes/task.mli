@@ -32,3 +32,16 @@ val from_qexp : Qexp.t -> t Validation.t
 val to_json : t -> Json.t
 val pp : Format.formatter -> t -> unit
 val eq : t -> t -> bool
+
+(** {2 Properties on task} *)
+
+val all_checked : t -> bool
+val all_unchecked : t -> bool
+val has_checked : t -> bool
+val need_opening_date : t -> bool
+val need_closing_date : t -> bool
+
+val need_state_changement
+  :  Paperwork.Timetable.Day.t
+  -> t
+  -> (state option * Timetable.Day.t option * Timetable.Day.t option) * bool

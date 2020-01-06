@@ -27,6 +27,12 @@ let to_list = function
   | Some x -> [ x ]
 ;;
 
+let unless option value =
+  match option with
+  | None -> value
+  | Some x -> Some x
+;;
+
 module Functor = Functor.Make (struct
   type 'a t = 'a option
 

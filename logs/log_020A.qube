@@ -10,3 +10,7 @@
 ((:uuid "a373582c-88f0-c9b0-dd2e-6ded2647b8d8") (:day "020A05")
   (:duration "320") (:sector "research")
   (:label "Réunion de matériel pour 'la chimère fragile'"))
+
+((:uuid "33726ef3-2df0-8391-109a-31f5d0b039cc") (:day "020A06")
+  (:duration "300") (:sector "programming")
+  (:label "Checklist de la todo-list modifiable") (:project "planet"))

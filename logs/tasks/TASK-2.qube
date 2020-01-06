@@ -8,4 +8,4 @@
     (:unchecked "Sujets à couvrir") (:unchecked "Plan")
     (:unchecked "Ecriture du support") (:unchecked "Relecture")))
 (:tags ("talk" "programming" "effect" "functional"))
-(:engagement_date "020B01")
+(:engagement_date "020B05")

@@ -1,6 +1,19 @@
 open Bedrock
 open Baremetal
 
+let stamp task action message () =
+  let filename =
+    Filename.concat
+      Glue.(Database.path Task.database)
+      (Shapes.Task.(task.uuid) ^ ".qube")
+  in
+  let open Result.Infix in
+  let open Shapes.Task in
+  Glue.Git.stage [ filename ]
+  >>= fun () ->
+  Glue.Git.commit ~desc:message (Format.asprintf "%s %s" action task.uuid)
+;;
+
 let ensure_task taskname f =
   let filename =
     Filename.concat
@@ -156,7 +169,14 @@ let move taskname new_state =
         let new_task = { task with state } in
         let qexp = to_qexp new_task in
         let str = Paperwork.Qexp.to_string qexp in
-        match File.overwrite filename str with
+        let open Result.Infix in
+        let message =
+          Format.asprintf
+            "%s to %s"
+            (state_to_string task.state)
+            (state_to_string new_task.state)
+        in
+        match File.overwrite filename str >>= stamp new_task "move" message with
         | Ok () -> display new_task
         | Error err -> Prompter.prompt_error err)
 ;;
@@ -225,7 +245,9 @@ let check taskname =
                 (Shapes.Task.(task.uuid) ^ ".qube")
             in
             let task_str = Paperwork.Qexp.to_string qexp in
-            File.overwrite filename task_str >|= fun () -> task)
+            File.overwrite filename task_str
+            >>= stamp task "check" "update checklist"
+            >|= fun () -> task)
       |> function
       | Error err -> Prompter.prompt_error err
       | Ok new_task -> display new_task)
@@ -233,16 +255,19 @@ let check taskname =
 
 let update_engagement date task =
   let open Shapes.Task in
+  let message =
+    Format.asprintf
+      "old: %a \t new: %a"
+      (Option.pp Paperwork.Timetable.Day.pp)
+      task.engagement_date
+      (Option.pp Paperwork.Timetable.Day.pp)
+      date
+  in
   let valid =
     Prompter.yes_no
       ~answer_style:Ansi.[ fg yellow ]
       ~title:"Update engagement"
-      (Format.asprintf
-         "old: %a \t new: %a"
-         (Option.pp Paperwork.Timetable.Day.pp)
-         task.engagement_date
-         (Option.pp Paperwork.Timetable.Day.pp)
-         date)
+      message
   in
   if valid
   then (
@@ -254,7 +279,11 @@ let update_engagement date task =
     let new_task = { task with engagement_date = date } in
     let qexp = to_qexp new_task in
     let str = Paperwork.Qexp.to_string qexp in
-    match File.overwrite filename str with
+    let open Result.Infix in
+    match
+      File.overwrite filename str
+      >>= stamp new_task "update engagement of" message
+    with
     | Ok () -> display new_task
     | Error err -> Prompter.prompt_error err)
   else ()
@@ -317,6 +346,7 @@ let create () =
             if valid
             then
               File.create filename task_str
+              >>= stamp task "create" "create new task"
               >|= fun () ->
               Ansi.
                 [ bold

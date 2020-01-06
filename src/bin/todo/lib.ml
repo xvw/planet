@@ -231,6 +231,43 @@ let check taskname =
       | Ok new_task -> display new_task)
 ;;
 
+let update_engagement date task =
+  let open Shapes.Task in
+  let valid =
+    Prompter.yes_no
+      ~answer_style:Ansi.[ fg yellow ]
+      ~title:"Update engagement"
+      (Format.asprintf
+         "old: %a \t new: %a"
+         (Option.pp Paperwork.Timetable.Day.pp)
+         task.engagement_date
+         (Option.pp Paperwork.Timetable.Day.pp)
+         date)
+  in
+  if valid
+  then (
+    let filename =
+      Filename.concat
+        Glue.(Database.path Task.database)
+        (Shapes.Task.(task.uuid) ^ ".qube")
+    in
+    let new_task = { task with engagement_date = date } in
+    let qexp = to_qexp new_task in
+    let str = Paperwork.Qexp.to_string qexp in
+    match File.overwrite filename str with
+    | Ok () -> display new_task
+    | Error err -> Prompter.prompt_error err)
+  else ()
+;;
+
+let engage taskname date_str =
+  match Paperwork.Timetable.Day.from_string date_str with
+  | Error err -> Prompter.prompt_error err
+  | Ok date -> ensure_task taskname (update_engagement (Some date))
+;;
+
+let desengage taskname = ensure_task taskname (update_engagement None)
+
 let create () =
   Glue.Ui.ensure_sectors_projects (fun sectors (_ctx, projects) ->
       let name = Glue.Ui.get_string "Title?" "Title of the task" in

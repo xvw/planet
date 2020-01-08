@@ -1153,6 +1153,7 @@ module Tags = struct
                 "/"
                 :: "/tags.html"
                 :: "/journal.html"
+                :: "/tasks.html"
                 :: "/location.html"
                 :: "/xavier.html"
                 :: (Shapes.Tag.(bucket.contents) |> List.map href_for)
@@ -1170,6 +1171,21 @@ module Tags = struct
       method boot input = boot input
 
       method random input = random input
+    end
+  ;;
+end
+
+module Tasks = struct
+  class type boot_input =
+    object
+      method boardBox : Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
+    end
+
+  let boot _input = Lwt.return_unit
+
+  let api =
+    object%js
+      method boot input = boot input
     end
   ;;
 end

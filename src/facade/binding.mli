@@ -89,3 +89,62 @@ module Tags : sig
   val shape : t -> Shapes.Tag.bucket Validation.t
   val get : unit -> Shapes.Tag.bucket Validation.t Lwt.t
 end
+
+module Tasks : sig
+  class type checkable =
+    object
+      method checked : bool Js.t Js.readonly_prop
+
+      method label : Js.js_string Js.t Js.readonly_prop
+    end
+
+  class type task =
+    object
+      method state : Js.js_string Js.t Js.readonly_prop
+
+      method uuid : Js.js_string Js.t Js.readonly_prop
+
+      method project : Js.js_string Js.t Js.Opt.t Js.readonly_prop
+
+      method sectors : Js.js_string Js.t Js.js_array Js.t Js.readonly_prop
+
+      method name : Js.js_string Js.t Js.readonly_prop
+
+      method description : Js.js_string Js.t Js.readonly_prop
+
+      method checklist : checkable Js.t Js.js_array Js.t Js.readonly_prop
+
+      method tags : Js.js_string Js.t Js.js_array Js.t Js.readonly_prop
+
+      method date : Js.js_string Js.t Js.readonly_prop
+
+      method openingDate : Js.js_string Js.t Js.Opt.t Js.readonly_prop
+
+      method closingDate : Js.js_string Js.t Js.Opt.t Js.readonly_prop
+
+      method engagementDate : Js.js_string Js.t Js.Opt.t Js.readonly_prop
+    end
+
+  class type boardLine =
+    object
+      method total : int Js.readonly_prop
+
+      method tasks : task Js.t Js.js_array Js.t Js.readonly_prop
+    end
+
+  class type board =
+    object
+      method backlog : boardLine Js.t Js.readonly_prop
+
+      method opened : boardLine Js.t Js.readonly_prop
+
+      method inProgress : boardLine Js.t Js.readonly_prop
+
+      method isDone : boardLine Js.t Js.readonly_prop
+
+      method blocked : boardLine Js.t Js.readonly_prop
+    end
+
+  val shape : board Js.t -> Shapes.Task.board Validation.t
+  val get : unit -> Shapes.Task.board Validation.t Lwt.t
+end

@@ -5,6 +5,9 @@ open Error
 open Paperwork.Timetable
 module Ajax = Js_of_ocaml_lwt.XmlHttpRequest
 
+let map_list f x = Js.to_array x |> Array.to_seq |> Seq.map f |> List.of_seq
+let string_list x = map_list Js.to_string x
+
 module Project = struct
   class type short_js =
     object
@@ -225,10 +228,7 @@ module Tags = struct
 
   let shape (obj : t) =
     let open Validation.Infix in
-    let ftag x =
-      Js.to_array x |> Array.to_seq |> Seq.map Js.to_string |> List.of_seq
-    in
-    let tags = ftag obj##.allTags in
+    let tags = string_list obj##.allTags in
     let content =
       Js.to_array obj##.contents
       |> Array.to_seq
@@ -244,7 +244,7 @@ module Tags = struct
              ; id = Js.to_string o##.id
              ; date
              ; description = Js.to_string o##.description
-             ; tags = ftag o##.tags
+             ; tags = string_list o##.tags
              })
       |> List.of_seq
       |> Validation.Applicative.sequence
@@ -255,6 +255,126 @@ module Tags = struct
   let get () =
     let open Lwt.Infix in
     "/api/tags.json"
+    |> Ajax.get
+    >|= (fun frame -> frame.Ajax.content)
+    >|= Js.string
+    >|= (fun x -> Js._JSON##parse x)
+    >|= shape
+  ;;
+end
+
+module Tasks = struct
+  class type checkable =
+    object
+      method checked : bool Js.t Js.readonly_prop
+
+      method label : Js.js_string Js.t Js.readonly_prop
+    end
+
+  class type task =
+    object
+      method state : Js.js_string Js.t Js.readonly_prop
+
+      method uuid : Js.js_string Js.t Js.readonly_prop
+
+      method project : Js.js_string Js.t Js.Opt.t Js.readonly_prop
+
+      method sectors : Js.js_string Js.t Js.js_array Js.t Js.readonly_prop
+
+      method name : Js.js_string Js.t Js.readonly_prop
+
+      method description : Js.js_string Js.t Js.readonly_prop
+
+      method checklist : checkable Js.t Js.js_array Js.t Js.readonly_prop
+
+      method tags : Js.js_string Js.t Js.js_array Js.t Js.readonly_prop
+
+      method date : Js.js_string Js.t Js.readonly_prop
+
+      method openingDate : Js.js_string Js.t Js.Opt.t Js.readonly_prop
+
+      method closingDate : Js.js_string Js.t Js.Opt.t Js.readonly_prop
+
+      method engagementDate : Js.js_string Js.t Js.Opt.t Js.readonly_prop
+    end
+
+  class type boardLine =
+    object
+      method total : int Js.readonly_prop
+
+      method tasks : task Js.t Js.js_array Js.t Js.readonly_prop
+    end
+
+  class type board =
+    object
+      method backlog : boardLine Js.t Js.readonly_prop
+
+      method opened : boardLine Js.t Js.readonly_prop
+
+      method inProgress : boardLine Js.t Js.readonly_prop
+
+      method isDone : boardLine Js.t Js.readonly_prop
+
+      method blocked : boardLine Js.t Js.readonly_prop
+    end
+
+  let shape_checklist (obj : checkable Js.t Js.js_array Js.t) =
+    Ok (map_list (fun x -> Js.to_bool x##.checked, Js.to_string x##.label) obj)
+  ;;
+
+  let opt_date p_date =
+    match Js.Opt.to_option p_date with
+    | None -> Ok None
+    | Some date ->
+      date
+      |> Js.to_string
+      |> Paperwork.Timetable.Day.from_string
+      |> Validation.from_result
+      |> Validation.map (fun x -> Some x)
+  ;;
+
+  let shape_task (obj : task Js.t) =
+    let open Validation in
+    let open Shapes.Task in
+    new_task
+    <$> (Js.to_string obj##.state |> state_from_string)
+    <*> Ok (Js.to_string obj##.uuid)
+    <*> Ok Option.(Js.Opt.to_option obj##.project >|= Js.to_string)
+    <*> Ok (string_list obj##.sectors)
+    <*> Ok (Js.to_string obj##.name)
+    <*> Ok (Js.to_string obj##.description)
+    <*> shape_checklist obj##.checklist
+    <*> Ok (string_list obj##.tags)
+    <*> (obj##.date
+        |> Js.to_string
+        |> Paperwork.Timetable.Day.from_string
+        |> from_result)
+    <*> opt_date obj##.openingDate
+    <*> opt_date obj##.closingDate
+    <*> opt_date obj##.engagementDate
+  ;;
+
+  let shape_line (obj : boardLine Js.t) =
+    let open Validation in
+    map_list shape_task obj##.tasks
+    |> Applicative.sequence
+    >|= fun tasks -> obj##.total, tasks
+  ;;
+
+  let shape (obj : board Js.t) =
+    let open Validation in
+    let open Shapes.Task in
+    new_board
+    <$> shape_line obj##.backlog
+    <*> shape_line obj##.opened
+    <*> shape_line obj##.inProgress
+    <*> shape_line obj##.isDone
+    <*> shape_line obj##.blocked
+  ;;
+
+  let get () =
+    let open Lwt.Infix in
+    "/api/tasks.json"
     |> Ajax.get
     >|= (fun frame -> frame.Ajax.content)
     >|= Js.string

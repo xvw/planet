@@ -164,32 +164,25 @@ let to_json task =
   let dts = Timetable.Day.to_string in
   let open Json in
   obj
-    ([ "state", string $ state_to_string task.state; "uuid", string task.uuid ]
-    @ Option.(task.project >|= (fun k -> "project", string k) |> to_list)
-    @ [ "sectors", array $ List.map string task.sectors
-      ; "name", string task.name
-      ; "description", string task.description
-      ; ( "checklist"
-        , array
-          $ List.map
-              (fun (flag, label) ->
-                obj [ "checked", bool flag; "label", string label ])
-              task.checklist )
-      ; "tags", array $ List.map string task.tags
-      ; "date", string $ dts task.date
-      ]
-    @ Option.(
-        task.opening_date
-        >|= (fun d -> "opening_date", string $ dts d)
-        |> to_list)
-    @ Option.(
-        task.closing_date
-        >|= (fun d -> "closing_date", string $ dts d)
-        |> to_list)
-    @ Option.(
-        task.engagement_date
-        >|= (fun d -> "engagement_date", string $ dts d)
-        |> to_list))
+    [ "state", string $ state_to_string task.state
+    ; "uuid", string task.uuid
+    ; "project", nullable Option.(task.project >|= string)
+    ; "sectors", array $ List.map string task.sectors
+    ; "name", string task.name
+    ; "description", string task.description
+    ; ( "checklist"
+      , array
+        $ List.map
+            (fun (flag, label) ->
+              obj [ "checked", bool flag; "label", string label ])
+            task.checklist )
+    ; "tags", array $ List.map string task.tags
+    ; "date", string $ dts task.date
+    ; "openingDate", nullable Option.(task.opening_date >|= dts >|= string)
+    ; "closingDate", nullable Option.(task.closing_date >|= dts >|= string)
+    ; ( "engagementDate"
+      , nullable Option.(task.engagement_date >|= dts >|= string) )
+    ]
 ;;
 
 let pp ppf task =
@@ -235,10 +228,11 @@ let smart_date_for task =
   | _ -> task.date
 ;;
 
-let smart_sorter a b =
+let smart_sorter ?(desc = false) a b =
   let a_date = smart_date_for a in
   let b_date = smart_date_for b in
-  Paperwork.Timetable.Day.cmp a_date b_date
+  let x, y = if desc then b_date, a_date else a_date, b_date in
+  Paperwork.Timetable.Day.cmp x y
 ;;
 
 let empty_board =
@@ -250,7 +244,7 @@ let empty_board =
   }
 ;;
 
-let sort_board (i, l) = i, List.sort smart_sorter l
+let sort_board ?(desc = false) (i, l) = i, List.sort (smart_sorter ~desc) l
 
 let board_create tasks =
   let unsorted_board =
@@ -278,7 +272,7 @@ let board_create tasks =
   { backlog = sort_board unsorted_board.backlog
   ; opened = sort_board unsorted_board.opened
   ; in_progress = sort_board unsorted_board.in_progress
-  ; done_ = sort_board unsorted_board.done_
+  ; done_ = sort_board ~desc:true unsorted_board.done_
   ; blocked = sort_board unsorted_board.blocked
   }
 ;;
@@ -293,9 +287,13 @@ let board_to_json board =
     [ mk "backlog" board.backlog
     ; mk "opened" board.opened
     ; mk "inProgress" board.in_progress
-    ; mk "done" board.done_
+    ; mk "isDone" board.done_
     ; mk "blocked" board.blocked
     ]
+;;
+
+let new_board backlog opened in_progress done_ blocked =
+  { backlog; opened; in_progress; done_; blocked }
 ;;
 
 let all_checked task = List.for_all (fun (f, _) -> f) task.checklist

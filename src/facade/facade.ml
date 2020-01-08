@@ -53,6 +53,8 @@ let () =
 
        val tags = Widget.Tags.api
 
+       val tasks = Widget.Tasks.api
+
        val roe = Roe.api
     end)
 ;;

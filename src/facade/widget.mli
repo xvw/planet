@@ -93,3 +93,12 @@ module Tags : sig
       ; random : random_input Js.t -> unit Lwt.t Js.meth >
       Js.t
 end
+
+module Tasks : sig
+  class type boot_input =
+    object
+      method boardBox : Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
+    end
+
+  val api : < boot : boot_input Js.t -> unit Lwt.t Js.meth > Js.t
+end

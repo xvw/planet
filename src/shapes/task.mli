@@ -40,6 +40,7 @@ val from_qexp : Qexp.t -> t Validation.t
 val to_json : t -> Json.t
 val pp : Format.formatter -> t -> unit
 val eq : t -> t -> bool
+val smart_sorter : t -> t -> int
 
 (** {2 Board} *)
 

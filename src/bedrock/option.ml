@@ -33,6 +33,9 @@ let unless option value =
   | Some x -> Some x
 ;;
 
+let ( <?> ) = unless
+let ( <!> ) x f = get_or f x
+
 module Functor = Functor.Make (struct
   type 'a t = 'a option
 

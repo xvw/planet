@@ -27,6 +27,14 @@ type t =
   ; engagement_date : Paperwork.Timetable.Day.t option
   }
 
+type board =
+  { backlog : int * t list
+  ; opened : int * t list
+  ; in_progress : int * t list
+  ; done_ : int * t list
+  ; blocked : int * t list
+  }
+
 let state_to_string = function
   | Backlog -> "backlog"
   | Opened -> "opened"
@@ -216,6 +224,53 @@ let eq left right =
   && Option.eq Timetable.Day.eq left.opening_date right.opening_date
   && Option.eq Timetable.Day.eq left.closing_date right.closing_date
   && Option.eq Timetable.Day.eq left.engagement_date right.engagement_date
+;;
+
+let empty_board =
+  { backlog = 0, []
+  ; opened = 0, []
+  ; in_progress = 0, []
+  ; done_ = 0, []
+  ; blocked = 0, []
+  }
+;;
+
+let create tasks =
+  List.fold_left
+    (fun board task ->
+      match task.state with
+      | Backlog ->
+        let i, xs = board.backlog in
+        { board with backlog = succ i, task :: xs }
+      | Opened ->
+        let i, xs = board.opened in
+        { board with opened = succ i, task :: xs }
+      | InProgress ->
+        let i, xs = board.in_progress in
+        { board with in_progress = succ i, task :: xs }
+      | Done ->
+        let i, xs = board.done_ in
+        { board with done_ = succ i, task :: xs }
+      | Blocked ->
+        let i, xs = board.blocked in
+        { board with blocked = succ i, task :: xs })
+    empty_board
+    tasks
+;;
+
+let board_to_json board =
+  let open Json in
+  let mk name elt =
+    let total, tasks = elt in
+    name, obj [ "total", int total; "tasks", array $ List.map to_json tasks ]
+  in
+  obj
+    [ mk "backlog" board.backlog
+    ; mk "opened" board.opened
+    ; mk "inProgress" board.in_progress
+    ; mk "done" board.done_
+    ; mk "blocked" board.blocked
+    ]
 ;;
 
 let all_checked task = List.for_all (fun (f, _) -> f) task.checklist

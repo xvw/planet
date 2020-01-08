@@ -25,6 +25,14 @@ type t =
   ; engagement_date : Paperwork.Timetable.Day.t option
   }
 
+type board =
+  { backlog : int * t list
+  ; opened : int * t list
+  ; in_progress : int * t list
+  ; done_ : int * t list
+  ; blocked : int * t list
+  }
+
 val state_from_string : string -> state Validation.t
 val state_to_string : state -> string
 val to_qexp : t -> Qexp.t
@@ -32,6 +40,11 @@ val from_qexp : Qexp.t -> t Validation.t
 val to_json : t -> Json.t
 val pp : Format.formatter -> t -> unit
 val eq : t -> t -> bool
+
+(** {2 Board} *)
+
+val create : t list -> board
+val board_to_json : board -> Json.t
 
 (** {2 Properties on task} *)
 

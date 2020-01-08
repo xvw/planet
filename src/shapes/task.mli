@@ -43,7 +43,7 @@ val eq : t -> t -> bool
 
 (** {2 Board} *)
 
-val create : t list -> board
+val board_create : t list -> board
 val board_to_json : board -> Json.t
 
 (** {2 Properties on task} *)

@@ -235,7 +235,7 @@ let empty_board =
   }
 ;;
 
-let create tasks =
+let board_create tasks =
   List.fold_left
     (fun board task ->
       match task.state with

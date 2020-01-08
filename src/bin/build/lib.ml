@@ -98,6 +98,10 @@ let initialize_api_current_position () =
   create_file Glue.Log.whereami_to_json api_folder "whereami.json"
 ;;
 
+let initialize_api_tasks () =
+  create_file Glue.Task.tasks_to_json api_folder "tasks.json"
+;;
+
 let initialize_logs () =
   let open Validation.Infix in
   let list =
@@ -150,6 +154,7 @@ let api () =
   let () = initialize_api_current_position () in
   let () = initialize_logs () in
   let () = initialize_api_tags () in
+  let () = initialize_api_tasks () in
   ()
 ;;
 

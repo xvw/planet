@@ -30,7 +30,8 @@ let tasks () =
   let open Validation.Infix in
   files ()
   |> Validation.from_result
-  >|= List.map (fun f ->
+  >|= List.map (fun fname ->
+          let f = Filename.concat folder fname in
           File.to_stream (fun _ s -> Qexp.from_stream s) f
           |> Validation.from_result
           >>= Shapes.Task.from_qexp)
@@ -59,4 +60,9 @@ let init project sectors name description checklist tags engagement_date =
         }
   in
   result
+;;
+
+let tasks_to_json () =
+  let open Validation.Infix in
+  tasks () >|= Shapes.Task.board_create >|= Shapes.Task.board_to_json
 ;;

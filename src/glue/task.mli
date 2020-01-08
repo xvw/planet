@@ -16,3 +16,5 @@ val init
   -> string list
   -> Timetable.Day.t option
   -> Shapes.Task.t Result.t
+
+val tasks_to_json : unit -> Json.t Validation.t

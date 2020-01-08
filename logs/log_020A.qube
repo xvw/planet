@@ -19,3 +19,9 @@
   (:duration "30") (:sector "visual")
   (:label "Légère réorganisation des pages (localisation/activité)")
   (:project "planet"))
+
+((:uuid "26ed5b37-63d4-1e88-2fc1-62987bc3af36") (:day "020A08")
+  (:duration "120") (:sector "programming")
+  (:label
+    "Sérialisation des tâches en JSON et intégration dans la routine de construction")
+  (:project "planet"))

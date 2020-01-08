@@ -1,4 +1,4 @@
-*Planet* est une collection d'outils qui permettent l'hydratation 
+*Planet* est une collection d'outils qui permet l'hydratation 
 de cette pages. Ses objectifs (et dans une moindre mesure, son 
 esthétique) sont fortement inspirés par [[https://wiki.xxiivv.com/#nataniev][Nataniev]], de [[https://wiki.xxiivv.com][Devine Lu Linvega]].
 L'ensemble de cette application web est générée statiquement via 

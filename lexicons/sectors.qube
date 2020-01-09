@@ -16,3 +16,6 @@
 ((:name "maintenance") (:color "#CCCCCC")
  (:desc "Correctif, maintenance d'infrastructures"))
 
+((:name "reading") (:color "#c0c0c0")
+ (:desc "Activité liées à la lecture"))
+

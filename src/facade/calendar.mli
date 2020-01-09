@@ -28,6 +28,7 @@ module Ago : sig
     | Past
     | Future
 
+  val in_past : direction -> bool
   val compute : ?in_day:bool -> ?reference:date -> date -> t * direction
   val stringify : ?since:string -> ?since_f:string -> t * direction -> string
 end

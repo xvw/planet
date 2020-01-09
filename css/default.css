@@ -1482,6 +1482,111 @@ p.free-paragraph {
     color: #000;
 }
 
+.multi-col-board-container > div {
+    margin-top: 32px;
+}
+
+.multi-col-board {
+    display: flex;
+    flex-direction: row;
+}
+
+.multi-col-board-column {
+    flex: 1;
+    margin-right: 8px;
+    padding: 0;
+    padding-right: 8px;
+}
+
+.multi-col-board-column:last-child {
+    margin-right: 0;
+}
+
+.multi-col-board-column > h2 {
+    font-size: 100%;
+    margin: 0; padding: 0;
+    font-weight: 700;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.multi-col-board-column > h2 > span:first-child {
+    flex: 1;
+}
+
+.multi-col-board-column > h2 > span:last-child {
+    background-color: #FFF;
+    color: #000;
+    padding: 4px 12px;
+    font-size: 60%;
+    font-weight: 400;
+    border-radius: 8px;
+}
+
+.multi-col-board-task {
+    color: #000;
+    background-color: #FFF;
+    margin: 16px 0;
+    border-radius: 4px;
+    font-size: 80%;
+    padding: 2px;
+    cursor: zoom-in;
+    user-select: none;
+}
+
+.multi-col-board-task-opened {
+    cursor: zoom-out;
+}
+
+.multi-col-board-task-closed {
+    cursor: zoom-in;
+}
+
+
+.multi-col-board-task .multi-col-board-task-header {
+    padding: 4px 8px;
+    /* border-bottom: 2px solid #000; */
+}
+
+.multi-col-board-task .multi-col-board-task-desc {
+    line-height: 100%;
+    padding: 8px;
+    color: #666;
+}
+
+.multi-col-board-task .multi-col-board-task-footer {
+    background-color: #000;
+    color: #FFF;
+    padding: 4px;
+    border-radius: 0px 0px 4px 4px;
+    margin-top: 8px;
+    font-size: 90%;
+}
+
+.multi-col-board-task .multi-col-board-task-footer:empty {
+    display: none;
+}
+
+.multi-col-board-task .multi-col-board-task-footer .not-past {
+    color: #04BF55;
+    font-weight: 600;
+}
+
+.multi-col-board-task .multi-col-board-task-footer .past {
+    color: #F24405;
+    font-weight: 600;
+}
+
+.multi-col-board-task-closed .multi-col-board-togglable-body {
+    display: none;
+}
+
+.multi-col-board-task-opened .multi-col-board-togglable-body {
+    display:block;
+}
+
+
 @media screen and (max-width: 720px) {
 
     main {
@@ -1574,6 +1679,15 @@ p.free-paragraph {
 
     .black-block {
         padding: 12px;
+    }
+
+    .multi-col-board {
+        flex-direction: column;
+    }
+
+    .multi-col-board-column {
+        margin: 12px 0;
+        padding: 0;
     }
     
 }

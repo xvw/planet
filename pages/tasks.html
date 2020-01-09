@@ -1,17 +1,20 @@
 ---
 title: Tâches et engagements
 ---
-<div class="page-cover black-block small-refutable">
+<div class="page-cover black-block">
   <div class="container">
-    <h2 class="classic-title">Tableaux des tâches
-    </h2>
-
+    <h2 class="classic-title">Tableaux des tâches</h2>
+    <div id="board">
+      <div class="loading">
+        <img src="/picto/loader.white.svg" alt="loading..."/>
+      </div>
+    </div>
   </div>
 </div>
-
-<div class="container base-content uniq-content">
-  
-</div>
 <script>
-
+  planet.suspend(function() {
+    planet.tasks.boot({
+      boardBox: document.getElementById("board")
+    });
+  });
 </script>

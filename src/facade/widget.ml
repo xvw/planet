@@ -1181,7 +1181,126 @@ module Tasks = struct
       method boardBox : Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
     end
 
-  let boot _input = Lwt.return_unit
+  let kl n = "multi-col-board" ^ n
+
+  let render_task_footer task =
+    let open Shapes.Task in
+    let open Tyxml.Html in
+    match task.state with
+    | InProgress | Opened ->
+      (match task.engagement_date with
+      | Some day ->
+        let date = Calendar.from_day day in
+        let txtc = Calendar.Ago.compute date in
+        let ctnt = txtc |> Calendar.Ago.stringify in
+        let k =
+          if Calendar.Ago.in_past (snd txtc) then "past" else "not-past"
+        in
+        [ div
+            ~a:[ a_class [ kl "-task-due"; k ] ]
+            [ txt $ Format.asprintf "A réaliser pour %s" ctnt ]
+        ]
+      | None -> [])
+    | Done -> []
+    | _ -> []
+  ;;
+
+  let render_task_body task =
+    let open Shapes.Task in
+    let open Tyxml.Html in
+    let desc = p ~a:[ a_class [ kl "-task-desc" ] ] [ txt task.description ] in
+    let togglable ctn = div ~a:[ a_class [ kl "-togglable-body" ] ] ctn in
+    (* let checks =
+     *   div
+     *     ~a:[ a_class [ kl "-task-checks" ] ]
+     *     (List.map
+     *        (fun (checked, label) ->
+     *          let c = if checked then [ a_checked () ] else [] in
+     *          div
+     *            [ input ~a:([ a_input_type `Checkbox ] @ c) ()
+     *            ; span [ txt label ]
+     *            ])
+     *        task.checklist)
+     * in *)
+    match task.state with
+    | Opened | InProgress -> [ desc; togglable [ (* checks *) ] ]
+    | _ -> [ togglable [ desc (* checks *) ] ]
+  ;;
+
+  let render_task task =
+    let open Shapes.Task in
+    let open Tyxml.Html in
+    div
+      ~a:
+        [ a_class [ kl "-task"; kl "-task-closed" ]
+        ; a_id task.uuid
+        ; a_onclick (fun ev ->
+              match Js.Opt.to_option ev##.currentTarget with
+              | None -> false
+              | Some elt ->
+                let cl1 = Js.string (kl "-task-closed") in
+                let cl2 = Js.string (kl "-task-opened") in
+                let _ = elt##.classList##toggle cl1 in
+                let _ = elt##.classList##toggle cl2 in
+                let () = Console.print "foo" in
+                false)
+        ]
+      ([ div ~a:[ a_class [ kl "-task-header" ] ] [ h4 [ txt task.name ] ] ]
+      @ render_task_body task
+      @ [ div ~a:[ a_class [ kl "-task-footer" ] ] (render_task_footer task) ])
+  ;;
+
+  let render_column col_title (total, tasks) =
+    let open Tyxml.Html in
+    div
+      ~a:[ a_class [ kl "-column" ] ]
+      [ h2
+          [ span ~a:[ a_class [ kl "-column-title" ] ] [ txt col_title ]
+          ; span
+              ~a:[ a_class [ kl "-column-title-total" ] ]
+              [ txt $ string_of_int total ]
+          ]
+      ; div ~a:[ a_class [ kl "-tasks" ] ] (List.map render_task tasks)
+      ]
+  ;;
+
+  let render_board container board =
+    let open Tyxml.Html in
+    let open Shapes.Task in
+    let main_board =
+      div
+        ~a:[ a_class [ kl "-container" ] ]
+        [ div
+            ~a:[ a_class [ kl "" ] ]
+            [ render_column "Ouvertes" board.opened
+            ; render_column "En cours" board.in_progress
+            ; render_column "Réalisées" board.done_
+            ]
+        ; div
+            ~a:[ a_class [ kl "" ] ]
+            [ render_column "Accumulées" board.backlog
+            ; render_column "Bloquées" board.blocked
+            ; div ~a:[ a_class [ kl "-column" ] ] []
+            ]
+        ]
+    in
+    let () = clear container in
+    Dom.appendChild container (main_board |> Tyxml.To_dom.of_div)
+  ;;
+
+  let boot input =
+    match
+      Validation.Infix.(
+        (fun x -> x) <$> validate "unable to find board box" input##.boardBox)
+    with
+    | Ok board_container ->
+      let open Lwt.Infix in
+      Binding.Tasks.get ()
+      >>= (function
+      | Error errs -> Lwt.return (Console.render_error errs)
+      | Ok board -> Lwt.return (render_board board_container board))
+    | Error errs -> Lwt.return (Console.render_error errs)
+  ;;
 
   let api =
     object%js

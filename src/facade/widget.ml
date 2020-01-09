@@ -1187,7 +1187,7 @@ module Tasks = struct
     let open Shapes.Task in
     let open Tyxml.Html in
     match task.state with
-    | InProgress | Opened ->
+    | InProgress | Opened | Backlog ->
       (match task.engagement_date with
       | Some day ->
         let date = Calendar.from_day day in
@@ -1198,10 +1198,22 @@ module Tasks = struct
         in
         [ div
             ~a:[ a_class [ kl "-task-due"; k ] ]
-            [ txt $ Format.asprintf "A réaliser pour %s" ctnt ]
+            [ txt $ Format.asprintf "Pour %s" ctnt ]
         ]
       | None -> [])
-    | Done -> []
+    | Done ->
+      (match task.closing_date with
+      | Some day ->
+        [ div
+            ~a:[ a_class [ kl "-task-due" ] ]
+            [ txt
+              $ Format.asprintf
+                  "Cloturée le %a"
+                  Paperwork.Timetable.Day.ppr
+                  day
+            ]
+        ]
+      | None -> [])
     | _ -> []
   ;;
 
@@ -1210,21 +1222,24 @@ module Tasks = struct
     let open Tyxml.Html in
     let desc = p ~a:[ a_class [ kl "-task-desc" ] ] [ txt task.description ] in
     let togglable ctn = div ~a:[ a_class [ kl "-togglable-body" ] ] ctn in
-    (* let checks =
-     *   div
-     *     ~a:[ a_class [ kl "-task-checks" ] ]
-     *     (List.map
-     *        (fun (checked, label) ->
-     *          let c = if checked then [ a_checked () ] else [] in
-     *          div
-     *            [ input ~a:([ a_input_type `Checkbox ] @ c) ()
-     *            ; span [ txt label ]
-     *            ])
-     *        task.checklist)
-     * in *)
+    let checks =
+      div
+        ~a:[ a_class [ kl "-task-checks" ] ]
+        [ ul
+            (List.map
+               (fun (checked, label) ->
+                 let f = if checked then "checked" else "unchecked" in
+                 li
+                   ~a:[ a_class [ f ] ]
+                   [ span ~a:[ a_class [ "square" ] ] []
+                   ; span ~a:[ a_class [ "checklabel" ] ] [ txt label ]
+                   ])
+               task.checklist)
+        ]
+    in
     match task.state with
-    | Opened | InProgress -> [ desc; togglable [ (* checks *) ] ]
-    | _ -> [ togglable [ desc (* checks *) ] ]
+    | Opened | InProgress -> [ desc; togglable [ checks ] ]
+    | _ -> [ togglable [ desc; checks ] ]
   ;;
 
   let render_task task =
@@ -1245,15 +1260,23 @@ module Tasks = struct
                 let () = Console.print "foo" in
                 false)
         ]
-      ([ div ~a:[ a_class [ kl "-task-header" ] ] [ h4 [ txt task.name ] ] ]
+      ([ div
+           ~a:[ a_class [ kl "-task-header" ] ]
+           [ h4 [ span [ txt task.name ]; span [ txt task.uuid ] ] ]
+       ]
       @ render_task_body task
       @ [ div ~a:[ a_class [ kl "-task-footer" ] ] (render_task_footer task) ])
   ;;
 
   let render_column col_title (total, tasks) =
     let open Tyxml.Html in
+    let hidden =
+      match tasks with
+      | [] -> [ "hidden-object" ]
+      | _ -> []
+    in
     div
-      ~a:[ a_class [ kl "-column" ] ]
+      ~a:[ a_class ([ kl "-column" ] @ hidden) ]
       [ h2
           [ span ~a:[ a_class [ kl "-column-title" ] ] [ txt col_title ]
           ; span

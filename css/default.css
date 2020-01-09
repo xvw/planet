@@ -475,12 +475,15 @@ header > div > div > .header-bar {
     background-color: #000;
 }
 
+.black-block nav {
+    margin: 12px 0;
+}
 
 .black-block nav a {
     text-decoration: none;
     background-color: #FFF;
-    padding: 4px 8px;
-    font-size: 80%;
+    padding: 2px 4px;
+    font-size: 70%;
     border-radius: 4px;
     color: #000;
 }
@@ -1512,7 +1515,7 @@ p.free-paragraph {
 }
 
 .multi-col-board-column > h2 > span:first-child {
-    flex: 1;
+    margin-right: 12px;
 }
 
 .multi-col-board-column > h2 > span:last-child {
@@ -1533,6 +1536,80 @@ p.free-paragraph {
     padding: 2px;
     cursor: zoom-in;
     user-select: none;
+}
+
+.multi-col-board-task .multi-col-board-task-header h4 {
+    display: flex;
+    flex-direction: row;
+}
+
+.multi-col-board-task .multi-col-board-task-header  > h4 > span:first-child {
+    font-weight: 700;
+    color: #000;
+    flex: 3;
+}
+
+.multi-col-board-task .multi-col-board-task-header  > h4 > span:last-child {
+    font-weight: 300;
+    color: #666;
+    flex: 1;
+    text-align: right;
+}
+
+.multi-col-board-task-checks > ul {
+    list-style: none;
+    padding: 0;
+    padding-left: 12px;
+    margin: 8px 8px 22px 8px;
+}
+
+.multi-col-board-task-checks > ul:empty {
+    display: none;
+}
+
+
+.multi-col-board-task-checks > ul > li {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
+.multi-col-board-task-checks > ul > li > span.square:before {
+    font-weight: 900;
+    font-style: italic;
+    display: block;
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    border-radius: 50%;
+    text-align: center;
+    content : ".";
+    color: transparent;
+}
+
+.multi-col-board-task-checks > ul > li > span.checklabel {
+    flex: 1;
+    padding: 0px 8px;
+}
+
+.multi-col-board-task-checks > ul > li.checked > span.square:before {
+    background-color: #000;
+}
+
+.multi-col-board-task-checks > ul > li.unchecked > span.square:before {
+    /* background-color: #c0c0c0; */
+    background-color: transparent;
+    border: 2px solid #000;
+}
+
+
+.multi-col-board-task-checks > ul > li.checked > span.checklabel {
+    color: #666;
+    text-decoration: line-through solid #666;
+}
+
+.multi-col-board-task-checks > ul > li.unchecked > span.checklabel {
 }
 
 .multi-col-board-task-opened {
@@ -1569,12 +1646,12 @@ p.free-paragraph {
 }
 
 .multi-col-board-task .multi-col-board-task-footer .not-past {
-    color: #04BF55;
+    /* color: #04BF55; */
     font-weight: 600;
 }
 
 .multi-col-board-task .multi-col-board-task-footer .past {
-    color: #F24405;
+    /* color: #F24405; */
     font-weight: 600;
 }
 

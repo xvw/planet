@@ -1,0 +1,8 @@
+(:title "Implémentation d'une TODO-liste")
+(:kind short)
+(:date #020A09)
+(:permaname "todolist")
+(:synopsis "Ajout d'une liste de tâches")
+(:content internal #org-mode "")
+(:published true)
+(:category "planet")

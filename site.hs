@@ -196,6 +196,7 @@ shortsRule =
 templatesRule =
   "templates/*.html"
   .||. "_seeds/partials/*.html"
+  .||. "partials/*.html"
 
 -- Filters
 isPublished :: Metadata -> Bool

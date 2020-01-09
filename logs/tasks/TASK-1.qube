@@ -1,12 +1,12 @@
-(:name "Intégration des tâches")
+(:name "Tâches")
 (:description
   "Développement d'une TODO Liste pour le suivi des tâches dans Planet")
-(:state "in_progress") (:uuid "TASK-1") (:date "020A01") (:project "planet")
+(:state "done") (:uuid "TASK-1") (:date "020A01") (:project "planet")
 (:sectors (visual programming))
 (:checklist
   ((:checked "Création statique des tâches")
     (:checked "Déplacement des tâches")
-    (:checked "Modification de la checklist")
-    (:unchecked "Rendu dans l'application web")))
+    (:checked "Modification de la checklist") (:checked "Rendu web")))
 (:tags ("todo" "task" "board" "trello")) (:opening_date "020A06")
+(:closing_date "020A09")
 (:engagement_date "020B01")

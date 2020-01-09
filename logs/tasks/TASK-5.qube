@@ -1,0 +1,10 @@
+(:name "À la recherche du temps perdu")
+(:description "Lecture de 'À la recherche du temps perdu' de Proust")
+(:state "backlog") (:uuid "TASK-5") (:date "020A09") (:sectors (reading))
+(:checklist
+  ((:unchecked "Du côté de chez Swann")
+    (:unchecked "À l’ombre des jeunes filles en fleurs")
+    (:unchecked "Le Côté de Guermantes") (:unchecked "Sodome et Gomorrhe")
+    (:unchecked "La Prisonnière") (:unchecked "Albertine disparue")
+    (:unchecked "Le Temps retrouvé"))) (:tags ("lecture" "proust"))
+(:engagement_date "022A01")

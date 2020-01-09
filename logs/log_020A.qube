@@ -25,3 +25,9 @@
   (:label
     "Sérialisation des tâches en JSON et intégration dans la routine de construction")
   (:project "planet"))
+
+((:uuid "fef35b9e-9851-4d79-cf73-9c894801865b") (:day "020A09")
+  (:duration "340") (:sector "visual")
+  (:label
+    "Interface graphique (et implémentation) de l'affichage des tâches")
+  (:project "planet"))

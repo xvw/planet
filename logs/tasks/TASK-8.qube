@@ -1,0 +1,11 @@
+(:name "V2.1.0 de RME")
+(:description
+  "Finaliser l'implémentation de la version 2.1.0 de RME et en faire une release")
+(:state "backlog") (:uuid "TASK-8") (:date "020A10") (:project "rme")
+(:sectors (programming maintenance))
+(:checklist
+  ((:unchecked "Choisir les nouveautés")
+    (:unchecked "Implémenter les nouveautés")
+    (:unchecked "Créer une release") (:unchecked "Communiquer")))
+(:tags ("ruby" "release"))
+(:engagement_date "020B01")

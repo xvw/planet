@@ -35,3 +35,9 @@
 ((:uuid "d9c3a14f-fa9f-a7d5-33c6-917c095e09c0") (:day "020A10")
   (:duration "15") (:sector "programming")
   (:label "Ajout du projet dans la liste des tâches") (:project "planet"))
+
+((:uuid "e6768506-123c-04c9-2fba-50644f033de2") (:day "020A10")
+  (:duration "30") (:sector "maintenance")
+  (:label
+    "Choix des fonctionnalités à implémenter pour la version 2.1.0 de RME")
+  (:project "rme"))

@@ -4,7 +4,7 @@
 (:state "in_progress") (:uuid "TASK-8") (:date "020A10") (:project "rme")
 (:sectors (programming maintenance))
 (:checklist
-  ((:unchecked "Choisir les nouveautés")
+  ((:checked "Choisir les nouveautés")
     (:unchecked "Implémenter les nouveautés")
     (:unchecked "Créer une release") (:unchecked "Communiquer")))
 (:tags ("ruby" "release"))

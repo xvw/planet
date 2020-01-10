@@ -1,0 +1,8 @@
+(:name "cooketery")
+(:published false)
+(:title "Cooketery")
+(:synopsis "Un langage de programmation pour exprimer des recettes de cuisines")
+(:status "wip")
+(:license "mit")
+(:tags "language" "cooking")
+(:content external #org-mode "projects/cooketery.org")

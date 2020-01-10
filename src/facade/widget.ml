@@ -1298,7 +1298,7 @@ module Tasks = struct
     let open Tyxml.Html in
     let hidden =
       match tasks with
-      | [] -> [ "hidden-object" ]
+      | [] -> [ "hidden-column" ]
       | _ -> []
     in
     div

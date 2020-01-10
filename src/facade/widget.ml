@@ -1183,7 +1183,7 @@ module Tasks = struct
 
   let kl n = "multi-col-board" ^ n
 
-  let render_task_footer task =
+  let render_task_footer_date task =
     let open Shapes.Task in
     let open Tyxml.Html in
     match task.state with
@@ -1217,6 +1217,29 @@ module Tasks = struct
     | _ -> []
   ;;
 
+  let render_task_footer_project projects task =
+    let open Shapes.Task in
+    let open Tyxml.Html in
+    let open Option.Infix in
+    match
+      task.project >>= fun k -> Hashtbl.find_opt projects k >|= fun v -> k, v
+    with
+    | None -> []
+    | Some (k, published) ->
+      [ div
+          ~a:[ a_class [ kl "-task-project" ] ]
+          [ (if published
+            then
+              a ~a:[ a_href $ Format.asprintf "/projects/%s.html" k ] [ txt k ]
+            else span [ txt k ])
+          ]
+      ]
+  ;;
+
+  let render_task_footer projects task =
+    render_task_footer_date task @ render_task_footer_project projects task
+  ;;
+
   let render_task_body task =
     let open Shapes.Task in
     let open Tyxml.Html in
@@ -1242,7 +1265,7 @@ module Tasks = struct
     | _ -> [ togglable [ desc; checks ] ]
   ;;
 
-  let render_task task =
+  let render_task projects task =
     let open Shapes.Task in
     let open Tyxml.Html in
     div
@@ -1251,24 +1274,27 @@ module Tasks = struct
         ; a_id task.uuid
         ; a_onclick (fun ev ->
               match Js.Opt.to_option ev##.currentTarget with
-              | None -> false
+              | None -> true
               | Some elt ->
                 let cl1 = Js.string (kl "-task-closed") in
                 let cl2 = Js.string (kl "-task-opened") in
                 let _ = elt##.classList##toggle cl1 in
                 let _ = elt##.classList##toggle cl2 in
                 let () = Console.print "foo" in
-                false)
+                true)
         ]
       ([ div
            ~a:[ a_class [ kl "-task-header" ] ]
            [ h4 [ span [ txt task.name ]; span [ txt task.uuid ] ] ]
        ]
       @ render_task_body task
-      @ [ div ~a:[ a_class [ kl "-task-footer" ] ] (render_task_footer task) ])
+      @ [ div
+            ~a:[ a_class [ kl "-task-footer" ] ]
+            (render_task_footer projects task)
+        ])
   ;;
 
-  let render_column col_title (total, tasks) =
+  let render_column projects col_title (total, tasks) =
     let open Tyxml.Html in
     let hidden =
       match tasks with
@@ -1283,11 +1309,13 @@ module Tasks = struct
               ~a:[ a_class [ kl "-column-title-total" ] ]
               [ txt $ string_of_int total ]
           ]
-      ; div ~a:[ a_class [ kl "-tasks" ] ] (List.map render_task tasks)
+      ; div
+          ~a:[ a_class [ kl "-tasks" ] ]
+          (List.map (render_task projects) tasks)
       ]
   ;;
 
-  let render_board container board =
+  let render_board container board projects =
     let open Tyxml.Html in
     let open Shapes.Task in
     let main_board =
@@ -1295,14 +1323,14 @@ module Tasks = struct
         ~a:[ a_class [ kl "-container" ] ]
         [ div
             ~a:[ a_class [ kl "" ] ]
-            [ render_column "Ouvertes" board.opened
-            ; render_column "En cours" board.in_progress
-            ; render_column "Réalisées" board.done_
+            [ render_column projects "Ouvertes" board.opened
+            ; render_column projects "En cours" board.in_progress
+            ; render_column projects "Réalisées" board.done_
             ]
         ; div
             ~a:[ a_class [ kl "" ] ]
-            [ render_column "Accumulées" board.backlog
-            ; render_column "Bloquées" board.blocked
+            [ render_column projects "Accumulées" board.backlog
+            ; render_column projects "Bloquées" board.blocked
             ; div ~a:[ a_class [ kl "-column" ] ] []
             ]
         ]
@@ -1319,9 +1347,12 @@ module Tasks = struct
     | Ok board_container ->
       let open Lwt.Infix in
       Binding.Tasks.get ()
+      >>= (fun tasks ->
+            Binding.Project.get () >|= fun projects -> tasks, projects)
       >>= (function
-      | Error errs -> Lwt.return (Console.render_error errs)
-      | Ok board -> Lwt.return (render_board board_container board))
+      | Error errs, _ -> Lwt.return (Console.render_error errs)
+      | Ok board, projects ->
+        Lwt.return (render_board board_container board projects))
     | Error errs -> Lwt.return (Console.render_error errs)
   ;;
 

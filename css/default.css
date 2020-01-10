@@ -1639,20 +1639,23 @@ p.free-paragraph {
     border-radius: 0px 0px 4px 4px;
     margin-top: 8px;
     font-size: 90%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
 .multi-col-board-task .multi-col-board-task-footer:empty {
     display: none;
 }
 
-.multi-col-board-task .multi-col-board-task-footer .not-past {
-    /* color: #04BF55; */
-    font-weight: 600;
+.multi-col-board-task .multi-col-board-task-footer > div:first-child {
+    flex: 1;
 }
 
-.multi-col-board-task .multi-col-board-task-footer .past {
-    /* color: #F24405; */
-    font-weight: 600;
+.multi-col-board-task .multi-col-board-task-footer a {
+    color: #FFF;
+    text-decoration: none;
+    border-bottom: 1px dotted #FFF;
 }
 
 .multi-col-board-task-closed .multi-col-board-togglable-body {

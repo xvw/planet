@@ -1,0 +1,12 @@
+(:name "Cooketery")
+(:description "Implémentation d'une première version du langage")
+(:state "backlog") (:uuid "TASK-9") (:date "020A10") (:project "cooketery")
+(:sectors (visual programming research writing))
+(:checklist
+  ((:unchecked "Spécifier les fonctionnalités")
+    (:unchecked "Définir une grammaire")
+    (:unchecked "Implémenter un Parser")
+    (:unchecked "Implémenter un client")
+    (:unchecked "Intégrer le client dans Planet") (:unchecked "Documenter")))
+(:tags ("cooking" "language"))
+(:engagement_date "020D01")

@@ -1,0 +1,9 @@
+(:name "Traversable")
+(:description "Implémentation des Traversables dans Preface")
+(:state "backlog") (:uuid "TASK-10") (:date "020A10") (:project "preface")
+(:sectors (programming research))
+(:checklist
+  ((:unchecked "Signatures") (:unchecked "Foncteurs") (:unchecked "List")
+    (:unchecked "Try") (:unchecked "Validation") (:unchecked "Documentation")
+    (:unchecked "Tests"))) (:tags ("ocaml" "traversable"))
+(:engagement_date "020A20")

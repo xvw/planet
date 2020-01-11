@@ -41,3 +41,8 @@
   (:label
     "Choix des fonctionnalités à implémenter pour la version 2.1.0 de RME")
   (:project "rme"))
+
+((:uuid "7c18368e-415a-a552-77fe-667de00f77ec") (:day "020A11")
+  (:duration "300") (:sector "programming")
+  (:label "Implémentation de commandes pour la version 2.1.0")
+  (:project "rme"))

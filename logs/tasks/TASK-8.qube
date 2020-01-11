@@ -1,11 +1,11 @@
 (:name "V2.1.0 de RME")
 (:description
   "Finaliser l'implémentation de la version 2.1.0 de RME et en faire une release")
-(:state "in_progress") (:uuid "TASK-8") (:date "020A10") (:project "rme")
+(:state "done") (:uuid "TASK-8") (:date "020A10") (:project "rme")
 (:sectors (programming maintenance))
 (:checklist
   ((:checked "Choisir les nouveautés")
-    (:checked "Implémenter les nouveautés")
-    (:unchecked "Créer une release") (:unchecked "Communiquer")))
-(:tags ("ruby" "release"))
+    (:checked "Implémenter les nouveautés") (:checked "Créer une release")
+    (:checked "Communiquer"))) (:tags ("ruby" "release"))
+(:opening_date "020A11") (:closing_date "020A11")
 (:engagement_date "020B01")

@@ -46,3 +46,7 @@
   (:duration "300") (:sector "programming")
   (:label "Implémentation de commandes pour la version 2.1.0")
   (:project "rme"))
+
+((:uuid "ff8c4c4d-d3c0-88b6-f840-a82d9664c7f0") (:day "020A11")
+  (:duration "200") (:sector "maintenance")
+  (:label "Correctifs de bogues sur RME 2.1.0") (:project "rme"))

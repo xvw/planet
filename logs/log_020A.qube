@@ -50,3 +50,7 @@
 ((:uuid "ff8c4c4d-d3c0-88b6-f840-a82d9664c7f0") (:day "020A11")
   (:duration "200") (:sector "maintenance")
   (:label "Correctifs de bogues sur RME 2.1.0") (:project "rme"))
+
+((:uuid "4bf434df-8499-2532-cd9a-c283cfa23810") (:day "020A11")
+  (:duration "120") (:sector "programming")
+  (:label "Implémentation des boucles dans le DSL") (:project "rme"))

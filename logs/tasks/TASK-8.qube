@@ -5,7 +5,7 @@
 (:sectors (programming maintenance))
 (:checklist
   ((:checked "Choisir les nouveautés")
-    (:unchecked "Implémenter les nouveautés")
+    (:checked "Implémenter les nouveautés")
     (:unchecked "Créer une release") (:unchecked "Communiquer")))
 (:tags ("ruby" "release"))
 (:engagement_date "020B01")

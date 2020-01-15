@@ -54,3 +54,9 @@
 ((:uuid "4bf434df-8499-2532-cd9a-c283cfa23810") (:day "020A11")
   (:duration "120") (:sector "programming")
   (:label "Implémentation des boucles dans le DSL") (:project "rme"))
+
+((:uuid "744c8cf0-be0f-45a4-78e5-89eb641b003f") (:day "020A15")
+  (:duration "120") (:sector "maintenance")
+  (:label
+    "Correction pour l'implémentation des boucles et amélioration des retours d'erreur")
+  (:project "rme"))

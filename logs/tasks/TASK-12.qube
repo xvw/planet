@@ -1,7 +1,7 @@
 (:name "Almost Heroic 2.0.0")
 (:description
   "Depuis que RME a grandement amélioré ses performances, il faudrait faire une nouvelle libération de Almost Heroic pour profiter de ces améliorations")
-(:state "backlog") (:uuid "TASK-12") (:date "020A15")
+(:state "in_progress") (:uuid "TASK-12") (:date "020A15")
 (:project "almost_heroic") (:sectors (maintenance)) (:checklist ())
 (:tags ("rpg" "maker" "rme"))
 (:engagement_date "020A20")

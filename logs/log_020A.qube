@@ -60,3 +60,7 @@
   (:label
     "Correction pour l'implémentation des boucles et amélioration des retours d'erreur")
   (:project "rme"))
+
+((:uuid "f5ad590c-5adc-36bf-952f-fa17cb3e83d4") (:day "020A17")
+  (:duration "10") (:sector "visual") (:label "Création du Pictogramme")
+  (:project "rme"))

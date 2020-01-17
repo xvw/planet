@@ -1,9 +1,33 @@
 (:name "rme")
-(:published false)
+(:published true)
 (:title "RME")
-(:synopsis "Un DSL pour faciliter le développement de jeux avec RPG Maker VXAce")
+(:synopsis "Une extension pour le logiciel RPGMaker VXAce")
 (:status "unceasing")
 (:license "mit")
 (:tags "game" "rpgmaker" "rme" "vxace" "ruby")
 (:repo (#github rmex RME))
 (:content external #org-mode "projects/rme.org")
+(:picto "rme")
+
+(:releases
+ ("v1.1.0" #017J06 "https://github.com/RMEx/RME/releases/tag/v1.1.0")
+ ("v1.2.0" #018A02 "https://github.com/RMEx/RME/releases/tag/v1.2.0")
+ ("v1.3.0" #018C18 "https://github.com/RMEx/RME/releases/tag/v1.3.0")
+ ("v1.4.0" #018G01 "https://github.com/RMEx/RME/releases/tag/v1.4.0")
+ ("v1.4.1" #018H05 "https://github.com/RMEx/RME/releases/tag/v1.4.1")
+ ("v2.0.0" #019J09 "https://github.com/RMEx/RME/releases/tag/v2.0.0")
+ ("v2.1.0" #020A11 "https://github.com/RMEx/RME/releases/tag/v2.1.0")
+ ("v2.1.1" #020A15 "https://github.com/RMEx/RME/releases/tag/v2.1.1")
+ )
+
+(:links
+ (
+  ("Documentation"
+   (
+    (Wiki "https://github.com/RMEx/RME/wiki")
+    ("Documentation des commandes" "http://rmex.github.io/RMEDoc/")
+    )
+   )
+  )
+ )
+

@@ -64,3 +64,7 @@
 ((:uuid "f5ad590c-5adc-36bf-952f-fa17cb3e83d4") (:day "020A17")
   (:duration "10") (:sector "visual") (:label "Création du Pictogramme")
   (:project "rme"))
+
+((:uuid "b9e75f1a-3d0c-9f73-7b6d-4dac2ab5bb96") (:day "020A17")
+  (:duration "120") (:sector "writing")
+  (:label "Rédaction de la présentation") (:project "rme"))

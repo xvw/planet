@@ -24,6 +24,7 @@
  (
   ("Documentation"
    (
+    ("Ensemble des projets" "https://github.com/RMEx")
     (Wiki "https://github.com/RMEx/RME/wiki")
     ("Documentation des commandes" "http://rmex.github.io/RMEDoc/")
     )

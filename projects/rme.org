@@ -1,0 +1,40 @@
+*RPGMaker* est un logiciel/jouet qui permet la création assistée de 
+jeux-vidéo type *J-RPG*, à la /Dragon Quest/. Pour construire un jeu, 
+l'utilisateur bénéficie d'un système de programmation par évènements 
+dans lesquelles sont encodées une collection finie d'actions. 
+Un peu à la manière des /Demo Makers/ certains utilisateurs du logiciel
+ont détourné ces commandes pour construire des systèmes originaux complexes.
+
+Dans certaines versions récentes du logiciels, on dispose d'une interface
+de programmation en *Ruby* pour étendre, à notre guise, le moteur de jeu,
+permettant la construction de systèmes encore plus complexes. Cependant,
+alors que l'apprentissage de évènements était plutôt intuitif, l'apprentissage
+d'un langage de programmation implique généralement une méthode plus 
+rigoureuse.
+
+*RME* est une extension, développée en Ruby, qui ajoute plus de 900 commandes
+au système de base, permettant aux utilisateurs de construire des systèmes, 
+avec beaucoup moins de limites, tout en respectant la logique de RPGMaker.
+L'extension est le fruit de la collaboration d'une dizaine de développeurs
+et est encore utilisé, bien que son développement soit un peu délaissé 
+depuis 2016. Cependant, je tâche de maintenir, du mieux que je peux, 
+le projet. RME a été drastiquement utilisé dans le projet 
+[[./almost_heroic.html][Almost Heroic]]
+
+Voici une liste non-exhaustive des fonctionnalités ajoutées au logiciel : 
+
+- une extension syntaxique pour la manipulation des "variables" du logiciel ;
+- une extension syntaxique pour la manipulation des boucles ;
+- une GUI complète ; 
+- une couche réseau ;
+- le support d'éléments graphiques complémentaires (des feuilles de sprites, 
+  un multi-panoramas, des images etc.) ;
+- une base de données ; 
+- un générateur de documentation ;
+- un gestionnaire de paquets.
+
+Même si l'extension souffre de quelques faiblesses, elle permet néanmoins
+d'étendre drastiquement le logiciel RPGMaker VXAce, tout en laissant 
+l'utilisateur construire ses systèmes de la manière proposée par 
+RPGMaker.
+

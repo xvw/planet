@@ -68,3 +68,7 @@
 ((:uuid "b9e75f1a-3d0c-9f73-7b6d-4dac2ab5bb96") (:day "020A17")
   (:duration "120") (:sector "writing")
   (:label "Rédaction de la présentation") (:project "rme"))
+
+((:uuid "f3d81d05-01e4-a8f9-0cc6-23378eaaff42") (:day "020A20")
+  (:duration "120") (:sector "programming")
+  (:label "Implémentation des traversables") (:project "preface"))

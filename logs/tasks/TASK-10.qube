@@ -3,7 +3,7 @@
 (:state "in_progress") (:uuid "TASK-10") (:date "020A10")
 (:project "preface") (:sectors (programming research))
 (:checklist
-  ((:unchecked "Signatures") (:unchecked "Foncteurs") (:unchecked "List")
+  ((:checked "Signatures") (:checked "Foncteurs") (:checked "List")
     (:unchecked "Try") (:unchecked "Validation") (:unchecked "Documentation")
     (:unchecked "Tests"))) (:tags ("ocaml" "traversable"))
 (:engagement_date "020A20")

@@ -72,3 +72,8 @@
 ((:uuid "f3d81d05-01e4-a8f9-0cc6-23378eaaff42") (:day "020A20")
   (:duration "120") (:sector "programming")
   (:label "Implémentation des traversables") (:project "preface"))
+
+((:uuid "878dc9b2-44cb-85b5-4aa6-0f339554e3c7") (:day "020A21")
+  (:duration "20") (:sector "visual")
+  (:label "Légère modification des couleurs et de l'UI")
+  (:project "planet"))

@@ -80,7 +80,7 @@ planet-metadata {
 body {    
     padding: 0;
     margin: 0;
-    background-color: #f9f9f9;
+    background-color: #f2f2f2;
     height: 100vh;
     height: -webkit-calc(100% - 0px);
     display: flex;
@@ -89,6 +89,7 @@ body {
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
+    color: #111;
 }
 
 hr.spacing {
@@ -104,8 +105,8 @@ hr.spacing {
 .std-button {
     display: inline-block;
     padding: 2px 6px;
-    color: #000;
-    border: 2px solid #000;
+    color: #111;
+    border: 2px solid #111;
     border-radius: 4px;
     text-decoration: none;
     font-weight: 600;
@@ -114,8 +115,8 @@ hr.spacing {
 .light-button {
     display: inline-block;
     padding: 2px 8px;
-    color: #000;
-    border: 1px solid #000;
+    color: #111;
+    border: 1px solid #111;
     border-radius: 4px;
     text-decoration: none;
     font-weight: 300;
@@ -198,7 +199,7 @@ figure > img.image-cover ~ figcaption {
 }
 
 .black-block {
-    background-color: #000;
+    background-color: #111;
     color: #FFF;
 }
 
@@ -253,7 +254,7 @@ pre.sourceCode {
 
 pre.example code,
 pre.sourceCode code {
-    color: #000;
+    color: #111;
     border-radius: 0;
     padding: 0;
     margin: 0;
@@ -472,7 +473,7 @@ header > div > div > .header-bar {
     border-radius: 4px;
     margin-right: 8px;
     margin-bottom: 8px;
-    background-color: #000;
+    background-color: #111;
 }
 
 .black-block nav {
@@ -485,7 +486,7 @@ header > div > div > .header-bar {
     padding: 2px 4px;
     font-size: 70%;
     border-radius: 4px;
-    color: #000;
+    color: #111;
 }
 
 header h2,
@@ -505,7 +506,7 @@ header h2 {
 }
 
 .error-box {
-    background-color: #000;
+    background-color: #111;
     color: #fff;
     padding: 12px;
     position: sticky;
@@ -514,7 +515,7 @@ header h2 {
 }
 
 footer {
-    background-color: #ffffff;
+    background-color: #fff;
     padding: 18px 12px;
     font-size: 80%;
 }
@@ -541,7 +542,7 @@ footer .pictogram {
 }
 
 footer a {
-    color: #000000;
+    color: #111;
     font-weight: 700;
     text-decoration: none;
 }
@@ -579,7 +580,7 @@ a.long-item {
 .content-page .major-header,
 .project-item {
     margin: 0;
-    color: #000;
+    color: #111;
 }
 
 .long-item p.synopsis {
@@ -600,7 +601,7 @@ a.long-item,
 .project-item {
     align-items: start;
     text-decoration: none;
-    color: #000;
+    color: #111;
     font-size: 80%;
 }
 
@@ -623,7 +624,7 @@ a.long-item,
 }
 
 .project-item .project-picto {
-    /* background-color: #000; */
+    /* background-color: #111; */
     /* border-radius: 10px 0 10px 0; */
     /* padding: 4px; */
 }
@@ -730,7 +731,7 @@ a.long-item,
 
 .project-badges .project-badge a {
     text-decoration: none;
-    color: #000;
+    color: #111;
 }
 
 .qexp-metadata {
@@ -759,14 +760,14 @@ a.long-item,
 div.resume-box h3,
 #major-content-right .project-block h3 {
     padding-bottom: 8px;
-    border-bottom: 2px solid #EEE;
+    border-bottom: 2px solid #888;
     color: #888;
 }
 
 #major-content-bottom .project-block h3 {
     margin: 0;
-    color: #000;
-    /* border-bottom: 2px solid #BBB; */
+    color: #111;
+    /* border-bottom: 2px solid #888; */
 }
 
 #major-content-bottom .project-block h3 > span,
@@ -777,8 +778,8 @@ div.resume-box h3,
 #major-content-bottom .project-block h3 > span.label,
 #major-content-right .project-block h3 > span.label {
     flex: 0;
-    background-color: #eee;
-    color: #666;
+    background-color: #888;
+    color: #eee;
     padding: 4px 12px;
     border-radius: 8px;
     font-size: 80%;
@@ -831,12 +832,12 @@ div.resume-box h3,
 }
 
 #major-content-bottom .link-list ul > li {
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #fff;
 }
 
 #major-content-right .tag-list ul > li {
     display: inline-block;
-    background-color: #000;
+    background-color: #111;
     color: #fff;
     padding: 4px 8px;
     margin: 4px;
@@ -881,7 +882,7 @@ div.resume-box h3,
 
 #content-pages > div > a.page {
     text-decoration: none;
-    color: #000;
+    color: #111;
     display: block;
     margin: 32px 0;
     padding: 16px 0px;
@@ -948,7 +949,7 @@ div.resume-box h3,
 }
 
 .tracking  ul.stats > li > .label {
-    background-color: #eee;
+    background-color: #fff;
     color: #666;
     font-weight: 700;
     flex: 0 1 40%;
@@ -957,7 +958,7 @@ div.resume-box h3,
 
 #major-content-right .release-list ul > li > .date {
     font-weight: 500;
-    background-color: #000;
+    background-color: #111;
     color: #fff;
     font-size: 75%;
     font-family: "Planet Fira Mono", monospace;
@@ -966,13 +967,13 @@ div.resume-box h3,
 #major-content-right .release-list ul > li > a {
     display: block;
     text-decoration: none;
-    color: #000;
+    color: #111;
     font-family: "Planet Fira Mono", monospace;
     flex: 1;
 }
 
 #major-content-bottom {
-    border-top: 2px solid #eee;
+    border-top: 2px solid #fff;
     margin-top: 12px;
     padding-top: 20px;
 }
@@ -1021,7 +1022,7 @@ div.resume-box h3,
 .structured-text h1 > a,
 .structured-text h2 > a,
 .structured-text h3 > a {
-    color: #000;
+    color: #111;
     text-decoration: none;
 }
 
@@ -1188,24 +1189,27 @@ div.mozaic img {
 #resume-details > div > button {
     background-color: transparent;
     color: #fff;
-    border: 0px solid black;
+    border: 0px solid #111;
     border-bottom: 1px dotted #fff;
     cursor: pointer;
     padding: 0;
 }
 
+div.resume-box h3 {
+    border-bottom: 0px solid #888;
+}
 div.resume-box {
-    margin-bottom: 32px;
     display: block;
     position: sticky;
     position: -webkit-sticky;
     top: 50px;
-    background-color: #f9f9f9;
-    padding: 24px 4px 12px 4px;
+    background-color: #f2f2f2;
+    background: linear-gradient(180deg, #f2f2f2 0%, #f2f2f2 64%, rgba(0, 0, 0, 0) 100%);
+    padding: 24px 4px 64px 4px;
 }
 
 div.resume-box .progress-bar {
-    border: 1px solid #ddd;
+    border: 1px solid #888;
     border-radius: 8px;
     width: 100%;
     height: 12px;
@@ -1215,7 +1219,7 @@ div.resume-box .progress-bar {
 }
 
 div.resume-box .progress-bar > .progress {
-    background-color: #ddd;
+    background-color: #888;
     border-radius: 8px;
     transition: all 0.8s ease;
     flex: 1;
@@ -1230,7 +1234,7 @@ div.resume-box .button {
     font-size: 80%;
     margin: 0 4px;
     text-decoration: none;
-    color: #000;
+    color: #111;
     cursor: pointer;
     border-radius: 4px;
 }
@@ -1267,7 +1271,7 @@ div.location-box > div > div:nth-child(even) {
 }
 
 div.location-box > div > div.current {
-    background-color: #000;
+    background-color: #111;
     color: #FFF;
     font-weight: 700;
     border-radius: 8px;
@@ -1336,7 +1340,7 @@ p.free-paragraph {
 
 .logs-container ul.logs > li  .log-date {
     color: #FFF;
-    background-color: #000;
+    background-color: #111;
     padding: 4px 8px;
     font-size: 70%;
     border-radius: 4px;
@@ -1361,8 +1365,8 @@ p.free-paragraph {
 
 .logs-container ul.logs > li  .log-project a {
     text-decoration: none;
-    border-bottom: 1px dotted #000;
-    color: #000;
+    border-bottom: 1px dotted #111;
+    color: #111;
 }
 
 .logs-container ul.logs > li  .log-project:before {
@@ -1373,7 +1377,7 @@ p.free-paragraph {
 .logs-container ul.logs > li  .log-project,
 .logs-container ul.logs > li  .log-sector,
 .logs-container ul.logs > li  .log-duration {
-    color: #000;
+    color: #111;
     background-color: #FFF;
     padding: 4px 8px;
     font-size: 70%;
@@ -1477,12 +1481,12 @@ p.free-paragraph {
 .shorts-list > li > span.date {
     font-family: "Planet Fira Mono", monospace;
     color: #FFF;
-    background-color: #000;
+    background-color: #111;
 }
 
 .black-block .shorts-list > li > span.date {
     background-color: #FFF;
-    color: #000;
+    color: #111;
 }
 
 .multi-col-board-container > div {
@@ -1520,7 +1524,7 @@ p.free-paragraph {
 
 .multi-col-board-column > h2 > span:last-child {
     background-color: #FFF;
-    color: #000;
+    color: #111;
     padding: 4px 12px;
     font-size: 60%;
     font-weight: 400;
@@ -1528,7 +1532,7 @@ p.free-paragraph {
 }
 
 .multi-col-board-task {
-    color: #000;
+    color: #111;
     background-color: #FFF;
     margin: 16px 0;
     border-radius: 4px;
@@ -1545,7 +1549,7 @@ p.free-paragraph {
 
 .multi-col-board-task .multi-col-board-task-header  > h4 > span:first-child {
     font-weight: 700;
-    color: #000;
+    color: #111;
     flex: 3;
 }
 
@@ -1594,13 +1598,13 @@ p.free-paragraph {
 }
 
 .multi-col-board-task-checks > ul > li.checked > span.square:before {
-    background-color: #000;
+    background-color: #111;
 }
 
 .multi-col-board-task-checks > ul > li.unchecked > span.square:before {
     /* background-color: #c0c0c0; */
     background-color: transparent;
-    border: 2px solid #000;
+    border: 2px solid #111;
 }
 
 
@@ -1623,7 +1627,7 @@ p.free-paragraph {
 
 .multi-col-board-task .multi-col-board-task-header {
     padding: 4px 8px;
-    /* border-bottom: 2px solid #000; */
+    /* border-bottom: 2px solid #111; */
 }
 
 .multi-col-board-task .multi-col-board-task-desc {
@@ -1633,7 +1637,7 @@ p.free-paragraph {
 }
 
 .multi-col-board-task .multi-col-board-task-footer {
-    background-color: #000;
+    background-color: #111;
     color: #FFF;
     padding: 4px;
     border-radius: 0px 0px 4px 4px;
@@ -1698,7 +1702,7 @@ p.free-paragraph {
     }
 
     .main-columns > div:last-child {
-        border: 0px solid black;
+        border: 0px solid #111;
     }
 
     .tile {

@@ -83,3 +83,8 @@
   (:label
     "Implémentation des modules Try et Validation et amélioration des tests")
   (:project "preface"))
+
+((:uuid "e98243ca-5a13-a32b-1551-37e13b870daf") (:day "020A22")
+  (:duration "180") (:sector "programming")
+  (:label "Documentation et test pour Traversable, List, Try et Validation")
+  (:project "preface"))

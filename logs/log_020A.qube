@@ -77,3 +77,9 @@
   (:duration "20") (:sector "visual")
   (:label "Légère modification des couleurs et de l'UI")
   (:project "planet"))
+
+((:uuid "e7902b13-bb47-8bae-c93c-096a4ad6afeb") (:day "020A22")
+  (:duration "120") (:sector "programming")
+  (:label
+    "Implémentation des modules Try et Validation et amélioration des tests")
+  (:project "preface"))

@@ -4,6 +4,7 @@
 (:project "preface") (:sectors (programming research))
 (:checklist
   ((:checked "Signatures") (:checked "Foncteurs") (:checked "List")
-    (:checked "Try") (:checked "Validation") (:unchecked "Documentation")
-    (:checked "Tests"))) (:tags ("ocaml" "traversable"))
-(:engagement_date "020A20")
+    (:checked "Try") (:checked "Validation") (:checked "Documentation")
+    (:checked "Tests") (:unchecked "Revue et fusion")))
+(:tags ("ocaml" "traversable"))
+(:engagement_date "020A25")

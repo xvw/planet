@@ -88,3 +88,8 @@
   (:duration "180") (:sector "programming")
   (:label "Documentation et test pour Traversable, List, Try et Validation")
   (:project "preface"))
+
+((:uuid "28f6566c-12a5-f952-8405-33ecaec363d8") (:day "020A23")
+  (:duration "120") (:sector "programming")
+  (:label "Documentation et test pour Validation et Try")
+  (:project "preface"))

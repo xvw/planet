@@ -93,3 +93,8 @@
   (:duration "120") (:sector "programming")
   (:label "Documentation et test pour Validation et Try")
   (:project "preface"))
+
+((:uuid "58e02b83-9fb1-c8a3-9f6c-993a65abee04") (:day "020A24")
+  (:duration "120") (:sector "visual")
+  (:label
+    "Quelques croquis en noir et blanc (non conservés pour la majeure partie...)"))

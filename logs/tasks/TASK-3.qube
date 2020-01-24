@@ -1,7 +1,7 @@
 (:name "Galeries")
 (:description
   "Implémentation des galeries dans Planet (pour les photographies, les dessins et les peintures)")
-(:state "opened") (:uuid "TASK-3") (:date "020A06") (:project "planet")
-(:sectors (visual programming))
+(:state "in_progress") (:uuid "TASK-3") (:date "020A06") (:project "planet")
+(:sectors (visual programming)) (:checklist ())
 (:tags ("visual" "gallery" "photo"))
 (:engagement_date "020E15")

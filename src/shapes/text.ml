@@ -85,3 +85,13 @@ let extension_for (f, _) =
   | Format.Org -> "org"
   | Format.Markdown -> "md"
 ;;
+
+let to_qexp (format, ctn) =
+  let open Qexp in
+  let kind, str =
+    match ctn with
+    | File str -> "external", str
+    | Plain str -> "internal", str
+  in
+  node [ string kind; keyword (Format.to_string format); string str ]
+;;

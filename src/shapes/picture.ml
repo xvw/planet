@@ -10,7 +10,7 @@ type t =
   ; tags : string list
   ; place : (string * string) option
   ; image : string
-  ; thumbnail : string
+  ; thumbnail : string option
   }
 
 let new_picture name description date tools tags place image thumbnail =
@@ -34,7 +34,8 @@ let to_qexp picture =
      ; node [ tag "tags"; node $ List.map string picture.tags ]
      ]
     @ qexp_place picture.place
-    @ [ kv "image" picture.image; kv "thumbnail" picture.thumbnail ])
+    @ [ kv "image" picture.image ]
+    @ Kv.option picture.thumbnail "thumbnail" id)
 ;;
 
 module Fetch = Table.Fetch
@@ -52,7 +53,7 @@ let from_qexp expr =
     <*> Fetch.list_refutable Mapper.string config "tags"
     <*> Fetch.(option $ map Mapper.(couple string string) $ config $ "place")
     <*> Fetch.string config "image"
-    <*> Fetch.string config "thumbnail"
+    <*> Fetch.(option $ string $ config $ "thumbnail")
   | Error _ as e -> Validation.from_result e
 ;;
 
@@ -72,5 +73,5 @@ let eq left right =
        left.place
        right.place
   && String.equal left.image right.image
-  && String.equal left.thumbnail right.thumbnail
+  && Option.eq String.equal left.thumbnail right.thumbnail
 ;;

@@ -11,7 +11,7 @@ type t =
   ; tags : string list
   ; place : (string * string) option
   ; image : string
-  ; thumbnail : string
+  ; thumbnail : string option
   }
 
 val new_picture
@@ -22,7 +22,7 @@ val new_picture
   -> string list
   -> (string * string) option
   -> string
-  -> string
+  -> string option
   -> t
 
 val to_qexp : t -> Qexp.t

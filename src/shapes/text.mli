@@ -23,6 +23,7 @@ type t = Format.t * content
 
 (** {2 Helpers} *)
 
+val to_qexp : t -> Qexp.t
 val extension_for : t -> string
 val fetch : t Table.Fetch.t
 val pp : Stdlib.Format.formatter -> t -> unit

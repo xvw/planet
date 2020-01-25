@@ -77,7 +77,7 @@ let desengage =
 ;;
 
 let index =
-  let doc = "Manage build process of Planet" in
+  let doc = "Manage tasks of Planet" in
   let man = Glue.Man.default call in
   let exits = Term.default_exits in
   ( Term.(ret (const (`Help (`Pager, None))))

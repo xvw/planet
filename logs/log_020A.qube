@@ -98,3 +98,8 @@
   (:duration "120") (:sector "visual")
   (:label
     "Quelques croquis en noir et blanc (non conservés pour la majeure partie...)"))
+
+((:uuid "4f1a97e8-8d34-f2f9-826f-e532f77d2bcd") (:day "020A25")
+  (:duration "30") (:sector "programming")
+  (:label "Initialisation du modèle des images pour les galeries")
+  (:project "planet"))

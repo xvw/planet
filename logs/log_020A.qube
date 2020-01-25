@@ -107,3 +107,7 @@
 ((:uuid "f76de290-bb4c-531f-5b2c-e17ef5d0703f") (:day "020A25")
   (:duration "60") (:sector "programming")
   (:label "Implémentation des galeries") (:project "planet"))
+
+((:uuid "20411c0b-549d-9c3a-8b61-d83189913451") (:day "020A26")
+  (:duration "200") (:sector "programming")
+  (:label "Progrès sur les galeries internes") (:project "planet"))

@@ -103,3 +103,7 @@
   (:duration "30") (:sector "programming")
   (:label "Initialisation du modèle des images pour les galeries")
   (:project "planet"))
+
+((:uuid "f76de290-bb4c-531f-5b2c-e17ef5d0703f") (:day "020A25")
+  (:duration "60") (:sector "programming")
+  (:label "Implémentation des galeries") (:project "planet"))

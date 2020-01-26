@@ -310,7 +310,6 @@ let twtxt () =
 ;;
 
 let base_project () = projects ()
-let location () = ()
 
 let all () =
   let _ =
@@ -323,7 +322,6 @@ let all () =
     let* () = Ok (context rctx) in
     let* () = Ok (sectors ()) in
     let* () = Ok (stories ()) in
-    let* () = Ok (location ()) in
     let* () = Ok (twtxt ()) in
     Ok ()
   in

@@ -34,21 +34,6 @@ let stories =
   , Term.info "stories" ~version ~doc ~exits ~man )
 ;;
 
-let location =
-  let doc = "Build location from Planet" in
-  let man = Glue.Man.default call in
-  let exits = Term.default_exits in
-  ( Term.(const Lib.location $ const ())
-  , Term.info "location" ~version ~doc ~exits ~man )
-;;
-
-let all =
-  let doc = "Build everything" in
-  let man = Glue.Man.default call in
-  let exits = Term.default_exits in
-  Term.(const Lib.all $ const ()), Term.info "all" ~version ~doc ~exits ~man
-;;
-
 let twtxt =
   let doc = "Build twtxt feeds" in
   let man = Glue.Man.default call in
@@ -62,6 +47,13 @@ let index =
   let exits = Term.default_exits in
   ( Term.(ret (const (`Help (`Pager, None))))
   , Term.info call ~version ~doc ~exits ~man )
+;;
+
+let all =
+  let doc = "Build everything" in
+  let man = Glue.Man.default call in
+  let exits = Term.default_exits in
+  Term.(const Lib.all $ const ()), Term.info "all" ~version ~doc ~exits ~man
 ;;
 
 let invoke () =

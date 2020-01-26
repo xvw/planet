@@ -43,3 +43,18 @@ let update gallery =
   let open Result.Infix in
   File.overwrite filepath qstr >|= (fun () -> gallery) |> Validation.from_result
 ;;
+
+let get () =
+  let open Result.Infix in
+  path
+  |> Dir.children ~filter:(fun x -> String.has_extension x "qube")
+  >|= List.map (Filename.concat path)
+  |> Validation.from_result
+;;
+
+let read filepath =
+  let open Validation.Infix in
+  File.to_stream (fun _ -> Paperwork.Qexp.from_stream) filepath
+  |> Validation.from_result
+  >>= Shapes.Gallery.from_qexp
+;;

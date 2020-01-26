@@ -9,6 +9,10 @@ let seed_partials = Filename.concat site_folder "partials"
 let long_folder = Filename.concat site_folder "longs"
 let short_folder = Filename.concat site_folder "shorts"
 let twtxt_folder = Filename.concat site_folder "twtxt"
+let galleries_folder = Filename.concat site_folder "galleries"
+let illustrations_folder = Filename.concat galleries_folder "illustrations"
+let paintings_folder = Filename.concat galleries_folder "paintings"
+let photographs_folder = Filename.concat galleries_folder "photographs"
 
 let soft_creation folder =
   let open Result.Infix in
@@ -69,6 +73,14 @@ let create_stories_folder () =
   generate ();
   trace_creation (soft_creation long_folder);
   trace_creation (soft_creation short_folder)
+;;
+
+let create_galleries_folder () =
+  generate ();
+  trace_creation (soft_creation galleries_folder);
+  trace_creation (soft_creation illustrations_folder);
+  trace_creation (soft_creation paintings_folder);
+  trace_creation (soft_creation photographs_folder)
 ;;
 
 let create_file f folder file =
@@ -261,6 +273,12 @@ let stories () =
   | Ok _ -> ()
 ;;
 
+let galleries () =
+  let () = create_partials () in
+  let () = create_galleries_folder () in
+  ()
+;;
+
 let twtxt () =
   let database = Glue.Database.twtxt in
   let path = Glue.Database.path database in
@@ -322,6 +340,7 @@ let all () =
     let* () = Ok (context rctx) in
     let* () = Ok (sectors ()) in
     let* () = Ok (stories ()) in
+    let* () = Ok (galleries ()) in
     let* () = Ok (twtxt ()) in
     Ok ()
   in

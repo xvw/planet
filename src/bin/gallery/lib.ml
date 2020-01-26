@@ -1,20 +1,23 @@
 open Bedrock
 open Baremetal
+open Error
+module Ui = Glue.Ui
 
-let path = Glue.Database.(path galleries)
+let path = Glue.Gallery.path
 
 let try_gallery_creation day kind =
-  let name = Glue.Ui.get_string "Name?" "Name of the gallery" in
-  let permalink = Glue.Ui.get_string "Permalink?" "Permalink of the gallery" in
+  let name = Ui.get_string "Name?" "Name of the gallery" in
+  let permalink =
+    Ui.get_string "Permalink?" "Permalink of the gallery"
+    |> String.lowercase_ascii
+  in
   let content =
     Shapes.Text.(Format.Org, File (Filename.concat path (permalink ^ ".org")))
   in
-  let description =
-    Glue.Ui.get_string "Description?" "Description of the gallery"
-  in
+  let description = Ui.get_string "Description?" "Description of the gallery" in
   let updated_at = day in
   let tags =
-    Glue.Ui.get_string_opt "Tags?" "Tags of the task"
+    Ui.get_string_opt "Tags?" "Tags of the task"
     |> Option.to_list
     |> List.bind (String.tokenize ',')
   in
@@ -30,12 +33,25 @@ let try_gallery_creation day kind =
     pictures
 ;;
 
+let resolve_or_abort gallery =
+  if Prompter.yes_no
+       ~answer_style:Ansi.[ fg yellow ]
+       ~title:"Confirm?"
+       (Format.asprintf "%a" Shapes.Gallery.pp gallery)
+  then Ok gallery
+  else Error [ Of "Aborted" ]
+;;
+
 let create potential_kind =
   let potential_gallery =
-    let open Validation.Syntax in
-    let* day = Glue.Util.day () |> Validation.from_result in
-    let+ kind = Shapes.Gallery.kind_from_string potential_kind in
-    try_gallery_creation day kind
+    let open Validation.Infix in
+    Glue.Util.day ()
+    |> Validation.from_result
+    >>= fun day ->
+    Shapes.Gallery.kind_from_string potential_kind
+    >|= (fun kind -> try_gallery_creation day kind)
+    >>= (fun gallery -> resolve_or_abort gallery)
+    >>= Glue.Gallery.create
   in
   match potential_gallery with
   | Ok gallery -> Format.printf "%a\n" Shapes.Gallery.pp gallery

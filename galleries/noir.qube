@@ -1,0 +1,6 @@
+((:name "Noir") (:permalink "noir")
+  (:content ("external" #org "./galleries/noir.org"))
+  (:description
+    "Illustrations numériques (avec beaucoup de noir et de blanc)")
+  (:updated_at "020A26") (:tags ("numerique" "krita" "blanc" "noir"))
+  (:kind "illustration") (:pictures ()))

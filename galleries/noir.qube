@@ -1,6 +1,20 @@
-((:name "Noir") (:permalink "noir")
-  (:content ("external" #org "./galleries/noir.org"))
-  (:description
-    "Illustrations numériques (avec beaucoup de noir et de blanc)")
-  (:updated_at "020A26") (:tags ("numerique" "krita" "blanc" "noir"))
-  (:kind "illustration") (:pictures ()))
+(:name "Noir") (:permalink "noir")
+(:content ("external" #org "./galleries/noir.org"))
+(:description "Illustrations numériques (avec beaucoup de noir et de blanc)")
+(:updated_at "020A26") (:tags ("krita" "numerique" "blanc" "noir"))
+(:kind "illustration")
+(:pictures
+  (((:name "Le monstre cupide")
+     (:description
+       "Un monstre rapidement réalisé (~20minutes) pour un concours")
+     (:date "020A24") (:tools ("krita")) (:tags ("monstre" "concours"))
+     (:image "./images/illustrations/noir-monstre.png"))
+    ((:name "Un arbre")
+      (:description
+        "Un petit arbre rapidement esquissé (avec très peu de rouge en fond)")
+      (:date "019I26") (:tools ("krita")) (:tags ("arbre"))
+      (:image "./images/illustrations/noir-tree.png"))
+    ((:name "Planet")
+      (:description "Une rapide illustration pour illustrer ce site web")
+      (:date "019I25") (:tools ("krita")) (:tags ("planet"))
+      (:image "./images/illustrations/noir-planet.png"))))

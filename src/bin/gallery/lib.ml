@@ -40,7 +40,7 @@ let get_place gallery =
     let open Option.Syntax in
     let* country = Ui.get_string_opt "Place?" "Country" in
     let+ city = Ui.get_string_opt "Place?" "City" in
-    country, city
+    String.lowercase_ascii country, String.lowercase_ascii city
 ;;
 
 let attach_metadata day gallery imagepath =

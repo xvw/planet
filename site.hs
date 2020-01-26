@@ -14,6 +14,10 @@ main = hakyll $ do
       route   idRoute
       compile copyFileCompiler
 
+    match picturesRule $ do
+      route   idRoute
+      compile copyFileCompiler
+
     -- Static pictograms
     match ("picto/*.png" .||. "picto/*.svg") $ do
       route   idRoute
@@ -197,6 +201,14 @@ templatesRule =
   "templates/*.html"
   .||. "_seeds/partials/*.html"
   .||. "partials/*.html"
+
+picturesRule =
+  "images/illustrations/*.png"
+  .||. "images/illustrations/*.jpg"
+  .||. "images/photographs/*.png"
+  .||. "images/photographs/*.jpg"
+  .||. "images/paintings/*.png"
+  .||. "images/paintings/*.jpg"
 
 -- Filters
 isPublished :: Metadata -> Bool

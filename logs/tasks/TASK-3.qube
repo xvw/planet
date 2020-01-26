@@ -8,6 +8,7 @@
     (:checked "Modèle pour les galeries")
     (:checked "Upload des images via Hakyll")
     (:checked "Création du binaire pour construire les galeries")
-    (:unchecked "Intégration des galeries dans le processus de build")))
+    (:unchecked "Intégration des galeries dans le processus de build")
+    (:unchecked "Implémentation des vues"))
 (:tags ("visual" "gallery" "photo"))
 (:engagement_date "020E15")

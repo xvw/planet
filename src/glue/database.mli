@@ -17,3 +17,4 @@ val logs : Shapes.Log.t t
 val stories : Shapes.Story.t t
 val twtxt : Shapes.Twtxt.t t
 val tasks : Shapes.Task.t t
+val galleries : Shapes.Gallery.t t

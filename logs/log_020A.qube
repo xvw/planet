@@ -111,3 +111,8 @@
 ((:uuid "20411c0b-549d-9c3a-8b61-d83189913451") (:day "020A26")
   (:duration "200") (:sector "programming")
   (:label "Progrès sur les galeries internes") (:project "planet"))
+
+((:uuid "f6d752b2-d937-a118-b498-5a000d6a72c6") (:day "020A26")
+  (:duration "120") (:sector "programming")
+  (:label "Amélioration des binaires de génération de galeries")
+  (:project "planet"))

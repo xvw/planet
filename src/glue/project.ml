@@ -92,10 +92,6 @@ let fetch_project_text project =
     Shapes.Text.extension_for k, content
 ;;
 
-let as_textarea =
-  Format.asprintf {|<textarea data-planet-qexp="%s">%s</textarea>|}
-;;
-
 let to_hakyll_string_aux day project_opt project =
   let open Shapes.Project in
   let open Result.Syntax in
@@ -139,7 +135,7 @@ let to_hakyll_string_aux day project_opt project =
   ( project
   , ext
   , content
-  , as_textarea "project" pstring
+  , Hakyll.textarea "project" pstring
     ^
     match project_opt with
     | None -> ""
@@ -148,7 +144,7 @@ let to_hakyll_string_aux day project_opt project =
         Shapes.Context.Projects.project_to_qexp project.name metadata
         |> Paperwork.Qexp.to_string
       in
-      "\n" ^ as_textarea "project_timedata" str )
+      "\n" ^ Hakyll.textarea "project_timedata" str )
 ;;
 
 let to_hakyll_string (project, day, project_opt) =

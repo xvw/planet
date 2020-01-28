@@ -58,3 +58,45 @@ let read filepath =
   |> Validation.from_result
   >>= Shapes.Gallery.from_qexp
 ;;
+
+let fetch_content content =
+  let open Shapes.Text in
+  let ext = extension_for content in
+  match snd content with
+  | Plain str -> Ok (ext, str)
+  | File filename ->
+    let open Result.Syntax in
+    let+ content = File.to_string filename in
+    ext, content
+;;
+
+let to_hakyll gallery =
+  let open Result.Syntax in
+  let open Shapes.Gallery in
+  let+ ext, body = fetch_content gallery.content in
+  let sqexp = gallery |> to_qexp |> Paperwork.Qexp.to_string in
+  let header =
+    Hakyll.(
+      join
+        [ render_string "title" gallery.name
+        ; render_string "permalink" gallery.permalink
+        ; render_string "description" gallery.description
+        ; render_string "kind" (kind_to_string gallery.kind)
+        ; render_string
+            "qexp_partial"
+            (Format.asprintf "_seeds/partials/%s.qexp.html" gallery.permalink)
+        ; may_render_with_format
+            ~default:"2019-01-01"
+            Paperwork.Timetable.Day.ppr
+            "date"
+            (Some gallery.updated_at)
+        ; may_render_with_format
+            ~default:"2019-01-01"
+            Paperwork.Timetable.Day.pp
+            "date_planet"
+            (Some gallery.updated_at)
+        ])
+  in
+  let content = header ^ body in
+  gallery, ext, content, Hakyll.textarea "gallery" sqexp
+;;

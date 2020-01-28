@@ -23,3 +23,7 @@ let may_render_with_format ~default f key value =
 
 let render_if key flag = if flag then render_string key "true" else ""
 let join rules = "---\n" ^ String.concat "" rules ^ "---\n"
+
+let textarea ?(attr = "data-planet-qexp") =
+  Format.asprintf {|<textarea data-%s="%s">%s</textarea>|} attr
+;;

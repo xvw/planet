@@ -25,3 +25,4 @@ val may_render_with_format
 
 val render_if : metadata_key -> bool -> metadata
 val join : metadata list -> metadata
+val textarea : ?attr:string -> string -> string -> string

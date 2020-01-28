@@ -116,3 +116,7 @@
   (:duration "120") (:sector "programming")
   (:label "Amélioration des binaires de génération de galeries")
   (:project "planet"))
+
+((:uuid "f09ba1d3-f69f-7ccc-7222-a89797211447") (:day "020A28")
+  (:duration "10") (:sector "programming")
+  (:label "Correctif pour les Traversables") (:project "preface"))

@@ -120,3 +120,8 @@
 ((:uuid "f09ba1d3-f69f-7ccc-7222-a89797211447") (:day "020A28")
   (:duration "10") (:sector "programming")
   (:label "Correctif pour les Traversables") (:project "preface"))
+
+((:uuid "46c7a76d-8339-9d06-f0f6-ddbff33384fa") (:day "020A28")
+  (:duration "30") (:sector "programming")
+  (:label "Génération des artefacts Hakyll pour les galeries")
+  (:project "planet"))

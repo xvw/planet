@@ -125,3 +125,8 @@
   (:duration "30") (:sector "programming")
   (:label "Génération des artefacts Hakyll pour les galeries")
   (:project "planet"))
+
+((:uuid "8e78b66e-89a9-b8ca-7c68-e868fe84af4d") (:day "020A29")
+  (:duration "60") (:sector "programming")
+  (:label "Intégration des galeries dans le processus de compilation")
+  (:project "planet"))

@@ -130,3 +130,7 @@
   (:duration "60") (:sector "programming")
   (:label "Intégration des galeries dans le processus de compilation")
   (:project "planet"))
+
+((:uuid "057f63f7-12e3-17f9-1545-119fb3818367") (:day "020A30")
+  (:duration "20") (:sector "maintenance")
+  (:label "Correctif du build Hakyll") (:project "planet"))

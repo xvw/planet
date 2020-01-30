@@ -55,6 +55,8 @@ let () =
 
        val tasks = Widget.Tasks.api
 
+       val gallery = Widget.Gallery.api
+
        val roe = Roe.api
     end)
 ;;

@@ -57,7 +57,7 @@ th {
 /* Thanks BoubouLeHibou for the !important Hack */
 
 .negative-tag {
-    background-color: #BBB !important;
+    background-color: #f2f2f2 !important;
     color: #111 !important;
 }
 
@@ -704,6 +704,21 @@ a.long-item,
     color: #444;
 }
 
+.updated::before,
+.long-item .updated::before {
+    content: "modifié le ";
+    font-weight: 200;
+    color: #444;
+}
+
+.badge ~ .counter::after,
+.long-item .counter::after {
+    content: " éléments";
+    font-weight: 200;
+    color: #444;
+}
+
+
 .project-badges > .updated-ago::before {
     content: "modifié ";
     font-weight: 200;
@@ -850,23 +865,44 @@ div.resume-box h3,
     color: #fff;
 }
 
-#content-tags > div {
-    margin-bottom: 32px;
-}
-
-.small-button-gray,
-#content-pages > div > a.page .tags span,
-#content-tags > div > a {
+.small-button-gray {
     display: inline-block;
-    background-color: #f2f2f2;
+    background-color: #ccc;
     margin: 4px 0;
     margin-right: 3px;
     padding: 2px 8px;
     font-size: 80%;
     border-radius: 4px;
     text-decoration: none;
-    color: #222;
-    border: 0 solid red;
+    color: #111;
+    cursor: pointer;
+    border: 0px solid red;
+}
+
+/* #content-pages > div > a.page .tags span, */
+#content-tags > div > a {
+    display: inline-block;
+    background-color: #888;
+    margin: 4px 0;
+    margin-right: 3px;
+    padding: 2px 8px;
+    font-size: 80%;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #111;
+    cursor: pointer;
+}
+
+#content-pages > div > a.page .tags span {
+    display: inline-block;
+    background-color: #111;
+    margin: 4px 0;
+    margin-right: 3px;
+    padding: 2px 8px;
+    font-size: 80%;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #f2f2f2;
     cursor: pointer;
 }
 
@@ -880,11 +916,15 @@ div.resume-box h3,
     border: 0;
 }
 
+#content-pages {
+    margin: 32px 0;
+}
+
 #content-pages > div > a.page {
     text-decoration: none;
     color: #111;
     display: block;
-    margin: 32px 0;
+    margin: 8px 0;
     padding: 16px 0px;
 }
 
@@ -1672,6 +1712,37 @@ p.free-paragraph {
 
 .hidden-column {
     visibility: hidden;
+}
+
+#gallery-container > div > .picture {
+    background-color: #000;
+    padding: 8px;
+    margin: 28px 0 52px 0;
+    color: #fff;
+    border-radius: 4px;
+}
+
+#gallery-container > div > .picture h4 {
+    color: #FFF;
+    font-weight: 200;
+    margin: 0 0 8px 0;
+    text-align: center;
+}
+
+#gallery-container > div > .picture .picture-footer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 80%;
+}
+
+#gallery-container > div > .picture .description {
+    flex : 1;
+}
+
+#gallery-container > div > .picture img {
+    max-width: 100%;
+    border-radius: 4px;
 }
 
 

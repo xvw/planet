@@ -100,15 +100,15 @@ main = hakyll $ do
         paints <- recentFirst =<< loadAll paintingsRules
 
         let galleryContext =
-              listField "illustrations" defaultContext (return illu) `mappend`
-              listField "photographs" defaultContext (return photos) `mappend`
-              listField "paintings" defaultContext (return paints) `mappend`
+              listField "illustrations" defaultContext (return illu) <>
+              listField "photographs" defaultContext (return photos) <>
+              listField "paintings" defaultContext (return paints)   <>
               defaultContext
 
         getResourceBody
-        >>= applyAsTemplate defaultContext
-        >>= loadAndApplyTemplate "templates/default.html" defaultContext
-        >>= relativizeUrls
+          >>= applyAsTemplate galleryContext
+          >>= loadAndApplyTemplate "templates/default.html" galleryContext
+          >>= relativizeUrls
 
     -- Projects.html
     match "projects.html" $ do
@@ -118,7 +118,7 @@ main = hakyll $ do
         projects <- recentFirst =<< loadAll projectsRule
 
         let projectsContext =
-              listField "projects" projectContext (return projects) `mappend`
+              listField "projects" projectContext (return projects) <>
               defaultContext
 
         getResourceBody
@@ -135,7 +135,7 @@ main = hakyll $ do
         longs <- recentFirst =<< loadAll longsRule
 
         let longsContext =
-              listField "longs" defaultContext (return longs) `mappend`
+              listField "longs" defaultContext (return longs) <>
               defaultContext
 
         getResourceBody
@@ -151,7 +151,7 @@ main = hakyll $ do
         shorts <- recentFirst =<< loadAll shortsRule
 
         let shortsContext =
-              listField "shorts" defaultContext (return shorts) `mappend`
+              listField "shorts" defaultContext (return shorts) <>
               defaultContext
 
         getResourceBody
@@ -170,9 +170,9 @@ main = hakyll $ do
         shorts <- fmap (take 8) . recentFirst =<< loadAll shortsRule
         
         let indexContext =
-              listField "projects" projectContext (return projects) `mappend`
-              listField "shorts" defaultContext (return shorts) `mappend`
-              listField "longs" defaultContext (return longs) `mappend`
+              listField "projects" projectContext (return projects) <>
+              listField "shorts" defaultContext (return shorts)     <>
+              listField "longs" defaultContext (return longs)       <>
               defaultContext
 
         getResourceBody
@@ -185,7 +185,7 @@ main = hakyll $ do
       route idRoute
       compile $ do
         let f = loadAllSnapshots
-        let feedCtx = defaultContext `mappend` bodyField "description"
+        let feedCtx = defaultContext <> bodyField "description"
         longs <- fmap (take 15) . recentFirst =<< f longsRule "content"
         renderAtom myFeedConfiguration feedCtx longs
 
@@ -199,13 +199,13 @@ unseedRoute = truncateRoute "_seeds/"
 
 projectContext :: Context String
 projectContext =
-  bodyField      "body"              `mappend`
-  titleField     "title"             `mappend`
-  titleField     "name"              `mappend`
-  teaserField    "teaser" "content"  `mappend`
-  urlField       "url"               `mappend`
-  pathField      "path"              `mappend`
-  metadataField                      `mappend`
+  bodyField      "body"              <>
+  titleField     "title"             <>
+  titleField     "name"              <>
+  teaserField    "teaser" "content"  <>
+  urlField       "url"               <>
+  pathField      "path"              <>
+  metadataField                      <>
   missingField
 
 -- Rules

@@ -1,1 +1,40 @@
-hello
+---
+title: Galeries
+---
+<div class="container base-content uniq-content">
+  <div class="main-columns">
+    <div>
+      <h2 class="column-title">Illustrations</h2>
+      $for(illustrations)$
+      <a href="$url$" class="long-item">
+        <h3>$title$</h3>
+        <span class="badge updated">$date$</span>
+        <span class="badge counter">$number$</span>
+        <p class="synopsis">$description$</p>
+      </a>
+      $endfor$
+    </div>
+    <div>
+      <h2 class="column-title">Photographies</h2>
+      $for(photographs)$
+      <a href="$url$" class="long-item">
+        <h3>$title$</h3>
+        <span class="badge updated">$date$</span>
+        <span class="badge counter">$number$</span>
+        <p class="synopsis">$description$</p>
+      </a>
+      $endfor$
+    </div>
+    <!-- <div> -->
+    <!--   <h2 class="column-title">Peintures</h2> -->
+    <!--   $for(paintings)$ -->
+    <!--   <a href="$url$" class="long-item"> -->
+    <!--     <h3>$title$</h3> -->
+    <!--     <span class="badge updated">$date$</span> -->
+    <!--     <span class="badge counter">$number$</span> -->
+    <!--     <p class="synopsis">$description$</p> -->
+    <!--   </a> -->
+    <!--   $endfor$ -->
+    <!-- </div> -->
+  </div>    
+</div>

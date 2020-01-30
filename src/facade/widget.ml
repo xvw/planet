@@ -1082,7 +1082,10 @@ module Tags = struct
   let handle_anchor tags_container container =
     let removable = Js.string "remove-elt" in
     let negative = Js.string "negative-tag" in
-    let hash = String.trim (U.get_hash ()) in
+    let hash =
+      let x = String.trim (U.get_hash ()) in
+      if String.length x = 0 then "*" else x
+    in
     let selector = Js.string "a[data-filterable]" in
     let selector_tags = Js.string (Format.asprintf "a[data-tag]") in
     let nodes = container##querySelectorAll selector |> Dom.list_of_nodeList in
@@ -1152,6 +1155,7 @@ module Tags = struct
               let pages =
                 "/"
                 :: "/tags.html"
+                :: "/galleries.html"
                 :: "/journal.html"
                 :: "/tasks.html"
                 :: "/location.html"
@@ -1353,6 +1357,89 @@ module Tasks = struct
       | Error errs, _ -> Lwt.return (Console.render_error errs)
       | Ok board, projects ->
         Lwt.return (render_board board_container board projects))
+    | Error errs -> Lwt.return (Console.render_error errs)
+  ;;
+
+  let api =
+    object%js
+      method boot input = boot input
+    end
+  ;;
+end
+
+module Gallery = struct
+  class type boot_input =
+    object
+      method gallery : Dom_html.textAreaElement Js.t Js.Opt.t Js.readonly_prop
+
+      method container : Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
+
+      method rightContainer : Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
+    end
+
+  let validate_gallery node =
+    let open Validation.Infix in
+    validate "unable to find gallery metadata" node
+    >>= (fun textarea ->
+          textarea##.textContent
+          |> validate "unable to find metadata for gallery")
+    >|= Js.to_string
+    >>= Qexp.from_string %> Validation.from_result
+    >>= Shapes.Gallery.from_qexp
+  ;;
+
+  let render_tags gallery container =
+    let open Tyxml.Html in
+    let tags = Common.render_tags Shapes.Gallery.(gallery.tags) in
+    let () = clear container in
+    Dom.appendChild container (Tyxml.To_dom.of_div (div tags))
+  ;;
+
+  let render_images gallery container =
+    let open Shapes.Gallery in
+    let images =
+      Tyxml.Html.div
+        (List.map
+           (fun image ->
+             let open Shapes.Picture in
+             let open Tyxml.Html in
+             div
+               ~a:[ a_class [ "picture" ] ]
+               [ h4 [ txt image.name ]
+               ; img ~src:image.image ~alt:"" ()
+               ; div
+                   ~a:[ a_class [ "picture-footer" ] ]
+                   [ div
+                       ~a:[ a_class [ "description" ] ]
+                       [ txt image.description ]
+                   ; div
+                       ~a:[ a_class [ "published" ] ]
+                       [ txt
+                           (Format.asprintf
+                              "%a"
+                              Paperwork.Timetable.Day.ppr
+                              image.date)
+                       ]
+                   ]
+               ])
+           gallery.pictures)
+    in
+    let () = clear container in
+    Dom.appendChild container (Tyxml.To_dom.of_div images)
+  ;;
+
+  let boot input =
+    match
+      Validation.Infix.(
+        (fun a b c -> a, b, c)
+        <$> validate "unable to find container" input##.container
+        <*> validate "unable to find right container" input##.rightContainer
+        <*> validate_gallery input##.gallery)
+    with
+    | Ok (container, right_container, gallery) ->
+      let () = render_tags gallery right_container in
+      let () = render_images gallery container in
+      Lwt.return_unit
     | Error errs -> Lwt.return (Console.render_error errs)
   ;;
 

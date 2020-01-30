@@ -1,5 +1,54 @@
-$body$
-
-<div class="qexp-metadata" id="gallery-qexp-metadata">
-  $partial(qexp_partial)$
+<div class="container base-content uniq-content">
+  <div class="qexp-metadata" id="gallery-qexp-metadata">
+    $partial(qexp_partial)$
+  </div>
+  <div class="content-page">
+    <div class="major-header">
+      <div class="major-details">
+        <h1>$title$</h1>
+        <span class="synopsis">
+          $description$
+        </span>
+        <div class="project-badges">
+          <span class="badge updated">$date$</span>
+          <span class="badge counter">$number$</span>
+        </div>
+      </div>
+    </div>
+    <div class="major-content">
+      <div class="long-text structured-text" id="roe-container">
+        $body$
+        <div class="list-images-gallery">
+          <h3>Images</h3>
+          <div id="gallery-container">
+            <div class="loading">
+              <img src="/picto/loader.black.svg" alt="loading..."/>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="content-rightbar">
+        <div id="major-content-right" class="small-refutable">
+          <div class="loading">
+            <img src="/picto/loader.black.svg" alt="loading..."/>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+<script>
+  planet.suspend(function() {
+    planet.gallery.boot({
+      gallery: document.querySelector(
+        "textarea[data-planet-qexp='gallery']"
+      ),
+      container: document.getElementById(
+        'gallery-container'
+      ),
+      rightContainer: document.getElementById(
+        "major-content-right"
+      )
+    });
+  });
+</script>

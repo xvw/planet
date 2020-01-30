@@ -102,3 +102,16 @@ module Tasks : sig
 
   val api : < boot : boot_input Js.t -> unit Lwt.t Js.meth > Js.t
 end
+
+module Gallery : sig
+  class type boot_input =
+    object
+      method gallery : Dom_html.textAreaElement Js.t Js.Opt.t Js.readonly_prop
+
+      method container : Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
+
+      method rightContainer : Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
+    end
+
+  val api : < boot : boot_input Js.t -> unit Lwt.t Js.meth > Js.t
+end

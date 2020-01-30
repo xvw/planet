@@ -138,3 +138,8 @@
 ((:uuid "1bfafb3f-cd55-1bf5-4447-a2f88838b7bf") (:day "020A30")
   (:duration "30") (:sector "visual")
   (:label "Légère modification visuelle pour les tags") (:project "planet"))
+
+((:uuid "4c807cd4-ffe5-e416-f1c8-0a0874afcc0c") (:day "020A31")
+  (:duration "120") (:sector "visual")
+  (:label "Intégration des galeries dans l'application web")
+  (:project "planet"))

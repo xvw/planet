@@ -146,7 +146,9 @@ let create_projects_files ?rctx () =
       let open Shapes.Project in
       let filename = project.name ^ "." ^ extension in
       let target = Filename.concat project_folder filename in
-      let partial = Filename.concat seed_partials project.name ^ ".qexp.html" in
+      let partial =
+        Filename.concat seed_partials ("project-" ^ project.name ^ ".qexp.html")
+      in
       let () = trace_deletion (soft_deletion_file target) in
       let () = trace_deletion (soft_deletion_file partial) in
       File.create target content
@@ -273,10 +275,48 @@ let stories () =
   | Ok _ -> ()
 ;;
 
+let gallery_chose_target gallery filename =
+  let open Shapes.Gallery in
+  let folder =
+    match gallery.kind with
+    | Illustration -> illustrations_folder
+    | Photography -> photographs_folder
+    | Painting -> paintings_folder
+  in
+  Filename.concat folder filename
+;;
+
 let galleries () =
   let () = create_partials () in
   let () = create_galleries_folder () in
-  ()
+  let open Validation.Infix in
+  Glue.Gallery.get ()
+  >|= List.fold_left
+        (fun accumulated project_file ->
+          accumulated
+          >>= (fun () -> Glue.Gallery.read project_file)
+          >>= Glue.Gallery.to_hakyll
+          >>= fun (gallery, extension, filecontent, partial) ->
+          let partialname =
+            Filename.concat
+              seed_partials
+              (Format.asprintf "gallery-%s.qexp.html" gallery.permalink)
+          in
+          let filename = gallery.permalink ^ "." ^ extension in
+          let target = gallery_chose_target gallery filename in
+          let () = trace_deletion (soft_deletion_file target) in
+          let () = trace_deletion (soft_deletion_file partialname) in
+          File.create target filecontent
+          |> Result.bind (fun () -> File.create partialname partial)
+          |> Result.map (fun () -> true, target ^ " & " ^ partialname)
+          |> Validation.from_result
+          |> trace_creation
+          |> Validation.pure)
+        (Ok ())
+  |> Validation.Monad.join
+  |> function
+  | Error e -> Prompter.prompt_errors e
+  | Ok _ -> ()
 ;;
 
 let twtxt () =

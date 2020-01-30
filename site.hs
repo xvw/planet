@@ -71,12 +71,40 @@ main = hakyll $ do
       compile $ pandocCompiler
         >>= loadAndApplyTemplate "templates/post.html" defaultContext
         >>= loadAndApplyTemplate "templates/default.html" defaultContext
-        >>= relativizeUrls    
+        >>= relativizeUrls
+
+    -- Galleries
+    match galleriesRules $ do
+      route (unseedRoute `composeRoutes` setExtension "html")
+      compile $ pandocCompiler
+        >>= loadAndApplyTemplate "templates/gallery.html" defaultContext
+        >>= loadAndApplyTemplate "templates/default.html" defaultContext
+        >>= relativizeUrls
 
     -- Journal.html
     match "pages/*.html" $ do
       route (truncateRoute "pages/" `composeRoutes` setExtension "html")
       compile $ do
+        getResourceBody
+        >>= applyAsTemplate defaultContext
+        >>= loadAndApplyTemplate "templates/default.html" defaultContext
+        >>= relativizeUrls
+
+    -- Galleries.html
+    match "galleries.html" $ do
+      route idRoute
+      compile $ do
+
+        illu <- recentFirst =<< loadAll illustrationsRules
+        photos <- recentFirst =<< loadAll photographsRules
+        paints <- recentFirst =<< loadAll paintingsRules
+
+        let galleryContext =
+              listField "illustrations" defaultContext (return illu) `mappend`
+              listField "photographs" defaultContext (return photos) `mappend`
+              listField "paintings" defaultContext (return paints) `mappend`
+              defaultContext
+
         getResourceBody
         >>= applyAsTemplate defaultContext
         >>= loadAndApplyTemplate "templates/default.html" defaultContext
@@ -181,6 +209,23 @@ projectContext =
   missingField
 
 -- Rules
+
+illustrationsRules =
+  "_seeds/galleries/illustrations/*.org"
+  .||. "_seeds/galleries/illustrations/*.md"
+
+photographsRules =
+  "_seeds/galleries/photographs/*.org"
+  .||. "_seeds/galleries/photographs/*.md"
+
+paintingsRules =
+    "_seeds/galleries/paintings/*.org"
+    .||. "_seeds/galleries/paintings/*.md"
+
+galleriesRules =
+  illustrationsRules
+  .||. photographsRules
+  .||. paintingsRules
 
 projectsRule =
   "_seeds/projects/*.org"

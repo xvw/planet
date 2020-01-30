@@ -128,7 +128,9 @@ let to_hakyll_string_aux day project_opt project =
         ; render_if "published" project.published
         ; render_string
             "qexp_partial"
-            (Format.asprintf "_seeds/partials/%s.qexp.html" project.name)
+            (Format.asprintf
+               "_seeds/partials/project-%s.qexp.html"
+               project.name)
         ])
   in
   let content = header ^ body in

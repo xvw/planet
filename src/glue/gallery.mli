@@ -10,4 +10,4 @@ val read : File.name -> Shapes.Gallery.t Validation.t
 
 val to_hakyll
   :  Shapes.Gallery.t
-  -> (Shapes.Gallery.t * string * string * string) Result.t
+  -> (Shapes.Gallery.t * string * string * string) Validation.t

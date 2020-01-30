@@ -70,7 +70,7 @@ let fetch_content content =
     ext, content
 ;;
 
-let to_hakyll gallery =
+let to_hakyll_aux gallery =
   let open Result.Syntax in
   let open Shapes.Gallery in
   let+ ext, body = fetch_content gallery.content in
@@ -82,9 +82,12 @@ let to_hakyll gallery =
         ; render_string "permalink" gallery.permalink
         ; render_string "description" gallery.description
         ; render_string "kind" (kind_to_string gallery.kind)
+        ; render_string "number" (string_of_int (List.length gallery.pictures))
         ; render_string
             "qexp_partial"
-            (Format.asprintf "_seeds/partials/%s.qexp.html" gallery.permalink)
+            (Format.asprintf
+               "_seeds/partials/gallery-%s.qexp.html"
+               gallery.permalink)
         ; may_render_with_format
             ~default:"2019-01-01"
             Paperwork.Timetable.Day.ppr
@@ -100,3 +103,5 @@ let to_hakyll gallery =
   let content = header ^ body in
   gallery, ext, content, Hakyll.textarea "gallery" sqexp
 ;;
+
+let to_hakyll gallery = gallery |> to_hakyll_aux |> Validation.from_result

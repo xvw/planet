@@ -50,7 +50,7 @@ let to_hakyll story =
         in
         let partial =
           Format.asprintf
-            "%s.%s.qexp.html"
+            "story-%s.%s.qexp.html"
             story.permaname
             (Shapes.Story.kind_to_string story.kind)
         in

@@ -1,0 +1,8 @@
+(:title "Ajout de galeries")
+(:kind short)
+(:date #020A31)
+(:permaname "gallery")
+(:synopsis "Ajout de galeries")
+(:content internal #org-mode "")
+(:published true)
+(:category "planet")

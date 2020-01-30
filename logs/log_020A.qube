@@ -134,3 +134,7 @@
 ((:uuid "057f63f7-12e3-17f9-1545-119fb3818367") (:day "020A30")
   (:duration "20") (:sector "maintenance")
   (:label "Correctif du build Hakyll") (:project "planet"))
+
+((:uuid "1bfafb3f-cd55-1bf5-4447-a2f88838b7bf") (:day "020A30")
+  (:duration "30") (:sector "visual")
+  (:label "Légère modification visuelle pour les tags") (:project "planet"))

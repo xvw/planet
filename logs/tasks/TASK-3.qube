@@ -1,7 +1,7 @@
 (:name "Galeries")
 (:description
   "Implémentation des galeries dans Planet (pour les photographies, les dessins et les peintures)")
-(:state "in_progress") (:uuid "TASK-3") (:date "020A06") (:project "planet")
+(:state "done") (:uuid "TASK-3") (:date "020A06") (:project "planet")
 (:sectors (visual programming))
 (:checklist
   ((:checked "Modèle pour les images")
@@ -10,6 +10,7 @@
     (:checked "Création du binaire pour construire les galeries")
     (:checked "Intégration des galeries dans le processus de build")
     (:checked "Implémentation des vues")
-    (:unchecked "Ajout des galeries dans les tags")))
-(:tags ("visual" "gallery" "photo"))
+    (:checked "Ajout des galeries dans les tags")))
+(:tags ("visual" "gallery" "photo")) (:opening_date "020A31")
+(:closing_date "020A31")
 (:engagement_date "020E15")

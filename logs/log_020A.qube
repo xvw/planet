@@ -143,3 +143,7 @@
   (:duration "120") (:sector "visual")
   (:label "Intégration des galeries dans l'application web")
   (:project "planet"))
+
+((:uuid "4e434e59-ed41-96be-bb87-152369a42076") (:day "020A31")
+  (:duration "30") (:sector "programming")
+  (:label "Intégration des galeries dans les tags") (:project "planet"))

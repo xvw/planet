@@ -6,6 +6,26 @@ let date_or = function
     Paperwork.Timetable.Day.from_string "019A01" |> Validation.from_result
 ;;
 
+let galleries bucket =
+  let open Validation.Infix in
+  Gallery.get ()
+  >>= (fun x -> List.map Gallery.read x |> Validation.Applicative.sequence)
+  >|= fun galleries ->
+  List.fold_left
+    (fun bucket gallery ->
+      let open Shapes.Gallery in
+      Shapes.Tag.add
+        bucket
+        gallery.name
+        (kind_to_string gallery.kind)
+        gallery.permalink
+        gallery.updated_at
+        gallery.description
+        gallery.tags)
+    bucket
+    galleries
+;;
+
 let stories bucket =
   let open Validation.Infix in
   Story.collect ()
@@ -56,9 +76,10 @@ let projects bucket =
 
 let to_json () =
   let open Validation.Infix in
-  Shapes.Tag.new_bucket ()
-  |> stories
+  Ok (Shapes.Tag.new_bucket ())
+  >>= stories
   >>= projects
+  >>= galleries
   >|= Shapes.Tag.sort
   >|= Shapes.Tag.to_json
 ;;

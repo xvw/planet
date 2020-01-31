@@ -1045,10 +1045,18 @@ module Tags = struct
 
   let href_for content =
     let open Shapes.Tag in
+    let open Format in
     match content.section with
-    | "project" -> Format.asprintf "/projects/%s.html" content.id
-    | "long" -> Format.asprintf "/longs/%s.html" content.id
-    | _ -> "#"
+    | "project" -> asprintf "/projects/%s.html" content.id
+    | "long" -> asprintf "/longs/%s.html" content.id
+    | x ->
+      let open Shapes.Gallery in
+      (match Shapes.Gallery.kind_from_string x with
+      | Ok Illustration ->
+        asprintf "/galleries/illustrations/%s.html" content.id
+      | Ok Photography -> asprintf "/galleries/photographs/%s.html" content.id
+      | Ok Painting -> asprintf "/galleries/paintings/%s.html" content.id
+      | _ -> "#")
   ;;
 
   let render_pages container content =

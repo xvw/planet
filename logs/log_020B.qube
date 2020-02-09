@@ -2,3 +2,7 @@
 ((:uuid "e91e0bb9-9b15-0c5e-c46d-32ad0883f2f2") (:day "020B09")
   (:duration "320") (:sector "writing")
   (:label "Rédaction du script de la présentation sur les effets"))
+
+((:uuid "f5db755d-9b1e-3a49-fa03-2873330ec2bc") (:day "020B10")
+  (:duration "200") (:sector "writing")
+  (:label "Progression de l'écriture du talk sur les effets"))

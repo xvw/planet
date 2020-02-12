@@ -6,3 +6,9 @@
 ((:uuid "f5db755d-9b1e-3a49-fa03-2873330ec2bc") (:day "020B10")
   (:duration "200") (:sector "writing")
   (:label "Progression de l'écriture du talk sur les effets"))
+
+((:uuid "767e65ac-86f1-9a84-56dc-33980fd1837f") (:day "020B12")
+  (:duration "60") (:sector "maintenance")
+  (:label
+    "Amélioration de la définition de l'état par défaut des tâches")
+  (:project "planet"))

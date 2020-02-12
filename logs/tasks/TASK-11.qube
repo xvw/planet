@@ -1,5 +1,5 @@
-(:name "Responsive")
-(:description "Rendre l'application web réellement adaptative")
+(:name "Refaire l'UI")
+(:description "Rendre l'application web réellement adaptative et améliorer l'UI")
 (:state "opened") (:uuid "TASK-11") (:date "020A10") (:project "planet")
 (:sectors (visual programming)) (:checklist ())
 (:tags ("refactoring" "responsive"))

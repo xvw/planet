@@ -40,12 +40,18 @@ let tasks () =
 
 let init project sectors name description checklist tags engagement_date =
   let open Result.Syntax in
+  let state =
+    Option.(
+      engagement_date
+      >|= Util.const Shapes.Task.Opened
+      |> get_or (Util.const Shapes.Task.Backlog))
+  in
   let* id = fresh_id () in
   let* date = U.day () in
   let+ result =
     Ok
       Shapes.Task.
-        { state = Backlog
+        { state
         ; uuid = id
         ; project
         ; sectors

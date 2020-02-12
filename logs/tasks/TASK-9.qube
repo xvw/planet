@@ -9,4 +9,3 @@
     (:unchecked "Implémenter un client")
     (:unchecked "Intégrer le client dans Planet") (:unchecked "Documenter")))
 (:tags ("cooking" "language"))
-(:engagement_date "020D01")

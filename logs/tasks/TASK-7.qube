@@ -1,7 +1,7 @@
 (:name "Refactoring du client")
 (:description
   "Amélioration du code client de Planet. Fragmentation de la génération des widgets")
-(:state "backlog") (:uuid "TASK-7") (:date "020A10") (:project "planet")
+(:state "opened") (:uuid "TASK-7") (:date "020A10") (:project "planet")
 (:sectors (visual programming maintenance)) (:checklist ())
 (:tags ("refactoring"))
 (:engagement_date "020D01")

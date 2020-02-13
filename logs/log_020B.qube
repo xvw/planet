@@ -20,3 +20,8 @@
 ((:uuid "63b724d7-ae90-16b8-41b4-7eb0eda3fd52") (:day "020B13")
   (:duration "60") (:sector "visual")
   (:label "Illustrations variées (et ratées)"))
+
+((:uuid "bc38dda4-2807-5680-8881-bd7443e36004") (:day "020B13")
+  (:duration "60") (:sector "maintenance")
+  (:label
+    "Correctif des dépendances de jsoo_broadcastchannel et jsoo_storage"))

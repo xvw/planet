@@ -16,3 +16,7 @@
 ((:uuid "a37c5396-0103-dac2-00b4-b227f2e2b7f4") (:day "020B13")
   (:duration "120") (:sector "maintenance")
   (:label "Maintenance des paquets jsoo_storage et jsoo_broadcastchannel"))
+
+((:uuid "63b724d7-ae90-16b8-41b4-7eb0eda3fd52") (:day "020B13")
+  (:duration "60") (:sector "visual")
+  (:label "Illustrations variées (et ratées)"))

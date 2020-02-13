@@ -12,3 +12,7 @@
   (:label
     "Amélioration de la définition de l'état par défaut des tâches")
   (:project "planet"))
+
+((:uuid "a37c5396-0103-dac2-00b4-b227f2e2b7f4") (:day "020B13")
+  (:duration "120") (:sector "maintenance")
+  (:label "Maintenance des paquets jsoo_storage et jsoo_broadcastchannel"))

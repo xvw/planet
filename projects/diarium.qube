@@ -1,0 +1,8 @@
+(:name "diarium")
+(:published false)
+(:title "Diarium")
+(:synopsis "Un outil de saisie et de planification")
+(:status "wip")
+(:license "gpl3")
+(:tags "log" "diary" "timetracker")
+(:content external #org-mode "projects/diarium.org")

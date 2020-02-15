@@ -34,3 +34,7 @@
 ((:uuid "3d3b8c8b-ddbc-bc58-eec5-6005eeac9753") (:day "020B15")
   (:duration "45") (:sector "maintenance")
   (:label "Utilisation des actions Github OCaml") (:project "preface"))
+
+((:uuid "3b31f556-e8d7-156b-e863-98ea1c3e2437") (:day "020B15")
+  (:duration "45") (:sector "programming")
+  (:label "Initiation du module Unix") (:project "diarium"))

@@ -25,3 +25,8 @@
   (:duration "60") (:sector "maintenance")
   (:label
     "Correctif des dépendances de jsoo_broadcastchannel et jsoo_storage"))
+
+((:uuid "9a74d2eb-f803-7b02-6292-9c923f0bcc26") (:day "020B15")
+  (:duration "320") (:sector "programming")
+  (:label "Initiation du projet et organisation du dépôt")
+  (:project "diarium"))

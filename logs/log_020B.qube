@@ -30,3 +30,7 @@
   (:duration "320") (:sector "programming")
   (:label "Initiation du projet et organisation du dépôt")
   (:project "diarium"))
+
+((:uuid "3d3b8c8b-ddbc-bc58-eec5-6005eeac9753") (:day "020B15")
+  (:duration "45") (:sector "maintenance")
+  (:label "Utilisation des actions Github OCaml") (:project "preface"))

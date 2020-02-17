@@ -38,3 +38,8 @@
 ((:uuid "3b31f556-e8d7-156b-e863-98ea1c3e2437") (:day "020B15")
   (:duration "45") (:sector "programming")
   (:label "Initiation du module Unix") (:project "diarium"))
+
+((:uuid "58eb909e-b1a4-29ab-59c9-05d7643d6d6a") (:day "020B17")
+  (:duration "600") (:sector "research")
+  (:label
+    "Recherches et expérimentations variées sur les modules, les effets et les flèches"))

@@ -43,3 +43,7 @@
   (:duration "600") (:sector "research")
   (:label
     "Recherches et expérimentations variées sur les modules, les effets et les flèches"))
+
+((:uuid "8c21884c-ff86-331c-46f3-160c7211958c") (:day "020B18")
+  (:duration "120") (:sector "research")
+  (:label "Recherches et expérimentations sur les systèmes d'effets"))

@@ -60,3 +60,8 @@
 ((:uuid "d81c21aa-c48f-0d20-b685-450dd98cf15c") (:day "020B21")
   (:duration "200") (:sector "research")
   (:label "Recherches et expériences sur les gestionnaires d'effets"))
+
+((:uuid "821f4af0-e7fc-d27a-d7d3-5b5aa8447f22") (:day "020B22")
+  (:duration "320") (:sector "writing")
+  (:label
+    "Ecriture du talk sur les gestionnaires d'effets en programmation fonctionnelle"))

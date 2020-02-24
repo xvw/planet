@@ -65,3 +65,7 @@
   (:duration "320") (:sector "writing")
   (:label
     "Ecriture du talk sur les gestionnaires d'effets en programmation fonctionnelle"))
+
+((:uuid "4c2cdada-7a80-2374-d06d-56f04d4bb07e") (:day "020B23")
+  (:duration "320") (:sector "research")
+  (:label "Recherches et expériences sur les gestionnaires d'effets"))

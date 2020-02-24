@@ -47,3 +47,7 @@
 ((:uuid "8c21884c-ff86-331c-46f3-160c7211958c") (:day "020B18")
   (:duration "120") (:sector "research")
   (:label "Recherches et expérimentations sur les systèmes d'effets"))
+
+((:uuid "9a8aa22c-175f-2c4d-52fc-c7fe1f8a8d8e") (:day "020B19")
+  (:duration "120") (:sector "research")
+  (:label "Recherches et expérimentations sur les gestionnaires d'effets"))

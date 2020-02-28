@@ -82,3 +82,7 @@
 ((:uuid "0a619fc2-174e-4f1e-ae01-6f2c8b9541a9") (:day "020B25")
   (:duration "600") (:sector "writing")
   (:label "Ecriture du talk sur les effets pour le GDG"))
+
+((:uuid "80ad9b1e-c9a9-3cf5-3e44-4202c8d4c5a9") (:day "020B27")
+  (:duration "320") (:sector "writing")
+  (:label "Finalisation du talk sur les effets pour le GDG"))

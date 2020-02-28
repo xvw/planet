@@ -86,3 +86,8 @@
 ((:uuid "80ad9b1e-c9a9-3cf5-3e44-4202c8d4c5a9") (:day "020B27")
   (:duration "320") (:sector "writing")
   (:label "Finalisation du talk sur les effets pour le GDG"))
+
+((:uuid "954a2b88-1b2d-cfc4-0270-805415fbec83") (:day "020B28")
+  (:duration "120") (:sector "writing")
+  (:label "Initialisation d'un article sur les effets algébriques")
+  (:project "planet"))

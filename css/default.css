@@ -80,7 +80,7 @@ planet-metadata {
 body {    
     padding: 0;
     margin: 0;
-    background-color: #f2f2f2;
+    background-color: #f8f8f8;
     height: 100vh;
     height: -webkit-calc(100% - 0px);
     display: flex;

@@ -1,6 +1,6 @@
 (:name "Refactoring des binaires")
 (:description
   "Amélioration du code des binaires de Planet (notamment la phase de 'build')")
-(:state "opened") (:uuid "TASK-6") (:date "020A10") (:project "planet")
+(:state "backlog") (:uuid "TASK-6") (:date "020A10") (:project "planet")
 (:sectors (programming maintenance)) (:checklist ()) (:tags ("refactoring"))
 (:engagement_date "020D01")

@@ -1,6 +1,6 @@
 (:name "Inventaires des lieux")
 (:description
   "J'aimerais pouvoir enregistrer les lieux qui me plaisent (bars, restaurants, magasins)")
-(:state "opened") (:uuid "TASK-12") (:date "020A25") (:project "planet")
+(:state "backlog") (:uuid "TASK-12") (:date "020A25") (:project "planet")
 (:sectors (visual programming writing)) (:checklist ())
 (:tags ("place" "inventory"))

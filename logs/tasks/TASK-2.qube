@@ -6,6 +6,5 @@
 (:checklist
   ((:checked "Construire la bibliographie") (:checked "Sujets à couvrir")
     (:checked "Plan") (:checked "Ecriture du support")
-    (:unchecked "Relecture")))
+    (:checked "GDG") (:unchecked "DevoxxFR") (:checked "Mixit")))
 (:tags ("talk" "programming" "effect" "functional")) (:opening_date "020A01")
-(:engagement_date "020D15")

@@ -4,4 +4,3 @@
 (:state "backlog") (:uuid "TASK-4") (:date "020A06") (:project "planet")
 (:sectors (visual programming writing)) (:checklist ())
 (:tags ("wiki" "pages" "documentation"))
-(:engagement_date "020E01")

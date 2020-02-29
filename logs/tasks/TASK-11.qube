@@ -3,4 +3,3 @@
 (:state "opened") (:uuid "TASK-11") (:date "020A10") (:project "planet")
 (:sectors (visual programming)) (:checklist ())
 (:tags ("refactoring" "responsive"))
-(:engagement_date "020F01")

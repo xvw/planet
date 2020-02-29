@@ -1243,7 +1243,7 @@ div.resume-box {
     position: sticky;
     position: -webkit-sticky;
     top: 50px;
-    background-color: #f2f2f2;
+    background-color: #f8f8f8;
     background: linear-gradient(180deg, #f8f8f8 0%, #f8f8f8 64%, rgba(0, 0, 0, 0) 100%);
     padding: 24px 4px 64px 4px;
 }

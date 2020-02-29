@@ -1,11 +1,11 @@
 (:name "Talks sur les effets")
 (:description
-  "Préparation de la présentation 'Programmation fonctionnelle et principe de réalité: gérer les effets' (GDG, DevoxxFR)")
+  "Préparation de la présentation 'Programmation fonctionnelle et principe de réalité: gérer les effets' (GDG, DevoxxFR, Mixit)")
 (:state "in_progress") (:uuid "TASK-2") (:date "020A06")
 (:sectors (visual programming research writing))
 (:checklist
   ((:checked "Construire la bibliographie") (:checked "Sujets à couvrir")
     (:checked "Plan") (:checked "Ecriture du support")
     (:unchecked "Relecture")))
-(:tags ("talk" "programming" "effect" "functional")) (:opening_date "020B28")
-(:engagement_date "020B27")
+(:tags ("talk" "programming" "effect" "functional")) (:opening_date "020A01")
+(:engagement_date "020D15")

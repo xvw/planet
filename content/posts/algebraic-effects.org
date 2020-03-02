@@ -1,0 +1,96 @@
+#+BEGIN_QUOTE
+La programmation fonctionnelle pure offre beaucoup de bénéfices. Elle n'utilise
+que des fonctions pures qui sont faciles à tester, facile à raisonner et 
+qui permettent au compilateur de les optimiser.
+
+Ce serait vraiment plus confortable de ne travailler qu'avec des fonctions pures,
+malheureusement, dans la construction de logiciels "utiles", cela semble 
+impossible. En effet *les programmes du monde réel produisent des effets*, il 
+est donc, à priori, impossible de représenter un programme utile à coup de 
+fonctions pures.
+
+Dans ce très court article, je vous propose de découvrir *les effets algébriques* 
+*et leurs gestionnaires* pour construire des programmes qui exécutent des 
+effets, dans le contexte d'un langage de programmation fonctionnel ([[https://ocaml.org/][OCaml]]), 
+que l'on peut composer (pour construire des programmes plus complexes) tout 
+en restant facilement testable unitairement.
+#+END_QUOTE
+
+Cela fait très longtemps que l'importance des tests unitaires n'est plus 
+remise en question. Ils permettent de garantir, au mieux, la non-régression
+de la base de code, mais aussi servir de spécification. Couplé avec des méthodes
+fines, comme par exemple, les tests dirigés par les propriétés, qui, sur base
+d'une collection d'invariants (les propriétés), génèrent une collection de
+tests "aléatoirement". Il est donc nécéssaire de fournir un maximum de tests,
+clairs et facilement maintenable.
+
+Concrètement, il est possible de facilement tester unitairement les *fonctions*
+*pures*, alors que les *fonctions impures* infligent généralement l'usage de
+/hacks/ pour capturer l'essence de la fonctionnalité testée.
+
+** Fonctions pures et impures
+
+Dans un premier temps, observons cette fonction, implémentée en *Kotlin*, dont
+le rôle principal est de calculer le successeur d'un nombre :
+
+#+BEGIN_SRC kotlin :data-roe-kind code :data-pellet Kotlin :data-line-number true
+import java.util.Scanner
+
+fun successor() {
+  val reader = Scanner(System.`in`)
+  print("Enter a number: ")
+  val input = reader.nextInt()
+  val result = input + 1
+  println("The successor of [$input] is [$result] ")
+}
+
+fun main() {
+  successor()
+}
+#+END_SRC
+
+Concrètement, cette fonction est potentiellement correct, cependant, elle pose,
+selon moi (et selon beaucoup de personne, probablement) énormément de soucis.
+Elle est impossible à tester unitairement facilement. En admettant que je
+voudrais tester cette fonction, je devrais capturer l'écriture sur 
+src_bash{stdin} et l'écriture sur src_bash{stdout} pour être capable de fournir
+une collection de tests sur l'essence de mon algorithme, soit le fait que 
+pour un nombre entier, je peux avoir son successeur. La fonction n'est pas pure,
+donc complexe à tester.
+
+Une piste d'amélioration serait d'extraire l'essence du programme dans une
+fonction dédiée, dont le seul rôle serait de calculer le successeur d'un nombre
+entier. Par exemple : 
+
+#+BEGIN_SRC kotlin :data-roe-kind code :data-pellet Kotlin :data-line-number true
+import java.util.Scanner
+
+fun successor(x: Int) : Int {
+  val result = x + 1
+  return result
+}
+
+fun main() {
+  val reader = Scanner(System.`in`)
+  print("Enter a number: ")
+  val input = reader.nextInt()
+  val result = successor(input)
+  println("The successor of [$input] is [$result] ")
+}
+#+END_SRC
+
+Cette amélioration est très naïve, mais elle représente tout de même une sacré
+pas en avant. La fonction src_kotlin{successor(x)} est facilement testable,
+et ça tombe assez bien, car c'est elle qui est le coeur de notre programme.
+
+Même s'il serait possible d'écrire un test unitaire pour la fonction 
+src_kotlin{main()} moyennant quelques tours de magie... est-ce réellement 
+nécéssaire ? En effet, comme évoqué précédemment, l'essence de notre 
+(discutablement intéressant) programme est de calculer un successeur pour un 
+entier donné, et cette partie du programme est correctement testée, le reste
+du programme ne fait qu'exploiter des bibliothèques et des fonctions éprouvées
+de la /JVM/ et, à l'instar des démonstrations mathématiques, qui visent à
+réduire une collection de propositions (qui forment l'hypothèse) à des axiomes,
+on ne cherche pas à tester ce qui a déjà été testé.
+
+

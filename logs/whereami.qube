@@ -105,6 +105,7 @@
 (#020B19 "france" "lille")
 (#020B24 "france" "paris")
 (#020B26 "france" "lille")
-(#020C03 "france" "paris")
-
-(#020C05 "france" "lille")
+(#020C02 "france" "paris")
+(#020C04 "france" "lille")
+(#020C09 "france" "paris")
+(#020C11 "france" "lille")

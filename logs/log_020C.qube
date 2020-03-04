@@ -1,0 +1,5 @@
+;; Logs for 020C
+((:uuid "1b457823-905c-3e38-a5ba-89436cc44040") (:day "020C02")
+  (:duration "320") (:sector "writing")
+  (:label "Rédaction d'un article sur les effets et leurs gestionnaires")
+  (:project "planet"))

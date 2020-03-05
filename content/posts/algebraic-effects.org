@@ -199,8 +199,10 @@ src_kotlin{displayScore}.
 Dans cette fonction, nous observons 3 effets différents. Une intuition viable
 pour savoir si une fonction produit des effets consiste en général à se demander
 si la fonction doit se référer à une autorité centrale externe à la fonction.
+Et c'est généralement la présence de cette autorité centrale externe qui rend
+l'implémentation d'un test unitaire complexe.
 
-*** Et les effets de bords alors
+*** Les effets de bord
 
 Maintenant que nous avons une idée (un peu abstraite) de ce qu'est un effet, 
 tâchons de définir un effet de bord. Ma prise de position pourrait être un
@@ -272,9 +274,108 @@ de types permet de transformer des effets de bord en effets, ce qui est à
 mon sens bénéfique. Les fonctions ne mentiront plus sur ce qu'elles font !
 
 Plus formellement, dans beaucoup de langages statiquement typés : 
-- on propose src_haskell{Γ ⊢ e : τ} soit "/une variable dans l'environnement/
+- on propose *src_haskell{Γ ⊢ e : τ}* soit "/une variable dans l'environnement/
   /src_haskell{Γ}, une expression src_haskell{e} à le type src_haskell{τ}/".
-- on voudrait src_haskell{Γ ⊢ e : τ & effects} soit "/une variable dans/
+- on voudrait *src_haskell{Γ ⊢ e : τ & effects}* soit "/une variable dans/
   /l'environnement src_haskell{Γ}, une expression src_haskell{e} à le/
   /type src_haskell{τ} et produit les effets src_haskell{effects}/".
  
+Pour résumer, un effet de bord est un effet qui n'est pas mis en lumière
+dans le programme, qui arrive donc de manière non contrôlé et que l'on
+voudrait éviter (dans la mesure du possible, il existe des effets que
+l'on ne peut pas du tout contrôler dans le programme, par exemple, si
+l'ordinateur qui l'exécute n'a plus assez de mémoire pour exécuter le
+programme). Une manière d'informer l'utilisateur ou l'utilisatrice qu'une
+fonction produit un effet serait de faire refléter les effets produits par
+une fonction dans sa signature de type. Les systèmes d'effets répondent
+en grande partie à ce genre problèmes et c'est ce que nous tâcherons de
+découvrir dans les rubriques suivantes !
+
+** Transformation de fonctions impures en fonctions pures
+
+Maintenant que nous avons une idée globale de ce qu'est un effet, de ce que 
+sont les fonctions pures et impures, nous allons pouvoir observer une première
+technique de "contrôle des effets" qui consiste /simplement/ à transformer
+une fonction impure en fonction pure.
+
+Lorsque nous avons tâché de définir une fonction pure, on a évoqué le fait
+qu'une fonction devait être *totale*, soit que pour tout paramètre, elle doit
+avoir un résultat. Comme toute fonction qui n'est pas pure est impure, une
+fonction qui n'est pas totale est impure, donc on pourrait considérer que
+la non-totalité d'une fonction est un effet. De ce fait, prendre une fonction
+non-totale et la rendre totale serait une forme de gestion d'effet. Prenons
+par exemple la fonction OCaml src_ocaml{List.hd} qui prend une liste et 
+renvoie sa tête (son premier élément) et dont le type serait 
+src_ocaml{val hd : 'a list -> 'a} :
+
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet OCaml :data-line-number true
+let hd list = 
+  match list with 
+  | [] -> failwith "List.hd empty list"
+  | x :: _ -> x
+#+END_SRC
+
+Concrètement, le type de cette fonction nous dit "pour une liste de 
+src_ocaml{'a} (donc de "quelque chose"), je renvoie un élément src_ocaml{'a}.
+Cette fonction n'est pas totale car il existe, ici, un cas pour lequel il
+n'existe pas de valeur possible. Le cas où la liste est vide, et qui engendre
+le lancement d'une exception.
+
+Pour rendre cette fonction totale, il suffit de trouver un nouveau type
+capable de représenter l'ensemble des valeurs possibles. Les langages 
+fonctionnels statiquement typés ont popularisé l'utilisation d'un type
+spécifique qui permet de représenter la dijonction entre la présence de valeur
+ou son absence : 
+
+
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet OCaml :data-line-number true
+type 'a option = 
+  | Some of 'a 
+  | None
+
+let hd list = 
+  match list with 
+  | [] -> None
+  | x :: _ -> Some x
+#+END_SRC
+
+Concrètement, le type src_ocaml{'a option} (qui exprime "/une option de 
+quelque chose/") et défini deux constructeurs : 
+
+- src_ocaml{Some x} pour représenter la présence d'une valeur ; 
+- src_ocaml{None} pour représenter l'absence de valeur.
+
+L'utilisation du type src_ocaml{option} (qui s'appelle src_haskell{Maybe} en
+Haskell) altère le type de notre fonction, qui devient : 
+src_ocaml{val hd : 'a list -> 'a option} et rend notre fonction *totale*.
+Puisque src_ocaml{None} étant une valeur admissible 
+(de type src_ocaml{'a option}).
+
+Même si cette transformation semble anodine, nous avons transformé une fonction
+impure en fonction pure. Cependant, le changement de type change sensiblement
+la sémantique de la fonction src_ocaml{hd}. De ce fait, si l'on veut exécuter
+un programme qui utilise notre nouvelle fonction src_ocaml{hd}, il faudra
+*gérer manuellement le cas où nous n'avons pas de valeur*. 
+
+Construisons un programme qui affiche, sur la sortie standard, un message 
+de bienvenue au premier prénom d'une liste de prénoms :
+
+
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet OCaml :data-line-number true :data-line-start 9
+let () = 
+  match hd ["Xavier"; "Nicolas"] with 
+  | None -> Format.printf "Hello anonymous !"
+  | Some user -> Format.printf "Hello %s !" user
+#+END_SRC
+
+A ce stade, notre fonction src_ocaml{hd} à beau être pure, notre exécution
+ne l'est pas. Cependant, cela se rapproche de ce que l'on a esquissé en
+début d'article, la séparation entre *la partie pure* et *la partie impure*.
+Concrètement, on a *un programme*, dont le rôle est de décrire les opérations, 
+et un *gestionnaire de programme* dont le rôle est d'exécuter la description
+du programme.
+
+C'est typiquement ce genre de transformation qu'utilise le langage *Haskell*
+pour ne permettre la manipulation que de fonctions pures.
+
+*** Aparté sur Haskell

@@ -11,9 +11,16 @@ fonctions pures.
 
 Dans ce très court article, je vous propose de découvrir *les effets algébriques* 
 *et leurs gestionnaires* pour construire des programmes qui exécutent des 
-effets, dans le contexte d'un langage de programmation fonctionnel ([[https://ocaml.org/][OCaml]]), 
+effets, dans le contexte d'un langage de programmation fonctionnel, 
 que l'on peut composer (pour construire des programmes plus complexes) tout 
 en restant facilement testable unitairement.
+
+Cet article n'est pas du tout un article technique et son objectif vise
+à donner une intution sur l'utilisation des effets algébriques. Il ne va
+volontairement pas très loin dans l'exercice de la construction d'un 
+système d'effets (j'en suis malheureusement incapable). Si vous êtes
+familiers avec la gestion des effets dans un langage de programmation,
+il y a fort à partier que cet article ne vous intéresse pas beaucoup... désolé !
 #+END_QUOTE
 
 Cela fait très longtemps que l'importance des tests unitaires n'est plus 
@@ -27,6 +34,7 @@ clairs et facilement maintenable.
 Concrètement, il est possible de facilement tester unitairement les *fonctions*
 *pures*, alors que les *fonctions impures* infligent généralement l'usage de
 /hacks/ pour capturer l'essence de la fonctionnalité testée.
+
 
 ** Fonctions pures et impures
 
@@ -90,7 +98,183 @@ nécéssaire ? En effet, comme évoqué précédemment, l'essence de notre
 entier donné, et cette partie du programme est correctement testée, le reste
 du programme ne fait qu'exploiter des bibliothèques et des fonctions éprouvées
 de la /JVM/ et, à l'instar des démonstrations mathématiques, qui visent à
-réduire une collection de propositions (qui forment l'hypothèse) à des axiomes,
-on ne cherche pas à tester ce qui a déjà été testé.
+réduire une collection de propositions à des axiomes, on ne cherche pas à 
+tester ce qui a déjà été testé.
+
+Mais tout ceci nous amène à une chose, depuis le début de cet article, j'utilise
+les adjectifs *pure* et *impure* pour qualifier les fonctions, sans avoir pris
+le temps de tâcher de fournir une définition compréhensible de fonctions pures 
+et impures ! Concrètement, dès que l'on parle de fonctions pures, on entend
+généralement des fonctions *dans le sens mathématique du terme*, soit des
+fonctions qui sont : 
+
+- *totales* : pour chaque entrée, elles produisent un résultat. (Doté d'un
+  système de vérification statique des types, il est possible de restreindre
+  le domaine de valeurs acceptées par une fonction) ;
+- *déterministes* : pour des arguments donnés à une fonction, elle renvoie
+  toujours le même résultat ;
+- *sans effets* : elles ne produisent aucun effet. Elle ne peuvent que
+  calculer des choses, sans dépendre, par exemple d'un environnement. Dans
+  la partie suivante, nous tâcherons de donner une meilleur définition
+  d'effets.
+
+Ce que l'on pourrait réduire en une phrase, une fonction pure est une
+fonction qui retourne constamment la même valeur pour la même entrée,
+mettant en lumière un comportement déterministe et ne provoquant aucun
+effet extérieur. Une fonction pure est *référentiellement transparente*,
+ce qui veut dire que l'on peut remplacer chacun de ses appels par son
+résultat, dès qu'on le connait.
+
+Les fonctions impures sont toutes les fonctions qui ne sont pas pures. 
+Comme évoqué rapidement en introduction, sans fonctions impures, il est 
+à priori impossible de faire un programme utile. En effet, à moins que
+l'exécution du programme ne soit pas nécéssaire (par exemple lorsque l'on
+utilise un logiciel de démonstration assisté par ordinateur), construire
+un programme sans fonctions impures, donc sans effets, semble impossible.
+
+Une première approche pour rendre nos logiciels testables et prédictibles
+consiste à fractionner le programme en *deux parties*, sa partie pure 
+et sa partie impure. Idéalement, repoussant les fragments impures aux 
+extrémités du programme (ses entrées et ses sorties) pour n'avoir ensuite, 
+plus qu'un noyau de fonctions pures, facilement testables. 
 
 
+** Effets et effets de bords
+
+Comme une grande partie des langages de programmation populaires 
+manipulent des effets de manière implicite, s'interroger sur ce qu'est
+un effet peut être assez peu commode. D'ailleurs, je trouve qu'il est
+assez complexe de donner une définition acceptable et claire d'un effet,
+généralement, on trouve des exemples d'effets :
+
+- du non déterminisme ;
+- le fait de lire un environnement (une base de données par exemple) ;
+- le fait de modifier cet environnement ;
+- de l'aléatoire ;
+- etc.
+
+Une manière assez /simple/ de caractériser un effet serait de l'opposer
+à un calcul. Dans la programmation fonctionnelle pure, l'exécution d'un
+programme (sans effets donc) consiste "simplement" à calculer sa 
+*forme normale*, soit son résultat final, un effet serait donc quelque chose
+que l'on peut pas calculer. 
+
+Pour donner plus de précision, il s'agirait
+de définir un effet comme une action qui a besoin d'être exécutée en
+*référant une autorité centrale qui devra /gérer/ cet effet*. Par exemple,
+un programme qui lance une exception implique que cette exception soit
+gérée (via une construction, par exemple, en Java, src_java{try/catch} 
+ou par le /runtime/ de l'environnement d'exception), une exception est
+donc un exemple d'effet.
+
+Observons un exemple. Voici un programme qui permet d'afficher (de manière
+un peu vétuste) une liste des /Meilleurs scores/ d'un jeu quelconque:
+
+#+BEGIN_SRC kotlin :data-roe-kind code :data-pellet Kotlin :data-line-number true :data-hl 2;5;9;12
+fun displayScore() {
+   println("Score\tUser\tDate")
+   val scores = 
+      scoreRepository
+        .findAll()
+        .sortBy { it.scoreValue }
+
+   if(scores.isEmpty()) {
+     throw EmptyScoreException()
+   }
+   scores.forEach {
+      println("${it.scoreValue}\t${it.username}\t${it.date}")
+   }
+}
+#+END_SRC
+
+Concrètement, l'usage des fonctions src_kotlin{println} doivent se référer
+au système d'exploitation pour être exécutés (en général, ce genre de fonctions,
+qui écrivent sur la sortie standard ou qui lisent sur l'entrée standard 
+exécutent des effets dans le domaine de l'*IO*). La méthode src_kotlin{findAll}
+sur src_kotlin{scoreRepository} se référe à une base de données et le 
+lancement de l'exception src_kotlin{EmptyScoreException} devra se référer
+au gestionnaire que l'on écrira pour elle dans la fonction qui utilisera
+src_kotlin{displayScore}.
+
+Dans cette fonction, nous observons 3 effets différents. Une intuition viable
+pour savoir si une fonction produit des effets consiste en général à se demander
+si la fonction doit se référer à une autorité centrale externe à la fonction.
+
+*** Et les effets de bords alors
+
+Maintenant que nous avons une idée (un peu abstraite) de ce qu'est un effet, 
+tâchons de définir un effet de bord. Ma prise de position pourrait être un
+poil polémique parce que la définition que l'on pourrait attacher à un effet
+de bord peut énormément varier en fonction du contexte. Il arrive souvent
+de lire le raccourci qu'un effet est un effet de bord. Pour ma part, je préfère
+distinguer l'effet de l'effet de bord en donnant une définition assez naïve
+mais, à mon sens, compréhensible, adaptée à la programmation statiquement
+typée : *un effet de bord est un effet qui n'est pas reflété dans la signature*
+*de type de la fonction qui l'exécute*.
+
+Un exemple assez explicite pour saisir la nuance entre un effet et un effet
+de bord est la fonction src_kotlin{println} dont le type pourrait être 
+src_kotlin{println(x: String) : Unit}. En lisant la signature de type de
+cette fonction, on a très peu d'information sur ce que *fait* la fonction.
+On pourrait croire qu'elle "prend une chaine de caractères" et "n'en fait
+rien". Même si le nom de la fonction peut nous transmettre une intuition
+assez précise sur "ce que fait réellement la fonction", la signature de type
+n'est pas suffisante. 
+
+On voudrait (idéalement)  que toute nos signatures nous offrent la
+clareté de la signature de src_kotlin{map}, par exemple : 
+src_kotlin{List<A>.map(f : (A) -> B) : List<B>} (qui exprime assez clairement
+que, l'application de la méthode src_kotlin{map} sur une liste de 
+src_kotlin{A} avec une fonction qui va de src_kotlin{A} vers src_kotlin{B},
+produira une liste de src_kotlin{B}, donc que l'on va appliquer la fonction
+donnée en argument sur tous les éléments de la liste).
+
+Un autre exemple serait la distinction entre l'utilisation d'exceptions
+vérifiées contre l'utilisation d'exceptions non vérifiées. Par exemple,
+voici l'implémentation, en Java, suivi d'en Kotlin, d'une fonction qui
+mime l'implémentation d'une division :
+
+#+BEGIN_SRC java :data-roe-kind code :data-pellet Java :data-line-number true
+public int divide(numerator: int, denominator: int) 
+   throws DivisionByZeroException {
+   if (denominator == 0) {
+      throw new DivisionByZeroException();
+   }
+   return numerator / denominator;
+}
+#+END_SRC
+
+Ici, l'exception que la fonction peut émettre est reflétée dans la signature
+de type. En Kotlin, on écrit généralement des fonctions qui émettent des
+exceptions non vérifiées :
+
+#+BEGIN_SRC kotlin :data-roe-kind code :data-pellet Kotlin :data-line-number true
+fun divide(numerator: Int, denominator: Int) : Int {
+   if (denominator == 0) {
+     throw DivisionByZeroException()
+   }
+   return numerator / denominator
+}
+#+END_SRC
+
+Dans cet exemple, la signature de type ne reflète pas l'exception pouvant être
+émise par la fonction. Par contre, je ne fais pas l'apologie des exceptions
+vérifiées qui [[http://radio-weblogs.com/0122027/stories/2003/04/01/JavasCheckedExceptionsWereAMistake.html][posent beaucoup de soucis]] (pour beaucoup de raisons). De plus,
+les exceptions vérifiées ne couvrent le reflet que d'un seul type d'effets
+(l'exception) et l'on voudrait plus de précision.
+
+Certains pourraient voir, en cette envie de refléter les effets dans 
+la signature de type, de l'hystérie de fanatiques des systèmes de types...
+c'est probable. Mon opinion est que l'on voudrait que nos systèmes de types
+expriment le plus de choses possibles, dans la mesure de la /turing-complétude/
+(mais pas toujours). De ce fait, mettre en lumière les effets dans la signature
+de types permet de transformer des effets de bord en effets, ce qui est à
+mon sens bénéfique. Les fonctions ne mentiront plus sur ce qu'elles font !
+
+Plus formellement, dans beaucoup de langages statiquement typés : 
+- on propose src_haskell{Γ ⊢ e : τ} soit "/une variable dans l'environnement/
+  /src_haskell{Γ}, une expression src_haskell{e} à le type src_haskell{τ}/".
+- on voudrait src_haskell{Γ ⊢ e : τ & effects} soit "/une variable dans/
+  /l'environnement src_haskell{Γ}, une expression src_haskell{e} à le/
+  /type src_haskell{τ} et produit les effets src_haskell{effects}/".
+ 

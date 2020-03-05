@@ -6,4 +6,5 @@
 (:content external #org-mode "content/posts/algebraic-effects.org")
 (:published true)
 (:category "programmation")
-(:tags "programmation" "fonctionnelle" "pure" "effets algébriques" "test")
+(:tags "programmation" "fonctionnelle" "pure"
+       "effets algébriques" "test unitaire" "koka" "kotlin")

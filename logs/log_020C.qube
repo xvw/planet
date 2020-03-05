@@ -3,3 +3,8 @@
   (:duration "320") (:sector "writing")
   (:label "Rédaction d'un article sur les effets et leurs gestionnaires")
   (:project "planet"))
+
+((:uuid "cb9e079c-3a94-63e4-4b39-ed93a5906402") (:day "020C04")
+  (:duration "120") (:sector "writing")
+  (:label "Article sur les effets algébriques et les tests unitaires")
+  (:project "planet"))

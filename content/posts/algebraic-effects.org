@@ -279,6 +279,13 @@ Plus formellement, dans beaucoup de langages statiquement typés :
 - on voudrait *src_haskell{Γ ⊢ e : τ & effects}* soit "/une variable dans/
   /l'environnement src_haskell{Γ}, une expression src_haskell{e} à le/
   /type src_haskell{τ} et produit les effets src_haskell{effects}/".
+
+Ce qui donnerait, par exemple, pour une fonction dont le rôle serait
+d'écrire sur la sortie standard un message et qui a généralement le type 
+src_ocaml{val print_string : string -> unit}, nous aurions plutôt cette
+signature src_ocaml{val print_string : string -> unit & output}, ce qui
+correspond à dire, au travers de la signature de type que même si la 
+fonction ne renvoie rien, elle écrit aussi sur la sortie standard.
  
 Pour résumer, un effet de bord est un effet qui n'est pas mis en lumière
 dans le programme, qui arrive donc de manière non contrôlé et que l'on
@@ -379,3 +386,76 @@ C'est typiquement ce genre de transformation qu'utilise le langage *Haskell*
 pour ne permettre la manipulation que de fonctions pures.
 
 *** Aparté sur Haskell
+
+Quand on se rend sur le [[https://haskell.org][site web de Haskell]], on peut y lire que Haskell est
+un langage de programmation fonctionnelle pure avancé.
+
+#+ATTR_HTML: :data-roe-kind quote
+#+ATTR_HTML: :data-where https://haskell.org
+#+BEGIN_roe
+An advanced, *purely* functional programming language
+#+END_roe
+
+Haskell est l'archétype du langage fonctionnel pur, qui fait intensivement
+usage de la technique présenté dans la rubrique précédente qui vise à
+transformer les effets en valeurs. Cependant, contrairement à l'exemple que
+nous avons présenté, le langage interdit les effets de bords, y comprit
+dans la fonction qui va *interpréter* une fonction produisant un effet. Pour
+comprendre où la magie opère, observons un "Hello World" en Haskell.
+
+#+BEGIN_SRC haskell :data-roe-kind code :data-pellet Haskell :data-line-number true
+main :: IO ()
+main = 
+  putStrLn "Hello World!"
+#+END_SRC
+
+Ici, src_haskell{main} est une valeur de type src_haskell{IO ()}, on peut donc
+deviner le type de la fonction src_haskell{putStrLn} : 
+src_haskell{putStrLn :: String -> IO ()}. En fait, src_haskell{main} est une
+fonction qui ne produit aucun effet, il s'agit simplement d'une variable de 
+type src_haskell{IO ()} ne *faisant rien*, comme l'indique le site web de 
+Haskell sur sa page d'accueil (rubrique *Purely functional*) :
+
+
+#+ATTR_HTML: :data-roe-kind quote
+#+ATTR_HTML: :data-where https://haskell.org
+#+BEGIN_roe
+Every function in Haskell is a function in the *mathematical* sense 
+(i.e., "pure"). Even side-effecting IO operations are but a *description*
+of what to do, produced by *pure* code. There are no statements or 
+instructions, only expressions which cannot mutate variables 
+(local or global) nor access state like time or random numbers.
+#+END_roe
+
+
+Cette explication met en lumière quelque chose d'assez important. En Haskell,
+on n'écrit pas de programme "qui fait quelque chose", on *écrit des*
+*descriptions de programmes*. En compilant un programme, on vérifie statiquement
+la cohérence des types, et ensuite on attache la description du programme au
+/runtime/ Haskell, et ce sera lui qui exécutera les effets. Cette approche 
+permet la *séparation systématique* entre la partie pure et
+la partie impure du programme, ce que l'on cherche à faire depuis le
+début de cet article et le fait de déléguer au /runtime/ ! Le programme
+devient donc facilement testable, et il délègue à une pièce logicielle
+éprouvée et correctement testée l'exécution d'effets.
+
+Plus formellement, l'ensemble des effets communs auquel on fait face quand
+on construit un logiciel est transformé en valeurs, il existe des valeurs
+intermédiaires, par exemple : 
+
+- src_haskell{List a} pour le non-déterminisme ;
+- src_haskell{Maybe a} pour l'absence potentielle de valeur ; 
+- src_haskell{Either error a} pour l'équivalent des exceptions ;
+- src_haskell{IO a} pour les entrées sorties ;
+- et bien d'autres.
+
+Et l'objectif du développeur est de réduire ces représentations jusqu'à un 
+src_haskell{IO ()} qui correspondra à la description finale du programme et
+qui sera interprétée par le /runtime/ Haskell. En complément de cette
+fragmentation systématique entre les fragments pures et impures du programme,
+Haskell permet de refléter dans la signature de type l'effet que produira une
+fonction. Pour y arriver, Haskell utilise son système de type, sans y apporter
+de modification, donc src_haskell{unit & io} s'écrirait, en Haskell 
+src_haskell{IO ()}, src_haskell{()} voulant dire src_haskell{unit} en Haskell.
+
+*** Style directe et indirecte

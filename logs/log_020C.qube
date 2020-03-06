@@ -13,3 +13,8 @@
   (:duration "320") (:sector "writing")
   (:label "Articles sur les effets algébriques et les tests unitaires")
   (:project "planet"))
+
+((:uuid "b3e12b8e-2649-2a67-199d-a19a6111d4ff") (:day "020C06")
+  (:duration "300") (:sector "writing")
+  (:label "Avancée sur l'article des effets algébriques")
+  (:project "planet"))

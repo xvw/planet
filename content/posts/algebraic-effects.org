@@ -33,7 +33,8 @@ clairs et facilement maintenable.
 
 Concrètement, il est possible de facilement tester unitairement les *fonctions*
 *pures*, alors que les *fonctions impures* infligent généralement l'usage de
-/hacks/ pour capturer l'essence de la fonctionnalité testée.
+/hacks/ (par exemples, des /mocks/ contruits à coup de /réflecteur/) pour 
+capturer l'essence de la fonctionnalité testée.
 
 
 ** Fonctions pures et impures
@@ -390,12 +391,6 @@ pour ne permettre la manipulation que de fonctions pures.
 Quand on se rend sur le [[https://haskell.org][site web de Haskell]], on peut y lire que Haskell est
 un langage de programmation fonctionnelle pure avancé.
 
-#+ATTR_HTML: :data-roe-kind quote
-#+ATTR_HTML: :data-where https://haskell.org
-#+BEGIN_roe
-An advanced, *purely* functional programming language
-#+END_roe
-
 Haskell est l'archétype du langage fonctionnel pur, qui fait intensivement
 usage de la technique présenté dans la rubrique précédente qui vise à
 transformer les effets en valeurs. Cependant, contrairement à l'exemple que
@@ -440,14 +435,14 @@ devient donc facilement testable, et il délègue à une pièce logicielle
 éprouvée et correctement testée l'exécution d'effets.
 
 Plus formellement, l'ensemble des effets communs auquel on fait face quand
-on construit un logiciel est transformé en valeurs, il existe des valeurs
-intermédiaires, par exemple : 
+on construit un logiciel est transformé en valeurs, ces valeurs correspondent
+à la description d'effets :
 
 - src_haskell{List a} pour le non-déterminisme ;
 - src_haskell{Maybe a} pour l'absence potentielle de valeur ; 
 - src_haskell{Either error a} pour l'équivalent des exceptions ;
 - src_haskell{IO a} pour les entrées sorties ;
-- et bien d'autres.
+- et bien d'autres, il est même possible de construire ses propres effets.
 
 Et l'objectif du développeur est de réduire ces représentations jusqu'à un 
 src_haskell{IO ()} qui correspondra à la description finale du programme et
@@ -457,5 +452,43 @@ Haskell permet de refléter dans la signature de type l'effet que produira une
 fonction. Pour y arriver, Haskell utilise son système de type, sans y apporter
 de modification, donc src_haskell{unit & io} s'écrirait, en Haskell 
 src_haskell{IO ()}, src_haskell{()} voulant dire src_haskell{unit} en Haskell.
+Et parallèlement, la fonction lisant l'entrée standard sera exprimé de cette
+manière src_haskell{getLine :: IO String}.
 
-*** Style directe et indirecte
+Cette manière de transformer un calcul qui doit produire une valeur de type 
+src_haskell{a} en un src_haskell{T a} (qui sera ensuite interprété) utilise
+généralement deux types (parfois plus) de constructions: [[https://wiki.haskell.org/Monad][des monades]] ou 
+[[https://wiki.haskell.org/Applicative_functor][des foncteurs applicatifs]]. C'est une technique qui s'inspire de la
+[[https://en.wikipedia.org/wiki/Category_theory][théorie des catégories]] et qui peut très souvent être intimidante quand on
+débute en programmation fonctionnelle, spécifiquement avec le langage Haskell.
+Cependant, au delà de la cérémonie engendré par cette approche, elle peut 
+sembler idéale pour plusieurs raisons :
+
+- elle fait refléter dans le système de type, le type de l'effet produit par 
+  une fonction ;
+- elle ne permet de décrire que des fragments de programme pure, donc facilement
+  testables ;
+- la partie impure du programme, n'interprétant que la partie pure, étant 
+  éprouvée et testée ;
+
+Rien que pour ces bénéfices (et Haskell possède beaucoup d'autres atouts), 
+apprendre Haskell est, pédagogiquement, très intéressant. De plus, le langage
+dispose de beaucoup de /success-stories/ et de ressources.
+
+Cependant, même si nous semblions, au vue de mes propos, avoir trouvé, en
+Haskell, la panacée, on pourrait tout de même reprocher plusieurs chose
+à cette approche sans compléments. La première est que comme src_haskell{IO a}
+est ce vers quoi toute expression à effets doit être réduit. De ce fait,
+src_haskell{IO} n'est, au final, qu'un marqueur sur une fonction, on se contente
+de rendre compte que la fonction produira un effet (ou plusieurs) si elle 
+renvoie un src_haskell{IO}. Sémantiquement, on détient très peu d'informations
+sur quels effets seront produits par la fonction.
+
+Haskell propose plusieurs solutions, dont certaines qui miment l'API des
+effets algébriques dont je parlerai dans la section suivante. Ces solutions
+proposent chacunes des avantages différents. Pour en avoir un peu discuté
+avec [[https://twitter.com/spawn_mike][Mickaël Spawn]] et [[https://twitter.com/Sir4ur0n][Julien Debon]], [[https://hackage.haskell.org/package/polysemy][Polysemy]] semble être une solution
+agréable et performante, cependant libre à vous de vous faire votre propre
+choix.
+
+** Les effets algébriques

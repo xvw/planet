@@ -489,3 +489,306 @@ effets algébriques dont je parlerai dans la section suivante. Ces solutions
 proposent chacunes des avantages différents.
 
 ** Les effets algébriques et leurs gestionnaires
+
+Nous avons vu que Haskell, en ne permettant que d'écrire des descriptions de
+programmes, force le fait que chaque fonction soit pure. Par défaut, Haskell
+force la réduction en une expression de type src_haskell{IO ()} qui sera
+ensuite interprétée par le /runtime/ de Haskell. Les effets algébriques
+proposent une approche similaire, reposant sur de solides fondations
+issues de la théorie des catégories. Cependant, pour que l'article tâche de
+rester le plus digeste possible, je tâcherai de placer la focale sur leur
+utilisation !
+
+Concrètement, les effets algébriques muni de gestionnaires proposent de découper
+un programme en trois parties distinctes : 
+
+- la description des effets possibles ;
+- la description du programme exécutant les effets ; 
+- un interpréteur capable d'effectuer une action concrète pour un effet donné
+  (le fameux gestionnaire).
+
+Il serait possible de faire une projection très naïve de cette approche en
+Java, au moyen d'exceptions. Premièrement, on déclare les effets d'un
+programme : 
+
+
+#+BEGIN_SRC java :data-roe-kind code :data-pellet Java :data-line-number true :data-file description des effets
+public interface MyEffects {} // Si seulement nous avions des familles
+                              // scellées !
+
+public class MyFirstEffect extends Exception implements MyEffects {
+  public MyFirstEffect(String message) {
+    super(message);
+  }
+}
+public class MySecondEffect extends Exception implements MyEffects {
+  public MySecondEffect(String message) {
+    super(message);
+  }
+}
+#+END_SRC
+
+Ensuite on décrit notre programme, et chaque fois qu'il doit exécuter un effet,
+il lance une exception :
+
+#+BEGIN_SRC java :data-roe-kind code :data-pellet Java :data-line-number true :data-line-start 14 :data-file description du programme
+public void myProgram(a: int) throws MyEffects {
+   if(a == 0) {
+     throw new MyFirstEffect("a first effect");
+   } else {
+     throw new MySecondEffect("a second effect");
+   }
+}
+#+END_SRC
+
+Et une fois que notre programme est décrit, on peut facilement en écrire son
+interpréteur, qui ici, ne consiste qu'en une succession de capture d'exceptions.
+
+#+BEGIN_SRC java :data-roe-kind code :data-pellet Java :data-line-number true :data-line-start 21 :data-file interprétation du programme
+public void main() {
+  try {
+    myProgram();
+  } catch(effect: MyFirstEffect) {
+    // Do something with my first effect
+  } catch(effect: MySecondEffect) {
+   // Do something with my second effect
+  }
+}
+#+END_SRC
+
+Ce programme à l'air de respecter les objectifs que nous avons posés car il
+reflète, dans sa signature, l'effet exécuté par le programme (au moyen de 
+src_java{throws}) et on interpréte, ici dans src_java{main} la description
+du programme, ce qui permettrait assez facilement de le tester unitairement.
+
+Malheureusement (et de manière assez prévisible), notre exemple fonctionne
+plus ou moins uniquement parce que l'exemple est incroyablement biaisé.
+L'expression src_java{throw new ...} interrompt la fonction et remonte
+jusqu'a un gestionnaire qui prend en charge l'exception émise par l'appel de 
+src_java{throw}. De ce fait, nous ne pouvons pas utiliser les exceptions
+pour exprimer l'exécution d'effets séquentiels, de cette manière :
+
+
+#+BEGIN_SRC java :data-roe-kind code :data-pellet Java :data-line-number true
+public void myProgram(a: int) throws MyEffects {
+  throw new MyFirstEffect("a first effect");
+  throw new MySecondEffect("a second effect");
+}
+#+END_SRC
+
+Dans cet exemple, l'exécution du second effet n'aura jamais lieu, parce que
+la capture de l'effet ne permet jamais de revenir à l'endroit où l'effet a
+été exécuté. Cela s'explique parce que la primitive src_java{throw} ne 
+*capture pas la continuation qui représente la suite du calcul*.
+Rassurez-vous, les effets algébriques, eux, le font ! Sans plus attendre,
+je vous propose de passer à un exemple assez explicite.
+
+*** Un petit programme à effets
+
+Prenons un premier programme, assez simple à implémenter, mais autrement
+plus compliqué à rendre pur : 
+
+#+BEGIN_SRC kotlin :data-roe-kind code :data-pellet Kotlin :data-line-number true
+fun sayHello() {
+  println("What is your name?")
+  val name = readLine()!!
+  println("Hello $name")
+}
+
+fun main() {
+  sayHello()
+}
+#+END_SRC
+
+Le programme se contente de demander à l'utilisateur de saisir son nom et
+ensuite affiche un message de bienvenue !
+
+Pour tâcher de transformer ce programme en une description que nous 
+interpréterons dans le src_kotlin{main()} nous pourrions tenter de le
+transformer en une liste d'actions (qui décrirons nos effets). Par exemple :
+
+
+#+BEGIN_SRC kotlin :data-roe-kind code :data-pellet Kotlin :data-line-number true
+sealed class Effect
+data class Print(val message: String) : Effect()
+data class Ask() : Effect()
+#+END_SRC
+
+Ensuite, nous pouvons décrire notre programme au moyen d'une liste :
+
+#+BEGIN_SRC kotlin :data-roe-kind code :data-pellet Kotlin :data-line-number true :data-line-start 4
+val program : List<Effect> = listOf(
+   Print("What is your name")
+,  Ask()
+,  Print("Hello you")
+)
+#+END_SRC
+
+Et il ne nous reste plus qu'a interpréter notre programme : 
+
+#+BEGIN_SRC kotlin :data-roe-kind code :data-pellet Kotlin :data-line-number true :data-line-start 9
+fun run(e: Effect) {
+  when (e) {
+    is Print -> println(e.message)
+    is Ask   -> {
+       val name = readLine()!!
+       println(name)
+    } 
+  }
+}
+
+fun List<Effect>.run() = forEach { run(it) }
+#+END_SRC
+
+Même si notre programme semble à peu près correct, il diffère tout de même
+du programme présenté en exemple. Comme chaque état à effet est interprété
+de manière indépendante, je ne peux pas transmettre le résultat de 
+src_kotlin{Ask()} à src_kotlin{Print(x)}.
+
+Il existe plusieurs manières de transformer ces séquences d'instructions
+en une séquence chainée. Les deux plus populaires, dans le monde de la
+programmation fonctionnelle sont *les monades libres* et les 
+*transformations de monades*. Les deux approches proposent des avantages et
+des inconvénients. Heureusement, il existe une approche qui, selon moi,
+à le mérite d'être claire et facile à appréhender : *les effets algébriques*
+et leurs *gestionnaires*.
+
+** A la découverte de Koka
+
+Pour nous initier aux effets algébriques, nous allons utiliser un langage
+expérimental développé dans les laboratoires de *Microsoft* qui s'appelle 
+[[https://koka-lang.github.io/koka/doc/kokaspec.html][Koka]] et qui a été développé pour expérimenter l'utilisation des effets
+algébriques (/Koka/ est le mot Japonais pour *effet*). 
+Le langage propose une syntaxe proche de celle de JavaScript
+et offre un support /first-class/ des effets algébriques, il peut compiler
+vers du JavaScript, offre un système de type avec de l'inférence et, 
+à mon sens, est un excellent candidat pour s'initier aux effets algébriques 
+par la pratique !
+
+Comme nous l'avions dit à mainte reprises, une des premières étapes pour
+la gestion efficace (du point de vue utilisateur) des effets est d'évincer
+les effets de bords. Koka propose de fournir trois informations sur une
+fonction : 
+
+- son type d'entrée ;
+- son type de retour ; 
+- l'ensemble des effets que produit la fonction. 
+
+Par exemple, la fonction src_koka{hello(name)}, implémentée de la sorte :
+
+#+BEGIN_SRC javascript :data-roe-kind code :data-pellet Koka :data-line-number true
+fun hello(name) {
+  println("Hello " + name + "!")
+}
+#+END_SRC
+
+Aura le type src_ocaml{(name: string) -> console ()}. Ici src_ocaml{console ()}
+indique que la fonction ne renvoie rien (src_ocaml{()}) mais qu'elle produit
+l'effet src_ocaml{console} (un effet capable d'interagir avec la console).
+
+La fonction src_ocaml{hello} est exécutable par Koka car la bibliothèque
+standard du langage offre un gestionnaire pour l'effet src_ocaml{console}.
+Quand on tente d'exécuter une fonction qui exécute des effets, le compilateur
+va d'abord vérifier (à la compilation) s'il existe un gestionnaire pour l'effet
+que l'on essaie d'exécuter. Si aucun gestionnaire n'est trouvé, le programme
+ne compilera pas. Si par contre il existe un gestionnaire, Koka s'en servira
+pour exécuter un programme. Ne vous en faites pas, nous allons tout de suite
+montrer un exemple.
+
+*** Notre premier effet
+
+Un premier effet assez simple à modeliser est l'effet qui dit d'afficher un
+message. Koka offre une construction pour modeliser un ensemble d'effets
+attaché à un même type. On peut voir cette construction comme une interface.
+Par exemple : 
+
+#+BEGIN_SRC javascript :data-roe-kind code :data-pellet Koka :data-line-number true
+effect mumble {
+  fun grumble(message: string) : ()
+}
+#+END_SRC
+
+On déclare un effet *grumble(message)* qui propagera le type *mumble*. Je peux
+maintenant utiliser la fonction src_ocaml{grumble} dans une fonction, qui 
+deviendra alors la description d'un programme :
+
+#+BEGIN_SRC javascript :data-roe-kind code :data-pellet Koka :data-line-number true :data-line-start 4
+fun mumbling() : mumble () {
+  // A noter que la spécification du type est assez 
+  // inutile, Koka est capable d'inférer le type de la fonction
+  grumble("Hello World!")
+}
+#+END_SRC
+
+Notre fonction à le type src_ocaml{() -> mumble ()}, soit qu'elle ne prend
+aucun argument, ne renvoie aucune valeur mais son exécution propagera l'effet
+src_ocaml{mumble}. Que se passe-t-il si j'essaie d'exécuter cette fonction ?
+
+#+BEGIN_SRC javascript :data-roe-kind code :data-pellet Koka
+(1, 0): error: there are unhandled effects for the main expression
+  inferred effect: test/mumble
+  hint           : wrap the main function in a handler
+#+END_SRC
+
+La fonction n'est pas exécutable car Koka ne sait pas comment interpréter notre
+effet src_ocaml{grumble}. Il faut donc lui fournir un gestionnaire.
+
+*** Notre premier gestionnaire
+
+Maintenant que nous avons déclaré notre premier effet, nous allons 
+l'interpréter ! Pour ça, Koka offre une construction syntaxique : 
+src_ocaml{my_handler_for_mumble{mumbling()}}
+
+Pour laquelle il faudra fournir une valeur pour 
+src_ocaml{my_handler_for_mumble}. L'inteprétation d'un effet est assez simple,
+il suffit de traiter les branches possibles de l'effet. Ici, c'est assez simple,
+nous n'en avons qu'une seule : 
+
+#+BEGIN_SRC javascript :data-roe-kind code :data-pellet Koka :data-line-number true :data-line-start 9
+val mumble_handler = handler {
+  grumble(message) -> println(message)
+}
+
+// On peut maintenant exécuter notre programme à effet !
+mumble_handler{ mumbling() }
+// Affichera sur la sortie standard "Hello World!"
+#+END_SRC
+
+Concrètement, on défini une variable qui va, pour chaque effet possible, 
+proposer *une réaction à l'émission d'un effet*. L'application de notre
+gestionnaire n'est pas pure, par contre, la description de notre programme
+l'est entièrement. Par contre, si dans mon gestionnaire, j'avais propagé un
+effet n'ayant pas de gestionnaire, j'aurais dû fournir un gestionnaire à
+mon gestionnaire ! Un peu à la manière de Haskell, utilisé /normalement/, 
+l'écriture d'un gestionnaire implique de *réduire un effet jusqu'a arriver*
+*à un effet attaché à un gestionnaire*.
+
+Essayons de voir si notre propagation/gestion d'effets est superieur à ce
+que l'on avait écrit à base d'exceptions en émettant, dans notre fonction, 
+deux fois l'effet src_ocaml{grumble} :
+
+#+BEGIN_SRC javascript :data-roe-kind code :data-pellet Koka :data-line-number true
+effect mumble {
+  fun grumble(message: string) : ()
+}
+
+fun mumbling() : mumble () {
+  grumble("Hello World!")
+  grumble("Good bye World!")
+}
+
+val mumble_handler = handler {
+  grumble(message) -> println(message)
+}
+
+fun main() {
+   mumble_handler{ mumbling() }
+}
+
+#+END_SRC
+
+Ici, le résultat attendu serait que d'abord, le programme afficher 
+src_ocaml{"Hello World!"} et qu'ensuite, il affiche à la ligne
+src_ocaml{"Good bye World!"}... malheureusement, ce n'est pas le cas, 
+l'inteprétation de src_ocaml{mumbling()} se contente de n'afficher que 
+src_ocaml{"Hello World!"}.

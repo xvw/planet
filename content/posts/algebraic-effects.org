@@ -457,7 +457,7 @@ manière src_haskell{getLine :: IO String}.
 
 Cette manière de transformer un calcul qui doit produire une valeur de type 
 src_haskell{a} en un src_haskell{T a} (qui sera ensuite interprété) utilise
-généralement deux types (parfois plus) de constructions: [[https://wiki.haskell.org/Monad][des monades]] ou 
+généralement deux types (parfois plus) de constructions : [[https://wiki.haskell.org/Monad][des monades]] ou 
 [[https://wiki.haskell.org/Applicative_functor][des foncteurs applicatifs]]. C'est une technique qui s'inspire de la
 [[https://en.wikipedia.org/wiki/Category_theory][théorie des catégories]] et qui peut très souvent être intimidante quand on
 débute en programmation fonctionnelle, spécifiquement avec le langage Haskell.
@@ -486,9 +486,6 @@ sur quels effets seront produits par la fonction.
 
 Haskell propose plusieurs solutions, dont certaines qui miment l'API des
 effets algébriques dont je parlerai dans la section suivante. Ces solutions
-proposent chacunes des avantages différents. Pour en avoir un peu discuté
-avec [[https://twitter.com/spawn_mike][Mickaël Spawn]] et [[https://twitter.com/Sir4ur0n][Julien Debon]], [[https://hackage.haskell.org/package/polysemy][Polysemy]] semble être une solution
-agréable et performante, cependant libre à vous de vous faire votre propre
-choix.
+proposent chacunes des avantages différents.
 
-** Les effets algébriques
+** Les effets algébriques et leurs gestionnaires

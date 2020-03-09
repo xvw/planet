@@ -21,6 +21,9 @@ volontairement pas très loin dans l'exercice de la construction d'un
 système d'effets (j'en suis malheureusement incapable). Si vous êtes
 familiers avec la gestion des effets dans un langage de programmation,
 il y a fort à partier que cet article ne vous intéresse pas beaucoup... désolé !
+
+*Donc, amateur de la théorie, ou personne exaspérée par les approximations,*
+*je vous invite à passer votre chemin* (en toute amitié).
 #+END_QUOTE
 
 Cela fait très longtemps que l'importance des tests unitaires n'est plus 
@@ -323,8 +326,8 @@ let hd list =
   | x :: _ -> x
 #+END_SRC
 
-Concrètement, le type de cette fonction nous dit "pour une liste de 
-src_ocaml{'a} (donc de "quelque chose"), je renvoie un élément src_ocaml{'a}.
+Concrètement, le type de cette fonction nous dit /*pour une liste de*/ 
+/*src_ocaml{'a} (donc de "quelque chose"), je renvoie un élément src_ocaml{'a}*/.
 Cette fonction n'est pas totale car il existe, ici, un cas pour lequel il
 n'existe pas de valeur possible. Le cas où la liste est vide, et qui engendre
 le lancement d'une exception.
@@ -676,7 +679,7 @@ fonction :
 
 Par exemple, la fonction src_koka{hello(name)}, implémentée de la sorte :
 
-#+BEGIN_SRC javascript :data-roe-kind code :data-pellet Koka :data-line-number true
+#+BEGIN_SRC kotlin :data-roe-kind code :data-pellet Koka :data-line-number true
 fun hello(name) {
   println("Hello " + name + "!")
 }
@@ -702,7 +705,7 @@ message. Koka offre une construction pour modeliser un ensemble d'effets
 attaché à un même type. On peut voir cette construction comme une interface.
 Par exemple : 
 
-#+BEGIN_SRC javascript :data-roe-kind code :data-pellet Koka :data-line-number true
+#+BEGIN_SRC kotlin :data-roe-kind code :data-pellet Koka :data-line-number true
 effect mumble {
   fun grumble(message: string) : ()
 }
@@ -712,7 +715,7 @@ On déclare un effet *grumble(message)* qui propagera le type *mumble*. Je peux
 maintenant utiliser la fonction src_ocaml{grumble} dans une fonction, qui 
 deviendra alors la description d'un programme :
 
-#+BEGIN_SRC javascript :data-roe-kind code :data-pellet Koka :data-line-number true :data-line-start 4
+#+BEGIN_SRC kotlin :data-roe-kind code :data-pellet Koka :data-line-number true :data-line-start 4
 fun mumbling() : mumble () {
   // A noter que la spécification du type est assez 
   // inutile, Koka est capable d'inférer le type de la fonction
@@ -724,7 +727,7 @@ Notre fonction à le type src_ocaml{() -> mumble ()}, soit qu'elle ne prend
 aucun argument, ne renvoie aucune valeur mais son exécution propagera l'effet
 src_ocaml{mumble}. Que se passe-t-il si j'essaie d'exécuter cette fonction ?
 
-#+BEGIN_SRC javascript :data-roe-kind code :data-pellet Koka
+#+BEGIN_SRC kotlin :data-roe-kind code :data-pellet Koka
 (1, 0): error: there are unhandled effects for the main expression
   inferred effect: test/mumble
   hint           : wrap the main function in a handler
@@ -744,7 +747,7 @@ src_ocaml{my_handler_for_mumble}. L'inteprétation d'un effet est assez simple,
 il suffit de traiter les branches possibles de l'effet. Ici, c'est assez simple,
 nous n'en avons qu'une seule : 
 
-#+BEGIN_SRC javascript :data-roe-kind code :data-pellet Koka :data-line-number true :data-line-start 9
+#+BEGIN_SRC kotlin :data-roe-kind code :data-pellet Koka :data-line-number true :data-line-start 9
 val mumble_handler = handler {
   grumble(message) -> println(message)
 }
@@ -767,7 +770,7 @@ Essayons de voir si notre propagation/gestion d'effets est superieur à ce
 que l'on avait écrit à base d'exceptions en émettant, dans notre fonction, 
 deux fois l'effet src_ocaml{grumble} :
 
-#+BEGIN_SRC javascript :data-roe-kind code :data-pellet Koka :data-line-number true
+#+BEGIN_SRC kotlin :data-roe-kind code :data-pellet Koka :data-line-number true
 effect mumble {
   fun grumble(message: string) : ()
 }
@@ -792,3 +795,202 @@ src_ocaml{"Hello World!"} et qu'ensuite, il affiche à la ligne
 src_ocaml{"Good bye World!"}... malheureusement, ce n'est pas le cas, 
 l'inteprétation de src_ocaml{mumbling()} se contente de n'afficher que 
 src_ocaml{"Hello World!"}.
+
+Concrètement, ce qu'il se passe ici, c'est qu'on gère l'effet, et on
+arrête le programme. Vu comme ça, les effets algébrique semblent assez
+proche des exceptions. Heureusement, adjoint à la gestion des effets via
+les gestionnaires, les effets algébriques propose une fonctionnalité
+complémentaire : *la capture de la continuation*. En Koka, dans chaque
+branche de la gestion d'un effet dans un gestionnaire, il existe une fonction
+/ad-hoc/ qui offre la possibilité de *reprendre* l'interprétation du programme.
+Par exemple :
+
+#+BEGIN_SRC kotlin :data-roe-kind code :data-pellet Koka :data-line-number true :data-hl 13 :data-line-start 10
+val mumble_handler = handler {
+  grumble(message) -> {
+     println(message)
+     resume(())
+  }
+}
+#+END_SRC
+
+Ce qui nous amène à une définition des effets algébriques relativement
+accessibles, ce sont *des exceptions /resumables/*. Concrètement, quand on
+inteprète la description d'un programme au moyen d'un gestionnaire, ce
+gestionnaire peut continuer l'interprétation du calcul, ou l'interrompre.
+
+Reprenons notre exemple initial, le programme qui demande le nom et qui
+affiche ensuite src_ocaml{"Hello $nom"} et essayons de l'implémenter avec
+les effets algébriques de Koka. Premièrement, on défini les effets du
+programme :
+
+#+BEGIN_SRC kotlin :data-roe-kind code :data-pellet Koka :data-line-number true
+effect interaction {
+  fun show(message: string) : ()
+  fun ask(message: string) : string
+}
+#+END_SRC
+
+Maintenant, la description du programme devient assez facile à écrire :
+
+#+BEGIN_SRC kotlin :data-roe-kind code :data-pellet Koka :data-line-number true :data-line-start 5
+fun program() : interaction () {
+  val name = ask("What's your name? ")
+  show("Hello " + name)
+}
+#+END_SRC
+
+Et il ne nous reste plus qu'a écrire un interpréteur !
+
+#+BEGIN_SRC kotlin :data-roe-kind code :data-pellet Koka :data-line-number true :data-line-start 9
+val hello_handler = handler {
+  ask(message) -> {
+    val name = question(message)
+    resume(name)
+  }
+  show(message) -> {
+    println(message)
+    resume(())
+  }
+}
+#+END_SRC
+
+Concrètement : 
+
+- si le programme propage un src_ocaml{show}, on affiche le message transporté
+  par l'exécution de l'effet src_ocaml{show} et on *continue le programme*
+  en lui donnant src_ocaml{unit} ;
+
+- si le programme propage un src_ocaml{ask}, on utilise la primitive 
+  src_ocaml{question} (qui existe dans la bibliothèque standard de Koka) 
+  et on *continue le programme* en lui passant le résultat de la lecture !
+
+
+Attention, si par mégarde, j'avais oublié de gérer un des cas, le compilateur
+aurait *refusé de compiler* mon programme, par exemple, cet intepréteur : 
+
+
+#+BEGIN_SRC kotlin :data-roe-kind code :data-pellet Koka
+val hello_handler = handler {
+  ask(message) -> {
+    val name = question(message)
+    resume(name)
+  }
+}
+
+// Aurait généré cette erreur :
+test.kk(13,21): error: operator show is not handled
+#+END_SRC
+
+Il ne reste plus qu'a interpréter notre programme !
+
+#+BEGIN_SRC kotlin :data-roe-kind code :data-pellet Koka :data-line-number true :data-line-start 19
+fun main() {
+  hello_handler{ program() }
+}
+#+END_SRC
+
+Nous avons exactement ce que nous désirions au début de l'article : 
+
+- la séparation du programme entre sa partie pure et sa partie impure est
+  explicite. Les déclarations de programmes sont pures et les gestionnaires
+  de programmes sont impurs ;
+
+- les effets propagés par nos descriptions de programmes sont reflètés dans
+  la signature de type de nos descriptions ;
+
+- un gestionnaire doit gérer tous les effets que la description de programme
+  peu propager.
+
+
+*** Tester un programme
+
+Comme notre programme n'est plus qu'un description, on peut donc très facilement
+le tester. En effet, il suffit de lui implémenter un interpréteur de test !
+Par exemple, une manière /naïve/ de tester ce programme serait simplement
+de lui demander de stocker toutes les étapes dans une chaine de caractères
+(il existe des manières autrement plus pertinentes, mais le but de l'exemple
+n'est pas de trop alourdir le code).
+
+Comme la mutation de données est aussi un calcul à effet, je vous propose de
+commencer par implémenter un effet src_ocaml{State} pour manipuler un état
+mutable :
+
+#+BEGIN_SRC kotlin :data-roe-kind code :data-pellet Koka :data-line-number true
+effect state<s> {
+  fun get()    : s
+  fun set(i:s) : ()
+}
+#+END_SRC
+
+src_ocaml{state<s>} est un état mutable, il est paramétré par le type qu'il
+va stocker. Dans notre cas, ce sera un chaine de caractères. Maintenant que
+nous avons les briques pour faire des mutations, nous allons construire un
+intérpréteur pour notre programme original :
+
+#+BEGIN_SRC kotlin :data-roe-kind code :data-pellet Koka :data-line-number true :data-line-start 5
+val test_handler = handler {
+  ask(_) -> {
+    val accumulator = get()
+    set(accumulator + ";Xavier")
+    resume("Xavier")
+  }
+  show(message) -> {
+    val accumulator = get()
+    set(accumulator + ";" + message)
+    resume(())
+  }
+}
+#+END_SRC
+
+Concrètement, cet interpréteur va /hooker/ l'effet src_ocaml{ask} pour toujours
+renvoyer src_ocaml{"Xavier"}, et il va le concaténer à notre état courant.
+Le gestionnaire pour src_ocaml{show}, lui, va simplement concaténer le message
+à notre état courant. Notre gestionnaire aura donc le type 
+src_ocaml{ (() -> <interaction, state<string>> ()) -> state<string> ()}. Soit
+que le gestionnaire s'applique à une fonction qui ne renvoie rien mais peut
+exécuter des effets de type src_ocaml{interaction} et src_ocaml{state<string>}.
+Et que ce gestionnaire, une fois appliqué, ne renvoie rien mais peut exécuter
+l'effet src_ocaml{state<string>}. Il faudra donc l'éliminer via un gestionnaire
+destiné à implémenter notre état mutable.
+
+(cet interpréteur donne un exemple de la manière dont Koka compose des
+programmes qui émettent plusieurs types d'effets, une fonction peut donc
+exécuter plusieurs types d'effets, il suffit juste de donner plusieurs
+interpréteurs pour éliminer les effets non-gérés.)
+
+On peut donc implémenter un petit interpréteur dont le rôle sera uniquement
+de maintenir un état mutable : 
+
+#+BEGIN_SRC kotlin :data-roe-kind code :data-pellet Koka :data-line-number true :data-line-start 17
+val state_handler = handler(state) {
+  return x -> state + ";end"
+  get()  -> resume(state, state)
+  set(j) -> resume((), j)
+}
+#+END_SRC
+
+La branche src_ocaml{return x} applique une dernière transformation une fois
+que le programme est terminé. Ici, on lui demande simplement de renvoyer
+l'état final, auquel on concaténe la chaine src_ocaml{";end"}. Maintenant que
+c'est fait, il suffit d'appliquer nos deux interpréteurs à notre programme
+(qui n'a pas changé) et de calculer son résultat final : 
+
+#+BEGIN_SRC kotlin :data-roe-kind code :data-pellet Koka :data-line-number true :data-line-start 22
+fun test() {
+  val result = state_handler("start"){
+    test_handler{ 
+       program() 
+    }
+  }
+  assert(
+    "String should be equals", 
+    result == "start;Xavier;Hello Xavier;end")
+         // Au final, voici à quoi devrait ressembler notre
+         // résultat accumulé
+}
+#+END_SRC
+
+Comme notre programme est une fonction pure, il est assez simple de la tester
+unitairement. C'est une des grande force des effets algébriques, ils 
+séparent systématiquement la partie pure de la partie impure d'un programme !

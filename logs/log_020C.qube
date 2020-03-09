@@ -24,3 +24,8 @@
   (:label
     "Effets algébriques et leurs gestionnaires, expériences avec Koka")
   (:project "planet"))
+
+((:uuid "a7b9b955-49bc-ec0a-1722-8896cf1ad688") (:day "020C09")
+  (:duration "320") (:sector "writing")
+  (:label "Avancées sur l'articles à propos des effets algébriques")
+  (:project "planet"))

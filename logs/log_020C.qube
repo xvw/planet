@@ -18,3 +18,9 @@
   (:duration "300") (:sector "writing")
   (:label "Avancée sur l'article des effets algébriques")
   (:project "planet"))
+
+((:uuid "ff39e8ba-4d91-df29-054d-ea5bbeb1334b") (:day "020C08")
+  (:duration "200") (:sector "research")
+  (:label
+    "Effets algébriques et leurs gestionnaires, expériences avec Koka")
+  (:project "planet"))

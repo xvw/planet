@@ -502,8 +502,8 @@ issues de la théorie des catégories. Cependant, pour que l'article tâche de
 rester le plus digeste possible, je tâcherai de placer la focale sur leur
 utilisation !
 
-Concrètement, les effets algébriques muni de gestionnaires proposent de découper
-un programme en trois parties distinctes : 
+Concrètement, les effets algébriques munis de gestionnaires proposent de 
+découper un programme en trois parties distinctes : 
 
 - la description des effets possibles ;
 - la description du programme exécutant les effets ; 
@@ -679,7 +679,7 @@ fonction :
 
 Par exemple, la fonction src_koka{hello(name)}, implémentée de la sorte :
 
-#+BEGIN_SRC kotlin :data-roe-kind code :data-pellet Koka :data-line-number true
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet Koka :data-line-number true
 fun hello(name) {
   println("Hello " + name + "!")
 }
@@ -705,7 +705,7 @@ message. Koka offre une construction pour modeliser un ensemble d'effets
 attaché à un même type. On peut voir cette construction comme une interface.
 Par exemple : 
 
-#+BEGIN_SRC kotlin :data-roe-kind code :data-pellet Koka :data-line-number true
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet Koka :data-line-number true
 effect mumble {
   fun grumble(message: string) : ()
 }
@@ -715,7 +715,7 @@ On déclare un effet *grumble(message)* qui propagera le type *mumble*. Je peux
 maintenant utiliser la fonction src_ocaml{grumble} dans une fonction, qui 
 deviendra alors la description d'un programme :
 
-#+BEGIN_SRC kotlin :data-roe-kind code :data-pellet Koka :data-line-number true :data-line-start 4
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet Koka :data-line-number true :data-line-start 4
 fun mumbling() : mumble () {
   // A noter que la spécification du type est assez 
   // inutile, Koka est capable d'inférer le type de la fonction
@@ -727,7 +727,7 @@ Notre fonction à le type src_ocaml{() -> mumble ()}, soit qu'elle ne prend
 aucun argument, ne renvoie aucune valeur mais son exécution propagera l'effet
 src_ocaml{mumble}. Que se passe-t-il si j'essaie d'exécuter cette fonction ?
 
-#+BEGIN_SRC kotlin :data-roe-kind code :data-pellet Koka
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet Koka
 (1, 0): error: there are unhandled effects for the main expression
   inferred effect: test/mumble
   hint           : wrap the main function in a handler
@@ -747,7 +747,7 @@ src_ocaml{my_handler_for_mumble}. L'inteprétation d'un effet est assez simple,
 il suffit de traiter les branches possibles de l'effet. Ici, c'est assez simple,
 nous n'en avons qu'une seule : 
 
-#+BEGIN_SRC kotlin :data-roe-kind code :data-pellet Koka :data-line-number true :data-line-start 9
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet Koka :data-line-number true :data-line-start 9
 val mumble_handler = handler {
   grumble(message) -> println(message)
 }
@@ -770,7 +770,7 @@ Essayons de voir si notre propagation/gestion d'effets est superieur à ce
 que l'on avait écrit à base d'exceptions en émettant, dans notre fonction, 
 deux fois l'effet src_ocaml{grumble} :
 
-#+BEGIN_SRC kotlin :data-roe-kind code :data-pellet Koka :data-line-number true
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet Koka :data-line-number true
 effect mumble {
   fun grumble(message: string) : ()
 }
@@ -805,7 +805,7 @@ branche de la gestion d'un effet dans un gestionnaire, il existe une fonction
 /ad-hoc/ qui offre la possibilité de *reprendre* l'interprétation du programme.
 Par exemple :
 
-#+BEGIN_SRC kotlin :data-roe-kind code :data-pellet Koka :data-line-number true :data-hl 13 :data-line-start 10
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet Koka :data-line-number true :data-hl 13 :data-line-start 10
 val mumble_handler = handler {
   grumble(message) -> {
      println(message)
@@ -824,7 +824,7 @@ affiche ensuite src_ocaml{"Hello $nom"} et essayons de l'implémenter avec
 les effets algébriques de Koka. Premièrement, on défini les effets du
 programme :
 
-#+BEGIN_SRC kotlin :data-roe-kind code :data-pellet Koka :data-line-number true
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet Koka :data-line-number true
 effect interaction {
   fun show(message: string) : ()
   fun ask(message: string) : string
@@ -833,7 +833,7 @@ effect interaction {
 
 Maintenant, la description du programme devient assez facile à écrire :
 
-#+BEGIN_SRC kotlin :data-roe-kind code :data-pellet Koka :data-line-number true :data-line-start 5
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet Koka :data-line-number true :data-line-start 5
 fun program() : interaction () {
   val name = ask("What's your name? ")
   show("Hello " + name)
@@ -842,7 +842,7 @@ fun program() : interaction () {
 
 Et il ne nous reste plus qu'a écrire un interpréteur !
 
-#+BEGIN_SRC kotlin :data-roe-kind code :data-pellet Koka :data-line-number true :data-line-start 9
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet Koka :data-line-number true :data-line-start 9
 val hello_handler = handler {
   ask(message) -> {
     val name = question(message)
@@ -870,7 +870,7 @@ Attention, si par mégarde, j'avais oublié de gérer un des cas, le compilateur
 aurait *refusé de compiler* mon programme, par exemple, cet intepréteur : 
 
 
-#+BEGIN_SRC kotlin :data-roe-kind code :data-pellet Koka
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet Koka
 val hello_handler = handler {
   ask(message) -> {
     val name = question(message)
@@ -884,7 +884,7 @@ test.kk(13,21): error: operator show is not handled
 
 Il ne reste plus qu'a interpréter notre programme !
 
-#+BEGIN_SRC kotlin :data-roe-kind code :data-pellet Koka :data-line-number true :data-line-start 19
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet Koka :data-line-number true :data-line-start 19
 fun main() {
   hello_handler{ program() }
 }
@@ -916,7 +916,7 @@ Comme la mutation de données est aussi un calcul à effet, je vous propose de
 commencer par implémenter un effet src_ocaml{State} pour manipuler un état
 mutable :
 
-#+BEGIN_SRC kotlin :data-roe-kind code :data-pellet Koka :data-line-number true
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet Koka :data-line-number true
 effect state<s> {
   fun get()    : s
   fun set(i:s) : ()
@@ -928,7 +928,7 @@ va stocker. Dans notre cas, ce sera un chaine de caractères. Maintenant que
 nous avons les briques pour faire des mutations, nous allons construire un
 intérpréteur pour notre programme original :
 
-#+BEGIN_SRC kotlin :data-roe-kind code :data-pellet Koka :data-line-number true :data-line-start 5
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet Koka :data-line-number true :data-line-start 5
 val test_handler = handler {
   ask(_) -> {
     val accumulator = get()
@@ -962,7 +962,7 @@ interpréteurs pour éliminer les effets non-gérés.)
 On peut donc implémenter un petit interpréteur dont le rôle sera uniquement
 de maintenir un état mutable : 
 
-#+BEGIN_SRC kotlin :data-roe-kind code :data-pellet Koka :data-line-number true :data-line-start 17
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet Koka :data-line-number true :data-line-start 17
 val state_handler = handler(state) {
   return x -> state + ";end"
   get()  -> resume(state, state)
@@ -972,11 +972,11 @@ val state_handler = handler(state) {
 
 La branche src_ocaml{return x} applique une dernière transformation une fois
 que le programme est terminé. Ici, on lui demande simplement de renvoyer
-l'état final, auquel on concaténe la chaine src_ocaml{";end"}. Maintenant que
+l'état final, auquel on concatène la chaine src_ocaml{";end"}. Maintenant que
 c'est fait, il suffit d'appliquer nos deux interpréteurs à notre programme
 (qui n'a pas changé) et de calculer son résultat final : 
 
-#+BEGIN_SRC kotlin :data-roe-kind code :data-pellet Koka :data-line-number true :data-line-start 22
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet Koka :data-line-number true :data-line-start 22
 fun test() {
   val result = state_handler("start"){
     test_handler{ 
@@ -994,3 +994,113 @@ fun test() {
 Comme notre programme est une fonction pure, il est assez simple de la tester
 unitairement. C'est une des grande force des effets algébriques, ils 
 séparent systématiquement la partie pure de la partie impure d'un programme !
+
+** Notes complémentaires sur le contrôle du flot du programme
+
+Nous avons, au moyen des effets algébriques, une manière systématique de
+séparer un programme en une description (une fonction qui propage des
+effets) et son interpréteur (un gestionnaire). Nous pouvons donc facilement
+tester nos fonctions impures en les transformant  "/simplement/" en fonctions
+pures ! Cependant, la force des effets algébriques ne résides pas uniquement
+dans cette séparation et dans le reflet dans le système de types des effets
+propagés par une fonction. Le fait de pouvoir contrôler le flot du programme
+offre aussi beaucoup de possibilités. Notamment le fait de pouvoir modifier 
+la sémantique opérationnelle du programme. Imaginons ce scénario :
+
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet Koka :data-line-number true :data-hl 7
+val hello_handler_reversed = handler {
+  ask(message) -> {
+    val name = question(message)
+    resume(name)
+  }
+  show(message) -> {
+    resume(())
+    println(message)
+  }
+}
+
+fun program() {
+  show("Hello World")
+  val x = ask("What is your name?")
+  show("Hello " + x)
+}
+#+END_SRC
+
+On demande d'exécuter la continuation capturée avant d'exécuter la gestion
+de l'effet. Ça a pour effet d'inverser le flot du programme.
+
+#+BEGIN_SRC bash :data-roe-kind code
+What is your name? <input>
+Hello <input>
+Hello World
+#+END_SRC
+
+De même que l'interprétation concrète d'un programme vise à fournir, pour 
+chaque effet propagé, un interpréteur, il est possible de choisir dans quel
+ordre on veut appliquer des interpréteurs. De ce fait, pour une fonction de
+type src_kotlin{() -> <effectA, effectB> a}, il serait possible :
+
+- d'appliquer src_koka{handler_for_a}{src_koka{handler_for_b}{program}} ;
+- ou appliquer src_koka{handler_for_b}{src_koka{handler_for_a}{program}}.
+
+Cette grande liberté sur la manière et l'ordre d'interprétation permet, par
+exemple, d'enrichir un programme.
+
+*** Enrichissement de programmes
+
+Dans [[./introduction_aux_monades.html][l'article sur les monades]], nous avions évoqué que l'un des bienfaits
+de leur utilisation était la séparation systématique entre l'algorithme
+et son outillage. Soit, une séparation entre l'algorithme et la plomberie
+nécéssaire à l'utilisation de cet algorithme. Les effets algébriques et 
+leurs gestionnaires proposent une manière encore plus explicite de greffer
+des fonctionnalités à un programme. Par exemple, imaginons ce programme
+naïf : 
+
+
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet Koka :data-line-number true
+effect user_database {
+  fun create_user(username: string) : ()
+  fun update_user(old_username: string, new_username: string) : ()
+  fun drop_user(username: string) : ()
+}
+
+fun program() {
+  create_user("xavier")
+  update_user("xavier", "xvw")
+  drop_user("xvw")
+}
+#+END_SRC
+
+Le type de src_ocaml{program()} est : src_ocaml{() -> user_database ()}, je
+peux très facilement fournir un gestionnaire dont le rôle sera de /logger/
+chaque action effectuée. Utiliser un gestionnaire permet d'éviter de changer
+le programme original, tout en lui greffant des fonctionnalités :
+
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet Koka :data-line-number true :data-line-start 12
+val logger_user_handler = handler {
+  create_user(username) -> {
+    println("LOG: create_user [" + username + "]")
+    create_user(username)
+    resume(())
+  }
+  update_user(old, new) -> {
+    println("LOG: update_user [" + old + "] by ["+ new +"]")
+    update_user(old, new)
+    resume(())
+  }
+  drop_user(username) -> {
+    println("LOG: drop_user [" + username + "]")
+    drop_user(username)
+    resume(())
+  }
+}
+#+END_SRC
+
+Comme ce gestionnaire réémet les effets qu'il capture, on ne devra pas modifier
+le code du gestionnaire qui s'occupe de réellement. Cette approche est très
+proche d'une *Monade Writer*. En utilisant cette approche, nos description 
+de programmes peuvent se *contenter d'exprimer ce qu'ils font* et les 
+gestionnaires *ajoutent des capacités suplémentaires* pour l'exécution 
+du programme.
+
+** Et qu'est-ce qu'il y a d'algébrique là-dedans ?

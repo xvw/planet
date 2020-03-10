@@ -351,7 +351,7 @@ div.code-container .code-underbox .code-file {
     color: #444;
 }
 
-div.roe[data-kind="quote"] .quote-underbox .quote-place a,
+div.roe[data-roe-kind="quote"] .quote-underbox .quote-place a,
 div.code-container .code-underbox .code-file a {
     color: #444;
     text-decoration: none;
@@ -1129,14 +1129,12 @@ pre.example {
     border-radius: 4px;
 }
 
-div.roe[data-kind="quote"] {
+div.roe[data-roe-kind="quote"] {
     margin: 48px 28px;
-    /* padding: 8px; */
-    /* border-radius: 23px; */
-    /* border-left: 4px solid #f3f3f3; */
 }
 
-div.roe[data-kind="quote"] blockquote {
+div.roe[data-roe-kind="quote"] p,
+div.roe[data-roe-kind="quote"] blockquote {
     font-family: 'Planet Old Standard TT', 'Helvetica Neue', Helvetica, serif;
     font-size: 125%;
     line-height: 115%;
@@ -1144,11 +1142,11 @@ div.roe[data-kind="quote"] blockquote {
     text-align: justify;
 }
 
-div.roe[data-kind="quote"] blockquote p:last-child {
+div.roe[data-roe-kind="quote"] blockquote p:last-child {
     margin: 0;
 }
 
-div.roe[data-kind="quote"] .quote-underbox {
+div.roe[data-roe-kind="quote"] .quote-underbox {
     margin: 0 32px;
     padding: 0;
     padding-top: 12px;
@@ -1159,34 +1157,38 @@ div.roe[data-kind="quote"] .quote-underbox {
     justify-content: flex-end;
 }
 
+div.roe[data-roe-kind="quote"] strong {
+    font-weight: 900;
+}
 
-div.roe[data-kind="quote"] > *:first-child {
+
+div.roe[data-roe-kind="quote"] > *:first-child {
     margin-bottom: 0;
 }
 
-div.roe[data-kind="quote"] .quote-underbox .quote-author {
+div.roe[data-roe-kind="quote"] .quote-underbox .quote-author {
     text-align: right;
     margin-left: 8px;
 }
 
-div.roe[data-kind="quote"] .quote-underbox .quote-place,
-div.roe[data-kind="quote"] .quote-underbox .quote-date > span,
-div.roe[data-kind="quote"] .quote-underbox .quote-author > span {
+div.roe[data-roe-kind="quote"] .quote-underbox .quote-place,
+div.roe[data-roe-kind="quote"] .quote-underbox .quote-date > span,
+div.roe[data-roe-kind="quote"] .quote-underbox .quote-author > span {
     font-weight: 400;
     border-radius: 4px;
     color: #999;
 }
 
-div.roe[data-kind="quote"] .quote-underbox .quote-place {
+div.roe[data-roe-kind="quote"] .quote-underbox .quote-place {
 }
 
-div.roe[data-kind="quote"] .quote-underbox .quote-date > span,
-div.roe[data-kind="quote"] .quote-underbox .quote-author > span {
+div.roe[data-roe-kind="quote"] .quote-underbox .quote-date > span,
+div.roe[data-roe-kind="quote"] .quote-underbox .quote-author > span {
     font-weight: 700;
     padding: 3px 12px
 }
 
-div.roe[data-kind="quote"] .quote-underbox .quote-author > span {
+div.roe[data-roe-kind="quote"] .quote-underbox .quote-author > span {
     border: 2px solid #DDD;
 }
 

@@ -1,0 +1,54 @@
+(:title "Tests unitaires de fonctions impures")
+(:kind long)
+(:date #020C05)
+(:permaname "introduction_algebraic_effects")
+(:synopsis "Une introduction aux effets algébriques par le biais des tests unitaires.")
+(:content external #org-mode "content/posts/algebraic-effects.org")
+(:published true)
+(:category "programmation")
+(:tags "programmation" "fonctionnelle" "pure"
+       "effets algébriques" "test unitaire" "koka" "kotlin")
+
+
+
+(:links
+ (
+  ("Langages"
+   (
+    ("Koka" "https://koka-lang.github.io/koka/doc/kokaspec.html")
+    ("Eff" "https://www.eff-lang.org/")
+    ("Links" "https://links-lang.org/")
+    ("F*" "https://fstar-lang.org")
+    ("Frank" "https://github.com/frank-lang/frank")
+    ("Helium" "https://bitbucket.org/pl-uwr/helium/src/master/")
+    ("Idris" "https://www.idris-lang.org/")
+    ("OCaml multicore" "https://github.com/ocaml-multicore/ocaml-multicore/wiki")
+    ("Shonky" "https://github.com/pigworker/shonky")
+    )
+   )
+  ("Bibliothèques intéressantes"
+   (
+    ("Polysemy (Haskell)" "https://github.com/polysemy-research/polysemy")
+    ("Fused effects (Haskell)" "https://github.com/fused-effects/fused-effects")
+    ("Eff in F#" "https://github.com/palladin/Eff")
+    ("Arrow Fx (Kotlin)" "https://arrow-kt.io/docs/fx/")
+    )
+   )
+  ("Bibliographie"
+   (
+    
+    ("Une bibliographie sur les effets"
+     "https://github.com/yallop/effects-bibliography")
+    
+    ("What is algebraic about algebraic effects and handlers?"
+     "https://arxiv.org/pdf/1807.05923.pdf")
+
+    ("An Introduction to Algebraic Effects and Handlers"
+     "http://www.eff-lang.org/handlers-tutorial.pdf")
+
+    ("Programming and Reasoning with Algebraic Effects and Dependent Types (pdf)"
+     "https://eb.host.cs.st-andrews.ac.uk/drafts/effects.pdf")
+    )
+   )
+  )
+ )

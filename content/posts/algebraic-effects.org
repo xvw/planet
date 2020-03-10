@@ -1,0 +1,1250 @@
+#+BEGIN_QUOTE
+La programmation fonctionnelle pure offre beaucoup de bénéfices. Elle n'utilise
+que des fonctions pures qui sont faciles à tester, facile à raisonner et 
+qui permettent au compilateur de les optimiser.
+
+Ce serait vraiment plus confortable de ne travailler qu'avec des fonctions pures,
+malheureusement, dans la construction de logiciels "utiles", cela semble 
+impossible. En effet *les programmes du monde réel produisent des effets*, il 
+est donc, à priori, impossible de représenter un programme utile à coup de 
+fonctions pures.
+
+Dans ce très court article, je vous propose de découvrir *les effets algébriques* 
+*et leurs gestionnaires* pour construire des programmes qui exécutent des 
+effets, dans le contexte d'un langage de programmation fonctionnel, 
+que l'on peut composer (pour construire des programmes plus complexes) tout 
+en restant facilement testable unitairement.
+
+Cet article n'est pas du tout un article technique et son objectif vise
+à donner une intution sur l'utilisation des effets algébriques. Il ne va
+volontairement pas très loin dans l'exercice de la construction d'un 
+système d'effets (j'en suis malheureusement incapable). Si vous êtes
+familiers avec la gestion des effets dans un langage de programmation,
+il y a fort à partier que cet article ne vous intéresse pas beaucoup... désolé !
+
+*Donc, amateur de la théorie, ou personne exaspérée par les approximations,*
+*je vous invite à passer votre chemin* (en toute amitié).
+#+END_QUOTE
+
+Cela fait très longtemps que l'importance des tests unitaires n'est plus 
+remise en question. Ils permettent de garantir, au mieux, la non-régression
+de la base de code, mais aussi servir de spécification. Couplé avec des méthodes
+fines, comme par exemple, les tests dirigés par les propriétés, qui, sur base
+d'une collection d'invariants (les propriétés), génèrent une collection de
+tests "aléatoirement". Il est donc nécéssaire de fournir un maximum de tests,
+clairs et facilement maintenable.
+
+Concrètement, il est possible de facilement tester unitairement les *fonctions*
+*pures*, alors que les *fonctions impures* infligent généralement l'usage de
+/hacks/ (par exemples, des /mocks/ contruits à coup de /réflecteur/) pour 
+capturer l'essence de la fonctionnalité testée.
+
+
+** Fonctions pures et impures
+
+Dans un premier temps, observons cette fonction, implémentée en *Kotlin*, dont
+le rôle principal est de calculer le successeur d'un nombre :
+
+#+BEGIN_SRC kotlin :data-roe-kind code :data-pellet Kotlin :data-line-number true
+import java.util.Scanner
+
+fun successor() {
+  val reader = Scanner(System.`in`)
+  print("Enter a number: ")
+  val input = reader.nextInt()
+  val result = input + 1
+  println("The successor of [$input] is [$result] ")
+}
+
+fun main() {
+  successor()
+}
+#+END_SRC
+
+Concrètement, cette fonction est potentiellement correct, cependant, elle pose,
+selon moi (et selon beaucoup de personne, probablement) énormément de soucis.
+Elle est impossible à tester unitairement facilement. En admettant que je
+voudrais tester cette fonction, je devrais capturer l'écriture sur 
+src_bash{stdin} et l'écriture sur src_bash{stdout} pour être capable de fournir
+une collection de tests sur l'essence de mon algorithme, soit le fait que 
+pour un nombre entier, je peux avoir son successeur. La fonction n'est pas pure,
+donc complexe à tester.
+
+Une piste d'amélioration serait d'extraire l'essence du programme dans une
+fonction dédiée, dont le seul rôle serait de calculer le successeur d'un nombre
+entier. Par exemple : 
+
+#+BEGIN_SRC kotlin :data-roe-kind code :data-pellet Kotlin :data-line-number true
+import java.util.Scanner
+
+fun successor(x: Int) : Int {
+  val result = x + 1
+  return result
+}
+
+fun main() {
+  val reader = Scanner(System.`in`)
+  print("Enter a number: ")
+  val input = reader.nextInt()
+  val result = successor(input)
+  println("The successor of [$input] is [$result] ")
+}
+#+END_SRC
+
+Cette amélioration est très naïve, mais elle représente tout de même une sacré
+pas en avant. La fonction src_kotlin{successor(x)} est facilement testable,
+et ça tombe assez bien, car c'est elle qui est le coeur de notre programme.
+
+Même s'il serait possible d'écrire un test unitaire pour la fonction 
+src_kotlin{main()} moyennant quelques tours de magie... est-ce réellement 
+nécéssaire ? En effet, comme évoqué précédemment, l'essence de notre 
+(discutablement intéressant) programme est de calculer un successeur pour un 
+entier donné, et cette partie du programme est correctement testée, le reste
+du programme ne fait qu'exploiter des bibliothèques et des fonctions éprouvées
+de la /JVM/ et, à l'instar des démonstrations mathématiques, qui visent à
+réduire une collection de propositions à des axiomes, on ne cherche pas à 
+tester ce qui a déjà été testé.
+
+Mais tout ceci nous amène à une chose, depuis le début de cet article, j'utilise
+les adjectifs *pure* et *impure* pour qualifier les fonctions, sans avoir pris
+le temps de tâcher de fournir une définition compréhensible de fonctions pures 
+et impures ! Concrètement, dès que l'on parle de fonctions pures, on entend
+généralement des fonctions *dans le sens mathématique du terme*, soit des
+fonctions qui sont : 
+
+- *totales* : pour chaque entrée, elles produisent un résultat. (Doté d'un
+  système de vérification statique des types, il est possible de restreindre
+  le domaine de valeurs acceptées par une fonction) ;
+- *déterministes* : pour des arguments donnés à une fonction, elle renvoie
+  toujours le même résultat ;
+- *sans effets* : elles ne produisent aucun effet. Elle ne peuvent que
+  calculer des choses, sans dépendre, par exemple d'un environnement. Dans
+  la partie suivante, nous tâcherons de donner une meilleur définition
+  d'effets.
+
+Ce que l'on pourrait réduire en une phrase, une fonction pure est une
+fonction qui retourne constamment la même valeur pour la même entrée,
+mettant en lumière un comportement déterministe et ne provoquant aucun
+effet extérieur. Une fonction pure est *référentiellement transparente*,
+ce qui veut dire que l'on peut remplacer chacun de ses appels par son
+résultat, dès qu'on le connait.
+
+Les fonctions impures sont toutes les fonctions qui ne sont pas pures. 
+Comme évoqué rapidement en introduction, sans fonctions impures, il est 
+à priori impossible de faire un programme utile. En effet, à moins que
+l'exécution du programme ne soit pas nécéssaire (par exemple lorsque l'on
+utilise un logiciel de démonstration assisté par ordinateur), construire
+un programme sans fonctions impures, donc sans effets, semble impossible.
+
+Une première approche pour rendre nos logiciels testables et prédictibles
+consiste à fractionner le programme en *deux parties*, sa partie pure 
+et sa partie impure. Idéalement, repoussant les fragments impures aux 
+extrémités du programme (ses entrées et ses sorties) pour n'avoir ensuite, 
+plus qu'un noyau de fonctions pures, facilement testables. 
+
+
+** Effets et effets de bords
+
+Comme une grande partie des langages de programmation populaires 
+manipulent des effets de manière implicite, s'interroger sur ce qu'est
+un effet peut être assez peu commode. D'ailleurs, je trouve qu'il est
+assez complexe de donner une définition acceptable et claire d'un effet,
+généralement, on trouve des exemples d'effets :
+
+- du non déterminisme ;
+- le fait de lire un environnement (une base de données par exemple) ;
+- le fait de modifier cet environnement ;
+- de l'aléatoire ;
+- etc.
+
+Une manière assez /simple/ de caractériser un effet serait de l'opposer
+à un calcul. Dans la programmation fonctionnelle pure, l'exécution d'un
+programme (sans effets donc) consiste "simplement" à calculer sa 
+*forme normale*, soit son résultat final, un effet serait donc quelque chose
+que l'on peut pas calculer. 
+
+Pour donner plus de précision, il s'agirait
+de définir un effet comme une action qui a besoin d'être exécutée en
+*référant une autorité centrale qui devra /gérer/ cet effet*. Par exemple,
+un programme qui lance une exception implique que cette exception soit
+gérée (via une construction, par exemple, en Java, src_java{try/catch} 
+ou par le /runtime/ de l'environnement d'exception), une exception est
+donc un exemple d'effet.
+
+Observons un exemple. Voici un programme qui permet d'afficher (de manière
+un peu vétuste) une liste des /Meilleurs scores/ d'un jeu quelconque:
+
+#+BEGIN_SRC kotlin :data-roe-kind code :data-pellet Kotlin :data-line-number true :data-hl 2;5;9;12
+fun displayScore() {
+   println("Score\tUser\tDate")
+   val scores = 
+      scoreRepository
+        .findAll()
+        .sortBy { it.scoreValue }
+
+   if(scores.isEmpty()) {
+     throw EmptyScoreException()
+   }
+   scores.forEach {
+      println("${it.scoreValue}\t${it.username}\t${it.date}")
+   }
+}
+#+END_SRC
+
+Concrètement, l'usage des fonctions src_kotlin{println} doivent se référer
+au système d'exploitation pour être exécutés (en général, ce genre de fonctions,
+qui écrivent sur la sortie standard ou qui lisent sur l'entrée standard 
+exécutent des effets dans le domaine de l'*IO*). La méthode src_kotlin{findAll}
+sur src_kotlin{scoreRepository} se référe à une base de données et le 
+lancement de l'exception src_kotlin{EmptyScoreException} devra se référer
+au gestionnaire que l'on écrira pour elle dans la fonction qui utilisera
+src_kotlin{displayScore}.
+
+Dans cette fonction, nous observons 3 effets différents. Une intuition viable
+pour savoir si une fonction produit des effets consiste en général à se demander
+si la fonction doit se référer à une autorité centrale externe à la fonction.
+Et c'est généralement la présence de cette autorité centrale externe qui rend
+l'implémentation d'un test unitaire complexe.
+
+*** Les effets de bord
+
+Maintenant que nous avons une idée (un peu abstraite) de ce qu'est un effet, 
+tâchons de définir un effet de bord. Ma prise de position pourrait être un
+poil polémique parce que la définition que l'on pourrait attacher à un effet
+de bord peut énormément varier en fonction du contexte. Il arrive souvent
+de lire le raccourci qu'un effet est un effet de bord. Pour ma part, je préfère
+distinguer l'effet de l'effet de bord en donnant une définition assez naïve
+mais, à mon sens, compréhensible, adaptée à la programmation statiquement
+typée : *un effet de bord est un effet qui n'est pas reflété dans la signature*
+*de type de la fonction qui l'exécute*.
+
+Un exemple assez explicite pour saisir la nuance entre un effet et un effet
+de bord est la fonction src_kotlin{println} dont le type pourrait être 
+src_kotlin{println(x: String) : Unit}. En lisant la signature de type de
+cette fonction, on a très peu d'information sur ce que *fait* la fonction.
+On pourrait croire qu'elle "prend une chaine de caractères" et "n'en fait
+rien". Même si le nom de la fonction peut nous transmettre une intuition
+assez précise sur "ce que fait réellement la fonction", la signature de type
+n'est pas suffisante. 
+
+On voudrait (idéalement)  que toute nos signatures nous offrent la
+clareté de la signature de src_kotlin{map}, par exemple : 
+src_kotlin{List<A>.map(f : (A) -> B) : List<B>} (qui exprime assez clairement
+que, l'application de la méthode src_kotlin{map} sur une liste de 
+src_kotlin{A} avec une fonction qui va de src_kotlin{A} vers src_kotlin{B},
+produira une liste de src_kotlin{B}, donc que l'on va appliquer la fonction
+donnée en argument sur tous les éléments de la liste).
+
+Un autre exemple serait la distinction entre l'utilisation d'exceptions
+vérifiées contre l'utilisation d'exceptions non vérifiées. Par exemple,
+voici l'implémentation, en Java, suivi d'en Kotlin, d'une fonction qui
+mime l'implémentation d'une division :
+
+#+BEGIN_SRC java :data-roe-kind code :data-pellet Java :data-line-number true
+public int divide(numerator: int, denominator: int) 
+   throws DivisionByZeroException {
+   if (denominator == 0) {
+      throw new DivisionByZeroException();
+   }
+   return numerator / denominator;
+}
+#+END_SRC
+
+Ici, l'exception que la fonction peut émettre est reflétée dans la signature
+de type. En Kotlin, on écrit généralement des fonctions qui émettent des
+exceptions non vérifiées :
+
+#+BEGIN_SRC kotlin :data-roe-kind code :data-pellet Kotlin :data-line-number true
+fun divide(numerator: Int, denominator: Int) : Int {
+   if (denominator == 0) {
+     throw DivisionByZeroException()
+   }
+   return numerator / denominator
+}
+#+END_SRC
+
+Dans cet exemple, la signature de type ne reflète pas l'exception pouvant être
+émise par la fonction. Par contre, je ne fais pas l'apologie des exceptions
+vérifiées qui [[http://radio-weblogs.com/0122027/stories/2003/04/01/JavasCheckedExceptionsWereAMistake.html][posent beaucoup de soucis]] (pour beaucoup de raisons). De plus,
+les exceptions vérifiées ne couvrent le reflet que d'un seul type d'effets
+(l'exception) et l'on voudrait plus de précision.
+
+Certains pourraient voir, en cette envie de refléter les effets dans 
+la signature de type, de l'hystérie de fanatiques des systèmes de types...
+c'est probable. Mon opinion est que l'on voudrait que nos systèmes de types
+expriment le plus de choses possibles, dans la mesure de la /turing-complétude/
+(mais pas toujours). De ce fait, mettre en lumière les effets dans la signature
+de types permet de transformer des effets de bord en effets, ce qui est à
+mon sens bénéfique. Les fonctions ne mentiront plus sur ce qu'elles font !
+
+Plus formellement, dans beaucoup de langages statiquement typés : 
+- on propose *src_haskell{Γ ⊢ e : τ}* soit "/une variable dans l'environnement/
+  /src_haskell{Γ}, une expression src_haskell{e} à le type src_haskell{τ}/".
+- on voudrait *src_haskell{Γ ⊢ e : τ & effects}* soit "/une variable dans/
+  /l'environnement src_haskell{Γ}, une expression src_haskell{e} à le/
+  /type src_haskell{τ} et produit les effets src_haskell{effects}/".
+
+Ce qui donnerait, par exemple, pour une fonction dont le rôle serait
+d'écrire sur la sortie standard un message et qui a généralement le type 
+src_ocaml{val print_string : string -> unit}, nous aurions plutôt cette
+signature src_ocaml{val print_string : string -> unit & output}, ce qui
+correspond à dire, au travers de la signature de type que même si la 
+fonction ne renvoie rien, elle écrit aussi sur la sortie standard.
+ 
+Pour résumer, un effet de bord est un effet qui n'est pas mis en lumière
+dans le programme, qui arrive donc de manière non contrôlé et que l'on
+voudrait éviter (dans la mesure du possible, il existe des effets que
+l'on ne peut pas du tout contrôler dans le programme, par exemple, si
+l'ordinateur qui l'exécute n'a plus assez de mémoire pour exécuter le
+programme). Une manière d'informer l'utilisateur ou l'utilisatrice qu'une
+fonction produit un effet serait de faire refléter les effets produits par
+une fonction dans sa signature de type. Les systèmes d'effets répondent
+en grande partie à ce genre problèmes et c'est ce que nous tâcherons de
+découvrir dans les rubriques suivantes !
+
+** Transformation de fonctions impures en fonctions pures
+
+Maintenant que nous avons une idée globale de ce qu'est un effet, de ce que 
+sont les fonctions pures et impures, nous allons pouvoir observer une première
+technique de "contrôle des effets" qui consiste /simplement/ à transformer
+une fonction impure en fonction pure.
+
+Lorsque nous avons tâché de définir une fonction pure, on a évoqué le fait
+qu'une fonction devait être *totale*, soit que pour tout paramètre, elle doit
+avoir un résultat. Comme toute fonction qui n'est pas pure est impure, une
+fonction qui n'est pas totale est impure, donc on pourrait considérer que
+la non-totalité d'une fonction est un effet. De ce fait, prendre une fonction
+non-totale et la rendre totale serait une forme de gestion d'effet. Prenons
+par exemple la fonction OCaml src_ocaml{List.hd} qui prend une liste et 
+renvoie sa tête (son premier élément) et dont le type serait 
+src_ocaml{val hd : 'a list -> 'a} :
+
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet OCaml :data-line-number true
+let hd list = 
+  match list with 
+  | [] -> failwith "List.hd empty list"
+  | x :: _ -> x
+#+END_SRC
+
+Concrètement, le type de cette fonction nous dit /*pour une liste de*/ 
+/*src_ocaml{'a} (donc de "quelque chose"), je renvoie un élément src_ocaml{'a}*/.
+Cette fonction n'est pas totale car il existe, ici, un cas pour lequel il
+n'existe pas de valeur possible. Le cas où la liste est vide, et qui engendre
+le lancement d'une exception.
+
+Pour rendre cette fonction totale, il suffit de trouver un nouveau type
+capable de représenter l'ensemble des valeurs possibles. Les langages 
+fonctionnels statiquement typés ont popularisé l'utilisation d'un type
+spécifique qui permet de représenter la dijonction entre la présence de valeur
+ou son absence : 
+
+
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet OCaml :data-line-number true
+type 'a option = 
+  | Some of 'a 
+  | None
+
+let hd list = 
+  match list with 
+  | [] -> None
+  | x :: _ -> Some x
+#+END_SRC
+
+Concrètement, le type src_ocaml{'a option} (qui exprime "/une option de 
+quelque chose/") et défini deux constructeurs : 
+
+- src_ocaml{Some x} pour représenter la présence d'une valeur ; 
+- src_ocaml{None} pour représenter l'absence de valeur.
+
+L'utilisation du type src_ocaml{option} (qui s'appelle src_haskell{Maybe} en
+Haskell) altère le type de notre fonction, qui devient : 
+src_ocaml{val hd : 'a list -> 'a option} et rend notre fonction *totale*.
+Puisque src_ocaml{None} étant une valeur admissible 
+(de type src_ocaml{'a option}).
+
+Même si cette transformation semble anodine, nous avons transformé une fonction
+impure en fonction pure. Cependant, le changement de type change sensiblement
+la sémantique de la fonction src_ocaml{hd}. De ce fait, si l'on veut exécuter
+un programme qui utilise notre nouvelle fonction src_ocaml{hd}, il faudra
+*gérer manuellement le cas où nous n'avons pas de valeur*. 
+
+Construisons un programme qui affiche, sur la sortie standard, un message 
+de bienvenue au premier prénom d'une liste de prénoms :
+
+
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet OCaml :data-line-number true :data-line-start 9
+let () = 
+  match hd ["Xavier"; "Nicolas"] with 
+  | None -> Format.printf "Hello anonymous !"
+  | Some user -> Format.printf "Hello %s !" user
+#+END_SRC
+
+A ce stade, notre fonction src_ocaml{hd} à beau être pure, notre exécution
+ne l'est pas. Cependant, cela se rapproche de ce que l'on a esquissé en
+début d'article, la séparation entre *la partie pure* et *la partie impure*.
+Concrètement, on a *un programme*, dont le rôle est de décrire les opérations, 
+et un *gestionnaire de programme* dont le rôle est d'exécuter la description
+du programme.
+
+C'est typiquement ce genre de transformation qu'utilise le langage *Haskell*
+pour ne permettre la manipulation que de fonctions pures.
+
+*** Aparté sur Haskell
+
+Quand on se rend sur le [[https://haskell.org][site web de Haskell]], on peut y lire que Haskell est
+un langage de programmation fonctionnelle pure avancé.
+
+Haskell est l'archétype du langage fonctionnel pur, qui fait intensivement
+usage de la technique présenté dans la rubrique précédente qui vise à
+transformer les effets en valeurs. Cependant, contrairement à l'exemple que
+nous avons présenté, le langage interdit les effets de bords, y comprit
+dans la fonction qui va *interpréter* une fonction produisant un effet. Pour
+comprendre où la magie opère, observons un "Hello World" en Haskell.
+
+#+BEGIN_SRC haskell :data-roe-kind code :data-pellet Haskell :data-line-number true
+main :: IO ()
+main = 
+  putStrLn "Hello World!"
+#+END_SRC
+
+Ici, src_haskell{main} est une valeur de type src_haskell{IO ()}, on peut donc
+deviner le type de la fonction src_haskell{putStrLn} : 
+src_haskell{putStrLn :: String -> IO ()}. En fait, src_haskell{main} est une
+fonction qui ne produit aucun effet, il s'agit simplement d'une variable de 
+type src_haskell{IO ()} ne *faisant rien*, comme l'indique le site web de 
+Haskell sur sa page d'accueil (rubrique *Purely functional*) :
+
+
+#+ATTR_HTML: :data-roe-kind quote
+#+ATTR_HTML: :data-where https://haskell.org
+#+BEGIN_roe
+Every function in Haskell is a function in the *mathematical* sense 
+(i.e., "pure"). Even side-effecting IO operations are but a *description*
+of what to do, produced by *pure* code. There are no statements or 
+instructions, only expressions which cannot mutate variables 
+(local or global) nor access state like time or random numbers.
+#+END_roe
+
+
+Cette explication met en lumière quelque chose d'assez important. En Haskell,
+on n'écrit pas de programme "qui fait quelque chose", on *écrit des*
+*descriptions de programmes*. En compilant un programme, on vérifie statiquement
+la cohérence des types, et ensuite on attache la description du programme au
+/runtime/ Haskell, et ce sera lui qui exécutera les effets. Cette approche 
+permet la *séparation systématique* entre la partie pure et
+la partie impure du programme, ce que l'on cherche à faire depuis le
+début de cet article et le fait de déléguer au /runtime/ ! Le programme
+devient donc facilement testable, et il délègue à une pièce logicielle
+éprouvée et correctement testée l'exécution d'effets.
+
+Plus formellement, l'ensemble des effets communs auquel on fait face quand
+on construit un logiciel est transformé en valeurs, ces valeurs correspondent
+à la description d'effets :
+
+- src_haskell{List a} pour le non-déterminisme ;
+- src_haskell{Maybe a} pour l'absence potentielle de valeur ; 
+- src_haskell{Either error a} pour l'équivalent des exceptions ;
+- src_haskell{IO a} pour les entrées sorties ;
+- et bien d'autres, il est même possible de construire ses propres effets.
+
+Et l'objectif du développeur est de réduire ces représentations jusqu'à un 
+src_haskell{IO ()} qui correspondra à la description finale du programme et
+qui sera interprétée par le /runtime/ Haskell. En complément de cette
+fragmentation systématique entre les fragments pures et impures du programme,
+Haskell permet de refléter dans la signature de type l'effet que produira une
+fonction. Pour y arriver, Haskell utilise son système de type, sans y apporter
+de modification, donc src_haskell{unit & io} s'écrirait, en Haskell 
+src_haskell{IO ()}, src_haskell{()} voulant dire src_haskell{unit} en Haskell.
+Et parallèlement, la fonction lisant l'entrée standard sera exprimé de cette
+manière src_haskell{getLine :: IO String}.
+
+Cette manière de transformer un calcul qui doit produire une valeur de type 
+src_haskell{a} en un src_haskell{T a} (qui sera ensuite interprété) utilise
+généralement deux types (parfois plus) de constructions : [[https://wiki.haskell.org/Monad][des monades]] ou 
+[[https://wiki.haskell.org/Applicative_functor][des foncteurs applicatifs]]. C'est une technique qui s'inspire de la
+[[https://en.wikipedia.org/wiki/Category_theory][théorie des catégories]] et qui peut très souvent être intimidante quand on
+débute en programmation fonctionnelle, spécifiquement avec le langage Haskell.
+Cependant, au delà de la cérémonie engendré par cette approche, elle peut 
+sembler idéale pour plusieurs raisons :
+
+- elle fait refléter dans le système de type, le type de l'effet produit par 
+  une fonction ;
+- elle ne permet de décrire que des fragments de programme pure, donc facilement
+  testables ;
+- la partie impure du programme, n'interprétant que la partie pure, étant 
+  éprouvée et testée ;
+
+Rien que pour ces bénéfices (et Haskell possède beaucoup d'autres atouts), 
+apprendre Haskell est, pédagogiquement, très intéressant. De plus, le langage
+dispose de beaucoup de /success-stories/ et de ressources.
+
+Cependant, même si nous semblions, au vue de mes propos, avoir trouvé, en
+Haskell, la panacée, on pourrait tout de même reprocher plusieurs chose
+à cette approche sans compléments. La première est que comme src_haskell{IO a}
+est ce vers quoi toute expression à effets doit être réduit. De ce fait,
+src_haskell{IO} n'est, au final, qu'un marqueur sur une fonction, on se contente
+de rendre compte que la fonction produira un effet (ou plusieurs) si elle 
+renvoie un src_haskell{IO}. Sémantiquement, on détient très peu d'informations
+sur quels effets seront produits par la fonction.
+
+Haskell propose plusieurs solutions, dont certaines qui miment l'API des
+effets algébriques dont je parlerai dans la section suivante. Ces solutions
+proposent chacunes des avantages différents.
+
+** Les effets algébriques et leurs gestionnaires
+
+Nous avons vu que Haskell, en ne permettant que d'écrire des descriptions de
+programmes, force le fait que chaque fonction soit pure. Par défaut, Haskell
+force la réduction en une expression de type src_haskell{IO ()} qui sera
+ensuite interprétée par le /runtime/ de Haskell. Les effets algébriques
+proposent une approche similaire, reposant sur de solides fondations
+issues de la théorie des catégories. Cependant, pour que l'article tâche de
+rester le plus digeste possible, je tâcherai de placer la focale sur leur
+utilisation !
+
+Concrètement, les effets algébriques munis de gestionnaires proposent de 
+découper un programme en trois parties distinctes : 
+
+- la description des effets possibles ;
+- la description du programme exécutant les effets ; 
+- un interpréteur capable d'effectuer une action concrète pour un effet donné
+  (le fameux gestionnaire).
+
+Il serait possible de faire une projection très naïve de cette approche en
+Java, au moyen d'exceptions. Premièrement, on déclare les effets d'un
+programme : 
+
+
+#+BEGIN_SRC java :data-roe-kind code :data-pellet Java :data-line-number true :data-file description des effets
+public interface MyEffects {} // Si seulement nous avions des familles
+                              // scellées !
+
+public class MyFirstEffect extends Exception implements MyEffects {
+  public MyFirstEffect(String message) {
+    super(message);
+  }
+}
+public class MySecondEffect extends Exception implements MyEffects {
+  public MySecondEffect(String message) {
+    super(message);
+  }
+}
+#+END_SRC
+
+Ensuite on décrit notre programme, et chaque fois qu'il doit exécuter un effet,
+il lance une exception :
+
+#+BEGIN_SRC java :data-roe-kind code :data-pellet Java :data-line-number true :data-line-start 14 :data-file description du programme
+public void myProgram(a: int) throws MyEffects {
+   if(a == 0) {
+     throw new MyFirstEffect("a first effect");
+   } else {
+     throw new MySecondEffect("a second effect");
+   }
+}
+#+END_SRC
+
+Et une fois que notre programme est décrit, on peut facilement en écrire son
+interpréteur, qui ici, ne consiste qu'en une succession de capture d'exceptions.
+
+#+BEGIN_SRC java :data-roe-kind code :data-pellet Java :data-line-number true :data-line-start 21 :data-file interprétation du programme
+public void main() {
+  try {
+    myProgram();
+  } catch(effect: MyFirstEffect) {
+    // Do something with my first effect
+  } catch(effect: MySecondEffect) {
+   // Do something with my second effect
+  }
+}
+#+END_SRC
+
+Ce programme à l'air de respecter les objectifs que nous avons posés car il
+reflète, dans sa signature, l'effet exécuté par le programme (au moyen de 
+src_java{throws}) et on interpréte, ici dans src_java{main} la description
+du programme, ce qui permettrait assez facilement de le tester unitairement.
+
+Malheureusement (et de manière assez prévisible), notre exemple fonctionne
+plus ou moins uniquement parce que l'exemple est incroyablement biaisé.
+L'expression src_java{throw new ...} interrompt la fonction et remonte
+jusqu'a un gestionnaire qui prend en charge l'exception émise par l'appel de 
+src_java{throw}. De ce fait, nous ne pouvons pas utiliser les exceptions
+pour exprimer l'exécution d'effets séquentiels, de cette manière :
+
+
+#+BEGIN_SRC java :data-roe-kind code :data-pellet Java :data-line-number true
+public void myProgram(a: int) throws MyEffects {
+  throw new MyFirstEffect("a first effect");
+  throw new MySecondEffect("a second effect");
+}
+#+END_SRC
+
+Dans cet exemple, l'exécution du second effet n'aura jamais lieu, parce que
+la capture de l'effet ne permet jamais de revenir à l'endroit où l'effet a
+été exécuté. Cela s'explique parce que la primitive src_java{throw} ne 
+*capture pas la continuation qui représente la suite du calcul*.
+Rassurez-vous, les effets algébriques, eux, le font ! Sans plus attendre,
+je vous propose de passer à un exemple assez explicite.
+
+*** Un petit programme à effets
+
+Prenons un premier programme, assez simple à implémenter, mais autrement
+plus compliqué à rendre pur : 
+
+#+BEGIN_SRC kotlin :data-roe-kind code :data-pellet Kotlin :data-line-number true
+fun sayHello() {
+  println("What is your name?")
+  val name = readLine()!!
+  println("Hello $name")
+}
+
+fun main() {
+  sayHello()
+}
+#+END_SRC
+
+Le programme se contente de demander à l'utilisateur de saisir son nom et
+ensuite affiche un message de bienvenue !
+
+Pour tâcher de transformer ce programme en une description que nous 
+interpréterons dans le src_kotlin{main()} nous pourrions tenter de le
+transformer en une liste d'actions (qui décrirons nos effets). Par exemple :
+
+
+#+BEGIN_SRC kotlin :data-roe-kind code :data-pellet Kotlin :data-line-number true
+sealed class Effect
+data class Print(val message: String) : Effect()
+data class Ask() : Effect()
+#+END_SRC
+
+Ensuite, nous pouvons décrire notre programme au moyen d'une liste :
+
+#+BEGIN_SRC kotlin :data-roe-kind code :data-pellet Kotlin :data-line-number true :data-line-start 4
+val program : List<Effect> = listOf(
+   Print("What is your name")
+,  Ask()
+,  Print("Hello you")
+)
+#+END_SRC
+
+Et il ne nous reste plus qu'a interpréter notre programme : 
+
+#+BEGIN_SRC kotlin :data-roe-kind code :data-pellet Kotlin :data-line-number true :data-line-start 9
+fun run(e: Effect) {
+  when (e) {
+    is Print -> println(e.message)
+    is Ask   -> {
+       val name = readLine()!!
+       println(name)
+    } 
+  }
+}
+
+fun List<Effect>.run() = forEach { run(it) }
+#+END_SRC
+
+Même si notre programme semble à peu près correct, il diffère tout de même
+du programme présenté en exemple. Comme chaque état à effet est interprété
+de manière indépendante, je ne peux pas transmettre le résultat de 
+src_kotlin{Ask()} à src_kotlin{Print(x)}.
+
+Il existe plusieurs manières de transformer ces séquences d'instructions
+en une séquence chainée. Les deux plus populaires, dans le monde de la
+programmation fonctionnelle sont *les monades libres* et les 
+*transformations de monades*. Les deux approches proposent des avantages et
+des inconvénients. Heureusement, il existe une approche qui, selon moi,
+à le mérite d'être claire et facile à appréhender : *les effets algébriques*
+et leurs *gestionnaires*.
+
+** A la découverte de Koka
+
+Pour nous initier aux effets algébriques, nous allons utiliser un langage
+expérimental développé dans les laboratoires de *Microsoft* qui s'appelle 
+[[https://koka-lang.github.io/koka/doc/kokaspec.html][Koka]] et qui a été développé pour expérimenter l'utilisation des effets
+algébriques (/Koka/ est le mot Japonais pour *effet*). 
+Le langage propose une syntaxe proche de celle de JavaScript
+et offre un support /first-class/ des effets algébriques, il peut compiler
+vers du JavaScript, offre un système de type avec de l'inférence et, 
+à mon sens, est un excellent candidat pour s'initier aux effets algébriques 
+par la pratique !
+
+Comme nous l'avions dit à mainte reprises, une des premières étapes pour
+la gestion efficace (du point de vue utilisateur) des effets est d'évincer
+les effets de bords. Koka propose de fournir trois informations sur une
+fonction : 
+
+- son type d'entrée ;
+- son type de retour ; 
+- l'ensemble des effets que produit la fonction. 
+
+Par exemple, la fonction src_koka{hello(name)}, implémentée de la sorte :
+
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet Koka :data-line-number true
+fun hello(name) {
+  println("Hello " + name + "!")
+}
+#+END_SRC
+
+Aura le type src_ocaml{(name: string) -> console ()}. Ici src_ocaml{console ()}
+indique que la fonction ne renvoie rien (src_ocaml{()}) mais qu'elle produit
+l'effet src_ocaml{console} (un effet capable d'interagir avec la console).
+
+La fonction src_ocaml{hello} est exécutable par Koka car la bibliothèque
+standard du langage offre un gestionnaire pour l'effet src_ocaml{console}.
+Quand on tente d'exécuter une fonction qui exécute des effets, le compilateur
+va d'abord vérifier (à la compilation) s'il existe un gestionnaire pour l'effet
+que l'on essaie d'exécuter. Si aucun gestionnaire n'est trouvé, le programme
+ne compilera pas. Si par contre il existe un gestionnaire, Koka s'en servira
+pour exécuter un programme. Ne vous en faites pas, nous allons tout de suite
+montrer un exemple.
+
+*** Notre premier effet
+
+Un premier effet assez simple à modeliser est l'effet qui dit d'afficher un
+message. Koka offre une construction pour modeliser un ensemble d'effets
+attaché à un même type. On peut voir cette construction comme une interface.
+Par exemple : 
+
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet Koka :data-line-number true
+effect mumble {
+  fun grumble(message: string) : ()
+}
+#+END_SRC
+
+On déclare un effet *grumble(message)* qui propagera le type *mumble*. Je peux
+maintenant utiliser la fonction src_ocaml{grumble} dans une fonction, qui 
+deviendra alors la description d'un programme :
+
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet Koka :data-line-number true :data-line-start 4
+fun mumbling() : mumble () {
+  // A noter que la spécification du type est assez 
+  // inutile, Koka est capable d'inférer le type de la fonction
+  grumble("Hello World!")
+}
+#+END_SRC
+
+Notre fonction à le type src_ocaml{() -> mumble ()}, soit qu'elle ne prend
+aucun argument, ne renvoie aucune valeur mais son exécution propagera l'effet
+src_ocaml{mumble}. Que se passe-t-il si j'essaie d'exécuter cette fonction ?
+
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet Koka
+(1, 0): error: there are unhandled effects for the main expression
+  inferred effect: test/mumble
+  hint           : wrap the main function in a handler
+#+END_SRC
+
+La fonction n'est pas exécutable car Koka ne sait pas comment interpréter notre
+effet src_ocaml{grumble}. Il faut donc lui fournir un gestionnaire.
+
+*** Notre premier gestionnaire
+
+Maintenant que nous avons déclaré notre premier effet, nous allons 
+l'interpréter ! Pour ça, Koka offre une construction syntaxique : 
+src_ocaml{my_handler_for_mumble{mumbling()}}
+
+Pour laquelle il faudra fournir une valeur pour 
+src_ocaml{my_handler_for_mumble}. L'inteprétation d'un effet est assez simple,
+il suffit de traiter les branches possibles de l'effet. Ici, c'est assez simple,
+nous n'en avons qu'une seule : 
+
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet Koka :data-line-number true :data-line-start 9
+val mumble_handler = handler {
+  grumble(message) -> println(message)
+}
+
+// On peut maintenant exécuter notre programme à effet !
+mumble_handler{ mumbling() }
+// Affichera sur la sortie standard "Hello World!"
+#+END_SRC
+
+Concrètement, on défini une variable qui va, pour chaque effet possible, 
+proposer *une réaction à l'émission d'un effet*. L'application de notre
+gestionnaire n'est pas pure, par contre, la description de notre programme
+l'est entièrement. Par contre, si dans mon gestionnaire, j'avais propagé un
+effet n'ayant pas de gestionnaire, j'aurais dû fournir un gestionnaire à
+mon gestionnaire ! Un peu à la manière de Haskell, utilisé /normalement/, 
+l'écriture d'un gestionnaire implique de *réduire un effet jusqu'a arriver*
+*à un effet attaché à un gestionnaire*.
+
+Essayons de voir si notre propagation/gestion d'effets est superieur à ce
+que l'on avait écrit à base d'exceptions en émettant, dans notre fonction, 
+deux fois l'effet src_ocaml{grumble} :
+
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet Koka :data-line-number true
+effect mumble {
+  fun grumble(message: string) : ()
+}
+
+fun mumbling() : mumble () {
+  grumble("Hello World!")
+  grumble("Good bye World!")
+}
+
+val mumble_handler = handler {
+  grumble(message) -> println(message)
+}
+
+fun main() {
+   mumble_handler{ mumbling() }
+}
+
+#+END_SRC
+
+Ici, le résultat attendu serait que d'abord, le programme afficher 
+src_ocaml{"Hello World!"} et qu'ensuite, il affiche à la ligne
+src_ocaml{"Good bye World!"}... malheureusement, ce n'est pas le cas, 
+l'inteprétation de src_ocaml{mumbling()} se contente de n'afficher que 
+src_ocaml{"Hello World!"}.
+
+Concrètement, ce qu'il se passe ici, c'est qu'on gère l'effet, et on
+arrête le programme. Vu comme ça, les effets algébrique semblent assez
+proche des exceptions. Heureusement, adjoint à la gestion des effets via
+les gestionnaires, les effets algébriques propose une fonctionnalité
+complémentaire : *la capture de la continuation*. En Koka, dans chaque
+branche de la gestion d'un effet dans un gestionnaire, il existe une fonction
+/ad-hoc/ qui offre la possibilité de *reprendre* l'interprétation du programme.
+Par exemple :
+
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet Koka :data-line-number true :data-hl 13 :data-line-start 10
+val mumble_handler = handler {
+  grumble(message) -> {
+     println(message)
+     resume(())
+  }
+}
+#+END_SRC
+
+Ce qui nous amène à une définition des effets algébriques relativement
+accessibles, ce sont *des exceptions /resumables/*. Concrètement, quand on
+inteprète la description d'un programme au moyen d'un gestionnaire, ce
+gestionnaire peut continuer l'interprétation du calcul, ou l'interrompre.
+
+Reprenons notre exemple initial, le programme qui demande le nom et qui
+affiche ensuite src_ocaml{"Hello $nom"} et essayons de l'implémenter avec
+les effets algébriques de Koka. Premièrement, on défini les effets du
+programme :
+
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet Koka :data-line-number true
+effect interaction {
+  fun show(message: string) : ()
+  fun ask(message: string) : string
+}
+#+END_SRC
+
+Maintenant, la description du programme devient assez facile à écrire :
+
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet Koka :data-line-number true :data-line-start 5
+fun program() : interaction () {
+  val name = ask("What's your name? ")
+  show("Hello " + name)
+}
+#+END_SRC
+
+Et il ne nous reste plus qu'a écrire un interpréteur !
+
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet Koka :data-line-number true :data-line-start 9
+val hello_handler = handler {
+  ask(message) -> {
+    val name = question(message)
+    resume(name)
+  }
+  show(message) -> {
+    println(message)
+    resume(())
+  }
+}
+#+END_SRC
+
+Concrètement : 
+
+- si le programme propage un src_ocaml{show}, on affiche le message transporté
+  par l'exécution de l'effet src_ocaml{show} et on *continue le programme*
+  en lui donnant src_ocaml{unit} ;
+
+- si le programme propage un src_ocaml{ask}, on utilise la primitive 
+  src_ocaml{question} (qui existe dans la bibliothèque standard de Koka) 
+  et on *continue le programme* en lui passant le résultat de la lecture !
+
+
+Attention, si par mégarde, j'avais oublié de gérer un des cas, le compilateur
+aurait *refusé de compiler* mon programme, par exemple, cet intepréteur : 
+
+
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet Koka
+val hello_handler = handler {
+  ask(message) -> {
+    val name = question(message)
+    resume(name)
+  }
+}
+
+// Aurait généré cette erreur :
+test.kk(13,21): error: operator show is not handled
+#+END_SRC
+
+Il ne reste plus qu'a interpréter notre programme !
+
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet Koka :data-line-number true :data-line-start 19
+fun main() {
+  hello_handler{ program() }
+}
+#+END_SRC
+
+Nous avons exactement ce que nous désirions au début de l'article : 
+
+- la séparation du programme entre sa partie pure et sa partie impure est
+  explicite. Les déclarations de programmes sont pures et les gestionnaires
+  de programmes sont impurs ;
+
+- les effets propagés par nos descriptions de programmes sont reflètés dans
+  la signature de type de nos descriptions ;
+
+- un gestionnaire doit gérer tous les effets que la description de programme
+  peu propager.
+
+
+*** Tester un programme
+
+Comme notre programme n'est plus qu'un description, on peut donc très facilement
+le tester. En effet, il suffit de lui implémenter un interpréteur de test !
+Par exemple, une manière /naïve/ de tester ce programme serait simplement
+de lui demander de stocker toutes les étapes dans une chaine de caractères
+(il existe des manières autrement plus pertinentes, mais le but de l'exemple
+n'est pas de trop alourdir le code).
+
+Comme la mutation de données est aussi un calcul à effet, je vous propose de
+commencer par implémenter un effet src_ocaml{State} pour manipuler un état
+mutable :
+
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet Koka :data-line-number true
+effect state<s> {
+  fun get()    : s
+  fun set(i:s) : ()
+}
+#+END_SRC
+
+src_ocaml{state<s>} est un état mutable, il est paramétré par le type qu'il
+va stocker. Dans notre cas, ce sera un chaine de caractères. Maintenant que
+nous avons les briques pour faire des mutations, nous allons construire un
+intérpréteur pour notre programme original :
+
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet Koka :data-line-number true :data-line-start 5
+val test_handler = handler {
+  ask(_) -> {
+    val accumulator = get()
+    set(accumulator + ";Xavier")
+    resume("Xavier")
+  }
+  show(message) -> {
+    val accumulator = get()
+    set(accumulator + ";" + message)
+    resume(())
+  }
+}
+#+END_SRC
+
+Concrètement, cet interpréteur va /hooker/ l'effet src_ocaml{ask} pour toujours
+renvoyer src_ocaml{"Xavier"}, et il va le concaténer à notre état courant.
+Le gestionnaire pour src_ocaml{show}, lui, va simplement concaténer le message
+à notre état courant. Notre gestionnaire aura donc le type 
+src_ocaml{ (() -> <interaction, state<string>> ()) -> state<string> ()}. Soit
+que le gestionnaire s'applique à une fonction qui ne renvoie rien mais peut
+exécuter des effets de type src_ocaml{interaction} et src_ocaml{state<string>}.
+Et que ce gestionnaire, une fois appliqué, ne renvoie rien mais peut exécuter
+l'effet src_ocaml{state<string>}. Il faudra donc l'éliminer via un gestionnaire
+destiné à implémenter notre état mutable.
+
+(cet interpréteur donne un exemple de la manière dont Koka compose des
+programmes qui émettent plusieurs types d'effets, une fonction peut donc
+exécuter plusieurs types d'effets, il suffit juste de donner plusieurs
+interpréteurs pour éliminer les effets non-gérés.)
+
+On peut donc implémenter un petit interpréteur dont le rôle sera uniquement
+de maintenir un état mutable : 
+
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet Koka :data-line-number true :data-line-start 17
+val state_handler = handler(state) {
+  return x -> state + ";end"
+  get()  -> resume(state, state)
+  set(j) -> resume((), j)
+}
+#+END_SRC
+
+La branche src_ocaml{return x} applique une dernière transformation une fois
+que le programme est terminé. Ici, on lui demande simplement de renvoyer
+l'état final, auquel on concatène la chaine src_ocaml{";end"}. Maintenant que
+c'est fait, il suffit d'appliquer nos deux interpréteurs à notre programme
+(qui n'a pas changé) et de calculer son résultat final : 
+
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet Koka :data-line-number true :data-line-start 22
+fun test() {
+  val result = state_handler("start"){
+    test_handler{ 
+       program() 
+    }
+  }
+  assert(
+    "String should be equals", 
+    result == "start;Xavier;Hello Xavier;end")
+         // Au final, voici à quoi devrait ressembler notre
+         // résultat accumulé
+}
+#+END_SRC
+
+Comme notre programme est une fonction pure, il est assez simple de la tester
+unitairement. C'est une des grande force des effets algébriques, ils 
+séparent systématiquement la partie pure de la partie impure d'un programme !
+
+** Notes complémentaires sur le contrôle du flot du programme
+
+Nous avons, au moyen des effets algébriques, une manière systématique de
+séparer un programme en une description (une fonction qui propage des
+effets) et son interpréteur (un gestionnaire). Nous pouvons donc facilement
+tester nos fonctions impures en les transformant  "/simplement/" en fonctions
+pures ! Cependant, la force des effets algébriques ne résides pas uniquement
+dans cette séparation et dans le reflet dans le système de types des effets
+propagés par une fonction. Le fait de pouvoir contrôler le flot du programme
+offre aussi beaucoup de possibilités. Notamment le fait de pouvoir modifier 
+la sémantique opérationnelle du programme. Imaginons ce scénario :
+
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet Koka :data-line-number true :data-hl 7
+val hello_handler_reversed = handler {
+  ask(message) -> {
+    val name = question(message)
+    resume(name)
+  }
+  show(message) -> {
+    resume(())
+    println(message)
+  }
+}
+
+fun program() {
+  show("Hello World")
+  val x = ask("What is your name?")
+  show("Hello " + x)
+}
+#+END_SRC
+
+On demande d'exécuter la continuation capturée avant d'exécuter la gestion
+de l'effet. Ça a pour effet d'inverser le flot du programme.
+
+#+BEGIN_SRC bash :data-roe-kind code
+What is your name? <input>
+Hello <input>
+Hello World
+#+END_SRC
+
+De même que l'interprétation concrète d'un programme vise à fournir, pour 
+chaque effet propagé, un interpréteur, il est possible de choisir dans quel
+ordre on veut appliquer des interpréteurs. De ce fait, pour une fonction de
+type src_kotlin{() -> <effectA, effectB> a}, il serait possible :
+
+- d'appliquer src_koka{handler_for_a}{src_koka{handler_for_b}{program}} ;
+- ou appliquer src_koka{handler_for_b}{src_koka{handler_for_a}{program}}.
+
+Cette grande liberté sur la manière et l'ordre d'interprétation permet, par
+exemple, d'enrichir un programme.
+
+*** Enrichissement de programmes
+
+Dans [[./introduction_aux_monades.html][l'article sur les monades]], nous avions évoqué que l'un des bienfaits
+de leur utilisation était la séparation systématique entre l'algorithme
+et son outillage. Soit, une séparation entre l'algorithme et la plomberie
+nécéssaire à l'utilisation de cet algorithme. Les effets algébriques et 
+leurs gestionnaires proposent une manière encore plus explicite de greffer
+des fonctionnalités à un programme. Par exemple, imaginons ce programme
+naïf : 
+
+
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet Koka :data-line-number true
+effect user_database {
+  fun create_user(username: string) : ()
+  fun update_user(old_username: string, new_username: string) : ()
+  fun drop_user(username: string) : ()
+}
+
+fun program() {
+  create_user("xavier")
+  update_user("xavier", "xvw")
+  drop_user("xvw")
+}
+#+END_SRC
+
+Le type de src_ocaml{program()} est : src_ocaml{() -> user_database ()}, je
+peux très facilement fournir un gestionnaire dont le rôle sera de /logger/
+chaque action effectuée. Utiliser un gestionnaire permet d'éviter de changer
+le programme original, tout en lui greffant des fonctionnalités :
+
+#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet Koka :data-line-number true :data-line-start 12
+val logger_user_handler = handler {
+  create_user(username) -> {
+    println("LOG: create_user [" + username + "]")
+    create_user(username)
+    resume(())
+  }
+  update_user(old, new) -> {
+    println("LOG: update_user [" + old + "] by ["+ new +"]")
+    update_user(old, new)
+    resume(())
+  }
+  drop_user(username) -> {
+    println("LOG: drop_user [" + username + "]")
+    drop_user(username)
+    resume(())
+  }
+}
+#+END_SRC
+
+Comme ce gestionnaire re-propage les effets qu'il capture, on ne devra pas 
+modifier le code du gestionnaire qui s'occupe de réellement gerer 
+nos utilisateurs. Cette approche est très proche d'une *Monade Writer*. 
+En utilisant cette approche, nos description de programmes peuvent 
+se *contenter d'exprimer ce qu'ils font* et les gestionnaires 
+*ajoutent des capacités suplémentaires* pour l'exécution du programme.
+
+*** Une base pour des constructions plus complexes
+
+Un peu à l'instar des fonctions d'ordre superieur, qui permettent de modeliser
+des encodages, par exemple src_javascript{for const x of [1, 2, 3] { f(x) }} 
+qui pourrait être exprimer comme src_javascript{[1, 2, 3].forEach(f)} et donc
+réduire la taille de la grammaire du langage, les effets algébriques (et leurs
+gestionnaires) permettent d'exprimer des constructions complexes, qu'il serait
+difficile d'exprimer sans et que l'on considère généralement comme des éléments
+du langage. Par exemple : 
+
+- des lancements (l'exécution d'un effet) et des captures (un gestionnaire) 
+  d'exceptions ;
+- l'expression de programmes asynchrones que l'on pourrait synchroniser
+  src_javascript{async/await} ;
+- des boucles qui profitent d'effets ;
+- de la concurrence ;
+- etc.
+
+L'intégration d'effets algébriques et de gestionnaires permet donc, moyennant
+le coup d'ajout dans un langage, la réduction d'encodages initiaux pour
+d'autres expressions communes dans le langages de programmations classiques.
+Ces constructions complémentaires pourrait donc appartenir, pourquoi pas, 
+à des bibliothèques tierces.
+
+Dans le cadre de la construction d'un /runtime/ multi-cœur pour le langage 
+OCaml, l'intégration d'effets algébriques fait partie de la feuille de route
+pour pouvoir correctement modèliser l'expression de programmes concurrents
+dans un /runtime/ multi-cœur.
+
+** Et qu'est-ce qu'il y a d'algébrique là-dedans ?
+
+Très souvent, les objets que l'on manipule en programmation fonctionnelle
+sont construits sur la base d'une théorie solide. Parfois, il s'agit
+d'une application pratique d'un objet de la théorie des catégories. Les
+effets algébriques ont été exprimé, initialement, en terme de relation
+avec des catégories. (Ce qui est assez logique car la théorie des catégories
+à été initialement utilisée en extension au λ-calcul pour exprimer les
+effets. Cette utilisation à donné, approximativement, naissance aux monades
+en programmation fonctionnelle).
+
+La définition des opérations (nos exemples src_ocaml{Ask} et 
+src_ocaml{Show}) produisant des effets, via, en Koka, la construction 
+src_ocaml{effect} décrit *un algèbre libre* et les gestionnaires 
+décrivent des src_ocaml{fold} sur l'algèbre des opérations. Il faut prendre
+le terme "algébrique", dans "effets algébriques" comme le fait que les
+opérations qui décrivent des effets sont définies par des *règles*
+*équationnelles*, de la même manière que l'on décrirait les lois de
+compositions pour des structures algébriques.
+
+Si jamais une explication plus détaillée et intelligente vous intéresse,
+le papier "[[https://arxiv.org/pdf/1807.05923.pdf][What is algebraic about algebraic effects and handler]]" de Andrej
+Bauer est incroyablement détaillé (et progressif) sur le "pourquoi algèbrique),
+je vous invite donc à le lire !
+
+** Des effets algébriques PARTOUT 
+
+Dans les rubriques précédentes, nous avons détaillés quelques cas d'usages
+aux effets algébriques et à leurs gestionnaires. Si vous êtes aussi
+emballé que moi, c'est normal, les effets algébriques, c'est trop cool !
+Donc qu'attendons-nous pour n'utiliser plus que des langages qui supportent
+les effets algébriques ?
+
+Actuellement, il n'existe pas de langage /production-ready/ qui offre le
+support des effets algébriques /built-in/. Cela s'explique, entre autre,
+par la difficulté de compiler efficacement des continuations délimitées, 
+ce qui permet d'exprimer la primitive src_ocaml{resume} de Koka. Par contre,
+plusieurs équipes de recherches sont assez impliquées dans ce domaine, donc
+il existe plusieurs expériences intéressantes, en plus de Koka, qui valent 
+le coup d'oeil (selon moi), en voici quelques unes :
+
+- *[[https://www.eff-lang.org/][Eff]]* est un langage à la syntaxe proche de OCaml qui propose des effets
+  algébriques et des gestionnaires. Il est très proche de la théorie car
+  deux de ses auteurs principaux sont très actifs dans les publications 
+  relatives aux effets algébriques ;
+
+- *[[https://links-lang.org/][Links]]* est un langage pour le développement web (qui offre beaucoup de
+  fonctionnalités à la pointe de la recherche) et qui propose des effets
+  algébriques et des gestionnaires pour le développement web (où les 
+  continuations peuvent être très utiles) ;
+
+- *[[https://github.com/ocaml-multicore/ocaml-multicore/wiki][OCaml multicore]]* est l'implémentation d'un /runtime/ multi-cœur pour OCaml,
+  auquel ils veulent liés des effets algébriques et des gestionnaires pour
+  modèliser des programmes concurrents ;
+
+- *[[https://github.com/frank-lang/frank][Frank]]* propose une alternative aux gestionnaires d'effets tel qu'on l'a
+  entendu dans cet article. Cependant, il n'existe que des embryons de
+  prototypes.
+
+Certains langages proposent la gestion des effets au moyen de monades avec
+une interface agréable à utiliser, on pourrait citer, entre autres, 
+[[https://www.fstar-lang.org/#introduction][FStar]] et [[https://www.idris-lang.org/][Idris]]. Il semble que les effets algébriques sont assez confidentiels.
+
+Heureusement, dans le monde des langages /mainstream/, comme Haskell, on 
+trouve de bibliothèques très convaincantes, comme par exemple :
+
+- [[https://hackage.haskell.org/package/fused-effects][Fused-effect]] développé par une équipe de chez Github pour le développement
+  de [[https://github.com/github/semantic][Semantic]] ;
+- [[https://hackage.haskell.org/package/polysemy][Polysemy]] qui est très prometteur, et qui est utilisé chez Decathlon (oui 
+  oui, ils font aussi du Haskell) et qui m'a été chaudement recommandé par
+  [[https://sir4ur0n.github.io/][Julien Debon]] et qui en parle sur son blog !
+
+Cette dernière approche semble celle à explorer en vue de faire de la
+production, attendant impatiemment l'intgération des effets algébriques
+comme des citoyens de premier ordre, dans nos langages favoris !
+
+** Pour conclure
+
+Les effets algébriques et leurs gestionnaires sont une approche de séparer
+systématiquement la description d'un programme et son interprétation. Cette
+séparation permet de tester facilement ces descriptions de programmes, en
+ne fournissant qu'un gestionnaire spécifique au contexte des tests.
+
+Cette séparation offre des avantages assez, à mon sens, impressionnants : 
+- on fait refléter, dans la signature de type, les effets propagés par un 
+  programme, *ce qui élimine les effets de bords* ; 
+- on donne à l'interpréteur du programme un *grand contrôle sur le flot du*
+  *programme* ;
+- il devient possible d'encoder une zoologie de constructions complexes (comme
+  par exemple des exceptions ou des programmes concurrents). Et donc *réduire*
+  *les constructions internes du langages*.
+
+Le mot de la fin serait, si un programme est difficile à tester unitairement,
+parce qu'il exécute une collection d'effets... il suffit de transformer
+les fonctions impures en fonctions pures, soit de fournir une description de
+programme qui sera interprétée.
+
+Même si les effets algébriques ne sont pas encore standards dans les langages
+de programmation /mainstream/ (comme Haskell ou OCaml), il est tout de même
+possible d'utiliser "leur interface" au moyen, par exemple, de *Monades libres*,
+et même si dans d'autres langages (encore plus /mainstream/) ce genre de
+pratique n'est pas habituel, je vous assure qu'elle facilite grandement
+l'expérience développeur et qu'elle permet de rendre les programmes plus
+facile à raisonner, à déboguer, et à tester unitairement ! Donc n'hésitez pas
+à aller voir du côté de [[https://arrow-kt.io/][Arrow]], pour Kotlin, pour observer la manière dont
+ils utilises les coroutines pour modèliser des effets ! N'hésitez pas à jouer
+avec des prototypes comme Koka, ou Eff pour vous familiariser avec cette
+manière de programmer, je vous assure qu'elle est inspirante !
+
+J'espère que cet article (assez naïf) vous aura transmis l'envie de vous
+intéresser aux effets algébriques et d'en espérer leur avènement. Je vous
+souhaites à tous d'agréables expériences en développement et j'espère
+que l'objectif de cette présentation a été correctement transmise, soit,
+séparez au maximum la description de l'interprétation et abusez des fonctions
+pures, elles sont plus facile à tester !
+  

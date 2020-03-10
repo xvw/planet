@@ -1096,11 +1096,155 @@ val logger_user_handler = handler {
 }
 #+END_SRC
 
-Comme ce gestionnaire réémet les effets qu'il capture, on ne devra pas modifier
-le code du gestionnaire qui s'occupe de réellement. Cette approche est très
-proche d'une *Monade Writer*. En utilisant cette approche, nos description 
-de programmes peuvent se *contenter d'exprimer ce qu'ils font* et les 
-gestionnaires *ajoutent des capacités suplémentaires* pour l'exécution 
-du programme.
+Comme ce gestionnaire re-propage les effets qu'il capture, on ne devra pas 
+modifier le code du gestionnaire qui s'occupe de réellement gerer 
+nos utilisateurs. Cette approche est très proche d'une *Monade Writer*. 
+En utilisant cette approche, nos description de programmes peuvent 
+se *contenter d'exprimer ce qu'ils font* et les gestionnaires 
+*ajoutent des capacités suplémentaires* pour l'exécution du programme.
+
+*** Une base pour des constructions plus complexes
+
+Un peu à l'instar des fonctions d'ordre superieur, qui permettent de modeliser
+des encodages, par exemple src_javascript{for const x of [1, 2, 3] { f(x) }} 
+qui pourrait être exprimer comme src_javascript{[1, 2, 3].forEach(f)} et donc
+réduire la taille de la grammaire du langage, les effets algébriques (et leurs
+gestionnaires) permettent d'exprimer des constructions complexes, qu'il serait
+difficile d'exprimer sans et que l'on considère généralement comme des éléments
+du langage. Par exemple : 
+
+- des lancements (l'exécution d'un effet) et des captures (un gestionnaire) 
+  d'exceptions ;
+- l'expression de programmes asynchrones que l'on pourrait synchroniser
+  src_javascript{async/await} ;
+- des boucles qui profitent d'effets ;
+- de la concurrence ;
+- etc.
+
+L'intégration d'effets algébriques et de gestionnaires permet donc, moyennant
+le coup d'ajout dans un langage, la réduction d'encodages initiaux pour
+d'autres expressions communes dans le langages de programmations classiques.
+Ces constructions complémentaires pourrait donc appartenir, pourquoi pas, 
+à des bibliothèques tierces.
+
+Dans le cadre de la construction d'un /runtime/ multi-cœur pour le langage 
+OCaml, l'intégration d'effets algébriques fait partie de la feuille de route
+pour pouvoir correctement modèliser l'expression de programmes concurrents
+dans un /runtime/ multi-cœur.
 
 ** Et qu'est-ce qu'il y a d'algébrique là-dedans ?
+
+Très souvent, les objets que l'on manipule en programmation fonctionnelle
+sont construits sur la base d'une théorie solide. Parfois, il s'agit
+d'une application pratique d'un objet de la théorie des catégories. Les
+effets algébriques ont été exprimé, initialement, en terme de relation
+avec des catégories. (Ce qui est assez logique car la théorie des catégories
+à été initialement utilisée en extension au λ-calcul pour exprimer les
+effets. Cette utilisation à donné, approximativement, naissance aux monades
+en programmation fonctionnelle).
+
+La définition des opérations (nos exemples src_ocaml{Ask} et 
+src_ocaml{Show}) produisant des effets, via, en Koka, la construction 
+src_ocaml{effect} décrit *un algèbre libre* et les gestionnaires 
+décrivent des src_ocaml{fold} sur l'algèbre des opérations. Il faut prendre
+le terme "algébrique", dans "effets algébriques" comme le fait que les
+opérations qui décrivent des effets sont définies par des *règles*
+*équationnelles*, de la même manière que l'on décrirait les lois de
+compositions pour des structures algébriques.
+
+Si jamais une explication plus détaillée et intelligente vous intéresse,
+le papier "[[https://arxiv.org/pdf/1807.05923.pdf][What is algebraic about algebraic effects and handler]]" de Andrej
+Bauer est incroyablement détaillé (et progressif) sur le "pourquoi algèbrique),
+je vous invite donc à le lire !
+
+** Des effets algébriques PARTOUT 
+
+Dans les rubriques précédentes, nous avons détaillés quelques cas d'usages
+aux effets algébriques et à leurs gestionnaires. Si vous êtes aussi
+emballé que moi, c'est normal, les effets algébriques, c'est trop cool !
+Donc qu'attendons-nous pour n'utiliser plus que des langages qui supportent
+les effets algébriques ?
+
+Actuellement, il n'existe pas de langage /production-ready/ qui offre le
+support des effets algébriques /built-in/. Cela s'explique, entre autre,
+par la difficulté de compiler efficacement des continuations délimitées, 
+ce qui permet d'exprimer la primitive src_ocaml{resume} de Koka. Par contre,
+plusieurs équipes de recherches sont assez impliquées dans ce domaine, donc
+il existe plusieurs expériences intéressantes, en plus de Koka, qui valent 
+le coup d'oeil (selon moi), en voici quelques unes :
+
+- *[[https://www.eff-lang.org/][Eff]]* est un langage à la syntaxe proche de OCaml qui propose des effets
+  algébriques et des gestionnaires. Il est très proche de la théorie car
+  deux de ses auteurs principaux sont très actifs dans les publications 
+  relatives aux effets algébriques ;
+
+- *[[https://links-lang.org/][Links]]* est un langage pour le développement web (qui offre beaucoup de
+  fonctionnalités à la pointe de la recherche) et qui propose des effets
+  algébriques et des gestionnaires pour le développement web (où les 
+  continuations peuvent être très utiles) ;
+
+- *[[https://github.com/ocaml-multicore/ocaml-multicore/wiki][OCaml multicore]]* est l'implémentation d'un /runtime/ multi-cœur pour OCaml,
+  auquel ils veulent liés des effets algébriques et des gestionnaires pour
+  modèliser des programmes concurrents ;
+
+- *[[https://github.com/frank-lang/frank][Frank]]* propose une alternative aux gestionnaires d'effets tel qu'on l'a
+  entendu dans cet article. Cependant, il n'existe que des embryons de
+  prototypes.
+
+Certains langages proposent la gestion des effets au moyen de monades avec
+une interface agréable à utiliser, on pourrait citer, entre autres, 
+[[https://www.fstar-lang.org/#introduction][FStar]] et [[https://www.idris-lang.org/][Idris]]. Il semble que les effets algébriques sont assez confidentiels.
+
+Heureusement, dans le monde des langages /mainstream/, comme Haskell, on 
+trouve de bibliothèques très convaincantes, comme par exemple :
+
+- [[https://hackage.haskell.org/package/fused-effects][Fused-effect]] développé par une équipe de chez Github pour le développement
+  de [[https://github.com/github/semantic][Semantic]] ;
+- [[https://hackage.haskell.org/package/polysemy][Polysemy]] qui est très prometteur, et qui est utilisé chez Decathlon (oui 
+  oui, ils font aussi du Haskell) et qui m'a été chaudement recommandé par
+  [[https://sir4ur0n.github.io/][Julien Debon]] et qui en parle sur son blog !
+
+Cette dernière approche semble celle à explorer en vue de faire de la
+production, attendant impatiemment l'intgération des effets algébriques
+comme des citoyens de premier ordre, dans nos langages favoris !
+
+** Pour conclure
+
+Les effets algébriques et leurs gestionnaires sont une approche de séparer
+systématiquement la description d'un programme et son interprétation. Cette
+séparation permet de tester facilement ces descriptions de programmes, en
+ne fournissant qu'un gestionnaire spécifique au contexte des tests.
+
+Cette séparation offre des avantages assez, à mon sens, impressionnants : 
+- on fait refléter, dans la signature de type, les effets propagés par un 
+  programme, *ce qui élimine les effets de bords* ; 
+- on donne à l'interpréteur du programme un *grand contrôle sur le flot du*
+  *programme* ;
+- il devient possible d'encoder une zoologie de constructions complexes (comme
+  par exemple des exceptions ou des programmes concurrents). Et donc *réduire*
+  *les constructions internes du langages*.
+
+Le mot de la fin serait, si un programme est difficile à tester unitairement,
+parce qu'il exécute une collection d'effets... il suffit de transformer
+les fonctions impures en fonctions pures, soit de fournir une description de
+programme qui sera interprétée.
+
+Même si les effets algébriques ne sont pas encore standards dans les langages
+de programmation /mainstream/ (comme Haskell ou OCaml), il est tout de même
+possible d'utiliser "leur interface" au moyen, par exemple, de *Monades libres*,
+et même si dans d'autres langages (encore plus /mainstream/) ce genre de
+pratique n'est pas habituel, je vous assure qu'elle facilite grandement
+l'expérience développeur et qu'elle permet de rendre les programmes plus
+facile à raisonner, à déboguer, et à tester unitairement ! Donc n'hésitez pas
+à aller voir du côté de [[https://arrow-kt.io/][Arrow]], pour Kotlin, pour observer la manière dont
+ils utilises les coroutines pour modèliser des effets ! N'hésitez pas à jouer
+avec des prototypes comme Koka, ou Eff pour vous familiariser avec cette
+manière de programmer, je vous assure qu'elle est inspirante !
+
+J'espère que cet article (assez naïf) vous aura transmis l'envie de vous
+intéresser aux effets algébriques et d'en espérer leur avènement. Je vous
+souhaites à tous d'agréables expériences en développement et j'espère
+que l'objectif de cette présentation a été correctement transmise, soit,
+séparez au maximum la description de l'interprétation et abusez des fonctions
+pures, elles sont plus facile à tester !
+  

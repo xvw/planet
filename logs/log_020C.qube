@@ -29,3 +29,8 @@
   (:duration "320") (:sector "writing")
   (:label "Avancées sur l'articles à propos des effets algébriques")
   (:project "planet"))
+
+((:uuid "0e330f29-3a3b-0466-93e3-87967b803357") (:day "020C10")
+  (:duration "220") (:sector "writing")
+  (:label "Progression sur l'article à propos des effets algébriques")
+  (:project "planet"))

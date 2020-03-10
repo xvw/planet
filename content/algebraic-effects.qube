@@ -1,6 +1,6 @@
 (:title "Tests unitaires de fonctions impures")
 (:kind long)
-(:date #020C05)
+(:date #020C10)
 (:permaname "introduction_algebraic_effects")
 (:synopsis "Une introduction aux effets algébriques par le biais des tests unitaires.")
 (:content external #org-mode "content/posts/algebraic-effects.org")

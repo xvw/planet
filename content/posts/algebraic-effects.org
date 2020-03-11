@@ -1251,6 +1251,6 @@ pures, elles sont plus faciles à tester !
 
 Je remercie chaleureusement Gaston Lemaire, [[https://github.com/tsnobip][Paul Tsnobiladzé]], [[https://twitter.com/riduidel][Nicolas Delsaux]],
 [[https://twitter.com/NicolasRinaudo][Nicolas Rinaudo]], [[https://twitter.com/Sir4ur0n][Julien Debon]], [[https://twitter.com/dplaindoux][Didier Plaindoux]] ainsi que la communauté 
-*Lambda Lille* pour leur conseils, leur relecture et leur bienveillance ! 
-Merci les gens, sans vous je n'aurais surement pas eu le courage d'écrire
+*Lambda Lille* pour leurs conseils, leurs relectures et leur bienveillance ! 
+Merci les gens, sans vous je n'aurais sûrement pas eu le courage d'écrire
 cet article.

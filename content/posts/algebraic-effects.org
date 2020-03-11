@@ -1,12 +1,12 @@
 #+BEGIN_QUOTE
 La programmation fonctionnelle pure offre beaucoup de bénéfices. Elle n'utilise
-que des fonctions pures qui sont faciles à tester, facile à raisonner et 
+que des fonctions pures qui sont faciles à tester, faciles à raisonner et 
 qui permettent au compilateur de les optimiser.
 
 Ce serait vraiment plus confortable de ne travailler qu'avec des fonctions pures,
 malheureusement, dans la construction de logiciels "utiles", cela semble 
 impossible. En effet *les programmes du monde réel produisent des effets*, il 
-est donc, à priori, impossible de représenter un programme utile à coup de 
+est donc, a priori, impossible de représenter un programme utile à coup de 
 fonctions pures.
 
 Dans ce très court article, je vous propose de découvrir *les effets algébriques* 
@@ -61,11 +61,11 @@ fun main() {
 }
 #+END_SRC
 
-Concrètement, cette fonction est potentiellement correct, cependant, elle pose,
-selon moi (et selon beaucoup de personne, probablement) énormément de soucis.
+Concrètement, cette fonction est potentiellement correcte, cependant, elle pose,
+selon moi (et selon beaucoup de personnes, probablement) énormément de soucis.
 Elle est impossible à tester unitairement facilement. En admettant que je
-voudrais tester cette fonction, je devrais capturer l'écriture sur 
-src_bash{stdin} et l'écriture sur src_bash{stdout} pour être capable de fournir
+veuille tester cette fonction, je devrais capturer l'écriture sur 
+src_bash{stdin} et la lecture sur src_bash{stdout} pour être capable de fournir
 une collection de tests sur l'essence de mon algorithme, soit le fait que 
 pour un nombre entier, je peux avoir son successeur. La fonction n'est pas pure,
 donc complexe à tester.
@@ -131,14 +131,14 @@ résultat, dès qu'on le connait.
 
 Les fonctions impures sont toutes les fonctions qui ne sont pas pures. 
 Comme évoqué rapidement en introduction, sans fonctions impures, il est 
-à priori impossible de faire un programme utile. En effet, à moins que
+a priori impossible de faire un programme utile. En effet, à moins que
 l'exécution du programme ne soit pas nécéssaire (par exemple lorsque l'on
 utilise un logiciel de démonstration assisté par ordinateur), construire
 un programme sans fonctions impures, donc sans effets, semble impossible.
 
 Une première approche pour rendre nos logiciels testables et prédictibles
 consiste à fractionner le programme en *deux parties*, sa partie pure 
-et sa partie impure. Idéalement, repoussant les fragments impures aux 
+et sa partie impure. Idéalement, repoussant les fragments impurs aux 
 extrémités du programme (ses entrées et ses sorties) pour n'avoir ensuite, 
 plus qu'un noyau de fonctions pures, facilement testables. 
 
@@ -161,7 +161,7 @@ Une manière assez /simple/ de caractériser un effet serait de l'opposer
 à un calcul. Dans la programmation fonctionnelle pure, l'exécution d'un
 programme (sans effets donc) consiste "simplement" à calculer sa 
 *forme normale*, soit son résultat final, un effet serait donc quelque chose
-que l'on peut pas calculer. 
+que l'on ne peut pas calculer. 
 
 Pour donner plus de précision, il s'agirait
 de définir un effet comme une action qui a besoin d'être exécutée en
@@ -191,7 +191,7 @@ fun displayScore() {
 }
 #+END_SRC
 
-Concrètement, l'usage des fonctions src_kotlin{println} doivent se référer
+Concrètement, les fonctions src_kotlin{println} (et consort) doivent se référer
 au système d'exploitation pour être exécutés (en général, ce genre de fonctions,
 qui écrivent sur la sortie standard ou qui lisent sur l'entrée standard 
 exécutent des effets dans le domaine de l'*IO*). La méthode src_kotlin{findAll}
@@ -309,7 +309,7 @@ sont les fonctions pures et impures, nous allons pouvoir observer une première
 technique de "contrôle des effets" qui consiste /simplement/ à transformer
 une fonction impure en fonction pure.
 
-Lorsque nous avons tâché de définir une fonction pure, on a évoqué le fait
+Lorsque nous avons tâché de définir une fonction pure, nous avons évoqué le fait
 qu'une fonction devait être *totale*, soit que pour tout paramètre, elle doit
 avoir un résultat. Comme toute fonction qui n'est pas pure est impure, une
 fonction qui n'est pas totale est impure, donc on pourrait considérer que
@@ -395,7 +395,7 @@ Quand on se rend sur le [[https://haskell.org][site web de Haskell]], on peut y 
 un langage de programmation fonctionnelle pure avancé.
 
 Haskell est l'archétype du langage fonctionnel pur, qui fait intensivement
-usage de la technique présenté dans la rubrique précédente qui vise à
+usage de la technique présentée dans la rubrique précédente qui vise à
 transformer les effets en valeurs. Cependant, contrairement à l'exemple que
 nous avons présenté, le langage interdit les effets de bords, y comprit
 dans la fonction qui va *interpréter* une fonction produisant un effet. Pour
@@ -450,7 +450,7 @@ on construit un logiciel est transformé en valeurs, ces valeurs correspondent
 Et l'objectif du développeur est de réduire ces représentations jusqu'à un 
 src_haskell{IO ()} qui correspondra à la description finale du programme et
 qui sera interprétée par le /runtime/ Haskell. En complément de cette
-fragmentation systématique entre les fragments pures et impures du programme,
+fragmentation systématique entre les fragments purs et impurs du programme,
 Haskell permet de refléter dans la signature de type l'effet que produira une
 fonction. Pour y arriver, Haskell utilise son système de type, sans y apporter
 de modification, donc src_haskell{unit & io} s'écrirait, en Haskell 
@@ -464,7 +464,7 @@ généralement deux types (parfois plus) de constructions : [[https://wiki.haske
 [[https://wiki.haskell.org/Applicative_functor][des foncteurs applicatifs]]. C'est une technique qui s'inspire de la
 [[https://en.wikipedia.org/wiki/Category_theory][théorie des catégories]] et qui peut très souvent être intimidante quand on
 débute en programmation fonctionnelle, spécifiquement avec le langage Haskell.
-Cependant, au delà de la cérémonie engendré par cette approche, elle peut 
+Cependant, au delà de la cérémonie engendrée par cette approche, elle peut 
 sembler idéale pour plusieurs raisons :
 
 - elle fait refléter dans le système de type, le type de l'effet produit par 
@@ -478,7 +478,7 @@ Rien que pour ces bénéfices (et Haskell possède beaucoup d'autres atouts),
 apprendre Haskell est, pédagogiquement, très intéressant. De plus, le langage
 dispose de beaucoup de /success-stories/ et de ressources.
 
-Cependant, même si nous semblions, au vue de mes propos, avoir trouvé, en
+Cependant, même si nous semblons, au vue de mes propos, avoir trouvé, en
 Haskell, la panacée, on pourrait tout de même reprocher plusieurs chose
 à cette approche sans compléments. La première est que comme src_haskell{IO a}
 est ce vers quoi toute expression à effets doit être réduit. De ce fait,
@@ -766,7 +766,7 @@ mon gestionnaire ! Un peu à la manière de Haskell, utilisé /normalement/,
 l'écriture d'un gestionnaire implique de *réduire un effet jusqu'a arriver*
 *à un effet attaché à un gestionnaire*.
 
-Essayons de voir si notre propagation/gestion d'effets est superieur à ce
+Essayons de voir si notre propagation/gestion d'effets est supérieur à ce
 que l'on avait écrit à base d'exceptions en émettant, dans notre fonction, 
 deux fois l'effet src_ocaml{grumble} :
 
@@ -790,7 +790,7 @@ fun main() {
 
 #+END_SRC
 
-Ici, le résultat attendu serait que d'abord, le programme afficher 
+Ici, le résultat attendu serait que d'abord, le programme affiche 
 src_ocaml{"Hello World!"} et qu'ensuite, il affiche à la ligne
 src_ocaml{"Good bye World!"}... malheureusement, ce n'est pas le cas, 
 l'inteprétation de src_ocaml{mumbling()} se contente de n'afficher que 
@@ -799,7 +799,7 @@ src_ocaml{"Hello World!"}.
 Concrètement, ce qu'il se passe ici, c'est qu'on gère l'effet, et on
 arrête le programme. Vu comme ça, les effets algébrique semblent assez
 proche des exceptions. Heureusement, adjoint à la gestion des effets via
-les gestionnaires, les effets algébriques propose une fonctionnalité
+les gestionnaires, les effets algébriques proposent une fonctionnalité
 complémentaire : *la capture de la continuation*. En Koka, dans chaque
 branche de la gestion d'un effet dans un gestionnaire, il existe une fonction
 /ad-hoc/ qui offre la possibilité de *reprendre* l'interprétation du programme.
@@ -905,7 +905,7 @@ Nous avons exactement ce que nous désirions au début de l'article :
 
 *** Tester un programme
 
-Comme notre programme n'est plus qu'un description, on peut donc très facilement
+Comme notre programme n'est plus qu'une description, on peut donc très facilement
 le tester. En effet, il suffit de lui implémenter un interpréteur de test !
 Par exemple, une manière /naïve/ de tester ce programme serait simplement
 de lui demander de stocker toutes les étapes dans une chaine de caractères
@@ -1001,8 +1001,8 @@ Nous avons, au moyen des effets algébriques, une manière systématique de
 séparer un programme en une description (une fonction qui propage des
 effets) et son interpréteur (un gestionnaire). Nous pouvons donc facilement
 tester nos fonctions impures en les transformant  "/simplement/" en fonctions
-pures ! Cependant, la force des effets algébriques ne résides pas uniquement
-dans cette séparation et dans le reflet dans le système de types des effets
+pures ! Cependant, la force des effets algébriques ne réside pas uniquement
+dans cette séparation et dans le reflet, dans le système de types, des effets
 propagés par une fonction. Le fait de pouvoir contrôler le flot du programme
 offre aussi beaucoup de possibilités. Notamment le fait de pouvoir modifier 
 la sémantique opérationnelle du programme. Imaginons ce scénario :
@@ -1105,7 +1105,7 @@ se *contenter d'exprimer ce qu'ils font* et les gestionnaires
 
 *** Une base pour des constructions plus complexes
 
-Un peu à l'instar des fonctions d'ordre superieur, qui permettent de modeliser
+Un peu à l'instar des fonctions d'ordre supérieur, qui permettent de modeliser
 des encodages, par exemple src_javascript{for const x of [1, 2, 3] { f(x) }} 
 qui pourrait être exprimer comme src_javascript{[1, 2, 3].forEach(f)} et donc
 réduire la taille de la grammaire du langage, les effets algébriques (et leurs
@@ -1129,7 +1129,7 @@ Ces constructions complémentaires pourrait donc appartenir, pourquoi pas,
 
 Dans le cadre de la construction d'un /runtime/ multi-cœur pour le langage 
 OCaml, l'intégration d'effets algébriques fait partie de la feuille de route
-pour pouvoir correctement modèliser l'expression de programmes concurrents
+pour pouvoir correctement modéliser l'expression de programmes concurrents
 dans un /runtime/ multi-cœur.
 
 ** Et qu'est-ce qu'il y a d'algébrique là-dedans ?
@@ -1137,15 +1137,15 @@ dans un /runtime/ multi-cœur.
 Très souvent, les objets que l'on manipule en programmation fonctionnelle
 sont construits sur la base d'une théorie solide. Parfois, il s'agit
 d'une application pratique d'un objet de la théorie des catégories. Les
-effets algébriques ont été exprimé, initialement, en terme de relation
+effets algébriques ont été exprimés, initialement, en terme de relation
 avec des catégories. (Ce qui est assez logique car la théorie des catégories
 à été initialement utilisée en extension au λ-calcul pour exprimer les
-effets. Cette utilisation à donné, approximativement, naissance aux monades
-en programmation fonctionnelle).
+effets. Cette utilisation a donné, approximativement, naissance aux monades
+en programmation fonctionnelle.)
 
 La définition des opérations (nos exemples src_ocaml{Ask} et 
 src_ocaml{Show}) produisant des effets, via, en Koka, la construction 
-src_ocaml{effect} décrit *un algèbre libre* et les gestionnaires 
+src_ocaml{effect}, décrit *un algèbre libre* et les gestionnaires 
 décrivent des src_ocaml{fold} sur l'algèbre des opérations. Il faut prendre
 le terme "algébrique", dans "effets algébriques" comme le fait que les
 opérations qui décrivent des effets sont définies par des *règles*
@@ -1154,12 +1154,12 @@ compositions pour des structures algébriques.
 
 Si jamais une explication plus détaillée et intelligente vous intéresse,
 le papier "[[https://arxiv.org/pdf/1807.05923.pdf][What is algebraic about algebraic effects and handler]]" de Andrej
-Bauer est incroyablement détaillé (et progressif) sur le "pourquoi algèbrique),
+Bauer est incroyablement détaillé (et progressif) sur le "pourquoi algébrique),
 je vous invite donc à le lire !
 
 ** Des effets algébriques PARTOUT 
 
-Dans les rubriques précédentes, nous avons détaillés quelques cas d'usages
+Dans les rubriques précédentes, nous avons détaillé quelques cas d'usages
 aux effets algébriques et à leurs gestionnaires. Si vous êtes aussi
 emballé que moi, c'est normal, les effets algébriques, c'est trop cool !
 Donc qu'attendons-nous pour n'utiliser plus que des langages qui supportent
@@ -1171,7 +1171,7 @@ par la difficulté de compiler efficacement des continuations délimitées,
 ce qui permet d'exprimer la primitive src_ocaml{resume} de Koka. Par contre,
 plusieurs équipes de recherches sont assez impliquées dans ce domaine, donc
 il existe plusieurs expériences intéressantes, en plus de Koka, qui valent 
-le coup d'oeil (selon moi), en voici quelques unes :
+le coup d'œil (selon moi), en voici quelques unes :
 
 - *[[https://www.eff-lang.org/][Eff]]* est un langage à la syntaxe proche de OCaml qui propose des effets
   algébriques et des gestionnaires. Il est très proche de la théorie car
@@ -1184,10 +1184,10 @@ le coup d'oeil (selon moi), en voici quelques unes :
   continuations peuvent être très utiles) ;
 
 - *[[https://github.com/ocaml-multicore/ocaml-multicore/wiki][OCaml multicore]]* est l'implémentation d'un /runtime/ multi-cœur pour OCaml,
-  auquel ils veulent liés des effets algébriques et des gestionnaires pour
-  modèliser des programmes concurrents ;
+  auquel seront liés des effets algébriques et des gestionnaires pour
+  modéliser des programmes concurrents ;
 
-- *[[https://github.com/frank-lang/frank][Frank]]* propose une alternative aux gestionnaires d'effets tel qu'on l'a
+- *[[https://github.com/frank-lang/frank][Frank]]* propose une alternative aux gestionnaires d'effets tels qu'on l'a
   entendu dans cet article. Cependant, il n'existe que des embryons de
   prototypes.
 
@@ -1210,7 +1210,7 @@ comme des citoyens de premier ordre, dans nos langages favoris !
 
 ** Pour conclure
 
-Les effets algébriques et leurs gestionnaires sont une approche de séparer
+Les effets algébriques et leurs gestionnaires sont une façon de séparer
 systématiquement la description d'un programme et son interprétation. Cette
 séparation permet de tester facilement ces descriptions de programmes, en
 ne fournissant qu'un gestionnaire spécifique au contexte des tests.
@@ -1237,14 +1237,20 @@ pratique n'est pas habituel, je vous assure qu'elle facilite grandement
 l'expérience développeur et qu'elle permet de rendre les programmes plus
 facile à raisonner, à déboguer, et à tester unitairement ! Donc n'hésitez pas
 à aller voir du côté de [[https://arrow-kt.io/][Arrow]], pour Kotlin, pour observer la manière dont
-ils utilises les coroutines pour modèliser des effets ! N'hésitez pas à jouer
+ils utilisent les coroutines pour modéliser des effets ! N'hésitez pas à jouer
 avec des prototypes comme Koka, ou Eff pour vous familiariser avec cette
 manière de programmer, je vous assure qu'elle est inspirante !
 
 J'espère que cet article (assez naïf) vous aura transmis l'envie de vous
 intéresser aux effets algébriques et d'en espérer leur avènement. Je vous
-souhaites à tous d'agréables expériences en développement et j'espère
-que l'objectif de cette présentation a été correctement transmise, soit,
+souhaite à tous d'agréables expériences en développement et j'espère
+que l'objectif de cette présentation a été correctement transmis, soit,
 séparez au maximum la description de l'interprétation et abusez des fonctions
-pures, elles sont plus facile à tester !
+pures, elles sont plus faciles à tester !
   
+
+Je remercie chaleureusement Gaston Lemaire, [[https://github.com/tsnobip][Paul Tsnobiladzé]], [[https://twitter.com/riduidel][Nicolas Delsaux]],
+[[https://twitter.com/NicolasRinaudo][Nicolas Rinaudo]], [[https://twitter.com/Sir4ur0n][Julien Debon]], [[https://twitter.com/dplaindoux][Didier Plaindoux]] ainsi que la communauté 
+*Lambda Lille* pour leur conseils, leur relecture et leur bienveillance ! 
+Merci les gens, sans vous je n'aurais surement pas eu le courage d'écrire
+cet article.

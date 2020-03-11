@@ -39,3 +39,6 @@
   (:duration "60") (:sector "maintenance")
   (:label "Correction et remerciements de l'article sur les effets")
   (:project "planet"))
+
+((:uuid "d453e17a-aa56-9d94-a1df-efdf0253f2b6") (:day "020C11")
+  (:duration "60") (:sector "research") (:label "Expériences avec Eff"))

@@ -9,7 +9,7 @@ impossible. En effet *les programmes du monde réel produisent des effets*, il
 est donc, a priori, impossible de représenter un programme utile à coup de 
 fonctions pures.
 
-Dans ce très court article, je vous propose de découvrir *les effets algébriques* 
+Dans +ce très court+ cet article, je vous propose de découvrir *les effets algébriques* 
 *et leurs gestionnaires* pour construire des programmes qui exécutent des 
 effets, dans le contexte d'un langage de programmation fonctionnel, 
 que l'on peut composer (pour construire des programmes plus complexes) tout 
@@ -356,13 +356,10 @@ quelque chose/") et défini deux constructeurs :
 - src_ocaml{Some x} pour représenter la présence d'une valeur ; 
 - src_ocaml{None} pour représenter l'absence de valeur.
 
-L'utilisation du type src_ocaml{option} (qui s'appelle src_haskell{Maybe} en
-Haskell) altère le type de notre fonction, qui devient : 
+L'utilisation du type src_ocaml{option} altère le type de notre fonction, qui devient : 
 src_ocaml{val hd : 'a list -> 'a option} et rend notre fonction *totale*.
-Puisque src_ocaml{None} étant une valeur admissible 
-(de type src_ocaml{'a option}).
 
-Même si cette transformation semble anodine, nous avons transformé une fonction
+Même si cette modification semble anodine, nous avons transformé une fonction
 impure en fonction pure. Cependant, le changement de type change sensiblement
 la sémantique de la fonction src_ocaml{hd}. De ce fait, si l'on veut exécuter
 un programme qui utilise notre nouvelle fonction src_ocaml{hd}, il faudra
@@ -379,7 +376,7 @@ let () =
   | Some user -> Format.printf "Hello %s !" user
 #+END_SRC
 
-A ce stade, notre fonction src_ocaml{hd} à beau être pure, notre exécution
+A ce stade, notre fonction src_ocaml{hd} a beau être pure, notre exécution
 ne l'est pas. Cependant, cela se rapproche de ce que l'on a esquissé en
 début d'article, la séparation entre *la partie pure* et *la partie impure*.
 Concrètement, on a *un programme*, dont le rôle est de décrire les opérations, 
@@ -395,7 +392,7 @@ Quand on se rend sur le [[https://haskell.org][site web de Haskell]], on peut y 
 un langage de programmation fonctionnelle pure avancé.
 
 Haskell est l'archétype du langage fonctionnel pur, qui fait intensivement
-usage de la technique présentée dans la rubrique précédente qui vise à
+usage de la technique présentée dans la rubrique précédente, visant à
 transformer les effets en valeurs. Cependant, contrairement à l'exemple que
 nous avons présenté, le langage interdit les effets de bords, y comprit
 dans la fonction qui va *interpréter* une fonction produisant un effet. Pour
@@ -450,12 +447,12 @@ on construit un logiciel est transformé en valeurs, ces valeurs correspondent
 Et l'objectif du développeur est de réduire ces représentations jusqu'à un 
 src_haskell{IO ()} qui correspondra à la description finale du programme et
 qui sera interprétée par le /runtime/ Haskell. En complément de cette
-fragmentation systématique entre les fragments purs et impurs du programme,
+fragmentation systématique entre les parties pures et impures du programme,
 Haskell permet de refléter dans la signature de type l'effet que produira une
 fonction. Pour y arriver, Haskell utilise son système de type, sans y apporter
-de modification, donc src_haskell{unit & io} s'écrirait, en Haskell 
-src_haskell{IO ()}, src_haskell{()} voulant dire src_haskell{unit} en Haskell.
-Et parallèlement, la fonction lisant l'entrée standard sera exprimé de cette
+de modification, donc src_haskell{unit & io} s'écrirait src_haskell{IO ()},
+src_haskell{()} voulant dire src_haskell{unit}.
+Parallèlement, la fonction lisant l'entrée standard sera exprimé de cette
 manière src_haskell{getLine :: IO String}.
 
 Cette manière de transformer un calcul qui doit produire une valeur de type 

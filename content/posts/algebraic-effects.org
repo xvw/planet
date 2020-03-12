@@ -583,6 +583,43 @@ la capture de l'effet ne permet jamais de revenir à l'endroit où l'effet a
 Rassurez-vous, les effets algébriques, eux, le font ! Sans plus attendre,
 je vous propose de passer à un exemple assez explicite.
 
+Mais concrètement, qu'est ce qu'une continuation ? Informellement, la
+continuation d'un programme (ou d'une fonction) correspond à ce qu'il reste
+à évaluer. Par exemple : 
+
+#+BEGIN_SRC kotlin :data-roe-kind code :data-pellet Kotlin :data-line-number true :data-hl 3;4
+fun f() {
+   println("Hello")
+   println("World")
+   println("How are you?")
+}
+#+END_SRC
+
+Après avoir exécuté la première ligne de la fonction, et avoir affiché 
+src_java{"Hello World"}, la continuation correspond aux deux lignes suivantes.
+Dans certains langages, comme *JavaScript*, il est parfois nécéssaire
+d'abuser des continuations pour synchroniser un programme. En effet, comme
+chaque appel de fonction est exécuté de manière asynchrone, une pratique 
+courante à vu le jours, le passage de */callback/*, qui n'est, au final,
+qu'un autre nom pour *continuation*, par exemple :
+
+#+BEGIN_SRC javascript :data-roe-kind code :data-pellet JavaScript :data-line-number true
+performAsyncComputation(x, function(result) {
+   return performAnotherAsyncComputation(result, function(newResult) {
+      console.log(newResult);
+   });
+});
+#+END_SRC
+
+Dans cet exemple, on spécifie explicitement les continuations au moyen du
+passage de fonction par argument. Comme chaque étape d'un calcul par
+continuation engendre généralement un niveau d'indentation pouvant vite 
+devenir illisible (le fameux /callback hell/), il existe des techniques
+d'encodages pour éviter cet ajout de niveau à chaque étape. Dans certains
+langages, cela se fait au moyen d'opérateurs, en JavaScript, c'est généralement
+au moyen d'une méthode src_javascript{then(callback)}. Oui, les promesses
+sont une forme spécifique de continuation. 
+
 *** Un petit programme à effets
 
 Prenons un premier programme, assez simple à implémenter, mais autrement
@@ -689,7 +726,7 @@ l'effet src_ocaml{console} (un effet capable d'interagir avec la console).
 La fonction src_ocaml{hello} est exécutable par Koka car la bibliothèque
 standard du langage offre un gestionnaire pour l'effet src_ocaml{console}.
 Quand on tente d'exécuter une fonction qui exécute des effets, le compilateur
-va d'abord vérifier (à la compilation) s'il existe un gestionnaire pour l'effet
+va d'abord vérifier s'il existe un gestionnaire pour l'effet
 que l'on essaie d'exécuter. Si aucun gestionnaire n'est trouvé, le programme
 ne compilera pas. Si par contre il existe un gestionnaire, Koka s'en servira
 pour exécuter un programme. Ne vous en faites pas, nous allons tout de suite
@@ -720,11 +757,12 @@ fun mumbling() : mumble () {
 }
 #+END_SRC
 
-Notre fonction à le type src_ocaml{() -> mumble ()}, soit qu'elle ne prend
-aucun argument, ne renvoie aucune valeur mais son exécution propagera l'effet
-src_ocaml{mumble}. Que se passe-t-il si j'essaie d'exécuter cette fonction ?
+Notre fonction à le type src_ocaml{() -> mumble ()}, c'est à dire qu'elle 
+ne prend aucun argument, ne renvoie aucune valeur mais son exécution 
+propagera l'effet src_ocaml{mumble}. Que se passe-t-il si j'essaie d'exécuter
+cette fonction ?
 
-#+BEGIN_SRC ocaml :data-roe-kind code :data-pellet Koka
+#+BEGIN_SRC raw :data-roe-kind code :data-pellet Koka
 (1, 0): error: there are unhandled effects for the main expression
   inferred effect: test/mumble
   hint           : wrap the main function in a handler
@@ -800,13 +838,15 @@ les gestionnaires, les effets algébriques proposent une fonctionnalité
 complémentaire : *la capture de la continuation*. En Koka, dans chaque
 branche de la gestion d'un effet dans un gestionnaire, il existe une fonction
 /ad-hoc/ qui offre la possibilité de *reprendre* l'interprétation du programme.
-Par exemple :
+Contrairement à beaucoup de langages, l'encodage de la continuation est
+implicite, il n'est pas nécéssaire de séquencer des /callback/ ou des
+successions de src_javascript{then}. Démonstration :
 
 #+BEGIN_SRC ocaml :data-roe-kind code :data-pellet Koka :data-line-number true :data-hl 13 :data-line-start 10
 val mumble_handler = handler {
   grumble(message) -> {
      println(message)
-     resume(())
+     resume(()) // Reprend le calcul où l'effet a été émis
   }
 }
 #+END_SRC

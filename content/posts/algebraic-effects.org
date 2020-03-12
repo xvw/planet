@@ -98,10 +98,10 @@ et ça tombe assez bien, car c'est elle qui est le coeur de notre programme.
 Même s'il serait possible d'écrire un test unitaire pour la fonction 
 src_kotlin{main()} moyennant quelques tours de magie... est-ce réellement 
 nécéssaire ? En effet, comme évoqué précédemment, l'essence de notre 
-(discutablement intéressant) programme est de calculer un successeur pour un 
-entier donné, et cette partie du programme est correctement testée, le reste
+programme (discutablement intéressant) est de calculer un successeur pour un 
+entier donné. Cette partie du programme est correctement testée, le reste
 du programme ne fait qu'exploiter des bibliothèques et des fonctions éprouvées
-de la /JVM/ et, à l'instar des démonstrations mathématiques, qui visent à
+de la /JVM/. A l'instar des démonstrations mathématiques, qui visent à
 réduire une collection de propositions à des axiomes, on ne cherche pas à 
 tester ce qui a déjà été testé.
 
@@ -168,7 +168,7 @@ de définir un effet comme une action qui a besoin d'être exécutée en
 *référant une autorité centrale qui devra /gérer/ cet effet*. Par exemple,
 un programme qui lance une exception implique que cette exception soit
 gérée (via une construction, par exemple, en Java, src_java{try/catch} 
-ou par le /runtime/ de l'environnement d'exception), une exception est
+ou par le /runtime/ de l'environnement d'excécution), une exception est
 donc un exemple d'effet.
 
 Observons un exemple. Voici un programme qui permet d'afficher (de manière

@@ -580,8 +580,7 @@ Dans cet exemple, l'exécution du second effet n'aura jamais lieu, parce que
 la capture de l'effet ne permet jamais de revenir à l'endroit où l'effet a
 été exécuté. Cela s'explique parce que la primitive src_java{throw} ne 
 *capture pas la continuation qui représente la suite du calcul*.
-Rassurez-vous, les effets algébriques, eux, le font ! Sans plus attendre,
-je vous propose de passer à un exemple assez explicite.
+Rassurez-vous, les effets algébriques, eux, le font ! 
 
 Mais concrètement, qu'est ce qu'une continuation ? Informellement, la
 continuation d'un programme (ou d'une fonction) correspond à ce qu'il reste
@@ -619,6 +618,9 @@ d'encodages pour éviter cet ajout de niveau à chaque étape. Dans certains
 langages, cela se fait au moyen d'opérateurs, en JavaScript, c'est généralement
 au moyen d'une méthode src_javascript{then(callback)}. Oui, les promesses
 sont une forme spécifique de continuation. 
+
+Observons maintenant l'utilisation concrète des effets algébriques au
+moyen d'un petit programme à effets, à priori compliqué à tester !
 
 *** Un petit programme à effets
 

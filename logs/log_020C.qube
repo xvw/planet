@@ -42,3 +42,8 @@
 
 ((:uuid "d453e17a-aa56-9d94-a1df-efdf0253f2b6") (:day "020C11")
   (:duration "60") (:sector "research") (:label "Expériences avec Eff"))
+
+((:uuid "03ca2dc1-39c9-848b-e954-95b62372d9c6") (:day "020C12")
+  (:duration "60") (:sector "maintenance")
+  (:label "Corrections et précisions de l'article sur les effets")
+  (:project "planet"))

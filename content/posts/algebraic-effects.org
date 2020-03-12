@@ -781,8 +781,8 @@ src_ocaml{my_handler_for_mumble{mumbling()}}
 
 Pour laquelle il faudra fournir une valeur pour 
 src_ocaml{my_handler_for_mumble}. L'inteprétation d'un effet est assez simple,
-il suffit de traiter les branches possibles de l'effet. Ici, c'est assez simple,
-nous n'en avons qu'une seule : 
+il suffit de traiter les branches possibles de l'effet. Ici nous n'en avons 
+qu'une seule : 
 
 #+BEGIN_SRC ocaml :data-roe-kind code :data-pellet Koka :data-line-number true :data-line-start 9
 val mumble_handler = handler {
@@ -797,7 +797,7 @@ mumble_handler{ mumbling() }
 Concrètement, on défini une variable qui va, pour chaque effet possible, 
 proposer *une réaction à l'émission d'un effet*. L'application de notre
 gestionnaire n'est pas pure, par contre, la description de notre programme
-l'est entièrement. Par contre, si dans mon gestionnaire, j'avais propagé un
+l'est entièrement. Si dans mon gestionnaire, j'avais propagé un
 effet n'ayant pas de gestionnaire, j'aurais dû fournir un gestionnaire à
 mon gestionnaire ! Un peu à la manière de Haskell, utilisé /normalement/, 
 l'écriture d'un gestionnaire implique de *réduire un effet jusqu'a arriver*
@@ -855,8 +855,8 @@ val mumble_handler = handler {
 
 Ce qui nous amène à une définition des effets algébriques relativement
 accessibles, ce sont *des exceptions /resumables/*. Concrètement, quand on
-inteprète la description d'un programme au moyen d'un gestionnaire, ce
-gestionnaire peut continuer l'interprétation du calcul, ou l'interrompre.
+inteprète la description d'un programme au moyen d'un gestionnaire, ce dernier
+peut décider de continuer l'interprétation du calcul, ou l'interrompre.
 
 Reprenons notre exemple initial, le programme qui demande le nom et qui
 affiche ensuite src_ocaml{"Hello $nom"} et essayons de l'implémenter avec
@@ -906,7 +906,7 @@ Concrètement :
 
 
 Attention, si par mégarde, j'avais oublié de gérer un des cas, le compilateur
-aurait *refusé de compiler* mon programme, par exemple, cet intepréteur : 
+aurait *refusé de compiler* mon programme. Par exemple, cet intepréteur : 
 
 
 #+BEGIN_SRC ocaml :data-roe-kind code :data-pellet Koka

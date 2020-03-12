@@ -1,7 +1,7 @@
 (:name "Réduction des Widget JavaScript")
 (:description
   "Beaucoup de widgets peuvent être calculé à la génération du site, il faudrait donc diminuer le besoin de JavaScript pour certains widgets")
-(:state "opened") (:uuid "TASK-14") (:date "020C12") (:project "planet")
+(:state "in_progress") (:uuid "TASK-14") (:date "020C12") (:project "planet")
 (:sectors (visual programming maintenance))
 (:checklist
   ((:unchecked "liens des articles") (:unchecked "tags des articles")

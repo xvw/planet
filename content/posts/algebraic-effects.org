@@ -16,7 +16,7 @@ que l'on peut composer (pour construire des programmes plus complexes) tout
 en restant facilement testable unitairement.
 
 Cet article n'est pas du tout un article technique et son objectif vise
-à donner une intution sur l'utilisation des effets algébriques. Il ne va
+à donner une intuition sur l'utilisation des effets algébriques. Il ne va
 volontairement pas très loin dans l'exercice de la construction d'un 
 système d'effets (j'en suis malheureusement incapable). Si vous êtes
 familiers avec la gestion des effets dans un langage de programmation,

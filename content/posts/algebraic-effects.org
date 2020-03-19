@@ -13,14 +13,14 @@ Dans +ce très court+ cet article, je vous propose de découvrir *les effets alg
 *et leurs gestionnaires* pour construire des programmes qui exécutent des 
 effets, dans le contexte d'un langage de programmation fonctionnel, 
 que l'on peut composer (pour construire des programmes plus complexes) tout 
-en restant facilement testable unitairement.
+en restant facilement testables unitairement.
 
 Cet article n'est pas du tout un article technique et son objectif vise
 à donner une intuition sur l'utilisation des effets algébriques. Il ne va
 volontairement pas très loin dans l'exercice de la construction d'un 
 système d'effets (j'en suis malheureusement incapable). Si vous êtes
 familiers avec la gestion des effets dans un langage de programmation,
-il y a fort à partier que cet article ne vous intéresse pas beaucoup... désolé !
+il y a fort à parier que cet article ne vous intéressera pas beaucoup... désolé !
 
 *Donc, amateur de la théorie, ou personne exaspérée par les approximations,*
 *je vous invite à passer votre chemin* (en toute amitié).
@@ -28,11 +28,11 @@ il y a fort à partier que cet article ne vous intéresse pas beaucoup... désol
 
 Cela fait très longtemps que l'importance des tests unitaires n'est plus 
 remise en question. Ils permettent de garantir, au mieux, la non-régression
-de la base de code, mais aussi servir de spécification. Couplé avec des méthodes
+de la base de code, mais aussi servir de spécification. Couplés avec des méthodes
 fines, comme par exemple, les tests dirigés par les propriétés, qui, sur base
 d'une collection d'invariants (les propriétés), génèrent une collection de
 tests "aléatoirement". Il est donc nécéssaire de fournir un maximum de tests,
-clairs et facilement maintenable.
+clairs et facilement maintenables.
 
 Concrètement, il est possible de facilement tester unitairement les *fonctions*
 *pures*, alors que les *fonctions impures* infligent généralement l'usage de
@@ -91,13 +91,13 @@ fun main() {
 }
 #+END_SRC
 
-Cette amélioration est très naïve, mais elle représente tout de même une sacré
+Cette amélioration est très naïve, mais elle représente tout de même un sacré
 pas en avant. La fonction src_kotlin{successor(x)} est facilement testable,
-et ça tombe assez bien, car c'est elle qui est le coeur de notre programme.
+et ça tombe assez bien, car c'est elle qui est au cœur de notre programme.
 
 Même s'il serait possible d'écrire un test unitaire pour la fonction 
 src_kotlin{main()} moyennant quelques tours de magie... est-ce réellement 
-nécéssaire ? En effet, comme évoqué précédemment, l'essence de notre 
+nécessaire ? En effet, comme évoqué précédemment, l'essence de notre
 programme (discutablement intéressant) est de calculer un successeur pour un 
 entier donné. Cette partie du programme est correctement testée, le reste
 du programme ne fait qu'exploiter des bibliothèques et des fonctions éprouvées
@@ -163,12 +163,12 @@ programme (sans effets donc) consiste "simplement" à calculer sa
 *forme normale*, soit son résultat final, un effet serait donc quelque chose
 que l'on ne peut pas calculer. 
 
-Pour donner plus de précision, il s'agirait
+Pour donner plus de précisions, il s'agirait
 de définir un effet comme une action qui a besoin d'être exécutée en
 *référant une autorité centrale qui devra /gérer/ cet effet*. Par exemple,
 un programme qui lance une exception implique que cette exception soit
 gérée (via une construction, par exemple, en Java, src_java{try/catch} 
-ou par le /runtime/ de l'environnement d'excécution), une exception est
+ou par le /runtime/ de l'environnement d'exécution), une exception est
 donc un exemple d'effet.
 
 Observons un exemple. Voici un programme qui permet d'afficher (de manière
@@ -191,11 +191,11 @@ fun displayScore() {
 }
 #+END_SRC
 
-Concrètement, les fonctions src_kotlin{println} (et consort) doivent se référer
-au système d'exploitation pour être exécutés (en général, ce genre de fonctions,
+Concrètement, les fonctions src_kotlin{println} (et consorts) doivent se référer
+au système d'exploitation pour être exécutées (en général, ce genre de fonctions,
 qui écrivent sur la sortie standard ou qui lisent sur l'entrée standard 
 exécutent des effets dans le domaine de l'*IO*). La méthode src_kotlin{findAll}
-sur src_kotlin{scoreRepository} se référe à une base de données et le 
+sur src_kotlin{scoreRepository} se réfère à une base de données et le
 lancement de l'exception src_kotlin{EmptyScoreException} devra se référer
 au gestionnaire que l'on écrira pour elle dans la fonction qui utilisera
 src_kotlin{displayScore}.
@@ -314,7 +314,7 @@ qu'une fonction devait être *totale*, soit que pour tout paramètre, elle doit
 avoir un résultat. Comme toute fonction qui n'est pas pure est impure, une
 fonction qui n'est pas totale est impure, donc on pourrait considérer que
 la non-totalité d'une fonction est un effet. De ce fait, prendre une fonction
-non-totale et la rendre totale serait une forme de gestion d'effet. Prenons
+non-totale et la rendre totale serait une forme de gestion d'effets. Prenons
 par exemple la fonction OCaml src_ocaml{List.hd} qui prend une liste et 
 renvoie sa tête (son premier élément) et dont le type serait 
 src_ocaml{val hd : 'a list -> 'a} :
@@ -335,7 +335,7 @@ le lancement d'une exception.
 Pour rendre cette fonction totale, il suffit de trouver un nouveau type
 capable de représenter l'ensemble des valeurs possibles. Les langages 
 fonctionnels statiquement typés ont popularisé l'utilisation d'un type
-spécifique qui permet de représenter la dijonction entre la présence de valeur
+spécifique qui permet de représenter la disjonction entre la présence de valeur
 ou son absence : 
 
 
@@ -351,7 +351,7 @@ let hd list =
 #+END_SRC
 
 Concrètement, le type src_ocaml{'a option} (qui exprime "/une option de 
-quelque chose/") et défini deux constructeurs : 
+quelque chose/") est défini par deux constructeurs :
 
 - src_ocaml{Some x} pour représenter la présence d'une valeur ; 
 - src_ocaml{None} pour représenter l'absence de valeur.
@@ -490,7 +490,7 @@ proposent chacunes des avantages différents.
 
 ** Les effets algébriques et leurs gestionnaires
 
-Nous avons vu que Haskell, en ne permettant que d'écrire des descriptions de
+Nous avons vu qu'Haskell, en ne permettant que d'écrire des descriptions de
 programmes, force le fait que chaque fonction soit pure. Par défaut, Haskell
 force la réduction en une expression de type src_haskell{IO ()} qui sera
 ensuite interprétée par le /runtime/ de Haskell. Les effets algébriques
@@ -542,7 +542,7 @@ public void myProgram(a: int) throws MyEffects {
 #+END_SRC
 
 Et une fois que notre programme est décrit, on peut facilement en écrire son
-interpréteur, qui ici, ne consiste qu'en une succession de capture d'exceptions.
+interpréteur, qui ici, ne consiste qu'en une succession de captures d'exception.
 
 #+BEGIN_SRC java :data-roe-kind code :data-pellet Java :data-line-number true :data-line-start 21 :data-file interprétation du programme
 public void main() {
@@ -599,7 +599,7 @@ src_java{"Hello World"}, la continuation correspond aux deux lignes suivantes.
 Dans certains langages, comme *JavaScript*, il est parfois nécéssaire
 d'abuser des continuations pour synchroniser un programme. En effet, comme
 chaque appel de fonction est exécuté de manière asynchrone, une pratique 
-courante à vu le jours, le passage de */callback/*, qui n'est, au final,
+courante à vu le jour, le passage de */callbacks/*, qui n'est, au final,
 qu'un autre nom pour *continuation*, par exemple :
 
 #+BEGIN_SRC javascript :data-roe-kind code :data-pellet JavaScript :data-line-number true
@@ -620,7 +620,8 @@ au moyen d'une méthode src_javascript{then(callback)}. Oui, les promesses
 sont une forme spécifique de continuation. 
 
 Observons maintenant l'utilisation concrète des effets algébriques au
-moyen d'un petit programme à effets, à priori compliqué à tester !
+moyen d'un petit programme à effets, a priori compliqué à tester !
+
 
 *** Un petit programme à effets
 
@@ -689,7 +690,7 @@ en une séquence chainée. Les deux plus populaires, dans le monde de la
 programmation fonctionnelle sont *les monades libres* et les 
 *transformations de monades*. Les deux approches proposent des avantages et
 des inconvénients. Heureusement, il existe une approche qui, selon moi,
-à le mérite d'être claire et facile à appréhender : *les effets algébriques*
+a le mérite d'être claire et facile à appréhender : *les effets algébriques*
 et leurs *gestionnaires*.
 
 ** A la découverte de Koka
@@ -700,11 +701,11 @@ expérimental développé dans les laboratoires de *Microsoft* qui s'appelle
 algébriques (/Koka/ est le mot Japonais pour *effet*). 
 Le langage propose une syntaxe proche de celle de JavaScript
 et offre un support /first-class/ des effets algébriques, il peut compiler
-vers du JavaScript, offre un système de type avec de l'inférence et, 
+vers du JavaScript, offre un système de types avec de l'inférence et,
 à mon sens, est un excellent candidat pour s'initier aux effets algébriques 
 par la pratique !
 
-Comme nous l'avions dit à mainte reprises, une des premières étapes pour
+Comme nous l'avions dit à maintes reprises, une des premières étapes pour
 la gestion efficace (du point de vue utilisateur) des effets est d'évincer
 les effets de bords. Koka propose de fournir trois informations sur une
 fonction : 
@@ -759,7 +760,7 @@ fun mumbling() : mumble () {
 }
 #+END_SRC
 
-Notre fonction à le type src_ocaml{() -> mumble ()}, c'est à dire qu'elle 
+Notre fonction a le type src_ocaml{() -> mumble ()}, c'est-à-dire qu'elle 
 ne prend aucun argument, ne renvoie aucune valeur mais son exécution 
 propagera l'effet src_ocaml{mumble}. Que se passe-t-il si j'essaie d'exécuter
 cette fonction ?
@@ -794,7 +795,7 @@ mumble_handler{ mumbling() }
 // Affichera sur la sortie standard "Hello World!"
 #+END_SRC
 
-Concrètement, on défini une variable qui va, pour chaque effet possible, 
+Concrètement, on définit une variable qui va, pour chaque effet possible, 
 proposer *une réaction à l'émission d'un effet*. L'application de notre
 gestionnaire n'est pas pure, par contre, la description de notre programme
 l'est entièrement. Si dans mon gestionnaire, j'avais propagé un
@@ -803,7 +804,7 @@ mon gestionnaire ! Un peu à la manière de Haskell, utilisé /normalement/,
 l'écriture d'un gestionnaire implique de *réduire un effet jusqu'a arriver*
 *à un effet attaché à un gestionnaire*.
 
-Essayons de voir si notre propagation/gestion d'effets est supérieur à ce
+Essayons de voir si notre propagation/gestion d'effets est supérieure à ce
 que l'on avait écrit à base d'exceptions en émettant, dans notre fonction, 
 deux fois l'effet src_ocaml{grumble} :
 
@@ -841,7 +842,7 @@ complémentaire : *la capture de la continuation*. En Koka, dans chaque
 branche de la gestion d'un effet dans un gestionnaire, il existe une fonction
 /ad-hoc/ qui offre la possibilité de *reprendre* l'interprétation du programme.
 Contrairement à beaucoup de langages, l'encodage de la continuation est
-implicite, il n'est pas nécéssaire de séquencer des /callback/ ou des
+implicite, il n'est pas nécessaire de séquencer des /callback/ ou des
 successions de src_javascript{then}. Démonstration :
 
 #+BEGIN_SRC ocaml :data-roe-kind code :data-pellet Koka :data-line-number true :data-hl 13 :data-line-start 10
@@ -879,7 +880,7 @@ fun program() : interaction () {
 }
 #+END_SRC
 
-Et il ne nous reste plus qu'a écrire un interpréteur !
+Et il ne nous reste plus qu'à écrire un interpréteur !
 
 #+BEGIN_SRC ocaml :data-roe-kind code :data-pellet Koka :data-line-number true :data-line-start 9
 val hello_handler = handler {
@@ -935,11 +936,11 @@ Nous avons exactement ce que nous désirions au début de l'article :
   explicite. Les déclarations de programmes sont pures et les gestionnaires
   de programmes sont impurs ;
 
-- les effets propagés par nos descriptions de programmes sont reflètés dans
+- les effets propagés par nos descriptions de programmes sont reflétés dans
   la signature de type de nos descriptions ;
 
 - un gestionnaire doit gérer tous les effets que la description de programme
-  peu propager.
+  peut propager.
 
 
 *** Tester un programme
@@ -947,7 +948,7 @@ Nous avons exactement ce que nous désirions au début de l'article :
 Comme notre programme n'est plus qu'une description, on peut donc très facilement
 le tester. En effet, il suffit de lui implémenter un interpréteur de test !
 Par exemple, une manière /naïve/ de tester ce programme serait simplement
-de lui demander de stocker toutes les étapes dans une chaine de caractères
+de lui demander de stocker toutes les étapes dans une chaîne de caractères
 (il existe des manières autrement plus pertinentes, mais le but de l'exemple
 n'est pas de trop alourdir le code).
 
@@ -963,9 +964,9 @@ effect state<s> {
 #+END_SRC
 
 src_ocaml{state<s>} est un état mutable, il est paramétré par le type qu'il
-va stocker. Dans notre cas, ce sera un chaine de caractères. Maintenant que
+va stocker. Dans notre cas, ce sera une chaîne de caractères. Maintenant que
 nous avons les briques pour faire des mutations, nous allons construire un
-intérpréteur pour notre programme original :
+interpréteur pour notre programme originel :
 
 #+BEGIN_SRC ocaml :data-roe-kind code :data-pellet Koka :data-line-number true :data-line-start 5
 val test_handler = handler {
@@ -993,7 +994,7 @@ Et que ce gestionnaire, une fois appliqué, ne renvoie rien mais peut exécuter
 l'effet src_ocaml{state<string>}. Il faudra donc l'éliminer via un gestionnaire
 destiné à implémenter notre état mutable.
 
-(cet interpréteur donne un exemple de la manière dont Koka compose des
+(Cet interpréteur donne un exemple de la manière dont Koka compose des
 programmes qui émettent plusieurs types d'effets, une fonction peut donc
 exécuter plusieurs types d'effets, il suffit juste de donner plusieurs
 interpréteurs pour éliminer les effets non-gérés.)
@@ -1080,7 +1081,7 @@ ordre on veut appliquer des interpréteurs. De ce fait, pour une fonction de
 type src_kotlin{() -> <effectA, effectB> a}, il serait possible :
 
 - d'appliquer src_koka{handler_for_a}{src_koka{handler_for_b}{program}} ;
-- ou appliquer src_koka{handler_for_b}{src_koka{handler_for_a}{program}}.
+- ou d'appliquer src_koka{handler_for_b}{src_koka{handler_for_a}{program}}.
 
 Cette grande liberté sur la manière et l'ordre d'interprétation permet, par
 exemple, d'enrichir un programme.
@@ -1113,7 +1114,7 @@ fun program() {
 Le type de src_ocaml{program()} est : src_ocaml{() -> user_database ()}, je
 peux très facilement fournir un gestionnaire dont le rôle sera de /logger/
 chaque action effectuée. Utiliser un gestionnaire permet d'éviter de changer
-le programme original, tout en lui greffant des fonctionnalités :
+le programme originel, tout en lui greffant des fonctionnalités :
 
 #+BEGIN_SRC ocaml :data-roe-kind code :data-pellet Koka :data-line-number true :data-line-start 12
 val logger_user_handler = handler {
@@ -1136,17 +1137,17 @@ val logger_user_handler = handler {
 #+END_SRC
 
 Comme ce gestionnaire re-propage les effets qu'il capture, on ne devra pas 
-modifier le code du gestionnaire qui s'occupe de réellement gerer 
+modifier le code du gestionnaire qui s'occupe de réellement gérer 
 nos utilisateurs. Cette approche est très proche d'une *Monade Writer*. 
-En utilisant cette approche, nos description de programmes peuvent 
+En utilisant cette approche, nos descriptions de programmes peuvent 
 se *contenter d'exprimer ce qu'ils font* et les gestionnaires 
-*ajoutent des capacités suplémentaires* pour l'exécution du programme.
+*ajoutent des capacités supplémentaires* pour l'exécution du programme.
 
 *** Une base pour des constructions plus complexes
 
-Un peu à l'instar des fonctions d'ordre supérieur, qui permettent de modeliser
+Un peu à l'instar des fonctions d'ordre supérieur, qui permettent de modéliser
 des encodages, par exemple src_javascript{for const x of [1, 2, 3] { f(x) }} 
-qui pourrait être exprimer comme src_javascript{[1, 2, 3].forEach(f)} et donc
+qui pourrait être exprimé comme src_javascript{[1, 2, 3].forEach(f)} et donc
 réduire la taille de la grammaire du langage, les effets algébriques (et leurs
 gestionnaires) permettent d'exprimer des constructions complexes, qu'il serait
 difficile d'exprimer sans et que l'on considère généralement comme des éléments
@@ -1166,17 +1167,17 @@ d'autres expressions communes dans le langages de programmations classiques.
 Ces constructions complémentaires pourrait donc appartenir, pourquoi pas, 
 à des bibliothèques tierces.
 
-Dans le cadre de la construction d'un /runtime/ multi-cœur pour le langage 
+Dans le cadre de la construction d'un /runtime/ multi-cœurs pour le langage 
 OCaml, l'intégration d'effets algébriques fait partie de la feuille de route
 pour pouvoir correctement modéliser l'expression de programmes concurrents
-dans un /runtime/ multi-cœur.
+dans un /runtime/ multi-cœurs.
 
 ** Et qu'est-ce qu'il y a d'algébrique là-dedans ?
 
 Très souvent, les objets que l'on manipule en programmation fonctionnelle
 sont construits sur la base d'une théorie solide. Parfois, il s'agit
 d'une application pratique d'un objet de la théorie des catégories. Les
-effets algébriques ont été exprimés, initialement, en terme de relation
+effets algébriques ont été exprimés, initialement, en terme de relations
 avec des catégories. (Ce qui est assez logique car la théorie des catégories
 à été initialement utilisée en extension au λ-calcul pour exprimer les
 effets. Cette utilisation a donné, approximativement, naissance aux monades
@@ -1193,7 +1194,7 @@ compositions pour des structures algébriques.
 
 Si jamais une explication plus détaillée et intelligente vous intéresse,
 le papier "[[https://arxiv.org/pdf/1807.05923.pdf][What is algebraic about algebraic effects and handler]]" de Andrej
-Bauer est incroyablement détaillé (et progressif) sur le "pourquoi algébrique),
+Bauer est incroyablement détaillé (et progressif) sur le "pourquoi algébrique"),
 je vous invite donc à le lire !
 
 ** Des effets algébriques PARTOUT 
@@ -1201,7 +1202,7 @@ je vous invite donc à le lire !
 Dans les rubriques précédentes, nous avons détaillé quelques cas d'usages
 aux effets algébriques et à leurs gestionnaires. Si vous êtes aussi
 emballé que moi, c'est normal, les effets algébriques, c'est trop cool !
-Donc qu'attendons-nous pour n'utiliser plus que des langages qui supportent
+Donc qu'attendons-nous pour n'utiliser que des langages qui supportent
 les effets algébriques ?
 
 Actuellement, il n'existe pas de langage /production-ready/ qui offre le
@@ -1222,7 +1223,7 @@ le coup d'œil (selon moi), en voici quelques unes :
   algébriques et des gestionnaires pour le développement web (où les 
   continuations peuvent être très utiles) ;
 
-- *[[https://github.com/ocaml-multicore/ocaml-multicore/wiki][OCaml multicore]]* est l'implémentation d'un /runtime/ multi-cœur pour OCaml,
+- *[[https://github.com/ocaml-multicore/ocaml-multicore/wiki][OCaml multicore]]* est l'implémentation d'un /runtime/ multi-cœurs pour OCaml,
   auquel seront liés des effets algébriques et des gestionnaires pour
   modéliser des programmes concurrents ;
 
@@ -1235,7 +1236,7 @@ une interface agréable à utiliser, on pourrait citer, entre autres,
 [[https://www.fstar-lang.org/#introduction][FStar]] et [[https://www.idris-lang.org/][Idris]]. Il semble que les effets algébriques sont assez confidentiels.
 
 Heureusement, dans le monde des langages /mainstream/, comme Haskell, on 
-trouve de bibliothèques très convaincantes, comme par exemple :
+trouve des bibliothèques très convaincantes, comme par exemple :
 
 - [[https://hackage.haskell.org/package/fused-effects][Fused-effect]] développé par une équipe de chez Github pour le développement
   de [[https://github.com/github/semantic][Semantic]] ;
@@ -1289,7 +1290,7 @@ pures, elles sont plus faciles à tester !
   
 
 Je remercie chaleureusement Gaston Lemaire, [[https://github.com/tsnobip][Paul Tsnobiladzé]], [[https://twitter.com/riduidel][Nicolas Delsaux]],
-[[https://twitter.com/NicolasRinaudo][Nicolas Rinaudo]], [[https://twitter.com/Sir4ur0n][Julien Debon]], [[https://twitter.com/dplaindoux][Didier Plaindoux]] ainsi que la communauté 
-*Lambda Lille* pour leurs conseils, leurs relectures et leur bienveillance ! 
-Merci les gens, sans vous je n'aurais sûrement pas eu le courage d'écrire
-cet article.
+[[https://twitter.com/NicolasRinaudo][Nicolas Rinaudo]], [[https://twitter.com/Sir4ur0n][Julien Debon]], [[https://twitter.com/dplaindoux][Didier Plaindoux]], Arnaud Lepesant ainsi que 
+la communauté *Lambda Lille* pour leurs conseils, leurs relectures et leur 
+bienveillance ! Merci les gens, sans vous je n'aurais sûrement pas eu le 
+courage d'écrire cet article.

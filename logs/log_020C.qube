@@ -51,3 +51,7 @@
 ((:uuid "ff0510ac-6547-0392-92ae-b55322316a4e") (:day "020C15")
   (:duration "20") (:sector "maintenance")
   (:label "Correctif de l'article sur les effets") (:project "planet"))
+
+((:uuid "7a5ce0c9-360b-a56e-a27d-9d4f52413d80") (:day "020C22")
+  (:duration "30") (:sector "maintenance") (:label "Revue de Continuation")
+  (:project "preface"))

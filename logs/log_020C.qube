@@ -55,3 +55,8 @@
 ((:uuid "7a5ce0c9-360b-a56e-a27d-9d4f52413d80") (:day "020C22")
   (:duration "30") (:sector "maintenance") (:label "Revue de Continuation")
   (:project "preface"))
+
+((:uuid "3373f5f5-f641-b732-a9ca-c1a36e6ba8f4") (:day "020C24")
+  (:duration "120") (:sector "programming")
+  (:label "Expérimentation d'une nouvelle organisation")
+  (:project "preface"))

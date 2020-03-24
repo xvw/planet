@@ -47,3 +47,7 @@
   (:duration "60") (:sector "maintenance")
   (:label "Corrections et précisions de l'article sur les effets")
   (:project "planet"))
+
+((:uuid "ff0510ac-6547-0392-92ae-b55322316a4e") (:day "020C15")
+  (:duration "20") (:sector "maintenance")
+  (:label "Correctif de l'article sur les effets") (:project "planet"))

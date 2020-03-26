@@ -1,6 +1,6 @@
 (:name "Relecture et correctif de l'article sur les effets algébriques")
 (:description
   "Corrections et précisions de l'article, trop rapidement publié, sur les effets algébriques")
-(:state "in_progress") (:uuid "TASK-15") (:date "020C12") (:project "planet")
+(:state "done") (:uuid "TASK-15") (:date "020C12") (:project "planet")
 (:sectors (maintenance writing)) (:checklist ())
 (:tags ())

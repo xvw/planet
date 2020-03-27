@@ -60,3 +60,8 @@
   (:duration "120") (:sector "programming")
   (:label "Expérimentation d'une nouvelle organisation")
   (:project "preface"))
+
+((:uuid "e8d3d58f-e106-27d4-0c9f-431ef6de57e7") (:day "020C27")
+  (:duration "30") (:sector "maintenance")
+  (:label "Quelques petits correctifs (typo et nommage)")
+  (:project "preface"))

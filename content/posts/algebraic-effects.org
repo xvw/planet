@@ -285,10 +285,19 @@ Plus formellement, dans beaucoup de langages statiquement typés :
   /type src_haskell{τ} et produit les effets src_haskell{effects}/".
 
 Ce qui donnerait, par exemple, pour une fonction dont le rôle serait
-d'écrire sur la sortie standard un message et qui a généralement le type 
-src_ocaml{val print_string : string -> unit}, nous aurions plutôt cette
-signature src_ocaml{val print_string : string -> unit & output}, ce qui
-correspond à dire, au travers de la signature de type que même si la 
+d'écrire sur la sortie standard un message et qui a généralement le type :
+
+#+BEGIN_SRC ocaml :data-roe-kind code
+val print_string : string -> unit
+#+END_SRC
+
+Nous aurions plutôt cette signature : 
+
+#+BEGIN_SRC ocaml :data-roe-kind code
+val print_string : string -> unit & output
+#+END_SRC
+
+ce qui correspond à dire, au travers de la signature de type que même si la 
 fonction ne renvoie rien, elle écrit aussi sur la sortie standard.
  
 Pour résumer, un effet de bord est un effet qui n'est pas mis en lumière
@@ -765,7 +774,7 @@ ne prend aucun argument, ne renvoie aucune valeur mais son exécution
 propagera l'effet src_ocaml{mumble}. Que se passe-t-il si j'essaie d'exécuter
 cette fonction ?
 
-#+BEGIN_SRC raw :data-roe-kind code :data-pellet Koka
+#+BEGIN_SRC kotlin :data-roe-kind code :data-pellet Koka
 (1, 0): error: there are unhandled effects for the main expression
   inferred effect: test/mumble
   hint           : wrap the main function in a handler
@@ -986,10 +995,15 @@ val test_handler = handler {
 Concrètement, cet interpréteur va /hooker/ l'effet src_ocaml{ask} pour toujours
 renvoyer src_ocaml{"Xavier"}, et il va le concaténer à notre état courant.
 Le gestionnaire pour src_ocaml{show}, lui, va simplement concaténer le message
-à notre état courant. Notre gestionnaire aura donc le type 
-src_ocaml{ (() -> <interaction, state<string>> ()) -> state<string> ()}. Soit
-que le gestionnaire s'applique à une fonction qui ne renvoie rien mais peut
-exécuter des effets de type src_ocaml{interaction} et src_ocaml{state<string>}.
+à notre état courant. Notre gestionnaire aura donc le type : 
+
+#+BEGIN_SRC ocaml :data-roe-kind code
+(() -> <interaction, state<string>> ()) -> state<string> () 
+#+END_SRC
+
+Soit que le gestionnaire s'applique à une fonction qui ne renvoie rien 
+mais peut exécuter des effets de type src_ocaml{interaction} et 
+src_ocaml{state<string>}.
 Et que ce gestionnaire, une fois appliqué, ne renvoie rien mais peut exécuter
 l'effet src_ocaml{state<string>}. Il faudra donc l'éliminer via un gestionnaire
 destiné à implémenter notre état mutable.

@@ -65,3 +65,8 @@
   (:duration "30") (:sector "maintenance")
   (:label "Quelques petits correctifs (typo et nommage)")
   (:project "preface"))
+
+((:uuid "80c29e73-6074-6ae1-86d9-53f7b5108b81") (:day "020C29")
+  (:duration "85") (:sector "visual")
+  (:label "Legers correctifs temporaires sur la version responsive")
+  (:project "planet"))

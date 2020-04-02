@@ -70,3 +70,9 @@
   (:duration "85") (:sector "visual")
   (:label "Legers correctifs temporaires sur la version responsive")
   (:project "planet"))
+
+((:uuid "45e65170-6148-4940-2228-8d66ad201c49") (:day "020C30")
+  (:duration "60") (:sector "research")
+  (:label
+    "Expériences sur les modules et la construction de foncteurs à deux paramètres")
+  (:project "preface"))

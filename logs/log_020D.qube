@@ -1,0 +1,5 @@
+;; Logs for 020D
+((:uuid "f2f51490-bd13-13d0-4673-f7a5e80df35d") (:day "020D02")
+  (:duration "30") (:sector "research")
+  (:label "Relecture de l'intégration de Either (avec un Bifoncteur)")
+  (:project "preface"))

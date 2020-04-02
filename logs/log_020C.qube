@@ -76,3 +76,9 @@
   (:label
     "Expériences sur les modules et la construction de foncteurs à deux paramètres")
   (:project "preface"))
+
+((:uuid "03730d5d-0a9f-a367-dd94-64763882af5a") (:day "020C31")
+  (:duration "120") (:sector "research")
+  (:label
+    "Expériences sur les modules et la construction de foncteurs à deux paramètres")
+  (:project "preface"))

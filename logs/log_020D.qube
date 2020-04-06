@@ -17,3 +17,8 @@
 ((:uuid "7d219b8e-78a5-f8d5-a239-d38bb073dce3") (:day "020D05")
   (:duration "320") (:sector "programming")
   (:label "Expériences sur la version 2 ") (:project "planet"))
+
+((:uuid "f0ed53ea-2762-5360-1849-187f845098d4") (:day "020D06")
+  (:duration "120") (:sector "maintenance")
+  (:label "Revue des premiers tests dirigés par les propriétés")
+  (:project "preface"))

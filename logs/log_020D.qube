@@ -3,3 +3,8 @@
   (:duration "30") (:sector "research")
   (:label "Relecture de l'intégration de Either (avec un Bifoncteur)")
   (:project "preface"))
+
+((:uuid "cc08450d-4604-6ec5-0873-40de85d4034a") (:day "020D03")
+  (:duration "120") (:sector "research")
+  (:label "Expériences d'utilisation de Preface dans Planet")
+  (:project "preface"))

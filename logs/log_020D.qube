@@ -8,3 +8,8 @@
   (:duration "120") (:sector "research")
   (:label "Expériences d'utilisation de Preface dans Planet")
   (:project "preface"))
+
+((:uuid "1d216b4a-447f-1aef-75ce-8a4c4d7f6da8") (:day "020D04")
+  (:duration "120") (:sector "research")
+  (:label "Expériences autour des foncteurs selectifs applicatifs")
+  (:project "preface"))

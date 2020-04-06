@@ -13,3 +13,7 @@
   (:duration "120") (:sector "research")
   (:label "Expériences autour des foncteurs selectifs applicatifs")
   (:project "preface"))
+
+((:uuid "7d219b8e-78a5-f8d5-a239-d38bb073dce3") (:day "020D05")
+  (:duration "320") (:sector "programming")
+  (:label "Expériences sur la version 2 ") (:project "planet"))

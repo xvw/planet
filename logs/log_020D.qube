@@ -22,3 +22,8 @@
   (:duration "120") (:sector "maintenance")
   (:label "Revue des premiers tests dirigés par les propriétés")
   (:project "preface"))
+
+((:uuid "b941bf00-23ea-0a27-0e66-24e9add88cfd") (:day "020D07")
+  (:duration "120") (:sector "research")
+  (:label "Relecture de l'intégration de QCheck pour vérifier les lois")
+  (:project "preface"))

@@ -40,3 +40,7 @@
 ((:uuid "7c071f8e-4d62-721d-525b-bd7c396c0ca2") (:day "020D12")
   (:duration "60") (:sector "programming")
   (:label "Enrichissement de l'API de Stream") (:project "preface"))
+
+((:uuid "e96ea8b9-6e4c-b6fb-d6d9-661493ce2670") (:day "020D13")
+  (:duration "60") (:sector "programming")
+  (:label "Enrichissement de l'API de Stream") (:project "preface"))

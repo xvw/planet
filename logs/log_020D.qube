@@ -36,3 +36,7 @@
   (:duration "120") (:sector "programming")
   (:label "Expériences avec les comonades et les streams")
   (:project "preface"))
+
+((:uuid "7c071f8e-4d62-721d-525b-bd7c396c0ca2") (:day "020D12")
+  (:duration "60") (:sector "programming")
+  (:label "Enrichissement de l'API de Stream") (:project "preface"))

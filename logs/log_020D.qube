@@ -53,3 +53,7 @@
   (:duration "320") (:sector "research")
   (:label "Expériences d'utilisation de Preface dans un projet concret")
   (:project "preface"))
+
+((:uuid "aab77a76-9bf7-03e9-c2b3-b053714e53e8") (:day "020D16")
+  (:duration "120") (:sector "research")
+  (:label "Relecture de patch (Tests, State)") (:project "preface"))

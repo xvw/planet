@@ -48,3 +48,8 @@
 ((:uuid "a09c2f88-8b2c-0127-ad11-4c36f15b5911") (:day "020D14")
   (:duration "120") (:sector "research")
   (:label "Expériences avec Preface (Free/Freer)") (:project "preface"))
+
+((:uuid "ffd97355-f85c-48a3-6ecd-865cf1bfd7b9") (:day "020D15")
+  (:duration "320") (:sector "research")
+  (:label "Expériences d'utilisation de Preface dans un projet concret")
+  (:project "preface"))

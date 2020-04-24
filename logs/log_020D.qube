@@ -69,4 +69,9 @@
 
 ((:uuid "80f0d419-3193-fd99-457e-80c5213c1ac5") (:day "020D19")
   (:duration "450") (:sector "writing")
-  (:label "Ecriture du talk "effets" pour LambdaLille"))
+  (:label "Ecriture du talk 'effets' pour LambdaLille"))
+
+((:uuid "a3eeda4e-aa3f-6c23-cbbf-d79c70387cc4") (:day "020D20")
+  (:duration "120") (:sector "research")
+  (:label "Expérience avec Preface pour la construction de logiciels")
+  (:project "preface"))

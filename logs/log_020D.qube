@@ -44,3 +44,7 @@
 ((:uuid "e96ea8b9-6e4c-b6fb-d6d9-661493ce2670") (:day "020D13")
   (:duration "60") (:sector "programming")
   (:label "Enrichissement de l'API de Stream") (:project "preface"))
+
+((:uuid "a09c2f88-8b2c-0127-ad11-4c36f15b5911") (:day "020D14")
+  (:duration "120") (:sector "research")
+  (:label "Expériences avec Preface (Free/Freer)") (:project "preface"))

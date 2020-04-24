@@ -66,3 +66,7 @@
 ((:uuid "47430633-0136-8281-6ef7-6442bc86afe9") (:day "020D18")
   (:duration "200") (:sector "research")
   (:label "Lecture Arrow/Choice/Apply") (:project "preface"))
+
+((:uuid "80f0d419-3193-fd99-457e-80c5213c1ac5") (:day "020D19")
+  (:duration "450") (:sector "writing")
+  (:label "Ecriture du talk "effets" pour LambdaLille"))

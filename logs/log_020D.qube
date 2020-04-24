@@ -57,3 +57,8 @@
 ((:uuid "aab77a76-9bf7-03e9-c2b3-b053714e53e8") (:day "020D16")
   (:duration "120") (:sector "research")
   (:label "Relecture de patch (Tests, State)") (:project "preface"))
+
+((:uuid "3eb480af-11ce-a438-1af7-e52338346120") (:day "020D17")
+  (:duration "320") (:sector "research")
+  (:label "Expériences dans la création de logiciel avec Preface")
+  (:project "preface"))

@@ -75,3 +75,7 @@
   (:duration "120") (:sector "research")
   (:label "Expérience avec Preface pour la construction de logiciels")
   (:project "preface"))
+
+((:uuid "b19cf16a-7ec6-065b-2606-500d3a4e3051") (:day "020D21")
+  (:duration "60") (:sector "research")
+  (:label "Expériences à l'utilisation de Preface") (:project "preface"))

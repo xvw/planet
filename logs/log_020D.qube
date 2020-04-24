@@ -62,3 +62,7 @@
   (:duration "320") (:sector "research")
   (:label "Expériences dans la création de logiciel avec Preface")
   (:project "preface"))
+
+((:uuid "47430633-0136-8281-6ef7-6442bc86afe9") (:day "020D18")
+  (:duration "200") (:sector "research")
+  (:label "Lecture Arrow/Choice/Apply") (:project "preface"))

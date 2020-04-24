@@ -79,3 +79,8 @@
 ((:uuid "b19cf16a-7ec6-065b-2606-500d3a4e3051") (:day "020D21")
   (:duration "60") (:sector "research")
   (:label "Expériences à l'utilisation de Preface") (:project "preface"))
+
+((:uuid "464348e4-d05b-3f05-2bf0-e9c40b336a05") (:day "020D24")
+  (:duration "200") (:sector "programming")
+  (:label "Expériences sur Arrow/Apply/Choice (et Selective)")
+  (:project "preface"))

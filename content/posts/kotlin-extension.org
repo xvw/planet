@@ -1,0 +1,221 @@
+#+BEGIN_QUOTE
+Depuis un peu plus d'un an, j'utilise quotidiennement le langage [[https://kotlinlang.org][Kotlin]] pour mon
+activité professionnelle. En tant qu'étudiant, j'ai *vraiment* détesté utiliser
+le langage Java. Je le trouvais verbeux, peu expressif et imposant une collection
+de pratiques, les motifs de conceptions, que je trouvais compliqué. Heureusement,
+Kotlin est, selon moi, bien plus expressif et agréable à utiliser que son
+prédécesseur.
+
+Kotlin apporte beaucoup d'innovations. Les couroutines, les familles scellées,
+un support décent des fonctions anonymes, les extensions et beaucoup d'autres,
+tout en permettant d'interopérer facilement avec Java (et donc le milliards
+d'outils peuplant son ecosystème). Ces apports font du langage un outil
+relativement agréable à utiliser. En complément, Kotlin bénéficie d'une 
+communauté très large et très productive en bibliothèques, présentations, 
+articles et tutoriels.
+
+Dans cet article, je vous propose d'observer comment utiliser *les extensions*
+pour contrôler plus finement les paramètres génériques de classes pour
+construire des logiciels plus sûrs et tâcher de se faire aider au maximum par
+le compilateur pour capturer un maximum de cas qui ne devraient pas se
+produire dans le cycle de vie d'une application. Comme je l'ai dit précédemment,
+la communauté Kotlin est très productive, il est donc possible que ce sujet
+ait déjà été traité maintes et maintes fois. D'avance, désolé et bonne lecture !
+#+END_QUOTE
+
+Comme l'indique très précisemment [[https://kotlinlang.org/docs/reference/extensions.html][la section dédiée aux extensions]] dans le manuel
+de Kotlin, ces dernières permettent d'étendre facilement une classe existante.
+Quand on ne bénéficie pas de mécanisme d'extension, il faut ruser pour étendre
+les fonctionnalité d'un objet, par exemple, en utilisant l'héritage (ce qui
+peut être très ennuyant quand la [[https://docs.oracle.com/javase/7/docs/api/java/lang/String.html][classe est finale]]...), en utilisant des 
+décorateurs ou en construisant une bibliothèque dont l'interface n'exposerait
+que des méthodes statiques (par exemple). Heureusement, les extensions permettent
+d'étendre les fonctionnalités d'une classe de manière homogène. Par exemple,
+je peux facilement, au moyen des extensions, ajouter dans mon /scope/ une méthode
+src_kotlin{String#emphasis} qui mettra le contenu de ma chaine en majuscule et
+lui ajoutera un point d'exclamation, pour marquer l'emphase !
+
+#+BEGIN_SRC Kotlin :data-roe-kind code :data-line-number true
+fun String.emphasis() = 
+    "${this.toUpperCase()} !"
+
+fun main() {
+    println("Hello World".emphasis())
+}
+#+END_SRC
+
+Le premier usage de ces extensions est... comme leur nom l'indique, d'étendre
+des classes existantes. Comme il s'agit de leur raison d'être principal, je ne
+vais pas m'étendre sur cet usage spécifique, la section qui leur est dédiée est
+claire et couvre tous les /edge-cases/. Je vous propose de survoler trois cas
+d'usages qui me semblent intéressants dans la conception de logiciels.
+
+** Préciser le receveur
+
+Bien que les extensions offrent un moyen confortable d'étendre une classe déjà
+existante. Je trouve que leur usage va beaucoup plus loin. Quand on veut étendre
+une classe qui /est paramétrée/, il suffit de transporter ses génériques, comme
+lorsque l'on rédige une fonction générique /normale/ :
+
+#+BEGIN_SRC Kotlin :data-roe-kind code :data-line-number true
+fun <A, B> List<A>.zipWith(l: List<B>) : List<Pair<A, B>> =
+    mapIndexed { index, left ->
+        val right = l[index]
+        Pair(left, right)
+    }
+#+END_SRC
+
+On observe que le type src_kotlin{A}, qui normalement fait partie de la définition
+de la classe doit être transporté dans sa définition. src_kotlin{A} étant un
+paramètre de type de fonction classique, il est possible de le fixer. Par exemple,
+définissons une fonction qui n'est disponible *que* pour les listes d'entiers :
+
+#+BEGIN_SRC Kotlin :data-roe-kind code :data-line-number true
+fun List<Int>.sumElements() =
+    reduce { x, y -> x + y }
+#+END_SRC
+
+Même si ça peut sembler anodin, les extensions offrent plus de finesses dans la
+déclaration des receveurs. Observons tout de suite un cas un peu plus précis.
+
+*** Le cas de src_kotlin{flatten()}
+
+Un des reproches souvent exprimé à l'encontre de la programmation orientée objets
+(statiquement typés) est l'incapacité d'exprimer certaines méthodes, notamment
+à cause du manque de contrôle sur le type du receveur habitant une classe.
+Par exemple, la méthode src_kotlin{flatten()} dont le type serait 
+src_kotlin{T<T<A>> -> T<A>}. Cette méthode est assez utile (notamment pour les 
+src_kotlin{List<A>} ou encore les src_kotlin{Option<A>}). Prenons le cas de
+*Option*, qui est plus court à implémenter que des listes.
+
+On voudrait exprimer, au moyen de classes, la présence ou l'absence de valeur,
+soit encoder l'équivalent du src_kotlin{null}. On distingue deux cas : 
+
+- Présence de valeur : src_kotlin{Some(value)} ;
+- Son absence : src_kotlin{None()}.
+
+Pour lier les deux constructeurs à un seul type on utilise une famille scellée,
+voici une proposition d'implémentation (qui ne se soucie pas du tout de la variance
+pour simplifier la lecture) :
+
+#+BEGIN_SRC Kotlin :data-roe-kind code :data-line-number true
+sealed class Option<A> {
+    abstract fun <B> flatMap(f:(A) -> Option<B>): Option<B>
+    fun <B> map(f:(A) -> B) = flatMap { wrap(f(it)) }
+
+    companion object {
+        fun <A> wrap(value: A): Option<A> =
+            Some(value)
+    }
+}
+class None<A> : Option<A>() {
+    override fun <B> flatMap(f: (A) -> Option<B>): Option<B> =
+        None()
+}
+data class Some<A>(val value: A) : Option<A>() {
+    override fun <B> flatMap(f: (A) -> Option<B>): Option<B> =
+        f(value)
+}
+#+END_SRC
+
+On peut noter que src_kotlin{map} s'exprime très bien au moyen de 
+src_kotlin{flatMap} et notre structure a le comportement attendu :
+#+BEGIN_SRC Kotlin :data-roe-kind code :data-line-number true :data-line-start 18
+val x = Option.wrap(10)
+  .map { it + 10}
+  .flatMap { None<Int>() } // L'inférence fonctionne rarement :lol:
+  .map { it + 20}
+#+END_SRC
+
+Un combinateur que l'on aime adjoindre à src_kotlin{map} et src_kotlin{flatMap}
+est le combinateur src_kotlin{flatten} (ou src_kotlin{join} dans d'autres
+langages) qui pourrait très bien s'exprimer via src_kotlin{flatMap}. Mais comment
+l'exprimer dans la classe src_kotlin{Option} ?
+
+#+BEGIN_SRC Kotlin :data-roe-kind code :data-line-number true :data-hl 4
+sealed class Option<A> {
+    abstract fun <B> flatMap(f:(A) -> Option<B>): Option<B>
+    fun <B> map(f:(A) -> B) = flatMap { wrap(f(it)) }
+    ??? fun flatten() : = flatMap { it }
+
+    companion object {
+        fun <A> wrap(value: A): Option<A> =
+            Some(value)
+    }
+}
+#+END_SRC
+
+Ici, on voit rapidement le manque de contrôle que le traitement uniforme des
+paramètres génériques peut engendrer. Une astuce pour palier à ça serait de
+déplacer la fonction src_kotlin{flatten} dans l'objet compagnon :
+
+#+BEGIN_SRC Kotlin :data-roe-kind code :data-line-number true :data-hl 9;10
+sealed class Option<A> {
+    abstract fun <B> flatMap(f:(A) -> Option<B>): Option<B>
+    fun <B> map(f:(A) -> B) = flatMap { wrap(f(it)) }
+
+    companion object {
+        fun <A> wrap(value: A): Option<A> =
+            Some(value)
+
+        fun <A> flatten(x: Option<Option<A>>) = 
+            x.flatMap { it }
+    }
+}
+#+END_SRC
+
+On pourrait se plaindre que cela ruine notre belle /pipeline/, cependant,
+grâce à la petite méthode src_kotlin{let}, on ne peut y voir que du feu :
+
+#+BEGIN_SRC Kotlin :data-roe-kind code :data-line-number true :data-line-start 18
+val x = Option.wrap(10)
+  .map { it + 10}
+  .flatMap { None<Int>() }
+  .map { Option.wrap(it + 20)}
+  .let(::flatten)
+#+END_SRC
+
+Même si cette approche est, à l'usage, indéniablement satisfaisante, elle
+impose au développeur de garder dans son esprit ce qui est relié à l'instance,
+les méthodes, et ce qui est greffé à l'objet compagnon. Ce que l'on constate,
+c'est que les paramètres de fonctions permettent de décrire des structures
+paramétrés de manière plus fine. Heureusement, on a vu que les extensions
+ne sont, au final, que des fonctions, et dans la rubrique précédente, nous
+avons créé une méthode d'extension sur un type concret. 
+
+Vous vous en doutez, il est possible de décrire une méthode pour le type 
+src_kotlin{Option<Option<A>>} :
+
+#+BEGIN_SRC Kotlin :data-roe-kind code :data-line-number true
+fun <A> Option<Option<A>>.join() = 
+   flatMap { it }
+#+END_SRC
+
+L'/import/ de cette méthode permet de travailler avec src_kotlin{flatten}
+directement comme une méthode sur une option d'option. Si par contre, on
+essaye d'appliquer la méthode à une valeur qui n'a pas le type 
+src_kotlin{Option<Option<...>>}, le programme ne compilera pas. Ce qui est
+exactement le comportement que l'on attend !
+
+#+BEGIN_SRC Kotlin :data-roe-kind code :data-line-number true :data-line-start 18
+val x = Option.wrap(10)
+  .map { it + 10}
+  .flatMap { None<Int>() }
+  .map { Option.wrap(it + 20)}
+  .flatten()
+#+END_SRC
+
+Cette utilisation des extensions peut sembler très naïve, mais elle couvre
+une problématique assez ancienne (et connue) de l'organisation en classes : 
+*l'absence de méthode /guardées/*. Soit des contraintes de sous-typage (ou de
+traits) sur certaines méthodes. Kotlin offre une solution via les extensions,
+en définissant les /guards/ en dehors de la définition de la classe. Il existe
+d'autres approches, notamment l'utilisation de *témoins d'égalité*,
+en Scala, qui prennent le forme d'/implicits/.
+
+En conclusion de cette première présentation très scolaire, les extensions
+offrent une manière de typer plus finement les receveurs de méthodes et c'est
+assez pratique pour définir des fonctions communes... comme src_kotlin{flatten}.
+
+Dans les prochaines sections, nous allons observer des cas d'usages un peu plus
+marginaux, mais, à mon sens, potentiellement utiles !

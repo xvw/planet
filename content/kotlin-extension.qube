@@ -1,0 +1,24 @@
+(:title "Kotlin, extensions et génériques")
+(:kind long)
+(:date #020D28)
+(:permaname "kotlin_extensions")
+(:synopsis "Plus de contrôle sur les génériques avec les extensions en Kotlin.")
+(:content external #org-mode "content/posts/kotlin-extension.org")
+(:published true)
+(:category "programmation")
+(:tags "programmation" "kotlin" "extension" "types")
+
+
+(:links
+ (
+  ("Kotlin"
+   (
+    ("Site officiel"
+     "https://kotlinlang.org")
+    
+    ("Les extensions en Kotlin"
+     "https://kotlinlang.org/docs/reference/extensions.html")
+    )
+   )
+  )
+ )

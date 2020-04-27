@@ -84,3 +84,8 @@
   (:duration "200") (:sector "programming")
   (:label "Expériences sur Arrow/Apply/Choice (et Selective)")
   (:project "preface"))
+
+((:uuid "2c71269d-7669-6082-5e90-21b7b782706b") (:day "020D27")
+  (:duration "120") (:sector "writing")
+  (:label "Initialisation de l'article sur les extensions en Kotlin")
+  (:project "planet"))

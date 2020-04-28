@@ -93,3 +93,7 @@
 ((:uuid "ed7a5567-28c3-521c-0bb7-c0ceaeb36016") (:day "020D28")
   (:duration "160") (:sector "writing")
   (:label "Rédaction de l'article sur les extensions") (:project "planet"))
+
+((:uuid "43467e47-a477-9981-bb30-073ccac7ec06") (:day "020D29")
+  (:duration "120") (:sector "writing")
+  (:label "Finalisation de l'article sur les extensions") (:project "planet"))

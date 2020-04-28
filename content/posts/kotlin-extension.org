@@ -16,9 +16,10 @@ articles et tutoriels.
 
 Dans cet article, je vous propose de découvrir une de ces nouveautés, les
 *extensions*, au travers d'un exemple plutôt réaliste, suivi d'exemples
-beaucoup moins utiles mais rigolos (enfin... je trouve) !
-
-*A CONTINUER*
+beaucoup moins utiles mais rigolos (enfin... je trouve) ! Comme évoqué, la
+communauté Kotlin étant très productive, il est possible que ces "techniques"
+soient déjà longuement expliquées dans d'autres articles... je suis "un peu"
+désolé pour mon manque d'originalité !
 #+END_QUOTE
 
 Comme l'indique très précisemment [[https://kotlinlang.org/docs/reference/extensions.html][la section dédiée aux extensions]] dans le manuel
@@ -296,4 +297,204 @@ sur une instance d'une classe implémentant l'interface qui applique les
 extensions, rend ces extensions disponibles dans uniquement dans le /bloc/ 
 de la fonction.
 
+Même si l'application locale des extensions peut paraitre inutile, le point
+essentiel de cette section est qu'il est possible de *définir un ensemble*
+*d'extensions qui sera appliqué à la demande d'un utilisateur* au niveau
+d'une classe (ou d'une autre interface) ou plus brutalement d'une expression
+au moyen de la construction src_kotlin{with}.
 
+** Extensions génériques
+
+Maintenant que nous pouvons appliquer des extensions à la volée en usant et
+abusant de l'incroyablement permissif src_kotlin{with}, essayons d'aller
+plus loins ! Appliquons des extensions à sur des génériques ! C'est entièrement
+possible car Kotlin ne limite pas l'application d'extensions à des classes
+connues. Il est tout à fait possible d'appliquer une extension à une classe
+que l'on ne connait pas ! Par exemple :
+
+#+BEGIN_SRC Kotlin :data-roe-kind code :data-line-number true :data-hl 11
+// On défini notre extension de manière "générique"
+interface Silly<T> {
+    fun T.bang() = "Bang Bang"
+}
+
+// On défini un contexte pour profiter de [with]
+class Context : Silly<String>
+
+fun main() {
+    val x = with(Context()){
+        "foo".bang()
+    }
+    println(x)
+}
+#+END_SRC
+
+Comme le montre l'exemple, on peut décider arbitrairement d'ajouter des
+méthodes à une classe que l'on ne connait pas. De plus, comme le langage 
+des génériques permet de définir des contraintes de généricité, il est possible
+de contraindre les classes sur lesquelles on veut appliquer les extensions à
+la demande. Mais concrètement est-il possible de trouver des cas d'usages à
+cette utilisation spécifique des extensions ? 
+
+Pour être très honnête... je pense que cet usage spécifique relève plus de
+l'expérimentation et l'amusement. Il s'agit d'un encodage un peu particulier
+pour écrire autrement ce qu'il aurait été possible d'écrire de manière
+plus traditionnelle via des passages de fonctions ou de la répétition des
+implémentation manuelles. Mais pour le plaisir de l'exercice, implémentons
+l'inénarrable *Monoïde* de manière "presque générique".
+
+*** Un fournisseur de /reducers/
+
+L'objectif de l'article n'est pas de s'étendre sur une définition rigoureuse
+du monoïde, [[https://www.youtube.com/watch?v=srQt1NAHYC0][certains l'ont déjà fait de manière très claire]]. Retenons juste
+que si une classe possède un élément neutre et que ses instances possèdent 
+une méthode src_kotlin{combine} qui prend deux instance de cette classe et
+retourne une valeur de cette classe (donc src_kotlin{T.combine(x: T) : T} en
+respectant certaines lois : 
+
+- src_kotlin{combine} est associatif
+- src_kotlin{element_neutre.combine(x)} est égal à src_kotlin{x}
+- src_kotlin{x.combine(element_neutre)} est égal à src_kotlin{x}
+
+C'est lois permettent l'implémentation de combinateurs qui exploitent l'opération
+src_kotlin{combine}. Il est par exemple possible de définir un monoïde sur
+les entiers pour qui l'opérateur src_kotlin{combine} est simplement l'addition
+et l'élément neutre est ... logiquement, src_kotlin{zéro}. Ou alors un monoïde,
+lui aussi sur les entiers, mais où cette fois, l'élément neutre est 
+src_kotlin{un}. Un dernier exemple serait une monoïde sur les chaines de 
+caractéres pour lesquels l'opérateur src_kotlin{combine} serait la concatènation.
+
+Quand on possède un monoïde, on possède aussi, /de facto/ une fonction 
+src_kotlin{reduce} qui transforme un ensemble de valeur de notre monoïde en
+une seule. Dans le cas du monoïde des entiers adjoints à l'addition, le
+résultat serait la somme de tous les éléments. 
+
+Pour définir cette génériquement on voudrait pouvoir l'exprimer de cette
+manière : 
+ 
+#+BEGIN_SRC Kotlin :data-roe-kind code :data-line-number true
+fun <T> Collection<Monoid<T>>.reduce() = 
+  Collection.fold(T.neutralElement) { accumulator, element -> 
+     accumulator.combine(element)
+  }
+#+END_SRC
+
+Même si au survol, cette "implémentation" semble valide, elle pose tout de même
+plusieurs soucis : 
+
+- premièrement, elle n'est pas implémentable ... (à cause du src_kotlin{T.neutral_element})
+- ensuite, elle considère que tout ce qui implémente src_kotlin{Monoid} est "valide", donc
+  le monoïde des entiers sur l'addition serait compatible avec le monoïde des entiers sur 
+  le produit
+- il ne serait pas possible de "convertir" un type existant en monoïde  (ou alors
+  il faudrait /wrapper/ le type dans une classe qui implémenterait l'interface 
+  src_kotlin{Monoid}.
+
+Kotlin ne permettant pas d'exprimer du sous-typage structurel, je vous propose
+d'utiliser nos nouveaux super-pouvoirs pour fournir des /reducers/ via des
+extensions !
+
+#+BEGIN_SRC Kotlin :data-roe-kind code :data-line-number true
+interface Monoid<Subject> {
+    fun Subject.neutralElement() : Subject
+    fun Subject.combine(x: Subject) : Subject
+}
+#+END_SRC
+
+Rien ne nous empêche de définir des extensions abstraites, dès lors que l'on
+contruira un /contexte/ pour nos différents monoïdes, il faudra fournir une
+implémentation pour src_kotlin{neutralElement} et src_kotlin{combine}. Par
+exemple :
+
+#+BEGIN_SRC Kotlin :data-roe-kind code :data-line-number true :data-line-start 5
+class AddMonoid : Monoid<Int> {
+    override fun Int.combine(x: Int) = plus(x)
+    override fun Int.neutralElement() = 0
+}
+
+class StringMonoid : Monoid<String> {
+    override fun String.combine(x: String) = "${this}$x"
+    override fun String.neutralElement() = ""
+}
+#+END_SRC
+
+Comme tout objet ne possède pas obligatoirement d'objet compagnon, je ne peux
+hélas pas intégrer "facilement" src_kotlin{neutralElement} à un niveau
+superieur à celui de l'instance... ce qui impose tout de même quelques /hacks/
+un peu triste dans l'implémentation de src_kotlin{reduce}.
+
+#+BEGIN_SRC Kotlin :data-roe-kind code :data-line-number true :data-hl 5..10
+interface Monoid<Subject> {
+    fun Subject.neutralElement() : Subject
+    fun Subject.combine(x: Subject) : Subject
+
+    fun Collection<Subject>.reduce(initial: Subject? = null) : Subject? {
+        return this.fold(initial) { acc, left ->
+            val right = acc ?: left.neutralElement()
+            right?.combine(left)
+        }
+    }
+}
+#+END_SRC
+
+On ajoute dans notre interface qui transporte nos extensions une methode
+src_kotlin{reduce} qui agit sur les src_kotlin{Collection<Subject>}. On triche
+un peu pour accéder à l'élément neutre, et en supposant que si la liste est
+vide elle renverra src_kotlin{null} si l'utilisateur ne donne pas en argument
+l'élément neutre (si elle n'est pas vide par contre, ça fonctionnera). 
+Il serait possible, moyennant plus d'encodage, de corriger le soucis de 
+l'élément neutre, mais le code risquerait de devenir plus complexe (pour, au
+final, pas grand chose). 
+
+Quoi qu'il en soit, il est possible d'utiliser src_kotlin{reduce} dans des
+contextes spécifiques : 
+
+#+BEGIN_SRC Kotlin :data-roe-kind code :data-line-number true
+fun main() {
+    val x = with(AddMonoid()) {
+        listOf(1, 2, 3, 4, 5).reduce()
+    } // x = 15
+
+    val y = with(StringMonoid()) {
+        listOf("Hello ", "World ", "!").reduce()
+    } // y = "Hello World !"
+}
+#+END_SRC
+
+Concrètement, on rend possible, dans le contexte de nos monoïdes, des extensions
+sur les collections implémentant src_kotlin{reduce}. Malgré que l'implémentation
+de l'élément neutre ne soit pas vraiment satisfaisante, la solution propose
+tout de même très peu de /boilerplate/.
+
+Même si dans des exemples plus réalistes, il est probable que ce genre d'encodage
+ne soit pas d'une très grande aide, j'ai l'intuition qu'ils offrent des
+exemples acceptables (et un peu amusant tout de même) de ce qu'offrent les
+extensions. D'ailleurs, en en parlant avec [[https://twitter.com/fteychene][Francois Teychene]] et [[https://twitter.com/dplaindoux][Didier Plaindoux]],
+ils m'ont fait remarquer que c'était un encodage similaire (complété par de
+la génération de code pour simplifier l'usage et les capacités) qu'utilisait
+[[Arrow.kt][https://arrow-kt.io/]] pour simuler les classe de types "à la Haskell". Les
+développeurs de la bibliothèque ont d'ailleurs ouvert une [[https://github.com/Kotlin/KEEP/pull/87][proposition d'évolution]]
+du langage qui est encore active, très populaire, mais ... hélas, pas dans 
+la /roadmap/ du langage à l'heure actuelle.
+
+** Pour conclure
+
+En conclusion, les extensions sont un mécanisme puissant qui permet, dans un
+premier temps, d'éviter l'abus de modules utilitaires qui cassent l'envoi
+de message (l'appel de méthode classique) pour ajouter des fonctionnalités.
+Elles permettent aussi de typer plus finement les receveurs de méthodes, comme
+nous l'avons vu avec la méthode src_kotlin{flatten()}. Et elles permettent aussi
+d'encoder des constructions génériques un peu plus farfelues.
+
+Même si mes deux derniers points étaient un peu exentriques, l'utilisation
+d'une approche similaire dans Arrow.kt démontre qu'elles reposent, tout de même,
+sur une bonne intention (aha) et c'était assez amusant à expérimenter !
+
+J'espère que cet article aura, au mieux, permis de comprendre quelques usages
+complémentaires à l'utilisation des extensions et au mieux, du mieux, d'avoir
+eu envie de regarder Arrow.kt en profondeur ! Pour aller un peu plus loins, 
+[[https://twitter.com/dplaindoux][Didier Plaindoux]] à rédigé un [[https://gist.github.com/d-plaindoux/ec3dd2b705a551342713fc6437dab15b][Gist]] qui tire partit d'une approche similaire mais
+qui, moyennant un peu plus de plomberie, gère des types un peu plus complexes.
+
+Pour tout ceux concernés, je vous souhaite beaucoup de courage pour la suite
+du confinement ! *#stayHome*.

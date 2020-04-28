@@ -1,8 +1,8 @@
 (:title "Kotlin, extensions et génériques")
 (:kind long)
-(:date #020D28)
+(:date #020D29)
 (:permaname "kotlin_extensions")
-(:synopsis "Plus de contrôle sur les génériques avec les extensions en Kotlin.")
+(:synopsis "Quelques encodages farfelus avec les extensions.")
 (:content external #org-mode "content/posts/kotlin-extension.org")
 (:published true)
 (:category "programmation")
@@ -18,6 +18,12 @@
     
     ("Les extensions en Kotlin"
      "https://kotlinlang.org/docs/reference/extensions.html")
+    )
+   )
+  ("Les classes de types en Kotlin"
+   (
+    ("Arrow-kt" "https://arrow-kt.io/")
+    ("KEEP sur les typeclasses" "https://github.com/Kotlin/KEEP/pull/87")
     )
    )
   )

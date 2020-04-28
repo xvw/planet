@@ -14,13 +14,11 @@ relativement agréable à utiliser. En complément, Kotlin bénéficie d'une
 communauté très large et très productive en bibliothèques, présentations, 
 articles et tutoriels.
 
-Dans cet article, je vous propose d'observer comment utiliser *les extensions*
-pour contrôler plus finement les paramètres génériques de classes pour
-construire des logiciels plus sûrs et tâcher de se faire aider au maximum par
-le compilateur pour capturer un maximum de cas qui ne devraient pas se
-produire dans le cycle de vie d'une application. Comme je l'ai dit précédemment,
-la communauté Kotlin est très productive, il est donc possible que ce sujet
-ait déjà été traité maintes et maintes fois. D'avance, désolé et bonne lecture !
+Dans cet article, je vous propose de découvrir une de ces nouveautés, les
+*extensions*, au travers d'un exemple plutôt réaliste, suivi d'exemples
+beaucoup moins utiles mais rigolos (enfin... je trouve) !
+
+*A CONTINUER*
 #+END_QUOTE
 
 Comme l'indique très précisemment [[https://kotlinlang.org/docs/reference/extensions.html][la section dédiée aux extensions]] dans le manuel
@@ -47,8 +45,8 @@ fun main() {
 Le premier usage de ces extensions est... comme leur nom l'indique, d'étendre
 des classes existantes. Comme il s'agit de leur raison d'être principal, je ne
 vais pas m'étendre sur cet usage spécifique, la section qui leur est dédiée est
-claire et couvre tous les /edge-cases/. Je vous propose de survoler trois cas
-d'usages qui me semblent intéressants dans la conception de logiciels.
+claire et couvre tous les /edge-cases/. Commençons par un usage, de mon point
+de vue, très utile !
 
 ** Préciser le receveur
 
@@ -207,7 +205,7 @@ val x = Option.wrap(10)
 
 Cette utilisation des extensions peut sembler très naïve, mais elle couvre
 une problématique assez ancienne (et connue) de l'organisation en classes : 
-*l'absence de méthode /guardées/*. Soit des contraintes de sous-typage (ou de
+*l'absence de méthode /gardées/*. Soit des contraintes de sous-typage (ou de
 traits) sur certaines méthodes. Kotlin offre une solution via les extensions,
 en définissant les /guards/ en dehors de la définition de la classe. Il existe
 d'autres approches, notamment l'utilisation de *témoins d'égalité*,
@@ -216,6 +214,86 @@ en Scala, qui prennent le forme d'/implicits/.
 En conclusion de cette première présentation très scolaire, les extensions
 offrent une manière de typer plus finement les receveurs de méthodes et c'est
 assez pratique pour définir des fonctions communes... comme src_kotlin{flatten}.
+Concrètement, les extensions permettent d'ajouter des contraintes sur la
+disponibilité d'une méthode en fonction du type du générique. Ça peut paraitre
+assez anodin, mais ça permet d'implémenter des méthodes qu'il serait impossible
+d'écrire normalement et garder une approche d'appel (l'envoi de message) 
+systématique.
 
-Dans les prochaines sections, nous allons observer des cas d'usages un peu plus
-marginaux, mais, à mon sens, potentiellement utiles !
+** Extensions locales
+
+Maintenant que nous avons observé un premier usage assez raisonnable des
+extensions, amusons-nous avec des exemples moins réalistes !
+Le langage d'importation de Kotlin (et par extension de Java) est assez pauvre.
+On ne peut ouvrir/importer des fragments de bibliothèques que dans le
+/toplevel/ d'un fichier. Il n'est pas possible de faire des ouverture au niveau
+de l'expression (ou de manière moins radicale, au niveau de la fonction).
+
+Heureusement, avec un peu d'astuce, il est possible de ne rendre des extensions
+disponible que dans un /scope/ spécifique, au moyen de la fonction
+[[https://kotlinlang.org/api/latest/jvhttps://kotlinlang.org/docs/reference/extensions.m/stdlib/kotlin/with.html][with]]. Ce n'est probablement pas très utile, mais ça calme l'hystérie du
+programmeur OCaml que je suis, où chaque module peut être ouvert localement !
+
+Concrètement, il est possible de définir des extensions au sein d'une classe
+(ou d'une interface). Par exemple : 
+
+#+BEGIN_SRC Kotlin :data-roe-kind code :data-line-number true :data-hl 2
+class MyContext {
+    fun Int.successor() = this + 1
+    fun succ(x: Int) = x.successor()
+}
+#+END_SRC
+
+Ici, on défini une extension src_kotlin{successor} sur les entiers et cette
+extension n'est accessible que dans notre classe. Mais est-il possible de
+mutualiser nos extensions pour que l'on puisse définir un ensemble d'extensions
+que l'on rend disponibles dans plusieurs classes ? 
+
+Pour cela, on peut utiliser une autre classe, mais ça introduirait une relation
+d'héritage directe entre la classe qui /applique les extensions/ et je ne suis
+pas convaincu que ça serait très pertinent. Pas de panique, utilisons une
+interface !
+
+#+BEGIN_SRC Kotlin :data-roe-kind code :data-line-number true
+interface IntExt {
+    fun Int.successor() = this + 1
+    fun Int.predecessor() = this - 1
+}
+
+class MyContext : IntExt {
+    fun succ(x: Int) = x.successor()
+    fun pred(x: Int) = x.predecessor()
+}
+#+END_SRC
+
+Nous pouvons facilement stocker nos extensions "à appliquer" dans une interface
+et les appliquer, au moyen de l'implémentation d'interface !
+
+Les interfaces (ou les classes) nous permettent de transporter des collections
+d'extensions arbitraires. Dans les faits, ce n'est pas très utile car
+généralement, un fichier Kotlin n'expose pas "beaucoup de classe", cependant,
+en utilisant la fonction [[https://kotlinlang.org/api/latest/jvhttps://kotlinlang.org/docs/reference/extensions.m/stdlib/kotlin/with.html][with]], il est possible d'appliquer une extension dans
+un /scope/ spécifique, démonstration : 
+
+#+BEGIN_SRC Kotlin :data-roe-kind code :data-line-number true
+interface IntExt {
+    fun Int.successor() = this + 1
+    fun Int.predecessor() = this - 1
+}
+
+// On définit un contexte 
+class MyContext : IntExt 
+
+val x = with(MyContext()) {
+   // Dans ce scope, j'ai accès à mes extensions
+   10.successor()
+}
+#+END_SRC
+
+La fonction src_kotlin{with} nous permet d'exécuter une lambda dans le contexte
+de l'objet donné en argument. De ce fait, l'utilisation de cette fonction
+sur une instance d'une classe implémentant l'interface qui applique les
+extensions, rend ces extensions disponibles dans uniquement dans le /bloc/ 
+de la fonction.
+
+

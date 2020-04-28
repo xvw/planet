@@ -89,3 +89,7 @@
   (:duration "120") (:sector "writing")
   (:label "Initialisation de l'article sur les extensions en Kotlin")
   (:project "planet"))
+
+((:uuid "ed7a5567-28c3-521c-0bb7-c0ceaeb36016") (:day "020D28")
+  (:duration "160") (:sector "writing")
+  (:label "Rédaction de l'article sur les extensions") (:project "planet"))

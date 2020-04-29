@@ -360,9 +360,10 @@ C'est lois permettent l'implémentation de combinateurs qui exploitent l'opérat
 src_kotlin{combine}. Il est par exemple possible de définir un monoïde sur
 les entiers pour qui l'opérateur src_kotlin{combine} est simplement l'addition
 et l'élément neutre est ... logiquement, src_kotlin{zéro}. Ou alors un monoïde,
-lui aussi sur les entiers, mais où cette fois, l'élément neutre est 
-src_kotlin{un}. Un dernier exemple serait une monoïde sur les chaines de 
-caractéres pour lesquels l'opérateur src_kotlin{combine} serait la concatènation.
+lui aussi sur les entiers, mais où cette fois l'opérateur src_kotlin{combine}, 
+est la multiplication, donc l'élément neutre est src_kotlin{un}. Un dernier 
+exemple serait une monoïde sur les chaines de caractéres pour lesquels l'opérateur 
+src_kotlin{combine} serait la concatènation.
 
 Quand on possède un monoïde, on possède aussi, /de facto/ une fonction 
 src_kotlin{reduce} qui transforme un ensemble de valeur de notre monoïde en
@@ -382,7 +383,7 @@ fun <T> Collection<Monoid<T>>.reduce() =
 Même si au survol, cette "implémentation" semble valide, elle pose tout de même
 plusieurs soucis : 
 
-- premièrement, elle n'est pas implémentable ... (à cause du src_kotlin{T.neutral_element})
+- premièrement, elle n'est pas implémentable ... (à cause du src_kotlin{T.neutralElement})
 - ensuite, elle considère que tout ce qui implémente src_kotlin{Monoid} est "valide", donc
   le monoïde des entiers sur l'addition serait compatible avec le monoïde des entiers sur 
   le produit

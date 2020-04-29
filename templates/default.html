@@ -12,7 +12,7 @@
     $if(synopsis)$
     <meta
       name="description"
-      content="$if(title)$$title$: $endif$$synopsis$"
+      content="$if(title)$$title$ - $endif$$synopsis$"
       >
     $else$
     <meta
@@ -20,9 +20,7 @@
       content="Planet, page personnelle de Xavier Van de Woestyne"
       >
     $endif$
-    <title>
-      xvw - $title$ $if(synopsis)$ : $synopsis$ $endif$
-    </title>
+    <title>$title$ $if(synopsis)$- $synopsis$ $endif$</title>
     <link rel="stylesheet" href="/css/fonts.css" />
     <link rel="stylesheet" href="/css/hl.css" />
     <link rel="stylesheet" href="/css/default.css" />

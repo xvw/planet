@@ -232,7 +232,7 @@ de l'expression (ou de manière moins radicale, au niveau de la fonction).
 
 Heureusement, avec un peu d'astuce, il est possible de ne rendre des extensions
 disponible que dans un /scope/ spécifique, au moyen de la fonction
-[[https://kotlinlang.org/api/latest/jvhttps://kotlinlang.org/docs/reference/extensions.m/stdlib/kotlin/with.html][with]]. Ce n'est probablement pas très utile, mais ça calme l'hystérie du
+[[https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/with.html][with]]. Ce n'est probablement pas très utile, mais ça calme l'hystérie du
 programmeur OCaml que je suis, où chaque module peut être ouvert localement !
 
 Concrètement, il est possible de définir des extensions au sein d'une classe
@@ -273,7 +273,7 @@ et les appliquer, au moyen de l'implémentation d'interface !
 Les interfaces (ou les classes) nous permettent de transporter des collections
 d'extensions arbitraires. Dans les faits, ce n'est pas très utile car
 généralement, un fichier Kotlin n'expose pas "beaucoup de classe", cependant,
-en utilisant la fonction [[https://kotlinlang.org/api/latest/jvhttps://kotlinlang.org/docs/reference/extensions.m/stdlib/kotlin/with.html][with]], il est possible d'appliquer une extension dans
+en utilisant la fonction [[https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/with.html][with]], il est possible d'appliquer une extension dans
 un /scope/ spécifique, démonstration : 
 
 #+BEGIN_SRC Kotlin :data-roe-kind code :data-line-number true

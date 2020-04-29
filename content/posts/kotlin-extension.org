@@ -186,7 +186,7 @@ Vous vous en doutez, il est possible de décrire une méthode pour le type
 src_kotlin{Option<Option<A>>} :
 
 #+BEGIN_SRC Kotlin :data-roe-kind code :data-line-number true
-fun <A> Option<Option<A>>.join() = 
+fun <A> Option<Option<A>>.flatten() = 
    flatMap { it }
 #+END_SRC
 

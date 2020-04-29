@@ -6,7 +6,7 @@ de pratiques, les motifs de conceptions, que je trouvais compliqué. Heureusemen
 Kotlin est, selon moi, bien plus expressif et agréable à utiliser que son
 prédécesseur.
 
-Kotlin apporte beaucoup d'innovations. Les couroutines, les familles scellées,
+Kotlin apporte beaucoup d'innovations. Les coroutines, les familles scellées,
 un support décent des fonctions anonymes, les extensions et beaucoup d'autres,
 tout en permettant d'interopérer facilement avec Java (et donc le milliards
 d'outils peuplant son ecosystème). Ces apports font du langage un outil

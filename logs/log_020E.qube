@@ -15,3 +15,7 @@
   (:label
     "Implémentation des tests unitaires (listes non-vides, semigroupes et monoïdes)")
   (:project "preface"))
+
+((:uuid "064d7460-d18e-0706-7747-3390c849b3ac") (:day "020E04")
+  (:duration "320") (:sector "research")
+  (:label "Amélioration de la présentation sur les effets (LambdaLille)"))

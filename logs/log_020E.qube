@@ -19,3 +19,9 @@
 ((:uuid "064d7460-d18e-0706-7747-3390c849b3ac") (:day "020E04")
   (:duration "320") (:sector "research")
   (:label "Amélioration de la présentation sur les effets (LambdaLille)"))
+
+((:uuid "1c68acba-f235-995b-9bf6-d2d94e2bbe91") (:day "020E05")
+  (:duration "230") (:sector "programming")
+  (:label
+    "Amélioration des listes non-vides et ajout des monoïdes et semigroupes paramétrés")
+  (:project "preface"))

@@ -9,3 +9,9 @@
   (:label
     "Implémentation des listes non-vides, des semigroupes et des monoïdes")
   (:project "preface"))
+
+((:uuid "1418a699-ec3a-b2df-e6b6-8fc5f9f73326") (:day "020E03")
+  (:duration "120") (:sector "programming")
+  (:label
+    "Implémentation des tests unitaires (listes non-vides, semigroupes et monoïdes)")
+  (:project "preface"))

@@ -97,3 +97,7 @@
 ((:uuid "43467e47-a477-9981-bb30-073ccac7ec06") (:day "020D29")
   (:duration "120") (:sector "writing")
   (:label "Finalisation de l'article sur les extensions") (:project "planet"))
+
+((:uuid "1e7bfdab-9bee-716c-07b5-efe751b67501") (:day "020D30")
+  (:duration "40") (:sector "maintenance")
+  (:label "Fusion et gestion de branches") (:project "preface"))

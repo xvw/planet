@@ -3,3 +3,9 @@
   (:duration "120") (:sector "programming")
   (:label "Expérience sur les monoïdes et les semigroupes")
   (:project "preface"))
+
+((:uuid "82087fa5-fbde-1c93-2651-2d9a26683484") (:day "020E02")
+  (:duration "320") (:sector "programming")
+  (:label
+    "Implémentation des listes non-vides, des semigroupes et des monoïdes")
+  (:project "preface"))

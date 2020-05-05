@@ -1,0 +1,5 @@
+;; Logs for 020E
+((:uuid "8cb7c7cf-92f2-3377-4530-9cb23d7500cd") (:day "020E01")
+  (:duration "120") (:sector "programming")
+  (:label "Expérience sur les monoïdes et les semigroupes")
+  (:project "preface"))

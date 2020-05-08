@@ -6,6 +6,6 @@
 (:checklist
   ((:checked "Construire la bibliographie") (:checked "Sujets à couvrir")
     (:checked "Plan") (:checked "Ecriture du support") (:checked "GDG")
-    (:unchecked "DevoxxFR") (:unchecked "Mixit")))
+    (:unchecked "LambdaLille Remote 2")))
 (:tags ("talk" "programming" "effect" "functional"))
 (:opening_date "020A01")

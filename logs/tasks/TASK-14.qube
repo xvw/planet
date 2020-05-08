@@ -7,4 +7,3 @@
   ((:unchecked "liens des articles") (:unchecked "tags des articles")
     (:unchecked "tags des projets") (:unchecked "statistiques des projets")))
 (:tags ())
-(:engagement_date "020C20")

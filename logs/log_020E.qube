@@ -30,3 +30,7 @@
   (:duration "450") (:sector "writing")
   (:label
     "Ecriture de la présentation sur les effets algébriques pour LambdaLille Remote 2"))
+
+((:uuid "e88f23ce-1c02-3ace-27c8-c4cf83813b38") (:day "020E08")
+  (:duration "30") (:sector "maintenance")
+  (:label "Reorganisation des tâches") (:project "planet"))

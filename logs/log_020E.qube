@@ -25,3 +25,8 @@
   (:label
     "Amélioration des listes non-vides et ajout des monoïdes et semigroupes paramétrés")
   (:project "preface"))
+
+((:uuid "f1ff2656-6f2c-2cad-d42d-2ab3be745fc0") (:day "020E07")
+  (:duration "450") (:sector "writing")
+  (:label
+    "Ecriture de la présentation sur les effets algébriques pour LambdaLille Remote 2"))

@@ -49,3 +49,8 @@
   (:duration "120") (:sector "research")
   (:label
     "Expériences autours de la création d'un framework frontend réactif en OCaml"))
+
+((:uuid "93435140-0f81-f322-b3f3-23950963523c") (:day "020E12")
+  (:duration "220") (:sector "research")
+  (:label
+    "Expériences autours de la création d'un framework frontend réactif en OCaml"))

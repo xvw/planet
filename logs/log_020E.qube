@@ -34,3 +34,8 @@
 ((:uuid "e88f23ce-1c02-3ace-27c8-c4cf83813b38") (:day "020E08")
   (:duration "30") (:sector "maintenance")
   (:label "Reorganisation des tâches") (:project "planet"))
+
+((:uuid "de274bff-157b-3a75-b77e-4c27a59c7217") (:day "020E09")
+  (:duration "200") (:sector "research")
+  (:label
+    "Expériences sur la construction d'un framework frontend réactif en OCaml"))

@@ -73,3 +73,7 @@
 ((:uuid "2227880b-aa53-6683-79cf-d3bc88a91f4d") (:day "020E16")
   (:duration "120") (:sector "maintenance")
   (:label "Selection des fonctionnalitées pour RME 3.0.0 ") (:project "rme"))
+
+((:uuid "3c9bb52c-b616-8a3b-fa16-2a2dbeee9ee8") (:day "020E17")
+  (:duration "400") (:sector "programming")
+  (:label "Implémentation de la version 3.0.0 ") (:project "rme"))

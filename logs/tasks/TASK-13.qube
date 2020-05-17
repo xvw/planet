@@ -1,9 +1,10 @@
 (:name "Nouvelle version de RME")
-(:description "Libérer une nouvelle version de RME") (:state "opened")
+(:description "Libérer une nouvelle version de RME") (:state "in_progress")
 (:uuid "TASK-13") (:date "020B28") (:project "rme")
 (:sectors (programming maintenance))
 (:checklist
-  ((:unchecked "Choisir les nouveautés")
+  ((:checked "Choisir les nouveautés")
     (:unchecked "Implémenter les nouveautés") (:unchecked "Documenter")
     (:unchecked "Créer une release") (:unchecked "communiquer")))
 (:tags ("ruby" "release"))
+(:opening_date "020E17")

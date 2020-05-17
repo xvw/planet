@@ -1,5 +1,5 @@
 (:name "Nouvelle version de RME")
-(:description "Libérer une nouvelle version de RME") (:state "opened")
+(:description "Libérer une nouvelle version de RME") (:state "in_progress")
 (:uuid "TASK-13") (:date "020B28") (:project "rme")
 (:sectors (programming maintenance))
 (:checklist

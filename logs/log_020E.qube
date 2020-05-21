@@ -94,3 +94,7 @@
   (:duration "450") (:sector "maintenance")
   (:label
     "Sauvegarde des données importante de mon ordinateur en vue d'une mise à jour"))
+
+((:uuid "1056e9aa-3d7a-07c8-ba9e-f838cdaf0d11") (:day "020E22")
+  (:duration "450") (:sector "maintenance")
+  (:label "Reinstallation de ma machine personnelle"))

@@ -77,3 +77,7 @@
 ((:uuid "3c9bb52c-b616-8a3b-fa16-2a2dbeee9ee8") (:day "020E17")
   (:duration "400") (:sector "programming")
   (:label "Implémentation de la version 3.0.0 ") (:project "rme"))
+
+((:uuid "3243b07d-f88c-ebd6-fba6-54bc4e89f831") (:day "020E18")
+  (:duration "220") (:sector "research")
+  (:label "Expériences sur la creation d'un framework reactif en OCaml"))

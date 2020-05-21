@@ -89,3 +89,8 @@
 ((:uuid "608899ae-d1a5-0606-374f-cf2665d3e4df") (:day "020E20")
   (:duration "200") (:sector "maintenance")
   (:label "Observation de différentes distributions Linux"))
+
+((:uuid "09b12804-5314-e484-7a2b-eea7c400c3fa") (:day "020E21")
+  (:duration "450") (:sector "maintenance")
+  (:label
+    "Sauvegarde des données importante de mon ordinateur en vue d'une mise à jour"))

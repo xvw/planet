@@ -98,3 +98,7 @@
 ((:uuid "1056e9aa-3d7a-07c8-ba9e-f838cdaf0d11") (:day "020E22")
   (:duration "450") (:sector "maintenance")
   (:label "Reinstallation de ma machine personnelle"))
+
+((:uuid "31127c31-d8c9-209d-3689-242a19f20a3b") (:day "020E23")
+  (:duration "320") (:sector "maintenance")
+  (:label "Installation et configuration de ma machine personnelle"))

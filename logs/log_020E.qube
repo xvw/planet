@@ -106,3 +106,7 @@
 ((:uuid "a6a9352a-42b8-b952-2106-db931b2e7bf9") (:day "020E24")
   (:duration "200") (:sector "programming")
   (:label "Expériences avec LablGTK"))
+
+((:uuid "62e40868-c34e-2656-588a-b77a01ad7785") (:day "020E25")
+  (:duration "320") (:sector "programming")
+  (:label "Expériences avec LablGTK"))

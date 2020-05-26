@@ -102,3 +102,7 @@
 ((:uuid "31127c31-d8c9-209d-3689-242a19f20a3b") (:day "020E23")
   (:duration "320") (:sector "maintenance")
   (:label "Installation et configuration de ma machine personnelle"))
+
+((:uuid "a6a9352a-42b8-b952-2106-db931b2e7bf9") (:day "020E24")
+  (:duration "200") (:sector "programming")
+  (:label "Expériences avec LablGTK"))

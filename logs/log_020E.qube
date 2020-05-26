@@ -119,3 +119,8 @@
 ((:uuid "31e2fec5-1494-e90f-3603-f01d4075586e") (:day "020E26")
   (:duration "120") (:sector "programming")
   (:label "Initialisation du projet") (:project "youtube_music_playlist"))
+
+((:uuid "cfd7a3c8-4c4e-81f5-14e4-db741cfec1f3") (:day "020E27")
+  (:duration "200") (:sector "programming")
+  (:label "Description d'une playlist en utilisant un format clé valeur")
+  (:project "youtube_music_playlist"))

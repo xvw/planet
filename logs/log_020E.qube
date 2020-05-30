@@ -128,3 +128,7 @@
 ((:uuid "f37fc2e9-17a6-940e-ad3b-f05790a7dfa9") (:day "020E28")
   (:duration "320") (:sector "programming")
   (:label "Définition d'un format de sérialisation") (:project "orion"))
+
+((:uuid "4c7d63ac-facf-dad3-e488-57ca17aa1266") (:day "020E29")
+  (:duration "320") (:sector "programming")
+  (:label "Expériences de parsing via Transept") (:project "orion"))

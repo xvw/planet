@@ -132,3 +132,7 @@
 ((:uuid "4c7d63ac-facf-dad3-e488-57ca17aa1266") (:day "020E29")
   (:duration "320") (:sector "programming")
   (:label "Expériences de parsing via Transept") (:project "orion"))
+
+((:uuid "41fc2e7d-8a39-2055-b4d6-9059a07e3ee4") (:day "020E30")
+  (:duration "120") (:sector "research") (:label "Définition d'une roadmap")
+  (:project "orion"))

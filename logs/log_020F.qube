@@ -1,0 +1,4 @@
+;; Logs for 020F
+((:uuid "bb428226-6f01-2bf0-d36f-ae849d6f77cd") (:day "020F01")
+  (:duration "60") (:sector "programming")
+  (:label "Implémentation du format de sérialisation") (:project "orion"))

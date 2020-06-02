@@ -136,3 +136,7 @@
 ((:uuid "41fc2e7d-8a39-2055-b4d6-9059a07e3ee4") (:day "020E30")
   (:duration "120") (:sector "research") (:label "Définition d'une roadmap")
   (:project "orion"))
+
+((:uuid "fe33a0e5-c0e3-f7d5-104a-e01fbc96d3d4") (:day "020E31")
+  (:duration "200") (:sector "maintenance")
+  (:label "Préparation de la v3.0.0") (:project "rme"))

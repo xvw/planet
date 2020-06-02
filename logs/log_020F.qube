@@ -2,3 +2,8 @@
 ((:uuid "bb428226-6f01-2bf0-d36f-ae849d6f77cd") (:day "020F01")
   (:duration "60") (:sector "programming")
   (:label "Implémentation du format de sérialisation") (:project "orion"))
+
+((:uuid "678c0c7d-5770-3f09-70b0-b2cdcbfef5da") (:day "020F02")
+  (:duration "120") (:sector "programming")
+  (:label "Revue (Reader et Writer) et petits correctifs")
+  (:project "preface"))

@@ -7,3 +7,7 @@
   (:duration "120") (:sector "programming")
   (:label "Revue (Reader et Writer) et petits correctifs")
   (:project "preface"))
+
+((:uuid "77e142dc-64c3-7299-f060-7e5c7c58ac8a") (:day "020F02")
+  (:duration "250") (:sector "research")
+  (:label "Expérience via les 'propagators' et les 'semi-lattices'"))

@@ -19,3 +19,9 @@
 ((:uuid "ab7a037d-7284-6501-eaf0-9ccd7e21cefb") (:day "020F04")
   (:duration "60") (:sector "programming")
   (:label "Démarrage de l'implémentation de Foldable") (:project "preface"))
+
+((:uuid "82d03cb1-c7ab-0c5c-cd5a-54d9b7563167") (:day "020F05")
+  (:duration "300") (:sector "programming")
+  (:label
+    "Implémentation, documentation et expérimentation autour de Foldable")
+  (:project "preface"))

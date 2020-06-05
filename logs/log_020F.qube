@@ -15,3 +15,7 @@
 ((:uuid "3e5ffbcb-a30d-d54b-7746-62f442a91c0c") (:day "020F03")
   (:duration "160") (:sector "programming")
   (:label "Relecture de la réorganisation des tests") (:project "preface"))
+
+((:uuid "ab7a037d-7284-6501-eaf0-9ccd7e21cefb") (:day "020F04")
+  (:duration "60") (:sector "programming")
+  (:label "Démarrage de l'implémentation de Foldable") (:project "preface"))

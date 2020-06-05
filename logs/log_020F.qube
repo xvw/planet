@@ -11,3 +11,7 @@
 ((:uuid "77e142dc-64c3-7299-f060-7e5c7c58ac8a") (:day "020F02")
   (:duration "250") (:sector "research")
   (:label "Expérience via les 'propagators' et les 'semi-lattices'"))
+
+((:uuid "3e5ffbcb-a30d-d54b-7746-62f442a91c0c") (:day "020F03")
+  (:duration "160") (:sector "programming")
+  (:label "Relecture de la réorganisation des tests") (:project "preface"))

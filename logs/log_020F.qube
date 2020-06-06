@@ -25,3 +25,7 @@
   (:label
     "Implémentation, documentation et expérimentation autour de Foldable")
   (:project "preface"))
+
+((:uuid "7b46f504-c215-1284-fc5b-2e200293eb45") (:day "020F06")
+  (:duration "120") (:sector "programming")
+  (:label "Implémentation de Foldable") (:project "preface"))

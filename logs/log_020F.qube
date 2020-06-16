@@ -48,3 +48,8 @@
   (:duration "200") (:sector "research")
   (:label "Choix des premières fonctionnalitées à implémenter")
   (:project "orion"))
+
+((:uuid "473dc099-8ca9-df84-526c-503372e075e5") (:day "020F10")
+  (:duration "210") (:sector "programming")
+  (:label "Expériences d'utilisation de Preface dans Orion")
+  (:project "orion"))

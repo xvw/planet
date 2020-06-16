@@ -1,0 +1,8 @@
+(:name "orion")
+(:published false)
+(:title "Orion")
+(:synopsis "Une collection de logiciels compagnons")
+(:status "wip")
+(:license "mit")
+(:tags "bin" "small" "software")
+(:content external #org-mode "projects/orion.org")

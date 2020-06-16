@@ -58,3 +58,8 @@
   (:duration "300") (:sector "programming")
   (:label "Revue et expériences d'utilisation de la bibliothèque")
   (:project "preface"))
+
+((:uuid "39c567f5-cba0-9304-1fa6-41d666643c0b") (:day "020F12")
+  (:duration "100") (:sector "maintenance")
+  (:label
+    "Mise en place d'un environnement de développement pour des contributions potentielles à OCaml"))

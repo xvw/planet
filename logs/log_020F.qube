@@ -29,3 +29,7 @@
 ((:uuid "7b46f504-c215-1284-fc5b-2e200293eb45") (:day "020F06")
   (:duration "120") (:sector "programming")
   (:label "Implémentation de Foldable") (:project "preface"))
+
+((:uuid "03f46d15-4c30-9927-1e9a-a3660d412b2a") (:day "020F07")
+  (:duration "200") (:sector "programming")
+  (:label "Expériences entre Transept et Orion") (:project "orion"))

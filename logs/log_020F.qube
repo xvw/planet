@@ -72,3 +72,7 @@
 ((:uuid "401d7701-d5a2-9c05-8c80-cd52e7ee8378") (:day "020F14")
   (:duration "100") (:sector "programming")
   (:label "Amélioration des astuces d'aide à la compilation pour OCaml"))
+
+((:uuid "d32994be-4eb0-f39d-d906-a37fe9b58c74") (:day "020F15")
+  (:duration "30") (:sector "research")
+  (:label "Revue de la branche sur les Arrows") (:project "preface"))

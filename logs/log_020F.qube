@@ -68,3 +68,7 @@
   (:duration "120") (:sector "programming")
   (:label
     "Implémentation d'astuces, aide à la compilation, dans le compilateur d'OCaml pour les modules, modules types et types de classes"))
+
+((:uuid "401d7701-d5a2-9c05-8c80-cd52e7ee8378") (:day "020F14")
+  (:duration "100") (:sector "programming")
+  (:label "Amélioration des astuces d'aide à la compilation pour OCaml"))

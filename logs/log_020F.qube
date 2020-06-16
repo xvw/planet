@@ -63,3 +63,8 @@
   (:duration "100") (:sector "maintenance")
   (:label
     "Mise en place d'un environnement de développement pour des contributions potentielles à OCaml"))
+
+((:uuid "d76e357a-832c-0755-1405-aedd9dd349ff") (:day "020F13")
+  (:duration "120") (:sector "programming")
+  (:label
+    "Implémentation d'astuces, aide à la compilation, dans le compilateur d'OCaml pour les modules, modules types et types de classes"))

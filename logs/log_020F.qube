@@ -43,3 +43,8 @@
 ((:uuid "87ecea0b-9f86-14ab-3475-396088ada4e3") (:day "020F08")
   (:duration "100") (:sector "programming")
   (:label "Revue, et expérimentations") (:project "orion"))
+
+((:uuid "528123ae-1cc1-3c5c-98a8-d57e67ed8307") (:day "020F09")
+  (:duration "200") (:sector "research")
+  (:label "Choix des premières fonctionnalitées à implémenter")
+  (:project "orion"))

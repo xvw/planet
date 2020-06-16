@@ -33,3 +33,9 @@
 ((:uuid "03f46d15-4c30-9927-1e9a-a3660d412b2a") (:day "020F07")
   (:duration "200") (:sector "programming")
   (:label "Expériences entre Transept et Orion") (:project "orion"))
+
+((:uuid "6505d4f9-aa6b-3731-ed71-3202e95366c4") (:day "020F07")
+  (:duration "200") (:sector "research")
+  (:label
+    "Mise à jours de Elm en vue d'une potentielle et providentielle version 2... qui n'arrivera peut être jamais...")
+  (:project "qian"))

@@ -53,3 +53,8 @@
   (:duration "210") (:sector "programming")
   (:label "Expériences d'utilisation de Preface dans Orion")
   (:project "orion"))
+
+((:uuid "f59d2f14-1932-5c55-7978-ed964b459fd0") (:day "020F11")
+  (:duration "300") (:sector "programming")
+  (:label "Revue et expériences d'utilisation de la bibliothèque")
+  (:project "preface"))

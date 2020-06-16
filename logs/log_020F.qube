@@ -39,3 +39,7 @@
   (:label
     "Mise à jours de Elm en vue d'une potentielle et providentielle version 2... qui n'arrivera peut être jamais...")
   (:project "qian"))
+
+((:uuid "87ecea0b-9f86-14ab-3475-396088ada4e3") (:day "020F08")
+  (:duration "100") (:sector "programming")
+  (:label "Revue, et expérimentations") (:project "orion"))

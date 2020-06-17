@@ -76,3 +76,7 @@
 ((:uuid "d32994be-4eb0-f39d-d906-a37fe9b58c74") (:day "020F15")
   (:duration "30") (:sector "research")
   (:label "Revue de la branche sur les Arrows") (:project "preface"))
+
+((:uuid "0a6d5951-10d1-3f92-1bb8-b59c2aad19e1") (:day "020F17")
+  (:duration "200") (:sector "writing")
+  (:label "Traduction francophone pour un épisode de FP-tower"))

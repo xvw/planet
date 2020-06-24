@@ -89,3 +89,8 @@
   (:duration "200") (:sector "reading")
   (:label
     "Lecture et expériences via le livre Category Theory in context de E. Rhiel"))
+
+((:uuid "0e93c516-e9ab-d7b6-1245-288acfcd0014") (:day "020F20")
+  (:duration "450") (:sector "reading")
+  (:label
+    "Lecture et expériences via le livre Category Theory in context de E. Rhiel"))

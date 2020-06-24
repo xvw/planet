@@ -110,3 +110,7 @@
 ((:uuid "b4a0ba03-3c61-9f26-6215-fc013f641075") (:day "020F24")
   (:duration "100") (:sector "maintenance")
   (:label "Saisie de logs et mise à jour de pages") (:project "planet"))
+
+((:uuid "dc0e3e8b-6828-96b4-cf0e-f6e7d690cb6f") (:day "020F24")
+  (:duration "60") (:sector "programming")
+  (:label "Ajout d'astuces en cas d'erreur d'usage de modules pour OCaml"))

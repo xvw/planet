@@ -80,3 +80,7 @@
 ((:uuid "0a6d5951-10d1-3f92-1bb8-b59c2aad19e1") (:day "020F17")
   (:duration "200") (:sector "writing")
   (:label "Traduction francophone pour un épisode de FP-tower"))
+
+((:uuid "96aedee5-a701-c53d-ea23-e1e270034786") (:day "020F18")
+  (:duration "200") (:sector "research")
+  (:label "Définition des fonctionnalités majeures") (:project "preface"))

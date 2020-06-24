@@ -88,9 +88,13 @@
 ((:uuid "8c50ba08-03e3-1cbf-40dc-0daa8eb7418d") (:day "020F19")
   (:duration "200") (:sector "reading")
   (:label
-    "Lecture et expériences via le livre Category Theory in context de E. Rhiel"))
+    "Lecture et expériences via le livre Category Theory in context de E. Riehl"))
 
 ((:uuid "0e93c516-e9ab-d7b6-1245-288acfcd0014") (:day "020F20")
   (:duration "450") (:sector "reading")
   (:label
-    "Lecture et expériences via le livre Category Theory in context de E. Rhiel"))
+    "Lecture et expériences via le livre Category Theory in context de E. Riehl"))
+
+((:uuid "2ffc5b1b-460b-20c0-07da-c11b0af46ca8") (:day "020F21")
+  (:duration "200") (:sector "research")
+  (:label "Expériences avec MirageOS"))

@@ -84,3 +84,8 @@
 ((:uuid "96aedee5-a701-c53d-ea23-e1e270034786") (:day "020F18")
   (:duration "200") (:sector "research")
   (:label "Définition des fonctionnalités majeures") (:project "preface"))
+
+((:uuid "8c50ba08-03e3-1cbf-40dc-0daa8eb7418d") (:day "020F19")
+  (:duration "200") (:sector "reading")
+  (:label
+    "Lecture et expériences via le livre Category Theory in context de E. Rhiel"))

@@ -106,3 +106,7 @@
 ((:uuid "b6795bd7-e658-5503-6c28-053ffffdd3b5") (:day "020F23")
   (:duration "200") (:sector "writing")
   (:label "Réécriture du talk sur les effets"))
+
+((:uuid "b4a0ba03-3c61-9f26-6215-fc013f641075") (:day "020F24")
+  (:duration "100") (:sector "maintenance")
+  (:label "Saisie de logs et mise à jour de pages") (:project "planet"))

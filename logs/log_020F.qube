@@ -102,3 +102,7 @@
 ((:uuid "0d983c36-2d26-7192-7ae3-86f3f4f01c7d") (:day "020F22")
   (:duration "500") (:sector "research")
   (:label "Expériences avec MirageOS"))
+
+((:uuid "b6795bd7-e658-5503-6c28-053ffffdd3b5") (:day "020F23")
+  (:duration "200") (:sector "writing")
+  (:label "Réécriture du talk sur les effets"))

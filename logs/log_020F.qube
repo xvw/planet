@@ -98,3 +98,7 @@
 ((:uuid "2ffc5b1b-460b-20c0-07da-c11b0af46ca8") (:day "020F21")
   (:duration "200") (:sector "research")
   (:label "Expériences avec MirageOS"))
+
+((:uuid "0d983c36-2d26-7192-7ae3-86f3f4f01c7d") (:day "020F22")
+  (:duration "500") (:sector "research")
+  (:label "Expériences avec MirageOS"))

@@ -119,3 +119,7 @@
   (:duration "200") (:sector "programming")
   (:label "Expériences avec Irmin, OCaml git et MirageOS")
   (:project "orion"))
+
+((:uuid "5fd7cf40-c1e6-7f66-f686-456ed0a83dac") (:day "020F26")
+  (:duration "250") (:sector "writing")
+  (:label "Traduction d'un épisode de fp-tower"))

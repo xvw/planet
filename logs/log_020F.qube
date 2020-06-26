@@ -114,3 +114,8 @@
 ((:uuid "dc0e3e8b-6828-96b4-cf0e-f6e7d690cb6f") (:day "020F24")
   (:duration "60") (:sector "programming")
   (:label "Ajout d'astuces en cas d'erreur d'usage de modules pour OCaml"))
+
+((:uuid "510aad17-66ce-c6f1-2dcf-22915eac5f75") (:day "020F25")
+  (:duration "200") (:sector "programming")
+  (:label "Expériences avec Irmin, OCaml git et MirageOS")
+  (:project "orion"))

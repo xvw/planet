@@ -137,6 +137,10 @@
   (:duration "200") (:sector "research")
   (:label "Collecte des fonctionnalités à implémenter") (:project "orion"))
 
-((:uuid "e0cbf61b-d387-4e05-078e-05f394006f87") (:day "020F27")
+((:uuid "e0cbf61b-d387-4e05-078e-05f394006f87") (:day "020F28")
   (:duration "100") (:sector "writing")
   (:label "Correctifs de traduction pour les sous-titres de fp-tower"))
+
+((:uuid "04a48ba7-3ebb-bc7d-5e00-5a72794cf868") (:day "020F29")
+  (:duration "200") (:sector "programming")
+  (:label "Exposition des modules Filename.{Unix, Cygwin, Win32} pour OCaml"))

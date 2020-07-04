@@ -129,10 +129,14 @@
   (:label "Expériences avec Irmin, OCaml git et MirageOS")
   (:project "orion"))
 
-((:uuid "2d6e2173-b312-ed83-cfad-467bc39e6f66") (:day "020F24")
+((:uuid "2d6e2173-b312-ed83-cfad-467bc39e6f66") (:day "020F27")
   (:duration "320") (:sector "research")
   (:label "Expériences avec Mirage, Irmin et Git") (:project "orion"))
 
-((:uuid "c2fdf173-cb68-b15a-a6ae-603087362207") (:day "020F25")
+((:uuid "c2fdf173-cb68-b15a-a6ae-603087362207") (:day "020F28")
   (:duration "200") (:sector "research")
   (:label "Collecte des fonctionnalités à implémenter") (:project "orion"))
+
+((:uuid "e0cbf61b-d387-4e05-078e-05f394006f87") (:day "020F27")
+  (:duration "100") (:sector "writing")
+  (:label "Correctifs de traduction pour les sous-titres de fp-tower"))

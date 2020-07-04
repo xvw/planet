@@ -128,3 +128,7 @@
   (:duration "300") (:sector "programming")
   (:label "Expériences avec Irmin, OCaml git et MirageOS")
   (:project "orion"))
+
+((:uuid "2d6e2173-b312-ed83-cfad-467bc39e6f66") (:day "020F24")
+  (:duration "320") (:sector "research")
+  (:label "Expériences avec Mirage, Irmin et Git") (:project "orion"))

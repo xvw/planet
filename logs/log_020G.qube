@@ -1,0 +1,5 @@
+;; Logs for 020G
+((:uuid "2b2da873-a0c9-1608-8181-d0ec530c61cd") (:day "020G01")
+  (:duration "200") (:sector "research")
+  (:label
+    "Lecture des papiers séminaux de la programmation avec des effets algébriques"))

@@ -18,3 +18,8 @@
   (:duration "200") (:sector "research")
   (:label
     "Lecture des papiers séminaux de la programmation avec des effets algébriques"))
+
+((:uuid "241271eb-1f94-15af-529d-4e1f286a716a") (:day "020G05")
+  (:duration "200") (:sector "research")
+  (:label
+    "Lecture des papiers séminaux de la programmation avec des effets algébriques"))

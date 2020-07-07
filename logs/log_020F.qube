@@ -144,3 +144,7 @@
 ((:uuid "04a48ba7-3ebb-bc7d-5e00-5a72794cf868") (:day "020F29")
   (:duration "200") (:sector "programming")
   (:label "Exposition des modules Filename.{Unix, Cygwin, Win32} pour OCaml"))
+
+((:uuid "d9e92467-fbb0-512a-3710-03f8c67d3b0e") (:day "020F30")
+  (:duration "200") (:sector "research")
+  (:label "Bibliographie pour la présentation sur les effets (n°3)"))

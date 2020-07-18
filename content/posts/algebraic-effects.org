@@ -604,7 +604,7 @@ fun f() {
 #+END_SRC
 
 Après avoir exécuté la première ligne de la fonction, et avoir affiché 
-src_java{"Hello World"}, la continuation correspond aux deux lignes suivantes.
+src_java{"Hello"}, la continuation correspond aux deux lignes suivantes.
 Dans certains langages, comme *JavaScript*, il est parfois nécéssaire
 d'abuser des continuations pour synchroniser un programme. En effet, comme
 chaque appel de fonction est exécuté de manière asynchrone, une pratique 

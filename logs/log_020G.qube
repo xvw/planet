@@ -33,3 +33,7 @@
   (:duration "250") (:sector "research")
   (:label
     "Lecture des papiers séminaux de la programmation avec des effets algébriques"))
+
+((:uuid "4daa34ea-2ad5-3f42-c7bd-45bbd064fff9") (:day "020G18")
+  (:duration "10") (:sector "maintenance") (:label "Correctifs de typos")
+  (:project "planet"))

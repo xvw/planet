@@ -1,0 +1,5 @@
+;; Logs for 020H
+((:uuid "8d06b64b-7d4e-735e-5765-82d75b041581") (:day "020H10")
+  (:duration "60") (:sector "maintenance")
+  (:label "Saisie de données et modifications de status")
+  (:project "planet"))

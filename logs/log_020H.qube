@@ -7,3 +7,7 @@
 ((:uuid "3079f272-01cd-5c5f-db27-9a810ad63ca5") (:day "020H10")
   (:duration "100") (:sector "programming")
   (:label "Implémentation des alternatives") (:project "preface"))
+
+((:uuid "9ef52d15-7907-f976-ddb3-1189f73a9e40") (:day "020H11")
+  (:duration "200") (:sector "programming")
+  (:label "Finalisation et test des Alternatives") (:project "preface"))

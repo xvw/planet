@@ -46,3 +46,6 @@
 
 ((:uuid "337a528d-e562-0ee9-d3ea-b1e038966165") (:day "020G24")
   (:duration "450") (:sector "audio") (:label "Expériences avec Sunvox"))
+
+((:uuid "23f2b7db-3044-0ddd-7c03-37ef53625ec0") (:day "020G25")
+  (:duration "780") (:sector "audio") (:label "Expériences avec Sunvox"))

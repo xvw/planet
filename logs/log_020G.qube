@@ -37,3 +37,6 @@
 ((:uuid "4daa34ea-2ad5-3f42-c7bd-45bbd064fff9") (:day "020G18")
   (:duration "10") (:sector "maintenance") (:label "Correctifs de typos")
   (:project "planet"))
+
+((:uuid "43bca18d-1b20-c09c-da85-c2f6f3bf6fdf") (:day "020G22")
+  (:duration "230") (:sector "audio") (:label "Expériences avec Sunvox"))

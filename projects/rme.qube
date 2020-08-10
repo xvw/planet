@@ -2,7 +2,7 @@
 (:published true)
 (:title "RME")
 (:synopsis "Une extension pour le logiciel RPGMaker VXAce")
-(:status "unceasing")
+(:status "done")
 (:license "mit")
 (:tags "game" "rpgmaker" "rme" "vxace" "ruby")
 (:repo (#github rmex RME))

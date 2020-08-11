@@ -15,3 +15,8 @@
 ((:uuid "6cb47ebc-5fd1-9048-6c95-296b6c3742e4") (:day "020H11")
   (:duration "30") (:sector "programming")
   (:label "Correctif sur les alternatives") (:project "preface"))
+
+((:uuid "9e10eda5-f06f-f7b1-789c-98072ebd1de5") (:day "020H11")
+  (:duration "60") (:sector "programming")
+  (:label "Légère modification du graphique de tracking")
+  (:project "planet"))

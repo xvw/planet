@@ -11,3 +11,7 @@
 ((:uuid "9ef52d15-7907-f976-ddb3-1189f73a9e40") (:day "020H11")
   (:duration "200") (:sector "programming")
   (:label "Finalisation et test des Alternatives") (:project "preface"))
+
+((:uuid "6cb47ebc-5fd1-9048-6c95-296b6c3742e4") (:day "020H11")
+  (:duration "30") (:sector "programming")
+  (:label "Correctif sur les alternatives") (:project "preface"))

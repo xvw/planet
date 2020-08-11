@@ -696,7 +696,7 @@ src_kotlin{Ask()} à src_kotlin{Print(x)}.
 
 Il existe plusieurs manières de transformer ces séquences d'instructions
 en une séquence chainée. Les deux plus populaires, dans le monde de la
-programmation fonctionnelle sont *les monades libres* et les 
+programmation fonctionnelle sont *les monades gratuites* et les 
 *transformations de monades*. Les deux approches proposent des avantages et
 des inconvénients. Heureusement, il existe une approche qui, selon moi,
 a le mérite d'être claire et facile à appréhender : *les effets algébriques*
@@ -1285,7 +1285,7 @@ programme qui sera interprétée.
 
 Même si les effets algébriques ne sont pas encore standards dans les langages
 de programmation /mainstream/ (comme Haskell ou OCaml), il est tout de même
-possible d'utiliser "leur interface" au moyen, par exemple, de *Monades libres*,
+possible d'utiliser "leur interface" au moyen, par exemple, de *Monades gratuites*,
 et même si dans d'autres langages (encore plus /mainstream/) ce genre de
 pratique n'est pas habituel, je vous assure qu'elle facilite grandement
 l'expérience développeur et qu'elle permet de rendre les programmes plus

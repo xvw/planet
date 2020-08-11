@@ -388,36 +388,38 @@ module Stats = struct
 
   let sectors_charts width counters =
     let h = 10. in
-    List.mapi
-      (fun ik (sector_name, color, percent) ->
-        let i = float_of_int ik in
-        let rect_width = width *. (percent /. 100.0) in
-        let open Svg in
-        [ rect
-            ~a:
-              [ a_x $ d 0.
-              ; a_y $ d ((h +. 6.) *. i)
-              ; a_height $ d h
-              ; a_width $ d width
-              ; a_fill $ `Color ("#ffffff", None)
-              ; a_rx $ d 2.
-              ; a_ry $ d 2.
-              ]
-            []
-        ; rect
-            ~a:
-              [ a_x $ d 0.
-              ; a_y $ d ((h +. 6.) *. i)
-              ; a_height $ d h
-              ; a_width $ d rect_width
-              ; a_fill $ `Color (Color.to_hex color, None)
-              ; a_rx $ d 2.
-              ; a_ry $ d 2.
-              ]
-            []
-        ])
-      counters
-    |> List.flatten
+    let open Svg in
+    rect
+      ~a:
+        [ a_x $ d 0.
+        ; a_y $ d (h +. 6.0)
+        ; a_height $ d h
+        ; a_width $ d width
+        ; a_fill $ `Color ("#ffffff", None)
+        ; a_rx $ d 2.
+        ; a_ry $ d 2.
+        ]
+      []
+    :: (List.fold_left
+          (fun (x_offset, acc) (sector_name, color, percent) ->
+            let rect_width = width *. (percent /. 100.0) in
+            let rect =
+              let open Svg in
+              rect
+                ~a:
+                  [ a_x $ d x_offset
+                  ; a_y $ d (h +. 6.0)
+                  ; a_height $ d h
+                  ; a_width $ d rect_width
+                  ; a_fill $ `Color (Color.to_hex color, None)
+                  ]
+                []
+            in
+            x_offset +. rect_width, rect :: acc)
+          (0.0, [])
+          counters
+       |> snd
+       |> List.rev)
   ;;
 
   let render_sector_graph width total sectors hash_counters =
@@ -425,10 +427,8 @@ module Stats = struct
     let len = List.length counters in
     let flen = float_of_int len in
     let bh = 14.5 in
-    let ch = 16.0 in
-    let margin = 10.0 in
     let computed_height_sectors = flen *. bh in
-    let computed_height_charts = (flen *. ch) +. margin in
+    let computed_height_charts = 32.0 in
     let height = computed_height_charts +. computed_height_sectors in
     Tyxml.Html.svg
       ~a:

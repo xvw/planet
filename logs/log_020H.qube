@@ -20,3 +20,7 @@
   (:duration "60") (:sector "programming")
   (:label "Légère modification du graphique de tracking")
   (:project "planet"))
+
+((:uuid "beb1c6de-8178-aa20-493b-c3dcd98ba539") (:day "020H17")
+  (:duration "150") (:sector "writing")
+  (:label "Traduction FR pour FP-tower"))

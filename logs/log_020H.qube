@@ -28,3 +28,7 @@
 ((:uuid "de83eb18-f136-4884-0cce-4805a619a97e") (:day "020H18")
   (:duration "200") (:sector "writing")
   (:label "Traduction FR pour FP-tower"))
+
+((:uuid "246359f0-116e-2f82-1ac4-5f470b38984b") (:day "020H19")
+  (:duration "300") (:sector "writing")
+  (:label "Traduction FR pour FP-tower"))

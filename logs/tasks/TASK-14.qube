@@ -5,6 +5,6 @@
 (:sectors (visual programming maintenance))
 (:checklist
   ((:unchecked "liens des articles") (:unchecked "tags des articles")
-    (:unchecked "liens des projets") (:unchecked "tags des projets")
+    (:unchecked "liens des projets") (:checked "tags des projets")
     (:unchecked "statistiques des projets") (:checked "Dates (depuis)")))
 (:tags ())

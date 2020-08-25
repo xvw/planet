@@ -32,3 +32,7 @@
 ((:uuid "246359f0-116e-2f82-1ac4-5f470b38984b") (:day "020H19")
   (:duration "300") (:sector "writing")
   (:label "Traduction FR pour FP-tower"))
+
+((:uuid "cb7cd8b7-803f-2ee0-5b1e-fe5cfca3fbc4") (:day "020H25")
+  (:duration "30") (:sector "programming")
+  (:label "Ajout de test pour les Alternatives") (:project "preface"))

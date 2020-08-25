@@ -37,9 +37,13 @@
       </div>
       <div class="content-rightbar">
         <div id="major-content-right" class="small-refutable">
-          <div class="loading">
-            <img src="/picto/loader.black.svg" alt="loading..."/>
+          <div id="dynamic-right">
+            <div class="loading">
+              <img src="/picto/loader.black.svg" alt="loading..."/>
+            </div>
           </div>
+          $partial(tags_partial)$
+          $partial(releases_partial)$
         </div>
       </div>
     </div>
@@ -60,7 +64,7 @@
         "textarea[data-planet-qexp='project']"
       ),
       rightContainer: document.getElementById(
-        "major-content-right"
+        "dynamic-right"
       ),
       bottomContainer: document.getElementById(
         "major-content-bottom"

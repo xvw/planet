@@ -588,15 +588,12 @@ module Project = struct
             sectors
             ctx.sectors_counters
         in
-        let tags = Common.render_tags Shapes.Project.(project.tags) in
-        let releases =
+        let _releases =
           render_releases
-            project.repo
+            Shapes.Project.(project.repo)
             Shapes.Project.(List.rev project.releases)
         in
-        div
-          ~a:[ a_class [ "project-block"; "tracking" ] ]
-          (title :: (graph @ tags @ releases))
+        div ~a:[ a_class [ "project-block"; "tracking" ] ] (title :: graph)
     in
     let () = clear right_container in
     let () = Dom.appendChild right_container (Tyxml.To_dom.of_element ctn) in

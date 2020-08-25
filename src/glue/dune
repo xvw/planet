@@ -4,6 +4,7 @@
   (libraries
     unix
     cmdliner
+    tyxml
     planet.bedrock
     planet.paperwork
     planet.shapes

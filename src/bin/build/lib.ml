@@ -149,11 +149,32 @@ let create_projects_files ?rctx () =
       let partial =
         Filename.concat seed_partials ("project-" ^ project.name ^ ".qexp.html")
       in
-      let () = trace_deletion (soft_deletion_file target) in
-      let () = trace_deletion (soft_deletion_file partial) in
+      let partial_tags =
+        Filename.concat seed_partials ("project-" ^ project.name ^ ".tags.html")
+      in
+      let partial_releases =
+        Filename.concat
+          seed_partials
+          ("project-" ^ project.name ^ ".releases.html")
+      in
+      let partials = [ partial; partial_tags; partial_releases ] in
+      let files = target :: partials in
+      let () =
+        List.iter (fun x -> trace_creation (soft_deletion_file x)) files
+      in
       File.create target content
+      |> Result.bind (fun () ->
+             File.create
+               partial_tags
+               (Static_widget.Tags.to_html_string project.tags))
+      |> Result.bind (fun () ->
+             File.create
+               partial_releases
+               (Static_widget.Releases.to_html_string
+                  project.repo
+                  project.releases))
       |> Result.bind (fun () -> File.create partial project_str)
-      |> Result.map (fun () -> true, target ^ " & " ^ partial)
+      |> Result.map (fun () -> true, String.concat " & " files)
       |> Validation.from_result
       |> trace_creation
       |> Validation.pure)

@@ -127,6 +127,16 @@ let to_hakyll_string_aux day project_opt project =
         ; render_if "indexed" project.indexed
         ; render_if "published" project.published
         ; render_string
+            "tags_partial"
+            (Format.asprintf
+               "_seeds/partials/project-%s.tags.html"
+               project.name)
+        ; render_string
+            "releases_partial"
+            (Format.asprintf
+               "_seeds/partials/project-%s.releases.html"
+               project.name)
+        ; render_string
             "qexp_partial"
             (Format.asprintf
                "_seeds/partials/project-%s.qexp.html"

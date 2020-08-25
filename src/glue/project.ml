@@ -137,6 +137,11 @@ let to_hakyll_string_aux day project_opt project =
                "_seeds/partials/project-%s.releases.html"
                project.name)
         ; render_string
+            "links_partial"
+            (Format.asprintf
+               "_seeds/partials/project-%s.links.html"
+               project.name)
+        ; render_string
             "qexp_partial"
             (Format.asprintf
                "_seeds/partials/project-%s.qexp.html"

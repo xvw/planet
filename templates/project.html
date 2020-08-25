@@ -49,9 +49,7 @@
     </div>
   </div>
   <div id="major-content-bottom">
-    <div class="loading">
-      <img src="/picto/loader.black.svg" alt="loading..."/>
-    </div>
+    $partial(links_partial)$
   </div>
 </div>
 <script>
@@ -65,9 +63,6 @@
       ),
       rightContainer: document.getElementById(
         "dynamic-right"
-      ),
-      bottomContainer: document.getElementById(
-        "major-content-bottom"
       ),
       sectors: document.querySelectorAll(
         "#planet-sectors-metadata > .sector-data"

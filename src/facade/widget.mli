@@ -20,8 +20,6 @@ module Project : sig
 
       method rightContainer : Dom_html.element Js.t Js.Opt.t Js.readonly_prop
 
-      method bottomContainer : Dom_html.element Js.t Js.Opt.t Js.readonly_prop
-
       method sectors : Dom_html.element Dom.nodeList Js.t Js.readonly_prop
     end
 
@@ -35,11 +33,7 @@ module Story : sig
 
       method eof : Dom_html.element Js.t Js.Opt.t Js.readonly_prop
 
-      method story : Dom_html.textAreaElement Js.t Js.Opt.t Js.readonly_prop
-
       method rightContainer : Dom_html.element Js.t Js.Opt.t Js.readonly_prop
-
-      method bottomContainer : Dom_html.element Js.t Js.Opt.t Js.readonly_prop
 
       method resumeDetails : Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
     end

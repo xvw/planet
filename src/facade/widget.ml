@@ -490,55 +490,8 @@ module Project = struct
 
       method rightContainer : Dom_html.element Js.t Js.Opt.t Js.readonly_prop
 
-      method bottomContainer : Dom_html.element Js.t Js.Opt.t Js.readonly_prop
-
       method sectors : Dom_html.element Dom.nodeList Js.t Js.readonly_prop
     end
-
-  let cut = function
-    | a :: b :: c :: _ -> [ a; b; c ]
-    | xs -> xs
-  ;;
-
-  let render_releases repo = function
-    | [] -> []
-    | releases ->
-      let len = List.length releases in
-      let cutted = cut releases in
-      let open Tyxml.Html in
-      [ div
-          ~a:[ a_class [ "project-block"; "release-list" ] ]
-          ([ h3
-               [ span [ txt "Releases" ]
-               ; span ~a:[ a_class [ "label" ] ] [ txt $ string_of_int len ]
-               ]
-           ; ul
-               (List.map
-                  (fun (name, date, url) ->
-                    li
-                      [ span
-                          ~a:[ a_class [ "date" ] ]
-                          [ txt
-                            $ Format.asprintf
-                                "%a"
-                                Paperwork.Timetable.Day.ppr
-                                date
-                          ]
-                      ; a ~a:[ a_href url ] [ txt name ]
-                      ])
-                  cutted)
-           ]
-          @ (repo
-            |> Option.map (fun r ->
-                   a
-                     ~a:
-                       [ a_class [ "view-releases" ]
-                       ; a_href (Shapes.Repo.releases_url r)
-                       ]
-                     [ txt "Toutes les releases" ])
-            |> Option.to_list))
-      ]
-  ;;
 
   let collect_data textarea_timedata =
     let open Validation.Infix in
@@ -569,7 +522,7 @@ module Project = struct
     @ project.links
   ;;
 
-  let render_summary right_container bottom_container project timedata sectors =
+  let render_summary right_container project timedata sectors =
     let open Tyxml.Html in
     let ctn =
       match collect_data timedata with
@@ -588,18 +541,10 @@ module Project = struct
             sectors
             ctx.sectors_counters
         in
-        let _releases =
-          render_releases
-            Shapes.Project.(project.repo)
-            Shapes.Project.(List.rev project.releases)
-        in
         div ~a:[ a_class [ "project-block"; "tracking" ] ] (title :: graph)
     in
     let () = clear right_container in
-    let () = Dom.appendChild right_container (Tyxml.To_dom.of_element ctn) in
-    let links = compute_links project in
-    let () = clear bottom_container in
-    Common.render_links bottom_container links
+    Dom.appendChild right_container (Tyxml.To_dom.of_element ctn)
   ;;
 
   let validate_project node =
@@ -618,19 +563,13 @@ module Project = struct
     let open Validation.Infix in
     Lwt.return
       (match
-         (fun x y z a -> x, y, z, a)
+         (fun x y z -> x, y, z)
          <$> validate "unable to find right container" input##.rightContainer
-         <*> validate "unable to find bottom container" input##.bottomContainer
          <*> validate_project input##.project
          <*> Sector.nodelist_to_hashtbl input##.sectors
        with
-      | Ok (right_container, bottom_container, project, sectors) ->
-        render_summary
-          right_container
-          bottom_container
-          project
-          input##.timedata
-          sectors
+      | Ok (right_container, project, sectors) ->
+        render_summary right_container project input##.timedata sectors
       | Error errs -> Console.render_error errs)
   ;;
 
@@ -648,11 +587,7 @@ module Story = struct
 
       method eof : Dom_html.element Js.t Js.Opt.t Js.readonly_prop
 
-      method story : Dom_html.textAreaElement Js.t Js.Opt.t Js.readonly_prop
-
       method rightContainer : Dom_html.element Js.t Js.Opt.t Js.readonly_prop
-
-      method bottomContainer : Dom_html.element Js.t Js.Opt.t Js.readonly_prop
 
       method resumeDetails : Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
     end
@@ -670,17 +605,11 @@ module Story = struct
     b, progress
   ;;
 
-  let render_summary right_container bottom_container story =
+  let render_summary right_container =
     let open Tyxml.Html in
     let resume_box, progress = resume_handler in
     let () = clear right_container in
     let () = Dom.appendChild right_container (Tyxml.To_dom.of_div resume_box) in
-    let right_content =
-      div (Common.render_tags story.Shapes.Story.tags) |> Tyxml.To_dom.of_div
-    in
-    let () = Dom.appendChild right_container right_content in
-    let () = clear bottom_container in
-    let () = Common.render_links bottom_container story.Shapes.Story.links in
     resume_box, progress
   ;;
 
@@ -731,20 +660,15 @@ module Story = struct
     let open Validation.Infix in
     Lwt.return
       (match
-         (fun w x y z -> w, x, y, z)
+         (fun w x -> w, x)
          <$> validate "unable to find right container" input##.rightContainer
-         <*> validate "unable to find bottom container" input##.bottomContainer
          <*> validate
                "unable to find resume detail container"
                input##.resumeDetails
-         <*> validate_story input##.story
        with
-      | Ok (right_container, bottom_container, resume_details, story) ->
-        let resume, progress =
-          render_summary right_container bottom_container story
-        in
+      | Ok (right_container, resume_details) ->
+        let resume, progress = render_summary right_container in
         let tdom = Tyxml.To_dom.of_div in
-        (* let tdoma = Tyxml.To_dom.of_a in *)
         Resume.handle
           (tdom resume)
           (tdom progress)

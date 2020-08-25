@@ -1,8 +1,5 @@
 <div id="resume-details" class="page-small-cover black-block small-refutable"></div>
 <div class="container base-content uniq-content">
-  <div class="qexp-metadata" id="story-qexp-metadata">
-    $partial(qexp_partial)$
-  </div>
 
   <div class="content-page">
     <div class="major-header">
@@ -24,17 +21,15 @@
       </div>
       <div class="content-rightbar">
         <div id="major-content-right" class="small-refutable">
-          <div class="loading">
-            <img src="/picto/loader.black.svg" alt="loading..."/>
+          <div id="dynamic-right">
           </div>
+          $partial(tags_partial)$
         </div>
       </div>
     </div>
   </div>
   <div id="major-content-bottom">
-    <div class="loading">
-      <img src="/picto/loader.black.svg" alt="loading..."/>
-    </div>
+    $partial(links_partial)$
   </div>
 </div>
 <script>
@@ -42,14 +37,8 @@
     planet.story.boot({
       path: "$url$",
       eof: document.getElementById("eof-page"),
-      story: document.querySelector(
-        "textarea[data-planet-qexp='story']"
-      ),
       rightContainer: document.getElementById(
-        "major-content-right"
-      ),
-      bottomContainer: document.getElementById(
-        "major-content-bottom"
+        "dynamic-right"
       ),
       resumeDetails: document.getElementById(
         "resume-details"

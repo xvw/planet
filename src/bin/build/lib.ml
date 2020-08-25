@@ -132,6 +132,20 @@ let initialize_logs () =
     "last_logs.json"
 ;;
 
+let compute_links project =
+  let open Shapes.Project in
+  (Option.map
+     (fun repo ->
+       ( Shapes.Repo.kind repo
+       , [ "Page du projet", Shapes.Repo.base_url repo
+         ; "Bug tracker", Shapes.Repo.bucktracker_url repo
+         ; "Contributeurs", Shapes.Repo.contributors_url repo
+         ] ))
+     project.repo
+  |> Option.to_list)
+  @ project.links
+;;
+
 let create_projects_files ?rctx () =
   let open Validation.Infix in
   Glue.Project.all ?rctx ()
@@ -157,11 +171,17 @@ let create_projects_files ?rctx () =
           seed_partials
           ("project-" ^ project.name ^ ".releases.html")
       in
-      let partials = [ partial; partial_tags; partial_releases ] in
+      let partial_links =
+        Filename.concat seed_partials ("project-" ^ project.name ^ ".links.html")
+      in
+      let partials =
+        [ partial; partial_tags; partial_releases; partial_links ]
+      in
       let files = target :: partials in
       let () =
         List.iter (fun x -> trace_creation (soft_deletion_file x)) files
       in
+      let links = compute_links project in
       File.create target content
       |> Result.bind (fun () ->
              File.create
@@ -173,6 +193,10 @@ let create_projects_files ?rctx () =
                (Static_widget.Releases.to_html_string
                   project.repo
                   project.releases))
+      |> Result.bind (fun () ->
+             File.create
+               partial_links
+               (Static_widget.Links.to_html_string links))
       |> Result.bind (fun () -> File.create partial project_str)
       |> Result.map (fun () -> true, String.concat " & " files)
       |> Validation.from_result
@@ -280,11 +304,28 @@ let stories () =
             let open Shapes.Story in
             let filename = story.permaname ^ "." ^ extension in
             let target = story_chose_target story filename in
-            let partial = Filename.concat seed_partials partial_name in
-            let () = trace_deletion (soft_deletion_file target) in
-            let () = trace_deletion (soft_deletion_file partial) in
+            let partial = Filename.concat seed_partials (partial_name "qexp") in
+            let partial_tags =
+              Filename.concat seed_partials (partial_name "tags")
+            in
+            let partial_links =
+              Filename.concat seed_partials (partial_name "links")
+            in
+            let partials = [ partial; partial_tags; partial_links ] in
+            let files = target :: partials in
+            let () =
+              List.iter (fun x -> trace_deletion (soft_deletion_file x)) files
+            in
             File.create target content
             |> Result.bind (fun () -> File.create partial partial_content)
+            |> Result.bind (fun () ->
+                   File.create
+                     partial_tags
+                     (Static_widget.Tags.to_html_string story.tags))
+            |> Result.bind (fun () ->
+                   File.create
+                     partial_links
+                     (Static_widget.Links.to_html_string story.links))
             |> Result.map (fun () -> true, target ^ " & " ^ partial)
             |> Validation.from_result
             |> trace_creation

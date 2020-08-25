@@ -705,6 +705,7 @@ a.long-item,
 }
 
 .updated::before,
+.project-badges > .updated-ago::before,
 .long-item .updated::before {
     content: "modifié le ";
     font-weight: 200;
@@ -714,13 +715,6 @@ a.long-item,
 .badge ~ .counter::after,
 .long-item .counter::after {
     content: " éléments";
-    font-weight: 200;
-    color: #444;
-}
-
-
-.project-badges > .updated-ago::before {
-    content: "modifié ";
     font-weight: 200;
     color: #444;
 }

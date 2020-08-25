@@ -10,7 +10,7 @@ $if(published)$
     <h3>$displayable_title$</h3>
     <p>$synopsis$</p>
     <div class="project-badges">
-      <div data-planet-ago="$date_planet$" class="project-badge updated-ago"></div>
+      <div class="project-badge updated-ago">$date$</div>
       <div class="project-badge status $status$">
         $status$
       </div>
@@ -24,11 +24,3 @@ $if(published)$
 </a>
 $endif$
 $endfor$
-<script>
-  planet.suspend(function() {
-    planet.common.timeAgo(
-      document.querySelectorAll("*[data-planet-ago]")
-    );
-  });
-</script>
-

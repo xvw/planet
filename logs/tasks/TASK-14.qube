@@ -4,6 +4,6 @@
 (:state "in_progress") (:uuid "TASK-14") (:date "020C12") (:project "planet")
 (:sectors (visual programming maintenance))
 (:checklist
-  ((:unchecked "liens des articles") (:unchecked "tags des articles")
-    (:unchecked "tags des projets") (:unchecked "statistiques des projets")))
+  ((:unchecked "liens des articles") (:unchecked "tags des articles") (:unchecked "liens des projets")
+    (:unchecked "tags des projets") (:unchecked "statistiques des projets") (:unchecked "Dates (depuis)")))
 (:tags ())

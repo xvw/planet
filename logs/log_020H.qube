@@ -36,3 +36,8 @@
 ((:uuid "cb7cd8b7-803f-2ee0-5b1e-fe5cfca3fbc4") (:day "020H25")
   (:duration "30") (:sector "programming")
   (:label "Ajout de test pour les Alternatives") (:project "preface"))
+
+((:uuid "aa5fb06f-4f3c-87f9-6c36-9456a8a30186") (:day "020H25")
+  (:duration "200") (:sector "programming")
+  (:label "Réduction de la génération de données à la volée")
+  (:project "planet"))

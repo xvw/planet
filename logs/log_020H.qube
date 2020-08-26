@@ -41,3 +41,8 @@
   (:duration "200") (:sector "programming")
   (:label "Réduction de la génération de données à la volée")
   (:project "planet"))
+
+((:uuid "ceaa6870-fcff-4754-9fba-ecdeaaea4f7a") (:day "020H26")
+  (:duration "15") (:sector "programming")
+  (:label "Re-rendu de la barre de progression en sticky pour les articles")
+  (:project "planet"))

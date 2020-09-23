@@ -15,3 +15,7 @@
   (:duration "30") (:sector "maintenance")
   (:label "Mise à jours des données et mise à jours des paquets")
   (:project "planet"))
+
+((:uuid "f8b4efca-a831-31b7-a1db-63e9276af8bb") (:day "020I23")
+  (:duration "300") (:sector "programming")
+  (:label "Implémentation des Monades plus") (:project "preface"))

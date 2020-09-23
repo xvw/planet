@@ -10,3 +10,8 @@
 ((:uuid "952129e2-e301-3e9f-910c-e39c99fc1f40") (:day "020I23")
   (:duration "200") (:sector "writing")
   (:label "Traduction des sous-titres de FPTower"))
+
+((:uuid "c81eff67-60cf-bd99-56fa-eae85a420cd6") (:day "020I23")
+  (:duration "30") (:sector "maintenance")
+  (:label "Mise à jours des données et mise à jours des paquets")
+  (:project "planet"))

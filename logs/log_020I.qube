@@ -6,3 +6,7 @@
 ((:uuid "edb05e19-3de2-02c8-a185-b64db5c0d21f") (:day "020I22")
   (:duration "500") (:sector "writing")
   (:label "Traduction de sous-titres pour FPTower"))
+
+((:uuid "952129e2-e301-3e9f-910c-e39c99fc1f40") (:day "020I23")
+  (:duration "200") (:sector "writing")
+  (:label "Traduction des sous-titres de FPTower"))

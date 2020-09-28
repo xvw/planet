@@ -19,3 +19,6 @@
 ((:uuid "f8b4efca-a831-31b7-a1db-63e9276af8bb") (:day "020I23")
   (:duration "300") (:sector "programming")
   (:label "Implémentation des Monades plus") (:project "preface"))
+
+((:uuid "0ad20b8f-206f-e490-3064-22b19941b98c") (:day "020I27")
+  (:duration "350") (:sector "maintenance") (:label "Configuration Fujifilm"))

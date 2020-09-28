@@ -22,3 +22,6 @@
 
 ((:uuid "0ad20b8f-206f-e490-3064-22b19941b98c") (:day "020I27")
   (:duration "350") (:sector "maintenance") (:label "Configuration Fujifilm"))
+
+((:uuid "f7c519ef-0110-c568-1a4e-ae0aa1cb3bba") (:day "020I28")
+  (:duration "120") (:sector "maintenance") (:label "Configuration Fujifilm"))

@@ -18,3 +18,7 @@
 ((:uuid "b3569266-9f70-d0c8-5d55-7624549ca92b") (:day "020J13")
   (:duration "300") (:sector "writing")
   (:label "Préparation du talk Codeur en Seine"))
+
+((:uuid "8d64f204-3ade-8a7c-1716-2082148f50af") (:day "020J17")
+  (:duration "350") (:sector "writing")
+  (:label "Préparation du talk Codeurs en Seine"))

@@ -2,3 +2,7 @@
 ((:uuid "15ba78fb-05ef-1838-4406-b066895893d3") (:day "020K01")
   (:duration "250") (:sector "maintenance")
   (:label "Saisie des données et petites mises à jour") (:project "planet"))
+
+((:uuid "33f30ed2-40cf-1f32-6677-7f5f1177625d") (:day "020K01")
+  (:duration "30") (:sector "programming")
+  (:label "Implémentation de Result") (:project "preface"))

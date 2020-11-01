@@ -608,7 +608,6 @@ module Story = struct
   let render_summary right_container =
     let open Tyxml.Html in
     let resume_box, progress = resume_handler in
-    let () = clear right_container in
     let () = Dom.appendChild right_container (Tyxml.To_dom.of_div resume_box) in
     resume_box, progress
   ;;

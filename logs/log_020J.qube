@@ -1,7 +1,7 @@
 ;; Logs for 020J
 ((:uuid "e0b6f86f-3308-2022-1fad-dc03c46cd670") (:day "020J02")
   (:duration "200") (:sector "writing")
-  (:label "Ecriture du talk sur les formlet"))
+  (:label "Ecriture du talk sur les formlets"))
 
 ((:uuid "e262552e-9ca4-67e5-edcc-c7e520b307e4") (:day "020J03")
   (:duration "650") (:sector "writing")

@@ -6,3 +6,7 @@
 ((:uuid "e262552e-9ca4-67e5-edcc-c7e520b307e4") (:day "020J03")
   (:duration "650") (:sector "writing")
   (:label "Ecriture du talk sur les formlets"))
+
+((:uuid "28cde82b-60e6-8255-108d-4b29dced9842") (:day "020J05")
+  (:duration "200") (:sector "visual")
+  (:label "Rebranding des slides de Nicolas"))

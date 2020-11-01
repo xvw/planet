@@ -14,3 +14,7 @@
 ((:uuid "4b1e1b71-fa37-574e-6807-a5adacab9977") (:day "020J07")
   (:duration "300") (:sector "visual")
   (:label "Rebranding des slides de Nicolas"))
+
+((:uuid "b3569266-9f70-d0c8-5d55-7624549ca92b") (:day "020J13")
+  (:duration "300") (:sector "writing")
+  (:label "Préparation du talk Codeur en Seine"))

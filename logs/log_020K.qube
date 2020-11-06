@@ -6,3 +6,7 @@
 ((:uuid "33f30ed2-40cf-1f32-6677-7f5f1177625d") (:day "020K01")
   (:duration "30") (:sector "programming")
   (:label "Implémentation de Result") (:project "preface"))
+
+((:uuid "30c68998-a78a-a93c-fe4c-e80b516c2e51") (:day "020K06")
+  (:duration "380") (:sector "maintenance")
+  (:label "Mise en place d'un nouveau bureau"))

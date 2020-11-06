@@ -10,3 +10,7 @@
 ((:uuid "30c68998-a78a-a93c-fe4c-e80b516c2e51") (:day "020K06")
   (:duration "380") (:sector "maintenance")
   (:label "Mise en place d'un nouveau bureau"))
+
+((:uuid "6933afde-e323-0f6d-6460-adff9e145b69") (:day "020K06")
+  (:duration "60") (:sector "programming") (:label "Impl. de la classe Alt")
+  (:project "preface"))

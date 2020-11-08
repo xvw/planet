@@ -14,3 +14,7 @@
 ((:uuid "6933afde-e323-0f6d-6460-adff9e145b69") (:day "020K06")
   (:duration "60") (:sector "programming") (:label "Impl. de la classe Alt")
   (:project "preface"))
+
+((:uuid "fbf45770-86f9-4a5b-0993-02bdc43f0be3") (:day "020K08")
+  (:duration "200") (:sector "programming")
+  (:label "Paramétrisation de Validation") (:project "preface"))

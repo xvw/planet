@@ -18,3 +18,7 @@
 ((:uuid "fbf45770-86f9-4a5b-0993-02bdc43f0be3") (:day "020K08")
   (:duration "200") (:sector "programming")
   (:label "Paramétrisation de Validation") (:project "preface"))
+
+((:uuid "69bff59e-ef04-01c3-bd5c-63b1c02ee928") (:day "020K09")
+  (:duration "100") (:sector "programming")
+  (:label "Introduction de Validate") (:project "preface"))

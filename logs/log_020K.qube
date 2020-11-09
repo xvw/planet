@@ -22,3 +22,7 @@
 ((:uuid "69bff59e-ef04-01c3-bd5c-63b1c02ee928") (:day "020K09")
   (:duration "100") (:sector "programming")
   (:label "Introduction de Validate") (:project "preface"))
+
+((:uuid "41918e60-0d21-6a75-db54-f266d1ebfdbc") (:day "020K09")
+  (:duration "180") (:sector "programming")
+  (:label "Amélioration des Validations") (:project "preface"))

@@ -26,3 +26,8 @@
 ((:uuid "41918e60-0d21-6a75-db54-f266d1ebfdbc") (:day "020K09")
   (:duration "180") (:sector "programming")
   (:label "Amélioration des Validations") (:project "preface"))
+
+((:uuid "930ec530-5c38-c761-a50e-9f75e216d6b8") (:day "020K09")
+  (:duration "480") (:sector "writing")
+  (:label
+    "Rédaction du talk sur les effets algébriques pour la conférence Codeurs en Seine"))

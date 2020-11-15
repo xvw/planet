@@ -41,3 +41,7 @@
   (:label
     "Amélioration de l'API des Free Applicatives et démarrage des Free Selectives")
   (:project "preface"))
+
+((:uuid "b3d373cc-2a57-a39b-751d-37d00b7d1492") (:day "020K15")
+  (:duration "400") (:sector "programming")
+  (:label "Implémentation des Free Selectives") (:project "preface"))

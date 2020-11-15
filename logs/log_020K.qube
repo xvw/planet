@@ -31,3 +31,7 @@
   (:duration "480") (:sector "writing")
   (:label
     "Rédaction du talk sur les effets algébriques pour la conférence Codeurs en Seine"))
+
+((:uuid "cc5e7d7e-29ba-3c64-1025-4398f9d1800c") (:day "020K13")
+  (:duration "250") (:sector "programming")
+  (:label "Implémentation des Free Applicative") (:project "preface"))

@@ -35,3 +35,9 @@
 ((:uuid "cc5e7d7e-29ba-3c64-1025-4398f9d1800c") (:day "020K13")
   (:duration "250") (:sector "programming")
   (:label "Implémentation des Free Applicative") (:project "preface"))
+
+((:uuid "af651656-24cc-db39-8628-08dd25ba997a") (:day "020K14")
+  (:duration "360") (:sector "programming")
+  (:label
+    "Amélioration de l'API des Free Applicatives et démarrage des Free Selectives")
+  (:project "preface"))

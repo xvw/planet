@@ -45,3 +45,7 @@
 ((:uuid "b3d373cc-2a57-a39b-751d-37d00b7d1492") (:day "020K15")
   (:duration "400") (:sector "programming")
   (:label "Implémentation des Free Selectives") (:project "preface"))
+
+((:uuid "6387d8c1-268d-17c8-fbe9-cc6a88ee5dec") (:day "020K17")
+  (:duration "300") (:sector "maintenance")
+  (:label "Installation de ArchLinux sur ma machine personnelle"))

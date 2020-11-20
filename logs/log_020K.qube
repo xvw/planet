@@ -53,3 +53,7 @@
 ((:uuid "74f56202-8257-4806-7453-cc10b70b96c5") (:day "020K18")
   (:duration "280") (:sector "maintenance")
   (:label "Configuration ArchLinux"))
+
+((:uuid "f3b2979b-59a2-51ca-a52c-e16871b915c9") (:day "020K19")
+  (:duration "300") (:sector "maintenance")
+  (:label "Configuration de ArchLinux"))

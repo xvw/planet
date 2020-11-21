@@ -65,3 +65,6 @@
 ((:uuid "78b53a89-d0e6-1aac-2fa6-567fcd6e25b3") (:day "020K21")
   (:duration "300") (:sector "maintenance")
   (:label "Configuration ArchLinux"))
+
+((:uuid "ab680c60-b2e1-0de9-510d-de674ed5daa6") (:day "020K21")
+  (:duration "350") (:sector "programming") (:label "Hacking avec Xmonad"))

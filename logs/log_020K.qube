@@ -68,3 +68,8 @@
 
 ((:uuid "ab680c60-b2e1-0de9-510d-de674ed5daa6") (:day "020K21")
   (:duration "350") (:sector "programming") (:label "Hacking avec Xmonad"))
+
+((:uuid "c971e0df-ad03-e43f-e762-1c1e4bd635e2") (:day "020K22")
+  (:duration "25") (:sector "programming")
+  (:label "Mise à jour des Free Applicative et Free Selective")
+  (:project "preface"))

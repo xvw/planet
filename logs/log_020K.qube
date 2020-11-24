@@ -81,3 +81,7 @@
 ((:uuid "d457d8f3-af6b-9845-0a03-ec03d57fda56") (:day "020K23")
   (:duration "400") (:sector "writing")
   (:label "Etats d'âmes : conversions d'articles"))
+
+((:uuid "bd270c18-7f98-eb2f-6066-0f73bab5e606") (:day "020K24")
+  (:duration "780") (:sector "writing")
+  (:label "Etats d'âmes : conversions d'articles"))

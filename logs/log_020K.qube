@@ -77,3 +77,7 @@
 ((:uuid "b1856dab-98fb-3567-8aed-84fc359388c1") (:day "020K22")
   (:duration "200") (:sector "writing")
   (:label "Etats d'âmes : transposition d'articles en document"))
+
+((:uuid "d457d8f3-af6b-9845-0a03-ec03d57fda56") (:day "020K23")
+  (:duration "400") (:sector "writing")
+  (:label "Etats d'âmes : conversions d'articles"))

@@ -73,3 +73,7 @@
   (:duration "25") (:sector "programming")
   (:label "Mise à jour des Free Applicative et Free Selective")
   (:project "preface"))
+
+((:uuid "b1856dab-98fb-3567-8aed-84fc359388c1") (:day "020K22")
+  (:duration "200") (:sector "writing")
+  (:label "Etats d'âmes : transposition d'articles en document"))

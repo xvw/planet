@@ -93,3 +93,8 @@
 ((:uuid "fa010b7a-ae23-b5ed-a0c3-e079c08697bd") (:day "020K27")
   (:duration "20") (:sector "programming")
   (:label "Expériences avec Dmlenu"))
+
+((:uuid "2e024898-73db-a0f5-d482-37f6a7468ed6") (:day "020K27")
+  (:duration "320") (:sector "programming")
+  (:label "Expérimentations sur les formats de serialisation")
+  (:project "orion"))

@@ -89,3 +89,7 @@
 ((:uuid "1062382c-bb91-8302-66bb-6242208ee4cd") (:day "020K26")
   (:duration "25") (:sector "programming")
   (:label "Expériences avec Dmlenu"))
+
+((:uuid "fa010b7a-ae23-b5ed-a0c3-e079c08697bd") (:day "020K27")
+  (:duration "20") (:sector "programming")
+  (:label "Expériences avec Dmlenu"))

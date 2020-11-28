@@ -98,3 +98,9 @@
   (:duration "320") (:sector "programming")
   (:label "Expérimentations sur les formats de serialisation")
   (:project "orion"))
+
+((:uuid "b49c2de8-fb60-9bfc-2648-e18ec4c34e00") (:day "020K28")
+  (:duration "300") (:sector "programming")
+  (:label
+    "Démarrage de la bibliothèque nécessaire á l'écriture des services")
+  (:project "orion"))

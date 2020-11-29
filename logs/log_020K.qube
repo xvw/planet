@@ -104,3 +104,9 @@
   (:label
     "Démarrage de la bibliothèque nécessaire á l'écriture des services")
   (:project "orion"))
+
+((:uuid "afe76d8b-8cfa-ad1e-0d76-a0df07d0c1d4") (:day "020K29")
+  (:duration "500") (:sector "programming")
+  (:label
+    "Amélioration de l'infrastructure de test pour tester correctemment l'IO")
+  (:project "orion"))

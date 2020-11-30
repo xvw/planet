@@ -110,3 +110,7 @@
   (:label
     "Amélioration de l'infrastructure de test pour tester correctemment l'IO")
   (:project "orion"))
+
+((:uuid "ab96373c-5d17-cde0-9a3b-ee4719eff0b1") (:day "020K30")
+  (:duration "200") (:sector "programming")
+  (:label "Implémentation de Brick") (:project "orion"))

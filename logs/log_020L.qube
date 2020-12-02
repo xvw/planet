@@ -2,3 +2,8 @@
 ((:uuid "5d5bae06-45f9-b2dc-e6bc-e5cfd8ac1a5a") (:day "020L01")
   (:duration "250") (:sector "writing")
   (:label "Préparation du Talk sur les Binding pour Cuuti"))
+
+((:uuid "a82046e1-cd9e-72ff-f931-1b3a08f47e0f") (:day "020L02")
+  (:duration "120") (:sector "programming")
+  (:label "Expériences autour du regroupement de modules")
+  (:project "preface"))

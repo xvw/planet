@@ -7,3 +7,9 @@
   (:duration "120") (:sector "programming")
   (:label "Expériences autour du regroupement de modules")
   (:project "preface"))
+
+((:uuid "fefff1bc-cb0c-01e4-e907-8315a80ceb53") (:day "020L03")
+  (:duration "120") (:sector "programming")
+  (:label
+    "Remplacement typographique (eq -> equal) et utilisation du paquet Either pour simplifier la définition de Selectives")
+  (:project "preface"))

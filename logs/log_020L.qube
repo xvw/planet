@@ -17,3 +17,9 @@
 ((:uuid "a0d0fa36-9552-d256-48f2-f45d51cc4b25") (:day "020L04")
   (:duration "60") (:sector "programming")
   (:label "Expériences autours des tests") (:project "preface"))
+
+((:uuid "2cf444d7-a8bf-00d8-f12f-00983e612714") (:day "020L05")
+  (:duration "350") (:sector "programming")
+  (:label
+    "Modifications des tests (en vue d'éraridiquer l'abus de Obj.magic)")
+  (:project "preface"))

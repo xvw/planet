@@ -13,3 +13,7 @@
   (:label
     "Remplacement typographique (eq -> equal) et utilisation du paquet Either pour simplifier la définition de Selectives")
   (:project "preface"))
+
+((:uuid "a0d0fa36-9552-d256-48f2-f45d51cc4b25") (:day "020L04")
+  (:duration "60") (:sector "programming")
+  (:label "Expériences autours des tests") (:project "preface"))

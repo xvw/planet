@@ -23,3 +23,8 @@
   (:label
     "Modifications des tests (en vue d'éraridiquer l'abus de Obj.magic)")
   (:project "preface"))
+
+((:uuid "5382cdd4-2d39-8646-dff2-b3a4e12772c9") (:day "020L06")
+  (:duration "380") (:sector "programming")
+  (:label "Réécriture des tests dirigés par les propriétés")
+  (:project "preface"))

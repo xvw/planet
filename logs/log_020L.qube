@@ -54,3 +54,8 @@
 
 ((:uuid "853207c8-c6a6-da03-f4ed-8326b5722213") (:day "020L12")
   (:duration "200") (:sector "programming") (:label "Prototype d'un Webring"))
+
+((:uuid "fea6035c-e097-15b2-7175-01804b5645aa") (:day "020L13")
+  (:duration "450") (:sector "programming")
+  (:label "Test dirigés par les propriétés pour les comonades")
+  (:project "preface"))

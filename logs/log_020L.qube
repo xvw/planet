@@ -47,3 +47,7 @@
 ((:uuid "9fef1146-fcb7-24ad-e66d-fa907ff6e4ff") (:day "020L10")
   (:duration "300") (:sector "research")
   (:label "Collecte de matériel pour l'article sur le café"))
+
+((:uuid "93d3f516-a063-f16a-5a0c-b2446347b8d0") (:day "020L11")
+  (:duration "450") (:sector "programming")
+  (:label "Expériences avec Arrow et les suspensions"))

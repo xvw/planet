@@ -32,3 +32,9 @@
 ((:uuid "a1c9c841-6796-f0fa-dd5e-8dcdbdf78475") (:day "020L07")
   (:duration "350") (:sector "visual")
   (:label "Expériences sur le design pour support de présentation"))
+
+((:uuid "0b96bf95-27dd-850b-a90f-c082586aea76") (:day "020L08")
+  (:duration "250") (:sector "programming")
+  (:label
+    "Continuation d'expériences sur les tests dirigés par les propriétés")
+  (:project "preface"))

@@ -51,3 +51,6 @@
 ((:uuid "93d3f516-a063-f16a-5a0c-b2446347b8d0") (:day "020L11")
   (:duration "450") (:sector "programming")
   (:label "Expériences avec Arrow et les suspensions"))
+
+((:uuid "853207c8-c6a6-da03-f4ed-8326b5722213") (:day "020L12")
+  (:duration "200") (:sector "programming") (:label "Prototype d'un Webring"))

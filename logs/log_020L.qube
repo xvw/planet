@@ -38,3 +38,8 @@
   (:label
     "Continuation d'expériences sur les tests dirigés par les propriétés")
   (:project "preface"))
+
+((:uuid "d049a07c-36f8-b752-525d-e44cf860d27d") (:day "020L09")
+  (:duration "120") (:sector "programming")
+  (:label "Expériences sur les tests dirigés par les propriétés")
+  (:project "preface"))

@@ -43,3 +43,7 @@
   (:duration "120") (:sector "programming")
   (:label "Expériences sur les tests dirigés par les propriétés")
   (:project "preface"))
+
+((:uuid "9fef1146-fcb7-24ad-e66d-fa907ff6e4ff") (:day "020L10")
+  (:duration "300") (:sector "research")
+  (:label "Collecte de matériel pour l'article sur le café"))

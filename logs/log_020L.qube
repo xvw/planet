@@ -28,3 +28,7 @@
   (:duration "380") (:sector "programming")
   (:label "Réécriture des tests dirigés par les propriétés")
   (:project "preface"))
+
+((:uuid "a1c9c841-6796-f0fa-dd5e-8dcdbdf78475") (:day "020L07")
+  (:duration "350") (:sector "visual")
+  (:label "Expériences sur le design pour support de présentation"))

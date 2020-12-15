@@ -59,3 +59,7 @@
   (:duration "450") (:sector "programming")
   (:label "Test dirigés par les propriétés pour les comonades")
   (:project "preface"))
+
+((:uuid "2a1bce54-723c-0cae-0918-6b0158f99108") (:day "020L14")
+  (:duration "250") (:sector "visual")
+  (:label "Expériences avec Grease Pencil dans Blender"))

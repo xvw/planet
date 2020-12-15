@@ -63,3 +63,7 @@
 ((:uuid "2a1bce54-723c-0cae-0918-6b0158f99108") (:day "020L14")
   (:duration "250") (:sector "visual")
   (:label "Expériences avec Grease Pencil dans Blender"))
+
+((:uuid "43380d10-f147-bdbf-4b87-7890b9c90c52") (:day "020L15")
+  (:duration "450") (:sector "visual")
+  (:label "Grease Pencil (Blender) et Krita"))

@@ -72,3 +72,7 @@
   (:duration "150") (:sector "writing")
   (:label "Mise à plat de documentation pour l'article sur le café")
   (:project "planet"))
+
+((:uuid "e4e660e3-5c63-8e80-f51d-95e8de053735") (:day "020L17")
+  (:duration "350") (:sector "programming")
+  (:label "Expériences avec les modules OCaml et la recursion de modules"))

@@ -871,6 +871,7 @@ div.resume-box h3,
     color: #111;
     cursor: pointer;
     border: 0px solid red;
+    font-weight: 400;
 }
 
 /* #content-pages > div > a.page .tags span, */
@@ -889,14 +890,13 @@ div.resume-box h3,
 
 #content-pages > div > a.page .tags span {
     display: inline-block;
-    background-color: #111;
     margin: 4px 0;
-    margin-right: 3px;
-    padding: 2px 8px;
-    font-size: 80%;
-    border-radius: 4px;
+    margin-right: 8px;
+    font-size: 75%;
+    border-bottom: 1px dotted #111;
+    padding: 4px;
     text-decoration: none;
-    color: #f2f2f2;
+    color: #111;
     cursor: pointer;
 }
 

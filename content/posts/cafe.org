@@ -1,0 +1,43 @@
+#+BEGIN_QUOTE
+Il y a deux ans (à l'époque où j'écris cet article), j'ai pris la décision de
+changer la manière dont je consommais mon café. Depuis, bien qu'étant encore
+bien peu expérimenté, j'ai découvert un nouveau monde, goûtu, agréable au nez,
+riche et diversifié. Principalement parce que je ne suis pas particulièrement
+prolifique dans l'exercice de la rédaction, que mon article sur les émissions
+de télévision en rapport á la bande dessinée est, au doigt mouillé (je
+ne collecte pas de données sur mes potentiels lecteurs), le plus populaire
+de ce site internet et que le sujet m'intéresse (tout de même !), je m'inspire
+de [[https://yannickschutz.com/pause-cafe/][Yannick]] pour vous faire part de ma modeste expérience avec le café.
+
+En complément de l'envie de "faire part" des raisons qui m'ont poussé à 
+augmenter mon exigence par rapport au café, j'essaierai, dans cet article,
+de présenter un très bref résumé (un peu naïf) des astuces qui, selon moi,
+permettent de démarrer, et d'un peu de vocabulaire pour faciliter la 
+sélection de son café.
+
+Par contre, n'accordons pas à cet article plus d'ambition qu'il n'en prétend,
+je pense qu'il existe suffisament de ressources pour retracer l'histoire du
+café, géographiquement et socialement, sur le net ou dans des livres. Voyons
+plutôt cet article comme un retour d'expérience.
+#+END_QUOTE
+
+Alors que je n'ai absolument aucun souvenir de ma première bière ou de mon
+premier verre de vin, j'ai un très net souvenir de ma toute première tasse
+de café. Est-ce parce que, en toute honnêteté, ce fût une expérience
+traumatisante ? Quoi qu'il en soit, en 1998, alors âgé de 9 ans, à l'occasion
+de la Saint-Nicolas (une fête d'une importance capitale pour les Belges), je
+demande fièrement à mon grand-père maternelle une tasse de café !
+Après avoir consulté mes parents, il accède à ma requête, à la condition que
+je m'engage à terminer la tasse qu'il me servirait... j'accepte, pour mon
+plus grand malheur ! La boisson est amère et je suis incapable de la terminer.
+Armé de courage, de sucre et de lait, je me souviens très précisement m'être
+battu contre mon palais, mes papilles et mon estomac pour venir à bout de
+la boisson maron (et oui, l'abus de lait) en me promettant de ne plus
+jamais m'aventurer dans les méandres du café, la boisson était visiblement
+incompatible avec mes goûts.
+
+Le café mis de côté, ce n'est que bien plus tard, quand je commencerai à
+programmer de nuit que je renouerai avec le café, pour le meilleur et,
+dans un premier temps, pour le pire.
+
+*** Voyage avec pour premier aboutissement la monstruosité du café instantané

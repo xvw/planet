@@ -80,3 +80,7 @@
 ((:uuid "6da287f0-6bfc-95d6-1176-3e10d62d16bf") (:day "020L18")
   (:duration "400") (:sector "writing")
   (:label "Écriture de l'article sur le café") (:project "planet"))
+
+((:uuid "11570f69-8da3-4f90-7d07-eab185f2ccd2") (:day "020L18")
+  (:duration "20") (:sector "visual")
+  (:label "Petites transformations visuelles") (:project "planet"))

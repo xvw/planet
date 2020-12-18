@@ -76,3 +76,7 @@
 ((:uuid "e4e660e3-5c63-8e80-f51d-95e8de053735") (:day "020L17")
   (:duration "350") (:sector "programming")
   (:label "Expériences avec les modules OCaml et la recursion de modules"))
+
+((:uuid "6da287f0-6bfc-95d6-1176-3e10d62d16bf") (:day "020L18")
+  (:duration "400") (:sector "writing")
+  (:label "Écriture de l'article sur le café") (:project "planet"))

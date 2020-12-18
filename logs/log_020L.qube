@@ -67,3 +67,8 @@
 ((:uuid "43380d10-f147-bdbf-4b87-7890b9c90c52") (:day "020L15")
   (:duration "450") (:sector "visual")
   (:label "Grease Pencil (Blender) et Krita"))
+
+((:uuid "285a545b-d579-31f1-1482-f4e763b3744d") (:day "020L16")
+  (:duration "150") (:sector "writing")
+  (:label "Mise à plat de documentation pour l'article sur le café")
+  (:project "planet"))

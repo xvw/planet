@@ -88,3 +88,8 @@
 ((:uuid "c89c7b22-846a-35f1-41a5-8675e5aa597a") (:day "020L19")
   (:duration "230") (:sector "programming")
   (:label "Ajout des objets dans Brick") (:project "orion"))
+
+((:uuid "0ba4b7ea-7bbd-bc0f-092c-26757e5ff42d") (:day "020L20")
+  (:duration "300") (:sector "programming")
+  (:label
+    "Etats d'âmes : implémentation du générateur de documents en OCaml"))

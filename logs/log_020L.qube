@@ -84,3 +84,7 @@
 ((:uuid "11570f69-8da3-4f90-7d07-eab185f2ccd2") (:day "020L18")
   (:duration "20") (:sector "visual")
   (:label "Petites transformations visuelles") (:project "planet"))
+
+((:uuid "c89c7b22-846a-35f1-41a5-8675e5aa597a") (:day "020L19")
+  (:duration "230") (:sector "programming")
+  (:label "Ajout des objets dans Brick") (:project "orion"))

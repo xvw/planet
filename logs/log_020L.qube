@@ -101,3 +101,7 @@
 ((:uuid "7c2cac0b-a18f-788f-7ecb-d2d0b671a88d") (:day "020L22")
   (:duration "200") (:sector "programming")
   (:label "Modules, modules et modules"))
+
+((:uuid "4b043e89-8bea-d3fa-6abb-3afd78915449") (:day "020L23")
+  (:duration "450") (:sector "writing")
+  (:label "Etats d'âmes, intégration de nouveaux articles"))

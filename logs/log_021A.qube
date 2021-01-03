@@ -8,4 +8,5 @@
   (:label "Expériences sur l'infrastructure du projet") (:project "orion"))
 
 ((:uuid "7f95752d-adba-aa44-f828-ff3327590e3b") (:day "021A03")
-  (:duration "350") (:sector "research") (:label "1") (:project "orion"))
+  (:duration "350") (:sector "research")
+  (:label "Expériences sur l'infrastructure du projet") (:project "orion"))

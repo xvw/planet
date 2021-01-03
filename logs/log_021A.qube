@@ -2,3 +2,7 @@
 ((:uuid "0ae53198-c3e5-cd81-a7de-0b677301abc6") (:day "021A01")
   (:duration "150") (:sector "writing")
   (:label "Ecriture de l'article sur le café") (:project "planet"))
+
+((:uuid "5912eda0-1e28-e66a-2d28-d8d51b3c096c") (:day "021A02")
+  (:duration "200") (:sector "research")
+  (:label "Expériences sur l'infrastructure du projet") (:project "orion"))

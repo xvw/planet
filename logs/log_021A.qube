@@ -1,0 +1,4 @@
+;; Logs for 021A
+((:uuid "0ae53198-c3e5-cd81-a7de-0b677301abc6") (:day "021A01")
+  (:duration "150") (:sector "writing")
+  (:label "Ecriture de l'article sur le café") (:project "planet"))

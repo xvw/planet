@@ -10,3 +10,7 @@
 ((:uuid "7f95752d-adba-aa44-f828-ff3327590e3b") (:day "021A03")
   (:duration "350") (:sector "research")
   (:label "Expériences sur l'infrastructure du projet") (:project "orion"))
+((:uuid "416fac40-b7cd-3adb-27e0-d7a7549ff1b3") (:day "021A10")
+  (:duration "200") (:sector "programming")
+  (:label "Test de propriétés pour les Comonades et pour les Streams")
+  (:project "preface"))

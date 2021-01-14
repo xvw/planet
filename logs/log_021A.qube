@@ -18,3 +18,7 @@
 ((:uuid "ec77d438-8268-b017-a0dd-f5fa9c2db411") (:day "021A13")
   (:duration "450") (:sector "writing")
   (:label "Complétude des Etats d'ames"))
+
+((:uuid "32d5dfae-74ea-ffcc-d702-447a6085aac0") (:day "021A14")
+  (:duration "750") (:sector "writing")
+  (:label "Finalisation du premier batch des Etats d'ame"))

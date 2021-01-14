@@ -14,3 +14,7 @@
   (:duration "200") (:sector "programming")
   (:label "Test de propriétés pour les Comonades et pour les Streams")
   (:project "preface"))
+
+((:uuid "ec77d438-8268-b017-a0dd-f5fa9c2db411") (:day "021A13")
+  (:duration "450") (:sector "writing")
+  (:label "Complétude des Etats d'ames"))

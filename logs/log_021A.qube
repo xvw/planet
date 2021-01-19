@@ -25,3 +25,6 @@
 
 ((:uuid "7cb28082-c1a3-6dd7-185c-1f80534e23c8") (:day "021A18")
   (:duration "180") (:sector "maintenance") (:label "Maintenance ArchLinux"))
+
+((:uuid "b0343dba-c22e-67db-16f3-03c71c999a4c") (:day "021A19")
+  (:duration "200") (:sector "maintenance") (:label "Suppression de LightDM"))

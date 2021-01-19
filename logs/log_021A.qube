@@ -22,3 +22,6 @@
 ((:uuid "32d5dfae-74ea-ffcc-d702-447a6085aac0") (:day "021A14")
   (:duration "750") (:sector "writing")
   (:label "Finalisation du premier batch des Etats d'ame"))
+
+((:uuid "7cb28082-c1a3-6dd7-185c-1f80534e23c8") (:day "021A18")
+  (:duration "180") (:sector "maintenance") (:label "Maintenance ArchLinux"))

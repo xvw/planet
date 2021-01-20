@@ -32,3 +32,8 @@
 ((:uuid "9041c6fe-c146-938d-cfb6-3add8f883da8") (:day "021A20")
   (:duration "250") (:sector "maintenance")
   (:label "Maintenance des logiciels et correctif clavier/son"))
+
+((:uuid "ff8b746e-2b38-6ba1-9ccd-1c5f19b3817d") (:day "021A20")
+  (:duration "350") (:sector "programming")
+  (:label "Implémentation de Brick, le langage de sérialisation")
+  (:project "orion"))

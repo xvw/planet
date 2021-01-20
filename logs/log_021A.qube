@@ -28,3 +28,7 @@
 
 ((:uuid "b0343dba-c22e-67db-16f3-03c71c999a4c") (:day "021A19")
   (:duration "200") (:sector "maintenance") (:label "Suppression de LightDM"))
+
+((:uuid "9041c6fe-c146-938d-cfb6-3add8f883da8") (:day "021A20")
+  (:duration "250") (:sector "maintenance")
+  (:label "Maintenance des logiciels et correctif clavier/son"))

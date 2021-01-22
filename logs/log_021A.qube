@@ -56,3 +56,9 @@
   (:duration "250") (:sector "programming")
   (:label "Expériences autours de la déclaration de programme a effets")
   (:project "orion"))
+
+((:uuid "b5ff280a-ba25-8a61-4570-8e76cf253011") (:day "021A23")
+  (:duration "280") (:sector "programming")
+  (:label
+    "Implémentation de programmes en CLI avec un gestionnaire d'effets (Preface)")
+  (:project "orion"))

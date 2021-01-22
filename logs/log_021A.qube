@@ -43,3 +43,7 @@
   (:label
     "Expériences avec des Parsers combinators pour améliorer la désérialisation de petits langages")
   (:project "orion"))
+
+((:uuid "bcd2d16b-4c3c-7cfa-1a9d-a471a778c911") (:day "021A22")
+  (:duration "500") (:sector "programming")
+  (:label "Réécriture du parser du langage Brick") (:project "orion"))

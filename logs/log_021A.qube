@@ -51,3 +51,8 @@
 ((:uuid "3fe0b78e-a16e-a67a-c28e-5b626a2dbfc2") (:day "021A22")
   (:duration "250") (:sector "programming")
   (:label "Initialisation de la CLI") (:project "orion"))
+
+((:uuid "686c6c8b-759e-73e6-b453-2c89ad70ed58") (:day "021A22")
+  (:duration "250") (:sector "programming")
+  (:label "Expériences autours de la déclaration de programme a effets")
+  (:project "orion"))

@@ -37,3 +37,9 @@
   (:duration "350") (:sector "programming")
   (:label "Implémentation de Brick, le langage de sérialisation")
   (:project "orion"))
+
+((:uuid "c3dc45d9-ae70-535b-e776-eda9db9feb35") (:day "021A21")
+  (:duration "350") (:sector "programming")
+  (:label
+    "Expériences avec des Parsers combinators pour améliorer la désérialisation de petits langages")
+  (:project "orion"))

@@ -47,3 +47,7 @@
 ((:uuid "bcd2d16b-4c3c-7cfa-1a9d-a471a778c911") (:day "021A22")
   (:duration "500") (:sector "programming")
   (:label "Réécriture du parser du langage Brick") (:project "orion"))
+
+((:uuid "3fe0b78e-a16e-a67a-c28e-5b626a2dbfc2") (:day "021A22")
+  (:duration "250") (:sector "programming")
+  (:label "Initialisation de la CLI") (:project "orion"))

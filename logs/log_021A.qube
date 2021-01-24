@@ -70,3 +70,9 @@
 ((:uuid "6da8a0e4-392b-0b64-7f46-ec1c6182c7f0") (:day "021A24")
   (:duration "80") (:sector "programming")
   (:label "Revue des implémentation de Traversable") (:project "preface"))
+
+((:uuid "9fc83147-3313-36eb-6b7d-cb540cf6b393") (:day "021A25")
+  (:duration "320") (:sector "programming")
+  (:label
+    "Amélioration de l'infrastructure de tests pour les programmes à effets")
+  (:project "orion"))

@@ -66,3 +66,7 @@
 ((:uuid "05436ca7-aee8-275c-8923-4e294b8413a5") (:day "021A24")
   (:duration "280") (:sector "programming")
   (:label "Amélioration du programme [init]") (:project "orion"))
+
+((:uuid "6da8a0e4-392b-0b64-7f46-ec1c6182c7f0") (:day "021A24")
+  (:duration "80") (:sector "programming")
+  (:label "Revue des implémentation de Traversable") (:project "preface"))

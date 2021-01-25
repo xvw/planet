@@ -76,3 +76,9 @@
   (:label
     "Amélioration de l'infrastructure de tests pour les programmes à effets")
   (:project "orion"))
+
+((:uuid "eec6fda1-73a9-8a07-1172-13f18323d8f8") (:day "021A25")
+  (:duration "30") (:sector "programming")
+  (:label
+    "Amélioration des artefacts de tests en vue de faire du PBT sur les actions")
+  (:project "orion"))

@@ -82,3 +82,9 @@
   (:label
     "Amélioration des artefacts de tests en vue de faire du PBT sur les actions")
   (:project "orion"))
+
+((:uuid "9bd4bf0b-c27c-8238-a608-2bcd56f3093a") (:day "021A26")
+  (:duration "35") (:sector "programming")
+  (:label
+    "Ajout de tests dirigés par les propriétés pour le programme Init")
+  (:project "orion"))

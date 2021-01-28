@@ -88,3 +88,7 @@
   (:label
     "Ajout de tests dirigés par les propriétés pour le programme Init")
   (:project "orion"))
+
+((:uuid "b0e451db-4949-8ca8-c791-9475c413f864") (:day "021A27")
+  (:duration "15") (:sector "maintenance")
+  (:label "Mise à jour de la liste des présentations") (:project "planet"))

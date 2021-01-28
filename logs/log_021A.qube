@@ -96,3 +96,7 @@
 ((:uuid "9a04cc9b-6c2b-4996-e518-5b40189b1435") (:day "021A28")
   (:duration "280") (:sector "programming")
   (:label "Introduction du programme de Logging") (:project "orion"))
+
+((:uuid "7847108f-2e3e-f4ee-8cc4-7acd7ac5bdbe") (:day "021A28")
+  (:duration "120") (:sector "programming")
+  (:label "Implémentation de combinateurs ANSI") (:project "orion"))

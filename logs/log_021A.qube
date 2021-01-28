@@ -92,3 +92,7 @@
 ((:uuid "b0e451db-4949-8ca8-c791-9475c413f864") (:day "021A27")
   (:duration "15") (:sector "maintenance")
   (:label "Mise à jour de la liste des présentations") (:project "planet"))
+
+((:uuid "9a04cc9b-6c2b-4996-e518-5b40189b1435") (:day "021A28")
+  (:duration "280") (:sector "programming")
+  (:label "Introduction du programme de Logging") (:project "orion"))

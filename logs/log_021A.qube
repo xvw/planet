@@ -100,3 +100,8 @@
 ((:uuid "7847108f-2e3e-f4ee-8cc4-7acd7ac5bdbe") (:day "021A28")
   (:duration "120") (:sector "programming")
   (:label "Implémentation de combinateurs ANSI") (:project "orion"))
+
+((:uuid "d298e22f-7be1-d02a-5b7f-586f2817b0a7") (:day "021A31")
+  (:duration "45") (:sector "writing")
+  (:label "Documentation des limitations de Freer_monad ")
+  (:project "preface"))

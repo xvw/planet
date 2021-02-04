@@ -91,3 +91,7 @@
   (:duration "120") (:sector "writing")
   (:label "Initialisation d'un article sur les effets algébriques")
   (:project "planet"))
+
+((:uuid "9578393c-7960-13b1-0b1b-735e66c9a2d5") (:day "020B03")
+  (:duration "120") (:sector "research")
+  (:label "Tentatives de relaxation de Freer") (:project "preface"))

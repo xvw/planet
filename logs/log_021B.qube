@@ -2,3 +2,9 @@
 ((:uuid "829e1096-2da0-460c-0d9b-d8020005e1bc") (:day "021B02")
   (:duration "60") (:sector "research")
   (:label "Tentatives de relaxation de Freer") (:project "preface"))
+
+((:uuid "ff859a49-1216-11e0-1a95-8d63883a75de") (:day "021B04")
+  (:duration "120") (:sector "programming")
+  (:label
+    "Migration des effets de Freer a Free (en attendant de trouver un correctif pour Freer)")
+  (:project "orion"))

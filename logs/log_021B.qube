@@ -8,3 +8,7 @@
   (:label
     "Migration des effets de Freer a Free (en attendant de trouver un correctif pour Freer)")
   (:project "orion"))
+
+((:uuid "eaf4f91e-4915-9298-c599-f7ffcade7754") (:day "021B05")
+  (:duration "120") (:sector "programming")
+  (:label "Amélioration des Chemins de fichiers") (:project "orion"))

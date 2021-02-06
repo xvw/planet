@@ -12,3 +12,7 @@
 ((:uuid "eaf4f91e-4915-9298-c599-f7ffcade7754") (:day "021B05")
   (:duration "120") (:sector "programming")
   (:label "Amélioration des Chemins de fichiers") (:project "orion"))
+
+((:uuid "829d3a6c-0b7b-25f3-c59a-28d44536e806") (:day "021B06")
+  (:duration "350") (:sector "programming")
+  (:label "Concrétisation du premier programme, init") (:project "orion"))

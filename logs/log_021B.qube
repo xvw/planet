@@ -16,3 +16,8 @@
 ((:uuid "829d3a6c-0b7b-25f3-c59a-28d44536e806") (:day "021B06")
   (:duration "350") (:sector "programming")
   (:label "Concrétisation du premier programme, init") (:project "orion"))
+
+((:uuid "0263c63f-923a-f80f-1220-2b959401fa92") (:day "021B07")
+  (:duration "200") (:sector "programming")
+  (:label "Tentative d'amélioration de la représentation des chemins")
+  (:project "orion"))

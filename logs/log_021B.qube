@@ -21,3 +21,7 @@
   (:duration "200") (:sector "programming")
   (:label "Tentative d'amélioration de la représentation des chemins")
   (:project "orion"))
+
+((:uuid "251e6816-da51-164f-590a-848585da10cc") (:day "021B08")
+  (:duration "80") (:sector "writing")
+  (:label "Traduction de l'introduction du cours Foundation pour FP-tower"))

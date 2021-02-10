@@ -25,3 +25,8 @@
 ((:uuid "251e6816-da51-164f-590a-848585da10cc") (:day "021B08")
   (:duration "80") (:sector "writing")
   (:label "Traduction de l'introduction du cours Foundation pour FP-tower"))
+
+((:uuid "46e31e50-8482-a587-f5f5-5f4991c7f86b") (:day "021B10")
+  (:duration "450") (:sector "maintenance")
+  (:label "Amélioration des tests dirigés par les propriétés")
+  (:project "preface"))

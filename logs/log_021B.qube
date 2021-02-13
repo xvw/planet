@@ -30,3 +30,8 @@
   (:duration "450") (:sector "maintenance")
   (:label "Amélioration des tests dirigés par les propriétés")
   (:project "preface"))
+
+((:uuid "b8df00c4-9007-56fc-e368-4a34c55b1bca") (:day "021B13")
+  (:duration "200") (:sector "programming")
+  (:label "Ajout de tests dirigés par les propriétés")
+  (:project "preface"))

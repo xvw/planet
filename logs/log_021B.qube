@@ -41,3 +41,9 @@
   (:label
     "Amélioration des tests unitaires et des tests dirigés par les propriétés")
   (:project "preface"))
+
+((:uuid "53a634c0-ef88-fb33-56cb-ffee4bb4eba1") (:day "021B15")
+  (:duration "230") (:sector "programming")
+  (:label
+    "Finalisation de la réorganisation des tests unitaires et de propriétés")
+  (:project "preface"))

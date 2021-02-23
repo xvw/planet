@@ -51,3 +51,7 @@
 ((:uuid "ec4b4966-ea6c-09ad-741c-b4e12ee106be") (:day "021B17")
   (:duration "350") (:sector "programming")
   (:label "Revue de PRs relatives a Selective et Arrow") (:project "preface"))
+
+((:uuid "53a131be-aa79-b42c-81a5-dc28bf22f20e") (:day "021B20")
+  (:duration "450") (:sector "writing")
+  (:label "États d'âmes, mise a jours des dernières entrevues"))

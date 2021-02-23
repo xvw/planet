@@ -47,3 +47,7 @@
   (:label
     "Finalisation de la réorganisation des tests unitaires et de propriétés")
   (:project "preface"))
+
+((:uuid "ec4b4966-ea6c-09ad-741c-b4e12ee106be") (:day "021B17")
+  (:duration "350") (:sector "programming")
+  (:label "Revue de PRs relatives a Selective et Arrow") (:project "preface"))

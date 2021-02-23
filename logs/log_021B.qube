@@ -55,3 +55,7 @@
 ((:uuid "53a131be-aa79-b42c-81a5-dc28bf22f20e") (:day "021B20")
   (:duration "450") (:sector "writing")
   (:label "États d'âmes, mise a jours des dernières entrevues"))
+
+((:uuid "252bd153-f917-02ba-2881-d3fd36bbccd8") (:day "021B23")
+  (:duration "250") (:sector "writing")
+  (:label "États d'âmes, correctifs et transposition en docx"))

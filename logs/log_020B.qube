@@ -95,3 +95,7 @@
 ((:uuid "9578393c-7960-13b1-0b1b-735e66c9a2d5") (:day "020B03")
   (:duration "120") (:sector "research")
   (:label "Tentatives de relaxation de Freer") (:project "preface"))
+
+((:uuid "8cbe17dd-531b-0550-8c04-a7081a6bc9d7") (:day "020B21")
+  (:duration "350") (:sector "programming")
+  (:label "États d'âmes, amélioration du générateur de documents"))

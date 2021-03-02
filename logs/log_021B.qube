@@ -59,3 +59,7 @@
 ((:uuid "252bd153-f917-02ba-2881-d3fd36bbccd8") (:day "021B23")
   (:duration "250") (:sector "writing")
   (:label "États d'âmes, correctifs et transposition en docx"))
+
+((:uuid "8851a19c-2a82-865b-b57c-c02090bacf4a") (:day "021B24")
+  (:duration "60") (:sector "programming") (:label "Relecture de patch")
+  (:project "preface"))

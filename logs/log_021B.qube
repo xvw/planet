@@ -67,3 +67,7 @@
 ((:uuid "6ec35d41-aeca-ecb9-76db-84a3ca82604f") (:day "021B25")
   (:duration "75") (:sector "programming") (:label "Relecture de patch")
   (:project "preface"))
+
+((:uuid "c6591c3e-c8a3-3ce2-4f84-f9f774f7e92c") (:day "021B26")
+  (:duration "75") (:sector "programming") (:label "Relecture de patch")
+  (:project "preface"))

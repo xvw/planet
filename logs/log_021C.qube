@@ -2,3 +2,7 @@
 ((:uuid "1f29b1b2-b94d-0f9c-4e6f-d88777614620") (:day "021C02")
   (:duration "200") (:sector "programming")
   (:label "Amélioration de l'API de Path") (:project "orion"))
+
+((:uuid "6fa5a97c-b5ee-2b47-b1ad-6533d1644532") (:day "021C04")
+  (:duration "25") (:sector "maintenance")
+  (:label "Collecte des supports de présentations manquant pour LambdaLille"))

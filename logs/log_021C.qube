@@ -65,3 +65,9 @@
 ((:uuid "d0d4f96d-775a-9d4e-4bd1-35bb23ab7c25") (:day "021C15")
   (:duration "15") (:sector "maintenance")
   (:label "Collecte de supports de présentations manquants pour LambdaLille"))
+
+((:uuid "ec65666f-4fb1-9a1e-9254-d6764e482c25") (:day "021C15")
+  (:duration "200") (:sector "research")
+  (:label
+    "Investigations sur les Arrow Loop et lecture du Litterate code de Opis")
+  (:project "preface"))

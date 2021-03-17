@@ -94,3 +94,7 @@
 ((:uuid "06384e67-16d5-3289-7af8-16085f183a1f") (:day "021C17")
   (:duration "300") (:sector "programming")
   (:label "Progrès sur la rédaction du README") (:project "preface"))
+
+((:uuid "8e363bc7-37b9-4791-7949-805580381a67") (:day "021C17")
+  (:duration "45") (:sector "maintenance")
+  (:label "Maintenance de ma atation de travail"))

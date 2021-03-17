@@ -36,3 +36,8 @@
 ((:uuid "03a4cdbb-6e59-c98e-98f0-0843abbe4e40") (:day "021C09")
   (:duration "120") (:sector "programming")
   (:label "Relecture du patch sur les Profunctors") (:project "preface"))
+
+((:uuid "d576b8f8-a364-7f99-251f-5eb1267e56d5") (:day "021C10")
+  (:duration "45") (:sector "maintenance")
+  (:label
+    "Collecte des supports de présentations manquants pour LambdaLille"))

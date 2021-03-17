@@ -75,3 +75,7 @@
 ((:uuid "3310fc28-7e1f-271a-39bb-fde1cc4464b4") (:day "021C16")
   (:duration "350") (:sector "research")
   (:label "Lecture du litterate code de Opis") (:project "preface"))
+
+((:uuid "463cfdab-d497-b638-1e16-da90ee7f4dfa") (:day "021C16")
+  (:duration "20") (:sector "programming")
+  (:label "Suppression de Arrow_loop dans Preface") (:project "preface"))

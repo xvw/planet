@@ -79,3 +79,9 @@
 ((:uuid "463cfdab-d497-b638-1e16-da90ee7f4dfa") (:day "021C16")
   (:duration "20") (:sector "programming")
   (:label "Suppression de Arrow_loop dans Preface") (:project "preface"))
+
+((:uuid "e997e991-8790-a494-a58d-a0c35cdb9f54") (:day "021C16")
+  (:duration "250") (:sector "research")
+  (:label
+    "Relecture du patch sur la composition de functors, bifunctors profunctors")
+  (:project "preface"))

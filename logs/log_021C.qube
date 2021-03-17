@@ -11,3 +11,7 @@
   (:duration "250") (:sector "research")
   (:label "Relecture du patch implémentant les Arrows Loop, Choice et Apply")
   (:project "preface"))
+
+((:uuid "99796c45-d770-ac8f-67d5-e1a5c549ea2f") (:day "021C05")
+  (:duration "250") (:sector "programming")
+  (:label "Ajout de tests unitaires") (:project "orion"))

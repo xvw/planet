@@ -47,3 +47,9 @@
   (:label
     "Relecture du patch introduisant les profunctors Strong, Choiced et Closed")
   (:project "preface"))
+
+((:uuid "88943ca2-14af-5381-8bc9-d0f0d391c82c") (:day "021C12")
+  (:duration "120") (:sector "programming")
+  (:label
+    "Relecture du patch introduisant les profunctors Strong, Choice, Closed")
+  (:project "preface"))

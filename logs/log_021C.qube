@@ -23,3 +23,8 @@
 ((:uuid "78793cd5-4a40-62e4-06a8-57a8b4377512") (:day "021C07")
   (:duration "45") (:sector "programming") (:label "Relecture des Writers")
   (:project "preface"))
+
+((:uuid "ac1e6331-b008-1894-f90c-b2014356aaa4") (:day "021C08")
+  (:duration "45") (:sector "maintenance")
+  (:label
+    "Collecte des supports de présentations manquants pour LambdaLille"))

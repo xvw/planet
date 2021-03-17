@@ -6,3 +6,8 @@
 ((:uuid "6fa5a97c-b5ee-2b47-b1ad-6533d1644532") (:day "021C04")
   (:duration "25") (:sector "maintenance")
   (:label "Collecte des supports de présentations manquant pour LambdaLille"))
+
+((:uuid "532de973-2b19-5c23-5b1f-0430774b3625") (:day "021C04")
+  (:duration "250") (:sector "research")
+  (:label "Relecture du patch implémentant les Arrows Loop, Choice et Apply")
+  (:project "preface"))

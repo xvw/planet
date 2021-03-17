@@ -41,3 +41,9 @@
   (:duration "45") (:sector "maintenance")
   (:label
     "Collecte des supports de présentations manquants pour LambdaLille"))
+
+((:uuid "ae2fac67-8f9d-1d8f-a0fb-d672dade2042") (:day "021C11")
+  (:duration "100") (:sector "programming")
+  (:label
+    "Relecture du patch introduisant les profunctors Strong, Choiced et Closed")
+  (:project "preface"))

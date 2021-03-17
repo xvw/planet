@@ -85,3 +85,8 @@
   (:label
     "Relecture du patch sur la composition de functors, bifunctors profunctors")
   (:project "preface"))
+
+((:uuid "4209d4e7-8a07-7964-9a42-0629cad0046d") (:day "021C17")
+  (:duration "30") (:sector "maintenance")
+  (:label "Mise à jour des données non saisies et saisie des temps")
+  (:project "planet"))

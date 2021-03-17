@@ -19,3 +19,7 @@
 ((:uuid "f33430b7-9db0-e249-0cfd-76928a2d3678") (:day "021C06")
   (:duration "30") (:sector "programming") (:label "Relecture des Writers")
   (:project "preface"))
+
+((:uuid "78793cd5-4a40-62e4-06a8-57a8b4377512") (:day "021C07")
+  (:duration "45") (:sector "programming") (:label "Relecture des Writers")
+  (:project "preface"))

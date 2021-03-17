@@ -28,3 +28,7 @@
   (:duration "45") (:sector "maintenance")
   (:label
     "Collecte des supports de présentations manquants pour LambdaLille"))
+
+((:uuid "57ad3e01-1960-2361-2167-94e918ae41dd") (:day "021C09")
+  (:duration "30") (:sector "maintenance")
+  (:label "Collecte des supports de prśentations manquants pour LambdaLille"))

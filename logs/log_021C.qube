@@ -53,3 +53,7 @@
   (:label
     "Relecture du patch introduisant les profunctors Strong, Choice, Closed")
   (:project "preface"))
+
+((:uuid "839456f9-03d7-97f3-c3d6-89a505df43bd") (:day "021C13")
+  (:duration "120") (:sector "writing")
+  (:label "Démarrage de la rédaction du README") (:project "preface"))

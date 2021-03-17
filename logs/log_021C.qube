@@ -90,3 +90,7 @@
   (:duration "30") (:sector "maintenance")
   (:label "Mise à jour des données non saisies et saisie des temps")
   (:project "planet"))
+
+((:uuid "06384e67-16d5-3289-7af8-16085f183a1f") (:day "021C17")
+  (:duration "300") (:sector "programming")
+  (:label "Progrès sur la rédaction du README") (:project "preface"))

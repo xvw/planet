@@ -61,3 +61,7 @@
 ((:uuid "b8b3733e-19f7-5978-cdd2-f60e9f09189a") (:day "021C14")
   (:duration "120") (:sector "writing")
   (:label "Avancée dans l'écriture du README") (:project "preface"))
+
+((:uuid "d0d4f96d-775a-9d4e-4bd1-35bb23ab7c25") (:day "021C15")
+  (:duration "15") (:sector "maintenance")
+  (:label "Collecte de supports de présentations manquants pour LambdaLille"))

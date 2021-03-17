@@ -71,3 +71,7 @@
   (:label
     "Investigations sur les Arrow Loop et lecture du Litterate code de Opis")
   (:project "preface"))
+
+((:uuid "3310fc28-7e1f-271a-39bb-fde1cc4464b4") (:day "021C16")
+  (:duration "350") (:sector "research")
+  (:label "Lecture du litterate code de Opis") (:project "preface"))

@@ -57,3 +57,7 @@
 ((:uuid "839456f9-03d7-97f3-c3d6-89a505df43bd") (:day "021C13")
   (:duration "120") (:sector "writing")
   (:label "Démarrage de la rédaction du README") (:project "preface"))
+
+((:uuid "b8b3733e-19f7-5978-cdd2-f60e9f09189a") (:day "021C14")
+  (:duration "120") (:sector "writing")
+  (:label "Avancée dans l'écriture du README") (:project "preface"))

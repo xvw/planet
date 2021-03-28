@@ -98,3 +98,7 @@
 ((:uuid "8e363bc7-37b9-4791-7949-805580381a67") (:day "021C17")
   (:duration "45") (:sector "maintenance")
   (:label "Maintenance de ma captation de travail"))
+
+((:uuid "fd83f561-20d0-5826-b997-3a8955c4bb3e") (:day "021C22")
+  (:duration "200") (:sector "writing") (:label "Rédaction du README")
+  (:project "preface"))

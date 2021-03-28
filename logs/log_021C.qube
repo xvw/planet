@@ -102,3 +102,7 @@
 ((:uuid "fd83f561-20d0-5826-b997-3a8955c4bb3e") (:day "021C22")
   (:duration "200") (:sector "writing") (:label "Rédaction du README")
   (:project "preface"))
+
+((:uuid "09a576ea-947e-65d6-cb17-a2d0eaa6c74f") (:day "021C28")
+  (:duration "20") (:sector "maintenance") (:label "Divers maintenances")
+  (:project "planet"))

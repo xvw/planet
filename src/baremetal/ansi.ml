@@ -148,17 +148,14 @@ let box
     title
     fragments
   =
-  let a = (reset :: box_style) @ [ !"┌─["; reset ] in
+  let a = reset :: box_style @ [ !"┌─["; reset ] in
   let t =
-    title_style
-    @ [ !title ]
-    @ (reset :: box_style)
-    @ [ !"]─→"; reset; !"\n" ]
+    title_style @ [ !title ] @ reset :: box_style @ [ !"]─→"; reset; !"\n" ]
   in
-  let b = (reset :: box_style) @ [ !"└─"; reset ] in
+  let b = reset :: box_style @ [ !"└─"; reset ] in
   let l =
     List.map
-      (fun x -> (reset :: box_style) @ (prefix @ (reset :: x)) @ [ !"\n" ])
+      (fun x -> reset :: box_style @ (prefix @ reset :: x) @ [ !"\n" ])
       fragments
   in
   List.flatten (a :: t :: l) @ b

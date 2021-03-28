@@ -100,10 +100,8 @@ let rec may_project projects =
 let rec select_sectors sectors =
   let all_sectors =
     None
-    :: (sectors
-       |> Hashtbl.to_seq_keys
-       |> Seq.map (fun x -> Some x)
-       |> List.of_seq)
+    ::
+    (sectors |> Hashtbl.to_seq_keys |> Seq.map (fun x -> Some x) |> List.of_seq)
   in
   try_until Prompter.repeat_result (fun () ->
       Prompter.choose_multiple

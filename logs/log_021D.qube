@@ -8,3 +8,7 @@
   (:label
     "Revues de PR (Free Applicatives, Free Selectives et transformations de Reader, Writer et State)")
   (:project "preface"))
+
+((:uuid "3ce6898e-6df0-a35c-b5a1-a643064dba95") (:day "021D02")
+  (:duration "245") (:sector "writing")
+  (:label "Travaux 'meta' en vue de la pre-release") (:project "preface"))

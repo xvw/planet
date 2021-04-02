@@ -2,3 +2,9 @@
 ((:uuid "d0de3341-ceb3-a755-412f-44aac8afd1e0") (:day "021D01")
   (:duration "340") (:sector "visual")
   (:label "Illustrations numériques (encore...)"))
+
+((:uuid "e24ff1ca-739a-29aa-2bef-6a096789ddb4") (:day "021D02")
+  (:duration "125") (:sector "programming")
+  (:label
+    "Revues de PR (Free Applicatives, Free Selectives et transformations de Reader, Writer et State)")
+  (:project "preface"))

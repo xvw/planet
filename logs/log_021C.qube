@@ -110,3 +110,7 @@
 ((:uuid "3ac9e34b-401f-7504-3649-f290ef338db3") (:day "021C29")
   (:duration "230") (:sector "visual")
   (:label "Illustrations vectorielles avec Krita"))
+
+((:uuid "b8515a2d-5197-7e2c-23e5-39ee8a747a2a") (:day "021C30")
+  (:duration "450") (:sector "visual")
+  (:label "Illustrations vectorielles avec Krita et Inkscape"))

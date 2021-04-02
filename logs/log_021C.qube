@@ -106,3 +106,7 @@
 ((:uuid "09a576ea-947e-65d6-cb17-a2d0eaa6c74f") (:day "021C28")
   (:duration "20") (:sector "maintenance") (:label "Divers maintenances")
   (:project "planet"))
+
+((:uuid "3ac9e34b-401f-7504-3649-f290ef338db3") (:day "021C29")
+  (:duration "230") (:sector "visual")
+  (:label "Illustrations vectorielles avec Krita"))

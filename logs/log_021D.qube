@@ -12,3 +12,7 @@
 ((:uuid "3ce6898e-6df0-a35c-b5a1-a643064dba95") (:day "021D02")
   (:duration "245") (:sector "writing")
   (:label "Travaux 'meta' en vue de la pre-release") (:project "preface"))
+
+((:uuid "40bc3a0d-3140-40e2-71fd-5678c150a9d7") (:day "021D03")
+  (:duration "250") (:sector "writing") (:label "Premier jet du README")
+  (:project "preface"))

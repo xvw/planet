@@ -16,3 +16,8 @@
 ((:uuid "40bc3a0d-3140-40e2-71fd-5678c150a9d7") (:day "021D03")
   (:duration "250") (:sector "writing") (:label "Premier jet du README")
   (:project "preface"))
+
+((:uuid "32c6ad94-48b0-b827-e40d-2b73aeceef95") (:day "021D04")
+  (:duration "485") (:sector "writing")
+  (:label "Relecture et standardisation de la documentation")
+  (:project "preface"))

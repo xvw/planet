@@ -21,3 +21,9 @@
   (:duration "485") (:sector "writing")
   (:label "Relecture et standardisation de la documentation")
   (:project "preface"))
+
+((:uuid "31658588-2a04-2470-9189-7b38430889d3") (:day "021D05")
+  (:duration "500") (:sector "writing")
+  (:label
+    "Relecture et standardisation de la documentation (sur les specifications)")
+  (:project "preface"))

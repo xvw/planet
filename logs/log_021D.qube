@@ -27,3 +27,9 @@
   (:label
     "Relecture et standardisation de la documentation (sur les specifications)")
   (:project "preface"))
+
+((:uuid "142ccf7d-af91-63fb-ebf0-b42985871361") (:day "021D06")
+  (:duration "235") (:sector "writing")
+  (:label
+    "Relecture et reformulation de la documentation des spécifications")
+  (:project "preface"))

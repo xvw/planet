@@ -33,3 +33,8 @@
   (:label
     "Relecture et reformulation de la documentation des spécifications")
   (:project "preface"))
+
+((:uuid "5324ba77-1111-4b3f-80d1-14b4bec3415a") (:day "021D07")
+  (:duration "450") (:sector "writing")
+  (:label "Revue et réecriture de la documentation de Preface.Make")
+  (:project "preface"))

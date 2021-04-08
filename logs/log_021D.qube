@@ -38,3 +38,7 @@
   (:duration "450") (:sector "writing")
   (:label "Revue et réecriture de la documentation de Preface.Make")
   (:project "preface"))
+
+((:uuid "9f9d9fec-cdd4-6e2a-4cbb-3a28ed56725d") (:day "021D08")
+  (:duration "650") (:sector "writing")
+  (:label "Relecture/Reecriture de la documentation") (:project "preface"))

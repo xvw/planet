@@ -46,3 +46,7 @@
 ((:uuid "c02b2ca6-bb3b-c81c-9691-7e9f2d19a20f") (:day "021D08")
   (:duration "350") (:sector "writing")
   (:label "Guides techniques d'utilisation de Preface") (:project "preface"))
+
+((:uuid "84c208f4-7be1-fec9-9c89-32bded0ed6bc") (:day "021D09")
+  (:duration "500") (:sector "writing")
+  (:label "Guides techniques d'utilisation de Preface") (:project "preface"))

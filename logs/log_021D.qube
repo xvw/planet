@@ -42,3 +42,7 @@
 ((:uuid "9f9d9fec-cdd4-6e2a-4cbb-3a28ed56725d") (:day "021D08")
   (:duration "650") (:sector "writing")
   (:label "Relecture/Reecriture de la documentation") (:project "preface"))
+
+((:uuid "c02b2ca6-bb3b-c81c-9691-7e9f2d19a20f") (:day "021D08")
+  (:duration "350") (:sector "writing")
+  (:label "Guides techniques d'utilisation de Preface") (:project "preface"))

@@ -1,0 +1,27 @@
+Quand on découvre la programmation fonctionnelle, il est assez courant
+d'être confronté à des *abstractions*. L'ensemble de ces abstractions
+sont généralement assez bien couvertes par la communuaté [[https://haskell.org][Haskell]] mais
+sont généralement enfouies dans les bibliothèque OCaml. *Preface* est
+une proposition d'implémentation de ces abstractions, dans un style,
+de notre point de vue, proche de l'approche idiomatique OCaml.
+
+La bibliothèque se découpe en trois parties distinctes :
+
+- src_ocaml{Preface.Specs} qui décrit l'ensemble des *interfaces*
+  disponibles dans Preface (principalement pour éviter les dépendances cycliques)
+- src_ocaml{Preface.Make} qui décrit l'ensemble des *foncteurs* (dans
+  le sens /ML/ du terme) pour concrétiser les abstractions décrites
+  par src_ocaml{Specs}
+- src_ocaml{Preface.Stdlib} propose un ensemble d'implémentation
+  concrètes des abstractions proposées par Preface.
+
+
+#+ATTR_HTML: :class image-cover
+#+CAPTION: Ensemble des abstractions supportées
+[[https://raw.githubusercontent.com/xvw/preface/master/.github/figures/specs.svg]]
+
+
+En essayant d'avoir une approche que l'on estime idiomatique pour
+OCaml, la bibliothèque à pris quelques décisions arbitraires, mais en
+l'état, je la trouve agréable à utiliser, expressive, et utile pour
+l'apprentissage (mais je ne suis évidemment pas objectif).

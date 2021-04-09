@@ -1,10 +1,44 @@
 (:name "preface")
-(:published false)
+(:published true)
 (:title "Preface")
 (:synopsis
-  "Une bibliothèque OCaml qui permet la manipulation d'objets théoriques de la programmation fonctionnelle")
-(:status "wip")
+  "Une bibliothèque OCaml pour la programmation fonctionnelle")
+(:status "unceasing")
 (:license "mit")
-(:tags "library" "ocaml")
+(:tags "library" "ocaml" "category")
 (:repo (#github xvw preface))
 (:content external #org-mode "projects/preface.org")
+
+(:links
+  (("Documents" (
+      ("Documentation" "https://ocaml-preface.github.io/preface/index.html")
+      ("Crédits" "https://github.com/xvw/preface/blob/master/CREDITS.md")
+    ))
+   ("Co-auteurs" (
+      ("Didier Plaindoux" "http://www.fungus.fr/")
+      ("Pierre Ruyter" "https://github.com/gr-im")
+   ))
+    ("Usage notables" (
+      ("Wordpress" "https://github.com/xhtmlboi/wordpress")
+    ))
+   ("Aide/contributions" (
+      ("Gabriel Scherer" "http://gallium.inria.fr/~scherer/")
+      ("Andrey Mokhov" "https://blogs.ncl.ac.uk/andreymokhov/")
+      ("Florian Angeletti" "https://github.com/Octachron")
+      ("Oleg Kiselyov" "http://okmij.org/ftp/")
+      ("XHTMLBoy" "https://github.com/xhtmlboi")
+      ("Pierre-Evariste Dagand"
+       "https://pages.lip6.fr/Pierre-Evariste.Dagand/")
+   ))
+   ("Outils/bibliothèques" (
+      ("Alcotest" "https://github.com/mirage/alcotest")
+      ("QCheck" "https://github.com/c-cube/qcheck")
+      ("Either" "https://github.com/mirage/either")
+      ("MDX" "https://github.com/realworldocaml/mdx")
+      ("Dune" "https://github.com/ocaml/dune")
+      ("OCamlformat" "https://github.com/ocaml-ppx/ocamlformat")
+      ("ODoc" "https://github.com/ocaml/odoc")
+      ("OCaml" "https://ocaml.org/")
+   ))
+  )
+)

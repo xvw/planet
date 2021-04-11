@@ -54,3 +54,7 @@
 ((:uuid "a30edc65-b588-368e-b034-3dab2ff94ae8") (:day "021D09")
   (:duration "30") (:sector "writing")
   (:label "Description de Preface dans Planet") (:project "planet"))
+
+((:uuid "ca4f9f88-6cee-13ef-63e2-a43ea3061683") (:day "021D10")
+  (:duration "120") (:sector "writing")
+  (:label "Guides techniques sur la gestion d'effets") (:project "preface"))

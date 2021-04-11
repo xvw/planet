@@ -62,3 +62,7 @@
 ((:uuid "07a9f548-c144-b91c-b060-afb3306a8530") (:day "021D11")
   (:duration "200") (:sector "writing")
   (:label "Guides techniques sur la gestion d'effets") (:project "preface"))
+
+((:uuid "66ebba4f-edf7-8df2-1b73-cbfe259edc8f") (:day "021D12")
+  (:duration "185") (:sector "writing")
+  (:label "Guides techniques sur la gestion d'erreur") (:project "preface"))

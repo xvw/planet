@@ -58,3 +58,7 @@
 ((:uuid "ca4f9f88-6cee-13ef-63e2-a43ea3061683") (:day "021D10")
   (:duration "120") (:sector "writing")
   (:label "Guides techniques sur la gestion d'effets") (:project "preface"))
+
+((:uuid "07a9f548-c144-b91c-b060-afb3306a8530") (:day "021D11")
+  (:duration "200") (:sector "writing")
+  (:label "Guides techniques sur la gestion d'effets") (:project "preface"))

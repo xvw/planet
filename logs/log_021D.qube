@@ -66,3 +66,7 @@
 ((:uuid "66ebba4f-edf7-8df2-1b73-cbfe259edc8f") (:day "021D12")
   (:duration "185") (:sector "writing")
   (:label "Guides techniques sur la gestion d'erreur") (:project "preface"))
+
+((:uuid "48f2ae94-81cb-e04d-5ef9-31397feb2332") (:day "021D17")
+  (:duration "750") (:sector "programming") (:label "Refonte générale")
+  (:project "orion"))

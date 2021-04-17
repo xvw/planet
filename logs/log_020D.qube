@@ -101,3 +101,8 @@
 ((:uuid "1e7bfdab-9bee-716c-07b5-efe751b67501") (:day "020D30")
   (:duration "40") (:sector "maintenance")
   (:label "Fusion et gestion de branches") (:project "preface"))
+
+((:uuid "6668aae4-7613-03a3-0e9a-2cb4511979c5") (:day "020D13")
+  (:duration "350") (:sector "writing")
+  (:label "Amélioration du guide technique sur la gestion d'erreur")
+  (:project "preface"))

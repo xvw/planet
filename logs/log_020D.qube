@@ -106,3 +106,7 @@
   (:duration "350") (:sector "writing")
   (:label "Amélioration du guide technique sur la gestion d'erreur")
   (:project "preface"))
+
+((:uuid "cae02a81-7af2-7c1d-664c-e1121dc880b0") (:day "020D14")
+  (:duration "400") (:sector "writing")
+  (:label "Préparation du talk Kotlin/Arrow"))

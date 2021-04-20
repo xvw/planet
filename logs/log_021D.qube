@@ -83,3 +83,8 @@
 ((:uuid "48f2ae94-81cb-e04d-5ef9-31397feb2332") (:day "021D17")
   (:duration "750") (:sector "programming") (:label "Refonte générale")
   (:project "orion"))
+
+((:uuid "aa5d504d-c010-037c-8c82-d2a0feafd0a5") (:day "021D20")
+  (:duration "300") (:sector "writing")
+  (:label "Ecriture d'un article sur Validation et Result")
+  (:project "planet"))

@@ -88,3 +88,8 @@
   (:duration "300") (:sector "writing")
   (:label "Ecriture d'un article sur Validation et Result")
   (:project "planet"))
+
+((:uuid "91af3c14-d4ab-df59-7f28-acb42b43e225") (:day "021D21")
+  (:duration "450") (:sector "writing")
+  (:label "Ecriture d'un article sur Validation et Result")
+  (:project "planet"))

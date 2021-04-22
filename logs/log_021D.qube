@@ -93,3 +93,9 @@
   (:duration "450") (:sector "writing")
   (:label "Ecriture d'un article sur Validation et Result")
   (:project "planet"))
+
+((:uuid "941ec364-6349-3b4d-19ec-20c9cf7cd402") (:day "021D22")
+  (:duration "450") (:sector "writing")
+  (:label
+    "Reformulation et changement de direction pour l'article sur la gestion d'erreur, Description d'une différence fondamentale entre Applicative et Monad")
+  (:project "planet"))

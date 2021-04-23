@@ -103,3 +103,9 @@
 ((:uuid "48d84681-b95a-8181-daa3-3239eca88d20") (:day "021D23")
   (:duration "350") (:sector "writing") (:label "Article Applicative-Monad")
   (:project "planet"))
+
+((:uuid "d7547376-c03a-c0f3-8128-65d632d3a23f") (:day "021D23")
+  (:duration "120") (:sector "writing")
+  (:label
+    "Suppression de l'article Applicative/Monad et re-reflexion d'un nouvel article")
+  (:project "planet"))

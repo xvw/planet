@@ -99,3 +99,7 @@
   (:label
     "Reformulation et changement de direction pour l'article sur la gestion d'erreur, Description d'une différence fondamentale entre Applicative et Monad")
   (:project "planet"))
+
+((:uuid "48d84681-b95a-8181-daa3-3239eca88d20") (:day "021D23")
+  (:duration "350") (:sector "writing") (:label "Article Applicative-Monad")
+  (:project "planet"))

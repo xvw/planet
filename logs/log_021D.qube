@@ -109,3 +109,7 @@
   (:label
     "Suppression de l'article Applicative/Monad et re-reflexion d'un nouvel article")
   (:project "planet"))
+
+((:uuid "6f968da9-cabf-79fd-c66a-8d57cf3f3e52") (:day "021D24")
+  (:duration "350") (:sector "programming")
+  (:label "Initialisation de la bibliothèque") (:project "deform"))

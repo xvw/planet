@@ -1,0 +1,8 @@
+(:name "deform")
+(:published false)
+(:title "Deform")
+(:synopsis "Génération de formulaires par défonctionnalisation")
+(:status "wip")
+(:license "mit")
+(:tags "form" "applicative" "formlet" "preface")
+(:content external #org-mode "projects/deform.org")

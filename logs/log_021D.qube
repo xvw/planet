@@ -113,3 +113,7 @@
 ((:uuid "6f968da9-cabf-79fd-c66a-8d57cf3f3e52") (:day "021D24")
   (:duration "350") (:sector "programming")
   (:label "Initialisation de la bibliothèque") (:project "deform"))
+
+((:uuid "da1df345-ae32-7cb0-5519-2bf893ecf562") (:day "021D27")
+  (:duration "320") (:sector "programming")
+  (:label "Expériences avec Win32API et Ruby (le retour)"))

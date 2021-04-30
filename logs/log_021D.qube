@@ -125,3 +125,7 @@
 ((:uuid "0b2da1c9-baa0-5f44-e02d-b7ebdaccb213") (:day "021D29")
   (:duration "150") (:sector "research")
   (:label "Revue des transformations de comonades") (:project "preface"))
+
+((:uuid "e91eff46-6212-4b7b-e18b-c3aa9d225c0f") (:day "021D30")
+  (:duration "350") (:sector "maintenance")
+  (:label "Passage a Doom Emacs, apprentissage de Evil"))

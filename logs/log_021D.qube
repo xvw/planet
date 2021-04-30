@@ -129,3 +129,9 @@
 ((:uuid "e91eff46-6212-4b7b-e18b-c3aa9d225c0f") (:day "021D30")
   (:duration "350") (:sector "maintenance")
   (:label "Passage a Doom Emacs, apprentissage de Evil"))
+
+((:uuid "c8c75807-9a7a-8c22-a1ea-e8870bc3166e") (:day "021D30")
+  (:duration "150") (:sector "writing")
+  (:label
+    "Tentative d'écriture d'un papier expliquant les démarches derrière Preface")
+  (:project "preface"))

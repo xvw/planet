@@ -135,3 +135,9 @@
   (:label
     "Tentative d'écriture d'un papier expliquant les démarches derrière Preface")
   (:project "preface"))
+
+((:uuid "6a1ccaf8-0b84-8b78-cb33-6efb29b20c45") (:day "021D30")
+  (:duration "350") (:sector "programming")
+  (:label
+    "Initialisation de la bibliothèque Objects, décrivant les structures concrètes. Implémentation de la description d'un repository git remote (pour caractériser un projet externe)")
+  (:project "orion"))

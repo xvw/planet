@@ -121,3 +121,7 @@
 ((:uuid "ff17cd3d-5b28-df04-d6f6-da24f0494baf") (:day "021D28")
   (:duration "200") (:sector "research")
   (:label "Revue des transformations de comonades") (:project "preface"))
+
+((:uuid "0b2da1c9-baa0-5f44-e02d-b7ebdaccb213") (:day "021D29")
+  (:duration "150") (:sector "research")
+  (:label "Revue des transformations de comonades") (:project "preface"))

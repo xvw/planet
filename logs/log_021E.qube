@@ -1,0 +1,5 @@
+;; Logs for 021E
+((:uuid "e5c88991-220c-69b9-d2fc-5aa8d9aedc33") (:day "021E01")
+  (:duration "350") (:sector "programming")
+  (:label "Implémentation de la description des repositories distants")
+  (:project "orion"))

@@ -7,3 +7,7 @@
 ((:uuid "9cba3d85-7143-5abd-1b14-fa8906f16cbd") (:day "021E01")
   (:duration "350") (:sector "programming")
   (:label "Ajout d'archétypes sérialisables") (:project "orion"))
+
+((:uuid "7e46a18e-df6e-6a96-09c0-627d553b3676") (:day "021E02")
+  (:duration "250") (:sector "programming")
+  (:label "Ajout d'objets sérialisables") (:project "orion"))

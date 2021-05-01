@@ -3,3 +3,7 @@
   (:duration "350") (:sector "programming")
   (:label "Implémentation de la description des repositories distants")
   (:project "orion"))
+
+((:uuid "9cba3d85-7143-5abd-1b14-fa8906f16cbd") (:day "021E01")
+  (:duration "350") (:sector "programming")
+  (:label "Ajout d'archétypes sérialisables") (:project "orion"))

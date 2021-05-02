@@ -1,0 +1,13 @@
+(:name "Troubles") (:permalink "troubles")
+(:content ("external" #org "./galleries/troubles.org"))
+(:description "Réinterprétation des artwork d'un projet de jeu abandonné")
+(:updated_at "021E02")
+(:tags ("troubles" "jeu" "dessin" "krita" "numerique" "noir" "blanc"))
+(:kind "illustration")
+(:pictures
+  (((:name "La cathédrale de l'étrange")
+     (:description
+       "La description a été rédigée en 2008, une cathédrale melant machines et organismes")
+     (:date "021E02") (:tools ("krita"))
+     (:tags ("krita" "noir" "blanc" "cathedrale" "troubles"))
+     (:image "/images/illustrations/trouble-cat.png"))))

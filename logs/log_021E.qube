@@ -15,3 +15,7 @@
 ((:uuid "48d17050-aff3-714d-d349-8e628fbc51dc") (:day "021E02")
   (:duration "65") (:sector "visual")
   (:label "Réinterprétation de lieux décrits dans un vieux carnet"))
+
+((:uuid "357d93f6-b4b0-8611-02e6-183dd717e196") (:day "021E03")
+  (:duration "350") (:sector "programming")
+  (:label "Initialisation du projet") (:project "bladwyzer"))

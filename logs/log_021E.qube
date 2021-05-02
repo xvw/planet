@@ -11,3 +11,7 @@
 ((:uuid "7e46a18e-df6e-6a96-09c0-627d553b3676") (:day "021E02")
   (:duration "250") (:sector "programming")
   (:label "Ajout d'objets sérialisables") (:project "orion"))
+
+((:uuid "48d17050-aff3-714d-d349-8e628fbc51dc") (:day "021E02")
+  (:duration "65") (:sector "visual")
+  (:label "Réinterprétation de lieux décrits dans un vieux carnet"))

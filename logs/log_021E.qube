@@ -19,3 +19,8 @@
 ((:uuid "357d93f6-b4b0-8611-02e6-183dd717e196") (:day "021E03")
   (:duration "350") (:sector "programming")
   (:label "Initialisation du projet") (:project "bladwyzer"))
+
+((:uuid "2b3a40cb-4091-7cff-6bdb-2c94d23ffe37") (:day "021E06")
+  (:duration "60") (:sector "programming")
+  (:label "Exporte les transformations naturelles dans une signature")
+  (:project "preface"))

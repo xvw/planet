@@ -19,9 +19,7 @@ let () =
        val internal =
          object%js
            val loadTasks = Js.array [||]
-
            method isoWeek date = Calendar.iso_week date
-
            method yearsAgo years date = Calendar.years_ago years date
          end
 
@@ -42,21 +40,13 @@ let () =
          start f
 
        val project = Widget.Project.api
-
        val location = Widget.Location.api
-
        val story = Widget.Story.api
-
        val common = Widget.Common.api
-
        val diary = Widget.Diary.api
-
        val tags = Widget.Tags.api
-
        val tasks = Widget.Tasks.api
-
        val gallery = Widget.Gallery.api
-
        val roe = Roe.api
     end)
 ;;

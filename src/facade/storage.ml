@@ -8,15 +8,10 @@ type t = Dom_html.storage Js.t
 class type storageEvent =
   object
     inherit Dom_html.event
-
     method key : Js.js_string Js.t Js.opt Js.readonly_prop
-
     method oldValue : Js.js_string Js.t Js.opt Js.readonly_prop
-
     method newValue : Js.js_string Js.t Js.opt Js.readonly_prop
-
     method url : Js.js_string Js.t Js.readonly_prop
-
     method storageArea : Dom_html.storage Js.t Js.opt Js.readonly_prop
   end
 

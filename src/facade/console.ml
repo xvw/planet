@@ -5,13 +5,9 @@ open Util
 class type hook =
   object
     inherit Firebug.console
-
     method clear : unit Js.meth
-
     method count : Js.js_string Js.t Js.Optdef.t -> unit Js.meth
-
     method countReset : Js.js_string Js.t Js.Optdef.t -> unit Js.meth
-
     method timeLog : 'a. Js.js_string Js.t -> 'a -> unit Js.meth
 
     method table :

@@ -486,11 +486,8 @@ module Project = struct
   class type boot_input =
     object
       method timedata : Dom_html.textAreaElement Js.t Js.Opt.t Js.readonly_prop
-
       method project : Dom_html.textAreaElement Js.t Js.Opt.t Js.readonly_prop
-
       method rightContainer : Dom_html.element Js.t Js.Opt.t Js.readonly_prop
-
       method sectors : Dom_html.element Dom.nodeList Js.t Js.readonly_prop
     end
 
@@ -585,11 +582,8 @@ module Story = struct
   class type boot_input =
     object
       method path : Js.js_string Js.t Js.readonly_prop
-
       method eof : Dom_html.element Js.t Js.Opt.t Js.readonly_prop
-
       method rightContainer : Dom_html.element Js.t Js.Opt.t Js.readonly_prop
-
       method resumeDetails : Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
     end
 
@@ -776,15 +770,10 @@ module Diary = struct
   class type boot_input =
     object
       method context : Dom_html.textAreaElement Js.t Js.Opt.t Js.readonly_prop
-
       method calendarBox : Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
-
       method titleBox : Dom_html.headingElement Js.t Js.Opt.t Js.readonly_prop
-
       method statisticBox : Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
-
       method entryBox : Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
-
       method sectors : Dom_html.element Dom.nodeList Js.t Js.readonly_prop
     end
 
@@ -940,7 +929,6 @@ module Tags = struct
   class type boot_input =
     object
       method tagsBox : Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
-
       method contentBox : Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
     end
 
@@ -1108,7 +1096,6 @@ module Tags = struct
   let api =
     object%js
       method boot input = boot input
-
       method random input = random input
     end
   ;;
@@ -1306,9 +1293,7 @@ module Gallery = struct
   class type boot_input =
     object
       method gallery : Dom_html.textAreaElement Js.t Js.Opt.t Js.readonly_prop
-
       method container : Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
-
       method rightContainer : Dom_html.divElement Js.t Js.Opt.t Js.readonly_prop
     end
 

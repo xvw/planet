@@ -1,0 +1,8 @@
+(:name "bladwyzer")
+(:published false)
+(:title "Bladwyzer")
+(:synopsis "to be done")
+(:status "wip")
+(:license "mit")
+(:tags "web")
+(:content external #org-mode "projects/bladwyzer.org")

@@ -24,3 +24,8 @@
   (:duration "60") (:sector "programming")
   (:label "Exporte les transformations naturelles dans une signature")
   (:project "preface"))
+
+((:uuid "b5bfe380-114d-0f94-7510-abb6ebe5aae6") (:day "021E13")
+  (:duration "230") (:sector "programming")
+  (:label "Mise à jour de Preface et uniformisation de l'API de validation")
+  (:project "bladwyzer"))

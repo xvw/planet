@@ -1,9 +1,24 @@
 (:name "lambdalille")
-(:published false)
+(:published true)
 (:title "Lambda Lille")
-(:synopsis "Evènements dédié à l'utilisation de langage applicatifs")
+(:synopsis "Evènements dédiés à l'utilisation de langages applicatifs")
 (:status "unceasing")
-(:license "mit")
+(:license "none")
 (:tags "lambda" "lille" "conference" "meetup")
 (:repo (#github lambdalille talks))
 (:content external #org-mode "projects/lambdalille.org")
+(:picto "lambdalille")
+
+(:links
+  ("Communautés" (
+    ("Meetup" "https://www.meetup.com/LambdaLille/")
+    ("Chaine Youtube" "https://www.youtube.com/channel/UC-hC7y_ilQBq0QCa9xDu1iA")
+    ("Twitter" "https://twitter.com/lambdalille")
+    ("Github" "https://github.com/lambdalille/")
+  ))
+  ("Projets" (
+    ("Histoire" "https://github.com/lambdalille/talks")
+    ("Communauté" "https://github.com/lambdalille/awsome-blogs")
+    ("Ressources" "https://github.com/lambdalille/resources")
+  ))
+)

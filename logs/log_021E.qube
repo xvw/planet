@@ -33,3 +33,8 @@
 ((:uuid "68a4a856-5e3c-2af5-962d-bf490c1e5737") (:day "021E14")
   (:duration "200") (:sector "writing") (:label "Rédaction du support")
   (:project "preface"))
+
+((:uuid "53f8b3c7-2b6c-587f-78af-506d735fa39c") (:day "021E14")
+  (:duration "35") (:sector "maintenance")
+  (:label "Suivi des talks manquants et tenue de l'historique")
+  (:project "lambdalille"))

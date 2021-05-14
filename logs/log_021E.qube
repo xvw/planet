@@ -38,3 +38,8 @@
   (:duration "35") (:sector "maintenance")
   (:label "Suivi des talks manquants et tenue de l'historique")
   (:project "lambdalille"))
+
+((:uuid "7d01d4db-9e2c-d24d-01c5-bd87ed18dac4") (:day "021E14")
+  (:duration "120") (:sector "programming")
+  (:label "Initiation d'une application web pour le suivi")
+  (:project "lambdalille"))

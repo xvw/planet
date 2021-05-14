@@ -43,3 +43,8 @@
   (:duration "120") (:sector "programming")
   (:label "Initiation d'une application web pour le suivi")
   (:project "lambdalille"))
+
+((:uuid "d059e4ea-f4b4-5ed9-ff4f-c50ad4ea8a9f") (:day "021E14")
+  (:duration "120") (:sector "maintenance")
+  (:label "Mise a jour de rubriques et maintenance de projets")
+  (:project "planet"))

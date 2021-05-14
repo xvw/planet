@@ -8,6 +8,7 @@
 (:tags "library" "ocaml" "category")
 (:repo (#github xvw preface))
 (:content external #org-mode "projects/preface.org")
+(:picto "preface")
 
 (:links
   (("Documents" (

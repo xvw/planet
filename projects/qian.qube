@@ -1,7 +1,7 @@
 (:name "qian")
 (:title "Qian")
 (:synopsis "Un petit explorateur de fichiers expérimental")
-(:status "wip")
+(:status "done")
 (:license "mit")
 (:tags "file" "explorer" "mvp" "minimalist" "elm" "electron")
 (:repo (#github xvw qian))

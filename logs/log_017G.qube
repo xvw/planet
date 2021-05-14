@@ -1,0 +1,4 @@
+;; Logs for 017G
+((:uuid "62763927-f568-d386-dc5c-4894070179a0") (:day "017G12")
+  (:duration "1") (:sector "maintenance")
+  (:label "Démarrage de l'événenemt") (:project "lambdalille"))

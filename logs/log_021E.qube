@@ -29,3 +29,7 @@
   (:duration "230") (:sector "programming")
   (:label "Mise à jour de Preface et uniformisation de l'API de validation")
   (:project "bladwyzer"))
+
+((:uuid "68a4a856-5e3c-2af5-962d-bf490c1e5737") (:day "021E14")
+  (:duration "200") (:sector "writing") (:label "Rédaction du support")
+  (:project "preface"))

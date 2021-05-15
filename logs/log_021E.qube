@@ -48,3 +48,7 @@
   (:duration "120") (:sector "maintenance")
   (:label "Mise a jour de rubriques et maintenance de projets")
   (:project "planet"))
+
+((:uuid "5b98cfe3-56d8-749b-9f37-57559c1f38d1") (:day "021E15")
+  (:duration "200") (:sector "maintenance")
+  (:label "Intégration des nouveaux Etats d'âmes"))

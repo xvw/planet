@@ -52,3 +52,7 @@
 ((:uuid "5b98cfe3-56d8-749b-9f37-57559c1f38d1") (:day "021E15")
   (:duration "200") (:sector "maintenance")
   (:label "Intégration des nouveaux Etats d'âmes"))
+
+((:uuid "8cc3911c-2b57-22db-eb3e-1716b258f8ad") (:day "021E16")
+  (:duration "60") (:sector "programming")
+  (:label "Modification du générateur de documents pour Etats d'âmes"))

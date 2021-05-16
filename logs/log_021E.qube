@@ -56,3 +56,8 @@
 ((:uuid "8cc3911c-2b57-22db-eb3e-1716b258f8ad") (:day "021E16")
   (:duration "60") (:sector "programming")
   (:label "Modification du générateur de documents pour Etats d'âmes"))
+
+((:uuid "7db6f7ea-b270-dd17-e74e-c71cbb4aa306") (:day "021E16")
+  (:duration "200") (:sector "programming")
+  (:label
+    "Expériences avec les dépendances dynamiques de xhtmboi/wordpress"))

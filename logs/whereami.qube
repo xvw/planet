@@ -146,7 +146,7 @@
 (#021E18 "pays-bas" "groede")
 (#021E18 "pays-bas" "sluis")
 (#021E19 "belgique" "knokke")
-(#021E21 "belgique" "bruxelles")
-
 (#021E20 "belgique" "bruges")
 (#021E20 "belgique" "damme")
+(#021E21 "belgique" "knokke")
+(#021E22 "belgique" "bruxelles")

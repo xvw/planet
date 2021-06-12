@@ -1326,7 +1326,9 @@ module Gallery = struct
              div
                ~a:[ a_class [ "picture" ] ]
                [ h4 [ txt image.name ]
-               ; img ~src:image.image ~alt:"" ()
+               ; a
+                   ~a:[ a_href image.image ]
+                   [ img ~src:image.image ~alt:image.name () ]
                ; div
                    ~a:[ a_class [ "picture-footer" ] ]
                    [ div

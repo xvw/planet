@@ -5,3 +5,7 @@
 
 ((:uuid "f1398da8-b8ba-57aa-1219-da2032431ae0") (:day "021F12")
   (:duration "120") (:sector "visual") (:label "Visuels pour Troubles"))
+
+((:uuid "409e7e27-bba0-11b3-eae4-998053f977c5") (:day "021F12")
+  (:duration "20") (:sector "programming") (:label "Images cliquables")
+  (:project "planet"))

@@ -9,3 +9,8 @@
 ((:uuid "409e7e27-bba0-11b3-eae4-998053f977c5") (:day "021F12")
   (:duration "20") (:sector "programming") (:label "Images cliquables")
   (:project "planet"))
+
+((:uuid "1f1bcec9-58ef-71ae-2eff-3cec9f1f3856") (:day "021F13")
+  (:duration "65") (:sector "programming")
+  (:label "Légère modifications dans le CSS des galeries")
+  (:project "planet"))

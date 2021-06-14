@@ -1680,18 +1680,15 @@ p.free-paragraph {
 }
 
 #gallery-container > div {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: flex-start;
+  column-count: 2;
+  colum-gap: 2px;
 }
 
 #gallery-container > div > .picture {
   background-color: #fff;
   padding: 8px;
-  margin: 4px;
   color: #111;
-  flex: 1 1 40%;
+  break-inside: avoid;
 }
 
 #gallery-container > div > .picture h4 {
@@ -1842,6 +1839,7 @@ p.free-paragraph {
 
   #gallery-container > div {
     display: block;
+    column-count: 1;
     margin: 8px auto;
   }
 }

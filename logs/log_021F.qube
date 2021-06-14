@@ -14,3 +14,9 @@
   (:duration "65") (:sector "programming")
   (:label "Légère modifications dans le CSS des galeries")
   (:project "planet"))
+
+((:uuid "f351bdc7-e62e-feeb-139f-a84316c80d92") (:day "021F14")
+  (:duration "35") (:sector "programming")
+  (:label
+    "Utilisation de colonnes pour améliorer la grille d'images dans les galeries")
+  (:project "planet"))

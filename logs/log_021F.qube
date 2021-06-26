@@ -20,3 +20,7 @@
   (:label
     "Utilisation de colonnes pour améliorer la grille d'images dans les galeries")
   (:project "planet"))
+
+((:uuid "a9d5716e-cb49-2df9-7194-ff0ac203fea8") (:day "021F26")
+  (:duration "200") (:sector "programming")
+  (:label "Amélioration de l'API des Selectives") (:project "preface"))

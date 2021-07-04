@@ -1,0 +1,4 @@
+;; Logs for 021G
+((:uuid "9de4e8e5-aede-f272-c8cb-c18c6948d00f") (:day "021G04")
+  (:duration "120") (:sector "programming")
+  (:label "Expérience avec des Arbres de Merkle"))

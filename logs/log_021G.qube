@@ -2,3 +2,9 @@
 ((:uuid "9de4e8e5-aede-f272-c8cb-c18c6948d00f") (:day "021G04")
   (:duration "120") (:sector "programming")
   (:label "Expérience avec des Arbres de Merkle"))
+
+((:uuid "228ed596-9492-7774-1790-e47d4c179e88") (:day "021G09")
+  (:duration "280") (:sector "programming")
+  (:label
+    "Ajout de Divisible (Applicative contravariant) et expérience autours des tests (encore...)")
+  (:project "preface"))

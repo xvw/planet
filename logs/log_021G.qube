@@ -8,3 +8,8 @@
   (:label
     "Ajout de Divisible (Applicative contravariant) et expérience autours des tests (encore...)")
   (:project "preface"))
+
+((:uuid "395cd999-e5ae-2674-79b2-ae2a444af8c5") (:day "021G10")
+  (:duration "350") (:sector "programming")
+  (:label "Addition d'une bibliothèque pour générer les lois")
+  (:project "preface"))

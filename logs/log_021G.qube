@@ -13,3 +13,7 @@
   (:duration "350") (:sector "programming")
   (:label "Addition d'une bibliothèque pour générer les lois")
   (:project "preface"))
+
+((:uuid "ec205752-6745-210b-014a-3a6aa1556556") (:day "021G18")
+  (:duration "300") (:sector "programming")
+  (:label "Séparation des lois et des tests") (:project "preface"))

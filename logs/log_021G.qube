@@ -17,3 +17,7 @@
 ((:uuid "ec205752-6745-210b-014a-3a6aa1556556") (:day "021G18")
   (:duration "300") (:sector "programming")
   (:label "Séparation des lois et des tests") (:project "preface"))
+
+((:uuid "9775a95b-8b36-03e1-2b17-c5508b1a1d6a") (:day "021G18")
+  (:duration "45") (:sector "maintenance")
+  (:label "Maintenance de mes paquets"))

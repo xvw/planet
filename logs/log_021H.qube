@@ -1,0 +1,5 @@
+;; Logs for 021H
+((:uuid "5efe9d0a-51af-f368-537e-3f061271e3dd") (:day "021H01")
+  (:duration "650") (:sector "programming")
+  (:label
+    "Etats d'Âmes: implémentation d'un générateur de documents Word et re-structuration des documents"))

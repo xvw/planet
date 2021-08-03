@@ -3,3 +3,7 @@
   (:duration "650") (:sector "programming")
   (:label
     "Etats d'Âmes: implémentation d'un générateur de documents Word et re-structuration des documents"))
+
+((:uuid "ae4ce9a2-5b67-4073-4960-ec39df1140e0") (:day "021H03")
+  (:duration "120") (:sector "maintenance")
+  (:label "Quelques modifications sur les Etats d'âmes"))

@@ -7,3 +7,6 @@
 ((:uuid "ae4ce9a2-5b67-4073-4960-ec39df1140e0") (:day "021H03")
   (:duration "120") (:sector "maintenance")
   (:label "Quelques modifications sur les Etats d'âmes"))
+
+((:uuid "78a7df60-ab5a-95eb-38a4-53c58f4eda9d") (:day "021H03")
+  (:duration "120") (:sector "programming") (:label "Irmin et YOCaml"))

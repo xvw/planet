@@ -10,3 +10,7 @@
 
 ((:uuid "78a7df60-ab5a-95eb-38a4-53c58f4eda9d") (:day "021H03")
   (:duration "120") (:sector "programming") (:label "Irmin et YOCaml"))
+
+((:uuid "6c49d3e8-9fa4-6274-55fc-d664f7d5e486") (:day "021H04")
+  (:duration "200") (:sector "programming")
+  (:label "YOCaml: modification du runtime "))

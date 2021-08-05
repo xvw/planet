@@ -10,6 +10,11 @@
 (:content external #org-mode "projects/preface.org")
 (:picto "preface")
 
+
+(:releases (
+  ("v0.1.0" #021h05 "https://github.com/xvw/preface/releases/tag/v0.1.0")))
+
+
 (:links
   (("Documents" (
       ("Documentation" "https://ocaml-preface.github.io/preface/index.html")
@@ -18,16 +23,16 @@
    ("Co-auteurs" (
       ("Didier Plaindoux" "http://www.fungus.fr/")
       ("Pierre Ruyter" "https://github.com/gr-im")
+      ("XHTMLBoy" "https://github.com/xhtmlboi")
    ))
     ("Usage notables" (
-      ("Wordpress" "https://github.com/xhtmlboi/wordpress")
+      ("YOCaml" "https://github.com/xhtmlboi/yocaml")
     ))
    ("Aide/contributions" (
       ("Gabriel Scherer" "http://gallium.inria.fr/~scherer/")
       ("Andrey Mokhov" "https://blogs.ncl.ac.uk/andreymokhov/")
       ("Florian Angeletti" "https://github.com/Octachron")
       ("Oleg Kiselyov" "http://okmij.org/ftp/")
-      ("XHTMLBoy" "https://github.com/xhtmlboi")
       ("Pierre-Evariste Dagand"
        "https://pages.lip6.fr/Pierre-Evariste.Dagand/")
    ))

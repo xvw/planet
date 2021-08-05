@@ -14,3 +14,7 @@
 ((:uuid "6c49d3e8-9fa4-6274-55fc-d664f7d5e486") (:day "021H04")
   (:duration "200") (:sector "programming")
   (:label "YOCaml: modification du runtime "))
+
+((:uuid "5d982708-ce5e-93e2-a863-cdb2d4a5c316") (:day "021H05")
+  (:duration "60") (:sector "maintenance")
+  (:label "Publication du paquet sur OPAM") (:project "preface"))

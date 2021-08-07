@@ -24,3 +24,7 @@
 
 ((:uuid "b979034f-8db3-33de-bb3a-6a83e0aad28a") (:day "021H07")
   (:duration "200") (:sector "programming") (:label "YOCaml et Irmin"))
+
+((:uuid "52e7c926-02b0-70f2-70c7-f7d789d1b3e8") (:day "021H08")
+  (:duration "60") (:sector "programming")
+  (:label "YOCaml: yocaml_irmin agnostique de Unix"))

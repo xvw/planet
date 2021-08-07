@@ -21,3 +21,6 @@
 
 ((:uuid "8e7e4d49-8516-369f-1d9b-b352e3b4373f") (:day "021H06")
   (:duration "60") (:sector "programming") (:label "YOCaml et Irmin"))
+
+((:uuid "b979034f-8db3-33de-bb3a-6a83e0aad28a") (:day "021H07")
+  (:duration "200") (:sector "programming") (:label "YOCaml et Irmin"))

@@ -28,3 +28,7 @@
 ((:uuid "52e7c926-02b0-70f2-70c7-f7d789d1b3e8") (:day "021H08")
   (:duration "60") (:sector "programming")
   (:label "YOCaml: yocaml_irmin agnostique de Unix"))
+
+((:uuid "ca4837ca-bd41-52b7-b3ff-cd63527398b4") (:day "021H09")
+  (:duration "200") (:sector "visual")
+  (:label "Dessins/illustrations divers et variés (avec Krita)"))

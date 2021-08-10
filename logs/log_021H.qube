@@ -32,3 +32,7 @@
 ((:uuid "ca4837ca-bd41-52b7-b3ff-cd63527398b4") (:day "021H09")
   (:duration "200") (:sector "visual")
   (:label "Dessins/illustrations divers et variés (avec Krita)"))
+
+((:uuid "69e455bb-8b1c-7df9-0bc4-76da55a461e3") (:day "021H10")
+  (:duration "25") (:sector "maintenance")
+  (:label "YOCaml: prise en compte des mises à jour"))

@@ -48,3 +48,7 @@
 ((:uuid "735f148c-7656-d3a9-595d-14029d850c07") (:day "021H15")
   (:duration "200") (:sector "research") (:label "Formation Notion")
   (:project "planet"))
+
+((:uuid "f294073a-dd54-7f80-7948-a77fb6a89d0b") (:day "021H16")
+  (:duration "200") (:sector "research") (:label "Formation Notion")
+  (:project "planet"))

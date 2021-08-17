@@ -56,3 +56,7 @@
 ((:uuid "f805f440-ee96-fe35-9878-d586c7db5bd5") (:day "021H17")
   (:duration "200") (:sector "research") (:label "Formation Notion")
   (:project "planet"))
+
+((:uuid "0aeb147f-db50-4f0f-0ef3-0e5b8a512883") (:day "021H17")
+  (:duration "200") (:sector "programming")
+  (:label "Migration des localisation dans Notion") (:project "planet"))

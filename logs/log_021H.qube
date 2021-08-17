@@ -60,3 +60,7 @@
 ((:uuid "0aeb147f-db50-4f0f-0ef3-0e5b8a512883") (:day "021H17")
   (:duration "200") (:sector "programming")
   (:label "Migration des localisation dans Notion") (:project "planet"))
+
+((:uuid "407da66b-a051-e398-b5fd-9997ca9007c0") (:day "021H17")
+  (:duration "100") (:sector "programming")
+  (:label "YOCaml: improve generation"))

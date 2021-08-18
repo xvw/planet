@@ -72,3 +72,7 @@
 ((:uuid "1e1d3fe1-399b-8f6a-68af-16d2809b296d") (:day "021H17")
   (:duration "200") (:sector "programming")
   (:label "Notion: Migration de données") (:project "planet"))
+
+((:uuid "2237aeea-8af7-f393-dac7-af33358c9f29") (:day "021H18")
+  (:duration "200") (:sector "programming")
+  (:label "Notion: Migration de données") (:project "planet"))

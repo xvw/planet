@@ -64,3 +64,7 @@
 ((:uuid "407da66b-a051-e398-b5fd-9997ca9007c0") (:day "021H17")
   (:duration "100") (:sector "programming")
   (:label "YOCaml: improve generation"))
+
+((:uuid "35cb07c4-66b3-2881-106b-cf00b7a49d18") (:day "021H16")
+  (:duration "200") (:sector "programming")
+  (:label "Notion: Migration des données") (:project "planet"))

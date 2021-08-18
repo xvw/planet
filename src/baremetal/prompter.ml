@@ -53,7 +53,7 @@ let generic
   let () =
     Ansi.(
       text_box ~prefix ~box_style ~title_style ~text_style title question
-      @ reset :: box_style
+      @ (reset :: box_style)
       @ bottom)
     |> Ansi.to_string
     |> print_string

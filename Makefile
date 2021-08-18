@@ -39,7 +39,7 @@ test:
 	dune build src/$@ --profile release
 	cp _build/default/src/$@ ./_seeds
 
-binaries: project/project.exe log/log.exe build/build.exe now/now.exe twtxt/twtxt.exe todo/todo.exe gallery/gallery.exe
+binaries: project/project.exe log/log.exe build/build.exe now/now.exe twtxt/twtxt.exe todo/todo.exe gallery/gallery.exe migration/location.exe
 
 client: facade/facade.bc.js
 

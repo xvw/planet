@@ -248,9 +248,7 @@ module Graph = struct
                       let suffix =
                         if List.length current_logs > 1 then "s" else ""
                       in
-                      let label =
-                        Format.asprintf "Entrée%s du %s" suffix key
-                      in
+                      let label = Format.asprintf "Entrée%s du %s" suffix key in
                       let () = title_box##.innerHTML := Js.string label in
                       true)
                 ]
@@ -400,27 +398,26 @@ module Stats = struct
         ; a_ry $ d 2.
         ]
       []
-    ::
-    (List.fold_left
-       (fun (x_offset, acc) (sector_name, color, percent) ->
-         let rect_width = width *. (percent /. 100.0) in
-         let rect =
-           let open Svg in
-           rect
-             ~a:
-               [ a_x $ d x_offset
-               ; a_y $ d (h +. 6.0)
-               ; a_height $ d h
-               ; a_width $ d rect_width
-               ; a_fill $ `Color (Color.to_hex color, None)
-               ]
-             []
-         in
-         x_offset +. rect_width, rect :: acc)
-       (0.0, [])
-       counters
-    |> snd
-    |> List.rev)
+    :: (List.fold_left
+          (fun (x_offset, acc) (sector_name, color, percent) ->
+            let rect_width = width *. (percent /. 100.0) in
+            let rect =
+              let open Svg in
+              rect
+                ~a:
+                  [ a_x $ d x_offset
+                  ; a_y $ d (h +. 6.0)
+                  ; a_height $ d h
+                  ; a_width $ d rect_width
+                  ; a_fill $ `Color (Color.to_hex color, None)
+                  ]
+                []
+            in
+            x_offset +. rect_width, rect :: acc)
+          (0.0, [])
+          counters
+       |> snd
+       |> List.rev)
   ;;
 
   let render_sector_graph width total sectors hash_counters =
@@ -857,7 +854,7 @@ module Diary = struct
                    (div
                       ~a:[ a_class [ "log-date" ] ]
                       [ txt $ Format.asprintf "%a" Timetable.Day.ppr log.day ]
-                    :: proj)
+                   :: proj)
                ; div ~a:[ a_class [ "log-label" ] ] [ txt log.label ]
                ; div
                    ~a:[ a_class [ "log-bottom" ] ]
@@ -1071,18 +1068,12 @@ module Tags = struct
             | Ok bucket ->
               let pages =
                 "/"
-                ::
-                "/tags.html"
-                ::
-                "/galleries.html"
-                ::
-                "/journal.html"
-                ::
-                "/tasks.html"
-                ::
-                "/location.html"
-                ::
-                "/xavier.html"
+                :: "/tags.html"
+                :: "/galleries.html"
+                :: "/journal.html"
+                :: "/tasks.html"
+                :: "/location.html"
+                :: "/xavier.html"
                 :: (Shapes.Tag.(bucket.contents) |> List.map href_for)
               in
               let index = Random.int (List.length pages) in
@@ -1133,10 +1124,7 @@ module Tasks = struct
         [ div
             ~a:[ a_class [ kl "-task-due" ] ]
             [ txt
-              $ Format.asprintf
-                  "Cloturée le %a"
-                  Paperwork.Timetable.Day.ppr
-                  day
+              $ Format.asprintf "Cloturée le %a" Paperwork.Timetable.Day.ppr day
             ]
         ]
       | None -> [])

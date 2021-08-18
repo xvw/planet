@@ -47,9 +47,7 @@ end = struct
         (sampling_values law_1)
     ; test ("[Law 2: " ^ str ^ "]: (m >>= return) = m") (sampling_monads law_2)
     ; test
-        ("[Law 3: "
-        ^ str
-        ^ "]: ((m >= f) >= g) = (m >= (fun x → f x >= g))")
+        ("[Law 3: " ^ str ^ "]: ((m >= f) >= g) = (m >= (fun x → f x >= g))")
         (sampling_monads law_3)
     ]
   ;;

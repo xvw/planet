@@ -76,17 +76,7 @@ let license = function
   | None -> []
   | Some x ->
     Ansi.
-      [ reset
-      ; fg cyan
-      ; !"─"
-      ; bg green
-      ; fg black
-      ; bold
-      ; !" "
-      ; !x
-      ; !" "
-      ; reset
-      ]
+      [ reset; fg cyan; !"─"; bg green; fg black; bold; !" "; !x; !" "; reset ]
 ;;
 
 let render_links f title list =

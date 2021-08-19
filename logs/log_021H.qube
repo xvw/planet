@@ -76,3 +76,7 @@
 ((:uuid "2237aeea-8af7-f393-dac7-af33358c9f29") (:day "021H18")
   (:duration "200") (:sector "programming")
   (:label "Notion: Migration de données") (:project "planet"))
+
+((:uuid "53bef93b-9fec-dfb7-dfe5-b6d3fbf40057") (:day "021H18")
+  (:duration "100") (:sector "maintenance")
+  (:label "Migration des locations dans Notion") (:project "planet"))

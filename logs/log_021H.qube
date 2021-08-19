@@ -80,3 +80,7 @@
 ((:uuid "53bef93b-9fec-dfb7-dfe5-b6d3fbf40057") (:day "021H18")
   (:duration "100") (:sector "maintenance")
   (:label "Migration des locations dans Notion") (:project "planet"))
+
+((:uuid "75438362-2b4f-7a66-dc97-198a3437ce3a") (:day "021H19")
+  (:duration "200") (:sector "programming")
+  (:label "YOCaml: correctif de la lecture du checksum"))

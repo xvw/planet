@@ -116,3 +116,7 @@
 ((:uuid "623c5aec-4999-2997-88e1-c3c919b4a0a2") (:day "021H27")
   (:duration "100") (:sector "maintenance")
   (:label "Notion: migration de données") (:project "planet"))
+
+((:uuid "96e76739-2c0c-66c7-551a-060cf4fe0b98") (:day "021H28")
+  (:duration "100") (:sector "maintenance")
+  (:label "Notion: migration de données") (:project "planet"))

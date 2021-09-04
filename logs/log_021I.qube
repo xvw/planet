@@ -1,0 +1,4 @@
+;; Logs for 021I
+((:uuid "f4f2738c-18f9-bd80-f03d-42c89ea5a2cf") (:day "021I01")
+  (:duration "100") (:sector "maintenance")
+  (:label "Notion: migration de données") (:project "planet"))

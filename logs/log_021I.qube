@@ -6,3 +6,7 @@
 ((:uuid "2e913246-a51e-0725-2ee0-db2d0a8a4b0b") (:day "021I02")
   (:duration "100") (:sector "maintenance")
   (:label "Notion: migration de données") (:project "planet"))
+
+((:uuid "e561413d-0568-aebb-75b4-d645839abc29") (:day "021I03")
+  (:duration "100") (:sector "maintenance")
+  (:label "Notion: migration de données") (:project "planet"))

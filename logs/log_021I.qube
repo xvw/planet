@@ -18,3 +18,8 @@
 ((:uuid "4036afec-f1ff-cd2a-73e2-bca277ebf174") (:day "021I05")
   (:duration "100") (:sector "maintenance")
   (:label "Notion: migration de données") (:project "planet"))
+
+((:uuid "fd667661-5772-ef6b-fc4f-bc0711de54f7") (:day "021I05")
+  (:duration "350") (:sector "programming")
+  (:label "Initiation de la migration vers YOCaml et Notion")
+  (:project "planet"))

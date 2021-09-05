@@ -1,0 +1,30 @@
+opam-version: "2.0"
+version: "dev"
+synopsis: "Planet is my website"
+maintainer: "xaviervdw@gmail.com"
+authors: [ "Xavier Van de Woestyne <xaviervdw@gmail.com>" ]
+license: "MIT"
+homepage: "https://github.com/xvw/planet"
+dev-repo: "git://github.com/planet/planet.git"
+bug-reports: "https://github.com/planet/xvw/issues"
+
+
+build: [
+  [ "dune" "subst" ] {dev}
+  [ "dune" "build" "-p" name "-j" jobs ]
+  [ "dune" "runtest" "-p" name ] {with-test}
+  [ "dune" "build" "@doc" "-p" name ] {with-doc}
+]
+
+depends: [
+  "ocaml" { >= "4.11.1" }
+  "dune" { >= "2.8" }
+  "odoc" {with-doc}
+  "alcotest" {with-test}
+  "preface" { >= "0.1.0"}
+  "yocaml" {pinned}
+]
+
+pin-depends: [
+  ["yocaml.dev" "git://github.com/xhtmlboi/yocaml.git"]
+]

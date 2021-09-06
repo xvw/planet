@@ -23,3 +23,7 @@
   (:duration "350") (:sector "programming")
   (:label "Initiation de la migration vers YOCaml et Notion")
   (:project "planet"))
+
+((:uuid "db8a4d49-b539-9042-98aa-d0383076df4a") (:day "021I06")
+  (:duration "100") (:sector "programming") (:label "Migration vers YOCaml")
+  (:project "planet"))

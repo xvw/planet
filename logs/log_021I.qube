@@ -31,3 +31,7 @@
 ((:uuid "6c4411dd-a303-eda9-3b91-cccd862bd69c") (:day "021I10")
   (:duration "300") (:sector "research")
   (:label "Apprentissage sérieux de Coq (enfin)"))
+
+((:uuid "63f6e764-7ded-1b5b-f836-dfd2dcc641c4") (:day "021I11")
+  (:duration "450") (:sector "research")
+  (:label "Apprentissage sérieux de Coq (enfin)"))

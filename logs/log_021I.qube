@@ -27,3 +27,7 @@
 ((:uuid "db8a4d49-b539-9042-98aa-d0383076df4a") (:day "021I06")
   (:duration "100") (:sector "programming") (:label "Migration vers YOCaml")
   (:project "planet"))
+
+((:uuid "6c4411dd-a303-eda9-3b91-cccd862bd69c") (:day "021I10")
+  (:duration "300") (:sector "research")
+  (:label "Apprentissage sérieux de Coq (enfin)"))

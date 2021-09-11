@@ -35,3 +35,7 @@
 ((:uuid "63f6e764-7ded-1b5b-f836-dfd2dcc641c4") (:day "021I11")
   (:duration "450") (:sector "research")
   (:label "Apprentissage sérieux de Coq (enfin)"))
+
+((:uuid "eea7282a-b4de-79ea-5ecd-f1a6cf02af68") (:day "021I11")
+  (:duration "200") (:sector "writing")
+  (:label "Intégration des recettes dans Notion") (:project "planet"))

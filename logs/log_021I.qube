@@ -39,3 +39,8 @@
 ((:uuid "eea7282a-b4de-79ea-5ecd-f1a6cf02af68") (:day "021I11")
   (:duration "200") (:sector "writing")
   (:label "Intégration des recettes dans Notion") (:project "planet"))
+
+((:uuid "7ff2d712-37e5-db20-ef82-e6511cfae51a") (:day "021I12")
+  (:duration "250") (:sector "writing")
+  (:label "Article: mon utilisation de Notion pour le café")
+  (:project "planet"))

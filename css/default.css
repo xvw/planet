@@ -232,6 +232,11 @@ figure > img.image-cover ~ figcaption {
   border-bottom: 1px dotted #666;
 }
 
+.structured-text img {
+  display: block;
+  margin: 62px auto;
+}
+
 code.literal {
   font-family: "Planet Fira Mono", monospace;
   background-color: #fff;

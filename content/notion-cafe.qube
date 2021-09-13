@@ -1,0 +1,41 @@
+(:title "Mon utilisation de Notion pour le café")
+(:kind long)
+(:date #021I12)
+(:permaname "notion_pour_le_cafe")
+(:content external #org-mode "content/posts/notion-cafe.org")
+(:published true)
+(:category "programmation")
+(:tags "programmation" "nocode" "notion" "café")
+
+(:synopsis "Présentation de mon utilisation de Notion.so pour ma consommation de café.")
+
+
+(:links
+ (
+  ("Apprendre Notion"
+   (
+    ("Devenez productif avec Notion" "https://www.notionfacile.fr/")
+    ("Gérer une base de connaissances" "https://jonathanlefevre.com/outils/notion/")
+    ("Chaine de Shubham Sharma" "https://www.youtube.com/channel/UCLKx4-_XO5sR0AO0j8ye7zQ")
+    ("Raccourcis clavier de Notion" "https://jonathanlefevre.com/outils/raccourcis-clavier-notion/")
+    ))
+  ("Boire un bon café à Bruxelles"
+   (
+    ("Mok" "https://mokcoffee.be/")
+    ("Corica" "https://corica.be/fr/")
+    )
+   )
+  ("Boire un bon café à Lille"
+   (
+    ("Coffee Makers" "https://coffeemakers.fr/")
+    ("Cafés Muda" "https://www.cafesmuda.fr/")
+    )
+   )
+   ("Boire un bon café à Nantes"
+   (
+    ("Cime torrefacteur" "https://www.cime-cafe.fr/")
+    ("Kultivar" "https://www.instagram.com/kultivar_cafe_nantes/")
+    )
+   )
+  )
+ )

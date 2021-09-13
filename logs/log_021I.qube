@@ -44,3 +44,8 @@
   (:duration "250") (:sector "writing")
   (:label "Article: mon utilisation de Notion pour le café")
   (:project "planet"))
+
+((:uuid "3021eb49-e630-fa1f-bf2c-e7d7c404bae8") (:day "021I13")
+  (:duration "300") (:sector "writing")
+  (:label "Écriture de l'article sur Notion et le café")
+  (:project "planet"))

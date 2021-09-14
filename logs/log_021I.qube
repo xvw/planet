@@ -49,3 +49,7 @@
   (:duration "300") (:sector "writing")
   (:label "Écriture de l'article sur Notion et le café")
   (:project "planet"))
+
+((:uuid "6bdb3567-9d5b-6a93-02ae-4f8db578a4a2") (:day "021I14")
+  (:duration "300") (:sector "writing")
+  (:label "Préparation d'un talk dont je n'ai, hélas, pas encore le nom"))

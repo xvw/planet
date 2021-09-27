@@ -57,3 +57,7 @@
 ((:uuid "004035f3-1efd-49ce-8946-004274569186") (:day "021I15")
   (:duration "200") (:sector "programming")
   (:label "Expérience entre YOCaml et Notion") (:project "planet"))
+
+((:uuid "90c04be4-61fd-dbc0-b7d7-12177a6a7604") (:day "021I16")
+  (:duration "400") (:sector "writing")
+  (:label "Talk: programmation fonctionnelle impraticable"))

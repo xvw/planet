@@ -61,3 +61,7 @@
 ((:uuid "90c04be4-61fd-dbc0-b7d7-12177a6a7604") (:day "021I16")
   (:duration "400") (:sector "writing")
   (:label "Talk: programmation fonctionnelle impraticable"))
+
+((:uuid "78fb2295-528e-b69e-005e-e5517cf538e4") (:day "021I17")
+  (:duration "200") (:sector "writing")
+  (:label "Talk: programmation impraticable"))
